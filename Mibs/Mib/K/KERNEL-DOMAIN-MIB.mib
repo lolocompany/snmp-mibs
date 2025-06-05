@@ -1,0 +1,1051 @@
+-- --------------------------------------------------------------------------
+-- MANAGEMENT INFORMATION BASE (MIB) KERNEL-DOMAIN-MIB
+-- --------------------------------------------------------------------------
+--
+-- Document Number: 1/207 14-BQY 101 01/3 Oen
+--
+-- Revision 36
+--
+-- CVS
+-- $Id$
+--
+-- $Date$
+--
+-- Author:
+-- Jonas Andersson (1st revision), Fredrik Erlandson (2nd revision >)
+-- Göran Båge (5rd revision), Fredrik Erlandson (6th-12th revision)
+--
+-- Approved:
+-- Lars Kari
+--
+-- Document Class:
+-- Restricted External
+--
+-- Document Type:
+-- MANAGEMENT INFO BASE
+--
+-- Abstract:
+-- This document defines the set of rules for the managed objects in MIBs for
+-- the MobileArts Kernel Domain products.
+-- The document defines the MobileArts MIB tree and specifies the definition of
+-- alarm and measurement threshold traps used by MobileArts Kernel Domain MIBs.
+--
+-- Revision Information:
+-- This is the 21st revision of MANAGEMENT INFORMATION BASE (MIB) KERNEL-DOMAIN-MIB
+--
+-- Changes since 1st revision:
+-- 1. Introduction of the following system-modules:
+--    SMSP
+--    MES
+--    SMS-CTRL
+--    SMPP-SERVER
+--    cs
+--
+-- 2. Introduction of the following alarmTrapInfos:
+--    - alarmTestId     { alarmTrapInfo 11 }
+--    - alarmServiceId     { alarmTrapInfo 12 }
+--    - alarmAbilityId     { alarmTrapInfo 13 }
+--    - alarmInstanceId    { alarmTrapInfo 14 }
+--
+-- 3. Introduction of the following measurementTrapInfos:
+--    - measurementTestId    { measurementTrapInfo 5 }
+--    - measurementServiceId     { measurementTrapInfo 6 }
+--    - measurementAbilityId     { measurementTrapInfo 7 }
+--
+-- Changes since 2nd revision:
+--
+-- 4. Introduction of the following system-modules:
+--    CONTENT-SCREEN
+--    SMS-MGMT
+--    MSG-BROKER
+--    SMTP-GW
+--
+-- Changes in 5th revision:
+--
+-- 1. Removal of the following alarmTrapInfos in order to minimize traps:
+--    - alarmSourceName { alarmTrapInfo 9 }
+--    - alarmData     { alarmTrapInfo 10 }
+--    - alarmTestId     { alarmTrapInfo 11 }
+--    - alarmAbilityId     { alarmTrapInfo 13 }
+--    - alarmInstanceId    { alarmTrapInfo 14 }
+--
+-- 2. Removal of the following measurementTrapInfos:
+--    - measurementTestId    { measurementTrapInfo 5 }
+--    - measurementAbilityId     { measurementTrapInfo 7 }
+--
+-- 3. Decreasing size of string variables to 64 bytes
+--
+-- 4. Moved measurementServiceId, and alarmServiceId to a common
+--    serviceId
+--
+--
+-- Changes 050302:
+-- SMS-CTRL-MIB > MC-MIB (Message Control)
+-- SMS-MGMT-MIB > MMGMT-MIB (Message Management)
+--
+-- News 050302:
+-- SNP-MIB (Service Node Provider)
+-- MCA-MIB (Missed Call Alert)
+-- SMPP-CLIENT-MIB
+--
+-- Changes 050310:
+-- MC-MIB divided into: COMMON, MTSMS, MOSMS and ISUP
+-- MES-MIB divided into: COMMON, MTSMS, MOSMS and ISUP
+-- SS7-GW-MIB divided into: COMMON, GMLC-CAMEL, SEND-MTSMS, SEND-MOSMS, REC-MTSMS, REC-MOSMS, REC-ISUP, GMLC-LCS (later) and SMLC-LCS.
+--
+-- News 050314:
+-- MLPP > MLP-SERVER-MIB + MLP-CLIENT-MIB *
+-- RLP-SERVER-MIB *
+-- RLP-CLIENT-MIB *
+-- MPX-MIB *
+-- MM7-SERVER-MIB *
+-- MM7-CLIENT-MIB *
+-- WAPGW-CLIENT-MIB *
+-- WAP-SERVICE-MIB *
+-- SMS-SERVICE-MIB *
+-- SEND-SMS-MIB *
+-- SMLC-MIB *
+-- SMSP > SMSP-COMMON, SMSP-SEND-MTSMS, SMSP-REC-MTSMS, SMSP-REC-MOSMS
+-- MLC > GMLC + GMLC-CACHE
+--
+-- Changes in 6th revision
+-- 1. new definition 4 'eventTrapInfo'
+-- 2. new eventTrapInfo: 'eventLogId', 'eventDateTime', 'eventInfo' and 'eventLevel'
+--
+-- Changes in 7th revision:
+-- 1. Added system module vmc { system-modules 370 }
+--
+-- Changes in 8th revision:
+-- 1. Added system module ch-co-inco     { system-modules 380 }
+-- 2. Added system module ca         { system-modules 390 }
+-- 3. Added system module vs-ch-inco     { system-modules 400 }
+-- 4. Added system module fah         { system-modules 410 }
+-- 5. Added system module clm         { system-modules 420 }
+-- 6. Added system module tdh         { system-modules 430 }
+-- 7. Added system module vm-sdb     { system-modules 440 }
+-- 8. Added system module vm-mca     { system-modules 450 }
+--
+-- Changes in 9th revision (061027):
+-- 1. Added system module 'ch-co-outg'    { system-modules 382 }
+-- 2. Added system module 'ch-co-loop'    { system-modules 384 }
+-- 3. Added system module 'vs-ch-outg'    { system-modules 402 }
+-- 4. Added system module 'smsc'    { system-modules 500 }
+--
+-- Changes in 10th revision (070326):
+-- 1. Added system module 'mc-mo-ussd'        { system-modules 244 }
+-- 2. Added system module 'mc-ni-ussd'        { system-modules 245 }
+-- 3. Added system module 'ss7-gw-mo-ussd'    { system-modules 39 }
+-- 4. Added system module 'ss7-gw-ni-ussd'    { system-modules 40 }
+-- 5. Added system module 'ussdgw-mo-ussd'    { system-modules 600 }
+-- 6. Added system module 'ussdgw-ni-ussd'    { system-modules 601 }
+-- 7. Added system module 'ussdp-common'    { system-modules 610 }
+-- 8. Added system module 'ussdp-mo-ussd'    { system-modules 611 }
+-- 9. Added system module 'ussdp-ni-ussd'    { system-modules 612 }
+--
+-- Changes in the 11th revision (070515):
+-- 1. Added system module 'cimd-server'        { system-modules 155 }
+-- 2. Added system module 'cimd-server'        { system-modules 156 }
+--
+-- Changes in the 12th revision (071205):
+-- 1. Added system module 'maas'        { system-modules 700 }
+
+-- Changes in the 13th revision (080616):
+-- 1. Added system module 'topup'        { system-modules 620 }
+-- 2. Added system module 'sendtext'        { system-modules 621 }
+
+-- Changes in the 14th revision (080915):
+-- 1. Added system module 'callback'        { system-modules 622 }
+
+-- Changes in the 15th revision (081205):
+-- 1. Added system module 'chd'             { system-modules 121 }
+
+-- Changes in the 16th revision (090120):
+-- 1. Added system module 'bsam'             { system-modules 122 }
+
+-- Changes in the 17th revision (090122):
+-- 1. Added system module 'maf'             { system-modules 619 }
+
+-- Changes in the 18th revision (090504):
+-- 1. Added system module 'mpx-sdb'             { system-modules 123 }
+
+-- Changes in the 19th revision (090602):
+-- 1. Removed system module 'mpx-sdb' :)           { system-modules 123 }
+
+-- Changes in the 20th revision (090729):
+-- 1. Added system module 'smgnt'               { system-modules 123 }
+
+-- Changes in the 21th revision (090812):
+-- 1. Added system module 'webgw-client'        { system-modules 190 }
+-- 2. Added system module 'web-service'          { system-modules 191 }
+
+-- Changes in the 22th revision (090818):
+-- 1. Added system module 'ussd-service'        { system-modules 172 }
+-- 2. Added system module 'send-ussd'          { system-modules 173 }
+
+-- Changes in the 23th revision (090820):
+-- 1. Added system module 'xmlc' :)           { system-modules 125 }
+
+-- Changes in the 24th revision (100107):
+-- 1. Added system module 'parlayx-client' :)   { system-modules 901 }
+
+-- Changes in the 25th revision (100430):
+-- 1. Added system module 'cmbivr'        { system-modules 623 }
+
+-- Changes in the 26th revision (100819):
+-- 1. Added system module ss7-gw-bssap-le    { system-modules 41 }
+-- 2. Added system module ss7-gw-bsslap-layer3    { system-modules 42 }
+
+-- Changes in the 27th revision (100820):
+-- 1. Added system module ss7-gw-pcap        { system-modules 43 }
+
+-- Changes in the 28th revision (100928):
+-- 1. Added system module cdb            { system-modules 181 }
+
+-- Changes in the 29th revision (101007):
+-- 1. Added system module smlc            { system-modules 250 }
+
+-- Changes in the 30th revision (101122):
+-- 1. Removed system module 'smlc'        { system-modules 250 }
+-- 2. Added system module 'smlc-common'        { system-modules 250 }
+-- 3. Added system module 'smlc-bssap'        { system-modules 251 }
+-- 4. Added system module 'smlc-pcap'        { system-modules 252 }
+-- 5. Added system module 'smlc-bssap-extra'    { system-modules 253 }
+-- 6. Added system module 'smlc-pcap-extra'    { system-modules 254 }
+-- 7. Added system module 'smlc-rmd-client'    { system-modules 255 }
+
+-- Changes in the 31th revision (101122):
+-- 1. Removed system module 'smlc-bssap-extra'    { system-modules 253 }
+-- 2. Removed system module 'smlc-pcap-extra'    { system-modules 254 }
+-- 3. Added system module 'smlc-bssap-nmr-rep'    { system-modules 253 }
+-- 4. Added system module 'smlc-bssap-transit'    { system-modules 254 }
+-- 5. Added system module 'smlc-pcap-rtt-rep'    { system-modules 255 }
+-- 6. Added system module 'smlc-pcap-transit'    { system-modules 255 }
+-- 7. Removed system module 'smlc-rmd-client'    { system-modules 256 }
+-- 7. Added system module 'smlc-rmd-client'    { system-modules 257 }
+
+-- Changes in the 32nd revisison (110405):
+--1. removed system module 'sss'                { system-modules 800 }
+--2. added system module 'sysmon'               { system-modules 800 }
+
+-- Changes in the 33rd revision (110513):
+-- vm-notif-server changed to vm-notif
+
+-- Changes in the 34nd revisison (110824):
+--1. Added system module 'csc'                  { system-modules 126 }
+--2. Added system module 'csc-portal'           { system-modules 127 }
+
+-- Changes in the 35th revisison (111207):
+--1. added system module 'diameter'             { system-modules 630 }
+--2. added system module 'dcca'                 { system-modules 631 }
+
+-- Changes in the 36th revisison (120224):
+--1. added system module 'lm'                   { system-modules 820 }
+
+-- Changes in the 37th revision (130801):
+-- 1. Removed dcca and added protocol specific modules for diameter modules:
+-- 'diameter-sh'
+-- 'diameter-slg'
+-- 'diameter-slh'
+-- 'ro-ocf-client'
+-- 'ro-ctf'
+-- 'rf-cdf-client'
+-- 'rf-ctf'
+
+-- Changes in the 38:th revision (140318)
+-- Additions used for 'named' raise and cease traps
+-- 1. Added enterprice 'special'
+-- 2. Added alarm trap info definitions 'alarmName' and 'subjectNodeName'
+
+--  Changes in the 39:th revision (140826)
+--  1. Added system module diam-gmlc-camel
+--  2. Added system module diam-gmlc-lcs
+
+--  Changes in the 40:th revision (141023)
+--  1. Added system module soapgw-client  { system-modules 196 }
+--  2. Added system module soap-service   { system-modules 197 }
+--  3. Added system module send-soap      { system-modules 198 }
+
+
+--  Changes in the 41:th revision (150212)
+--  1. Added system module sctp 650
+
+--  Changes in the 42:nd revision (171031)
+--  1. Added system module ml-server 639
+
+
+
+-- ------------------------------------------------------------------------------
+
+
+KERNEL-DOMAIN-MIB DEFINITIONS ::= BEGIN
+
+
+IMPORTS
+        mobilearts           FROM MA-SMI
+    DisplayString        FROM RFC1213-MIB
+    DateAndTime            FROM SNMPv2-TC
+    Counter64        FROM SNMPv2-SMI
+    OBJECT-TYPE            FROM RFC-1212
+    Gauge            FROM RFC1155-SMI
+    Counter            FROM RFC1155-SMI
+    RowStatus        FROM SNMPv2-TC
+    ;
+
+
+networksystems        OBJECT IDENTIFIER ::= { mobilearts 1 }
+system-modules        OBJECT IDENTIFIER ::= { networksystems 1 }
+
+kernel                OBJECT IDENTIFIER ::= { system-modules 1 }
+ss7-ein            OBJECT IDENTIFIER ::= { system-modules 2 }
+
+-- ss7-gw deprecated
+ss7-gw            OBJECT IDENTIFIER ::= { system-modules 3 }
+
+ss7-gw-common        OBJECT IDENTIFIER ::= { system-modules 30 }
+ss7-gw-gmlc-camel    OBJECT IDENTIFIER ::= { system-modules 31 }
+ss7-gw-send-mtsms    OBJECT IDENTIFIER ::= { system-modules 32 }
+ss7-gw-send-mosms    OBJECT IDENTIFIER ::= { system-modules 33 }
+ss7-gw-rec-mtsms    OBJECT IDENTIFIER ::= { system-modules 34 }
+ss7-gw-rec-mosms    OBJECT IDENTIFIER ::= { system-modules 35 }
+ss7-gw-rec-isup        OBJECT IDENTIFIER ::= { system-modules 36 }
+ss7-gw-gmlc-lcs        OBJECT IDENTIFIER ::= { system-modules 37 }
+-- ss7-gw-smlc-lcs deprecated
+ss7-gw-smlc-lcs        OBJECT IDENTIFIER ::= { system-modules 38 }
+ss7-gw-mo-ussd        OBJECT IDENTIFIER ::= { system-modules 39 }
+ss7-gw-ni-ussd        OBJECT IDENTIFIER ::= { system-modules 40 }
+ss7-gw-bssap-le        OBJECT IDENTIFIER ::= { system-modules 41 }
+ss7-gw-bsslap-layer3    OBJECT IDENTIFIER ::= { system-modules 42 }
+ss7-gw-pcap        OBJECT IDENTIFIER ::= { system-modules 43 }
+
+diam-gmlc-camel         OBJECT IDENTIFIER ::= { system-modules 50 }
+diam-gmlc-lcs           OBJECT IDENTIFIER ::= { system-modules 51 }
+
+-- mlc deprecated
+-- mlc                 OBJECT IDENTIFIER ::= { system-modules 101 }
+
+gmlc                 OBJECT IDENTIFIER ::= { system-modules 110 }
+gmlc-cache             OBJECT IDENTIFIER ::= { system-modules 111 }
+
+smlc-common         OBJECT IDENTIFIER ::= { system-modules 250 }
+smlc-bssap        OBJECT IDENTIFIER ::= { system-modules 251 }
+smlc-pcap        OBJECT IDENTIFIER ::= { system-modules 252 }
+smlc-bssap-nmr-rep    OBJECT IDENTIFIER ::= { system-modules 253 }
+smlc-bssap-transit    OBJECT IDENTIFIER ::= { system-modules 254 }
+smlc-pcap-rtt-rep    OBJECT IDENTIFIER ::= { system-modules 255 }
+smlc-pcap-transit    OBJECT IDENTIFIER ::= { system-modules 256 }
+smlc-rmd-client        OBJECT IDENTIFIER ::= { system-modules 257 }
+esmlc                   OBJECT IDENTIFIER ::= { system-modules 258 }
+esmlc-opid               OBJECT IDENTIFIER ::= { system-modules 259 }
+lce                     OBJECT IDENTIFIER ::= { system-modules 261 }
+
+-- mlpp deprecated
+-- mlpp            OBJECT IDENTIFIER ::= { system-modules 102 }
+
+xmlc            OBJECT IDENTIFIER ::= { system-modules 125 }
+
+mlp-server        OBJECT IDENTIFIER ::= { system-modules 130 }
+mlp-client        OBJECT IDENTIFIER ::= { system-modules 131 }
+
+rlp-server        OBJECT IDENTIFIER ::= { system-modules 140 }
+rlp-client        OBJECT IDENTIFIER ::= { system-modules 141 }
+
+-- amc depricated
+-- amc            OBJECT IDENTIFIER ::= { system-modules 200 }
+
+-- smsp deprecated
+-- smsp                OBJECT IDENTIFIER ::= { system-modules 201 }
+
+mldc            OBJECT IDENTIFIER ::= { system-modules 192 }
+slodb            OBJECT IDENTIFIER ::= { system-modules 193 }
+slotrig            OBJECT IDENTIFIER ::= { system-modules 194 }
+osix-probe        OBJECT IDENTIFIER ::= { system-modules 195 }
+
+smsp-common            OBJECT IDENTIFIER ::= { system-modules 310 }
+smsp-send-mtsms            OBJECT IDENTIFIER ::= { system-modules 311 }
+smsp-send-mosms            OBJECT IDENTIFIER ::= { system-modules 312 }
+smsp-rec-mtsms            OBJECT IDENTIFIER ::= { system-modules 313 }
+smsp-rec-mosms            OBJECT IDENTIFIER ::= { system-modules 314 }
+
+-- mes deprecated
+-- mes            OBJECT IDENTIFIER ::= { system-modules 202 }
+
+mes-common         OBJECT IDENTIFIER ::= { system-modules 320 }
+mes-mtsms         OBJECT IDENTIFIER ::= { system-modules 321 }
+mes-mosms         OBJECT IDENTIFIER ::= { system-modules 322 }
+mes-isup         OBJECT IDENTIFIER ::= { system-modules 323 }
+
+saf            OBJECT IDENTIFIER ::= { system-modules 203 }
+
+-- sms-ctrl deprecated
+-- sms-ctrl        OBJECT IDENTIFIER ::= { system-modules 210 }
+
+mc-common        OBJECT IDENTIFIER ::= { system-modules 240 }
+mc-mtsms        OBJECT IDENTIFIER ::= { system-modules 241 }
+mc-mosms        OBJECT IDENTIFIER ::= { system-modules 242 }
+mc-isup            OBJECT IDENTIFIER ::= { system-modules 243 }
+mc-mo-ussd        OBJECT IDENTIFIER ::= { system-modules 244 }
+mc-ni-ussd        OBJECT IDENTIFIER ::= { system-modules 245 }
+mc-xco            OBJECT IDENTIFIER ::= { system-modules 246 }
+
+content-screen        OBJECT IDENTIFIER ::= { system-modules 211 }
+sms-mgmt        OBJECT IDENTIFIER ::= { system-modules 212 }
+msg-broker        OBJECT IDENTIFIER ::= { system-modules 213 }
+sdb            OBJECT IDENTIFIER ::= { system-modules 214 }
+
+smpp-server        OBJECT IDENTIFIER ::= { system-modules 220 }
+smtp-gw            OBJECT IDENTIFIER ::= { system-modules 221 }
+
+-- cs deprecated
+-- cs            OBJECT IDENTIFIER ::= { system-modules 230 }
+
+charging        OBJECT IDENTIFIER ::= { system-modules 330 }
+
+mpx                 OBJECT IDENTIFIER ::= { system-modules 120 }
+chd                 OBJECT IDENTIFIER ::= { system-modules 121 }
+bsam            OBJECT IDENTIFIER ::= { system-modules 122 }
+smgnt            OBJECT IDENTIFIER ::= { system-modules 123 }
+csc                     OBJECT IDENTIFIER ::= { system-modules 126 }
+csc-portal              OBJECT IDENTIFIER ::= { system-modules 127 }
+
+
+mm7-server        OBJECT IDENTIFIER ::= { system-modules 150 }
+mm7-client        OBJECT IDENTIFIER ::= { system-modules 151 }
+lcmg-pap-server      OBJECT IDENTIFIER ::= { system-modules 152 }
+lcmg-pap-client      OBJECT IDENTIFIER ::= { system-modules 153 }
+
+cimd-server          OBJECT IDENTIFIER ::= { system-modules 155 }
+cimd-client          OBJECT IDENTIFIER ::= { system-modules 156 }
+
+wapgw-client        OBJECT IDENTIFIER ::= { system-modules 160 }
+wap-service        OBJECT IDENTIFIER ::= { system-modules 161 }
+
+sms-service        OBJECT IDENTIFIER ::= { system-modules 170 }
+send-sms        OBJECT IDENTIFIER ::= { system-modules 171 }
+ussd-service        OBJECT IDENTIFIER ::= { system-modules 172 }
+send-ussd        OBJECT IDENTIFIER ::= { system-modules 173 }
+
+zbt            OBJECT IDENTIFIER ::= { system-modules 180 }
+cdb            OBJECT IDENTIFIER ::= { system-modules 181 }
+
+webgw-client        OBJECT IDENTIFIER ::= { system-modules 190 }
+web-service        OBJECT IDENTIFIER ::= { system-modules 191 }
+
+soapgw-client        OBJECT IDENTIFIER ::= { system-modules 196 }
+soap-service        OBJECT IDENTIFIER ::= { system-modules 197 }
+send-soap        OBJECT IDENTIFIER ::= { system-modules 198 }
+
+mmgmt            OBJECT IDENTIFIER ::= { system-modules 260 }
+
+smpp-client        OBJECT IDENTIFIER ::= { system-modules 301 }
+ma-smpp-client        OBJECT IDENTIFIER ::= { system-modules 302 }
+ma-smpp-server        OBJECT IDENTIFIER ::= { system-modules 303 }
+
+mca                OBJECT IDENTIFIER ::= { system-modules 340 }
+mca-notif-server        OBJECT IDENTIFIER ::= { system-modules 342 }
+
+snp                OBJECT IDENTIFIER ::= { system-modules 350 }
+
+tdh                OBJECT IDENTIFIER ::= { system-modules 360 }
+
+vmc                OBJECT IDENTIFIER ::= { system-modules 370 }
+
+ch-co-inco            OBJECT IDENTIFIER ::= { system-modules 380 }
+ch-co-outg            OBJECT IDENTIFIER ::= { system-modules 382 }
+ch-co-loop            OBJECT IDENTIFIER ::= { system-modules 384 }
+
+ca                OBJECT IDENTIFIER ::= { system-modules 390 }
+
+vs-ch-inco            OBJECT IDENTIFIER ::= { system-modules 400 }
+vs-ch-outg            OBJECT IDENTIFIER ::= { system-modules 402 }
+
+fah                OBJECT IDENTIFIER ::= { system-modules 410 }
+
+clm                OBJECT IDENTIFIER ::= { system-modules 420 }
+
+vm-sdb                OBJECT IDENTIFIER ::= { system-modules 440 }
+
+vm-mca                OBJECT IDENTIFIER ::= { system-modules 450 }
+vm-notif            OBJECT IDENTIFIER ::= { system-modules 452 }
+
+smsc                OBJECT IDENTIFIER ::= { system-modules 500 }
+
+ussdgw-mo-ussd            OBJECT IDENTIFIER ::= { system-modules 600 }
+ussdgw-ni-ussd            OBJECT IDENTIFIER ::= { system-modules 601 }
+ussd-charging            OBJECT IDENTIFIER ::= { system-modules 602 }
+
+ussd-portal            OBJECT IDENTIFIER ::= { system-modules 605 }
+
+ussdp-common            OBJECT IDENTIFIER ::= { system-modules 610 }
+ussdp-mo-ussd            OBJECT IDENTIFIER ::= { system-modules 611 }
+ussdp-ni-ussd            OBJECT IDENTIFIER ::= { system-modules 612 }
+
+maf                OBJECT IDENTIFIER ::= { system-modules 619 }
+topup                OBJECT IDENTIFIER ::= { system-modules 620 }
+sendtext            OBJECT IDENTIFIER ::= { system-modules 621 }
+callback            OBJECT IDENTIFIER ::= { system-modules 622 }
+cmbivr            OBJECT IDENTIFIER ::= { system-modules 623 }
+
+diameter        OBJECT IDENTIFIER ::= { system-modules 630 }
+diameter-sh        OBJECT IDENTIFIER ::= { system-modules 632 }
+diameter-slg        OBJECT IDENTIFIER ::= { system-modules 633 }
+diameter-slh        OBJECT IDENTIFIER ::= { system-modules 634 }
+ro-ocf-client        OBJECT IDENTIFIER ::= { system-modules 635 }
+ro-ctf            OBJECT IDENTIFIER ::= { system-modules 636 }
+rf-cdf-client        OBJECT IDENTIFIER ::= { system-modules 637 }
+rf-ctf            OBJECT IDENTIFIER ::= { system-modules 638 }
+ml-server        OBJECT IDENTIFIER ::= { system-modules 639 }
+
+
+sctp            OBJECT IDENTIFIER ::= { system-modules 650 }
+
+maas                OBJECT IDENTIFIER ::= { system-modules 700 }
+
+sysmon                OBJECT IDENTIFIER ::= { system-modules 800 }
+
+bt                OBJECT IDENTIFIER ::= { system-modules 810 }
+prosup                OBJECT IDENTIFIER ::= { system-modules 811 }
+advert-server           OBJECT IDENTIFIER ::= { system-modules 812 }
+hostmon            OBJECT IDENTIFIER ::= { system-modules 813 }
+reqqueue        OBJECT IDENTIFIER ::= { system-modules 814 }
+
+lm            OBJECT IDENTIFIER ::= { system-modules 820 }
+
+-- SOAP and XML related mibs
+parlayx-client          OBJECT IDENTIFIER ::= { system-modules 901}
+
+oma-pap-client        OBJECT IDENTIFIER ::= { system-modules 904}
+oma-pap-server        OBJECT IDENTIFIER ::= { system-modules 905}
+
+-- AGPS related mibs
+agps-common        OBJECT IDENTIFIER ::= { system-modules 1001}
+
+--
+lbsc-sms                OBJECT IDENTIFIER ::= { system-modules 1010}
+lbsc-core               OBJECT IDENTIFIER ::= { system-modules 1011}
+
+-- spe
+spe            OBJECT IDENTIFIER ::= { system-modules 1012}
+
+-- pmlc
+pmlc            OBJECT IDENTIFIER ::= { system-modules 1020}
+
+
+definitions             OBJECT IDENTIFIER ::= { networksystems 2 }
+commonInfo             OBJECT IDENTIFIER ::= { definitions 1 }
+alarmTrapInfo        OBJECT IDENTIFIER ::= { definitions 2 }
+measurementTrapInfo     OBJECT IDENTIFIER ::= { definitions 3 }
+eventTrapInfo         OBJECT IDENTIFIER ::= { definitions 4 }
+
+
+
+-- *******************************************************
+-- * mobilearts.networksystems.definitions.commonInfo    *
+-- *******************************************************
+
+-- Common trap information sent in both Alarm- and Measurement traps.
+
+-- nodeName                % Node name of trap submitting node.
+nodeName OBJECT-TYPE
+SYNTAX  DisplayString (SIZE (0..63))
+ACCESS  not-accessible
+STATUS  mandatory
+DESCRIPTION
+"
+Node name of the node the trap was submitted from.
+"
+::= { commonInfo 1 }
+
+-- serviceId                % Trap Service identification.
+-- New parameter AMC             % Replaced by displayString definition below
+--serviceId OBJECT-TYPE
+--SYNTAX INTEGER {
+--    serviceunspecific (0),
+--    mlc (1),
+--    amc (2),
+--    mca (3),
+--    mpx (4)
+--    }
+--ACCESS  not-accessible
+--STATUS  optional
+--DESCRIPTION
+--"
+--Service identification of the trap.
+--"
+--::= { commonInfo 2 }
+
+
+
+-- *******************************************************
+-- * mobilearts.networksystems.definitions.alarmTrapInfo *
+-- *******************************************************
+
+-- alarmReference            % Alarm reference.
+--                                      % Node unique id and involved node
+alarmReference OBJECT-TYPE
+SYNTAX  DisplayString (SIZE (0..127))
+ACCESS  not-accessible
+STATUS  optional
+DESCRIPTION
+"
+Identification of alarm.
+"
+::= { alarmTrapInfo 1 }
+
+
+-- extraId                     % Extra alarm identification
+-- New parameter MLC1.1
+extraId OBJECT-TYPE
+SYNTAX  DisplayString (SIZE (0..63))
+ACCESS  not-accessible
+STATUS  optional
+DESCRIPTION
+"
+Extra identification for the alarm.
+"
+::= { alarmTrapInfo 2 }
+
+
+-- alarmState                % Trap alarm state.
+alarmState OBJECT-TYPE
+SYNTAX INTEGER {
+    raise (0),
+    cease (1),
+    clear (2)
+    }
+ACCESS  not-accessible
+STATUS  mandatory
+DESCRIPTION
+"
+The state of the alarm when the trap is sent.
+"
+::= { alarmTrapInfo 3 }
+
+
+-- trapCause                % Trap cause
+-- raise_cause                        Cause of alarm raising
+-- clear_cause                        Cause of alarm clearing
+-- cease_cause                        Cause of alarm ceasing.
+trapCause OBJECT-TYPE
+SYNTAX  DisplayString (SIZE (0..63))
+ACCESS  not-accessible
+STATUS  mandatory
+DESCRIPTION
+"
+Cause of alarm trap event.
+"
+::= { alarmTrapInfo 4 }
+
+
+-- alarmSeverity                  % Severity of alarm (Critical, Major,
+--                      Minor, Warning, Indeterminate)
+alarmSeverity OBJECT-TYPE
+SYNTAX INTEGER {
+    indeterminate (0),
+    critical (1),
+    major (2),
+    minor (3),
+    warning (4)
+    }
+ACCESS  not-accessible
+STATUS  mandatory
+DESCRIPTION
+"
+Severity of alarm trap.
+"
+::= { alarmTrapInfo 5 }
+
+
+-- alarmClass                      % Class or category of alarm (Unknown,
+--                      Communication, QoS, Processing,
+--                      Equipment, Environmental, Unknown,
+--                      Measurement Treshold)
+alarmClass OBJECT-TYPE
+SYNTAX INTEGER {
+    unknown(0),
+    communications(1),
+    qos(2),
+    processing(3),
+    equipment(4),
+    environmental(5),
+    measurementthreshold(6)
+    }
+ACCESS  not-accessible
+STATUS  mandatory
+DESCRIPTION
+"
+Alarm class of trap.
+"
+::= { alarmTrapInfo 6 }
+
+
+-- systemLoggedDateTime            % Raise, cease and clear timestamp of
+--                      the alarm.
+systemLoggedDateTime OBJECT-TYPE
+SYNTAX  DateAndTime
+ACCESS  not-accessible
+STATUS  mandatory
+DESCRIPTION
+"
+Timestamp when the system issued raise, cease and clear of the alarm.
+"
+::= { alarmTrapInfo 7 }
+
+
+-- trapDateTime                % Trap timestamp.
+trapDateTime OBJECT-TYPE
+SYNTAX  DateAndTime
+ACCESS  not-accessible
+STATUS  mandatory
+DESCRIPTION
+"
+Timestamp when the trap was sent.
+"
+::= { alarmTrapInfo 8 }
+
+
+-- alarmSourceName            % deprecated!
+--alarmSourceName OBJECT-TYPE
+--SYNTAX  DisplayString (SIZE (0..255))
+--ACCESS  not-accessible
+--STATUS  optional
+--DESCRIPTION
+--"
+--Source of the trap event.
+--"
+--::= { alarmTrapInfo 9 }
+
+
+-- alarmData                % Extra parameter -deprecated
+--alarmData OBJECT-TYPE
+--SYNTAX  DisplayString (SIZE (0..2047))
+--ACCESS  not-accessible
+--STATUS  optional
+--DESCRIPTION
+--"
+--Data associated with the trap event.
+--"
+--::= { alarmTrapInfo 10 }
+
+
+-- alarmTestId               % Alarm test number identification.-deprecated
+-- New parameter AMC
+--alarmTestId OBJECT-TYPE
+--SYNTAX INTEGER {
+--    notest (0),
+--    test1 (1),
+--    test2 (2),
+--    test3 (3),
+--    test4 (4),
+--    test5 (5)
+--    }
+--ACCESS  not-accessible
+--STATUS  optional
+--DESCRIPTION
+--"
+--Test number identification of the alarm.
+--"
+--::= { alarmTrapInfo 11 }
+
+
+-- alarmAbilityId                % Alarm Service Ability
+--                          identification. - deprecated
+-- New parameter AMC
+--alarmAbilityId OBJECT-TYPE
+--SYNTAX INTEGER {
+--    abilityunspecific (0),
+--    smsp (1),
+--    mes (2),
+--    sms-ctrl (3),
+--    smpp-server (4),
+--    cs (5),
+--    ss7gw (6),
+--    ss7ein (7),
+--    kernel (8),
+--    content-screen (9),
+--    sms-mgmt (10),
+--    msg-broker (11),
+--    smtp-gw (12),
+--    saf (13)
+--    }
+--ACCESS  not-accessible
+--STATUS  optional
+--DESCRIPTION
+--"
+--Service Ability identification of the alarm.
+--"
+--::= { alarmTrapInfo 13 }
+
+
+-- alarmInstanceId           % Alarm Instance identification.- deprecated
+-- New parameter AMC
+--alarmInstanceId OBJECT-TYPE
+--SYNTAX  DisplayString (SIZE (0..255))
+--ACCESS  not-accessible
+--STATUS  optional
+--DESCRIPTION
+--"
+--Instance identification of the alarm.
+--"
+--::= { alarmTrapInfo 14 }
+
+alarmName OBJECT-TYPE
+SYNTAX  DisplayString (SIZE (0..63))
+ACCESS  not-accessible
+STATUS  optional
+DESCRIPTION
+"
+Name of the alarm. 
+This is only included in TRAPS raise + cease
+"
+::= { alarmTrapInfo 15 }
+
+
+subjectNodeName OBJECT-TYPE
+SYNTAX  DisplayString (SIZE (0..63))
+ACCESS  not-accessible
+STATUS  optional
+DESCRIPTION
+"
+Name of the subject node for the trap. 
+"
+::= { alarmTrapInfo 16 }
+
+
+serviceId OBJECT-TYPE
+SYNTAX  DisplayString (SIZE (0..63))
+ACCESS  not-accessible
+STATUS  optional
+DESCRIPTION
+"
+Name of service for the trap.
+"
+::= { alarmTrapInfo 17 }
+
+
+
+
+
+
+-- *************************************************************
+-- * mobilearts.networksystems.definitions.measurementTrapInfo *
+-- *************************************************************
+
+
+-- measurementId             % The actual identifier of the
+--                      measurement,i.e. measurement name +
+--                      instance, that reached a threshold
+--                      and triggered a trap.
+measurementId OBJECT-TYPE
+SYNTAX OBJECT IDENTIFIER
+ACCESS  not-accessible
+STATUS  optional
+DESCRIPTION
+"
+Measurement identifier (name + instance).
+"
+::= { measurementTrapInfo 1 }
+
+
+
+-- measurementThresholdId        % Measurement threshold identity
+--                      (low or high).
+measurementThresholdId OBJECT-TYPE
+SYNTAX INTEGER {
+    lowThreshold(0),
+    highThreshold(1)
+    }
+ACCESS  not-accessible
+STATUS  mandatory
+DESCRIPTION
+"
+Threshold identity (low or high).
+"
+::= { measurementTrapInfo 2 }
+
+
+
+-- measurementTriggered            % Measurement threshold trigger status.
+measurementTriggered OBJECT-TYPE
+SYNTAX INTEGER {
+    untriggered(0),
+    triggered(1)
+    }
+ACCESS  not-accessible
+STATUS  mandatory
+DESCRIPTION
+"
+Trigger status of of measurement threshold.
+"
+::= { measurementTrapInfo 3 }
+
+
+
+-- measurementValue            % Measurement value.
+measurementValue OBJECT-TYPE
+SYNTAX  INTEGER
+ACCESS  not-accessible
+STATUS  mandatory
+DESCRIPTION
+"
+Value of measurement.
+"
+::= { measurementTrapInfo 4 }
+
+
+
+-- measurementDateTime            % Measurement threshold triggered event
+--                      date and time.
+measurementDateTime OBJECT-TYPE
+SYNTAX  DateAndTime
+ACCESS  not-accessible
+STATUS  mandatory
+DESCRIPTION
+"
+Measurement threshold triggered event data and time.
+"
+::= { measurementTrapInfo 5 }
+
+
+
+-- measurementTestId                % Measurement test number
+--                          identification. - deprecated
+-- New parameter AMC
+--measurementTestId OBJECT-TYPE
+--SYNTAX INTEGER {
+--    notest (0),
+--    test1 (1),
+--    test2 (2),
+--    test3 (3),
+--    test4 (4),
+--    test5 (5)
+--    }
+--ACCESS  not-accessible
+--STATUS  optional
+--DESCRIPTION
+--"
+--Test number identification of the alarm.
+--"
+--::= { measurementTrapInfo 6 }
+
+
+
+-- measurementServiceId                % Measurement Service
+--                          identification. - deprecated
+-- New parameter AMC
+--measurementServiceId OBJECT-TYPE
+--SYNTAX INTEGER {
+--    serviceunspecific (0),
+--    mlc (1),
+--    amc (2)
+--    }
+--ACCESS  not-accessible
+--STATUS  optional
+--DESCRIPTION
+--"
+--Service identification of the alarm.
+--"
+--::= { measurementTrapInfo 7 }
+
+
+
+-- measurementAbilityId                % Measurement Service Ability
+--                          identification. - deprecated
+-- New parameter AMC
+--measurementAbilityId OBJECT-TYPE
+--SYNTAX INTEGER {
+--    abilityunspecific (0),
+--    smsp (1),
+--    mes (2),
+--    sms-ctrl (3),
+--    smpp-server (4),
+--    cs (5),
+--    ss7gw (6),
+--    ss7ein (7),
+--    kernel (8),
+--    content-screen (9),
+--    sms-mgmt (10),
+--    msg-broker (11),
+--    smtp-gw (12),
+--    saf (13)
+--    }
+--ACCESS  not-accessible
+--STATUS  optional
+--DESCRIPTION
+--"
+--Service Ability identification of the alarm.
+--"
+--::= { measurementTrapInfo 8 }
+
+
+-- *************************************************************
+-- * mobilearts.networksystems.definitions.eventTrapInfo *
+-- *************************************************************
+
+
+-- eventLogId                 % The event log identity, i.e. event log name + instance
+--
+eventLogId     OBJECT-TYPE
+--SYNTAX         OBJECT IDENTIFIER
+SYNTAX      DisplayString (SIZE (0..2047))
+ACCESS      not-accessible
+STATUS      optional
+DESCRIPTION
+"
+Event log identifier (log name + instance).
+"
+::= { eventTrapInfo 1 }
+
+
+
+-- eventDateTime            % Event date and time.
+--
+eventDateTime     OBJECT-TYPE
+SYNTAX      DateAndTime
+ACCESS      not-accessible
+STATUS      mandatory
+DESCRIPTION
+"
+Event data and time.
+"
+::= { eventTrapInfo 2 }
+
+
+
+-- eventInfo                % Data associated with the event
+--
+eventInfo     OBJECT-TYPE
+SYNTAX      DisplayString (SIZE (0..2047))
+ACCESS      not-accessible
+STATUS      optional
+DESCRIPTION
+"
+Data associated with the event.
+"
+::= { eventTrapInfo 3 }
+
+
+
+-- eventLevel           % Event log level (Info, Warning, Error or Fatal etc)
+--
+eventLevel     OBJECT-TYPE
+SYNTAX         INTEGER {
+            indeterminate (0),
+            debug (1),
+            trace (2),
+            info (3),
+            warning (4),
+            error (5),
+            fatal (6)
+            }
+ACCESS      not-accessible
+STATUS      mandatory
+DESCRIPTION
+"
+Event log level (Info, Warning, Error, Fatal etc).
+"
+::= { eventTrapInfo 4 }
+
+
+
+END
+
