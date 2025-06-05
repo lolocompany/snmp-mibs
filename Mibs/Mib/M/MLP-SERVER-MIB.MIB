@@ -1,0 +1,1459 @@
+-- --------------------------------------------------------------------------
+-- MANAGEMENT INFORMATION BASE (MIB) MLP-SERVER-MIB
+-- --------------------------------------------------------------------------
+--
+-- Document Number:
+-- 1/207 14-BQS 105 01/3 Oen
+--
+-- Revision A (v 1.xx)
+-- 
+-- CVS
+-- $Id$
+--
+-- $ Date: $
+--
+-- Author:
+-- Jonas Andersson (1st revision of MLP-MIB), Fredrik Erlandson (1st revision of MLP-SERVER-MIB)
+--
+-- Approved:
+-- Lars Kari 
+--
+-- Document Class:
+-- Restricted External
+--
+-- Document Type:
+-- MANAGEMENT INFO BASE
+--
+-- Abstract: 
+-- This document defines managed objects for the Messaging Location Presence Protocol (MLP) Server.
+--
+-- Revision Information:
+-- This is the 1st revision of MANAGEMENT INFORMATION BASE (MIB) MLP-SERVER-MIB.
+-- 
+-- --------------------------------------------------------------------------
+
+MLP-SERVER-MIB DEFINITIONS ::= BEGIN
+
+
+IMPORTS
+        mlp-server        FROM KERNEL-DOMAIN-MIB
+
+    nodeName        FROM KERNEL-DOMAIN-MIB
+    serviceId        FROM KERNEL-DOMAIN-MIB
+
+    alarmReference         FROM KERNEL-DOMAIN-MIB
+    extraId         FROM KERNEL-DOMAIN-MIB
+    alarmState         FROM KERNEL-DOMAIN-MIB
+    trapCause         FROM KERNEL-DOMAIN-MIB
+     alarmSeverity         FROM KERNEL-DOMAIN-MIB
+     alarmClass         FROM KERNEL-DOMAIN-MIB
+     systemLoggedDateTime     FROM KERNEL-DOMAIN-MIB
+     trapDateTime         FROM KERNEL-DOMAIN-MIB
+
+    measurementId        FROM KERNEL-DOMAIN-MIB
+    measurementThresholdId  FROM KERNEL-DOMAIN-MIB
+    measurementTriggered    FROM KERNEL-DOMAIN-MIB
+    measurementValue        FROM KERNEL-DOMAIN-MIB
+    measurementDateTime     FROM KERNEL-DOMAIN-MIB
+
+    DisplayString        FROM RFC1213-MIB
+    DateAndTime            FROM SNMPv2-TC
+    Counter64        FROM SNMPv2-SMI
+    OBJECT-TYPE            FROM RFC-1212
+    Gauge            FROM RFC1155-SMI
+    Counter            FROM RFC1155-SMI
+    RowStatus        FROM SNMPv2-TC
+    ;
+
+
+
+-- ********************
+-- MLP-SERVER counters
+-- ********************
+
+-- mlpserverRecMlpReq    % Not resettable, counted from first day the 
+--              system was brought into operation.
+mlpserverRecMlpReq    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-write
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of received successful MLP requests.
+"
+::= { mlp-server 1 }
+
+
+
+
+--mlpserverSuccRecMlpReq     % Resettable counters
+--                  
+mlpserverSuccRecMlpReqTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverSuccRecMlpReqEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+An MLP Server table of counters of successful requests received. 
+One counter per Client (Content Provider MLP Client).
+"
+::= { mlp-server 2 }
+
+mlpserverSuccRecMlpReqEntry    OBJECT-TYPE
+SYNTAX        MlpserverSuccRecMlpReqEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverSuccRecMlpReqIndex }
+::= { mlpserverSuccRecMlpReqTable 1 }
+
+MlpserverSuccRecMlpReqEntry ::=
+    SEQUENCE {
+        mlpserverSuccRecMlpReqIndex    DisplayString (SIZE (1..64)),
+        mlpserverSuccRecMlpReq    Counter64 }
+
+mlpserverSuccRecMlpReqIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSuccRecMlpReqEntry 1 }
+
+mlpserverSuccRecMlpReq    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSuccRecMlpReqEntry 2 }
+
+
+--mlpserverUnsuccRecMlpReq     % Resettable counters
+--                  
+mlpserverUnsuccRecMlpReqTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverUnsuccRecMlpReqEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+An MLP Server table of counters of failed received requests. 
+One counter per Client (Content Provider MLP Client).
+"
+::= { mlp-server 3 }
+
+mlpserverUnsuccRecMlpReqEntry    OBJECT-TYPE
+SYNTAX        MlpserverUnsuccRecMlpReqEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverUnsuccRecMlpReqIndex }
+::= { mlpserverUnsuccRecMlpReqTable 1 }
+
+MlpserverUnsuccRecMlpReqEntry ::=
+    SEQUENCE {
+        mlpserverUnsuccRecMlpReqIndex    DisplayString (SIZE (1..64)),
+        mlpserverUnsuccRecMlpReq    Counter64 }
+
+mlpserverUnsuccRecMlpReqIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverUnsuccRecMlpReqEntry 1 }
+
+mlpserverUnsuccRecMlpReq    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverUnsuccRecMlpReqEntry 2 }
+
+
+--mlpserverRecUnauthMlpReq     % Resettable counters
+--                  
+mlpserverRecUnauthMlpReqTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecUnauthMlpReqEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+An MLP Server table of counters of unauthorized received requests. 
+One counter per Client (Content Provider MLP Client).
+"
+::= { mlp-server 4 }
+
+mlpserverRecUnauthMlpReqEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecUnauthMlpReqEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecUnauthMlpReqIndex }
+::= { mlpserverRecUnauthMlpReqTable 1 }
+
+MlpserverRecUnauthMlpReqEntry ::=
+    SEQUENCE {
+        mlpserverRecUnauthMlpReqIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecUnauthMlpReq    Counter64 }
+
+mlpserverRecUnauthMlpReqIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecUnauthMlpReqEntry 1 }
+
+mlpserverRecUnauthMlpReq    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecUnauthMlpReqEntry 2 }
+
+
+--mlpserverRecLocFormErrMlpReq     % Resettable counters
+--                  
+mlpserverRecLocFormErrMlpReqTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecLocFormErrMlpReqEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+An MLP Server table of counters of erroneous received requests. 
+One counter per Client (Content Provider MLP Client).
+"
+::= { mlp-server 5 }
+
+mlpserverRecLocFormErrMlpReqEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecLocFormErrMlpReqEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecLocFormErrMlpReqIndex }
+::= { mlpserverRecLocFormErrMlpReqTable 1 }
+
+MlpserverRecLocFormErrMlpReqEntry ::=
+    SEQUENCE {
+        mlpserverRecLocFormErrMlpReqIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecLocFormErrMlpReq    Counter64 }
+
+mlpserverRecLocFormErrMlpReqIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecLocFormErrMlpReqEntry 1 }
+
+mlpserverRecLocFormErrMlpReq    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecLocFormErrMlpReqEntry 2 }
+
+
+--mlpserverLoadRejMlpReq     % Resettable counters
+--                  
+mlpserverLoadRejMlpReqTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverLoadRejMlpReqEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+An MLP Server table of counters of overload rejected requests. 
+One counter per Client (Content Provider MLP Client).
+"
+::= { mlp-server 6 }
+
+mlpserverLoadRejMlpReqEntry    OBJECT-TYPE
+SYNTAX        MlpserverLoadRejMlpReqEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverLoadRejMlpReqIndex }
+::= { mlpserverLoadRejMlpReqTable 1 }
+
+MlpserverLoadRejMlpReqEntry ::=
+    SEQUENCE {
+        mlpserverLoadRejMlpReqIndex    DisplayString (SIZE (1..64)),
+        mlpserverLoadRejMlpReq    Counter64 }
+
+mlpserverLoadRejMlpReqIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverLoadRejMlpReqEntry 1 }
+
+mlpserverLoadRejMlpReq    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverLoadRejMlpReqEntry 2 }
+
+
+
+--mlpserverRecSlir             % Resettable counters
+--                  
+mlpserverRecSlirTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecSlirEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of received SLIR requests.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 7 }
+
+mlpserverRecSlirEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecSlirEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecSlirIndex }
+::= { mlpserverRecSlirTable 1 }
+
+MlpserverRecSlirEntry ::=
+    SEQUENCE {
+        mlpserverRecSlirIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecSlir    Counter64 }
+
+mlpserverRecSlirIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecSlirEntry 1 }
+
+mlpserverRecSlir    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecSlirEntry 2 }
+
+
+--mlpserverSentSlia             % Resettable counters
+--                  
+mlpserverSentSliaTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverSentSliaEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of sent SLIA responses.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 8 }
+
+mlpserverSentSliaEntry    OBJECT-TYPE
+SYNTAX        MlpserverSentSliaEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverSentSliaIndex }
+::= { mlpserverSentSliaTable 1 }
+
+MlpserverSentSliaEntry ::=
+    SEQUENCE {
+        mlpserverSentSliaIndex    DisplayString (SIZE (1..64)),
+        mlpserverSentSlia    Counter64 }
+
+mlpserverSentSliaIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentSliaEntry 1 }
+
+mlpserverSentSlia    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentSliaEntry 2 }
+
+
+
+--mlpserverSentSlirep             % Resettable counters
+--                  
+mlpserverSentSlirepTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverSentSlirepEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of sent SLREP resports.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 9 }
+
+mlpserverSentSlirepEntry    OBJECT-TYPE
+SYNTAX        MlpserverSentSlirepEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverSentSlirepIndex }
+::= { mlpserverSentSlirepTable 1 }
+
+MlpserverSentSlirepEntry ::=
+    SEQUENCE {
+        mlpserverSentSlirepIndex    DisplayString (SIZE (1..64)),
+        mlpserverSentSlirep    Counter64 }
+
+mlpserverSentSlirepIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentSlirepEntry 1 }
+
+mlpserverSentSlirep    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentSlirepEntry 2 }
+
+
+
+--mlpserverRecEmelir             % Resettable counters
+--                  
+mlpserverRecEmelirTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecEmelirEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of received EMELIR requests.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 10 }
+
+mlpserverRecEmelirEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecEmelirEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecEmelirIndex }
+::= { mlpserverRecEmelirTable 1 }
+
+MlpserverRecEmelirEntry ::=
+    SEQUENCE {
+        mlpserverRecEmelirIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecEmelir    Counter64 }
+
+mlpserverRecEmelirIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecEmelirEntry 1 }
+
+mlpserverRecEmelir    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecEmelirEntry 2 }
+
+
+--mlpserverSentEmelia             % Resettable counters
+--                  
+mlpserverSentEmeliaTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverSentEmeliaEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of sent EMELIA responses.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 11 }
+
+mlpserverSentEmeliaEntry    OBJECT-TYPE
+SYNTAX        MlpserverSentEmeliaEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverSentEmeliaIndex }
+::= { mlpserverSentEmeliaTable 1 }
+
+MlpserverSentEmeliaEntry ::=
+    SEQUENCE {
+        mlpserverSentEmeliaIndex    DisplayString (SIZE (1..64)),
+        mlpserverSentEmelia    Counter64 }
+
+mlpserverSentEmeliaIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentEmeliaEntry 1 }
+
+mlpserverSentEmelia    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentEmeliaEntry 2 }
+
+
+
+--mlpserverSentEmelirep        % Resettable counters
+--                  
+mlpserverSentEmelirepTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverSentEmelirepEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of sent EMELIREP reports.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 12 }
+
+mlpserverSentEmelirepEntry    OBJECT-TYPE
+SYNTAX        MlpserverSentEmelirepEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverSentEmelirepIndex }
+::= { mlpserverSentEmelirepTable 1 }
+
+MlpserverSentEmelirepEntry ::=
+    SEQUENCE {
+        mlpserverSentEmelirepIndex    DisplayString (SIZE (1..64)),
+        mlpserverSentEmelirep    Counter64 }
+
+mlpserverSentEmelirepIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentEmelirepEntry 1 }
+
+mlpserverSentEmelirep    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentEmelirepEntry 2 }
+
+
+
+
+--mlpserverSentSlrep        % Resettable counters
+--                  
+mlpserverSentSlrepTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverSentSlrepEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of sent SLREP reports.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 13 }
+
+mlpserverSentSlrepEntry    OBJECT-TYPE
+SYNTAX        MlpserverSentSlrepEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverSentSlrepIndex }
+::= { mlpserverSentSlrepTable 1 }
+
+MlpserverSentSlrepEntry ::=
+    SEQUENCE {
+        mlpserverSentSlrepIndex    DisplayString (SIZE (1..64)),
+        mlpserverSentSlrep    Counter64 }
+
+mlpserverSentSlrepIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentSlrepEntry 1 }
+
+mlpserverSentSlrep    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentSlrepEntry 2 }
+
+
+
+--mlpserverSentEmerep        % Resettable counters
+--                  
+mlpserverSentEmerepTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverSentEmerepEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of sent EMEREP reports.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 14 }
+
+mlpserverSentEmerepEntry    OBJECT-TYPE
+SYNTAX        MlpserverSentEmerepEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverSentEmerepIndex }
+::= { mlpserverSentEmerepTable 1 }
+
+MlpserverSentEmerepEntry ::=
+    SEQUENCE {
+        mlpserverSentEmerepIndex    DisplayString (SIZE (1..64)),
+        mlpserverSentEmerep    Counter64 }
+
+mlpserverSentEmerepIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentEmerepEntry 1 }
+
+mlpserverSentEmerep    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentEmerepEntry 2 }
+
+
+
+--mlpserverRecSlra        % Resettable counters
+--                  
+mlpserverRecSlraTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecSlraEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of received SLRA responses.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 15 }
+
+mlpserverRecSlraEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecSlraEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecSlraIndex }
+::= { mlpserverRecSlraTable 1 }
+
+MlpserverRecSlraEntry ::=
+    SEQUENCE {
+        mlpserverRecSlraIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecSlra    Counter64 }
+
+mlpserverRecSlraIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecSlraEntry 1 }
+
+mlpserverRecSlra    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecSlraEntry 2 }
+
+
+
+--mlpserverRecTlrr        % Resettable counters
+--                  
+mlpserverRecTlrrTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecTlrrEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of received TLRR requests.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 16 }
+
+mlpserverRecTlrrEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecTlrrEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecTlrrIndex }
+::= { mlpserverRecTlrrTable 1 }
+
+MlpserverRecTlrrEntry ::=
+    SEQUENCE {
+        mlpserverRecTlrrIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecTlrr    Counter64 }
+
+mlpserverRecTlrrIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecTlrrEntry 1 }
+
+mlpserverRecTlrr    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecTlrrEntry 2 }
+
+
+
+--mlpserverSentTlra        % Resettable counters
+--                  
+mlpserverSentTlraTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverSentTlraEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of sent TLRA responses.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 17 }
+
+mlpserverSentTlraEntry    OBJECT-TYPE
+SYNTAX        MlpserverSentTlraEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverSentTlraIndex }
+::= { mlpserverSentTlraTable 1 }
+
+MlpserverSentTlraEntry ::=
+    SEQUENCE {
+        mlpserverSentTlraIndex    DisplayString (SIZE (1..64)),
+        mlpserverSentTlra    Counter64 }
+
+mlpserverSentTlraIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentTlraEntry 1 }
+
+mlpserverSentTlra    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentTlraEntry 2 }
+
+
+
+--mlpserverRecTlrsr        % Resettable counters
+--                  
+mlpserverRecTlrsrTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecTlrsrEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of received TLRSR requests.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 18 }
+
+mlpserverRecTlrsrEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecTlrsrEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecTlrsrIndex }
+::= { mlpserverRecTlrsrTable 1 }
+
+MlpserverRecTlrsrEntry ::=
+    SEQUENCE {
+        mlpserverRecTlrsrIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecTlrsr    Counter64 }
+
+mlpserverRecTlrsrIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecTlrsrEntry 1 }
+
+mlpserverRecTlrsr    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecTlrsrEntry 2 }
+
+
+
+--mlpserverSentTlrsa        % Resettable counters
+--                  
+mlpserverSentTlrsaTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverSentTlrsaEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of sent TLRSA responses or reports.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 19 }
+
+mlpserverSentTlrsaEntry    OBJECT-TYPE
+SYNTAX        MlpserverSentTlrsaEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverSentTlrsaIndex }
+::= { mlpserverSentTlrsaTable 1 }
+
+MlpserverSentTlrsaEntry ::=
+    SEQUENCE {
+        mlpserverSentTlrsaIndex    DisplayString (SIZE (1..64)),
+        mlpserverSentTlrsa    Counter64 }
+
+mlpserverSentTlrsaIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentTlrsaEntry 1 }
+
+mlpserverSentTlrsa    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentTlrsaEntry 2 }
+
+
+
+--mlpserverSentTlrep        % Resettable counters
+--                  
+mlpserverSentTlrepTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverSentTlrepEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of sent TLREP reports.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 20 }
+
+mlpserverSentTlrepEntry    OBJECT-TYPE
+SYNTAX        MlpserverSentTlrepEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverSentTlrepIndex }
+::= { mlpserverSentTlrepTable 1 }
+
+MlpserverSentTlrepEntry ::=
+    SEQUENCE {
+        mlpserverSentTlrepIndex    DisplayString (SIZE (1..64)),
+        mlpserverSentTlrep    Counter64 }
+
+mlpserverSentTlrepIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentTlrepEntry 1 }
+
+mlpserverSentTlrep    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentTlrepEntry 2 }
+
+
+
+--mlpserverSentGem        % Resettable counters
+--                  
+mlpserverSentGemTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverSentGemEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of sent GEM responses.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 21 }
+
+mlpserverSentGemEntry    OBJECT-TYPE
+SYNTAX        MlpserverSentGemEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverSentGemIndex }
+::= { mlpserverSentGemTable 1 }
+
+MlpserverSentGemEntry ::=
+    SEQUENCE {
+        mlpserverSentGemIndex    DisplayString (SIZE (1..64)),
+        mlpserverSentGem    Counter64 }
+
+mlpserverSentGemIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentGemEntry 1 }
+
+mlpserverSentGem    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverSentGemEntry 2 }
+
+
+
+--mlpserverRecReqQosAssured    % Resettable counters
+--                  
+mlpserverRecReqQosAssuredTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecReqQosAssuredEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of MLP requests recevied including QOS Assured.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 22 }
+
+mlpserverRecReqQosAssuredEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecReqQosAssuredEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecReqQosAssuredIndex }
+::= { mlpserverRecReqQosAssuredTable 1 }
+
+MlpserverRecReqQosAssuredEntry ::=
+    SEQUENCE {
+        mlpserverRecReqQosAssuredIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecReqQosAssured    Counter64 }
+
+mlpserverRecReqQosAssuredIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqQosAssuredEntry 1 }
+
+mlpserverRecReqQosAssured    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqQosAssuredEntry 2 }
+
+
+
+--mlpserverRecReqQosBestEffort    % Resettable counters
+--                  
+mlpserverRecReqQosBestEffortTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecReqQosBestEffortEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of MLP requests recevied including QOS Best Effort (Default).
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 23 }
+
+mlpserverRecReqQosBestEffortEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecReqQosBestEffortEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecReqQosBestEffortIndex }
+::= { mlpserverRecReqQosBestEffortTable 1 }
+
+MlpserverRecReqQosBestEffortEntry ::=
+    SEQUENCE {
+        mlpserverRecReqQosBestEffortIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecReqQosBestEffort    Counter64 }
+
+mlpserverRecReqQosBestEffortIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqQosBestEffortEntry 1 }
+
+mlpserverRecReqQosBestEffort    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqQosBestEffortEntry 2 }
+
+
+
+
+--mlpserverRecReqQosNoDelay    % Resettable counters
+--                  
+mlpserverRecReqQosNoDelayTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecReqQosNoDelayEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of MLP requests recevied including QOS No Delay.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 24 }
+
+mlpserverRecReqQosNoDelayEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecReqQosNoDelayEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecReqQosNoDelayIndex }
+::= { mlpserverRecReqQosNoDelayTable 1 }
+
+MlpserverRecReqQosNoDelayEntry ::=
+    SEQUENCE {
+        mlpserverRecReqQosNoDelayIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecReqQosNoDelay    Counter64 }
+
+mlpserverRecReqQosNoDelayIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqQosNoDelayEntry 1 }
+
+mlpserverRecReqQosNoDelay    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqQosNoDelayEntry 2 }
+
+
+
+--mlpserverRecReqQosLowDelay    % Resettable counters
+--                  
+mlpserverRecReqQosLowDelayTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecReqQosLowDelayEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of MLP requests recevied including QOS Low Delay.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 25 }
+
+mlpserverRecReqQosLowDelayEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecReqQosLowDelayEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecReqQosLowDelayIndex }
+::= { mlpserverRecReqQosLowDelayTable 1 }
+
+MlpserverRecReqQosLowDelayEntry ::=
+    SEQUENCE {
+        mlpserverRecReqQosLowDelayIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecReqQosLowDelay    Counter64 }
+
+mlpserverRecReqQosLowDelayIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqQosLowDelayEntry 1 }
+
+mlpserverRecReqQosLowDelay    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqQosLowDelayEntry 2 }
+
+
+
+--mlpserverRecReqQosDelayTol    % Resettable counters
+--                  
+mlpserverRecReqQosDelayTolTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecReqQosDelayTolEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION    
+"
+Total number of MLP requests recevied including QOS Delay Tolerant (Default).
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 26 }
+
+mlpserverRecReqQosDelayTolEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecReqQosDelayTolEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecReqQosDelayTolIndex }
+::= { mlpserverRecReqQosDelayTolTable 1 }
+
+MlpserverRecReqQosDelayTolEntry ::=
+    SEQUENCE {
+        mlpserverRecReqQosDelayTolIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecReqQosDelayTol    Counter64 }
+
+mlpserverRecReqQosDelayTolIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqQosDelayTolEntry 1 }
+
+mlpserverRecReqQosDelayTol    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqQosDelayTolEntry 2 }
+
+
+
+--mlpserverRecReqSuppressLocation    % Resettable counters
+--
+mlpserverRecReqSuppressLocationTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecReqSuppressLocationEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+"
+Total number of MLP requests recevied with location suppressed.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 27 }
+
+mlpserverRecReqSuppressLocationEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecReqSuppressLocationEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecReqSuppressLocationIndex }
+::= { mlpserverRecReqSuppressLocationTable 1 }
+
+MlpserverRecReqSuppressLocationEntry ::=
+    SEQUENCE {
+        mlpserverRecReqSuppressLocationIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecReqSuppressLocation    Counter64 }
+
+mlpserverRecReqSuppressLocationIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqSuppressLocationEntry 1 }
+
+mlpserverRecReqSuppressLocation    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqSuppressLocationEntry 2 }
+
+
+--mlpserverRecReqMnpCheck     % Resettable counters
+--
+mlpserverRecReqMnpCheckTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecReqMnpCheckEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+"
+Total number of MLP requests recevied including MNP-check requirements.
+One counter per Client (Content Provide MLP Client / PS-service).
+"
+::= { mlp-server 28 }
+
+mlpserverRecReqMnpCheckEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecReqMnpCheckEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecReqMnpCheckIndex }
+::= { mlpserverRecReqMnpCheckTable 1 }
+
+MlpserverRecReqMnpCheckEntry ::=
+    SEQUENCE {
+        mlpserverRecReqMnpCheckIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecReqMnpCheck    Counter64 }
+
+mlpserverRecReqMnpCheckIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqMnpCheckEntry 1 }
+
+mlpserverRecReqMnpCheck    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqMnpCheckEntry 2 }
+
+
+--mlpserverRecReqBarringCheck      % Resettable counters
+--
+mlpserverRecReqBarringCheckTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecReqBarringCheckEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+"
+Total number of barring check requests recevied.
+One counter per Client (Content Provide MLP Client / PS-service).
+"
+::= { mlp-server 29 }
+
+mlpserverRecReqBarringCheckEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecReqBarringCheckEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecReqBarringCheckIndex }
+::= { mlpserverRecReqBarringCheckTable 1 }
+
+MlpserverRecReqBarringCheckEntry ::=
+    SEQUENCE {
+        mlpserverRecReqBarringCheckIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecReqBarringCheck    Counter64 }
+
+mlpserverRecReqBarringCheckIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqBarringCheckEntry 1 }
+
+mlpserverRecReqBarringCheck    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqBarringCheckEntry 2 }
+
+
+--mlpserverRecReqPsServiceLoc      % Resettable counters
+--
+mlpserverRecReqPsServiceLocTable    OBJECT-TYPE
+SYNTAX        SEQUENCE OF MlpserverRecReqPsServiceLocEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+"
+Total number of MLP requests recevied from PS services adding location to messaging.
+One counter per Client (Content Provide MLP Client).
+"
+::= { mlp-server 30 }
+
+mlpserverRecReqPsServiceLocEntry    OBJECT-TYPE
+SYNTAX        MlpserverRecReqPsServiceLocEntry
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+INDEX    { IMPLIED mlpserverRecReqPsServiceLocIndex }
+::= { mlpserverRecReqPsServiceLocTable 1 }
+
+MlpserverRecReqPsServiceLocEntry ::=
+    SEQUENCE {
+        mlpserverRecReqPsServiceLocIndex    DisplayString (SIZE (1..64)),
+        mlpserverRecReqPsServiceLoc    Counter64 }
+
+mlpserverRecReqPsServiceLocIndex    OBJECT-TYPE
+SYNTAX        DisplayString (SIZE (1..64))
+ACCESS        not-accessible
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqPsServiceLocEntry 1 }
+
+mlpserverRecReqPsServiceLoc    OBJECT-TYPE
+SYNTAX        Counter64
+ACCESS        read-only
+STATUS        mandatory
+DESCRIPTION
+""
+::= { mlpserverRecReqPsServiceLocEntry 2 }
+
+
+
+-- *****************
+-- MLP-SERVER traps
+-- *****************
+
+
+mlpClientLockedOut        TRAP-TYPE
+ENTERPRISE    mlp-server
+VARIABLES { nodeName, alarmReference, extraId, alarmState, trapCause, alarmSeverity, alarmClass, systemLoggedDateTime, trapDateTime, serviceId }
+DESCRIPTION
+"
+Specified Content Provider MLP Client has been locked out due to too many faulty login attempts.
+PROPOSED ACTION:
+ The Client account must be reopened by someone with proper authority.
+"
+::= 1
+
+unsuccEmerep        TRAP-TYPE
+ENTERPRISE    mlp-server
+VARIABLES { nodeName, alarmReference, extraId, alarmState, trapCause, alarmSeverity, alarmClass, systemLoggedDateTime, trapDateTime, serviceId }
+DESCRIPTION
+"
+An attempt to send an emerep failed. Pushaddr is not reachable.
+PROPOSED ACTION:
+ Check configuration for client.
+"
+::= 2
+
+unsuccEmelirep        TRAP-TYPE
+ENTERPRISE    mlp-server
+VARIABLES { nodeName, alarmReference, extraId, alarmState, trapCause, alarmSeverity, alarmClass, systemLoggedDateTime, trapDateTime, serviceId }
+DESCRIPTION
+"
+An attempt to send an eme_lirep failed. Pushaddr is not reachable.
+PROPOSED ACTION:
+ Check configuration for client and/or the provided pushaddr.
+"
+::= 3
+
+unsuccSlrep        TRAP-TYPE
+ENTERPRISE    mlp-server
+VARIABLES { nodeName, alarmReference, extraId, alarmState, trapCause, alarmSeverity, alarmClass, systemLoggedDateTime, trapDateTime, serviceId }
+DESCRIPTION
+"
+An attempt to send an slrep failed. Pushaddr is not reachable.
+PROPOSED ACTION:
+ Check configuration for client.
+"
+::= 4
+
+unsuccSlirep        TRAP-TYPE
+ENTERPRISE    mlp-server
+VARIABLES { nodeName, alarmReference, extraId, alarmState, trapCause, alarmSeverity, alarmClass, systemLoggedDateTime, trapDateTime, serviceId }
+DESCRIPTION
+"
+An attempt to send an slirep failed. Pushaddr is not reachable.
+PROPOSED ACTION:
+ Check configuration for client and/or the provided pushaddr.
+"
+::= 5
+
+unsuccTlrep        TRAP-TYPE
+ENTERPRISE    mlp-server
+VARIABLES { nodeName, alarmReference, extraId, alarmState, trapCause, alarmSeverity, alarmClass, systemLoggedDateTime, trapDateTime, serviceId }
+DESCRIPTION
+"
+An attempt to send an tlrep failed. Pushaddr is not reachable.
+PROPOSED ACTION:
+ Check configuration for client and/or the provided pushaddr.
+"
+::= 6
+
+END
+
