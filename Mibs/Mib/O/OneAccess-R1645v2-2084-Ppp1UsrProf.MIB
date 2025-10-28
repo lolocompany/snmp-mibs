@@ -1,0 +1,823 @@
+OneAccess-R1645v2-2084-Ppp1UsrProf DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Ppp1UsrProf OBJECT IDENTIFIER ::= {r1645Rootv2 2084}
+
+r1645v2Ppp1UsrProfMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2Ppp1UsrProfMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2Ppp1UsrProf 1}
+
+r1645v2Ppp1UsrProfMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2Ppp1UsrProfMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2Ppp1UsrProfMOPropGlobalIx }
+   ::= {r1645v2Ppp1UsrProfMOProp 1}
+
+R1645v2Ppp1UsrProfMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2Ppp1UsrProfMOPropPath
+         ContainmentPath,
+      r1645v2Ppp1UsrProfMOPropRev
+         ObjectRevision,
+      r1645v2Ppp1UsrProfMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2Ppp1UsrProfMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2Ppp1UsrProfMOPropEntry 3}
+
+r1645v2Ppp1UsrProfMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2Ppp1UsrProfMOPropEntry 4}
+
+r1645v2Ppp1UsrProfMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2Ppp1UsrProfMOPropEntry 10}
+
+
+
+er1645v2Ppp1UsrProf OBJECT IDENTIFIER ::= {r1645v2Ppp1UsrProf 11}
+
+
+er1645v2Ppp1UsrProfLinkMon OBJECT IDENTIFIER ::= {er1645v2Ppp1UsrProf 3}
+
+er1645v2Ppp1UsrProfLinkMonSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2Ppp1UsrProfLinkMonEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppLinkMonitoring"
+   ::= {er1645v2Ppp1UsrProfLinkMon 1}
+
+er1645v2Ppp1UsrProfLinkMonEntry OBJECT-TYPE
+   SYNTAX      Er1645v2Ppp1UsrProfLinkMonEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2Ppp1UsrProfLinkMonGlobalIx }
+   ::= {er1645v2Ppp1UsrProfLinkMonSSCTable 1}
+
+Er1645v2Ppp1UsrProfLinkMonEntry ::=
+   SEQUENCE
+      {
+      er1645v2Ppp1UsrProfLinkMonGlobalIx
+         GlobalIndex,
+      er1645v2Ppp1UsrProfLinkMonOperation
+         INTEGER,
+      er1645v2Ppp1UsrProfLinkMonInterval
+         TimeTicks,
+      er1645v2Ppp1UsrProfLinkMonRepTimeOut
+         TimeTicks,
+      er1645v2Ppp1UsrProfLinkMonFailsPrmt
+         Integer32
+      }
+
+er1645v2Ppp1UsrProfLinkMonGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2Ppp1UsrProfLinkMonEntry 10}
+
+er1645v2Ppp1UsrProfLinkMonOperation OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.linkMonitoring.operation
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2Ppp1UsrProfLinkMonEntry 16777216}
+
+er1645v2Ppp1UsrProfLinkMonInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.linkMonitoring.interval
+
+       Time in centi-second."
+   ::= {er1645v2Ppp1UsrProfLinkMonEntry 33554432}
+
+er1645v2Ppp1UsrProfLinkMonRepTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.linkMonitoring.replyTimeOut
+
+       Time in centi-second."
+   ::= {er1645v2Ppp1UsrProfLinkMonEntry 50331648}
+
+er1645v2Ppp1UsrProfLinkMonFailsPrmt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.linkMonitoring.failsPermitted"
+   ::= {er1645v2Ppp1UsrProfLinkMonEntry 67108864}
+
+
+er1645v2Ppp1UsrProfAuthentication OBJECT IDENTIFIER ::= {er1645v2Ppp1UsrProf 4}
+
+er1645v2Ppp1UsrProfAuthenticationTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2Ppp1UsrProfAuthenticationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppAuthentication"
+   ::= {er1645v2Ppp1UsrProfAuthentication 1}
+
+er1645v2Ppp1UsrProfAuthenticationEntry OBJECT-TYPE
+   SYNTAX      Er1645v2Ppp1UsrProfAuthenticationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2Ppp1UsrProfAuthenticationGlobalIx }
+   ::= {er1645v2Ppp1UsrProfAuthenticationTable 1}
+
+Er1645v2Ppp1UsrProfAuthenticationEntry ::=
+   SEQUENCE
+      {
+      er1645v2Ppp1UsrProfAuthenticationGlobalIx
+         GlobalIndex,
+      er1645v2Ppp1UsrProfAuthenticationValue
+         INTEGER
+      }
+
+er1645v2Ppp1UsrProfAuthenticationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2Ppp1UsrProfAuthenticationEntry 10}
+
+er1645v2Ppp1UsrProfAuthenticationValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               chap (1),
+               pap (2),
+               chapOrPap (3),
+               msChap (4),
+               msChapV2 (5)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.authentication
+
+       Possibilities:
+               disabled   (0)
+               chap   (1)
+               pap   (2)
+               chapOrPap   (3)
+               msChap   (4)
+               msChapV2   (5)"
+   ::= {er1645v2Ppp1UsrProfAuthenticationEntry 2147483648}
+
+
+er1645v2Ppp1UsrProfAuthenPeriod OBJECT IDENTIFIER ::= {er1645v2Ppp1UsrProf 5}
+
+er1645v2Ppp1UsrProfAuthenPeriodTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2Ppp1UsrProfAuthenPeriodEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppAuthenPeriod"
+   ::= {er1645v2Ppp1UsrProfAuthenPeriod 1}
+
+er1645v2Ppp1UsrProfAuthenPeriodEntry OBJECT-TYPE
+   SYNTAX      Er1645v2Ppp1UsrProfAuthenPeriodEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2Ppp1UsrProfAuthenPeriodGlobalIx }
+   ::= {er1645v2Ppp1UsrProfAuthenPeriodTable 1}
+
+Er1645v2Ppp1UsrProfAuthenPeriodEntry ::=
+   SEQUENCE
+      {
+      er1645v2Ppp1UsrProfAuthenPeriodGlobalIx
+         GlobalIndex,
+      er1645v2Ppp1UsrProfAuthenPeriodValue
+         TimeTicks
+      }
+
+er1645v2Ppp1UsrProfAuthenPeriodGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2Ppp1UsrProfAuthenPeriodEntry 10}
+
+er1645v2Ppp1UsrProfAuthenPeriodValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.authenPeriod
+
+       Time in centi-second."
+   ::= {er1645v2Ppp1UsrProfAuthenPeriodEntry 2147483648}
+
+
+er1645v2Ppp1UsrProfCompression OBJECT IDENTIFIER ::= {er1645v2Ppp1UsrProf 6}
+
+er1645v2Ppp1UsrProfCompressionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2Ppp1UsrProfCompressionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppCompression"
+   ::= {er1645v2Ppp1UsrProfCompression 1}
+
+er1645v2Ppp1UsrProfCompressionEntry OBJECT-TYPE
+   SYNTAX      Er1645v2Ppp1UsrProfCompressionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2Ppp1UsrProfCompressionGlobalIx }
+   ::= {er1645v2Ppp1UsrProfCompressionTable 1}
+
+Er1645v2Ppp1UsrProfCompressionEntry ::=
+   SEQUENCE
+      {
+      er1645v2Ppp1UsrProfCompressionGlobalIx
+         GlobalIndex,
+      er1645v2Ppp1UsrProfCompressionValue
+         INTEGER
+      }
+
+er1645v2Ppp1UsrProfCompressionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2Ppp1UsrProfCompressionEntry 10}
+
+er1645v2Ppp1UsrProfCompressionValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               predictor1 (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.compression
+
+       Possibilities:
+               disabled   (0)
+               predictor1   (1)"
+   ::= {er1645v2Ppp1UsrProfCompressionEntry 2147483648}
+
+
+er1645v2Ppp1UsrProfCbk OBJECT IDENTIFIER ::= {er1645v2Ppp1UsrProf 9}
+
+er1645v2Ppp1UsrProfCbkSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2Ppp1UsrProfCbkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppCallback"
+   ::= {er1645v2Ppp1UsrProfCbk 1}
+
+er1645v2Ppp1UsrProfCbkEntry OBJECT-TYPE
+   SYNTAX      Er1645v2Ppp1UsrProfCbkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2Ppp1UsrProfCbkGlobalIx }
+   ::= {er1645v2Ppp1UsrProfCbkSSCTable 1}
+
+Er1645v2Ppp1UsrProfCbkEntry ::=
+   SEQUENCE
+      {
+      er1645v2Ppp1UsrProfCbkGlobalIx
+         GlobalIndex,
+      er1645v2Ppp1UsrProfCbkType
+         INTEGER
+      }
+
+er1645v2Ppp1UsrProfCbkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2Ppp1UsrProfCbkEntry 10}
+
+er1645v2Ppp1UsrProfCbkType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               authentication (1),
+               e164Number (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.callback.type
+
+       Possibilities:
+               disabled   (0)
+               authentication   (1)
+               e164Number   (4)"
+   ::= {er1645v2Ppp1UsrProfCbkEntry 16777216}
+
+
+er1645v2Ppp1UsrProfConnection OBJECT IDENTIFIER ::= {er1645v2Ppp1UsrProf 7}
+
+er1645v2Ppp1UsrProfConnectionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2Ppp1UsrProfConnectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "multilink connection type"
+   ::= {er1645v2Ppp1UsrProfConnection 1}
+
+er1645v2Ppp1UsrProfConnectionEntry OBJECT-TYPE
+   SYNTAX      Er1645v2Ppp1UsrProfConnectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2Ppp1UsrProfConnectionGlobalIx }
+   ::= {er1645v2Ppp1UsrProfConnectionTable 1}
+
+Er1645v2Ppp1UsrProfConnectionEntry ::=
+   SEQUENCE
+      {
+      er1645v2Ppp1UsrProfConnectionGlobalIx
+         GlobalIndex,
+      er1645v2Ppp1UsrProfConnectionValue
+         INTEGER
+      }
+
+er1645v2Ppp1UsrProfConnectionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2Ppp1UsrProfConnectionEntry 10}
+
+er1645v2Ppp1UsrProfConnectionValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               singleLink (0),
+               multiLink (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.connection
+
+       Possibilities:
+               singleLink   (0)
+               multiLink   (1)"
+   ::= {er1645v2Ppp1UsrProfConnectionEntry 2147483648}
+
+
+er1645v2Ppp1UsrProfMLnk OBJECT IDENTIFIER ::= {er1645v2Ppp1UsrProf 8}
+
+er1645v2Ppp1UsrProfMLnkSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2Ppp1UsrProfMLnkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "multilink config"
+   ::= {er1645v2Ppp1UsrProfMLnk 1}
+
+er1645v2Ppp1UsrProfMLnkEntry OBJECT-TYPE
+   SYNTAX      Er1645v2Ppp1UsrProfMLnkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2Ppp1UsrProfMLnkGlobalIx }
+   ::= {er1645v2Ppp1UsrProfMLnkSSCTable 1}
+
+Er1645v2Ppp1UsrProfMLnkEntry ::=
+   SEQUENCE
+      {
+      er1645v2Ppp1UsrProfMLnkGlobalIx
+         GlobalIndex,
+      er1645v2Ppp1UsrProfMLnkMinCh
+         Integer32,
+      er1645v2Ppp1UsrProfMLnkBapOp
+         INTEGER,
+      er1645v2Ppp1UsrProfMLnkBapMaxCh
+         Integer32,
+      er1645v2Ppp1UsrProfMLnkBapRemTmout
+         Integer32,
+      er1645v2Ppp1UsrProfMLnkBapAddTmout
+         Integer32,
+      er1645v2Ppp1UsrProfMLnkBapRemThrIn
+         Integer32,
+      er1645v2Ppp1UsrProfMLnkBapRemThrOut
+         Integer32,
+      er1645v2Ppp1UsrProfMLnkBapAddThrIn
+         Integer32,
+      er1645v2Ppp1UsrProfMLnkBapAddThrOut
+         Integer32,
+      er1645v2Ppp1UsrProfMLnkBapCbReq
+         INTEGER,
+      er1645v2Ppp1UsrProfMLnkEndpDiscCl
+         INTEGER,
+      er1645v2Ppp1UsrProfMLnkFrag
+         INTEGER
+      }
+
+er1645v2Ppp1UsrProfMLnkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2Ppp1UsrProfMLnkEntry 10}
+
+er1645v2Ppp1UsrProfMLnkMinCh OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.multiLink.initialChannels"
+   ::= {er1645v2Ppp1UsrProfMLnkEntry 16777216}
+
+er1645v2Ppp1UsrProfMLnkBapOp OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.multiLink.bap.operation
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2Ppp1UsrProfMLnkEntry 33619968}
+
+er1645v2Ppp1UsrProfMLnkBapMaxCh OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.multiLink.bap.maxChannels"
+   ::= {er1645v2Ppp1UsrProfMLnkEntry 33685504}
+
+er1645v2Ppp1UsrProfMLnkBapRemTmout OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.multiLink.bap.removeTimeout
+
+       unit name = sec"
+   ::= {er1645v2Ppp1UsrProfMLnkEntry 33751040}
+
+er1645v2Ppp1UsrProfMLnkBapAddTmout OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.multiLink.bap.addTimeout
+
+       unit name = sec"
+   ::= {er1645v2Ppp1UsrProfMLnkEntry 33816576}
+
+er1645v2Ppp1UsrProfMLnkBapRemThrIn OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.multiLink.bap.removeThresholdIn
+
+       unit name = %"
+   ::= {er1645v2Ppp1UsrProfMLnkEntry 33882112}
+
+er1645v2Ppp1UsrProfMLnkBapRemThrOut OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.multiLink.bap.removeThresholdOut
+
+       unit name = %"
+   ::= {er1645v2Ppp1UsrProfMLnkEntry 33947648}
+
+er1645v2Ppp1UsrProfMLnkBapAddThrIn OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.multiLink.bap.addThresholdIn
+
+       unit name = %"
+   ::= {er1645v2Ppp1UsrProfMLnkEntry 34013184}
+
+er1645v2Ppp1UsrProfMLnkBapAddThrOut OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.multiLink.bap.addThresholdOut
+
+       unit name = %"
+   ::= {er1645v2Ppp1UsrProfMLnkEntry 34078720}
+
+er1645v2Ppp1UsrProfMLnkBapCbReq OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               reject (0),
+               accept (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.multiLink.bap.callBackRequests
+
+       Possibilities:
+               reject   (0)
+               accept   (1)"
+   ::= {er1645v2Ppp1UsrProfMLnkEntry 34144256}
+
+er1645v2Ppp1UsrProfMLnkEndpDiscCl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               localAssignedAddress (1),
+               macAddress (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.multiLink.endpointDiscrClass
+
+       Possibilities:
+               localAssignedAddress   (1)
+               macAddress   (3)"
+   ::= {er1645v2Ppp1UsrProfMLnkEntry 50331648}
+
+er1645v2Ppp1UsrProfMLnkFrag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.multiLink.fragmentation
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2Ppp1UsrProfMLnkEntry 67108864}
+
+
+er1645v2Ppp1UsrProfSnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2Ppp1UsrProf 268}
+
+er1645v2Ppp1UsrProfSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2Ppp1UsrProfSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2Ppp1UsrProfSnmpIndexOffset 1}
+
+er1645v2Ppp1UsrProfSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2Ppp1UsrProfSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2Ppp1UsrProfSnmpIndexOffsetGlobalIx }
+   ::= {er1645v2Ppp1UsrProfSnmpIndexOffsetTable 1}
+
+Er1645v2Ppp1UsrProfSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2Ppp1UsrProfSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2Ppp1UsrProfSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2Ppp1UsrProfSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2Ppp1UsrProfSnmpIndexOffsetEntry 10}
+
+er1645v2Ppp1UsrProfSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.editConf.snmpIndexOffset"
+   ::= {er1645v2Ppp1UsrProfSnmpIndexOffsetEntry 2147483648}
+
+
+
+sr1645v2Ppp1UsrProf OBJECT IDENTIFIER ::= {r1645v2Ppp1UsrProf 14}
+
+
+sr1645v2Ppp1UsrProfProfUsers OBJECT IDENTIFIER ::= {sr1645v2Ppp1UsrProf 40}
+
+sr1645v2Ppp1UsrProfProfUsersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2Ppp1UsrProfProfUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "users of the different profiles"
+   ::= {sr1645v2Ppp1UsrProfProfUsers 1}
+
+sr1645v2Ppp1UsrProfProfUsersEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2Ppp1UsrProfProfUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2Ppp1UsrProfProfUsersGlobalIx,
+                sr1645v2Ppp1UsrProfProfUsersTableIx }
+   ::= {sr1645v2Ppp1UsrProfProfUsersSSCTable 1}
+
+Sr1645v2Ppp1UsrProfProfUsersEntry ::=
+   SEQUENCE
+      {
+      sr1645v2Ppp1UsrProfProfUsersGlobalIx
+         GlobalIndex,
+      sr1645v2Ppp1UsrProfProfUsersTableIx
+         TableIndex,
+      sr1645v2Ppp1UsrProfProfUsersType
+         INTEGER,
+      sr1645v2Ppp1UsrProfProfUsersName
+         DisplayString
+      }
+
+sr1645v2Ppp1UsrProfProfUsersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2Ppp1UsrProfProfUsersEntry 10}
+
+sr1645v2Ppp1UsrProfProfUsersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2Ppp1UsrProfProfUsersEntry 11}
+
+sr1645v2Ppp1UsrProfProfUsersType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dialmap (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.status.profileUsers.type
+
+       Possibilities:
+               dialmap   (1)"
+   ::= {sr1645v2Ppp1UsrProfProfUsersEntry 16777216}
+
+sr1645v2Ppp1UsrProfProfUsersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.status.profileUsers.name"
+   ::= {sr1645v2Ppp1UsrProfProfUsersEntry 33554432}
+
+
+sr1645v2Ppp1UsrProfSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2Ppp1UsrProf 269}
+
+sr1645v2Ppp1UsrProfSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2Ppp1UsrProfSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2Ppp1UsrProfSnmpIndex 1}
+
+sr1645v2Ppp1UsrProfSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2Ppp1UsrProfSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2Ppp1UsrProfSnmpIndexGlobalIx }
+   ::= {sr1645v2Ppp1UsrProfSnmpIndexTable 1}
+
+Sr1645v2Ppp1UsrProfSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2Ppp1UsrProfSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2Ppp1UsrProfSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2Ppp1UsrProfSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2Ppp1UsrProfSnmpIndexEntry 10}
+
+sr1645v2Ppp1UsrProfSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ppp.status.snmpIndex"
+   ::= {sr1645v2Ppp1UsrProfSnmpIndexEntry 2147483648}
+
+
+
+END

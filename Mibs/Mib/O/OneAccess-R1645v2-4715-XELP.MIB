@@ -1,0 +1,1817 @@
+OneAccess-R1645v2-4715-XELP DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2XELP OBJECT IDENTIFIER ::= {r1645Rootv2 4715}
+
+r1645v2XELPMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2XELPMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2XELP 1}
+
+r1645v2XELPMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2XELPMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2XELPMOPropGlobalIx }
+   ::= {r1645v2XELPMOProp 1}
+
+R1645v2XELPMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2XELPMOPropPath
+         ContainmentPath,
+      r1645v2XELPMOPropRev
+         ObjectRevision,
+      r1645v2XELPMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2XELPMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2XELPMOPropEntry 3}
+
+r1645v2XELPMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2XELPMOPropEntry 4}
+
+r1645v2XELPMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2XELPMOPropEntry 10}
+
+
+
+sr1645v2XELP OBJECT IDENTIFIER ::= {r1645v2XELP 14}
+
+
+sr1645v2XELPLineAttenuation OBJECT IDENTIFIER ::= {sr1645v2XELP 8}
+
+sr1645v2XELPLineAttenuationTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPLineAttenuationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "lineAttenuation"
+   ::= {sr1645v2XELPLineAttenuation 1}
+
+sr1645v2XELPLineAttenuationEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPLineAttenuationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPLineAttenuationGlobalIx }
+   ::= {sr1645v2XELPLineAttenuationTable 1}
+
+Sr1645v2XELPLineAttenuationEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPLineAttenuationGlobalIx
+         GlobalIndex,
+      sr1645v2XELPLineAttenuationValue
+         INTEGER
+      }
+
+sr1645v2XELPLineAttenuationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPLineAttenuationEntry 10}
+
+sr1645v2XELPLineAttenuationValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unusedBand (-32768),
+               outOfRange (1271)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.lineAttenuation
+
+       unit name = dB
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               unusedBand   (-32768)
+               outOfRange   (1271)"
+   ::= {sr1645v2XELPLineAttenuationEntry 2147483648}
+
+
+sr1645v2XELPSignalAttenuation OBJECT IDENTIFIER ::= {sr1645v2XELP 11}
+
+sr1645v2XELPSignalAttenuationTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPSignalAttenuationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "lineAttenuation"
+   ::= {sr1645v2XELPSignalAttenuation 1}
+
+sr1645v2XELPSignalAttenuationEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPSignalAttenuationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPSignalAttenuationGlobalIx }
+   ::= {sr1645v2XELPSignalAttenuationTable 1}
+
+Sr1645v2XELPSignalAttenuationEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPSignalAttenuationGlobalIx
+         GlobalIndex,
+      sr1645v2XELPSignalAttenuationValue
+         INTEGER
+      }
+
+sr1645v2XELPSignalAttenuationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPSignalAttenuationEntry 10}
+
+sr1645v2XELPSignalAttenuationValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unusedBand (-32768),
+               outOfRange (1271)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.signalAttenuation
+
+       unit name = dB
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               unusedBand   (-32768)
+               outOfRange   (1271)"
+   ::= {sr1645v2XELPSignalAttenuationEntry 2147483648}
+
+
+sr1645v2XELPNoiseMargin OBJECT IDENTIFIER ::= {sr1645v2XELP 9}
+
+sr1645v2XELPNoiseMarginTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPNoiseMarginEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "noiseMargin"
+   ::= {sr1645v2XELPNoiseMargin 1}
+
+sr1645v2XELPNoiseMarginEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPNoiseMarginEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPNoiseMarginGlobalIx }
+   ::= {sr1645v2XELPNoiseMarginTable 1}
+
+Sr1645v2XELPNoiseMarginEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPNoiseMarginGlobalIx
+         GlobalIndex,
+      sr1645v2XELPNoiseMarginValue
+         INTEGER
+      }
+
+sr1645v2XELPNoiseMarginGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPNoiseMarginEntry 10}
+
+sr1645v2XELPNoiseMarginValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               outOfRange (-641)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.noiseMargin
+
+       unit name = dB
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               outOfRange   (-641)"
+   ::= {sr1645v2XELPNoiseMarginEntry 2147483648}
+
+
+sr1645v2XELPDsTxPower OBJECT IDENTIFIER ::= {sr1645v2XELP 10}
+
+sr1645v2XELPDsTxPowerTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPDsTxPowerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "transmit power"
+   ::= {sr1645v2XELPDsTxPower 1}
+
+sr1645v2XELPDsTxPowerEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPDsTxPowerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPDsTxPowerGlobalIx }
+   ::= {sr1645v2XELPDsTxPowerTable 1}
+
+Sr1645v2XELPDsTxPowerEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPDsTxPowerGlobalIx
+         GlobalIndex,
+      sr1645v2XELPDsTxPowerValue
+         INTEGER
+      }
+
+sr1645v2XELPDsTxPowerGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPDsTxPowerEntry 10}
+
+sr1645v2XELPDsTxPowerValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               outOfRange (-512)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.dsTransmitPower
+
+       unit name = dBm
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               outOfRange   (-512)"
+   ::= {sr1645v2XELPDsTxPowerEntry 2147483648}
+
+
+sr1645v2XELPDsPwSpDen OBJECT IDENTIFIER ::= {sr1645v2XELP 14}
+
+sr1645v2XELPDsPwSpDenTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPDsPwSpDenEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Power Spectrum Density"
+   ::= {sr1645v2XELPDsPwSpDen 1}
+
+sr1645v2XELPDsPwSpDenEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPDsPwSpDenEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPDsPwSpDenGlobalIx }
+   ::= {sr1645v2XELPDsPwSpDenTable 1}
+
+Sr1645v2XELPDsPwSpDenEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPDsPwSpDenGlobalIx
+         GlobalIndex,
+      sr1645v2XELPDsPwSpDenValue
+         INTEGER
+      }
+
+sr1645v2XELPDsPwSpDenGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPDsPwSpDenEntry 10}
+
+sr1645v2XELPDsPwSpDenValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               outOfRange (-901)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.dsPowerSpectrumDensity
+
+       unit name = dBm/Hz
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               outOfRange   (-901)"
+   ::= {sr1645v2XELPDsPwSpDenEntry 2147483648}
+
+
+sr1645v2XELPUsIntDelay OBJECT IDENTIFIER ::= {sr1645v2XELP 30}
+
+sr1645v2XELPUsIntDelayTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPUsIntDelayEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "interleaveDelay in ms"
+   ::= {sr1645v2XELPUsIntDelay 1}
+
+sr1645v2XELPUsIntDelayEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPUsIntDelayEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPUsIntDelayGlobalIx }
+   ::= {sr1645v2XELPUsIntDelayTable 1}
+
+Sr1645v2XELPUsIntDelayEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPUsIntDelayGlobalIx
+         GlobalIndex,
+      sr1645v2XELPUsIntDelayValue
+         Integer32
+      }
+
+sr1645v2XELPUsIntDelayGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPUsIntDelayEntry 10}
+
+sr1645v2XELPUsIntDelayValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.usInterleaveDelay
+
+       unit name = ms
+       formula =  100 / ; 100 *"
+   ::= {sr1645v2XELPUsIntDelayEntry 2147483648}
+
+
+sr1645v2XELPUsImpNoiseProt OBJECT IDENTIFIER ::= {sr1645v2XELP 31}
+
+sr1645v2XELPUsImpNoiseProtTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPUsImpNoiseProtEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Impulse Noise Protection in fractions of DMT symbols with a granularity of 0.1 symbols. The range is from 0 to 204.7"
+   ::= {sr1645v2XELPUsImpNoiseProt 1}
+
+sr1645v2XELPUsImpNoiseProtEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPUsImpNoiseProtEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPUsImpNoiseProtGlobalIx }
+   ::= {sr1645v2XELPUsImpNoiseProtTable 1}
+
+Sr1645v2XELPUsImpNoiseProtEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPUsImpNoiseProtGlobalIx
+         GlobalIndex,
+      sr1645v2XELPUsImpNoiseProtValue
+         Integer32
+      }
+
+sr1645v2XELPUsImpNoiseProtGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPUsImpNoiseProtEntry 10}
+
+sr1645v2XELPUsImpNoiseProtValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.usImpulseNoiseProtection
+
+       unit name = symbols
+       formula =  10 / ; 10 * "
+   ::= {sr1645v2XELPUsImpNoiseProtEntry 2147483648}
+
+
+sr1645v2XELPUsCodeSz OBJECT IDENTIFIER ::= {sr1645v2XELP 25}
+
+sr1645v2XELPUsCodeSzTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPUsCodeSzEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Actual Read-Solomon codeword size in bytes"
+   ::= {sr1645v2XELPUsCodeSz 1}
+
+sr1645v2XELPUsCodeSzEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPUsCodeSzEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPUsCodeSzGlobalIx }
+   ::= {sr1645v2XELPUsCodeSzTable 1}
+
+Sr1645v2XELPUsCodeSzEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPUsCodeSzGlobalIx
+         GlobalIndex,
+      sr1645v2XELPUsCodeSzValue
+         Integer32
+      }
+
+sr1645v2XELPUsCodeSzGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPUsCodeSzEntry 10}
+
+sr1645v2XELPUsCodeSzValue OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "bytes"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.usRSCodewordSize
+
+       unit name = bytes"
+   ::= {sr1645v2XELPUsCodeSzEntry 2147483648}
+
+
+sr1645v2XELPUsCodeRedSz OBJECT IDENTIFIER ::= {sr1645v2XELP 26}
+
+sr1645v2XELPUsCodeRedSzTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPUsCodeRedSzEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Actual number of Read-Solomon redundancy bytes"
+   ::= {sr1645v2XELPUsCodeRedSz 1}
+
+sr1645v2XELPUsCodeRedSzEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPUsCodeRedSzEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPUsCodeRedSzGlobalIx }
+   ::= {sr1645v2XELPUsCodeRedSzTable 1}
+
+Sr1645v2XELPUsCodeRedSzEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPUsCodeRedSzGlobalIx
+         GlobalIndex,
+      sr1645v2XELPUsCodeRedSzValue
+         INTEGER
+      }
+
+sr1645v2XELPUsCodeRedSzGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPUsCodeRedSzEntry 10}
+
+sr1645v2XELPUsCodeRedSzValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noRSCoding (0)
+               }
+   UNITS       "bytes"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.usRSCodewordRedundancySize
+
+       unit name = bytes
+
+       Possibilities:
+               noRSCoding   (0)"
+   ::= {sr1645v2XELPUsCodeRedSzEntry 2147483648}
+
+
+sr1645v2XELPUsSymbolSize OBJECT IDENTIFIER ::= {sr1645v2XELP 27}
+
+sr1645v2XELPUsSymbolSizeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPUsSymbolSizeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Actual number of bits per symbol; maximum value 3825 for ADSL2 and 7665 for ADSL2+"
+   ::= {sr1645v2XELPUsSymbolSize 1}
+
+sr1645v2XELPUsSymbolSizeEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPUsSymbolSizeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPUsSymbolSizeGlobalIx }
+   ::= {sr1645v2XELPUsSymbolSizeTable 1}
+
+Sr1645v2XELPUsSymbolSizeEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPUsSymbolSizeGlobalIx
+         GlobalIndex,
+      sr1645v2XELPUsSymbolSizeValue
+         Integer32
+      }
+
+sr1645v2XELPUsSymbolSizeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPUsSymbolSizeEntry 10}
+
+sr1645v2XELPUsSymbolSizeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "bits"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.usSymbolSize
+
+       unit name = bits"
+   ::= {sr1645v2XELPUsSymbolSizeEntry 2147483648}
+
+
+sr1645v2XELPUsIntDepth OBJECT IDENTIFIER ::= {sr1645v2XELP 12}
+
+sr1645v2XELPUsIntDepthTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPUsIntDepthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Actual interleaving depth"
+   ::= {sr1645v2XELPUsIntDepth 1}
+
+sr1645v2XELPUsIntDepthEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPUsIntDepthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPUsIntDepthGlobalIx }
+   ::= {sr1645v2XELPUsIntDepthTable 1}
+
+Sr1645v2XELPUsIntDepthEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPUsIntDepthGlobalIx
+         GlobalIndex,
+      sr1645v2XELPUsIntDepthValue
+         INTEGER
+      }
+
+sr1645v2XELPUsIntDepthGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPUsIntDepthEntry 10}
+
+sr1645v2XELPUsIntDepthValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notAvailable (0),
+               noInterleaving (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.usInterleaveDepth
+
+       Possibilities:
+               notAvailable   (0)
+               noInterleaving   (1)"
+   ::= {sr1645v2XELPUsIntDepthEntry 2147483648}
+
+
+sr1645v2XELPUsIntBlockL OBJECT IDENTIFIER ::= {sr1645v2XELP 28}
+
+sr1645v2XELPUsIntBlockLTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPUsIntBlockLEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Actal interleaving block length"
+   ::= {sr1645v2XELPUsIntBlockL 1}
+
+sr1645v2XELPUsIntBlockLEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPUsIntBlockLEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPUsIntBlockLGlobalIx }
+   ::= {sr1645v2XELPUsIntBlockLTable 1}
+
+Sr1645v2XELPUsIntBlockLEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPUsIntBlockLGlobalIx
+         GlobalIndex,
+      sr1645v2XELPUsIntBlockLValue
+         INTEGER
+      }
+
+sr1645v2XELPUsIntBlockLGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPUsIntBlockLEntry 10}
+
+sr1645v2XELPUsIntBlockLValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noInterleaving (0)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.usInterleaveBlockLength
+
+       Possibilities:
+               noInterleaving   (0)"
+   ::= {sr1645v2XELPUsIntBlockLEntry 2147483648}
+
+
+sr1645v2XELPUsLatPath OBJECT IDENTIFIER ::= {sr1645v2XELP 29}
+
+sr1645v2XELPUsLatPathTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPUsLatPathEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Actual latency path"
+   ::= {sr1645v2XELPUsLatPath 1}
+
+sr1645v2XELPUsLatPathEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPUsLatPathEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPUsLatPathGlobalIx }
+   ::= {sr1645v2XELPUsLatPathTable 1}
+
+Sr1645v2XELPUsLatPathEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPUsLatPathGlobalIx
+         GlobalIndex,
+      sr1645v2XELPUsLatPathValue
+         Integer32
+      }
+
+sr1645v2XELPUsLatPathGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPUsLatPathEntry 10}
+
+sr1645v2XELPUsLatPathValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.usLatencyPath"
+   ::= {sr1645v2XELPUsLatPathEntry 2147483648}
+
+
+sr1645v2XELPSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2XELP 269}
+
+sr1645v2XELPSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2XELPSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2XELPSnmpIndex 1}
+
+sr1645v2XELPSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2XELPSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2XELPSnmpIndexGlobalIx }
+   ::= {sr1645v2XELPSnmpIndexTable 1}
+
+Sr1645v2XELPSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2XELPSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2XELPSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2XELPSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2XELPSnmpIndexEntry 10}
+
+sr1645v2XELPSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.snmpIndex"
+   ::= {sr1645v2XELPSnmpIndexEntry 2147483648}
+
+
+
+pr1645v2XELP OBJECT IDENTIFIER ::= {r1645v2XELP 12}
+
+
+pr1645v2XELPH2Params OBJECT IDENTIFIER ::= {pr1645v2XELP 40}
+
+pr1645v2XELPH2ParamsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2XELPH2ParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h2LineParameters"
+   ::= {pr1645v2XELPH2Params 1}
+
+pr1645v2XELPH2ParamsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2XELPH2ParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2XELPH2ParamsGlobalIx,
+                pr1645v2XELPH2ParamsTableIx }
+   ::= {pr1645v2XELPH2ParamsSSCTable 1}
+
+Pr1645v2XELPH2ParamsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2XELPH2ParamsGlobalIx
+         GlobalIndex,
+      pr1645v2XELPH2ParamsTableIx
+         TableIndex,
+      pr1645v2XELPH2ParamsSysUpTime
+         TimeTicks,
+      pr1645v2XELPH2ParamsLineAttMin
+         Integer32,
+      pr1645v2XELPH2ParamsLineAttAvrg
+         Integer32,
+      pr1645v2XELPH2ParamsLineAttMax
+         Integer32,
+      pr1645v2XELPH2ParamsSnrMin
+         Integer32,
+      pr1645v2XELPH2ParamsSnrAvrg
+         Integer32,
+      pr1645v2XELPH2ParamsSnrMax
+         Integer32
+      }
+
+pr1645v2XELPH2ParamsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2XELPH2ParamsEntry 10}
+
+pr1645v2XELPH2ParamsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2XELPH2ParamsEntry 11}
+
+pr1645v2XELPH2ParamsSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH2ParamsEntry 16777216}
+
+pr1645v2XELPH2ParamsLineAttMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.lineAttenuationMin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPH2ParamsEntry 33554432}
+
+pr1645v2XELPH2ParamsLineAttAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.lineAttenuationAvrg
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPH2ParamsEntry 50331648}
+
+pr1645v2XELPH2ParamsLineAttMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.lineAttenuationMax
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPH2ParamsEntry 67108864}
+
+pr1645v2XELPH2ParamsSnrMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.noiseMarginMin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPH2ParamsEntry 83886080}
+
+pr1645v2XELPH2ParamsSnrAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.noiseMarginAvrg
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPH2ParamsEntry 100663296}
+
+pr1645v2XELPH2ParamsSnrMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.noiseMarginMax
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPH2ParamsEntry 117440512}
+
+
+pr1645v2XELPH2Perf OBJECT IDENTIFIER ::= {pr1645v2XELP 41}
+
+pr1645v2XELPH2PerfSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2XELPH2PerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h2Performance"
+   ::= {pr1645v2XELPH2Perf 1}
+
+pr1645v2XELPH2PerfEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2XELPH2PerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2XELPH2PerfGlobalIx,
+                pr1645v2XELPH2PerfTableIx }
+   ::= {pr1645v2XELPH2PerfSSCTable 1}
+
+Pr1645v2XELPH2PerfEntry ::=
+   SEQUENCE
+      {
+      pr1645v2XELPH2PerfGlobalIx
+         GlobalIndex,
+      pr1645v2XELPH2PerfTableIx
+         TableIndex,
+      pr1645v2XELPH2PerfSysUpTime
+         TimeTicks,
+      pr1645v2XELPH2PerfCViol
+         Counter32,
+      pr1645v2XELPH2PerfErrSec
+         TimeTicks,
+      pr1645v2XELPH2PerfSevErrSec
+         TimeTicks,
+      pr1645v2XELPH2PerfUnavSec
+         TimeTicks,
+      pr1645v2XELPH2PerfLoswSec
+         TimeTicks,
+      pr1645v2XELPH2PerfMSec
+         TimeTicks
+      }
+
+pr1645v2XELPH2PerfGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2XELPH2PerfEntry 10}
+
+pr1645v2XELPH2PerfTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2XELPH2PerfEntry 11}
+
+pr1645v2XELPH2PerfSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH2PerfEntry 16777216}
+
+pr1645v2XELPH2PerfCViol OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.codeViolations
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2XELPH2PerfEntry 33554432}
+
+pr1645v2XELPH2PerfErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.errSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH2PerfEntry 50331648}
+
+pr1645v2XELPH2PerfSevErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.sevErrSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH2PerfEntry 67108864}
+
+pr1645v2XELPH2PerfUnavSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.unavailSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH2PerfEntry 83886080}
+
+pr1645v2XELPH2PerfLoswSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.loswSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH2PerfEntry 100663296}
+
+pr1645v2XELPH2PerfMSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.moniSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH2PerfEntry 134217728}
+
+
+pr1645v2XELPH24Params OBJECT IDENTIFIER ::= {pr1645v2XELP 42}
+
+pr1645v2XELPH24ParamsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2XELPH24ParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h24LineParameters"
+   ::= {pr1645v2XELPH24Params 1}
+
+pr1645v2XELPH24ParamsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2XELPH24ParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2XELPH24ParamsGlobalIx,
+                pr1645v2XELPH24ParamsTableIx }
+   ::= {pr1645v2XELPH24ParamsSSCTable 1}
+
+Pr1645v2XELPH24ParamsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2XELPH24ParamsGlobalIx
+         GlobalIndex,
+      pr1645v2XELPH24ParamsTableIx
+         TableIndex,
+      pr1645v2XELPH24ParamsSysUpTime
+         TimeTicks,
+      pr1645v2XELPH24ParamsLineAttMin
+         Integer32,
+      pr1645v2XELPH24ParamsLineAttAvrg
+         Integer32,
+      pr1645v2XELPH24ParamsLineAttMax
+         Integer32,
+      pr1645v2XELPH24ParamsSnrMin
+         Integer32,
+      pr1645v2XELPH24ParamsSnrAvrg
+         Integer32,
+      pr1645v2XELPH24ParamsSnrMax
+         Integer32
+      }
+
+pr1645v2XELPH24ParamsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2XELPH24ParamsEntry 10}
+
+pr1645v2XELPH24ParamsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2XELPH24ParamsEntry 11}
+
+pr1645v2XELPH24ParamsSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH24ParamsEntry 16777216}
+
+pr1645v2XELPH24ParamsLineAttMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.lineAttenuationMin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPH24ParamsEntry 33554432}
+
+pr1645v2XELPH24ParamsLineAttAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.lineAttenuationAvrg
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPH24ParamsEntry 50331648}
+
+pr1645v2XELPH24ParamsLineAttMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.lineAttenuationMax
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPH24ParamsEntry 67108864}
+
+pr1645v2XELPH24ParamsSnrMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.noiseMarginMin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPH24ParamsEntry 83886080}
+
+pr1645v2XELPH24ParamsSnrAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.noiseMarginAvrg
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPH24ParamsEntry 100663296}
+
+pr1645v2XELPH24ParamsSnrMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.noiseMarginMax
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPH24ParamsEntry 117440512}
+
+
+pr1645v2XELPH24Perf OBJECT IDENTIFIER ::= {pr1645v2XELP 43}
+
+pr1645v2XELPH24PerfSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2XELPH24PerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h24Performance"
+   ::= {pr1645v2XELPH24Perf 1}
+
+pr1645v2XELPH24PerfEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2XELPH24PerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2XELPH24PerfGlobalIx,
+                pr1645v2XELPH24PerfTableIx }
+   ::= {pr1645v2XELPH24PerfSSCTable 1}
+
+Pr1645v2XELPH24PerfEntry ::=
+   SEQUENCE
+      {
+      pr1645v2XELPH24PerfGlobalIx
+         GlobalIndex,
+      pr1645v2XELPH24PerfTableIx
+         TableIndex,
+      pr1645v2XELPH24PerfSysUpTime
+         TimeTicks,
+      pr1645v2XELPH24PerfCViol
+         Counter32,
+      pr1645v2XELPH24PerfErrSec
+         TimeTicks,
+      pr1645v2XELPH24PerfSevErrSec
+         TimeTicks,
+      pr1645v2XELPH24PerfUnavSec
+         TimeTicks,
+      pr1645v2XELPH24PerfLoswSec
+         TimeTicks,
+      pr1645v2XELPH24PerfMSec
+         TimeTicks
+      }
+
+pr1645v2XELPH24PerfGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2XELPH24PerfEntry 10}
+
+pr1645v2XELPH24PerfTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2XELPH24PerfEntry 11}
+
+pr1645v2XELPH24PerfSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH24PerfEntry 16777216}
+
+pr1645v2XELPH24PerfCViol OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.codeViolations
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2XELPH24PerfEntry 33554432}
+
+pr1645v2XELPH24PerfErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.errSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH24PerfEntry 50331648}
+
+pr1645v2XELPH24PerfSevErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.sevErrSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH24PerfEntry 67108864}
+
+pr1645v2XELPH24PerfUnavSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.unavailSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH24PerfEntry 83886080}
+
+pr1645v2XELPH24PerfLoswSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.loswSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH24PerfEntry 100663296}
+
+pr1645v2XELPH24PerfMSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.moniSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPH24PerfEntry 134217728}
+
+
+pr1645v2XELPD7Params OBJECT IDENTIFIER ::= {pr1645v2XELP 44}
+
+pr1645v2XELPD7ParamsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2XELPD7ParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "d7LineParameters"
+   ::= {pr1645v2XELPD7Params 1}
+
+pr1645v2XELPD7ParamsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2XELPD7ParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2XELPD7ParamsGlobalIx,
+                pr1645v2XELPD7ParamsTableIx }
+   ::= {pr1645v2XELPD7ParamsSSCTable 1}
+
+Pr1645v2XELPD7ParamsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2XELPD7ParamsGlobalIx
+         GlobalIndex,
+      pr1645v2XELPD7ParamsTableIx
+         TableIndex,
+      pr1645v2XELPD7ParamsSysUpTime
+         TimeTicks,
+      pr1645v2XELPD7ParamsLineAttMin
+         Integer32,
+      pr1645v2XELPD7ParamsLineAttAvrg
+         Integer32,
+      pr1645v2XELPD7ParamsLineAttMax
+         Integer32,
+      pr1645v2XELPD7ParamsSnrMin
+         Integer32,
+      pr1645v2XELPD7ParamsSnrAvrg
+         Integer32,
+      pr1645v2XELPD7ParamsSnrMax
+         Integer32
+      }
+
+pr1645v2XELPD7ParamsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2XELPD7ParamsEntry 10}
+
+pr1645v2XELPD7ParamsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2XELPD7ParamsEntry 11}
+
+pr1645v2XELPD7ParamsSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2XELPD7ParamsEntry 16777216}
+
+pr1645v2XELPD7ParamsLineAttMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.lineAttenuationMin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPD7ParamsEntry 33554432}
+
+pr1645v2XELPD7ParamsLineAttAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.lineAttenuationAvrg
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPD7ParamsEntry 50331648}
+
+pr1645v2XELPD7ParamsLineAttMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.lineAttenuationMax
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPD7ParamsEntry 67108864}
+
+pr1645v2XELPD7ParamsSnrMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.noiseMarginMin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPD7ParamsEntry 83886080}
+
+pr1645v2XELPD7ParamsSnrAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.noiseMarginAvrg
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPD7ParamsEntry 100663296}
+
+pr1645v2XELPD7ParamsSnrMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.noiseMarginMax
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPD7ParamsEntry 117440512}
+
+
+pr1645v2XELPD7Perf OBJECT IDENTIFIER ::= {pr1645v2XELP 45}
+
+pr1645v2XELPD7PerfSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2XELPD7PerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "d7Performance"
+   ::= {pr1645v2XELPD7Perf 1}
+
+pr1645v2XELPD7PerfEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2XELPD7PerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2XELPD7PerfGlobalIx,
+                pr1645v2XELPD7PerfTableIx }
+   ::= {pr1645v2XELPD7PerfSSCTable 1}
+
+Pr1645v2XELPD7PerfEntry ::=
+   SEQUENCE
+      {
+      pr1645v2XELPD7PerfGlobalIx
+         GlobalIndex,
+      pr1645v2XELPD7PerfTableIx
+         TableIndex,
+      pr1645v2XELPD7PerfSysUpTime
+         TimeTicks,
+      pr1645v2XELPD7PerfCViol
+         Counter32,
+      pr1645v2XELPD7PerfErrSec
+         TimeTicks,
+      pr1645v2XELPD7PerfSevErrSec
+         TimeTicks,
+      pr1645v2XELPD7PerfUnavSec
+         TimeTicks,
+      pr1645v2XELPD7PerfLoswSec
+         TimeTicks,
+      pr1645v2XELPD7PerfMSec
+         TimeTicks
+      }
+
+pr1645v2XELPD7PerfGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2XELPD7PerfEntry 10}
+
+pr1645v2XELPD7PerfTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2XELPD7PerfEntry 11}
+
+pr1645v2XELPD7PerfSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2XELPD7PerfEntry 16777216}
+
+pr1645v2XELPD7PerfCViol OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.codeViolations
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2XELPD7PerfEntry 33554432}
+
+pr1645v2XELPD7PerfErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.errSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPD7PerfEntry 50331648}
+
+pr1645v2XELPD7PerfSevErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.sevErrSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPD7PerfEntry 67108864}
+
+pr1645v2XELPD7PerfUnavSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.unavailSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPD7PerfEntry 83886080}
+
+pr1645v2XELPD7PerfLoswSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.loswSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPD7PerfEntry 100663296}
+
+pr1645v2XELPD7PerfMSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.moniSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPD7PerfEntry 134217728}
+
+
+pr1645v2XELPParams OBJECT IDENTIFIER ::= {pr1645v2XELP 46}
+
+pr1645v2XELPParamsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2XELPParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "lineParameters"
+   ::= {pr1645v2XELPParams 1}
+
+pr1645v2XELPParamsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2XELPParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2XELPParamsGlobalIx }
+   ::= {pr1645v2XELPParamsSSCTable 1}
+
+Pr1645v2XELPParamsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2XELPParamsGlobalIx
+         GlobalIndex,
+      pr1645v2XELPParamsLineAtt
+         Integer32,
+      pr1645v2XELPParamsSnr
+         Integer32
+      }
+
+pr1645v2XELPParamsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2XELPParamsEntry 10}
+
+pr1645v2XELPParamsLineAtt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.lineParameters.lineAttenuation
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPParamsEntry 16777216}
+
+pr1645v2XELPParamsSnr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.lineParameters.noiseMargin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2XELPParamsEntry 33554432}
+
+
+pr1645v2XELPPerf OBJECT IDENTIFIER ::= {pr1645v2XELP 47}
+
+pr1645v2XELPPerfSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2XELPPerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "linePerformance"
+   ::= {pr1645v2XELPPerf 1}
+
+pr1645v2XELPPerfEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2XELPPerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2XELPPerfGlobalIx }
+   ::= {pr1645v2XELPPerfSSCTable 1}
+
+Pr1645v2XELPPerfEntry ::=
+   SEQUENCE
+      {
+      pr1645v2XELPPerfGlobalIx
+         GlobalIndex,
+      pr1645v2XELPPerfCViol
+         Counter32,
+      pr1645v2XELPPerfErrSec
+         TimeTicks,
+      pr1645v2XELPPerfSevErrSec
+         TimeTicks,
+      pr1645v2XELPPerfUnavSec
+         TimeTicks,
+      pr1645v2XELPPerfLoswSec
+         TimeTicks
+      }
+
+pr1645v2XELPPerfGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2XELPPerfEntry 10}
+
+pr1645v2XELPPerfCViol OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.performance.codeViolations
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2XELPPerfEntry 16777216}
+
+pr1645v2XELPPerfErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.performance.errSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPPerfEntry 33554432}
+
+pr1645v2XELPPerfSevErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.performance.sevErrSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPPerfEntry 50331648}
+
+pr1645v2XELPPerfUnavSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.performance.unavailSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPPerfEntry 67108864}
+
+pr1645v2XELPPerfLoswSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.performance.loswSec
+
+       Time in centi-second."
+   ::= {pr1645v2XELPPerfEntry 83886080}
+
+
+
+ar1645v2XELP OBJECT IDENTIFIER ::= {r1645v2XELP 16}
+
+
+ar1645v2XELPClearCounters OBJECT IDENTIFIER ::= {ar1645v2XELP 263}
+
+ar1645v2XELPClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2XELPClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1645v2XELPClearCounters 1}
+
+ar1645v2XELPClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2XELPClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2XELPClearCountersGlobalIx }
+   ::= {ar1645v2XELPClearCountersTable 1}
+
+Ar1645v2XELPClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1645v2XELPClearCountersGlobalIx
+         GlobalIndex,
+      ar1645v2XELPClearCountersValue
+         Integer32
+      }
+
+ar1645v2XELPClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2XELPClearCountersEntry 10}
+
+ar1645v2XELPClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.actions.clearCounters"
+   ::= {ar1645v2XELPClearCountersEntry 2147483648}
+
+
+
+END

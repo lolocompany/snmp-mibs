@@ -1,0 +1,1602 @@
+OneAccess-R1645v2-4825-SfpIf DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2SfpIf OBJECT IDENTIFIER ::= {r1645Rootv2 4825}
+
+r1645v2SfpIfMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2SfpIfMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2SfpIf 1}
+
+r1645v2SfpIfMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2SfpIfMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2SfpIfMOPropGlobalIx }
+   ::= {r1645v2SfpIfMOProp 1}
+
+R1645v2SfpIfMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2SfpIfMOPropPath
+         ContainmentPath,
+      r1645v2SfpIfMOPropRev
+         ObjectRevision,
+      r1645v2SfpIfMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2SfpIfMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2SfpIfMOPropEntry 3}
+
+r1645v2SfpIfMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2SfpIfMOPropEntry 4}
+
+r1645v2SfpIfMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2SfpIfMOPropEntry 10}
+
+
+
+er1645v2SfpIf OBJECT IDENTIFIER ::= {r1645v2SfpIf 11}
+
+
+er1645v2SfpIfAlarmMask OBJECT IDENTIFIER ::= {er1645v2SfpIf 135}
+
+er1645v2SfpIfAlarmMaskTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2SfpIfAlarmMaskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "AlarmMask for SFP modules"
+   ::= {er1645v2SfpIfAlarmMask 1}
+
+er1645v2SfpIfAlarmMaskEntry OBJECT-TYPE
+   SYNTAX      Er1645v2SfpIfAlarmMaskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2SfpIfAlarmMaskGlobalIx }
+   ::= {er1645v2SfpIfAlarmMaskTable 1}
+
+Er1645v2SfpIfAlarmMaskEntry ::=
+   SEQUENCE
+      {
+      er1645v2SfpIfAlarmMaskGlobalIx
+         GlobalIndex,
+      er1645v2SfpIfAlarmMaskValue
+         Integer32
+      }
+
+er1645v2SfpIfAlarmMaskGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2SfpIfAlarmMaskEntry 10}
+
+er1645v2SfpIfAlarmMaskValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.editConf.alarmMask
+
+       Bit meanings:
+               bit 0 = notPresent,
+               bit 1 = lossOfSignal,
+               bit 2 = notSupported"
+   ::= {er1645v2SfpIfAlarmMaskEntry 2147483648}
+
+
+er1645v2SfpIfAlarmLevel OBJECT IDENTIFIER ::= {er1645v2SfpIf 170}
+
+er1645v2SfpIfAlarmLevelSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2SfpIfAlarmLevelEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "AlarmLevels for SFP modules"
+   ::= {er1645v2SfpIfAlarmLevel 1}
+
+er1645v2SfpIfAlarmLevelEntry OBJECT-TYPE
+   SYNTAX      Er1645v2SfpIfAlarmLevelEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2SfpIfAlarmLevelGlobalIx }
+   ::= {er1645v2SfpIfAlarmLevelSSCTable 1}
+
+Er1645v2SfpIfAlarmLevelEntry ::=
+   SEQUENCE
+      {
+      er1645v2SfpIfAlarmLevelGlobalIx
+         GlobalIndex,
+      er1645v2SfpIfAlarmLevelNotPresent
+         Integer32,
+      er1645v2SfpIfAlarmLevelLossOfSignal
+         Integer32,
+      er1645v2SfpIfAlarmLevelNotSupported
+         Integer32
+      }
+
+er1645v2SfpIfAlarmLevelGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2SfpIfAlarmLevelEntry 10}
+
+er1645v2SfpIfAlarmLevelNotPresent OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.editConf.alarmLevel.notPresent"
+   ::= {er1645v2SfpIfAlarmLevelEntry 16777216}
+
+er1645v2SfpIfAlarmLevelLossOfSignal OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.editConf.alarmLevel.lossOfSignal"
+   ::= {er1645v2SfpIfAlarmLevelEntry 33554432}
+
+er1645v2SfpIfAlarmLevelNotSupported OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.editConf.alarmLevel.notSupported"
+   ::= {er1645v2SfpIfAlarmLevelEntry 50331648}
+
+
+er1645v2SfpIfDetection OBJECT IDENTIFIER ::= {er1645v2SfpIf 6}
+
+er1645v2SfpIfDetectionSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2SfpIfDetectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SFP detection related parameters"
+   ::= {er1645v2SfpIfDetection 1}
+
+er1645v2SfpIfDetectionEntry OBJECT-TYPE
+   SYNTAX      Er1645v2SfpIfDetectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2SfpIfDetectionGlobalIx }
+   ::= {er1645v2SfpIfDetectionSSCTable 1}
+
+Er1645v2SfpIfDetectionEntry ::=
+   SEQUENCE
+      {
+      er1645v2SfpIfDetectionGlobalIx
+         GlobalIndex,
+      er1645v2SfpIfDetectionMode
+         INTEGER,
+      er1645v2SfpIfDetectionDelay
+         TimeTicks
+      }
+
+er1645v2SfpIfDetectionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2SfpIfDetectionEntry 10}
+
+er1645v2SfpIfDetectionMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               normal (0),
+               alwaysTrue (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.editConf.detection.mode
+
+       Possibilities:
+               normal   (0)
+               alwaysTrue   (1)"
+   ::= {er1645v2SfpIfDetectionEntry 16777216}
+
+er1645v2SfpIfDetectionDelay OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.editConf.detection.delay
+
+       Time in centi-second."
+   ::= {er1645v2SfpIfDetectionEntry 33554432}
+
+
+er1645v2SfpIfMode OBJECT IDENTIFIER ::= {er1645v2SfpIf 7}
+
+er1645v2SfpIfModeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2SfpIfModeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SFP I/F mode"
+   ::= {er1645v2SfpIfMode 1}
+
+er1645v2SfpIfModeEntry OBJECT-TYPE
+   SYNTAX      Er1645v2SfpIfModeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2SfpIfModeGlobalIx }
+   ::= {er1645v2SfpIfModeTable 1}
+
+Er1645v2SfpIfModeEntry ::=
+   SEQUENCE
+      {
+      er1645v2SfpIfModeGlobalIx
+         GlobalIndex,
+      er1645v2SfpIfModeValue
+         INTEGER
+      }
+
+er1645v2SfpIfModeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2SfpIfModeEntry 10}
+
+er1645v2SfpIfModeValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               auto (1),
+               s100BasemFx (2),
+               s1000BasemX (3),
+               sgmii (4),
+               autoFallback (5)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.editConf.mode
+
+       Possibilities:
+               auto   (1)
+               100Base-Fx   (2)
+               1000Base-X   (3)
+               sgmii   (4)
+               autoFallback   (5)"
+   ::= {er1645v2SfpIfModeEntry 2147483648}
+
+
+
+sr1645v2SfpIf OBJECT IDENTIFIER ::= {r1645v2SfpIf 14}
+
+
+sr1645v2SfpIfSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2SfpIf 269}
+
+sr1645v2SfpIfSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2SfpIfSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2SfpIfSnmpIndex 1}
+
+sr1645v2SfpIfSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2SfpIfSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2SfpIfSnmpIndexGlobalIx }
+   ::= {sr1645v2SfpIfSnmpIndexTable 1}
+
+Sr1645v2SfpIfSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2SfpIfSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2SfpIfSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2SfpIfSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2SfpIfSnmpIndexEntry 10}
+
+sr1645v2SfpIfSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.snmpIndex"
+   ::= {sr1645v2SfpIfSnmpIndexEntry 2147483648}
+
+
+sr1645v2SfpIfInventory OBJECT IDENTIFIER ::= {sr1645v2SfpIf 1}
+
+sr1645v2SfpIfInventorySSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2SfpIfInventoryEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2SfpIfInventory 1}
+
+sr1645v2SfpIfInventoryEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2SfpIfInventoryEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2SfpIfInventoryGlobalIx }
+   ::= {sr1645v2SfpIfInventorySSCTable 1}
+
+Sr1645v2SfpIfInventoryEntry ::=
+   SEQUENCE
+      {
+      sr1645v2SfpIfInventoryGlobalIx
+         GlobalIndex,
+      sr1645v2SfpIfInventoryPresence
+         INTEGER,
+      sr1645v2SfpIfInventoryIdentifier
+         INTEGER,
+      sr1645v2SfpIfInventoryTransceiverSonetOc48
+         INTEGER,
+      sr1645v2SfpIfInventoryTransceiverSonetOc12u3
+         INTEGER,
+      sr1645v2SfpIfInventoryTransceiverEthernet
+         Integer32,
+      sr1645v2SfpIfInventoryTransceiverFiberLinkLen
+         INTEGER,
+      sr1645v2SfpIfInventoryTransceiverFiberTech
+         INTEGER,
+      sr1645v2SfpIfInventoryTransceiverFiberTxMedia
+         INTEGER,
+      sr1645v2SfpIfInventoryTransceiverFiberSpeed
+         INTEGER,
+      sr1645v2SfpIfInventoryNominalBitrate
+         INTEGER,
+      sr1645v2SfpIfInventoryOpticalLinkLength
+         INTEGER,
+      sr1645v2SfpIfInventoryWaveLength
+         INTEGER,
+      sr1645v2SfpIfInventoryVendorName
+         DisplayString,
+      sr1645v2SfpIfInventoryPartNumber
+         DisplayString,
+      sr1645v2SfpIfInventoryRevision
+         DisplayString,
+      sr1645v2SfpIfInventorySerialNumber
+         DisplayString,
+      sr1645v2SfpIfInventoryDate
+         DisplayString,
+      sr1645v2SfpIfInventoryDiagnosticMonitoring
+         INTEGER,
+      sr1645v2SfpIfInventoryTemperature
+         INTEGER,
+      sr1645v2SfpIfInventorySupplyVoltage
+         INTEGER,
+      sr1645v2SfpIfInventoryTxBiasCurrent
+         INTEGER,
+      sr1645v2SfpIfInventoryTxOpticalPower
+         INTEGER,
+      sr1645v2SfpIfInventoryRxOpticalPower
+         INTEGER
+      }
+
+sr1645v2SfpIfInventoryGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2SfpIfInventoryEntry 10}
+
+sr1645v2SfpIfInventoryPresence OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1),
+               alwaysTrue (2),
+               waiting (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.presence
+
+       Possibilities:
+               no   (0)
+               yes   (1)
+               alwaysTrue   (2)
+               waiting   (3)"
+   ::= {sr1645v2SfpIfInventoryEntry 16777216}
+
+sr1645v2SfpIfInventoryIdentifier OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notAvailable (0),
+               gBIC (1),
+               modulessolderedstosmotherboard (2),
+               sFPstransceiver (3),
+               s300spinsXBI (4),
+               xENPAK (5),
+               xFP (6),
+               xFF (7),
+               xFPmE (8),
+               xPAK (9),
+               x2 (10),
+               dWDMmSFP (11),
+               qSFP (12),
+               qSFPp (13),
+               cXP (14),
+               shieldedsMinisMultilanesHDs4X (15),
+               shieldedsMinisMultilanesHDs8X (16),
+               error (255)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.identifier
+
+       Possibilities:
+               notAvailable   (0)
+               GBIC   (1)
+               Module soldered to motherboard   (2)
+               SFP transceiver   (3)
+               300 pin XBI   (4)
+               XENPAK   (5)
+               XFP   (6)
+               XFF   (7)
+               XFP-E   (8)
+               XPAK   (9)
+               X2   (10)
+               DWDM-SFP   (11)
+               QSFP   (12)
+               QSFP+   (13)
+               CXP   (14)
+               Shielded Mini Multilane HD 4X   (15)
+               Shielded Mini Multilane HD 8X   (16)
+               error   (255)"
+   ::= {sr1645v2SfpIfInventoryEntry 33554432}
+
+sr1645v2SfpIfInventoryTransceiverSonetOc48 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               oC48slongsreach (4),
+               oC48sintermediatesreach (2),
+               oC48sshortsreach (1),
+               notAvailable (0)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.transceiver.sonetOc48
+
+       Possibilities:
+               OC48, long reach   (4)
+               OC48, intermediate reach   (2)
+               OC48, short reach   (1)
+               notAvailable   (0)"
+   ::= {sr1645v2SfpIfInventoryEntry 285278208}
+
+sr1645v2SfpIfInventoryTransceiverSonetOc12u3 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               oCs12ssinglesmodeslongsreach (64),
+               oCs12ssinglesmodesinterdsreach (32),
+               oCs12ssinglesmodesshortsreach (16),
+               oCs3ssinglesmodeslongsreach (4),
+               oCs3ssinglesmodesinterdsreach (2),
+               oCs3ssinglesmodesshortsreach (1),
+               notAvailable (0)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.transceiver.sonetOc12_3
+
+       Possibilities:
+               OC 12, single mode long reach   (64)
+               OC 12, single mode inter. reach   (32)
+               OC 12, single mode short reach   (16)
+               OC 3, single mode long reach   (4)
+               OC 3, single mode inter. reach   (2)
+               OC 3, single mode short reach   (1)
+               notAvailable   (0)"
+   ::= {sr1645v2SfpIfInventoryEntry 285343744}
+
+sr1645v2SfpIfInventoryTransceiverEthernet OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.transceiver.ethernet
+
+       Bit meanings:
+               bit 0 = 1000BASE-SX,
+               bit 1 = 1000BASE-LX,
+               bit 2 = 1000BASE-CX,
+               bit 3 = 1000BASE-T,
+               bit 4 = 100BASE-LX/LX10,
+               bit 5 = 100BASE-FX,
+               bit 6 = BASE-BX10,
+               bit 7 = BASE-PX"
+   ::= {sr1645v2SfpIfInventoryEntry 285409280}
+
+sr1645v2SfpIfInventoryTransceiverFiberLinkLen OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               veryslongsdistance (128),
+               shortsdistance (64),
+               intermediatesdistance (32),
+               longsdistance (16),
+               notAvailable (0)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.transceiver.fiberLinkLen
+
+       Possibilities:
+               very long distance   (128)
+               short distance   (64)
+               intermediate distance   (32)
+               long distance   (16)
+               notAvailable   (0)"
+   ::= {sr1645v2SfpIfInventoryEntry 285474816}
+
+sr1645v2SfpIfInventoryTransceiverFiberTech OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               longwaveslasersLC (512),
+               electricalsintermenclosure (256),
+               electricalsintramenclosure (128),
+               shortwaveslaserswosOFC (64),
+               shortwaveslaserswsOFC (32),
+               longwaveslasersLL (16),
+               notAvailable (0)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.transceiver.fiberTech
+
+       Possibilities:
+               Longwave laser (LC)   (512)
+               Electrical inter-enclosure   (256)
+               Electrical intra-enclosure   (128)
+               Shortwave laser w/o OFC   (64)
+               Shortwave laser w/ OFC   (32)
+               Longwave laser (LL)   (16)
+               notAvailable   (0)"
+   ::= {sr1645v2SfpIfInventoryEntry 285540352}
+
+sr1645v2SfpIfInventoryTransceiverFiberTxMedia OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               twinsAxialsPair (128),
+               shieldedsTwistedsPair (64),
+               miniaturesCoax (32),
+               videosCoax (16),
+               multimModes62d5m (8),
+               multimModes50m (4),
+               singlesMode (1),
+               notAvailable (0)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.transceiver.fiberTxMedia
+
+       Possibilities:
+               Twin Axial Pair   (128)
+               Shielded Twisted Pair   (64)
+               Miniature Coax   (32)
+               Video Coax   (16)
+               Multi-Mode, 62.5m   (8)
+               Multi-Mode, 50m   (4)
+               Single Mode   (1)
+               notAvailable   (0)"
+   ::= {sr1645v2SfpIfInventoryEntry 285605888}
+
+sr1645v2SfpIfInventoryTransceiverFiberSpeed OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s400sMBytesSec (16),
+               s200sMBytesSec (4),
+               s100sMBytesSec (1),
+               notAvailable (0)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.transceiver.fiberSpeed
+
+       Possibilities:
+               400 MBytes/Sec   (16)
+               200 MBytes/Sec   (4)
+               100 MBytes/Sec   (1)
+               notAvailable   (0)"
+   ::= {sr1645v2SfpIfInventoryEntry 285671424}
+
+sr1645v2SfpIfInventoryNominalBitrate OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unspecified (0),
+               notAvailable (65536)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.nominalBitrate
+
+       unit name = Mbps
+       formula = 100 * ; 100 /
+
+       Possibilities:
+               unspecified   (0)
+               notAvailable   (65536)"
+   ::= {sr1645v2SfpIfInventoryEntry 50331648}
+
+sr1645v2SfpIfInventoryOpticalLinkLength OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unspecified (0),
+               notAvailable (65536)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.opticalLinkLength
+
+       unit name = Km
+       formula = 1000 / ; 1000 *
+
+       Possibilities:
+               unspecified   (0)
+               notAvailable   (65536)"
+   ::= {sr1645v2SfpIfInventoryEntry 67108864}
+
+sr1645v2SfpIfInventoryWaveLength OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unspecified (0),
+               notAvailable (65536)
+               }
+   UNITS       "nm"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.waveLength
+
+       unit name = nm
+
+       Possibilities:
+               unspecified   (0)
+               notAvailable   (65536)"
+   ::= {sr1645v2SfpIfInventoryEntry 83886080}
+
+sr1645v2SfpIfInventoryVendorName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.vendorName"
+   ::= {sr1645v2SfpIfInventoryEntry 100663296}
+
+sr1645v2SfpIfInventoryPartNumber OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.partNumber"
+   ::= {sr1645v2SfpIfInventoryEntry 117440512}
+
+sr1645v2SfpIfInventoryRevision OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.revision"
+   ::= {sr1645v2SfpIfInventoryEntry 134217728}
+
+sr1645v2SfpIfInventorySerialNumber OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.serialNumber"
+   ::= {sr1645v2SfpIfInventoryEntry 150994944}
+
+sr1645v2SfpIfInventoryDate OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.date"
+   ::= {sr1645v2SfpIfInventoryEntry 167772160}
+
+sr1645v2SfpIfInventoryDiagnosticMonitoring OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notAvailable (0),
+               internalCalibration (1),
+               externalCalibration (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.diagnosticMonitoring
+
+       Possibilities:
+               notAvailable   (0)
+               internalCalibration   (1)
+               externalCalibration   (2)"
+   ::= {sr1645v2SfpIfInventoryEntry 184549376}
+
+sr1645v2SfpIfInventoryTemperature OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notAvailable (32767)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.temperature
+
+       unit name = �C
+       formula = 256 / ; 256 *
+
+       Possibilities:
+               notAvailable   (32767)"
+   ::= {sr1645v2SfpIfInventoryEntry 201326592}
+
+sr1645v2SfpIfInventorySupplyVoltage OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notAvailable (32767)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.supplyVoltage
+
+       unit name = V
+       formula = 10000 / ; 10000 *
+
+       Possibilities:
+               notAvailable   (32767)"
+   ::= {sr1645v2SfpIfInventoryEntry 218103808}
+
+sr1645v2SfpIfInventoryTxBiasCurrent OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notAvailable (32767)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.txBiasCurrent
+
+       unit name = mA
+       formula = 500 / ; 500 *
+
+       Possibilities:
+               notAvailable   (32767)"
+   ::= {sr1645v2SfpIfInventoryEntry 234881024}
+
+sr1645v2SfpIfInventoryTxOpticalPower OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notAvailable (32767)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.txOpticalPower
+
+       unit name = dBm
+       formula = 10000 / LOG 10 * ; 10 / EXP 10000 *
+
+       Possibilities:
+               notAvailable   (32767)"
+   ::= {sr1645v2SfpIfInventoryEntry 251658240}
+
+sr1645v2SfpIfInventoryRxOpticalPower OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notAvailable (32767)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.status.inventory.rxOpticalPower
+
+       unit name = dBm
+       formula = 10000 / LOG 10 * ; 10 / EXP 10000 *
+
+       Possibilities:
+               notAvailable   (32767)"
+   ::= {sr1645v2SfpIfInventoryEntry 268435456}
+
+
+
+fr1645v2SfpIf OBJECT IDENTIFIER ::= {r1645v2SfpIf 13}
+
+
+fr1645v2SfpIfAlarm OBJECT IDENTIFIER ::= {fr1645v2SfpIf 202}
+
+fr1645v2SfpIfAlarmSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Fr1645v2SfpIfAlarmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "AlarmInfo for SFP modules"
+   ::= {fr1645v2SfpIfAlarm 1}
+
+fr1645v2SfpIfAlarmEntry OBJECT-TYPE
+   SYNTAX      Fr1645v2SfpIfAlarmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { fr1645v2SfpIfAlarmGlobalIx }
+   ::= {fr1645v2SfpIfAlarmSSCTable 1}
+
+Fr1645v2SfpIfAlarmEntry ::=
+   SEQUENCE
+      {
+      fr1645v2SfpIfAlarmGlobalIx
+         GlobalIndex,
+      fr1645v2SfpIfAlarmDiscriminator
+         Integer32,
+      fr1645v2SfpIfAlarmCurrent
+         Integer32,
+      fr1645v2SfpIfAlarmPrevious
+         Integer32,
+      fr1645v2SfpIfAlarmMask
+         Integer32,
+      fr1645v2SfpIfAlarmLevNotPresent
+         Integer32,
+      fr1645v2SfpIfAlarmLevLossOfSignal
+         Integer32,
+      fr1645v2SfpIfAlarmLevNotSupported
+         Integer32
+      }
+
+fr1645v2SfpIfAlarmGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {fr1645v2SfpIfAlarmEntry 10}
+
+fr1645v2SfpIfAlarmDiscriminator OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.alarms.alarmInfo.discriminator"
+   ::= {fr1645v2SfpIfAlarmEntry 16777216}
+
+fr1645v2SfpIfAlarmCurrent OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.alarms.alarmInfo.currentAlarms
+
+       Bit meanings:
+               bit 0 = notPresent,
+               bit 1 = lossOfSignal,
+               bit 2 = notSupported"
+   ::= {fr1645v2SfpIfAlarmEntry 33554432}
+
+fr1645v2SfpIfAlarmPrevious OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.alarms.alarmInfo.previousAlarms
+
+       Bit meanings:
+               bit 0 = notPresent,
+               bit 1 = lossOfSignal,
+               bit 2 = notSupported"
+   ::= {fr1645v2SfpIfAlarmEntry 50331648}
+
+fr1645v2SfpIfAlarmMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.alarms.alarmInfo.alarmMask
+
+       Bit meanings:
+               bit 0 = notPresent,
+               bit 1 = lossOfSignal,
+               bit 2 = notSupported"
+   ::= {fr1645v2SfpIfAlarmEntry 67108864}
+
+fr1645v2SfpIfAlarmLevNotPresent OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.alarms.alarmInfo.alarmLevel.notPresent"
+   ::= {fr1645v2SfpIfAlarmEntry 83951616}
+
+fr1645v2SfpIfAlarmLevLossOfSignal OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.alarms.alarmInfo.alarmLevel.lossOfSignal"
+   ::= {fr1645v2SfpIfAlarmEntry 84017152}
+
+fr1645v2SfpIfAlarmLevNotSupported OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.alarms.alarmInfo.alarmLevel.notSupported"
+   ::= {fr1645v2SfpIfAlarmEntry 84082688}
+
+
+fr1645v2SfpIfAlarmE2 OBJECT IDENTIFIER ::= {fr1645v2SfpIfAlarm 2}
+
+fr1645v2SfpIfAlarmE2Entry OBJECT IDENTIFIER ::= {fr1645v2SfpIfAlarmE2 1}
+
+fr1645v2SfpIfAlarmE2NotPresent OBJECT IDENTIFIER ::= {fr1645v2SfpIfAlarmE2Entry 10}
+
+fr1645v2SfpIfAlarmE2NotPresentPfx OBJECT IDENTIFIER ::= {fr1645v2SfpIfAlarmE2NotPresent 0}
+
+fr1645v2SfpIfAlarmE2NotPresentOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'notPresent'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'sfpIf'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2SfpIfAlarmE2NotPresentPfx 1}
+
+fr1645v2SfpIfAlarmE2NotPresentOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'notPresent'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'sfpIf'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2SfpIfAlarmE2NotPresentPfx 2}
+
+fr1645v2SfpIfAlarmE2LossOfSignal OBJECT IDENTIFIER ::= {fr1645v2SfpIfAlarmE2Entry 11}
+
+fr1645v2SfpIfAlarmE2LossOfSignalPfx OBJECT IDENTIFIER ::= {fr1645v2SfpIfAlarmE2LossOfSignal 0}
+
+fr1645v2SfpIfAlarmE2LossOfSignalOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'lossOfSignal'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'sfpIf'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2SfpIfAlarmE2LossOfSignalPfx 1}
+
+fr1645v2SfpIfAlarmE2LossOfSignalOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'lossOfSignal'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'sfpIf'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2SfpIfAlarmE2LossOfSignalPfx 2}
+
+fr1645v2SfpIfAlarmE2NotSupported OBJECT IDENTIFIER ::= {fr1645v2SfpIfAlarmE2Entry 12}
+
+fr1645v2SfpIfAlarmE2NotSupportedPfx OBJECT IDENTIFIER ::= {fr1645v2SfpIfAlarmE2NotSupported 0}
+
+fr1645v2SfpIfAlarmE2NotSupportedOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'notSupported'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'sfpIf'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2SfpIfAlarmE2NotSupportedPfx 1}
+
+fr1645v2SfpIfAlarmE2NotSupportedOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'notSupported'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'sfpIf'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2SfpIfAlarmE2NotSupportedPfx 2}
+
+
+
+ar1645v2SfpIf OBJECT IDENTIFIER ::= {r1645v2SfpIf 16}
+
+
+ar1645v2SfpIfReadInventory OBJECT IDENTIFIER ::= {ar1645v2SfpIf 5}
+
+ar1645v2SfpIfReadInventoryTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2SfpIfReadInventoryEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "action in the debug group"
+   ::= {ar1645v2SfpIfReadInventory 1}
+
+ar1645v2SfpIfReadInventoryEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2SfpIfReadInventoryEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2SfpIfReadInventoryGlobalIx }
+   ::= {ar1645v2SfpIfReadInventoryTable 1}
+
+Ar1645v2SfpIfReadInventoryEntry ::=
+   SEQUENCE
+      {
+      ar1645v2SfpIfReadInventoryGlobalIx
+         GlobalIndex,
+      ar1645v2SfpIfReadInventoryValue
+         Integer32
+      }
+
+ar1645v2SfpIfReadInventoryGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2SfpIfReadInventoryEntry 10}
+
+ar1645v2SfpIfReadInventoryValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.actions.readInventory"
+   ::= {ar1645v2SfpIfReadInventoryEntry 2147483648}
+
+
+ar1645v2SfpIfTxDisNormal OBJECT IDENTIFIER ::= {ar1645v2SfpIf 384}
+
+ar1645v2SfpIfTxDisNormalTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2SfpIfTxDisNormalEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "action in the debug group"
+   ::= {ar1645v2SfpIfTxDisNormal 1}
+
+ar1645v2SfpIfTxDisNormalEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2SfpIfTxDisNormalEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2SfpIfTxDisNormalGlobalIx }
+   ::= {ar1645v2SfpIfTxDisNormalTable 1}
+
+Ar1645v2SfpIfTxDisNormalEntry ::=
+   SEQUENCE
+      {
+      ar1645v2SfpIfTxDisNormalGlobalIx
+         GlobalIndex,
+      ar1645v2SfpIfTxDisNormalValue
+         Integer32
+      }
+
+ar1645v2SfpIfTxDisNormalGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2SfpIfTxDisNormalEntry 10}
+
+ar1645v2SfpIfTxDisNormalValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.actions.txDisNormal"
+   ::= {ar1645v2SfpIfTxDisNormalEntry 2147483648}
+
+
+ar1645v2SfpIfModSelHigh OBJECT IDENTIFIER ::= {ar1645v2SfpIf 388}
+
+ar1645v2SfpIfModSelHighTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2SfpIfModSelHighEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "action in the debug group"
+   ::= {ar1645v2SfpIfModSelHigh 1}
+
+ar1645v2SfpIfModSelHighEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2SfpIfModSelHighEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2SfpIfModSelHighGlobalIx }
+   ::= {ar1645v2SfpIfModSelHighTable 1}
+
+Ar1645v2SfpIfModSelHighEntry ::=
+   SEQUENCE
+      {
+      ar1645v2SfpIfModSelHighGlobalIx
+         GlobalIndex,
+      ar1645v2SfpIfModSelHighValue
+         Integer32
+      }
+
+ar1645v2SfpIfModSelHighGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2SfpIfModSelHighEntry 10}
+
+ar1645v2SfpIfModSelHighValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.actions.modSelHigh"
+   ::= {ar1645v2SfpIfModSelHighEntry 2147483648}
+
+
+ar1645v2SfpIfModSelLow OBJECT IDENTIFIER ::= {ar1645v2SfpIf 387}
+
+ar1645v2SfpIfModSelLowTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2SfpIfModSelLowEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "action in the debug group"
+   ::= {ar1645v2SfpIfModSelLow 1}
+
+ar1645v2SfpIfModSelLowEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2SfpIfModSelLowEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2SfpIfModSelLowGlobalIx }
+   ::= {ar1645v2SfpIfModSelLowTable 1}
+
+Ar1645v2SfpIfModSelLowEntry ::=
+   SEQUENCE
+      {
+      ar1645v2SfpIfModSelLowGlobalIx
+         GlobalIndex,
+      ar1645v2SfpIfModSelLowValue
+         Integer32
+      }
+
+ar1645v2SfpIfModSelLowGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2SfpIfModSelLowEntry 10}
+
+ar1645v2SfpIfModSelLowValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.actions.modSelLow"
+   ::= {ar1645v2SfpIfModSelLowEntry 2147483648}
+
+
+ar1645v2SfpIfTxRsRstHigh OBJECT IDENTIFIER ::= {ar1645v2SfpIf 386}
+
+ar1645v2SfpIfTxRsRstHighTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2SfpIfTxRsRstHighEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "action in the debug group"
+   ::= {ar1645v2SfpIfTxRsRstHigh 1}
+
+ar1645v2SfpIfTxRsRstHighEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2SfpIfTxRsRstHighEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2SfpIfTxRsRstHighGlobalIx }
+   ::= {ar1645v2SfpIfTxRsRstHighTable 1}
+
+Ar1645v2SfpIfTxRsRstHighEntry ::=
+   SEQUENCE
+      {
+      ar1645v2SfpIfTxRsRstHighGlobalIx
+         GlobalIndex,
+      ar1645v2SfpIfTxRsRstHighValue
+         Integer32
+      }
+
+ar1645v2SfpIfTxRsRstHighGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2SfpIfTxRsRstHighEntry 10}
+
+ar1645v2SfpIfTxRsRstHighValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.actions.txRsRstHigh"
+   ::= {ar1645v2SfpIfTxRsRstHighEntry 2147483648}
+
+
+ar1645v2SfpIfTxRsRstLow OBJECT IDENTIFIER ::= {ar1645v2SfpIf 385}
+
+ar1645v2SfpIfTxRsRstLowTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2SfpIfTxRsRstLowEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "action in the debug group"
+   ::= {ar1645v2SfpIfTxRsRstLow 1}
+
+ar1645v2SfpIfTxRsRstLowEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2SfpIfTxRsRstLowEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2SfpIfTxRsRstLowGlobalIx }
+   ::= {ar1645v2SfpIfTxRsRstLowTable 1}
+
+Ar1645v2SfpIfTxRsRstLowEntry ::=
+   SEQUENCE
+      {
+      ar1645v2SfpIfTxRsRstLowGlobalIx
+         GlobalIndex,
+      ar1645v2SfpIfTxRsRstLowValue
+         Integer32
+      }
+
+ar1645v2SfpIfTxRsRstLowGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2SfpIfTxRsRstLowEntry 10}
+
+ar1645v2SfpIfTxRsRstLowValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.actions.txRsRstLow"
+   ::= {ar1645v2SfpIfTxRsRstLowEntry 2147483648}
+
+
+ar1645v2SfpIfTxDisOff OBJECT IDENTIFIER ::= {ar1645v2SfpIf 382}
+
+ar1645v2SfpIfTxDisOffTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2SfpIfTxDisOffEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "action in the debug group"
+   ::= {ar1645v2SfpIfTxDisOff 1}
+
+ar1645v2SfpIfTxDisOffEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2SfpIfTxDisOffEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2SfpIfTxDisOffGlobalIx }
+   ::= {ar1645v2SfpIfTxDisOffTable 1}
+
+Ar1645v2SfpIfTxDisOffEntry ::=
+   SEQUENCE
+      {
+      ar1645v2SfpIfTxDisOffGlobalIx
+         GlobalIndex,
+      ar1645v2SfpIfTxDisOffValue
+         Integer32
+      }
+
+ar1645v2SfpIfTxDisOffGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2SfpIfTxDisOffEntry 10}
+
+ar1645v2SfpIfTxDisOffValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.actions.txDisOff"
+   ::= {ar1645v2SfpIfTxDisOffEntry 2147483648}
+
+
+ar1645v2SfpIfTxDisOn OBJECT IDENTIFIER ::= {ar1645v2SfpIf 383}
+
+ar1645v2SfpIfTxDisOnTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2SfpIfTxDisOnEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "action in the debug group"
+   ::= {ar1645v2SfpIfTxDisOn 1}
+
+ar1645v2SfpIfTxDisOnEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2SfpIfTxDisOnEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2SfpIfTxDisOnGlobalIx }
+   ::= {ar1645v2SfpIfTxDisOnTable 1}
+
+Ar1645v2SfpIfTxDisOnEntry ::=
+   SEQUENCE
+      {
+      ar1645v2SfpIfTxDisOnGlobalIx
+         GlobalIndex,
+      ar1645v2SfpIfTxDisOnValue
+         Integer32
+      }
+
+ar1645v2SfpIfTxDisOnGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2SfpIfTxDisOnEntry 10}
+
+ar1645v2SfpIfTxDisOnValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.actions.txDisOn"
+   ::= {ar1645v2SfpIfTxDisOnEntry 2147483648}
+
+
+ar1645v2SfpIfReadWriteI2C OBJECT IDENTIFIER ::= {ar1645v2SfpIf 3}
+
+ar1645v2SfpIfReadWriteI2CTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2SfpIfReadWriteI2CEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "First writes some bytes then reads some"
+   ::= {ar1645v2SfpIfReadWriteI2C 1}
+
+ar1645v2SfpIfReadWriteI2CEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2SfpIfReadWriteI2CEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2SfpIfReadWriteI2CGlobalIx }
+   ::= {ar1645v2SfpIfReadWriteI2CTable 1}
+
+Ar1645v2SfpIfReadWriteI2CEntry ::=
+   SEQUENCE
+      {
+      ar1645v2SfpIfReadWriteI2CGlobalIx
+         GlobalIndex,
+      ar1645v2SfpIfReadWriteI2CValue
+         Integer32
+      }
+
+ar1645v2SfpIfReadWriteI2CGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2SfpIfReadWriteI2CEntry 10}
+
+ar1645v2SfpIfReadWriteI2CValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.actions.readWriteI2C"
+   ::= {ar1645v2SfpIfReadWriteI2CEntry 2147483648}
+
+
+ar1645v2SfpIfReadWriteI2CInfo OBJECT IDENTIFIER ::= {ar1645v2SfpIf 4}
+
+ar1645v2SfpIfReadWriteI2CInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2SfpIfReadWriteI2CInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Information needed for I2C readwrite command"
+   ::= {ar1645v2SfpIfReadWriteI2CInfo 1}
+
+ar1645v2SfpIfReadWriteI2CInfoEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2SfpIfReadWriteI2CInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2SfpIfReadWriteI2CInfoGlobalIx }
+   ::= {ar1645v2SfpIfReadWriteI2CInfoSSCTable 1}
+
+Ar1645v2SfpIfReadWriteI2CInfoEntry ::=
+   SEQUENCE
+      {
+      ar1645v2SfpIfReadWriteI2CInfoGlobalIx
+         GlobalIndex,
+      ar1645v2SfpIfReadWriteI2CInfoDeviceuaddr
+         OCTET STRING,
+      ar1645v2SfpIfReadWriteI2CInfoWriteulength
+         Integer32,
+      ar1645v2SfpIfReadWriteI2CInfoReadulength
+         Integer32,
+      ar1645v2SfpIfReadWriteI2CInfoData
+         OCTET STRING
+      }
+
+ar1645v2SfpIfReadWriteI2CInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2SfpIfReadWriteI2CInfoEntry 10}
+
+ar1645v2SfpIfReadWriteI2CInfoDeviceuaddr OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.actions.readWriteI2CInfo.device_addr"
+   ::= {ar1645v2SfpIfReadWriteI2CInfoEntry 16777216}
+
+ar1645v2SfpIfReadWriteI2CInfoWriteulength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.actions.readWriteI2CInfo.write_length"
+   ::= {ar1645v2SfpIfReadWriteI2CInfoEntry 33554432}
+
+ar1645v2SfpIfReadWriteI2CInfoReadulength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.actions.readWriteI2CInfo.read_length"
+   ::= {ar1645v2SfpIfReadWriteI2CInfoEntry 50331648}
+
+ar1645v2SfpIfReadWriteI2CInfoData OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sfp.actions.readWriteI2CInfo.data"
+   ::= {ar1645v2SfpIfReadWriteI2CInfoEntry 67108864}
+
+
+
+END

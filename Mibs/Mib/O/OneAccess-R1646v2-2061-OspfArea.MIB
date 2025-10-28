@@ -1,0 +1,2869 @@
+OneAccess-R1646v2-2061-OspfArea DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2OspfArea OBJECT IDENTIFIER ::= {r1646Rootv2 2061}
+
+r1646v2OspfAreaMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2OspfAreaMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2OspfArea 1}
+
+r1646v2OspfAreaMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2OspfAreaMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2OspfAreaMOPropGlobalIx }
+   ::= {r1646v2OspfAreaMOProp 1}
+
+R1646v2OspfAreaMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2OspfAreaMOPropPath
+         ContainmentPath,
+      r1646v2OspfAreaMOPropRev
+         ObjectRevision,
+      r1646v2OspfAreaMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2OspfAreaMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2OspfAreaMOPropEntry 3}
+
+r1646v2OspfAreaMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2OspfAreaMOPropEntry 4}
+
+r1646v2OspfAreaMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2OspfAreaMOPropEntry 10}
+
+
+
+er1646v2OspfArea OBJECT IDENTIFIER ::= {r1646v2OspfArea 11}
+
+
+er1646v2OspfAreaSnmpIndexOffset OBJECT IDENTIFIER ::= {er1646v2OspfArea 268}
+
+er1646v2OspfAreaSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfAreaSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1646v2OspfAreaSnmpIndexOffset 1}
+
+er1646v2OspfAreaSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfAreaSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfAreaSnmpIndexOffsetGlobalIx }
+   ::= {er1646v2OspfAreaSnmpIndexOffsetTable 1}
+
+Er1646v2OspfAreaSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfAreaSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1646v2OspfAreaSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1646v2OspfAreaSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfAreaSnmpIndexOffsetEntry 10}
+
+er1646v2OspfAreaSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.snmpIndexOffset"
+   ::= {er1646v2OspfAreaSnmpIndexOffsetEntry 2147483648}
+
+
+er1646v2OspfAreaRemark OBJECT IDENTIFIER ::= {er1646v2OspfArea 321}
+
+er1646v2OspfAreaRemarkTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfAreaRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "intfRemark"
+   ::= {er1646v2OspfAreaRemark 1}
+
+er1646v2OspfAreaRemarkEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfAreaRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfAreaRemarkGlobalIx }
+   ::= {er1646v2OspfAreaRemarkTable 1}
+
+Er1646v2OspfAreaRemarkEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfAreaRemarkGlobalIx
+         GlobalIndex,
+      er1646v2OspfAreaRemarkValue
+         DisplayString
+      }
+
+er1646v2OspfAreaRemarkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfAreaRemarkEntry 10}
+
+er1646v2OspfAreaRemarkValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.remark"
+   ::= {er1646v2OspfAreaRemarkEntry 2147483648}
+
+
+er1646v2OspfAreaAreaId OBJECT IDENTIFIER ::= {er1646v2OspfArea 2}
+
+er1646v2OspfAreaAreaIdTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfAreaAreaIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "area Id"
+   ::= {er1646v2OspfAreaAreaId 1}
+
+er1646v2OspfAreaAreaIdEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfAreaAreaIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfAreaAreaIdGlobalIx }
+   ::= {er1646v2OspfAreaAreaIdTable 1}
+
+Er1646v2OspfAreaAreaIdEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfAreaAreaIdGlobalIx
+         GlobalIndex,
+      er1646v2OspfAreaAreaIdValue
+         IpAddress
+      }
+
+er1646v2OspfAreaAreaIdGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfAreaAreaIdEntry 10}
+
+er1646v2OspfAreaAreaIdValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.areaId"
+   ::= {er1646v2OspfAreaAreaIdEntry 2147483648}
+
+
+er1646v2OspfAreaStub OBJECT IDENTIFIER ::= {er1646v2OspfArea 3}
+
+er1646v2OspfAreaStubSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfAreaStubEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "stub area parameters"
+   ::= {er1646v2OspfAreaStub 1}
+
+er1646v2OspfAreaStubEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfAreaStubEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfAreaStubGlobalIx }
+   ::= {er1646v2OspfAreaStubSSCTable 1}
+
+Er1646v2OspfAreaStubEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfAreaStubGlobalIx
+         GlobalIndex,
+      er1646v2OspfAreaStubMode
+         INTEGER,
+      er1646v2OspfAreaStubDefaultCost
+         Integer32,
+      er1646v2OspfAreaStubImportSummaries
+         INTEGER,
+      er1646v2OspfAreaStubTranslatorRole
+         INTEGER,
+      er1646v2OspfAreaStubTranslInterval
+         TimeTicks
+      }
+
+er1646v2OspfAreaStubGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfAreaStubEntry 10}
+
+er1646v2OspfAreaStubMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1),
+               nssa (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.stub.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)
+               nssa   (2)"
+   ::= {er1646v2OspfAreaStubEntry 16777216}
+
+er1646v2OspfAreaStubDefaultCost OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.stub.defaultCost"
+   ::= {er1646v2OspfAreaStubEntry 33554432}
+
+er1646v2OspfAreaStubImportSummaries OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.stub.importSummaries
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2OspfAreaStubEntry 50331648}
+
+er1646v2OspfAreaStubTranslatorRole OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               candidate (0),
+               always (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.stub.translatorRole
+
+       Possibilities:
+               candidate   (0)
+               always   (1)"
+   ::= {er1646v2OspfAreaStubEntry 67108864}
+
+er1646v2OspfAreaStubTranslInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.stub.translatorInterval
+
+       Time in centi-second."
+   ::= {er1646v2OspfAreaStubEntry 83886080}
+
+
+er1646v2OspfAreaNetworks OBJECT IDENTIFIER ::= {er1646v2OspfArea 4}
+
+er1646v2OspfAreaNetworksSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfAreaNetworksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf area network table"
+   ::= {er1646v2OspfAreaNetworks 1}
+
+er1646v2OspfAreaNetworksEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfAreaNetworksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfAreaNetworksGlobalIx,
+                er1646v2OspfAreaNetworksTableIx }
+   ::= {er1646v2OspfAreaNetworksSSCTable 1}
+
+Er1646v2OspfAreaNetworksEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfAreaNetworksActions
+         VariableLengthTableActions,
+      er1646v2OspfAreaNetworksGlobalIx
+         GlobalIndex,
+      er1646v2OspfAreaNetworksTableIx
+         TableIndex,
+      er1646v2OspfAreaNetworksName
+         DisplayString,
+      er1646v2OspfAreaNetworksAddress
+         IpAddress,
+      er1646v2OspfAreaNetworksMask
+         IpAddress,
+      er1646v2OspfAreaNetworksCost
+         Integer32,
+      er1646v2OspfAreaNetworksPrior
+         Integer32,
+      er1646v2OspfAreaNetworksHello
+         TimeTicks,
+      er1646v2OspfAreaNetworksDead
+         TimeTicks,
+      er1646v2OspfAreaNetworksRetrans
+         TimeTicks,
+      er1646v2OspfAreaNetworksAuthType
+         INTEGER,
+      er1646v2OspfAreaNetworksAuthText
+         DisplayString,
+      er1646v2OspfAreaNetworksAuthKeyChain
+         DisplayString,
+      er1646v2OspfAreaNetworksMode
+         INTEGER
+      }
+
+er1646v2OspfAreaNetworksActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2OspfAreaNetworksEntry 2}
+
+er1646v2OspfAreaNetworksGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfAreaNetworksEntry 10}
+
+er1646v2OspfAreaNetworksTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2OspfAreaNetworksEntry 11}
+
+er1646v2OspfAreaNetworksName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.networks.name"
+   ::= {er1646v2OspfAreaNetworksEntry 201326592}
+
+er1646v2OspfAreaNetworksAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.networks.address"
+   ::= {er1646v2OspfAreaNetworksEntry 16777216}
+
+er1646v2OspfAreaNetworksMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.networks.mask"
+   ::= {er1646v2OspfAreaNetworksEntry 33554432}
+
+er1646v2OspfAreaNetworksCost OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.networks.cost"
+   ::= {er1646v2OspfAreaNetworksEntry 67108864}
+
+er1646v2OspfAreaNetworksPrior OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.networks.priority"
+   ::= {er1646v2OspfAreaNetworksEntry 83886080}
+
+er1646v2OspfAreaNetworksHello OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.networks.helloInterval
+
+       Time in centi-second."
+   ::= {er1646v2OspfAreaNetworksEntry 100663296}
+
+er1646v2OspfAreaNetworksDead OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.networks.deadInterval
+
+       Time in centi-second."
+   ::= {er1646v2OspfAreaNetworksEntry 117440512}
+
+er1646v2OspfAreaNetworksRetrans OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.networks.retransmitInterval
+
+       Time in centi-second."
+   ::= {er1646v2OspfAreaNetworksEntry 134217728}
+
+er1646v2OspfAreaNetworksAuthType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               text (1),
+               md5 (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.networks.authentication.type
+
+       Possibilities:
+               disabled   (0)
+               text   (1)
+               md5   (2)"
+   ::= {er1646v2OspfAreaNetworksEntry 167837696}
+
+er1646v2OspfAreaNetworksAuthText OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.networks.authentication.text"
+   ::= {er1646v2OspfAreaNetworksEntry 167903232}
+
+er1646v2OspfAreaNetworksAuthKeyChain OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.networks.authentication.keyChain"
+   ::= {er1646v2OspfAreaNetworksEntry 167968768}
+
+er1646v2OspfAreaNetworksMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               active (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.networks.mode
+
+       Possibilities:
+               disabled   (0)
+               active   (2)"
+   ::= {er1646v2OspfAreaNetworksEntry 184549376}
+
+
+er1646v2OspfAreaVirtLnk OBJECT IDENTIFIER ::= {er1646v2OspfArea 5}
+
+er1646v2OspfAreaVirtLnkSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfAreaVirtLnkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf area virtual links"
+   ::= {er1646v2OspfAreaVirtLnk 1}
+
+er1646v2OspfAreaVirtLnkEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfAreaVirtLnkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfAreaVirtLnkGlobalIx,
+                er1646v2OspfAreaVirtLnkTableIx }
+   ::= {er1646v2OspfAreaVirtLnkSSCTable 1}
+
+Er1646v2OspfAreaVirtLnkEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfAreaVirtLnkActions
+         VariableLengthTableActions,
+      er1646v2OspfAreaVirtLnkGlobalIx
+         GlobalIndex,
+      er1646v2OspfAreaVirtLnkTableIx
+         TableIndex,
+      er1646v2OspfAreaVirtLnkRemoteId
+         IpAddress,
+      er1646v2OspfAreaVirtLnkHelloInterval
+         TimeTicks,
+      er1646v2OspfAreaVirtLnkDeadInterval
+         TimeTicks,
+      er1646v2OspfAreaVirtLnkRetrans
+         TimeTicks,
+      er1646v2OspfAreaVirtLnkAuthType
+         INTEGER,
+      er1646v2OspfAreaVirtLnkAuthText
+         DisplayString,
+      er1646v2OspfAreaVirtLnkAuthKeyChain
+         DisplayString
+      }
+
+er1646v2OspfAreaVirtLnkActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2OspfAreaVirtLnkEntry 2}
+
+er1646v2OspfAreaVirtLnkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfAreaVirtLnkEntry 10}
+
+er1646v2OspfAreaVirtLnkTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2OspfAreaVirtLnkEntry 11}
+
+er1646v2OspfAreaVirtLnkRemoteId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.virtualLinks.remoteId"
+   ::= {er1646v2OspfAreaVirtLnkEntry 16777216}
+
+er1646v2OspfAreaVirtLnkHelloInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.virtualLinks.helloInterval
+
+       Time in centi-second."
+   ::= {er1646v2OspfAreaVirtLnkEntry 33554432}
+
+er1646v2OspfAreaVirtLnkDeadInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.virtualLinks.deadInterval
+
+       Time in centi-second."
+   ::= {er1646v2OspfAreaVirtLnkEntry 50331648}
+
+er1646v2OspfAreaVirtLnkRetrans OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.virtualLinks.retransmitInterval
+
+       Time in centi-second."
+   ::= {er1646v2OspfAreaVirtLnkEntry 67108864}
+
+er1646v2OspfAreaVirtLnkAuthType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               text (1),
+               md5 (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.virtualLinks.authentication.type
+
+       Possibilities:
+               disabled   (0)
+               text   (1)
+               md5   (2)"
+   ::= {er1646v2OspfAreaVirtLnkEntry 100728832}
+
+er1646v2OspfAreaVirtLnkAuthText OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.virtualLinks.authentication.text"
+   ::= {er1646v2OspfAreaVirtLnkEntry 100794368}
+
+er1646v2OspfAreaVirtLnkAuthKeyChain OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.virtualLinks.authentication.keyChain"
+   ::= {er1646v2OspfAreaVirtLnkEntry 100859904}
+
+
+er1646v2OspfAreaRanges OBJECT IDENTIFIER ::= {er1646v2OspfArea 6}
+
+er1646v2OspfAreaRangesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfAreaRangesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf area range table"
+   ::= {er1646v2OspfAreaRanges 1}
+
+er1646v2OspfAreaRangesEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfAreaRangesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfAreaRangesGlobalIx,
+                er1646v2OspfAreaRangesTableIx }
+   ::= {er1646v2OspfAreaRangesSSCTable 1}
+
+Er1646v2OspfAreaRangesEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfAreaRangesActions
+         VariableLengthTableActions,
+      er1646v2OspfAreaRangesGlobalIx
+         GlobalIndex,
+      er1646v2OspfAreaRangesTableIx
+         TableIndex,
+      er1646v2OspfAreaRangesType
+         INTEGER,
+      er1646v2OspfAreaRangesNetwork
+         IpAddress,
+      er1646v2OspfAreaRangesMask
+         IpAddress,
+      er1646v2OspfAreaRangesAdvertise
+         INTEGER,
+      er1646v2OspfAreaRangesTag
+         Integer32
+      }
+
+er1646v2OspfAreaRangesActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2OspfAreaRangesEntry 2}
+
+er1646v2OspfAreaRangesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfAreaRangesEntry 10}
+
+er1646v2OspfAreaRangesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2OspfAreaRangesEntry 11}
+
+er1646v2OspfAreaRangesType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               all (0),
+               summary (1),
+               nssa (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.ranges.type
+
+       Possibilities:
+               all   (0)
+               summary   (1)
+               nssa   (2)"
+   ::= {er1646v2OspfAreaRangesEntry 67108864}
+
+er1646v2OspfAreaRangesNetwork OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.ranges.network"
+   ::= {er1646v2OspfAreaRangesEntry 16777216}
+
+er1646v2OspfAreaRangesMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.ranges.mask"
+   ::= {er1646v2OspfAreaRangesEntry 33554432}
+
+er1646v2OspfAreaRangesAdvertise OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.ranges.advertise
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2OspfAreaRangesEntry 50331648}
+
+er1646v2OspfAreaRangesTag OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.ranges.tag"
+   ::= {er1646v2OspfAreaRangesEntry 83886080}
+
+
+er1646v2OspfAreaNeighbors OBJECT IDENTIFIER ::= {er1646v2OspfArea 7}
+
+er1646v2OspfAreaNeighborsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfAreaNeighborsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf neighbor table"
+   ::= {er1646v2OspfAreaNeighbors 1}
+
+er1646v2OspfAreaNeighborsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfAreaNeighborsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfAreaNeighborsGlobalIx,
+                er1646v2OspfAreaNeighborsTableIx }
+   ::= {er1646v2OspfAreaNeighborsSSCTable 1}
+
+Er1646v2OspfAreaNeighborsEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfAreaNeighborsActions
+         VariableLengthTableActions,
+      er1646v2OspfAreaNeighborsGlobalIx
+         GlobalIndex,
+      er1646v2OspfAreaNeighborsTableIx
+         TableIndex,
+      er1646v2OspfAreaNeighborsIpAddress
+         IpAddress,
+      er1646v2OspfAreaNeighborsPrior
+         Integer32,
+      er1646v2OspfAreaNeighborsPoll
+         TimeTicks
+      }
+
+er1646v2OspfAreaNeighborsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2OspfAreaNeighborsEntry 2}
+
+er1646v2OspfAreaNeighborsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfAreaNeighborsEntry 10}
+
+er1646v2OspfAreaNeighborsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2OspfAreaNeighborsEntry 11}
+
+er1646v2OspfAreaNeighborsIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.neighbors.ipAddress"
+   ::= {er1646v2OspfAreaNeighborsEntry 67108864}
+
+er1646v2OspfAreaNeighborsPrior OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.neighbors.priority"
+   ::= {er1646v2OspfAreaNeighborsEntry 83886080}
+
+er1646v2OspfAreaNeighborsPoll OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: area.editConf.neighbors.pollInterval
+
+       Time in centi-second."
+   ::= {er1646v2OspfAreaNeighborsEntry 100663296}
+
+
+
+sr1646v2OspfArea OBJECT IDENTIFIER ::= {r1646v2OspfArea 14}
+
+
+sr1646v2OspfAreaSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2OspfArea 269}
+
+sr1646v2OspfAreaSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfAreaSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2OspfAreaSnmpIndex 1}
+
+sr1646v2OspfAreaSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfAreaSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfAreaSnmpIndexGlobalIx }
+   ::= {sr1646v2OspfAreaSnmpIndexTable 1}
+
+Sr1646v2OspfAreaSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfAreaSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2OspfAreaSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2OspfAreaSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfAreaSnmpIndexEntry 10}
+
+sr1646v2OspfAreaSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.snmpIndex"
+   ::= {sr1646v2OspfAreaSnmpIndexEntry 2147483648}
+
+
+sr1646v2OspfAreaIntfs OBJECT IDENTIFIER ::= {sr1646v2OspfArea 20}
+
+sr1646v2OspfAreaIntfsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfAreaIntfsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf interface status table"
+   ::= {sr1646v2OspfAreaIntfs 1}
+
+sr1646v2OspfAreaIntfsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfAreaIntfsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfAreaIntfsGlobalIx,
+                sr1646v2OspfAreaIntfsTableIx }
+   ::= {sr1646v2OspfAreaIntfsSSCTable 1}
+
+Sr1646v2OspfAreaIntfsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfAreaIntfsGlobalIx
+         GlobalIndex,
+      sr1646v2OspfAreaIntfsTableIx
+         TableIndex,
+      sr1646v2OspfAreaIntfsName
+         DisplayString,
+      sr1646v2OspfAreaIntfsAddress
+         IpAddress,
+      sr1646v2OspfAreaIntfsNetMask
+         IpAddress,
+      sr1646v2OspfAreaIntfsNetwork
+         DisplayString,
+      sr1646v2OspfAreaIntfsType
+         INTEGER,
+      sr1646v2OspfAreaIntfsCost
+         Integer32,
+      sr1646v2OspfAreaIntfsPriority
+         Integer32,
+      sr1646v2OspfAreaIntfsStatus
+         INTEGER,
+      sr1646v2OspfAreaIntfsDr
+         IpAddress,
+      sr1646v2OspfAreaIntfsBackupDr
+         IpAddress,
+      sr1646v2OspfAreaIntfsNeighbors
+         Integer32,
+      sr1646v2OspfAreaIntfsAdjNeighbors
+         Integer32,
+      sr1646v2OspfAreaIntfsBandwidth
+         Integer32
+      }
+
+sr1646v2OspfAreaIntfsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfAreaIntfsEntry 10}
+
+sr1646v2OspfAreaIntfsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OspfAreaIntfsEntry 11}
+
+sr1646v2OspfAreaIntfsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.interfaces.name"
+   ::= {sr1646v2OspfAreaIntfsEntry 16777216}
+
+sr1646v2OspfAreaIntfsAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.interfaces.address"
+   ::= {sr1646v2OspfAreaIntfsEntry 33554432}
+
+sr1646v2OspfAreaIntfsNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.interfaces.netMask"
+   ::= {sr1646v2OspfAreaIntfsEntry 50331648}
+
+sr1646v2OspfAreaIntfsNetwork OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.interfaces.network"
+   ::= {sr1646v2OspfAreaIntfsEntry 67108864}
+
+sr1646v2OspfAreaIntfsType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               auto (0),
+               pointToPoint (1),
+               broadcast (2),
+               nbma (3),
+               pointToMulti (4),
+               virtualLink (5),
+               loopback (6)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.interfaces.type
+
+       Possibilities:
+               auto   (0)
+               pointToPoint   (1)
+               broadcast   (2)
+               nbma   (3)
+               pointToMulti   (4)
+               virtualLink   (5)
+               loopback   (6)"
+   ::= {sr1646v2OspfAreaIntfsEntry 83886080}
+
+sr1646v2OspfAreaIntfsCost OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.interfaces.cost"
+   ::= {sr1646v2OspfAreaIntfsEntry 100663296}
+
+sr1646v2OspfAreaIntfsPriority OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.interfaces.priority"
+   ::= {sr1646v2OspfAreaIntfsEntry 117440512}
+
+sr1646v2OspfAreaIntfsStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unknown (1),
+               down (2),
+               loopback (4),
+               waiting (8),
+               pointToPoint (16),
+               drOther (32),
+               backupDr (64),
+               dr (128)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.interfaces.status
+
+       Possibilities:
+               unknown   (1)
+               down   (2)
+               loopback   (4)
+               waiting   (8)
+               pointToPoint   (16)
+               drOther   (32)
+               backupDr   (64)
+               dr   (128)"
+   ::= {sr1646v2OspfAreaIntfsEntry 150994944}
+
+sr1646v2OspfAreaIntfsDr OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.interfaces.dr"
+   ::= {sr1646v2OspfAreaIntfsEntry 167772160}
+
+sr1646v2OspfAreaIntfsBackupDr OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.interfaces.backupDr"
+   ::= {sr1646v2OspfAreaIntfsEntry 184549376}
+
+sr1646v2OspfAreaIntfsNeighbors OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.interfaces.neighbors"
+   ::= {sr1646v2OspfAreaIntfsEntry 201326592}
+
+sr1646v2OspfAreaIntfsAdjNeighbors OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.interfaces.adjNeighbors"
+   ::= {sr1646v2OspfAreaIntfsEntry 218103808}
+
+sr1646v2OspfAreaIntfsBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "kbps"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.interfaces.bandwidth
+
+       unit name = kbps"
+   ::= {sr1646v2OspfAreaIntfsEntry 234881024}
+
+
+sr1646v2OspfAreaHosts OBJECT IDENTIFIER ::= {sr1646v2OspfArea 21}
+
+sr1646v2OspfAreaHostsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfAreaHostsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf area host status table"
+   ::= {sr1646v2OspfAreaHosts 1}
+
+sr1646v2OspfAreaHostsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfAreaHostsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfAreaHostsGlobalIx,
+                sr1646v2OspfAreaHostsTableIx }
+   ::= {sr1646v2OspfAreaHostsSSCTable 1}
+
+Sr1646v2OspfAreaHostsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfAreaHostsGlobalIx
+         GlobalIndex,
+      sr1646v2OspfAreaHostsTableIx
+         TableIndex,
+      sr1646v2OspfAreaHostsIntfName
+         DisplayString,
+      sr1646v2OspfAreaHostsAddress
+         IpAddress,
+      sr1646v2OspfAreaHostsNetMask
+         IpAddress,
+      sr1646v2OspfAreaHostsNetwork
+         DisplayString,
+      sr1646v2OspfAreaHostsCost
+         Integer32
+      }
+
+sr1646v2OspfAreaHostsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfAreaHostsEntry 10}
+
+sr1646v2OspfAreaHostsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OspfAreaHostsEntry 11}
+
+sr1646v2OspfAreaHostsIntfName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.hosts.intfName"
+   ::= {sr1646v2OspfAreaHostsEntry 16777216}
+
+sr1646v2OspfAreaHostsAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.hosts.address"
+   ::= {sr1646v2OspfAreaHostsEntry 33554432}
+
+sr1646v2OspfAreaHostsNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.hosts.netMask"
+   ::= {sr1646v2OspfAreaHostsEntry 50331648}
+
+sr1646v2OspfAreaHostsNetwork OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.hosts.network"
+   ::= {sr1646v2OspfAreaHostsEntry 67108864}
+
+sr1646v2OspfAreaHostsCost OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.hosts.cost"
+   ::= {sr1646v2OspfAreaHostsEntry 83886080}
+
+
+sr1646v2OspfAreaNeighbors OBJECT IDENTIFIER ::= {sr1646v2OspfArea 22}
+
+sr1646v2OspfAreaNeighborsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfAreaNeighborsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf neighbor status table"
+   ::= {sr1646v2OspfAreaNeighbors 1}
+
+sr1646v2OspfAreaNeighborsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfAreaNeighborsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfAreaNeighborsGlobalIx,
+                sr1646v2OspfAreaNeighborsTableIx }
+   ::= {sr1646v2OspfAreaNeighborsSSCTable 1}
+
+Sr1646v2OspfAreaNeighborsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfAreaNeighborsGlobalIx
+         GlobalIndex,
+      sr1646v2OspfAreaNeighborsTableIx
+         TableIndex,
+      sr1646v2OspfAreaNeighborsInterface
+         DisplayString,
+      sr1646v2OspfAreaNeighborsRouterId
+         IpAddress,
+      sr1646v2OspfAreaNeighborsRtrPriority
+         Integer32,
+      sr1646v2OspfAreaNeighborsIpAddress
+         IpAddress,
+      sr1646v2OspfAreaNeighborsStatus
+         INTEGER,
+      sr1646v2OspfAreaNeighborsType
+         INTEGER
+      }
+
+sr1646v2OspfAreaNeighborsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfAreaNeighborsEntry 10}
+
+sr1646v2OspfAreaNeighborsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OspfAreaNeighborsEntry 11}
+
+sr1646v2OspfAreaNeighborsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.neighbors.interface"
+   ::= {sr1646v2OspfAreaNeighborsEntry 16777216}
+
+sr1646v2OspfAreaNeighborsRouterId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.neighbors.routerId"
+   ::= {sr1646v2OspfAreaNeighborsEntry 33554432}
+
+sr1646v2OspfAreaNeighborsRtrPriority OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.neighbors.routerPriority"
+   ::= {sr1646v2OspfAreaNeighborsEntry 50331648}
+
+sr1646v2OspfAreaNeighborsIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.neighbors.ipAddress"
+   ::= {sr1646v2OspfAreaNeighborsEntry 67108864}
+
+sr1646v2OspfAreaNeighborsStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               down (1),
+               attempt (2),
+               init (4),
+               s2way (8),
+               exchangeStart (16),
+               exchange (32),
+               loading (64),
+               fullAdjacency (128)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.neighbors.status
+
+       Possibilities:
+               down   (1)
+               attempt   (2)
+               init   (4)
+               2way   (8)
+               exchangeStart   (16)
+               exchange   (32)
+               loading   (64)
+               fullAdjacency   (128)"
+   ::= {sr1646v2OspfAreaNeighborsEntry 83886080}
+
+sr1646v2OspfAreaNeighborsType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               static (1),
+               dynamic (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.neighbors.type
+
+       Possibilities:
+               static   (1)
+               dynamic   (2)"
+   ::= {sr1646v2OspfAreaNeighborsEntry 100663296}
+
+
+sr1646v2OspfAreaRtrs OBJECT IDENTIFIER ::= {sr1646v2OspfArea 23}
+
+sr1646v2OspfAreaRtrsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfAreaRtrsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf area abr overview"
+   ::= {sr1646v2OspfAreaRtrs 1}
+
+sr1646v2OspfAreaRtrsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfAreaRtrsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfAreaRtrsGlobalIx,
+                sr1646v2OspfAreaRtrsTableIx }
+   ::= {sr1646v2OspfAreaRtrsSSCTable 1}
+
+Sr1646v2OspfAreaRtrsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfAreaRtrsGlobalIx
+         GlobalIndex,
+      sr1646v2OspfAreaRtrsTableIx
+         TableIndex,
+      sr1646v2OspfAreaRtrsRouterId
+         IpAddress,
+      sr1646v2OspfAreaRtrsGateway
+         IpAddress,
+      sr1646v2OspfAreaRtrsCost
+         INTEGER,
+      sr1646v2OspfAreaRtrsRouterTypeAbr
+         INTEGER,
+      sr1646v2OspfAreaRtrsRouterTypeAsbr
+         INTEGER,
+      sr1646v2OspfAreaRtrsRouterTypeVirtLnk
+         INTEGER,
+      sr1646v2OspfAreaRtrsRouterTypeWcMCast
+         INTEGER,
+      sr1646v2OspfAreaRtrsRouterTypeNssaTr
+         INTEGER
+      }
+
+sr1646v2OspfAreaRtrsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfAreaRtrsEntry 10}
+
+sr1646v2OspfAreaRtrsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OspfAreaRtrsEntry 11}
+
+sr1646v2OspfAreaRtrsRouterId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routers.routerId"
+   ::= {sr1646v2OspfAreaRtrsEntry 16777216}
+
+sr1646v2OspfAreaRtrsGateway OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routers.gateway"
+   ::= {sr1646v2OspfAreaRtrsEntry 33554432}
+
+sr1646v2OspfAreaRtrsCost OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unknowns (-1),
+               infinite (16777215)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routers.cost
+
+       Possibilities:
+               unknown    (-1)
+               infinite   (16777215)"
+   ::= {sr1646v2OspfAreaRtrsEntry 50331648}
+
+sr1646v2OspfAreaRtrsRouterTypeAbr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routers.routerType.areaBorder
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfAreaRtrsEntry 67174400}
+
+sr1646v2OspfAreaRtrsRouterTypeAsbr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routers.routerType.asbr
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfAreaRtrsEntry 67239936}
+
+sr1646v2OspfAreaRtrsRouterTypeVirtLnk OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routers.routerType.virtualLink
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfAreaRtrsEntry 67305472}
+
+sr1646v2OspfAreaRtrsRouterTypeWcMCast OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routers.routerType.wildCardMulticast
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfAreaRtrsEntry 67371008}
+
+sr1646v2OspfAreaRtrsRouterTypeNssaTr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routers.routerType.nssaTranslator
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfAreaRtrsEntry 67436544}
+
+
+sr1646v2OspfAreaStub OBJECT IDENTIFIER ::= {sr1646v2OspfArea 28}
+
+sr1646v2OspfAreaStubSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfAreaStubEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "stub area status"
+   ::= {sr1646v2OspfAreaStub 1}
+
+sr1646v2OspfAreaStubEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfAreaStubEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfAreaStubGlobalIx }
+   ::= {sr1646v2OspfAreaStubSSCTable 1}
+
+Sr1646v2OspfAreaStubEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfAreaStubGlobalIx
+         GlobalIndex,
+      sr1646v2OspfAreaStubTranslator
+         INTEGER
+      }
+
+sr1646v2OspfAreaStubGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfAreaStubEntry 10}
+
+sr1646v2OspfAreaStubTranslator OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1),
+               elected (2),
+               expiring (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.stub.translator
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)
+               elected   (2)
+               expiring   (3)"
+   ::= {sr1646v2OspfAreaStubEntry 16777216}
+
+
+sr1646v2OspfAreaRtrLsas OBJECT IDENTIFIER ::= {sr1646v2OspfArea 24}
+
+sr1646v2OspfAreaRtrLsasSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfAreaRtrLsasEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf area router lsa overview"
+   ::= {sr1646v2OspfAreaRtrLsas 1}
+
+sr1646v2OspfAreaRtrLsasEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfAreaRtrLsasEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfAreaRtrLsasGlobalIx,
+                sr1646v2OspfAreaRtrLsasTableIx }
+   ::= {sr1646v2OspfAreaRtrLsasSSCTable 1}
+
+Sr1646v2OspfAreaRtrLsasEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfAreaRtrLsasGlobalIx
+         GlobalIndex,
+      sr1646v2OspfAreaRtrLsasTableIx
+         TableIndex,
+      sr1646v2OspfAreaRtrLsasLinkStateId
+         IpAddress,
+      sr1646v2OspfAreaRtrLsasAdvRouterId
+         IpAddress,
+      sr1646v2OspfAreaRtrLsasAge
+         Integer32,
+      sr1646v2OspfAreaRtrLsasSequenceNr
+         Integer32,
+      sr1646v2OspfAreaRtrLsasOptsFldExt
+         INTEGER,
+      sr1646v2OspfAreaRtrLsasOptsMCast
+         INTEGER,
+      sr1646v2OspfAreaRtrLsasOptsNssa
+         INTEGER,
+      sr1646v2OspfAreaRtrLsasOptsExtAttr
+         INTEGER,
+      sr1646v2OspfAreaRtrLsasOptsDemCirc
+         INTEGER,
+      sr1646v2OspfAreaRtrLsasOptsOpaque
+         INTEGER,
+      sr1646v2OspfAreaRtrLsasRtrTypeAbr
+         INTEGER,
+      sr1646v2OspfAreaRtrLsasRtrTypeAsbr
+         INTEGER,
+      sr1646v2OspfAreaRtrLsasRtrTypeVirtLnk
+         INTEGER,
+      sr1646v2OspfAreaRtrLsasRtrTypeWcMCast
+         INTEGER,
+      sr1646v2OspfAreaRtrLsasRtrTypeNssaTr
+         INTEGER,
+      sr1646v2OspfAreaRtrLsasLinkNr
+         Integer32,
+      sr1646v2OspfAreaRtrLsasLinkId
+         IpAddress,
+      sr1646v2OspfAreaRtrLsasLinkData
+         IpAddress,
+      sr1646v2OspfAreaRtrLsasLinkType
+         INTEGER,
+      sr1646v2OspfAreaRtrLsasCost
+         Integer32
+      }
+
+sr1646v2OspfAreaRtrLsasGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfAreaRtrLsasEntry 10}
+
+sr1646v2OspfAreaRtrLsasTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OspfAreaRtrLsasEntry 11}
+
+sr1646v2OspfAreaRtrLsasLinkStateId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.linkStateId"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 16777216}
+
+sr1646v2OspfAreaRtrLsasAdvRouterId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.advRouterId"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 33554432}
+
+sr1646v2OspfAreaRtrLsasAge OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.age"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 50331648}
+
+sr1646v2OspfAreaRtrLsasSequenceNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.sequenceNr"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 67108864}
+
+sr1646v2OspfAreaRtrLsasOptsFldExt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.options.floodExternal
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 84017152}
+
+sr1646v2OspfAreaRtrLsasOptsMCast OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.options.multicast
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 84082688}
+
+sr1646v2OspfAreaRtrLsasOptsNssa OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.options.nssa
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 84148224}
+
+sr1646v2OspfAreaRtrLsasOptsExtAttr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.options.externalAttributes
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 84213760}
+
+sr1646v2OspfAreaRtrLsasOptsDemCirc OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.options.demandCircuit
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 84279296}
+
+sr1646v2OspfAreaRtrLsasOptsOpaque OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.options.opaque
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 84344832}
+
+sr1646v2OspfAreaRtrLsasRtrTypeAbr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.routerType.areaBorder
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 100728832}
+
+sr1646v2OspfAreaRtrLsasRtrTypeAsbr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.routerType.asbr
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 100794368}
+
+sr1646v2OspfAreaRtrLsasRtrTypeVirtLnk OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.routerType.virtualLink
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 100859904}
+
+sr1646v2OspfAreaRtrLsasRtrTypeWcMCast OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.routerType.wildCardMulticast
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 100925440}
+
+sr1646v2OspfAreaRtrLsasRtrTypeNssaTr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.routerType.nssaTranslator
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 100990976}
+
+sr1646v2OspfAreaRtrLsasLinkNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.linkNr"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 117440512}
+
+sr1646v2OspfAreaRtrLsasLinkId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.linkId"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 134217728}
+
+sr1646v2OspfAreaRtrLsasLinkData OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.linkData"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 150994944}
+
+sr1646v2OspfAreaRtrLsasLinkType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               pointToPoint (1),
+               transit (2),
+               stub (3),
+               virtualLink (4)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.linkType
+
+       Possibilities:
+               pointToPoint   (1)
+               transit   (2)
+               stub   (3)
+               virtualLink   (4)"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 167772160}
+
+sr1646v2OspfAreaRtrLsasCost OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.routerLsas.cost"
+   ::= {sr1646v2OspfAreaRtrLsasEntry 184549376}
+
+
+sr1646v2OspfAreaNetLsas OBJECT IDENTIFIER ::= {sr1646v2OspfArea 25}
+
+sr1646v2OspfAreaNetLsasSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfAreaNetLsasEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf area network lsa overview"
+   ::= {sr1646v2OspfAreaNetLsas 1}
+
+sr1646v2OspfAreaNetLsasEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfAreaNetLsasEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfAreaNetLsasGlobalIx,
+                sr1646v2OspfAreaNetLsasTableIx }
+   ::= {sr1646v2OspfAreaNetLsasSSCTable 1}
+
+Sr1646v2OspfAreaNetLsasEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfAreaNetLsasGlobalIx
+         GlobalIndex,
+      sr1646v2OspfAreaNetLsasTableIx
+         TableIndex,
+      sr1646v2OspfAreaNetLsasLinkStateId
+         IpAddress,
+      sr1646v2OspfAreaNetLsasAdvRouterId
+         IpAddress,
+      sr1646v2OspfAreaNetLsasAge
+         Integer32,
+      sr1646v2OspfAreaNetLsasSequenceNr
+         Integer32,
+      sr1646v2OspfAreaNetLsasOptsFldExt
+         INTEGER,
+      sr1646v2OspfAreaNetLsasOptsMCast
+         INTEGER,
+      sr1646v2OspfAreaNetLsasOptsNssa
+         INTEGER,
+      sr1646v2OspfAreaNetLsasOptsExtAttr
+         INTEGER,
+      sr1646v2OspfAreaNetLsasOptsDemCirc
+         INTEGER,
+      sr1646v2OspfAreaNetLsasOptsOpaque
+         INTEGER,
+      sr1646v2OspfAreaNetLsasNetMask
+         IpAddress,
+      sr1646v2OspfAreaNetLsasLinkNr
+         Integer32,
+      sr1646v2OspfAreaNetLsasRouterId
+         IpAddress
+      }
+
+sr1646v2OspfAreaNetLsasGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfAreaNetLsasEntry 10}
+
+sr1646v2OspfAreaNetLsasTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OspfAreaNetLsasEntry 11}
+
+sr1646v2OspfAreaNetLsasLinkStateId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.networkLsas.linkStateId"
+   ::= {sr1646v2OspfAreaNetLsasEntry 16777216}
+
+sr1646v2OspfAreaNetLsasAdvRouterId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.networkLsas.advRouterId"
+   ::= {sr1646v2OspfAreaNetLsasEntry 33554432}
+
+sr1646v2OspfAreaNetLsasAge OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.networkLsas.age"
+   ::= {sr1646v2OspfAreaNetLsasEntry 50331648}
+
+sr1646v2OspfAreaNetLsasSequenceNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.networkLsas.sequenceNr"
+   ::= {sr1646v2OspfAreaNetLsasEntry 67108864}
+
+sr1646v2OspfAreaNetLsasOptsFldExt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.networkLsas.options.floodExternal
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaNetLsasEntry 84017152}
+
+sr1646v2OspfAreaNetLsasOptsMCast OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.networkLsas.options.multicast
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaNetLsasEntry 84082688}
+
+sr1646v2OspfAreaNetLsasOptsNssa OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.networkLsas.options.nssa
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaNetLsasEntry 84148224}
+
+sr1646v2OspfAreaNetLsasOptsExtAttr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.networkLsas.options.externalAttributes
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaNetLsasEntry 84213760}
+
+sr1646v2OspfAreaNetLsasOptsDemCirc OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.networkLsas.options.demandCircuit
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaNetLsasEntry 84279296}
+
+sr1646v2OspfAreaNetLsasOptsOpaque OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.networkLsas.options.opaque
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaNetLsasEntry 84344832}
+
+sr1646v2OspfAreaNetLsasNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.networkLsas.netMask"
+   ::= {sr1646v2OspfAreaNetLsasEntry 100663296}
+
+sr1646v2OspfAreaNetLsasLinkNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.networkLsas.linkNr"
+   ::= {sr1646v2OspfAreaNetLsasEntry 117440512}
+
+sr1646v2OspfAreaNetLsasRouterId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.networkLsas.routerId"
+   ::= {sr1646v2OspfAreaNetLsasEntry 134217728}
+
+
+sr1646v2OspfAreaSummLsas OBJECT IDENTIFIER ::= {sr1646v2OspfArea 26}
+
+sr1646v2OspfAreaSummLsasSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfAreaSummLsasEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf area summary lsa overview"
+   ::= {sr1646v2OspfAreaSummLsas 1}
+
+sr1646v2OspfAreaSummLsasEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfAreaSummLsasEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfAreaSummLsasGlobalIx,
+                sr1646v2OspfAreaSummLsasTableIx }
+   ::= {sr1646v2OspfAreaSummLsasSSCTable 1}
+
+Sr1646v2OspfAreaSummLsasEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfAreaSummLsasGlobalIx
+         GlobalIndex,
+      sr1646v2OspfAreaSummLsasTableIx
+         TableIndex,
+      sr1646v2OspfAreaSummLsasLinkStateId
+         IpAddress,
+      sr1646v2OspfAreaSummLsasAdvRouterId
+         IpAddress,
+      sr1646v2OspfAreaSummLsasAge
+         Integer32,
+      sr1646v2OspfAreaSummLsasSequenceNr
+         Integer32,
+      sr1646v2OspfAreaSummLsasOptsFldExt
+         INTEGER,
+      sr1646v2OspfAreaSummLsasOptsMCast
+         INTEGER,
+      sr1646v2OspfAreaSummLsasOptsNssa
+         INTEGER,
+      sr1646v2OspfAreaSummLsasOptsExtAttr
+         INTEGER,
+      sr1646v2OspfAreaSummLsasOptsDemCirc
+         INTEGER,
+      sr1646v2OspfAreaSummLsasOptsOpaque
+         INTEGER,
+      sr1646v2OspfAreaSummLsasNetMask
+         IpAddress,
+      sr1646v2OspfAreaSummLsasCost
+         Integer32
+      }
+
+sr1646v2OspfAreaSummLsasGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfAreaSummLsasEntry 10}
+
+sr1646v2OspfAreaSummLsasTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OspfAreaSummLsasEntry 11}
+
+sr1646v2OspfAreaSummLsasLinkStateId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.summLsas.linkStateId"
+   ::= {sr1646v2OspfAreaSummLsasEntry 16777216}
+
+sr1646v2OspfAreaSummLsasAdvRouterId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.summLsas.advRouterId"
+   ::= {sr1646v2OspfAreaSummLsasEntry 33554432}
+
+sr1646v2OspfAreaSummLsasAge OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.summLsas.age"
+   ::= {sr1646v2OspfAreaSummLsasEntry 50331648}
+
+sr1646v2OspfAreaSummLsasSequenceNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.summLsas.sequenceNr"
+   ::= {sr1646v2OspfAreaSummLsasEntry 67108864}
+
+sr1646v2OspfAreaSummLsasOptsFldExt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.summLsas.options.floodExternal
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaSummLsasEntry 84017152}
+
+sr1646v2OspfAreaSummLsasOptsMCast OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.summLsas.options.multicast
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaSummLsasEntry 84082688}
+
+sr1646v2OspfAreaSummLsasOptsNssa OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.summLsas.options.nssa
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaSummLsasEntry 84148224}
+
+sr1646v2OspfAreaSummLsasOptsExtAttr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.summLsas.options.externalAttributes
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaSummLsasEntry 84213760}
+
+sr1646v2OspfAreaSummLsasOptsDemCirc OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.summLsas.options.demandCircuit
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaSummLsasEntry 84279296}
+
+sr1646v2OspfAreaSummLsasOptsOpaque OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.summLsas.options.opaque
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaSummLsasEntry 84344832}
+
+sr1646v2OspfAreaSummLsasNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.summLsas.netMask"
+   ::= {sr1646v2OspfAreaSummLsasEntry 100663296}
+
+sr1646v2OspfAreaSummLsasCost OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.summLsas.cost"
+   ::= {sr1646v2OspfAreaSummLsasEntry 117440512}
+
+
+sr1646v2OspfAreaAsbrLsas OBJECT IDENTIFIER ::= {sr1646v2OspfArea 27}
+
+sr1646v2OspfAreaAsbrLsasSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfAreaAsbrLsasEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf area asbr summary lsa overview"
+   ::= {sr1646v2OspfAreaAsbrLsas 1}
+
+sr1646v2OspfAreaAsbrLsasEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfAreaAsbrLsasEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfAreaAsbrLsasGlobalIx,
+                sr1646v2OspfAreaAsbrLsasTableIx }
+   ::= {sr1646v2OspfAreaAsbrLsasSSCTable 1}
+
+Sr1646v2OspfAreaAsbrLsasEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfAreaAsbrLsasGlobalIx
+         GlobalIndex,
+      sr1646v2OspfAreaAsbrLsasTableIx
+         TableIndex,
+      sr1646v2OspfAreaAsbrLsasLinkStateId
+         IpAddress,
+      sr1646v2OspfAreaAsbrLsasAdvRouterId
+         IpAddress,
+      sr1646v2OspfAreaAsbrLsasAge
+         Integer32,
+      sr1646v2OspfAreaAsbrLsasSequenceNr
+         Integer32,
+      sr1646v2OspfAreaAsbrLsasOptsFldExt
+         INTEGER,
+      sr1646v2OspfAreaAsbrLsasOptsMCast
+         INTEGER,
+      sr1646v2OspfAreaAsbrLsasOptsNssa
+         INTEGER,
+      sr1646v2OspfAreaAsbrLsasOptsExtAttr
+         INTEGER,
+      sr1646v2OspfAreaAsbrLsasOptsDemCirc
+         INTEGER,
+      sr1646v2OspfAreaAsbrLsasOptsOpaque
+         INTEGER,
+      sr1646v2OspfAreaAsbrLsasCost
+         Integer32
+      }
+
+sr1646v2OspfAreaAsbrLsasGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfAreaAsbrLsasEntry 10}
+
+sr1646v2OspfAreaAsbrLsasTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OspfAreaAsbrLsasEntry 11}
+
+sr1646v2OspfAreaAsbrLsasLinkStateId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.asbrLsas.linkStateId"
+   ::= {sr1646v2OspfAreaAsbrLsasEntry 16777216}
+
+sr1646v2OspfAreaAsbrLsasAdvRouterId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.asbrLsas.advRouterId"
+   ::= {sr1646v2OspfAreaAsbrLsasEntry 33554432}
+
+sr1646v2OspfAreaAsbrLsasAge OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.asbrLsas.age"
+   ::= {sr1646v2OspfAreaAsbrLsasEntry 50331648}
+
+sr1646v2OspfAreaAsbrLsasSequenceNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.asbrLsas.sequenceNr"
+   ::= {sr1646v2OspfAreaAsbrLsasEntry 67108864}
+
+sr1646v2OspfAreaAsbrLsasOptsFldExt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.asbrLsas.options.floodExternal
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaAsbrLsasEntry 84017152}
+
+sr1646v2OspfAreaAsbrLsasOptsMCast OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.asbrLsas.options.multicast
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaAsbrLsasEntry 84082688}
+
+sr1646v2OspfAreaAsbrLsasOptsNssa OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.asbrLsas.options.nssa
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaAsbrLsasEntry 84148224}
+
+sr1646v2OspfAreaAsbrLsasOptsExtAttr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.asbrLsas.options.externalAttributes
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaAsbrLsasEntry 84213760}
+
+sr1646v2OspfAreaAsbrLsasOptsDemCirc OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.asbrLsas.options.demandCircuit
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaAsbrLsasEntry 84279296}
+
+sr1646v2OspfAreaAsbrLsasOptsOpaque OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.asbrLsas.options.opaque
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaAsbrLsasEntry 84344832}
+
+sr1646v2OspfAreaAsbrLsasCost OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.asbrLsas.cost"
+   ::= {sr1646v2OspfAreaAsbrLsasEntry 100663296}
+
+
+sr1646v2OspfAreaNssaLsas OBJECT IDENTIFIER ::= {sr1646v2OspfArea 29}
+
+sr1646v2OspfAreaNssaLsasSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfAreaNssaLsasEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf router as external lsa overview"
+   ::= {sr1646v2OspfAreaNssaLsas 1}
+
+sr1646v2OspfAreaNssaLsasEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfAreaNssaLsasEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfAreaNssaLsasGlobalIx,
+                sr1646v2OspfAreaNssaLsasTableIx }
+   ::= {sr1646v2OspfAreaNssaLsasSSCTable 1}
+
+Sr1646v2OspfAreaNssaLsasEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfAreaNssaLsasGlobalIx
+         GlobalIndex,
+      sr1646v2OspfAreaNssaLsasTableIx
+         TableIndex,
+      sr1646v2OspfAreaNssaLsasLinkStateId
+         IpAddress,
+      sr1646v2OspfAreaNssaLsasAdvRouterId
+         IpAddress,
+      sr1646v2OspfAreaNssaLsasAge
+         Integer32,
+      sr1646v2OspfAreaNssaLsasSequenceNr
+         Integer32,
+      sr1646v2OspfAreaNssaLsasOptsFldExt
+         INTEGER,
+      sr1646v2OspfAreaNssaLsasOptsMCast
+         INTEGER,
+      sr1646v2OspfAreaNssaLsasOptsPropagate
+         INTEGER,
+      sr1646v2OspfAreaNssaLsasOptsExtAttr
+         INTEGER,
+      sr1646v2OspfAreaNssaLsasOptsDemCirc
+         INTEGER,
+      sr1646v2OspfAreaNssaLsasOptsOpaque
+         INTEGER,
+      sr1646v2OspfAreaNssaLsasNetMask
+         IpAddress,
+      sr1646v2OspfAreaNssaLsasCostType
+         INTEGER,
+      sr1646v2OspfAreaNssaLsasCost
+         Integer32,
+      sr1646v2OspfAreaNssaLsasTag
+         Integer32,
+      sr1646v2OspfAreaNssaLsasFwdAddr
+         IpAddress
+      }
+
+sr1646v2OspfAreaNssaLsasGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfAreaNssaLsasEntry 10}
+
+sr1646v2OspfAreaNssaLsasTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OspfAreaNssaLsasEntry 11}
+
+sr1646v2OspfAreaNssaLsasLinkStateId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.linkStateId"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 16777216}
+
+sr1646v2OspfAreaNssaLsasAdvRouterId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.advRouterId"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 33554432}
+
+sr1646v2OspfAreaNssaLsasAge OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.age"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 50331648}
+
+sr1646v2OspfAreaNssaLsasSequenceNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.sequenceNr"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 67108864}
+
+sr1646v2OspfAreaNssaLsasOptsFldExt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.options.floodExternal
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 84017152}
+
+sr1646v2OspfAreaNssaLsasOptsMCast OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.options.multicast
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 84082688}
+
+sr1646v2OspfAreaNssaLsasOptsPropagate OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.options.propagate
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 84148224}
+
+sr1646v2OspfAreaNssaLsasOptsExtAttr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.options.externalAttributes
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 84213760}
+
+sr1646v2OspfAreaNssaLsasOptsDemCirc OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.options.demandCircuit
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 84279296}
+
+sr1646v2OspfAreaNssaLsasOptsOpaque OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.options.opaque
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 84344832}
+
+sr1646v2OspfAreaNssaLsasNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.netMask"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 100663296}
+
+sr1646v2OspfAreaNssaLsasCostType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               type1 (0),
+               type2 (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.costType
+
+       Possibilities:
+               type1   (0)
+               type2   (1)"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 117440512}
+
+sr1646v2OspfAreaNssaLsasCost OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.cost"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 134217728}
+
+sr1646v2OspfAreaNssaLsasTag OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.tag"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 150994944}
+
+sr1646v2OspfAreaNssaLsasFwdAddr OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: area.status.nssaLsas.forwardAddress"
+   ::= {sr1646v2OspfAreaNssaLsasEntry 167772160}
+
+
+
+END

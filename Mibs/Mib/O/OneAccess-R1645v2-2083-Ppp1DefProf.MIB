@@ -1,0 +1,432 @@
+OneAccess-R1645v2-2083-Ppp1DefProf DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Ppp1DefProf OBJECT IDENTIFIER ::= {r1645Rootv2 2083}
+
+r1645v2Ppp1DefProfMOProp OBJECT IDENTIFIER ::= {r1645v2Ppp1DefProf 1}
+
+r1645v2Ppp1DefProfMOPropEntry OBJECT IDENTIFIER ::= {r1645v2Ppp1DefProfMOProp 1}
+
+r1645v2Ppp1DefProfMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2Ppp1DefProfMOPropEntry 3}
+
+r1645v2Ppp1DefProfMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2Ppp1DefProfMOPropEntry 4}
+
+
+
+er1645v2Ppp1DefProf OBJECT IDENTIFIER ::= {r1645v2Ppp1DefProf 11}
+
+
+er1645v2Ppp1DefProfLinkMon OBJECT IDENTIFIER ::= {er1645v2Ppp1DefProf 3}
+
+er1645v2Ppp1DefProfLinkMonSSC OBJECT IDENTIFIER ::= {er1645v2Ppp1DefProfLinkMon 1}
+
+er1645v2Ppp1DefProfLinkMonEntry OBJECT IDENTIFIER ::= {er1645v2Ppp1DefProfLinkMonSSC 1}
+
+er1645v2Ppp1DefProfLinkMonOperation OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.linkMonitoring.operation
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2Ppp1DefProfLinkMonEntry 16777216}
+
+er1645v2Ppp1DefProfLinkMonInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.linkMonitoring.interval
+
+       Time in centi-second."
+   ::= {er1645v2Ppp1DefProfLinkMonEntry 33554432}
+
+er1645v2Ppp1DefProfLinkMonRepTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.linkMonitoring.replyTimeOut
+
+       Time in centi-second."
+   ::= {er1645v2Ppp1DefProfLinkMonEntry 50331648}
+
+er1645v2Ppp1DefProfLinkMonFailsPrmt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.linkMonitoring.failsPermitted"
+   ::= {er1645v2Ppp1DefProfLinkMonEntry 67108864}
+
+
+er1645v2Ppp1DefProfAuthentication OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               chap (1),
+               pap (2),
+               chapOrPap (3),
+               msChap (4),
+               msChapV2 (5)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.authentication
+       Info: pppAuthentication
+
+       Possibilities:
+               disabled   (0)
+               chap   (1)
+               pap   (2)
+               chapOrPap   (3)
+               msChap   (4)
+               msChapV2   (5)"
+   ::= {er1645v2Ppp1DefProf 4}
+
+
+er1645v2Ppp1DefProfAuthenPeriod OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.authenPeriod
+       Info: pppAuthenPeriod
+
+       Time in centi-second."
+   ::= {er1645v2Ppp1DefProf 5}
+
+
+er1645v2Ppp1DefProfCompression OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               predictor1 (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.compression
+       Info: pppCompression
+
+       Possibilities:
+               disabled   (0)
+               predictor1   (1)"
+   ::= {er1645v2Ppp1DefProf 6}
+
+
+er1645v2Ppp1DefProfCbk OBJECT IDENTIFIER ::= {er1645v2Ppp1DefProf 9}
+
+er1645v2Ppp1DefProfCbkSSC OBJECT IDENTIFIER ::= {er1645v2Ppp1DefProfCbk 1}
+
+er1645v2Ppp1DefProfCbkEntry OBJECT IDENTIFIER ::= {er1645v2Ppp1DefProfCbkSSC 1}
+
+er1645v2Ppp1DefProfCbkType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               authentication (1),
+               e164Number (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.callback.type
+
+       Possibilities:
+               disabled   (0)
+               authentication   (1)
+               e164Number   (4)"
+   ::= {er1645v2Ppp1DefProfCbkEntry 16777216}
+
+
+er1645v2Ppp1DefProfConnection OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               singleLink (0),
+               multiLink (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.connection
+       Info: multilink connection type
+
+       Possibilities:
+               singleLink   (0)
+               multiLink   (1)"
+   ::= {er1645v2Ppp1DefProf 7}
+
+
+er1645v2Ppp1DefProfMLnk OBJECT IDENTIFIER ::= {er1645v2Ppp1DefProf 8}
+
+er1645v2Ppp1DefProfMLnkSSC OBJECT IDENTIFIER ::= {er1645v2Ppp1DefProfMLnk 1}
+
+er1645v2Ppp1DefProfMLnkEntry OBJECT IDENTIFIER ::= {er1645v2Ppp1DefProfMLnkSSC 1}
+
+er1645v2Ppp1DefProfMLnkMinCh OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.multiLink.initialChannels"
+   ::= {er1645v2Ppp1DefProfMLnkEntry 16777216}
+
+er1645v2Ppp1DefProfMLnkBapOp OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.multiLink.bap.operation
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2Ppp1DefProfMLnkEntry 33619968}
+
+er1645v2Ppp1DefProfMLnkBapMaxCh OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.multiLink.bap.maxChannels"
+   ::= {er1645v2Ppp1DefProfMLnkEntry 33685504}
+
+er1645v2Ppp1DefProfMLnkBapRemTmout OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.multiLink.bap.removeTimeout
+
+       unit name = sec"
+   ::= {er1645v2Ppp1DefProfMLnkEntry 33751040}
+
+er1645v2Ppp1DefProfMLnkBapAddTmout OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.multiLink.bap.addTimeout
+
+       unit name = sec"
+   ::= {er1645v2Ppp1DefProfMLnkEntry 33816576}
+
+er1645v2Ppp1DefProfMLnkBapRemThrIn OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.multiLink.bap.removeThresholdIn
+
+       unit name = %"
+   ::= {er1645v2Ppp1DefProfMLnkEntry 33882112}
+
+er1645v2Ppp1DefProfMLnkBapRemThrOut OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.multiLink.bap.removeThresholdOut
+
+       unit name = %"
+   ::= {er1645v2Ppp1DefProfMLnkEntry 33947648}
+
+er1645v2Ppp1DefProfMLnkBapAddThrIn OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.multiLink.bap.addThresholdIn
+
+       unit name = %"
+   ::= {er1645v2Ppp1DefProfMLnkEntry 34013184}
+
+er1645v2Ppp1DefProfMLnkBapAddThrOut OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.multiLink.bap.addThresholdOut
+
+       unit name = %"
+   ::= {er1645v2Ppp1DefProfMLnkEntry 34078720}
+
+er1645v2Ppp1DefProfMLnkBapCbReq OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               reject (0),
+               accept (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.multiLink.bap.callBackRequests
+
+       Possibilities:
+               reject   (0)
+               accept   (1)"
+   ::= {er1645v2Ppp1DefProfMLnkEntry 34144256}
+
+er1645v2Ppp1DefProfMLnkEndpDiscCl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               localAssignedAddress (1),
+               macAddress (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.multiLink.endpointDiscrClass
+
+       Possibilities:
+               localAssignedAddress   (1)
+               macAddress   (3)"
+   ::= {er1645v2Ppp1DefProfMLnkEntry 50331648}
+
+er1645v2Ppp1DefProfMLnkFrag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.editConf.multiLink.fragmentation
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2Ppp1DefProfMLnkEntry 67108864}
+
+
+
+sr1645v2Ppp1DefProf OBJECT IDENTIFIER ::= {r1645v2Ppp1DefProf 14}
+
+
+sr1645v2Ppp1DefProfProfUsers OBJECT IDENTIFIER ::= {sr1645v2Ppp1DefProf 40}
+
+sr1645v2Ppp1DefProfProfUsersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2Ppp1DefProfProfUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "users of the different profiles"
+   ::= {sr1645v2Ppp1DefProfProfUsers 1}
+
+sr1645v2Ppp1DefProfProfUsersEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2Ppp1DefProfProfUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2Ppp1DefProfProfUsersTableIx }
+   ::= {sr1645v2Ppp1DefProfProfUsersSSCTable 1}
+
+Sr1645v2Ppp1DefProfProfUsersEntry ::=
+   SEQUENCE
+      {
+      sr1645v2Ppp1DefProfProfUsersTableIx
+         TableIndex,
+      sr1645v2Ppp1DefProfProfUsersType
+         INTEGER,
+      sr1645v2Ppp1DefProfProfUsersName
+         DisplayString
+      }
+
+sr1645v2Ppp1DefProfProfUsersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2Ppp1DefProfProfUsersEntry 11}
+
+sr1645v2Ppp1DefProfProfUsersType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dialmap (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.status.profileUsers.type
+
+       Possibilities:
+               dialmap   (1)"
+   ::= {sr1645v2Ppp1DefProfProfUsersEntry 16777216}
+
+sr1645v2Ppp1DefProfProfUsersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPpp.status.profileUsers.name"
+   ::= {sr1645v2Ppp1DefProfProfUsersEntry 33554432}
+
+
+
+END

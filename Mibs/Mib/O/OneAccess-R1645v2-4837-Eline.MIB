@@ -1,0 +1,186 @@
+OneAccess-R1645v2-4837-Eline DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Eline OBJECT IDENTIFIER ::= {r1645Rootv2 4837}
+
+r1645v2ElineMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2ElineMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2Eline 1}
+
+r1645v2ElineMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2ElineMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2ElineMOPropGlobalIx }
+   ::= {r1645v2ElineMOProp 1}
+
+R1645v2ElineMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2ElineMOPropPath
+         ContainmentPath,
+      r1645v2ElineMOPropRev
+         ObjectRevision,
+      r1645v2ElineMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2ElineMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2ElineMOPropEntry 3}
+
+r1645v2ElineMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2ElineMOPropEntry 4}
+
+r1645v2ElineMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2ElineMOPropEntry 10}
+
+
+
+sr1645v2Eline OBJECT IDENTIFIER ::= {r1645v2Eline 14}
+
+
+sr1645v2ElineG997VendorID OBJECT IDENTIFIER ::= {sr1645v2Eline 24}
+
+sr1645v2ElineG997VendorIDTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2ElineG997VendorIDEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "GFast vendor ID"
+   ::= {sr1645v2ElineG997VendorID 1}
+
+sr1645v2ElineG997VendorIDEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2ElineG997VendorIDEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2ElineG997VendorIDGlobalIx }
+   ::= {sr1645v2ElineG997VendorIDTable 1}
+
+Sr1645v2ElineG997VendorIDEntry ::=
+   SEQUENCE
+      {
+      sr1645v2ElineG997VendorIDGlobalIx
+         GlobalIndex,
+      sr1645v2ElineG997VendorIDValue
+         OCTET STRING
+      }
+
+sr1645v2ElineG997VendorIDGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2ElineG997VendorIDEntry 10}
+
+sr1645v2ElineG997VendorIDValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: end.status.g997VendorID"
+   ::= {sr1645v2ElineG997VendorIDEntry 2147483648}
+
+
+sr1645v2ElineSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2Eline 269}
+
+sr1645v2ElineSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2ElineSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2ElineSnmpIndex 1}
+
+sr1645v2ElineSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2ElineSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2ElineSnmpIndexGlobalIx }
+   ::= {sr1645v2ElineSnmpIndexTable 1}
+
+Sr1645v2ElineSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2ElineSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2ElineSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2ElineSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2ElineSnmpIndexEntry 10}
+
+sr1645v2ElineSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: end.status.snmpIndex"
+   ::= {sr1645v2ElineSnmpIndexEntry 2147483648}
+
+
+
+END

@@ -1,0 +1,3720 @@
+OneAccess-R1646v2-2220-BgpRtr DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2BgpRtr OBJECT IDENTIFIER ::= {r1646Rootv2 2220}
+
+r1646v2BgpRtrMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2BgpRtrMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2BgpRtr 1}
+
+r1646v2BgpRtrMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2BgpRtrMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2BgpRtrMOPropGlobalIx }
+   ::= {r1646v2BgpRtrMOProp 1}
+
+R1646v2BgpRtrMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2BgpRtrMOPropPath
+         ContainmentPath,
+      r1646v2BgpRtrMOPropRev
+         ObjectRevision,
+      r1646v2BgpRtrMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2BgpRtrMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2BgpRtrMOPropEntry 3}
+
+r1646v2BgpRtrMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2BgpRtrMOPropEntry 4}
+
+r1646v2BgpRtrMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2BgpRtrMOPropEntry 10}
+
+
+
+er1646v2BgpRtr OBJECT IDENTIFIER ::= {r1646v2BgpRtr 11}
+
+
+er1646v2BgpRtrAsNr OBJECT IDENTIFIER ::= {er1646v2BgpRtr 2}
+
+er1646v2BgpRtrAsNrTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrAsNrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Autonomous system number of this router"
+   ::= {er1646v2BgpRtrAsNr 1}
+
+er1646v2BgpRtrAsNrEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrAsNrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrAsNrGlobalIx }
+   ::= {er1646v2BgpRtrAsNrTable 1}
+
+Er1646v2BgpRtrAsNrEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrAsNrGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrAsNrValue
+         Integer32
+      }
+
+er1646v2BgpRtrAsNrGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrAsNrEntry 10}
+
+er1646v2BgpRtrAsNrValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.asNr"
+   ::= {er1646v2BgpRtrAsNrEntry 2147483648}
+
+
+er1646v2BgpRtrRouterId OBJECT IDENTIFIER ::= {er1646v2BgpRtr 3}
+
+er1646v2BgpRtrRouterIdTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrRouterIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "BGP identifier of this router"
+   ::= {er1646v2BgpRtrRouterId 1}
+
+er1646v2BgpRtrRouterIdEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrRouterIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrRouterIdGlobalIx }
+   ::= {er1646v2BgpRtrRouterIdTable 1}
+
+Er1646v2BgpRtrRouterIdEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrRouterIdGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrRouterIdValue
+         IpAddress
+      }
+
+er1646v2BgpRtrRouterIdGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrRouterIdEntry 10}
+
+er1646v2BgpRtrRouterIdValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routerId"
+   ::= {er1646v2BgpRtrRouterIdEntry 2147483648}
+
+
+er1646v2BgpRtrLocalPreference OBJECT IDENTIFIER ::= {er1646v2BgpRtr 5}
+
+er1646v2BgpRtrLocalPreferenceTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrLocalPreferenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "default local preference value"
+   ::= {er1646v2BgpRtrLocalPreference 1}
+
+er1646v2BgpRtrLocalPreferenceEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrLocalPreferenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrLocalPreferenceGlobalIx }
+   ::= {er1646v2BgpRtrLocalPreferenceTable 1}
+
+Er1646v2BgpRtrLocalPreferenceEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrLocalPreferenceGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrLocalPreferenceValue
+         Gauge32
+      }
+
+er1646v2BgpRtrLocalPreferenceGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrLocalPreferenceEntry 10}
+
+er1646v2BgpRtrLocalPreferenceValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.localPreference
+
+       32 bit unsigned gauge value."
+   ::= {er1646v2BgpRtrLocalPreferenceEntry 2147483648}
+
+
+er1646v2BgpRtrEPreference OBJECT IDENTIFIER ::= {er1646v2BgpRtr 15}
+
+er1646v2BgpRtrEPreferenceTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrEPreferenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "default local preference value"
+   ::= {er1646v2BgpRtrEPreference 1}
+
+er1646v2BgpRtrEPreferenceEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrEPreferenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrEPreferenceGlobalIx }
+   ::= {er1646v2BgpRtrEPreferenceTable 1}
+
+Er1646v2BgpRtrEPreferenceEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrEPreferenceGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrEPreferenceValue
+         Gauge32
+      }
+
+er1646v2BgpRtrEPreferenceGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrEPreferenceEntry 10}
+
+er1646v2BgpRtrEPreferenceValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.ePreference
+
+       32 bit unsigned gauge value."
+   ::= {er1646v2BgpRtrEPreferenceEntry 2147483648}
+
+
+er1646v2BgpRtrIPreference OBJECT IDENTIFIER ::= {er1646v2BgpRtr 16}
+
+er1646v2BgpRtrIPreferenceTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrIPreferenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "default local preference value"
+   ::= {er1646v2BgpRtrIPreference 1}
+
+er1646v2BgpRtrIPreferenceEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrIPreferenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrIPreferenceGlobalIx }
+   ::= {er1646v2BgpRtrIPreferenceTable 1}
+
+Er1646v2BgpRtrIPreferenceEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrIPreferenceGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrIPreferenceValue
+         Gauge32
+      }
+
+er1646v2BgpRtrIPreferenceGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrIPreferenceEntry 10}
+
+er1646v2BgpRtrIPreferenceValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.iPreference
+
+       32 bit unsigned gauge value."
+   ::= {er1646v2BgpRtrIPreferenceEntry 2147483648}
+
+
+er1646v2BgpRtrBestPath OBJECT IDENTIFIER ::= {er1646v2BgpRtr 6}
+
+er1646v2BgpRtrBestPathSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrBestPathEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "criteria for bgp best path selection"
+   ::= {er1646v2BgpRtrBestPath 1}
+
+er1646v2BgpRtrBestPathEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrBestPathEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrBestPathGlobalIx }
+   ::= {er1646v2BgpRtrBestPathSSCTable 1}
+
+Er1646v2BgpRtrBestPathEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrBestPathGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrBestPathIgnoreAsPath
+         INTEGER,
+      er1646v2BgpRtrBestPathDetMed
+         INTEGER,
+      er1646v2BgpRtrBestPathAlwMed
+         INTEGER,
+      er1646v2BgpRtrBestPathMissingMedWorst
+         INTEGER,
+      er1646v2BgpRtrBestPathCompareRouterId
+         INTEGER,
+      er1646v2BgpRtrBestPathMaximumPaths
+         INTEGER
+      }
+
+er1646v2BgpRtrBestPathGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrBestPathEntry 10}
+
+er1646v2BgpRtrBestPathIgnoreAsPath OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.bestPath.ignoreAsPath
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2BgpRtrBestPathEntry 16777216}
+
+er1646v2BgpRtrBestPathDetMed OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.bestPath.deterministicMed
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2BgpRtrBestPathEntry 33554432}
+
+er1646v2BgpRtrBestPathAlwMed OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.bestPath.alwaysCompareMed
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2BgpRtrBestPathEntry 50331648}
+
+er1646v2BgpRtrBestPathMissingMedWorst OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.bestPath.missingMedWorst
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2BgpRtrBestPathEntry 67108864}
+
+er1646v2BgpRtrBestPathCompareRouterId OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.bestPath.compareRouterId
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2BgpRtrBestPathEntry 83886080}
+
+er1646v2BgpRtrBestPathMaximumPaths OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unlimited (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.bestPath.maximumPaths
+
+       Possibilities:
+               unlimited   (0)"
+   ::= {er1646v2BgpRtrBestPathEntry 100663296}
+
+
+er1646v2BgpRtrNetworks OBJECT IDENTIFIER ::= {er1646v2BgpRtr 4}
+
+er1646v2BgpRtrNetworksSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrNetworksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "List of networks to be distributed"
+   ::= {er1646v2BgpRtrNetworks 1}
+
+er1646v2BgpRtrNetworksEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrNetworksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrNetworksGlobalIx,
+                er1646v2BgpRtrNetworksTableIx }
+   ::= {er1646v2BgpRtrNetworksSSCTable 1}
+
+Er1646v2BgpRtrNetworksEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrNetworksActions
+         VariableLengthTableActions,
+      er1646v2BgpRtrNetworksGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrNetworksTableIx
+         TableIndex,
+      er1646v2BgpRtrNetworksAddress
+         IpAddress,
+      er1646v2BgpRtrNetworksMask
+         IpAddress,
+      er1646v2BgpRtrNetworksRouteMap
+         DisplayString
+      }
+
+er1646v2BgpRtrNetworksActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpRtrNetworksEntry 2}
+
+er1646v2BgpRtrNetworksGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrNetworksEntry 10}
+
+er1646v2BgpRtrNetworksTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrNetworksEntry 11}
+
+er1646v2BgpRtrNetworksAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.networks.address"
+   ::= {er1646v2BgpRtrNetworksEntry 16777216}
+
+er1646v2BgpRtrNetworksMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.networks.mask"
+   ::= {er1646v2BgpRtrNetworksEntry 33554432}
+
+er1646v2BgpRtrNetworksRouteMap OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.networks.routeMap"
+   ::= {er1646v2BgpRtrNetworksEntry 50331648}
+
+
+er1646v2BgpRtrAggregates OBJECT IDENTIFIER ::= {er1646v2BgpRtr 7}
+
+er1646v2BgpRtrAggregatesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrAggregatesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "List of aggregates to be distributed"
+   ::= {er1646v2BgpRtrAggregates 1}
+
+er1646v2BgpRtrAggregatesEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrAggregatesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrAggregatesGlobalIx,
+                er1646v2BgpRtrAggregatesTableIx }
+   ::= {er1646v2BgpRtrAggregatesSSCTable 1}
+
+Er1646v2BgpRtrAggregatesEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrAggregatesActions
+         VariableLengthTableActions,
+      er1646v2BgpRtrAggregatesGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrAggregatesTableIx
+         TableIndex,
+      er1646v2BgpRtrAggregatesAddress
+         IpAddress,
+      er1646v2BgpRtrAggregatesMask
+         IpAddress,
+      er1646v2BgpRtrAggregatesSummaryOnly
+         INTEGER,
+      er1646v2BgpRtrAggregatesAsSet
+         INTEGER,
+      er1646v2BgpRtrAggregatesRouteMap
+         DisplayString
+      }
+
+er1646v2BgpRtrAggregatesActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpRtrAggregatesEntry 2}
+
+er1646v2BgpRtrAggregatesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrAggregatesEntry 10}
+
+er1646v2BgpRtrAggregatesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrAggregatesEntry 11}
+
+er1646v2BgpRtrAggregatesAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.aggregates.address"
+   ::= {er1646v2BgpRtrAggregatesEntry 16777216}
+
+er1646v2BgpRtrAggregatesMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.aggregates.mask"
+   ::= {er1646v2BgpRtrAggregatesEntry 33554432}
+
+er1646v2BgpRtrAggregatesSummaryOnly OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.aggregates.summaryOnly
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2BgpRtrAggregatesEntry 50331648}
+
+er1646v2BgpRtrAggregatesAsSet OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.aggregates.asSet
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2BgpRtrAggregatesEntry 67108864}
+
+er1646v2BgpRtrAggregatesRouteMap OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.aggregates.routeMap"
+   ::= {er1646v2BgpRtrAggregatesEntry 83886080}
+
+
+er1646v2BgpRtrImportMetrics OBJECT IDENTIFIER ::= {er1646v2BgpRtr 8}
+
+er1646v2BgpRtrImportMetricsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrImportMetricsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "metrics for importing routes from other protocols"
+   ::= {er1646v2BgpRtrImportMetrics 1}
+
+er1646v2BgpRtrImportMetricsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrImportMetricsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrImportMetricsGlobalIx }
+   ::= {er1646v2BgpRtrImportMetricsSSCTable 1}
+
+Er1646v2BgpRtrImportMetricsEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrImportMetricsGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrImportMetricsLocal
+         INTEGER,
+      er1646v2BgpRtrImportMetricsStatic
+         INTEGER,
+      er1646v2BgpRtrImportMetricsRip
+         INTEGER,
+      er1646v2BgpRtrImportMetricsOspf
+         INTEGER,
+      er1646v2BgpRtrImportMetricsRadius
+         INTEGER
+      }
+
+er1646v2BgpRtrImportMetricsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrImportMetricsEntry 10}
+
+er1646v2BgpRtrImportMetricsLocal OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noImport (-2),
+               useIGP (-1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.importMetrics.local
+
+       Possibilities:
+               noImport   (-2)
+               useIGP   (-1)"
+   ::= {er1646v2BgpRtrImportMetricsEntry 16777216}
+
+er1646v2BgpRtrImportMetricsStatic OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noImport (-2),
+               useIGP (-1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.importMetrics.static
+
+       Possibilities:
+               noImport   (-2)
+               useIGP   (-1)"
+   ::= {er1646v2BgpRtrImportMetricsEntry 33554432}
+
+er1646v2BgpRtrImportMetricsRip OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noImport (-2),
+               useIGP (-1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.importMetrics.rip
+
+       Possibilities:
+               noImport   (-2)
+               useIGP   (-1)"
+   ::= {er1646v2BgpRtrImportMetricsEntry 50331648}
+
+er1646v2BgpRtrImportMetricsOspf OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noImport (-2),
+               useIGP (-1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.importMetrics.ospf
+
+       Possibilities:
+               noImport   (-2)
+               useIGP   (-1)"
+   ::= {er1646v2BgpRtrImportMetricsEntry 67108864}
+
+er1646v2BgpRtrImportMetricsRadius OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noImport (-2),
+               useIGP (-1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.importMetrics.radius
+
+       Possibilities:
+               noImport   (-2)
+               useIGP   (-1)"
+   ::= {er1646v2BgpRtrImportMetricsEntry 83886080}
+
+
+er1646v2BgpRtrImportFilter OBJECT IDENTIFIER ::= {er1646v2BgpRtr 9}
+
+er1646v2BgpRtrImportFilterSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrImportFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bgp router import filter definition"
+   ::= {er1646v2BgpRtrImportFilter 1}
+
+er1646v2BgpRtrImportFilterEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrImportFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrImportFilterGlobalIx,
+                er1646v2BgpRtrImportFilterTableIx }
+   ::= {er1646v2BgpRtrImportFilterSSCTable 1}
+
+Er1646v2BgpRtrImportFilterEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrImportFilterActions
+         VariableLengthTableActions,
+      er1646v2BgpRtrImportFilterGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrImportFilterTableIx
+         TableIndex,
+      er1646v2BgpRtrImportFilterType
+         INTEGER,
+      er1646v2BgpRtrImportFilterAddress
+         IpAddress,
+      er1646v2BgpRtrImportFilterMask
+         IpAddress,
+      er1646v2BgpRtrImportFilterInterface
+         DisplayString,
+      er1646v2BgpRtrImportFilterMode
+         INTEGER,
+      er1646v2BgpRtrImportFilterRouteMap
+         DisplayString
+      }
+
+er1646v2BgpRtrImportFilterActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpRtrImportFilterEntry 2}
+
+er1646v2BgpRtrImportFilterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrImportFilterEntry 10}
+
+er1646v2BgpRtrImportFilterTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrImportFilterEntry 11}
+
+er1646v2BgpRtrImportFilterType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               local (0),
+               static (1),
+               rip (2),
+               ospf (3),
+               radius (4),
+               all (5)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.importFilter.type
+
+       Possibilities:
+               local   (0)
+               static   (1)
+               rip   (2)
+               ospf   (3)
+               radius   (4)
+               all   (5)"
+   ::= {er1646v2BgpRtrImportFilterEntry 16777216}
+
+er1646v2BgpRtrImportFilterAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.importFilter.address"
+   ::= {er1646v2BgpRtrImportFilterEntry 33554432}
+
+er1646v2BgpRtrImportFilterMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.importFilter.mask"
+   ::= {er1646v2BgpRtrImportFilterEntry 50331648}
+
+er1646v2BgpRtrImportFilterInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.importFilter.interface"
+   ::= {er1646v2BgpRtrImportFilterEntry 117440512}
+
+er1646v2BgpRtrImportFilterMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               deny (0),
+               allow (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.importFilter.mode
+
+       Possibilities:
+               deny   (0)
+               allow   (1)"
+   ::= {er1646v2BgpRtrImportFilterEntry 83886080}
+
+er1646v2BgpRtrImportFilterRouteMap OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.importFilter.routeMap"
+   ::= {er1646v2BgpRtrImportFilterEntry 100663296}
+
+
+er1646v2BgpRtrFilterGroups OBJECT IDENTIFIER ::= {er1646v2BgpRtr 10}
+
+er1646v2BgpRtrFilterGroupsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrFilterGroupsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bgp router import filter definition"
+   ::= {er1646v2BgpRtrFilterGroups 1}
+
+er1646v2BgpRtrFilterGroupsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrFilterGroupsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrFilterGroupsGlobalIx,
+                er1646v2BgpRtrFilterGroupsTableIx }
+   ::= {er1646v2BgpRtrFilterGroupsSSCTable 1}
+
+Er1646v2BgpRtrFilterGroupsEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrFilterGroupsActions
+         VariableLengthTableActions,
+      er1646v2BgpRtrFilterGroupsGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrFilterGroupsTableIx
+         TableIndex,
+      er1646v2BgpRtrFilterGroupsName
+         DisplayString
+      }
+
+er1646v2BgpRtrFilterGroupsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpRtrFilterGroupsEntry 2}
+
+er1646v2BgpRtrFilterGroupsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrFilterGroupsEntry 10}
+
+er1646v2BgpRtrFilterGroupsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrFilterGroupsEntry 11}
+
+er1646v2BgpRtrFilterGroupsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.filterGroups.name"
+   ::= {er1646v2BgpRtrFilterGroupsEntry 16777216}
+
+er1646v2BgpRtrFilterGroupsRouteFilters OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrFilterGroupsRouteFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrFilterGroups 33554432}
+
+er1646v2BgpRtrFilterGroupsRouteFiltersEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrFilterGroupsRouteFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrFilterGroupsRouteFiltersGlobalIx,
+                er1646v2BgpRtrFilterGroupsTableIx,
+                er1646v2BgpRtrFilterGroupsRouteFiltersTableIx }
+   ::= {er1646v2BgpRtrFilterGroupsRouteFilters 1}
+
+Er1646v2BgpRtrFilterGroupsRouteFiltersEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrFilterGroupsRouteFiltersActions
+         VariableLengthTableActions,
+      er1646v2BgpRtrFilterGroupsRouteFiltersGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrFilterGroupsRouteFiltersTableIx
+         TableIndex,
+      er1646v2BgpRtrFilterGroupsRouteFiltersName
+         DisplayString
+      }
+
+er1646v2BgpRtrFilterGroupsRouteFiltersActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpRtrFilterGroupsRouteFiltersEntry 2}
+
+er1646v2BgpRtrFilterGroupsRouteFiltersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrFilterGroupsRouteFiltersEntry 10}
+
+er1646v2BgpRtrFilterGroupsRouteFiltersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrFilterGroupsRouteFiltersEntry 11}
+
+er1646v2BgpRtrFilterGroupsRouteFiltersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.filterGroups.routeFilters.name"
+   ::= {er1646v2BgpRtrFilterGroupsRouteFiltersEntry 16777216}
+
+
+er1646v2BgpRtrMapGroups OBJECT IDENTIFIER ::= {er1646v2BgpRtr 11}
+
+er1646v2BgpRtrMapGroupsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrMapGroupsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bgp router import filter definition"
+   ::= {er1646v2BgpRtrMapGroups 1}
+
+er1646v2BgpRtrMapGroupsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrMapGroupsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrMapGroupsGlobalIx,
+                er1646v2BgpRtrMapGroupsTableIx }
+   ::= {er1646v2BgpRtrMapGroupsSSCTable 1}
+
+Er1646v2BgpRtrMapGroupsEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrMapGroupsActions
+         VariableLengthTableActions,
+      er1646v2BgpRtrMapGroupsGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrMapGroupsTableIx
+         TableIndex,
+      er1646v2BgpRtrMapGroupsName
+         DisplayString
+      }
+
+er1646v2BgpRtrMapGroupsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpRtrMapGroupsEntry 2}
+
+er1646v2BgpRtrMapGroupsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrMapGroupsEntry 10}
+
+er1646v2BgpRtrMapGroupsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrMapGroupsEntry 11}
+
+er1646v2BgpRtrMapGroupsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.mapGroups.name"
+   ::= {er1646v2BgpRtrMapGroupsEntry 16777216}
+
+er1646v2BgpRtrMapGroupsRouteMaps OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrMapGroupsRouteMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrMapGroups 33554432}
+
+er1646v2BgpRtrMapGroupsRouteMapsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrMapGroupsRouteMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrMapGroupsRouteMapsGlobalIx,
+                er1646v2BgpRtrMapGroupsTableIx,
+                er1646v2BgpRtrMapGroupsRouteMapsTableIx }
+   ::= {er1646v2BgpRtrMapGroupsRouteMaps 1}
+
+Er1646v2BgpRtrMapGroupsRouteMapsEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrMapGroupsRouteMapsActions
+         VariableLengthTableActions,
+      er1646v2BgpRtrMapGroupsRouteMapsGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrMapGroupsRouteMapsTableIx
+         TableIndex,
+      er1646v2BgpRtrMapGroupsRouteMapsName
+         DisplayString
+      }
+
+er1646v2BgpRtrMapGroupsRouteMapsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpRtrMapGroupsRouteMapsEntry 2}
+
+er1646v2BgpRtrMapGroupsRouteMapsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrMapGroupsRouteMapsEntry 10}
+
+er1646v2BgpRtrMapGroupsRouteMapsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrMapGroupsRouteMapsEntry 11}
+
+er1646v2BgpRtrMapGroupsRouteMapsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.mapGroups.routeMaps.name"
+   ::= {er1646v2BgpRtrMapGroupsRouteMapsEntry 16777216}
+
+
+er1646v2BgpRtrRouteFilters OBJECT IDENTIFIER ::= {er1646v2BgpRtr 12}
+
+er1646v2BgpRtrRouteFiltersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrRouteFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bgp route filters table definition"
+   ::= {er1646v2BgpRtrRouteFilters 1}
+
+er1646v2BgpRtrRouteFiltersEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrRouteFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrRouteFiltersGlobalIx,
+                er1646v2BgpRtrRouteFiltersTableIx }
+   ::= {er1646v2BgpRtrRouteFiltersSSCTable 1}
+
+Er1646v2BgpRtrRouteFiltersEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrRouteFiltersActions
+         VariableLengthTableActions,
+      er1646v2BgpRtrRouteFiltersGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrRouteFiltersTableIx
+         TableIndex,
+      er1646v2BgpRtrRouteFiltersName
+         DisplayString,
+      er1646v2BgpRtrRouteFiltersRemark
+         DisplayString
+      }
+
+er1646v2BgpRtrRouteFiltersActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpRtrRouteFiltersEntry 2}
+
+er1646v2BgpRtrRouteFiltersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrRouteFiltersEntry 10}
+
+er1646v2BgpRtrRouteFiltersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrRouteFiltersEntry 11}
+
+er1646v2BgpRtrRouteFiltersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.name"
+   ::= {er1646v2BgpRtrRouteFiltersEntry 16777216}
+
+er1646v2BgpRtrRouteFiltersRemark OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.remark"
+   ::= {er1646v2BgpRtrRouteFiltersEntry 1157627904}
+
+er1646v2BgpRtrRouteFiltersFilters OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrRouteFiltersFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrRouteFilters 33554432}
+
+er1646v2BgpRtrRouteFiltersFiltersEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrRouteFiltersFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrRouteFiltersFiltersGlobalIx,
+                er1646v2BgpRtrRouteFiltersTableIx,
+                er1646v2BgpRtrRouteFiltersFiltersTableIx }
+   ::= {er1646v2BgpRtrRouteFiltersFilters 1}
+
+Er1646v2BgpRtrRouteFiltersFiltersEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrRouteFiltersFiltersActions
+         VariableLengthTableActions,
+      er1646v2BgpRtrRouteFiltersFiltersGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrRouteFiltersFiltersTableIx
+         TableIndex,
+      er1646v2BgpRtrRouteFiltersFiltersRemark
+         DisplayString,
+      er1646v2BgpRtrRouteFiltersFiltersNetwork
+         IpAddress,
+      er1646v2BgpRtrRouteFiltersFiltersLengthMask
+         INTEGER,
+      er1646v2BgpRtrRouteFiltersFiltersLengthMinLength
+         Integer32,
+      er1646v2BgpRtrRouteFiltersFiltersLengthMaxLength
+         INTEGER,
+      er1646v2BgpRtrRouteFiltersFiltersNextHop
+         IpAddress,
+      er1646v2BgpRtrRouteFiltersFiltersAsPathAny
+         DisplayString,
+      er1646v2BgpRtrRouteFiltersFiltersAsPathEmpty
+         DisplayString,
+      er1646v2BgpRtrRouteFiltersFiltersAsPathContains
+         Integer32,
+      er1646v2BgpRtrRouteFiltersFiltersAsPathOrigin
+         Integer32,
+      er1646v2BgpRtrRouteFiltersFiltersAsPathNeighbor
+         Integer32,
+      er1646v2BgpRtrRouteFiltersFiltersOrigin
+         INTEGER,
+      er1646v2BgpRtrRouteFiltersFiltersMed
+         Gauge32,
+      er1646v2BgpRtrRouteFiltersFiltersCommunityMatch
+         INTEGER,
+      er1646v2BgpRtrRouteFiltersFiltersTag
+         DisplayString,
+      er1646v2BgpRtrRouteFiltersFiltersMode
+         INTEGER
+      }
+
+er1646v2BgpRtrRouteFiltersFiltersActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 2}
+
+er1646v2BgpRtrRouteFiltersFiltersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 10}
+
+er1646v2BgpRtrRouteFiltersFiltersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 11}
+
+er1646v2BgpRtrRouteFiltersFiltersRemark OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.remark"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 1157627904}
+
+er1646v2BgpRtrRouteFiltersFiltersNetwork OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.network"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 16777216}
+
+er1646v2BgpRtrRouteFiltersFiltersLengthMask OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.prefixLength.mask
+
+       Possibilities:
+               any   (255)"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 33619968}
+
+er1646v2BgpRtrRouteFiltersFiltersLengthMinLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.prefixLength.minLength"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 33685504}
+
+er1646v2BgpRtrRouteFiltersFiltersLengthMaxLength OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.prefixLength.maxLength
+
+       Possibilities:
+               any   (255)"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 33751040}
+
+er1646v2BgpRtrRouteFiltersFiltersNextHop OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.nextHop"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 67108864}
+
+er1646v2BgpRtrRouteFiltersFiltersAsPathAny OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.asPath.any"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 83951616}
+
+er1646v2BgpRtrRouteFiltersFiltersAsPathEmpty OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.asPath.empty"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 84017152}
+
+er1646v2BgpRtrRouteFiltersFiltersAsPathContains OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.asPath.contains"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 84082688}
+
+er1646v2BgpRtrRouteFiltersFiltersAsPathOrigin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.asPath.origin"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 84148224}
+
+er1646v2BgpRtrRouteFiltersFiltersAsPathNeighbor OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.asPath.neighbor"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 84213760}
+
+er1646v2BgpRtrRouteFiltersFiltersOrigin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               igp (0),
+               egp (1),
+               incomplete (2),
+               any (65535)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.origin
+
+       Possibilities:
+               igp   (0)
+               egp   (1)
+               incomplete   (2)
+               any   (65535)"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 100663296}
+
+er1646v2BgpRtrRouteFiltersFiltersMed OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.med
+
+       32 bit unsigned gauge value."
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 117440512}
+
+er1646v2BgpRtrRouteFiltersFiltersCommunityMatch OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               none (1),
+               one (2),
+               all (3),
+               exact (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.community.match
+
+       Possibilities:
+               any   (0)
+               none   (1)
+               one   (2)
+               all   (3)
+               exact   (4)"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 134283264}
+
+er1646v2BgpRtrRouteFiltersFiltersTag OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.tag"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 167772160}
+
+er1646v2BgpRtrRouteFiltersFiltersMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               deny (0),
+               allow (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.mode
+
+       Possibilities:
+               deny   (0)
+               allow   (1)"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersEntry 150994944}
+
+er1646v2BgpRtrRouteFiltersFiltersCommunityComms OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrRouteFiltersFiltersCommunityCommsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrRouteFilters 34079232}
+
+er1646v2BgpRtrRouteFiltersFiltersCommunityCommsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrRouteFiltersFiltersCommunityCommsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrRouteFiltersFiltersCommunityCommsGlobalIx,
+                er1646v2BgpRtrRouteFiltersTableIx,
+                er1646v2BgpRtrRouteFiltersFiltersTableIx,
+                er1646v2BgpRtrRouteFiltersFiltersCommunityCommsTableIx }
+   ::= {er1646v2BgpRtrRouteFiltersFiltersCommunityComms 1}
+
+Er1646v2BgpRtrRouteFiltersFiltersCommunityCommsEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrRouteFiltersFiltersCommunityCommsActions
+         VariableLengthTableActions,
+      er1646v2BgpRtrRouteFiltersFiltersCommunityCommsGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrRouteFiltersFiltersCommunityCommsTableIx
+         TableIndex,
+      er1646v2BgpRtrRouteFiltersFiltersCommunityCommsType
+         INTEGER,
+      er1646v2BgpRtrRouteFiltersFiltersCommunityCommsAsNr
+         Integer32,
+      er1646v2BgpRtrRouteFiltersFiltersCommunityCommsCommNr
+         Integer32
+      }
+
+er1646v2BgpRtrRouteFiltersFiltersCommunityCommsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpRtrRouteFiltersFiltersCommunityCommsEntry 2}
+
+er1646v2BgpRtrRouteFiltersFiltersCommunityCommsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrRouteFiltersFiltersCommunityCommsEntry 10}
+
+er1646v2BgpRtrRouteFiltersFiltersCommunityCommsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrRouteFiltersFiltersCommunityCommsEntry 11}
+
+er1646v2BgpRtrRouteFiltersFiltersCommunityCommsType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               manual (0),
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.community.communities.type
+
+       Possibilities:
+               manual   (0)
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersCommunityCommsEntry 16777216}
+
+er1646v2BgpRtrRouteFiltersFiltersCommunityCommsAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.community.communities.asNr"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersCommunityCommsEntry 33554432}
+
+er1646v2BgpRtrRouteFiltersFiltersCommunityCommsCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeFilters.filters.community.communities.communityNr"
+   ::= {er1646v2BgpRtrRouteFiltersFiltersCommunityCommsEntry 50331648}
+
+
+er1646v2BgpRtrRouteMaps OBJECT IDENTIFIER ::= {er1646v2BgpRtr 13}
+
+er1646v2BgpRtrRouteMapsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrRouteMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bgp route maps table definition"
+   ::= {er1646v2BgpRtrRouteMaps 1}
+
+er1646v2BgpRtrRouteMapsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrRouteMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrRouteMapsGlobalIx,
+                er1646v2BgpRtrRouteMapsTableIx }
+   ::= {er1646v2BgpRtrRouteMapsSSCTable 1}
+
+Er1646v2BgpRtrRouteMapsEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrRouteMapsActions
+         VariableLengthTableActions,
+      er1646v2BgpRtrRouteMapsGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrRouteMapsTableIx
+         TableIndex,
+      er1646v2BgpRtrRouteMapsName
+         DisplayString,
+      er1646v2BgpRtrRouteMapsRemark
+         DisplayString,
+      er1646v2BgpRtrRouteMapsFilter
+         DisplayString,
+      er1646v2BgpRtrRouteMapsMode
+         INTEGER,
+      er1646v2BgpRtrRouteMapsNextHop
+         IpAddress,
+      er1646v2BgpRtrRouteMapsWeight
+         Gauge32,
+      er1646v2BgpRtrRouteMapsLocalPreference
+         Gauge32,
+      er1646v2BgpRtrRouteMapsPrependAsPath
+         DisplayString,
+      er1646v2BgpRtrRouteMapsOrigin
+         INTEGER,
+      er1646v2BgpRtrRouteMapsMed
+         Gauge32,
+      er1646v2BgpRtrRouteMapsCommunityRemoveNone
+         DisplayString,
+      er1646v2BgpRtrRouteMapsCommunityRemoveAll
+         DisplayString,
+      er1646v2BgpRtrRouteMapsCommunityAddNone
+         DisplayString,
+      er1646v2BgpRtrRouteMapsTag
+         DisplayString
+      }
+
+er1646v2BgpRtrRouteMapsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpRtrRouteMapsEntry 2}
+
+er1646v2BgpRtrRouteMapsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrRouteMapsEntry 10}
+
+er1646v2BgpRtrRouteMapsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrRouteMapsEntry 11}
+
+er1646v2BgpRtrRouteMapsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.name"
+   ::= {er1646v2BgpRtrRouteMapsEntry 16777216}
+
+er1646v2BgpRtrRouteMapsRemark OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.remark"
+   ::= {er1646v2BgpRtrRouteMapsEntry 1157627904}
+
+er1646v2BgpRtrRouteMapsFilter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.filter"
+   ::= {er1646v2BgpRtrRouteMapsEntry 33554432}
+
+er1646v2BgpRtrRouteMapsMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               deny (0),
+               allow (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.mode
+
+       Possibilities:
+               deny   (0)
+               allow   (1)"
+   ::= {er1646v2BgpRtrRouteMapsEntry 184549376}
+
+er1646v2BgpRtrRouteMapsNextHop OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.nextHop"
+   ::= {er1646v2BgpRtrRouteMapsEntry 50331648}
+
+er1646v2BgpRtrRouteMapsWeight OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.weight
+
+       32 bit unsigned gauge value."
+   ::= {er1646v2BgpRtrRouteMapsEntry 67108864}
+
+er1646v2BgpRtrRouteMapsLocalPreference OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.localPreference
+
+       32 bit unsigned gauge value."
+   ::= {er1646v2BgpRtrRouteMapsEntry 83886080}
+
+er1646v2BgpRtrRouteMapsPrependAsPath OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.prependAsPath"
+   ::= {er1646v2BgpRtrRouteMapsEntry 100663296}
+
+er1646v2BgpRtrRouteMapsOrigin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               igp (0),
+               egp (1),
+               incomplete (2),
+               any (65535)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.origin
+
+       Possibilities:
+               igp   (0)
+               egp   (1)
+               incomplete   (2)
+               any   (65535)"
+   ::= {er1646v2BgpRtrRouteMapsEntry 117440512}
+
+er1646v2BgpRtrRouteMapsMed OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.med
+
+       32 bit unsigned gauge value."
+   ::= {er1646v2BgpRtrRouteMapsEntry 134217728}
+
+er1646v2BgpRtrRouteMapsCommunityRemoveNone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.community.remove.none"
+   ::= {er1646v2BgpRtrRouteMapsEntry 151060736}
+
+er1646v2BgpRtrRouteMapsCommunityRemoveAll OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.community.remove.all"
+   ::= {er1646v2BgpRtrRouteMapsEntry 151060992}
+
+er1646v2BgpRtrRouteMapsCommunityAddNone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.community.add.none"
+   ::= {er1646v2BgpRtrRouteMapsEntry 151126272}
+
+er1646v2BgpRtrRouteMapsTag OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.tag"
+   ::= {er1646v2BgpRtrRouteMapsEntry 167772160}
+
+er1646v2BgpRtrRouteMapsCommunityRemoveList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrRouteMapsCommunityRemoveListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrRouteMaps 151061248}
+
+er1646v2BgpRtrRouteMapsCommunityRemoveListEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrRouteMapsCommunityRemoveListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrRouteMapsCommunityRemoveListGlobalIx,
+                er1646v2BgpRtrRouteMapsTableIx,
+                er1646v2BgpRtrRouteMapsCommunityRemoveListTableIx }
+   ::= {er1646v2BgpRtrRouteMapsCommunityRemoveList 1}
+
+Er1646v2BgpRtrRouteMapsCommunityRemoveListEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrRouteMapsCommunityRemoveListActions
+         VariableLengthTableActions,
+      er1646v2BgpRtrRouteMapsCommunityRemoveListGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrRouteMapsCommunityRemoveListTableIx
+         TableIndex,
+      er1646v2BgpRtrRouteMapsCommunityRemoveListType
+         INTEGER,
+      er1646v2BgpRtrRouteMapsCommunityRemoveListAsNr
+         Integer32,
+      er1646v2BgpRtrRouteMapsCommunityRemoveListCommNr
+         Integer32
+      }
+
+er1646v2BgpRtrRouteMapsCommunityRemoveListActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpRtrRouteMapsCommunityRemoveListEntry 2}
+
+er1646v2BgpRtrRouteMapsCommunityRemoveListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrRouteMapsCommunityRemoveListEntry 10}
+
+er1646v2BgpRtrRouteMapsCommunityRemoveListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrRouteMapsCommunityRemoveListEntry 11}
+
+er1646v2BgpRtrRouteMapsCommunityRemoveListType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               manual (0),
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.community.remove.list.type
+
+       Possibilities:
+               manual   (0)
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {er1646v2BgpRtrRouteMapsCommunityRemoveListEntry 16777216}
+
+er1646v2BgpRtrRouteMapsCommunityRemoveListAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.community.remove.list.asNr"
+   ::= {er1646v2BgpRtrRouteMapsCommunityRemoveListEntry 33554432}
+
+er1646v2BgpRtrRouteMapsCommunityRemoveListCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.community.remove.list.communityNr"
+   ::= {er1646v2BgpRtrRouteMapsCommunityRemoveListEntry 50331648}
+
+er1646v2BgpRtrRouteMapsCommunityAddList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpRtrRouteMapsCommunityAddListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrRouteMaps 151126528}
+
+er1646v2BgpRtrRouteMapsCommunityAddListEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpRtrRouteMapsCommunityAddListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpRtrRouteMapsCommunityAddListGlobalIx,
+                er1646v2BgpRtrRouteMapsTableIx,
+                er1646v2BgpRtrRouteMapsCommunityAddListTableIx }
+   ::= {er1646v2BgpRtrRouteMapsCommunityAddList 1}
+
+Er1646v2BgpRtrRouteMapsCommunityAddListEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpRtrRouteMapsCommunityAddListActions
+         VariableLengthTableActions,
+      er1646v2BgpRtrRouteMapsCommunityAddListGlobalIx
+         GlobalIndex,
+      er1646v2BgpRtrRouteMapsCommunityAddListTableIx
+         TableIndex,
+      er1646v2BgpRtrRouteMapsCommunityAddListType
+         INTEGER,
+      er1646v2BgpRtrRouteMapsCommunityAddListAsNr
+         Integer32,
+      er1646v2BgpRtrRouteMapsCommunityAddListCommNr
+         Integer32
+      }
+
+er1646v2BgpRtrRouteMapsCommunityAddListActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpRtrRouteMapsCommunityAddListEntry 2}
+
+er1646v2BgpRtrRouteMapsCommunityAddListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpRtrRouteMapsCommunityAddListEntry 10}
+
+er1646v2BgpRtrRouteMapsCommunityAddListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpRtrRouteMapsCommunityAddListEntry 11}
+
+er1646v2BgpRtrRouteMapsCommunityAddListType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               manual (0),
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.community.add.list.type
+
+       Possibilities:
+               manual   (0)
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {er1646v2BgpRtrRouteMapsCommunityAddListEntry 16777216}
+
+er1646v2BgpRtrRouteMapsCommunityAddListAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.community.add.list.asNr"
+   ::= {er1646v2BgpRtrRouteMapsCommunityAddListEntry 33554432}
+
+er1646v2BgpRtrRouteMapsCommunityAddListCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.editConf.routeMaps.community.add.list.communityNr"
+   ::= {er1646v2BgpRtrRouteMapsCommunityAddListEntry 50331648}
+
+
+
+sr1646v2BgpRtr OBJECT IDENTIFIER ::= {r1646v2BgpRtr 14}
+
+
+sr1646v2BgpRtrSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2BgpRtr 269}
+
+sr1646v2BgpRtrSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BgpRtrSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2BgpRtrSnmpIndex 1}
+
+sr1646v2BgpRtrSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BgpRtrSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BgpRtrSnmpIndexGlobalIx }
+   ::= {sr1646v2BgpRtrSnmpIndexTable 1}
+
+Sr1646v2BgpRtrSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BgpRtrSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2BgpRtrSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2BgpRtrSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BgpRtrSnmpIndexEntry 10}
+
+sr1646v2BgpRtrSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.snmpIndex"
+   ::= {sr1646v2BgpRtrSnmpIndexEntry 2147483648}
+
+
+sr1646v2BgpRtrRouterId OBJECT IDENTIFIER ::= {sr1646v2BgpRtr 34}
+
+sr1646v2BgpRtrRouterIdTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BgpRtrRouterIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "BGP identifier of this router"
+   ::= {sr1646v2BgpRtrRouterId 1}
+
+sr1646v2BgpRtrRouterIdEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BgpRtrRouterIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BgpRtrRouterIdGlobalIx }
+   ::= {sr1646v2BgpRtrRouterIdTable 1}
+
+Sr1646v2BgpRtrRouterIdEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BgpRtrRouterIdGlobalIx
+         GlobalIndex,
+      sr1646v2BgpRtrRouterIdValue
+         IpAddress
+      }
+
+sr1646v2BgpRtrRouterIdGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BgpRtrRouterIdEntry 10}
+
+sr1646v2BgpRtrRouterIdValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.routerId"
+   ::= {sr1646v2BgpRtrRouterIdEntry 2147483648}
+
+
+sr1646v2BgpRtrNetworks OBJECT IDENTIFIER ::= {sr1646v2BgpRtr 30}
+
+sr1646v2BgpRtrNetworksSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BgpRtrNetworksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "List of configured network routes to be distributed"
+   ::= {sr1646v2BgpRtrNetworks 1}
+
+sr1646v2BgpRtrNetworksEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BgpRtrNetworksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BgpRtrNetworksGlobalIx,
+                sr1646v2BgpRtrNetworksTableIx }
+   ::= {sr1646v2BgpRtrNetworksSSCTable 1}
+
+Sr1646v2BgpRtrNetworksEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BgpRtrNetworksGlobalIx
+         GlobalIndex,
+      sr1646v2BgpRtrNetworksTableIx
+         TableIndex,
+      sr1646v2BgpRtrNetworksPrefix
+         IpAddress,
+      sr1646v2BgpRtrNetworksLength
+         Integer32
+      }
+
+sr1646v2BgpRtrNetworksGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BgpRtrNetworksEntry 10}
+
+sr1646v2BgpRtrNetworksTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2BgpRtrNetworksEntry 11}
+
+sr1646v2BgpRtrNetworksPrefix OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.networks.prefix"
+   ::= {sr1646v2BgpRtrNetworksEntry 16777216}
+
+sr1646v2BgpRtrNetworksLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.networks.length"
+   ::= {sr1646v2BgpRtrNetworksEntry 33554432}
+
+
+sr1646v2BgpRtrAggregates OBJECT IDENTIFIER ::= {sr1646v2BgpRtr 31}
+
+sr1646v2BgpRtrAggregatesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BgpRtrAggregatesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "List of aggregate routes to be distributed"
+   ::= {sr1646v2BgpRtrAggregates 1}
+
+sr1646v2BgpRtrAggregatesEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BgpRtrAggregatesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BgpRtrAggregatesGlobalIx,
+                sr1646v2BgpRtrAggregatesTableIx }
+   ::= {sr1646v2BgpRtrAggregatesSSCTable 1}
+
+Sr1646v2BgpRtrAggregatesEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BgpRtrAggregatesGlobalIx
+         GlobalIndex,
+      sr1646v2BgpRtrAggregatesTableIx
+         TableIndex,
+      sr1646v2BgpRtrAggregatesPrefix
+         IpAddress,
+      sr1646v2BgpRtrAggregatesLength
+         Integer32,
+      sr1646v2BgpRtrAggregatesSummaryOnly
+         INTEGER,
+      sr1646v2BgpRtrAggregatesAsSet
+         INTEGER
+      }
+
+sr1646v2BgpRtrAggregatesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BgpRtrAggregatesEntry 10}
+
+sr1646v2BgpRtrAggregatesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2BgpRtrAggregatesEntry 11}
+
+sr1646v2BgpRtrAggregatesPrefix OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.aggregates.prefix"
+   ::= {sr1646v2BgpRtrAggregatesEntry 16777216}
+
+sr1646v2BgpRtrAggregatesLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.aggregates.length"
+   ::= {sr1646v2BgpRtrAggregatesEntry 33554432}
+
+sr1646v2BgpRtrAggregatesSummaryOnly OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.aggregates.summaryOnly
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2BgpRtrAggregatesEntry 50331648}
+
+sr1646v2BgpRtrAggregatesAsSet OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.aggregates.asSet
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2BgpRtrAggregatesEntry 67108864}
+
+
+sr1646v2BgpRtrRib OBJECT IDENTIFIER ::= {sr1646v2BgpRtr 32}
+
+sr1646v2BgpRtrRibSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BgpRtrRibEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Routing Information Base"
+   ::= {sr1646v2BgpRtrRib 1}
+
+sr1646v2BgpRtrRibEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BgpRtrRibEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BgpRtrRibGlobalIx,
+                sr1646v2BgpRtrRibTableIx }
+   ::= {sr1646v2BgpRtrRibSSCTable 1}
+
+Sr1646v2BgpRtrRibEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BgpRtrRibGlobalIx
+         GlobalIndex,
+      sr1646v2BgpRtrRibTableIx
+         TableIndex,
+      sr1646v2BgpRtrRibPrefix
+         IpAddress,
+      sr1646v2BgpRtrRibLength
+         Integer32,
+      sr1646v2BgpRtrRibStatus
+         INTEGER,
+      sr1646v2BgpRtrRibType
+         INTEGER,
+      sr1646v2BgpRtrRibAttrNextHop
+         IpAddress,
+      sr1646v2BgpRtrRibAttrWeight
+         Gauge32,
+      sr1646v2BgpRtrRibAttrLocPref
+         Gauge32,
+      sr1646v2BgpRtrRibAttrAsPath
+         DisplayString,
+      sr1646v2BgpRtrRibAttrOrigin
+         INTEGER,
+      sr1646v2BgpRtrRibAttrMed
+         Gauge32,
+      sr1646v2BgpRtrRibAttrCommunityEmpty
+         DisplayString,
+      sr1646v2BgpRtrRibAttrCommunityWellKnown
+         INTEGER,
+      sr1646v2BgpRtrRibAttrCommunityManualAsNr
+         Integer32,
+      sr1646v2BgpRtrRibAttrCommunityManualCommNr
+         Integer32,
+      sr1646v2BgpRtrRibAttrTag
+         DisplayString,
+      sr1646v2BgpRtrRibAttrAtom
+         INTEGER,
+      sr1646v2BgpRtrRibAttrAggrAs
+         Integer32,
+      sr1646v2BgpRtrRibAttrAggrAddr
+         IpAddress,
+      sr1646v2BgpRtrRibAttrUnknTrans
+         OCTET STRING
+      }
+
+sr1646v2BgpRtrRibGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BgpRtrRibEntry 10}
+
+sr1646v2BgpRtrRibTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2BgpRtrRibEntry 11}
+
+sr1646v2BgpRtrRibPrefix OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.prefix"
+   ::= {sr1646v2BgpRtrRibEntry 16777216}
+
+sr1646v2BgpRtrRibLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.length"
+   ::= {sr1646v2BgpRtrRibEntry 33554432}
+
+sr1646v2BgpRtrRibStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               invalid (0),
+               valid (1),
+               selected (2),
+               suppressed (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.status
+
+       Possibilities:
+               invalid   (0)
+               valid   (1)
+               selected   (2)
+               suppressed   (3)"
+   ::= {sr1646v2BgpRtrRibEntry 50331648}
+
+sr1646v2BgpRtrRibType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ibgp (1),
+               ebgp (2),
+               network (3),
+               aggregate (4),
+               local (5),
+               static (6),
+               rip (7),
+               ospf (8),
+               radius (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.type
+
+       Possibilities:
+               ibgp   (1)
+               ebgp   (2)
+               network   (3)
+               aggregate   (4)
+               local   (5)
+               static   (6)
+               rip   (7)
+               ospf   (8)
+               radius   (9)"
+   ::= {sr1646v2BgpRtrRibEntry 67108864}
+
+sr1646v2BgpRtrRibAttrNextHop OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.nextHop"
+   ::= {sr1646v2BgpRtrRibEntry 83951616}
+
+sr1646v2BgpRtrRibAttrWeight OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.weight
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2BgpRtrRibEntry 84017152}
+
+sr1646v2BgpRtrRibAttrLocPref OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.localPref
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2BgpRtrRibEntry 84082688}
+
+sr1646v2BgpRtrRibAttrAsPath OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.asPath"
+   ::= {sr1646v2BgpRtrRibEntry 84148224}
+
+sr1646v2BgpRtrRibAttrOrigin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               igp (0),
+               egp (1),
+               incomplete (2),
+               any (65535)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.origin
+
+       Possibilities:
+               igp   (0)
+               egp   (1)
+               incomplete   (2)
+               any   (65535)"
+   ::= {sr1646v2BgpRtrRibEntry 84213760}
+
+sr1646v2BgpRtrRibAttrMed OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.med
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2BgpRtrRibEntry 84279296}
+
+sr1646v2BgpRtrRibAttrCommunityEmpty OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.community.empty"
+   ::= {sr1646v2BgpRtrRibEntry 84541696}
+
+sr1646v2BgpRtrRibAttrCommunityWellKnown OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.community.wellKnown
+
+       Possibilities:
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {sr1646v2BgpRtrRibEntry 84541952}
+
+sr1646v2BgpRtrRibAttrCommunityManualAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.community.manual.asNr"
+   ::= {sr1646v2BgpRtrRibEntry 84542209}
+
+sr1646v2BgpRtrRibAttrCommunityManualCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.community.manual.communityNr"
+   ::= {sr1646v2BgpRtrRibEntry 84542210}
+
+sr1646v2BgpRtrRibAttrTag OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.tag"
+   ::= {sr1646v2BgpRtrRibEntry 84606976}
+
+sr1646v2BgpRtrRibAttrAtom OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.atomicAggr
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2BgpRtrRibEntry 84344832}
+
+sr1646v2BgpRtrRibAttrAggrAs OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.aggregator.as"
+   ::= {sr1646v2BgpRtrRibEntry 84410624}
+
+sr1646v2BgpRtrRibAttrAggrAddr OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.aggregator.address"
+   ::= {sr1646v2BgpRtrRibEntry 84410880}
+
+sr1646v2BgpRtrRibAttrUnknTrans OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.unknownTrans"
+   ::= {sr1646v2BgpRtrRibEntry 84475904}
+
+sr1646v2BgpRtrRibAttrCommunityList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BgpRtrRibAttrCommunityListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2BgpRtrRib 84542464}
+
+sr1646v2BgpRtrRibAttrCommunityListEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BgpRtrRibAttrCommunityListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BgpRtrRibAttrCommunityListGlobalIx,
+                sr1646v2BgpRtrRibTableIx,
+                sr1646v2BgpRtrRibAttrCommunityListTableIx }
+   ::= {sr1646v2BgpRtrRibAttrCommunityList 1}
+
+Sr1646v2BgpRtrRibAttrCommunityListEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BgpRtrRibAttrCommunityListGlobalIx
+         GlobalIndex,
+      sr1646v2BgpRtrRibAttrCommunityListTableIx
+         TableIndex,
+      sr1646v2BgpRtrRibAttrCommunityListWellKnown
+         INTEGER,
+      sr1646v2BgpRtrRibAttrCommunityListManualAsNr
+         Integer32,
+      sr1646v2BgpRtrRibAttrCommunityListManualCommNr
+         Integer32
+      }
+
+sr1646v2BgpRtrRibAttrCommunityListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BgpRtrRibAttrCommunityListEntry 10}
+
+sr1646v2BgpRtrRibAttrCommunityListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2BgpRtrRibAttrCommunityListEntry 11}
+
+sr1646v2BgpRtrRibAttrCommunityListWellKnown OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.community.list.wellKnown
+
+       Possibilities:
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {sr1646v2BgpRtrRibAttrCommunityListEntry 16777216}
+
+sr1646v2BgpRtrRibAttrCommunityListManualAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.community.list.manual.asNr"
+   ::= {sr1646v2BgpRtrRibAttrCommunityListEntry 33619968}
+
+sr1646v2BgpRtrRibAttrCommunityListManualCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.rib.attributes.community.list.manual.communityNr"
+   ::= {sr1646v2BgpRtrRibAttrCommunityListEntry 33685504}
+
+
+sr1646v2BgpRtrPeers OBJECT IDENTIFIER ::= {sr1646v2BgpRtr 33}
+
+sr1646v2BgpRtrPeersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BgpRtrPeersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Peer summary"
+   ::= {sr1646v2BgpRtrPeers 1}
+
+sr1646v2BgpRtrPeersEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BgpRtrPeersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BgpRtrPeersGlobalIx,
+                sr1646v2BgpRtrPeersTableIx }
+   ::= {sr1646v2BgpRtrPeersSSCTable 1}
+
+Sr1646v2BgpRtrPeersEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BgpRtrPeersGlobalIx
+         GlobalIndex,
+      sr1646v2BgpRtrPeersTableIx
+         TableIndex,
+      sr1646v2BgpRtrPeersType
+         INTEGER,
+      sr1646v2BgpRtrPeersName
+         DisplayString,
+      sr1646v2BgpRtrPeersRemoteAddress
+         IpAddress,
+      sr1646v2BgpRtrPeersRemoteAsNr
+         Integer32,
+      sr1646v2BgpRtrPeersRemoteId
+         IpAddress,
+      sr1646v2BgpRtrPeersStatus
+         INTEGER,
+      sr1646v2BgpRtrPeersUpTime
+         TimeTicks,
+      sr1646v2BgpRtrPeersWarning
+         DisplayString
+      }
+
+sr1646v2BgpRtrPeersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BgpRtrPeersEntry 10}
+
+sr1646v2BgpRtrPeersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2BgpRtrPeersEntry 11}
+
+sr1646v2BgpRtrPeersType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ibgp (0),
+               ebgp (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.peers.type
+
+       Possibilities:
+               ibgp   (0)
+               ebgp   (1)"
+   ::= {sr1646v2BgpRtrPeersEntry 16777216}
+
+sr1646v2BgpRtrPeersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.peers.name"
+   ::= {sr1646v2BgpRtrPeersEntry 33554432}
+
+sr1646v2BgpRtrPeersRemoteAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.peers.remote.address"
+   ::= {sr1646v2BgpRtrPeersEntry 50397184}
+
+sr1646v2BgpRtrPeersRemoteAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.peers.remote.asNr"
+   ::= {sr1646v2BgpRtrPeersEntry 50462720}
+
+sr1646v2BgpRtrPeersRemoteId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.peers.remote.id"
+   ::= {sr1646v2BgpRtrPeersEntry 50528256}
+
+sr1646v2BgpRtrPeersStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               shutDown (0),
+               idle (1),
+               connect (2),
+               active (3),
+               openSent (4),
+               openConfirm (5),
+               established (6)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.peers.status
+
+       Possibilities:
+               shutDown   (0)
+               idle   (1)
+               connect   (2)
+               active   (3)
+               openSent   (4)
+               openConfirm   (5)
+               established   (6)"
+   ::= {sr1646v2BgpRtrPeersEntry 67108864}
+
+sr1646v2BgpRtrPeersUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.peers.upTime
+
+       Time in centi-second."
+   ::= {sr1646v2BgpRtrPeersEntry 83886080}
+
+sr1646v2BgpRtrPeersWarning OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.peers.warning"
+   ::= {sr1646v2BgpRtrPeersEntry 100663296}
+
+
+sr1646v2BgpRtrRouteFilters OBJECT IDENTIFIER ::= {sr1646v2BgpRtr 35}
+
+sr1646v2BgpRtrRouteFiltersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BgpRtrRouteFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "route filters status"
+   ::= {sr1646v2BgpRtrRouteFilters 1}
+
+sr1646v2BgpRtrRouteFiltersEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BgpRtrRouteFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BgpRtrRouteFiltersGlobalIx,
+                sr1646v2BgpRtrRouteFiltersTableIx }
+   ::= {sr1646v2BgpRtrRouteFiltersSSCTable 1}
+
+Sr1646v2BgpRtrRouteFiltersEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BgpRtrRouteFiltersGlobalIx
+         GlobalIndex,
+      sr1646v2BgpRtrRouteFiltersTableIx
+         TableIndex,
+      sr1646v2BgpRtrRouteFiltersName
+         DisplayString
+      }
+
+sr1646v2BgpRtrRouteFiltersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BgpRtrRouteFiltersEntry 10}
+
+sr1646v2BgpRtrRouteFiltersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2BgpRtrRouteFiltersEntry 11}
+
+sr1646v2BgpRtrRouteFiltersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.routeFilters.name"
+   ::= {sr1646v2BgpRtrRouteFiltersEntry 16777216}
+
+sr1646v2BgpRtrRouteFiltersUsers OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BgpRtrRouteFiltersUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2BgpRtrRouteFilters 33554432}
+
+sr1646v2BgpRtrRouteFiltersUsersEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BgpRtrRouteFiltersUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BgpRtrRouteFiltersUsersGlobalIx,
+                sr1646v2BgpRtrRouteFiltersTableIx,
+                sr1646v2BgpRtrRouteFiltersUsersTableIx }
+   ::= {sr1646v2BgpRtrRouteFiltersUsers 1}
+
+Sr1646v2BgpRtrRouteFiltersUsersEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BgpRtrRouteFiltersUsersGlobalIx
+         GlobalIndex,
+      sr1646v2BgpRtrRouteFiltersUsersTableIx
+         TableIndex,
+      sr1646v2BgpRtrRouteFiltersUsersType
+         INTEGER,
+      sr1646v2BgpRtrRouteFiltersUsersName
+         DisplayString,
+      sr1646v2BgpRtrRouteFiltersUsersMode
+         INTEGER
+      }
+
+sr1646v2BgpRtrRouteFiltersUsersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BgpRtrRouteFiltersUsersEntry 10}
+
+sr1646v2BgpRtrRouteFiltersUsersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2BgpRtrRouteFiltersUsersEntry 11}
+
+sr1646v2BgpRtrRouteFiltersUsersType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iPeer (1),
+               ePeer (2),
+               routeMap (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.routeFilters.users.type
+
+       Possibilities:
+               iPeer   (1)
+               ePeer   (2)
+               routeMap   (3)"
+   ::= {sr1646v2BgpRtrRouteFiltersUsersEntry 16777216}
+
+sr1646v2BgpRtrRouteFiltersUsersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.routeFilters.users.name"
+   ::= {sr1646v2BgpRtrRouteFiltersUsersEntry 33554432}
+
+sr1646v2BgpRtrRouteFiltersUsersMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ss (0),
+               inbound (1),
+               outbound (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.routeFilters.users.mode
+
+       Possibilities:
+                   (0)
+               inbound   (1)
+               outbound   (2)"
+   ::= {sr1646v2BgpRtrRouteFiltersUsersEntry 50331648}
+
+
+sr1646v2BgpRtrRouteMaps OBJECT IDENTIFIER ::= {sr1646v2BgpRtr 36}
+
+sr1646v2BgpRtrRouteMapsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BgpRtrRouteMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "route maps status"
+   ::= {sr1646v2BgpRtrRouteMaps 1}
+
+sr1646v2BgpRtrRouteMapsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BgpRtrRouteMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BgpRtrRouteMapsGlobalIx,
+                sr1646v2BgpRtrRouteMapsTableIx }
+   ::= {sr1646v2BgpRtrRouteMapsSSCTable 1}
+
+Sr1646v2BgpRtrRouteMapsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BgpRtrRouteMapsGlobalIx
+         GlobalIndex,
+      sr1646v2BgpRtrRouteMapsTableIx
+         TableIndex,
+      sr1646v2BgpRtrRouteMapsName
+         DisplayString
+      }
+
+sr1646v2BgpRtrRouteMapsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BgpRtrRouteMapsEntry 10}
+
+sr1646v2BgpRtrRouteMapsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2BgpRtrRouteMapsEntry 11}
+
+sr1646v2BgpRtrRouteMapsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.routeMaps.name"
+   ::= {sr1646v2BgpRtrRouteMapsEntry 16777216}
+
+sr1646v2BgpRtrRouteMapsUsers OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BgpRtrRouteMapsUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2BgpRtrRouteMaps 33554432}
+
+sr1646v2BgpRtrRouteMapsUsersEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BgpRtrRouteMapsUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BgpRtrRouteMapsUsersGlobalIx,
+                sr1646v2BgpRtrRouteMapsTableIx,
+                sr1646v2BgpRtrRouteMapsUsersTableIx }
+   ::= {sr1646v2BgpRtrRouteMapsUsers 1}
+
+Sr1646v2BgpRtrRouteMapsUsersEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BgpRtrRouteMapsUsersGlobalIx
+         GlobalIndex,
+      sr1646v2BgpRtrRouteMapsUsersTableIx
+         TableIndex,
+      sr1646v2BgpRtrRouteMapsUsersType
+         INTEGER,
+      sr1646v2BgpRtrRouteMapsUsersName
+         DisplayString,
+      sr1646v2BgpRtrRouteMapsUsersMode
+         INTEGER
+      }
+
+sr1646v2BgpRtrRouteMapsUsersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BgpRtrRouteMapsUsersEntry 10}
+
+sr1646v2BgpRtrRouteMapsUsersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2BgpRtrRouteMapsUsersEntry 11}
+
+sr1646v2BgpRtrRouteMapsUsersType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iPeer (1),
+               ePeer (2),
+               routeMap (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.routeMaps.users.type
+
+       Possibilities:
+               iPeer   (1)
+               ePeer   (2)
+               routeMap   (3)"
+   ::= {sr1646v2BgpRtrRouteMapsUsersEntry 16777216}
+
+sr1646v2BgpRtrRouteMapsUsersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.routeMaps.users.name"
+   ::= {sr1646v2BgpRtrRouteMapsUsersEntry 33554432}
+
+sr1646v2BgpRtrRouteMapsUsersMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ss (0),
+               inbound (1),
+               outbound (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.status.routeMaps.users.mode
+
+       Possibilities:
+                   (0)
+               inbound   (1)
+               outbound   (2)"
+   ::= {sr1646v2BgpRtrRouteMapsUsersEntry 50331648}
+
+
+
+pr1646v2BgpRtr OBJECT IDENTIFIER ::= {r1646v2BgpRtr 12}
+
+
+pr1646v2BgpRtrRouteFilters OBJECT IDENTIFIER ::= {pr1646v2BgpRtr 40}
+
+pr1646v2BgpRtrRouteFiltersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2BgpRtrRouteFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "route filters perfo"
+   ::= {pr1646v2BgpRtrRouteFilters 1}
+
+pr1646v2BgpRtrRouteFiltersEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2BgpRtrRouteFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2BgpRtrRouteFiltersGlobalIx,
+                pr1646v2BgpRtrRouteFiltersTableIx }
+   ::= {pr1646v2BgpRtrRouteFiltersSSCTable 1}
+
+Pr1646v2BgpRtrRouteFiltersEntry ::=
+   SEQUENCE
+      {
+      pr1646v2BgpRtrRouteFiltersGlobalIx
+         GlobalIndex,
+      pr1646v2BgpRtrRouteFiltersTableIx
+         TableIndex,
+      pr1646v2BgpRtrRouteFiltersName
+         DisplayString,
+      pr1646v2BgpRtrRouteFiltersUses
+         Counter32
+      }
+
+pr1646v2BgpRtrRouteFiltersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2BgpRtrRouteFiltersEntry 10}
+
+pr1646v2BgpRtrRouteFiltersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2BgpRtrRouteFiltersEntry 11}
+
+pr1646v2BgpRtrRouteFiltersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.name"
+   ::= {pr1646v2BgpRtrRouteFiltersEntry 16777216}
+
+pr1646v2BgpRtrRouteFiltersUses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.uses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2BgpRtrRouteFiltersEntry 50331648}
+
+pr1646v2BgpRtrRouteFiltersFilters OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2BgpRtrRouteFiltersFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2BgpRtrRouteFilters 33554432}
+
+pr1646v2BgpRtrRouteFiltersFiltersEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2BgpRtrRouteFiltersFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2BgpRtrRouteFiltersFiltersGlobalIx,
+                pr1646v2BgpRtrRouteFiltersTableIx,
+                pr1646v2BgpRtrRouteFiltersFiltersTableIx }
+   ::= {pr1646v2BgpRtrRouteFiltersFilters 1}
+
+Pr1646v2BgpRtrRouteFiltersFiltersEntry ::=
+   SEQUENCE
+      {
+      pr1646v2BgpRtrRouteFiltersFiltersGlobalIx
+         GlobalIndex,
+      pr1646v2BgpRtrRouteFiltersFiltersTableIx
+         TableIndex,
+      pr1646v2BgpRtrRouteFiltersFiltersNetwork
+         IpAddress,
+      pr1646v2BgpRtrRouteFiltersFiltersPrefixLength
+         DisplayString,
+      pr1646v2BgpRtrRouteFiltersFiltersNextHop
+         IpAddress,
+      pr1646v2BgpRtrRouteFiltersFiltersAsPath
+         DisplayString,
+      pr1646v2BgpRtrRouteFiltersFiltersOrigin
+         INTEGER,
+      pr1646v2BgpRtrRouteFiltersFiltersMed
+         Gauge32,
+      pr1646v2BgpRtrRouteFiltersFiltersCommunityMatch
+         INTEGER,
+      pr1646v2BgpRtrRouteFiltersFiltersCommunityComEmpty
+         DisplayString,
+      pr1646v2BgpRtrRouteFiltersFiltersCommunityComWellKnown
+         INTEGER,
+      pr1646v2BgpRtrRouteFiltersFiltersCommunityComManualAsNr
+         Integer32,
+      pr1646v2BgpRtrRouteFiltersFiltersCommunityComManualCommNr
+         Integer32,
+      pr1646v2BgpRtrRouteFiltersFiltersTag
+         DisplayString,
+      pr1646v2BgpRtrRouteFiltersFiltersMode
+         INTEGER,
+      pr1646v2BgpRtrRouteFiltersFiltersUses
+         Counter32
+      }
+
+pr1646v2BgpRtrRouteFiltersFiltersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 10}
+
+pr1646v2BgpRtrRouteFiltersFiltersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 11}
+
+pr1646v2BgpRtrRouteFiltersFiltersNetwork OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.network"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 16777216}
+
+pr1646v2BgpRtrRouteFiltersFiltersPrefixLength OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.prefixLength"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 33554432}
+
+pr1646v2BgpRtrRouteFiltersFiltersNextHop OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.nextHop"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 50331648}
+
+pr1646v2BgpRtrRouteFiltersFiltersAsPath OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.asPath"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 67108864}
+
+pr1646v2BgpRtrRouteFiltersFiltersOrigin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               igp (0),
+               egp (1),
+               incomplete (2),
+               any (65535)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.origin
+
+       Possibilities:
+               igp   (0)
+               egp   (1)
+               incomplete   (2)
+               any   (65535)"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 83886080}
+
+pr1646v2BgpRtrRouteFiltersFiltersMed OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.med
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 100663296}
+
+pr1646v2BgpRtrRouteFiltersFiltersCommunityMatch OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               none (1),
+               one (2),
+               all (3),
+               exact (4)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.community.match
+
+       Possibilities:
+               any   (0)
+               none   (1)
+               one   (2)
+               all   (3)
+               exact   (4)"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 117506048}
+
+pr1646v2BgpRtrRouteFiltersFiltersCommunityComEmpty OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.community.communities.empty"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 117571840}
+
+pr1646v2BgpRtrRouteFiltersFiltersCommunityComWellKnown OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.community.communities.wellKnown
+
+       Possibilities:
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 117572096}
+
+pr1646v2BgpRtrRouteFiltersFiltersCommunityComManualAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.community.communities.manual.asNr"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 117572353}
+
+pr1646v2BgpRtrRouteFiltersFiltersCommunityComManualCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.community.communities.manual.communityNr"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 117572354}
+
+pr1646v2BgpRtrRouteFiltersFiltersTag OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.tag"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 134217728}
+
+pr1646v2BgpRtrRouteFiltersFiltersMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               deny (0),
+               allow (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.mode
+
+       Possibilities:
+               deny   (0)
+               allow   (1)"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 150994944}
+
+pr1646v2BgpRtrRouteFiltersFiltersUses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.uses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersEntry 167772160}
+
+pr1646v2BgpRtrRouteFiltersFiltersCommunityComList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2BgpRtrRouteFiltersFiltersCommunityComListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2BgpRtrRouteFilters 34013700}
+
+pr1646v2BgpRtrRouteFiltersFiltersCommunityComListEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2BgpRtrRouteFiltersFiltersCommunityComListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2BgpRtrRouteFiltersFiltersCommunityComListGlobalIx,
+                pr1646v2BgpRtrRouteFiltersTableIx,
+                pr1646v2BgpRtrRouteFiltersFiltersTableIx,
+                pr1646v2BgpRtrRouteFiltersFiltersCommunityComListTableIx }
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersCommunityComList 1}
+
+Pr1646v2BgpRtrRouteFiltersFiltersCommunityComListEntry ::=
+   SEQUENCE
+      {
+      pr1646v2BgpRtrRouteFiltersFiltersCommunityComListGlobalIx
+         GlobalIndex,
+      pr1646v2BgpRtrRouteFiltersFiltersCommunityComListTableIx
+         TableIndex,
+      pr1646v2BgpRtrRouteFiltersFiltersCommunityComListWellKnown
+         INTEGER,
+      pr1646v2BgpRtrRouteFiltersFiltersCommunityComListManualAsNr
+         Integer32,
+      pr1646v2BgpRtrRouteFiltersFiltersCommunityComListManualCommNr
+         Integer32
+      }
+
+pr1646v2BgpRtrRouteFiltersFiltersCommunityComListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersCommunityComListEntry 10}
+
+pr1646v2BgpRtrRouteFiltersFiltersCommunityComListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersCommunityComListEntry 11}
+
+pr1646v2BgpRtrRouteFiltersFiltersCommunityComListWellKnown OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.community.communities.list.wellKnown
+
+       Possibilities:
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersCommunityComListEntry 16777216}
+
+pr1646v2BgpRtrRouteFiltersFiltersCommunityComListManualAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.community.communities.list.manual.asNr"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersCommunityComListEntry 33619968}
+
+pr1646v2BgpRtrRouteFiltersFiltersCommunityComListManualCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeFilters.filters.community.communities.list.manual.communityNr"
+   ::= {pr1646v2BgpRtrRouteFiltersFiltersCommunityComListEntry 33685504}
+
+
+pr1646v2BgpRtrRouteMaps OBJECT IDENTIFIER ::= {pr1646v2BgpRtr 41}
+
+pr1646v2BgpRtrRouteMapsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2BgpRtrRouteMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "route maps perfo"
+   ::= {pr1646v2BgpRtrRouteMaps 1}
+
+pr1646v2BgpRtrRouteMapsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2BgpRtrRouteMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2BgpRtrRouteMapsGlobalIx,
+                pr1646v2BgpRtrRouteMapsTableIx }
+   ::= {pr1646v2BgpRtrRouteMapsSSCTable 1}
+
+Pr1646v2BgpRtrRouteMapsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2BgpRtrRouteMapsGlobalIx
+         GlobalIndex,
+      pr1646v2BgpRtrRouteMapsTableIx
+         TableIndex,
+      pr1646v2BgpRtrRouteMapsName
+         DisplayString,
+      pr1646v2BgpRtrRouteMapsUses
+         Counter32
+      }
+
+pr1646v2BgpRtrRouteMapsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2BgpRtrRouteMapsEntry 10}
+
+pr1646v2BgpRtrRouteMapsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2BgpRtrRouteMapsEntry 11}
+
+pr1646v2BgpRtrRouteMapsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeMaps.name"
+   ::= {pr1646v2BgpRtrRouteMapsEntry 16777216}
+
+pr1646v2BgpRtrRouteMapsUses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.performance.routeMaps.uses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2BgpRtrRouteMapsEntry 33554432}
+
+
+
+ar1646v2BgpRtr OBJECT IDENTIFIER ::= {r1646v2BgpRtr 16}
+
+
+ar1646v2BgpRtrClearCounters OBJECT IDENTIFIER ::= {ar1646v2BgpRtr 263}
+
+ar1646v2BgpRtrClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2BgpRtrClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1646v2BgpRtrClearCounters 1}
+
+ar1646v2BgpRtrClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2BgpRtrClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2BgpRtrClearCountersGlobalIx }
+   ::= {ar1646v2BgpRtrClearCountersTable 1}
+
+Ar1646v2BgpRtrClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1646v2BgpRtrClearCountersGlobalIx
+         GlobalIndex,
+      ar1646v2BgpRtrClearCountersValue
+         Integer32
+      }
+
+ar1646v2BgpRtrClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2BgpRtrClearCountersEntry 10}
+
+ar1646v2BgpRtrClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.actions.clearCounters"
+   ::= {ar1646v2BgpRtrClearCountersEntry 2147483648}
+
+
+ar1646v2BgpRtrRestartBgp OBJECT IDENTIFIER ::= {ar1646v2BgpRtr 101}
+
+ar1646v2BgpRtrRestartBgpTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2BgpRtrRestartBgpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "force restart of bgp router"
+   ::= {ar1646v2BgpRtrRestartBgp 1}
+
+ar1646v2BgpRtrRestartBgpEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2BgpRtrRestartBgpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2BgpRtrRestartBgpGlobalIx }
+   ::= {ar1646v2BgpRtrRestartBgpTable 1}
+
+Ar1646v2BgpRtrRestartBgpEntry ::=
+   SEQUENCE
+      {
+      ar1646v2BgpRtrRestartBgpGlobalIx
+         GlobalIndex,
+      ar1646v2BgpRtrRestartBgpValue
+         Integer32
+      }
+
+ar1646v2BgpRtrRestartBgpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2BgpRtrRestartBgpEntry 10}
+
+ar1646v2BgpRtrRestartBgpValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bgp.actions.restartBgp"
+   ::= {ar1646v2BgpRtrRestartBgpEntry 2147483648}
+
+
+
+END

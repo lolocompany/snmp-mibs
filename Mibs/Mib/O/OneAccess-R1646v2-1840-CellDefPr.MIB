@@ -1,0 +1,519 @@
+OneAccess-R1646v2-1840-CellDefPr DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2CellDefPr OBJECT IDENTIFIER ::= {r1646Rootv2 1840}
+
+r1646v2CellDefPrMOProp OBJECT IDENTIFIER ::= {r1646v2CellDefPr 1}
+
+r1646v2CellDefPrMOPropEntry OBJECT IDENTIFIER ::= {r1646v2CellDefPrMOProp 1}
+
+r1646v2CellDefPrMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2CellDefPrMOPropEntry 3}
+
+r1646v2CellDefPrMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2CellDefPrMOPropEntry 4}
+
+
+
+er1646v2CellDefPr OBJECT IDENTIFIER ::= {r1646v2CellDefPr 11}
+
+
+er1646v2CellDefPrDialPktBufSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.dialPktBufSize
+       Info: max number of outstanding packets"
+   ::= {er1646v2CellDefPr 4}
+
+
+er1646v2CellDefPrType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               outgoingDial (1),
+               outgoingLeasedLine (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.type
+       Info: 3G call type: OnDemand or LeasedLine
+
+       Possibilities:
+               outgoingDial   (1)
+               outgoingLeasedLine   (2)"
+   ::= {er1646v2CellDefPr 50}
+
+
+er1646v2CellDefPrIdleTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.idleTimeOut
+       Info: idle timeout before disconnecting (only relevant when MobileCallType is OnDemand)
+
+       Time in centi-second."
+   ::= {er1646v2CellDefPr 5}
+
+
+er1646v2CellDefPrCallInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.callInterval
+       Info: minimum time between two calls
+
+       Time in centi-second."
+   ::= {er1646v2CellDefPr 7}
+
+
+er1646v2CellDefPrStartDelay OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.startDelay
+       Info: delay before attempting connection setup
+
+       Time in centi-second."
+   ::= {er1646v2CellDefPr 21}
+
+
+er1646v2CellDefPr24hMaxCallTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.24hMaxCallTime
+       Info: max time per 24 hours interval of dial-up connection
+
+       Time in centi-second."
+   ::= {er1646v2CellDefPr 9}
+
+
+er1646v2CellDefPrIdleDirection OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               inbound (1),
+               outbound (2),
+               all (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.idleDirection
+       Info: direction of idle traffic verification
+
+       Possibilities:
+               inbound   (1)
+               outbound   (2)
+               all   (3)"
+   ::= {er1646v2CellDefPr 20}
+
+
+er1646v2CellDefPrDialTm OBJECT IDENTIFIER ::= {er1646v2CellDefPr 10}
+
+er1646v2CellDefPrDialTmSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2CellDefPrDialTmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Table with months, days, dotw, hour and minutes for dialouts"
+   ::= {er1646v2CellDefPrDialTm 1}
+
+er1646v2CellDefPrDialTmEntry OBJECT-TYPE
+   SYNTAX      Er1646v2CellDefPrDialTmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2CellDefPrDialTmTableIx }
+   ::= {er1646v2CellDefPrDialTmSSCTable 1}
+
+Er1646v2CellDefPrDialTmEntry ::=
+   SEQUENCE
+      {
+      er1646v2CellDefPrDialTmActions
+         VariableLengthTableActions,
+      er1646v2CellDefPrDialTmTableIx
+         TableIndex,
+      er1646v2CellDefPrDialTmStartMon
+         INTEGER,
+      er1646v2CellDefPrDialTmStartDom
+         INTEGER,
+      er1646v2CellDefPrDialTmStartDof
+         INTEGER,
+      er1646v2CellDefPrDialTmStartHr
+         INTEGER,
+      er1646v2CellDefPrDialTmStartMin
+         INTEGER,
+      er1646v2CellDefPrDialTmEndMon
+         INTEGER,
+      er1646v2CellDefPrDialTmEndDom
+         INTEGER,
+      er1646v2CellDefPrDialTmEndDof
+         INTEGER,
+      er1646v2CellDefPrDialTmEndHr
+         INTEGER,
+      er1646v2CellDefPrDialTmEndMin
+         INTEGER
+      }
+
+er1646v2CellDefPrDialTmActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2CellDefPrDialTmEntry 2}
+
+er1646v2CellDefPrDialTmTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2CellDefPrDialTmEntry 11}
+
+er1646v2CellDefPrDialTmStartMon OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               jan (1),
+               feb (2),
+               mar (3),
+               apr (4),
+               may (5),
+               jun (6),
+               jul (7),
+               aug (8),
+               sep (9),
+               oct (10),
+               nov (11),
+               dec (12),
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.dialTimeTable.start.month
+
+       Possibilities:
+               jan   (1)
+               feb   (2)
+               mar   (3)
+               apr   (4)
+               may   (5)
+               jun   (6)
+               jul   (7)
+               aug   (8)
+               sep   (9)
+               oct   (10)
+               nov   (11)
+               dec   (12)
+               <OPT>   (255)"
+   ::= {er1646v2CellDefPrDialTmEntry 16842752}
+
+er1646v2CellDefPrDialTmStartDom OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.dialTimeTable.start.dayOfMonth
+
+       Possibilities:
+               <OPT>   (255)"
+   ::= {er1646v2CellDefPrDialTmEntry 16908288}
+
+er1646v2CellDefPrDialTmStartDof OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               sunday (1),
+               monday (2),
+               tuesday (3),
+               wednesday (4),
+               thursday (5),
+               friday (6),
+               saturday (7),
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.dialTimeTable.start.dayOfWeek
+
+       Possibilities:
+               sunday   (1)
+               monday   (2)
+               tuesday   (3)
+               wednesday   (4)
+               thursday   (5)
+               friday   (6)
+               saturday   (7)
+               <OPT>   (255)"
+   ::= {er1646v2CellDefPrDialTmEntry 16973824}
+
+er1646v2CellDefPrDialTmStartHr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.dialTimeTable.start.hour
+
+       Possibilities:
+               <OPT>   (255)"
+   ::= {er1646v2CellDefPrDialTmEntry 17039360}
+
+er1646v2CellDefPrDialTmStartMin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.dialTimeTable.start.minute
+
+       Possibilities:
+               <OPT>   (255)"
+   ::= {er1646v2CellDefPrDialTmEntry 17104896}
+
+er1646v2CellDefPrDialTmEndMon OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               jan (1),
+               feb (2),
+               mar (3),
+               apr (4),
+               may (5),
+               jun (6),
+               jul (7),
+               aug (8),
+               sep (9),
+               oct (10),
+               nov (11),
+               dec (12),
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.dialTimeTable.end.month
+
+       Possibilities:
+               jan   (1)
+               feb   (2)
+               mar   (3)
+               apr   (4)
+               may   (5)
+               jun   (6)
+               jul   (7)
+               aug   (8)
+               sep   (9)
+               oct   (10)
+               nov   (11)
+               dec   (12)
+               <OPT>   (255)"
+   ::= {er1646v2CellDefPrDialTmEntry 33619968}
+
+er1646v2CellDefPrDialTmEndDom OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.dialTimeTable.end.dayOfMonth
+
+       Possibilities:
+               <OPT>   (255)"
+   ::= {er1646v2CellDefPrDialTmEntry 33685504}
+
+er1646v2CellDefPrDialTmEndDof OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               sunday (1),
+               monday (2),
+               tuesday (3),
+               wednesday (4),
+               thursday (5),
+               friday (6),
+               saturday (7),
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.dialTimeTable.end.dayOfWeek
+
+       Possibilities:
+               sunday   (1)
+               monday   (2)
+               tuesday   (3)
+               wednesday   (4)
+               thursday   (5)
+               friday   (6)
+               saturday   (7)
+               <OPT>   (255)"
+   ::= {er1646v2CellDefPrDialTmEntry 33751040}
+
+er1646v2CellDefPrDialTmEndHr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.dialTimeTable.end.hour
+
+       Possibilities:
+               <OPT>   (255)"
+   ::= {er1646v2CellDefPrDialTmEntry 33816576}
+
+er1646v2CellDefPrDialTmEndMin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.dialTimeTable.end.minute
+
+       Possibilities:
+               <OPT>   (255)"
+   ::= {er1646v2CellDefPrDialTmEntry 33882112}
+
+
+er1646v2CellDefPrCallTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.callTimeOut
+       Info: call set-up timeout
+
+       Time in centi-second."
+   ::= {er1646v2CellDefPr 8}
+
+
+
+sr1646v2CellDefPr OBJECT IDENTIFIER ::= {r1646v2CellDefPr 14}
+
+
+sr1646v2CellDefPrProfUsers OBJECT IDENTIFIER ::= {sr1646v2CellDefPr 40}
+
+sr1646v2CellDefPrProfUsersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2CellDefPrProfUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "users of the different profiles"
+   ::= {sr1646v2CellDefPrProfUsers 1}
+
+sr1646v2CellDefPrProfUsersEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2CellDefPrProfUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2CellDefPrProfUsersTableIx }
+   ::= {sr1646v2CellDefPrProfUsersSSCTable 1}
+
+Sr1646v2CellDefPrProfUsersEntry ::=
+   SEQUENCE
+      {
+      sr1646v2CellDefPrProfUsersTableIx
+         TableIndex,
+      sr1646v2CellDefPrProfUsersType
+         INTEGER,
+      sr1646v2CellDefPrProfUsersName
+         DisplayString
+      }
+
+sr1646v2CellDefPrProfUsersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2CellDefPrProfUsersEntry 11}
+
+sr1646v2CellDefPrProfUsersType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dialmap (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.status.profileUsers.type
+
+       Possibilities:
+               dialmap   (1)"
+   ::= {sr1646v2CellDefPrProfUsersEntry 16777216}
+
+sr1646v2CellDefPrProfUsersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.status.profileUsers.name"
+   ::= {sr1646v2CellDefPrProfUsersEntry 33554432}
+
+
+
+END

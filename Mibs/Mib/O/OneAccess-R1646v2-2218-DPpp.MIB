@@ -1,0 +1,1413 @@
+OneAccess-R1646v2-2218-DPpp DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2DPpp OBJECT IDENTIFIER ::= {r1646Rootv2 2218}
+
+r1646v2DPppMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2DPppMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2DPpp 1}
+
+r1646v2DPppMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2DPppMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2DPppMOPropGlobalIx }
+   ::= {r1646v2DPppMOProp 1}
+
+R1646v2DPppMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2DPppMOPropPath
+         ContainmentPath,
+      r1646v2DPppMOPropRev
+         ObjectRevision,
+      r1646v2DPppMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2DPppMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2DPppMOPropEntry 3}
+
+r1646v2DPppMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2DPppMOPropEntry 4}
+
+r1646v2DPppMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2DPppMOPropEntry 10}
+
+
+
+sr1646v2DPpp OBJECT IDENTIFIER ::= {r1646v2DPpp 14}
+
+
+sr1646v2DPppIp OBJECT IDENTIFIER ::= {sr1646v2DPpp 102}
+
+sr1646v2DPppIpSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppIpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ip interface config parameters"
+   ::= {sr1646v2DPppIp 1}
+
+sr1646v2DPppIpEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppIpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppIpGlobalIx }
+   ::= {sr1646v2DPppIpSSCTable 1}
+
+Sr1646v2DPppIpEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppIpGlobalIx
+         GlobalIndex,
+      sr1646v2DPppIpStatus
+         INTEGER,
+      sr1646v2DPppIpAddress
+         IpAddress,
+      sr1646v2DPppIpNetMask
+         IpAddress,
+      sr1646v2DPppIpRemote
+         IpAddress
+      }
+
+sr1646v2DPppIpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppIpEntry 10}
+
+sr1646v2DPppIpStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               up (1),
+               down (2),
+               testing (3),
+               unknown (4),
+               dormant (5),
+               notPresent (6),
+               lowerLayerDown (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ip.status
+
+       Possibilities:
+               up   (1)
+               down   (2)
+               testing   (3)
+               unknown   (4)
+               dormant   (5)
+               notPresent   (6)
+               lowerLayerDown   (7)"
+   ::= {sr1646v2DPppIpEntry 1795162112}
+
+sr1646v2DPppIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ip.address"
+   ::= {sr1646v2DPppIpEntry 2030043136}
+
+sr1646v2DPppIpNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ip.netMask"
+   ::= {sr1646v2DPppIpEntry 2063597568}
+
+sr1646v2DPppIpRemote OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ip.remote"
+   ::= {sr1646v2DPppIpEntry 301989888}
+
+
+sr1646v2DPppLcpState OBJECT IDENTIFIER ::= {sr1646v2DPpp 10}
+
+sr1646v2DPppLcpStateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppLcpStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppState"
+   ::= {sr1646v2DPppLcpState 1}
+
+sr1646v2DPppLcpStateEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppLcpStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppLcpStateGlobalIx }
+   ::= {sr1646v2DPppLcpStateTable 1}
+
+Sr1646v2DPppLcpStateEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppLcpStateGlobalIx
+         GlobalIndex,
+      sr1646v2DPppLcpStateValue
+         INTEGER
+      }
+
+sr1646v2DPppLcpStateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppLcpStateEntry 10}
+
+sr1646v2DPppLcpStateValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               initial (0),
+               starting (1),
+               closed (2),
+               stopped (3),
+               closing (4),
+               stopping (5),
+               reqmSent (6),
+               ackmRcvd (7),
+               ackmSent (8),
+               opened (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.lcpState
+
+       Possibilities:
+               Initial   (0)
+               Starting   (1)
+               Closed   (2)
+               Stopped   (3)
+               Closing   (4)
+               Stopping   (5)
+               Req-Sent   (6)
+               Ack-Rcvd   (7)
+               Ack-Sent   (8)
+               Opened   (9)"
+   ::= {sr1646v2DPppLcpStateEntry 2147483648}
+
+
+sr1646v2DPppIpcpState OBJECT IDENTIFIER ::= {sr1646v2DPpp 11}
+
+sr1646v2DPppIpcpStateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppIpcpStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppState"
+   ::= {sr1646v2DPppIpcpState 1}
+
+sr1646v2DPppIpcpStateEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppIpcpStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppIpcpStateGlobalIx }
+   ::= {sr1646v2DPppIpcpStateTable 1}
+
+Sr1646v2DPppIpcpStateEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppIpcpStateGlobalIx
+         GlobalIndex,
+      sr1646v2DPppIpcpStateValue
+         INTEGER
+      }
+
+sr1646v2DPppIpcpStateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppIpcpStateEntry 10}
+
+sr1646v2DPppIpcpStateValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               initial (0),
+               starting (1),
+               closed (2),
+               stopped (3),
+               closing (4),
+               stopping (5),
+               reqmSent (6),
+               ackmRcvd (7),
+               ackmSent (8),
+               opened (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ipcpState
+
+       Possibilities:
+               Initial   (0)
+               Starting   (1)
+               Closed   (2)
+               Stopped   (3)
+               Closing   (4)
+               Stopping   (5)
+               Req-Sent   (6)
+               Ack-Rcvd   (7)
+               Ack-Sent   (8)
+               Opened   (9)"
+   ::= {sr1646v2DPppIpcpStateEntry 2147483648}
+
+
+sr1646v2DPppIp6cpState OBJECT IDENTIFIER ::= {sr1646v2DPpp 44}
+
+sr1646v2DPppIp6cpStateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppIp6cpStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppState"
+   ::= {sr1646v2DPppIp6cpState 1}
+
+sr1646v2DPppIp6cpStateEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppIp6cpStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppIp6cpStateGlobalIx }
+   ::= {sr1646v2DPppIp6cpStateTable 1}
+
+Sr1646v2DPppIp6cpStateEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppIp6cpStateGlobalIx
+         GlobalIndex,
+      sr1646v2DPppIp6cpStateValue
+         INTEGER
+      }
+
+sr1646v2DPppIp6cpStateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppIp6cpStateEntry 10}
+
+sr1646v2DPppIp6cpStateValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               initial (0),
+               starting (1),
+               closed (2),
+               stopped (3),
+               closing (4),
+               stopping (5),
+               reqmSent (6),
+               ackmRcvd (7),
+               ackmSent (8),
+               opened (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ip6cpState
+
+       Possibilities:
+               Initial   (0)
+               Starting   (1)
+               Closed   (2)
+               Stopped   (3)
+               Closing   (4)
+               Stopping   (5)
+               Req-Sent   (6)
+               Ack-Rcvd   (7)
+               Ack-Sent   (8)
+               Opened   (9)"
+   ::= {sr1646v2DPppIp6cpStateEntry 2147483648}
+
+
+sr1646v2DPppLcpMy OBJECT IDENTIFIER ::= {sr1646v2DPpp 13}
+
+sr1646v2DPppLcpMySSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppLcpMyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "lcpOptions"
+   ::= {sr1646v2DPppLcpMy 1}
+
+sr1646v2DPppLcpMyEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppLcpMyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppLcpMyGlobalIx,
+                sr1646v2DPppLcpMyTableIx }
+   ::= {sr1646v2DPppLcpMySSCTable 1}
+
+Sr1646v2DPppLcpMyEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppLcpMyGlobalIx
+         GlobalIndex,
+      sr1646v2DPppLcpMyTableIx
+         TableIndex,
+      sr1646v2DPppLcpMyOption
+         INTEGER,
+      sr1646v2DPppLcpMyLength
+         Integer32,
+      sr1646v2DPppLcpMyValue
+         OCTET STRING
+      }
+
+sr1646v2DPppLcpMyGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppLcpMyEntry 10}
+
+sr1646v2DPppLcpMyTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2DPppLcpMyEntry 11}
+
+sr1646v2DPppLcpMyOption OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               maximummReceivemUnit (1),
+               asyncmControlmCharactermMap (2),
+               authenticationmProtocol (3),
+               qualitymProtocol (4),
+               magicmNumber (5),
+               protocolmFieldmCompression (7),
+               addressmandmControlmFieldmCompression (8),
+               fCSmAlternatives (9),
+               selfmDescribingmPad (10),
+               numberedmMode (11),
+               multimLinkmProcedure (12),
+               callback (13),
+               connectmTime (14),
+               compoundmFrames (15),
+               nominalmDatamEncapsulation (16),
+               multilinkmMRRU (17),
+               multilinkmShortmSequencemNumbermHeadermFormat (18),
+               multilinkmEndpointmDiscriminator (19),
+               dCEmIdentifier (21),
+               linkmDiscriminator (23)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.lcpMyOptions.option
+
+       Possibilities:
+               Maximum-Receive-Unit   (1)
+               Async-Control-Character-Map   (2)
+               Authentication-Protocol   (3)
+               Quality-Protocol   (4)
+               Magic-Number   (5)
+               Protocol-Field-Compression   (7)
+               Address-and-Control-Field-Compression   (8)
+               FCS-Alternatives   (9)
+               Self-Describing-Pad   (10)
+               Numbered-Mode   (11)
+               Multi-Link-Procedure   (12)
+               Callback   (13)
+               Connect-Time   (14)
+               Compound-Frames   (15)
+               Nominal-Data-Encapsulation   (16)
+               Multilink-MRRU   (17)
+               Multilink-Short-Sequence-Number-Header-Format   (18)
+               Multilink-Endpoint-Discriminator   (19)
+               DCE-Identifier   (21)
+               Link-Discriminator   (23)"
+   ::= {sr1646v2DPppLcpMyEntry 16777216}
+
+sr1646v2DPppLcpMyLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.lcpMyOptions.length"
+   ::= {sr1646v2DPppLcpMyEntry 33554432}
+
+sr1646v2DPppLcpMyValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.lcpMyOptions.value"
+   ::= {sr1646v2DPppLcpMyEntry 50331648}
+
+
+sr1646v2DPppLcpHis OBJECT IDENTIFIER ::= {sr1646v2DPpp 14}
+
+sr1646v2DPppLcpHisSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppLcpHisEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "lcpOptions"
+   ::= {sr1646v2DPppLcpHis 1}
+
+sr1646v2DPppLcpHisEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppLcpHisEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppLcpHisGlobalIx,
+                sr1646v2DPppLcpHisTableIx }
+   ::= {sr1646v2DPppLcpHisSSCTable 1}
+
+Sr1646v2DPppLcpHisEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppLcpHisGlobalIx
+         GlobalIndex,
+      sr1646v2DPppLcpHisTableIx
+         TableIndex,
+      sr1646v2DPppLcpHisOption
+         INTEGER,
+      sr1646v2DPppLcpHisLength
+         Integer32,
+      sr1646v2DPppLcpHisValue
+         OCTET STRING
+      }
+
+sr1646v2DPppLcpHisGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppLcpHisEntry 10}
+
+sr1646v2DPppLcpHisTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2DPppLcpHisEntry 11}
+
+sr1646v2DPppLcpHisOption OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               maximummReceivemUnit (1),
+               asyncmControlmCharactermMap (2),
+               authenticationmProtocol (3),
+               qualitymProtocol (4),
+               magicmNumber (5),
+               protocolmFieldmCompression (7),
+               addressmandmControlmFieldmCompression (8),
+               fCSmAlternatives (9),
+               selfmDescribingmPad (10),
+               numberedmMode (11),
+               multimLinkmProcedure (12),
+               callback (13),
+               connectmTime (14),
+               compoundmFrames (15),
+               nominalmDatamEncapsulation (16),
+               multilinkmMRRU (17),
+               multilinkmShortmSequencemNumbermHeadermFormat (18),
+               multilinkmEndpointmDiscriminator (19),
+               dCEmIdentifier (21),
+               linkmDiscriminator (23)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.lcpHisOptions.option
+
+       Possibilities:
+               Maximum-Receive-Unit   (1)
+               Async-Control-Character-Map   (2)
+               Authentication-Protocol   (3)
+               Quality-Protocol   (4)
+               Magic-Number   (5)
+               Protocol-Field-Compression   (7)
+               Address-and-Control-Field-Compression   (8)
+               FCS-Alternatives   (9)
+               Self-Describing-Pad   (10)
+               Numbered-Mode   (11)
+               Multi-Link-Procedure   (12)
+               Callback   (13)
+               Connect-Time   (14)
+               Compound-Frames   (15)
+               Nominal-Data-Encapsulation   (16)
+               Multilink-MRRU   (17)
+               Multilink-Short-Sequence-Number-Header-Format   (18)
+               Multilink-Endpoint-Discriminator   (19)
+               DCE-Identifier   (21)
+               Link-Discriminator   (23)"
+   ::= {sr1646v2DPppLcpHisEntry 16777216}
+
+sr1646v2DPppLcpHisLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.lcpHisOptions.length"
+   ::= {sr1646v2DPppLcpHisEntry 33554432}
+
+sr1646v2DPppLcpHisValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.lcpHisOptions.value"
+   ::= {sr1646v2DPppLcpHisEntry 50331648}
+
+
+sr1646v2DPppIpcpMy OBJECT IDENTIFIER ::= {sr1646v2DPpp 15}
+
+sr1646v2DPppIpcpMySSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppIpcpMyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipcpOptions"
+   ::= {sr1646v2DPppIpcpMy 1}
+
+sr1646v2DPppIpcpMyEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppIpcpMyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppIpcpMyGlobalIx,
+                sr1646v2DPppIpcpMyTableIx }
+   ::= {sr1646v2DPppIpcpMySSCTable 1}
+
+Sr1646v2DPppIpcpMyEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppIpcpMyGlobalIx
+         GlobalIndex,
+      sr1646v2DPppIpcpMyTableIx
+         TableIndex,
+      sr1646v2DPppIpcpMyOption
+         INTEGER,
+      sr1646v2DPppIpcpMyLength
+         Integer32,
+      sr1646v2DPppIpcpMyValue
+         OCTET STRING
+      }
+
+sr1646v2DPppIpcpMyGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppIpcpMyEntry 10}
+
+sr1646v2DPppIpcpMyTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2DPppIpcpMyEntry 11}
+
+sr1646v2DPppIpcpMyOption OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iPmVSO (0),
+               iPmAddresses (1),
+               iPmCompressionmProtocol (2),
+               iPmAddress (3),
+               iPmPrimaryDNS (129),
+               iPmPrimaryNBNS (130),
+               iPmSecondaryDNS (131),
+               iPmSecondaryNBNS (132)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ipcpMyOptions.option
+
+       Possibilities:
+               IP-VSO   (0)
+               IP-Addresses   (1)
+               IP-Compression-Protocol   (2)
+               IP-Address   (3)
+               IP-PrimaryDNS   (129)
+               IP-PrimaryNBNS   (130)
+               IP-SecondaryDNS   (131)
+               IP-SecondaryNBNS   (132)"
+   ::= {sr1646v2DPppIpcpMyEntry 16777216}
+
+sr1646v2DPppIpcpMyLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ipcpMyOptions.length"
+   ::= {sr1646v2DPppIpcpMyEntry 33554432}
+
+sr1646v2DPppIpcpMyValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ipcpMyOptions.value"
+   ::= {sr1646v2DPppIpcpMyEntry 50331648}
+
+
+sr1646v2DPppIpcpHis OBJECT IDENTIFIER ::= {sr1646v2DPpp 16}
+
+sr1646v2DPppIpcpHisSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppIpcpHisEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipcpOptions"
+   ::= {sr1646v2DPppIpcpHis 1}
+
+sr1646v2DPppIpcpHisEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppIpcpHisEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppIpcpHisGlobalIx,
+                sr1646v2DPppIpcpHisTableIx }
+   ::= {sr1646v2DPppIpcpHisSSCTable 1}
+
+Sr1646v2DPppIpcpHisEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppIpcpHisGlobalIx
+         GlobalIndex,
+      sr1646v2DPppIpcpHisTableIx
+         TableIndex,
+      sr1646v2DPppIpcpHisOption
+         INTEGER,
+      sr1646v2DPppIpcpHisLength
+         Integer32,
+      sr1646v2DPppIpcpHisValue
+         OCTET STRING
+      }
+
+sr1646v2DPppIpcpHisGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppIpcpHisEntry 10}
+
+sr1646v2DPppIpcpHisTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2DPppIpcpHisEntry 11}
+
+sr1646v2DPppIpcpHisOption OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iPmVSO (0),
+               iPmAddresses (1),
+               iPmCompressionmProtocol (2),
+               iPmAddress (3),
+               iPmPrimaryDNS (129),
+               iPmPrimaryNBNS (130),
+               iPmSecondaryDNS (131),
+               iPmSecondaryNBNS (132)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ipcpHisOptions.option
+
+       Possibilities:
+               IP-VSO   (0)
+               IP-Addresses   (1)
+               IP-Compression-Protocol   (2)
+               IP-Address   (3)
+               IP-PrimaryDNS   (129)
+               IP-PrimaryNBNS   (130)
+               IP-SecondaryDNS   (131)
+               IP-SecondaryNBNS   (132)"
+   ::= {sr1646v2DPppIpcpHisEntry 16777216}
+
+sr1646v2DPppIpcpHisLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ipcpHisOptions.length"
+   ::= {sr1646v2DPppIpcpHisEntry 33554432}
+
+sr1646v2DPppIpcpHisValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ipcpHisOptions.value"
+   ::= {sr1646v2DPppIpcpHisEntry 50331648}
+
+
+sr1646v2DPppMyAutSt OBJECT IDENTIFIER ::= {sr1646v2DPpp 19}
+
+sr1646v2DPppMyAutStTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppMyAutStEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppMyAuthenState"
+   ::= {sr1646v2DPppMyAutSt 1}
+
+sr1646v2DPppMyAutStEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppMyAutStEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppMyAutStGlobalIx }
+   ::= {sr1646v2DPppMyAutStTable 1}
+
+Sr1646v2DPppMyAutStEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppMyAutStGlobalIx
+         GlobalIndex,
+      sr1646v2DPppMyAutStValue
+         INTEGER
+      }
+
+sr1646v2DPppMyAutStGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppMyAutStEntry 10}
+
+sr1646v2DPppMyAutStValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               nomAuthentication (0),
+               waitmOnmResponse (1),
+               authenmPapmSuccessful (2),
+               authenmChapmSuccessful (3),
+               authenmFailure (4),
+               waitmOnmResponsemRadius (5),
+               authenmNotmAllowed (6),
+               waitmOnmRequest (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.myAuthenState
+
+       Possibilities:
+               No-Authentication   (0)
+               Wait-On-Response   (1)
+               Authen-Pap-Successful   (2)
+               Authen-Chap-Successful   (3)
+               Authen-Failure   (4)
+               Wait-On-Response-Radius   (5)
+               Authen-Not-Allowed   (6)
+               Wait-On-Request   (7)"
+   ::= {sr1646v2DPppMyAutStEntry 2147483648}
+
+
+sr1646v2DPppHisAutSt OBJECT IDENTIFIER ::= {sr1646v2DPpp 20}
+
+sr1646v2DPppHisAutStTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppHisAutStEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppHisAuthenState"
+   ::= {sr1646v2DPppHisAutSt 1}
+
+sr1646v2DPppHisAutStEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppHisAutStEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppHisAutStGlobalIx }
+   ::= {sr1646v2DPppHisAutStTable 1}
+
+Sr1646v2DPppHisAutStEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppHisAutStGlobalIx
+         GlobalIndex,
+      sr1646v2DPppHisAutStValue
+         INTEGER
+      }
+
+sr1646v2DPppHisAutStGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppHisAutStEntry 10}
+
+sr1646v2DPppHisAutStValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               nomAuthentication (0),
+               waitmOnmChallenge (1),
+               waitmOnmSuccess (2),
+               authenmPapmSuccessful (3),
+               authenmChapmSuccessful (4),
+               authenmFailure (5),
+               authenmNotmAllowed (6),
+               waitmOnmRequest (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.hisAuthenState
+
+       Possibilities:
+               No-Authentication   (0)
+               Wait-On-Challenge   (1)
+               Wait-On-Success   (2)
+               Authen-Pap-Successful   (3)
+               Authen-Chap-Successful   (4)
+               Authen-Failure   (5)
+               Authen-Not-Allowed   (6)
+               Wait-On-Request   (7)"
+   ::= {sr1646v2DPppHisAutStEntry 2147483648}
+
+
+sr1646v2DPppCcpState OBJECT IDENTIFIER ::= {sr1646v2DPpp 34}
+
+sr1646v2DPppCcpStateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppCcpStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppState"
+   ::= {sr1646v2DPppCcpState 1}
+
+sr1646v2DPppCcpStateEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppCcpStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppCcpStateGlobalIx }
+   ::= {sr1646v2DPppCcpStateTable 1}
+
+Sr1646v2DPppCcpStateEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppCcpStateGlobalIx
+         GlobalIndex,
+      sr1646v2DPppCcpStateValue
+         INTEGER
+      }
+
+sr1646v2DPppCcpStateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppCcpStateEntry 10}
+
+sr1646v2DPppCcpStateValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               initial (0),
+               starting (1),
+               closed (2),
+               stopped (3),
+               closing (4),
+               stopping (5),
+               reqmSent (6),
+               ackmRcvd (7),
+               ackmSent (8),
+               opened (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ccpState
+
+       Possibilities:
+               Initial   (0)
+               Starting   (1)
+               Closed   (2)
+               Stopped   (3)
+               Closing   (4)
+               Stopping   (5)
+               Req-Sent   (6)
+               Ack-Rcvd   (7)
+               Ack-Sent   (8)
+               Opened   (9)"
+   ::= {sr1646v2DPppCcpStateEntry 2147483648}
+
+
+sr1646v2DPppCcpMy OBJECT IDENTIFIER ::= {sr1646v2DPpp 37}
+
+sr1646v2DPppCcpMySSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppCcpMyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bcpOptions"
+   ::= {sr1646v2DPppCcpMy 1}
+
+sr1646v2DPppCcpMyEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppCcpMyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppCcpMyGlobalIx,
+                sr1646v2DPppCcpMyTableIx }
+   ::= {sr1646v2DPppCcpMySSCTable 1}
+
+Sr1646v2DPppCcpMyEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppCcpMyGlobalIx
+         GlobalIndex,
+      sr1646v2DPppCcpMyTableIx
+         TableIndex,
+      sr1646v2DPppCcpMyOption
+         INTEGER,
+      sr1646v2DPppCcpMyLength
+         Integer32,
+      sr1646v2DPppCcpMyValue
+         OCTET STRING
+      }
+
+sr1646v2DPppCcpMyGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppCcpMyEntry 10}
+
+sr1646v2DPppCcpMyTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2DPppCcpMyEntry 11}
+
+sr1646v2DPppCcpMyOption OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               predictor1 (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ccpMyOptions.option
+
+       Possibilities:
+               Predictor1   (1)"
+   ::= {sr1646v2DPppCcpMyEntry 16777216}
+
+sr1646v2DPppCcpMyLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ccpMyOptions.length"
+   ::= {sr1646v2DPppCcpMyEntry 33554432}
+
+sr1646v2DPppCcpMyValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ccpMyOptions.value"
+   ::= {sr1646v2DPppCcpMyEntry 50331648}
+
+
+sr1646v2DPppCcpHis OBJECT IDENTIFIER ::= {sr1646v2DPpp 38}
+
+sr1646v2DPppCcpHisSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppCcpHisEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bcpOptions"
+   ::= {sr1646v2DPppCcpHis 1}
+
+sr1646v2DPppCcpHisEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppCcpHisEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppCcpHisGlobalIx,
+                sr1646v2DPppCcpHisTableIx }
+   ::= {sr1646v2DPppCcpHisSSCTable 1}
+
+Sr1646v2DPppCcpHisEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppCcpHisGlobalIx
+         GlobalIndex,
+      sr1646v2DPppCcpHisTableIx
+         TableIndex,
+      sr1646v2DPppCcpHisOption
+         INTEGER,
+      sr1646v2DPppCcpHisLength
+         Integer32,
+      sr1646v2DPppCcpHisValue
+         OCTET STRING
+      }
+
+sr1646v2DPppCcpHisGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppCcpHisEntry 10}
+
+sr1646v2DPppCcpHisTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2DPppCcpHisEntry 11}
+
+sr1646v2DPppCcpHisOption OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               predictor1 (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ccpHisOptions.option
+
+       Possibilities:
+               Predictor1   (1)"
+   ::= {sr1646v2DPppCcpHisEntry 16777216}
+
+sr1646v2DPppCcpHisLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ccpHisOptions.length"
+   ::= {sr1646v2DPppCcpHisEntry 33554432}
+
+sr1646v2DPppCcpHisValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.ccpHisOptions.value"
+   ::= {sr1646v2DPppCcpHisEntry 50331648}
+
+
+sr1646v2DPppMyCompressionRatio OBJECT IDENTIFIER ::= {sr1646v2DPpp 35}
+
+sr1646v2DPppMyCompressionRatioTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppMyCompressionRatioEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppCompression"
+   ::= {sr1646v2DPppMyCompressionRatio 1}
+
+sr1646v2DPppMyCompressionRatioEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppMyCompressionRatioEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppMyCompressionRatioGlobalIx }
+   ::= {sr1646v2DPppMyCompressionRatioTable 1}
+
+Sr1646v2DPppMyCompressionRatioEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppMyCompressionRatioGlobalIx
+         GlobalIndex,
+      sr1646v2DPppMyCompressionRatioValue
+         Integer32
+      }
+
+sr1646v2DPppMyCompressionRatioGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppMyCompressionRatioEntry 10}
+
+sr1646v2DPppMyCompressionRatioValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.myCompressionRatio"
+   ::= {sr1646v2DPppMyCompressionRatioEntry 2147483648}
+
+
+sr1646v2DPppHisCompressionRatio OBJECT IDENTIFIER ::= {sr1646v2DPpp 36}
+
+sr1646v2DPppHisCompressionRatioTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppHisCompressionRatioEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppCompression"
+   ::= {sr1646v2DPppHisCompressionRatio 1}
+
+sr1646v2DPppHisCompressionRatioEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppHisCompressionRatioEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppHisCompressionRatioGlobalIx }
+   ::= {sr1646v2DPppHisCompressionRatioTable 1}
+
+Sr1646v2DPppHisCompressionRatioEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppHisCompressionRatioGlobalIx
+         GlobalIndex,
+      sr1646v2DPppHisCompressionRatioValue
+         Integer32
+      }
+
+sr1646v2DPppHisCompressionRatioGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppHisCompressionRatioEntry 10}
+
+sr1646v2DPppHisCompressionRatioValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.hisCompressionRatio"
+   ::= {sr1646v2DPppHisCompressionRatioEntry 2147483648}
+
+
+sr1646v2DPppSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2DPpp 269}
+
+sr1646v2DPppSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DPppSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2DPppSnmpIndex 1}
+
+sr1646v2DPppSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DPppSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DPppSnmpIndexGlobalIx }
+   ::= {sr1646v2DPppSnmpIndexTable 1}
+
+Sr1646v2DPppSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DPppSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2DPppSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2DPppSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2DPppSnmpIndexEntry 10}
+
+sr1646v2DPppSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.status.snmpIndex"
+   ::= {sr1646v2DPppSnmpIndexEntry 2147483648}
+
+
+
+pr1646v2DPpp OBJECT IDENTIFIER ::= {r1646v2DPpp 12}
+
+
+pr1646v2DPppMon OBJECT IDENTIFIER ::= {pr1646v2DPpp 70}
+
+pr1646v2DPppMonSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2DPppMonEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ppp LinkMonitoring performance"
+   ::= {pr1646v2DPppMon 1}
+
+pr1646v2DPppMonEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2DPppMonEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2DPppMonGlobalIx }
+   ::= {pr1646v2DPppMonSSCTable 1}
+
+Pr1646v2DPppMonEntry ::=
+   SEQUENCE
+      {
+      pr1646v2DPppMonGlobalIx
+         GlobalIndex,
+      pr1646v2DPppMonRequestsSent
+         Gauge32,
+      pr1646v2DPppMonRepliesRcvd
+         Gauge32,
+      pr1646v2DPppMonRequestsRcvd
+         Gauge32,
+      pr1646v2DPppMonRepliesSent
+         Gauge32
+      }
+
+pr1646v2DPppMonGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2DPppMonEntry 10}
+
+pr1646v2DPppMonRequestsSent OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.performance.linkMonitoring.requestsSent
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2DPppMonEntry 16777216}
+
+pr1646v2DPppMonRepliesRcvd OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.performance.linkMonitoring.repliesRcvd
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2DPppMonEntry 33554432}
+
+pr1646v2DPppMonRequestsRcvd OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.performance.linkMonitoring.requestsRcvd
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2DPppMonEntry 50331648}
+
+pr1646v2DPppMonRepliesSent OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialPpp.performance.linkMonitoring.repliesSent
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2DPppMonEntry 67108864}
+
+
+
+END

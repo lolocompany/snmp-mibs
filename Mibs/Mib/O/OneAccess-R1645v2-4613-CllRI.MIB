@@ -1,0 +1,1950 @@
+OneAccess-R1645v2-4613-CllRI DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2CllRI OBJECT IDENTIFIER ::= {r1645Rootv2 4613}
+
+r1645v2CllRIMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2CllRIMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2CllRI 1}
+
+r1645v2CllRIMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2CllRIMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2CllRIMOPropGlobalIx }
+   ::= {r1645v2CllRIMOProp 1}
+
+R1645v2CllRIMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2CllRIMOPropPath
+         ContainmentPath,
+      r1645v2CllRIMOPropRev
+         ObjectRevision,
+      r1645v2CllRIMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2CllRIMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2CllRIMOPropEntry 3}
+
+r1645v2CllRIMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2CllRIMOPropEntry 4}
+
+r1645v2CllRIMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2CllRIMOPropEntry 10}
+
+
+
+er1645v2CllRI OBJECT IDENTIFIER ::= {r1645v2CllRI 11}
+
+
+er1645v2CllRIRemark OBJECT IDENTIFIER ::= {er1645v2CllRI 321}
+
+er1645v2CllRIRemarkTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2CllRIRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "intfRemark"
+   ::= {er1645v2CllRIRemark 1}
+
+er1645v2CllRIRemarkEntry OBJECT-TYPE
+   SYNTAX      Er1645v2CllRIRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2CllRIRemarkGlobalIx }
+   ::= {er1645v2CllRIRemarkTable 1}
+
+Er1645v2CllRIRemarkEntry ::=
+   SEQUENCE
+      {
+      er1645v2CllRIRemarkGlobalIx
+         GlobalIndex,
+      er1645v2CllRIRemarkValue
+         DisplayString
+      }
+
+er1645v2CllRIRemarkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2CllRIRemarkEntry 10}
+
+er1645v2CllRIRemarkValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.remark"
+   ::= {er1645v2CllRIRemarkEntry 2147483648}
+
+
+er1645v2CllRIRatMode OBJECT IDENTIFIER ::= {er1645v2CllRI 3}
+
+er1645v2CllRIRatModeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2CllRIRatModeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Radio technology mode"
+   ::= {er1645v2CllRIRatMode 1}
+
+er1645v2CllRIRatModeEntry OBJECT-TYPE
+   SYNTAX      Er1645v2CllRIRatModeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2CllRIRatModeGlobalIx }
+   ::= {er1645v2CllRIRatModeTable 1}
+
+Er1645v2CllRIRatModeEntry ::=
+   SEQUENCE
+      {
+      er1645v2CllRIRatModeGlobalIx
+         GlobalIndex,
+      er1645v2CllRIRatModeValue
+         Integer32
+      }
+
+er1645v2CllRIRatModeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2CllRIRatModeEntry 10}
+
+er1645v2CllRIRatModeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.ratMode
+
+       Bit meanings:
+               bit 0 = 2g,
+               bit 1 = 3g,
+               bit 2 = 4g"
+   ::= {er1645v2CllRIRatModeEntry 2147483648}
+
+
+er1645v2CllRIOperation OBJECT IDENTIFIER ::= {er1645v2CllRI 4}
+
+er1645v2CllRIOperationTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2CllRIOperationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "EthernetPdp or DefaultPdp"
+   ::= {er1645v2CllRIOperation 1}
+
+er1645v2CllRIOperationEntry OBJECT-TYPE
+   SYNTAX      Er1645v2CllRIOperationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2CllRIOperationGlobalIx }
+   ::= {er1645v2CllRIOperationTable 1}
+
+Er1645v2CllRIOperationEntry ::=
+   SEQUENCE
+      {
+      er1645v2CllRIOperationGlobalIx
+         GlobalIndex,
+      er1645v2CllRIOperationValue
+         INTEGER
+      }
+
+er1645v2CllRIOperationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2CllRIOperationEntry 10}
+
+er1645v2CllRIOperationValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ethernetPdp (1),
+               defaultPdp (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.operation
+
+       Possibilities:
+               ethernetPdp   (1)
+               defaultPdp   (2)"
+   ::= {er1645v2CllRIOperationEntry 2147483648}
+
+
+er1645v2CllRISimProfiles OBJECT IDENTIFIER ::= {er1645v2CllRI 5}
+
+er1645v2CllRISimProfilesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2CllRISimProfilesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "cellular profile configuration table"
+   ::= {er1645v2CllRISimProfiles 1}
+
+er1645v2CllRISimProfilesEntry OBJECT-TYPE
+   SYNTAX      Er1645v2CllRISimProfilesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2CllRISimProfilesGlobalIx,
+                er1645v2CllRISimProfilesTableIx }
+   ::= {er1645v2CllRISimProfilesSSCTable 1}
+
+Er1645v2CllRISimProfilesEntry ::=
+   SEQUENCE
+      {
+      er1645v2CllRISimProfilesActions
+         VariableLengthTableActions,
+      er1645v2CllRISimProfilesGlobalIx
+         GlobalIndex,
+      er1645v2CllRISimProfilesTableIx
+         TableIndex,
+      er1645v2CllRISimProfilesName
+         DisplayString,
+      er1645v2CllRISimProfilesRemark
+         DisplayString,
+      er1645v2CllRISimProfilesIpProtocol
+         INTEGER,
+      er1645v2CllRISimProfilesApn
+         DisplayString,
+      er1645v2CllRISimProfilesAuthenticationSessionAuthMethod
+         INTEGER,
+      er1645v2CllRISimProfilesAuthenticationSessionName
+         DisplayString,
+      er1645v2CllRISimProfilesAuthenticationSessionSecret
+         DisplayString,
+      er1645v2CllRISimProfilesAuthenticationEncModeSessionSecret
+         INTEGER,
+      er1645v2CllRISimProfilesAuthenticationEncSessionSecret
+         DisplayString
+      }
+
+er1645v2CllRISimProfilesActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2CllRISimProfilesEntry 2}
+
+er1645v2CllRISimProfilesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2CllRISimProfilesEntry 10}
+
+er1645v2CllRISimProfilesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2CllRISimProfilesEntry 11}
+
+er1645v2CllRISimProfilesName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.simProfiles.name"
+   ::= {er1645v2CllRISimProfilesEntry 16777216}
+
+er1645v2CllRISimProfilesRemark OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.simProfiles.remark"
+   ::= {er1645v2CllRISimProfilesEntry 33554432}
+
+er1645v2CllRISimProfilesIpProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ipV4 (1),
+               ipV6 (2),
+               ipV4ipV6 (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.simProfiles.ipProtocol
+
+       Possibilities:
+               ipV4   (1)
+               ipV6   (2)
+               ipV4/ipV6   (3)"
+   ::= {er1645v2CllRISimProfilesEntry 50331648}
+
+er1645v2CllRISimProfilesApn OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.simProfiles.apn"
+   ::= {er1645v2CllRISimProfilesEntry 67108864}
+
+er1645v2CllRISimProfilesAuthenticationSessionAuthMethod OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (1),
+               pap (2),
+               chap (3),
+               chappap (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.simProfiles.authentication.sessionAuthMethod
+
+       Possibilities:
+               none   (1)
+               pap   (2)
+               chap   (3)
+               chap/pap   (4)"
+   ::= {er1645v2CllRISimProfilesEntry 84738048}
+
+er1645v2CllRISimProfilesAuthenticationSessionName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.simProfiles.authentication.sessionName"
+   ::= {er1645v2CllRISimProfilesEntry 84213760}
+
+er1645v2CllRISimProfilesAuthenticationSessionSecret OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.simProfiles.authentication.sessionSecret"
+   ::= {er1645v2CllRISimProfilesEntry 84279296}
+
+er1645v2CllRISimProfilesAuthenticationEncModeSessionSecret OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (1),
+               encrypt (2),
+               encType1 (3),
+               invalid (128)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.simProfiles.authentication.encModeSessionSecret
+
+       Possibilities:
+               none   (1)
+               encrypt   (2)
+               encType1   (3)
+               invalid   (128)"
+   ::= {er1645v2CllRISimProfilesEntry 84606976}
+
+er1645v2CllRISimProfilesAuthenticationEncSessionSecret OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.simProfiles.authentication.encSessionSecret"
+   ::= {er1645v2CllRISimProfilesEntry 84672512}
+
+
+er1645v2CllRIAttachProfile OBJECT IDENTIFIER ::= {er1645v2CllRI 6}
+
+er1645v2CllRIAttachProfileTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2CllRIAttachProfileEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "cellular attach profile"
+   ::= {er1645v2CllRIAttachProfile 1}
+
+er1645v2CllRIAttachProfileEntry OBJECT-TYPE
+   SYNTAX      Er1645v2CllRIAttachProfileEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2CllRIAttachProfileGlobalIx }
+   ::= {er1645v2CllRIAttachProfileTable 1}
+
+Er1645v2CllRIAttachProfileEntry ::=
+   SEQUENCE
+      {
+      er1645v2CllRIAttachProfileGlobalIx
+         GlobalIndex,
+      er1645v2CllRIAttachProfileValue
+         DisplayString
+      }
+
+er1645v2CllRIAttachProfileGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2CllRIAttachProfileEntry 10}
+
+er1645v2CllRIAttachProfileValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.attachProfile"
+   ::= {er1645v2CllRIAttachProfileEntry 2147483648}
+
+
+er1645v2CllRISnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2CllRI 268}
+
+er1645v2CllRISnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2CllRISnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2CllRISnmpIndexOffset 1}
+
+er1645v2CllRISnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2CllRISnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2CllRISnmpIndexOffsetGlobalIx }
+   ::= {er1645v2CllRISnmpIndexOffsetTable 1}
+
+Er1645v2CllRISnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2CllRISnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2CllRISnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2CllRISnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2CllRISnmpIndexOffsetEntry 10}
+
+er1645v2CllRISnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.editConf.snmpIndexOffset"
+   ::= {er1645v2CllRISnmpIndexOffsetEntry 2147483648}
+
+
+
+sr1645v2CllRI OBJECT IDENTIFIER ::= {r1645v2CllRI 14}
+
+
+sr1645v2CllRIState OBJECT IDENTIFIER ::= {sr1645v2CllRI 46}
+
+sr1645v2CllRIStateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRIStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "monitor state"
+   ::= {sr1645v2CllRIState 1}
+
+sr1645v2CllRIStateEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRIStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRIStateGlobalIx }
+   ::= {sr1645v2CllRIStateTable 1}
+
+Sr1645v2CllRIStateEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRIStateGlobalIx
+         GlobalIndex,
+      sr1645v2CllRIStateValue
+         INTEGER
+      }
+
+sr1645v2CllRIStateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRIStateEntry 10}
+
+sr1645v2CllRIStateValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               sync (0),
+               init (1),
+               reset (2),
+               meinfo (3),
+               checkSim (4),
+               enterPin (5),
+               msInfo (6),
+               lowPower (7),
+               searching (8),
+               attached (9),
+               error (10),
+               firmwareUpgrade (11),
+               monitorStopped (12),
+               networkScan (13),
+               powerDown (14)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.state
+
+       Possibilities:
+               sync   (0)
+               init   (1)
+               reset   (2)
+               meinfo   (3)
+               checkSim   (4)
+               enterPin   (5)
+               msInfo   (6)
+               lowPower   (7)
+               searching   (8)
+               attached   (9)
+               error   (10)
+               firmwareUpgrade   (11)
+               monitorStopped   (12)
+               networkScan   (13)
+               powerDown   (14)"
+   ::= {sr1645v2CllRIStateEntry 2147483648}
+
+
+sr1645v2CllRICurrentOperator OBJECT IDENTIFIER ::= {sr1645v2CllRI 40}
+
+sr1645v2CllRICurrentOperatorTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRICurrentOperatorEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "misc. string"
+   ::= {sr1645v2CllRICurrentOperator 1}
+
+sr1645v2CllRICurrentOperatorEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRICurrentOperatorEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRICurrentOperatorGlobalIx }
+   ::= {sr1645v2CllRICurrentOperatorTable 1}
+
+Sr1645v2CllRICurrentOperatorEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRICurrentOperatorGlobalIx
+         GlobalIndex,
+      sr1645v2CllRICurrentOperatorValue
+         DisplayString
+      }
+
+sr1645v2CllRICurrentOperatorGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRICurrentOperatorEntry 10}
+
+sr1645v2CllRICurrentOperatorValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.currentOperator"
+   ::= {sr1645v2CllRICurrentOperatorEntry 2147483648}
+
+
+sr1645v2CllRICurrentAccessTechnology OBJECT IDENTIFIER ::= {sr1645v2CllRI 41}
+
+sr1645v2CllRICurrentAccessTechnologyTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRICurrentAccessTechnologyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "misc. string"
+   ::= {sr1645v2CllRICurrentAccessTechnology 1}
+
+sr1645v2CllRICurrentAccessTechnologyEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRICurrentAccessTechnologyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRICurrentAccessTechnologyGlobalIx }
+   ::= {sr1645v2CllRICurrentAccessTechnologyTable 1}
+
+Sr1645v2CllRICurrentAccessTechnologyEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRICurrentAccessTechnologyGlobalIx
+         GlobalIndex,
+      sr1645v2CllRICurrentAccessTechnologyValue
+         DisplayString
+      }
+
+sr1645v2CllRICurrentAccessTechnologyGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRICurrentAccessTechnologyEntry 10}
+
+sr1645v2CllRICurrentAccessTechnologyValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.currentAccessTechnology"
+   ::= {sr1645v2CllRICurrentAccessTechnologyEntry 2147483648}
+
+
+sr1645v2CllRICsRegisterState OBJECT IDENTIFIER ::= {sr1645v2CllRI 42}
+
+sr1645v2CllRICsRegisterStateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRICsRegisterStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "misc. string"
+   ::= {sr1645v2CllRICsRegisterState 1}
+
+sr1645v2CllRICsRegisterStateEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRICsRegisterStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRICsRegisterStateGlobalIx }
+   ::= {sr1645v2CllRICsRegisterStateTable 1}
+
+Sr1645v2CllRICsRegisterStateEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRICsRegisterStateGlobalIx
+         GlobalIndex,
+      sr1645v2CllRICsRegisterStateValue
+         DisplayString
+      }
+
+sr1645v2CllRICsRegisterStateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRICsRegisterStateEntry 10}
+
+sr1645v2CllRICsRegisterStateValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.csRegisterState"
+   ::= {sr1645v2CllRICsRegisterStateEntry 2147483648}
+
+
+sr1645v2CllRIPsAttachState OBJECT IDENTIFIER ::= {sr1645v2CllRI 43}
+
+sr1645v2CllRIPsAttachStateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRIPsAttachStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "misc. string"
+   ::= {sr1645v2CllRIPsAttachState 1}
+
+sr1645v2CllRIPsAttachStateEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRIPsAttachStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRIPsAttachStateGlobalIx }
+   ::= {sr1645v2CllRIPsAttachStateTable 1}
+
+Sr1645v2CllRIPsAttachStateEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRIPsAttachStateGlobalIx
+         GlobalIndex,
+      sr1645v2CllRIPsAttachStateValue
+         DisplayString
+      }
+
+sr1645v2CllRIPsAttachStateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRIPsAttachStateEntry 10}
+
+sr1645v2CllRIPsAttachStateValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.psAttachState"
+   ::= {sr1645v2CllRIPsAttachStateEntry 2147483648}
+
+
+sr1645v2CllRIModule OBJECT IDENTIFIER ::= {sr1645v2CllRI 48}
+
+sr1645v2CllRIModuleSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRIModuleEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "module information"
+   ::= {sr1645v2CllRIModule 1}
+
+sr1645v2CllRIModuleEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRIModuleEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRIModuleGlobalIx }
+   ::= {sr1645v2CllRIModuleSSCTable 1}
+
+Sr1645v2CllRIModuleEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRIModuleGlobalIx
+         GlobalIndex,
+      sr1645v2CllRIModuleManufacturer
+         DisplayString,
+      sr1645v2CllRIModuleModel
+         DisplayString,
+      sr1645v2CllRIModuleBootCode
+         DisplayString,
+      sr1645v2CllRIModuleRevision
+         DisplayString,
+      sr1645v2CllRIModuleImei
+         DisplayString
+      }
+
+sr1645v2CllRIModuleGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRIModuleEntry 10}
+
+sr1645v2CllRIModuleManufacturer OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.module.manufacturer"
+   ::= {sr1645v2CllRIModuleEntry 16777216}
+
+sr1645v2CllRIModuleModel OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.module.model"
+   ::= {sr1645v2CllRIModuleEntry 33554432}
+
+sr1645v2CllRIModuleBootCode OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.module.bootCode"
+   ::= {sr1645v2CllRIModuleEntry 50331648}
+
+sr1645v2CllRIModuleRevision OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.module.revision"
+   ::= {sr1645v2CllRIModuleEntry 67108864}
+
+sr1645v2CllRIModuleImei OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.module.imei"
+   ::= {sr1645v2CllRIModuleEntry 83886080}
+
+sr1645v2CllRIModuleImages OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRIModuleImagesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2CllRIModule 100663296}
+
+sr1645v2CllRIModuleImagesEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRIModuleImagesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRIModuleImagesGlobalIx,
+                sr1645v2CllRIModuleImagesTableIx }
+   ::= {sr1645v2CllRIModuleImages 1}
+
+Sr1645v2CllRIModuleImagesEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRIModuleImagesGlobalIx
+         GlobalIndex,
+      sr1645v2CllRIModuleImagesTableIx
+         TableIndex,
+      sr1645v2CllRIModuleImagesType
+         INTEGER,
+      sr1645v2CllRIModuleImagesRunning
+         INTEGER,
+      sr1645v2CllRIModuleImagesVersion
+         DisplayString,
+      sr1645v2CllRIModuleImagesBuild
+         DisplayString
+      }
+
+sr1645v2CllRIModuleImagesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRIModuleImagesEntry 10}
+
+sr1645v2CllRIModuleImagesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2CllRIModuleImagesEntry 11}
+
+sr1645v2CllRIModuleImagesType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unknown (0),
+               cWE (1),
+               nVU (2),
+               sPK (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.module.images.type
+
+       Possibilities:
+               unknown   (0)
+               CWE   (1)
+               NVU   (2)
+               SPK   (3)"
+   ::= {sr1645v2CllRIModuleImagesEntry 16777216}
+
+sr1645v2CllRIModuleImagesRunning OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.module.images.running
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1645v2CllRIModuleImagesEntry 33554432}
+
+sr1645v2CllRIModuleImagesVersion OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.module.images.version"
+   ::= {sr1645v2CllRIModuleImagesEntry 50331648}
+
+sr1645v2CllRIModuleImagesBuild OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.module.images.build"
+   ::= {sr1645v2CllRIModuleImagesEntry 67108864}
+
+sr1645v2CllRIModuleCurrentImages OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRIModuleCurrentImagesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2CllRIModule 117440512}
+
+sr1645v2CllRIModuleCurrentImagesEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRIModuleCurrentImagesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRIModuleCurrentImagesGlobalIx,
+                sr1645v2CllRIModuleCurrentImagesTableIx }
+   ::= {sr1645v2CllRIModuleCurrentImages 1}
+
+Sr1645v2CllRIModuleCurrentImagesEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRIModuleCurrentImagesGlobalIx
+         GlobalIndex,
+      sr1645v2CllRIModuleCurrentImagesTableIx
+         TableIndex,
+      sr1645v2CllRIModuleCurrentImagesType
+         INTEGER,
+      sr1645v2CllRIModuleCurrentImagesVersion
+         DisplayString,
+      sr1645v2CllRIModuleCurrentImagesBuild
+         DisplayString
+      }
+
+sr1645v2CllRIModuleCurrentImagesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRIModuleCurrentImagesEntry 10}
+
+sr1645v2CllRIModuleCurrentImagesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2CllRIModuleCurrentImagesEntry 11}
+
+sr1645v2CllRIModuleCurrentImagesType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unknown (0),
+               cWE (1),
+               nVU (2),
+               sPK (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.module.currentImages.type
+
+       Possibilities:
+               unknown   (0)
+               CWE   (1)
+               NVU   (2)
+               SPK   (3)"
+   ::= {sr1645v2CllRIModuleCurrentImagesEntry 16777216}
+
+sr1645v2CllRIModuleCurrentImagesVersion OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.module.currentImages.version"
+   ::= {sr1645v2CllRIModuleCurrentImagesEntry 33554432}
+
+sr1645v2CllRIModuleCurrentImagesBuild OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.module.currentImages.build"
+   ::= {sr1645v2CllRIModuleCurrentImagesEntry 50331648}
+
+
+sr1645v2CllRINetwork OBJECT IDENTIFIER ::= {sr1645v2CllRI 49}
+
+sr1645v2CllRINetworkSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRINetworkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "network information"
+   ::= {sr1645v2CllRINetwork 1}
+
+sr1645v2CllRINetworkEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRINetworkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRINetworkGlobalIx }
+   ::= {sr1645v2CllRINetworkSSCTable 1}
+
+Sr1645v2CllRINetworkEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRINetworkGlobalIx
+         GlobalIndex,
+      sr1645v2CllRINetworkPlmn
+         DisplayString,
+      sr1645v2CllRINetworkLac
+         Integer32,
+      sr1645v2CllRINetworkTac
+         Integer32,
+      sr1645v2CllRINetworkCellId
+         Integer32
+      }
+
+sr1645v2CllRINetworkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRINetworkEntry 10}
+
+sr1645v2CllRINetworkPlmn OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.network.plmn"
+   ::= {sr1645v2CllRINetworkEntry 16777216}
+
+sr1645v2CllRINetworkLac OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.network.lac"
+   ::= {sr1645v2CllRINetworkEntry 33554432}
+
+sr1645v2CllRINetworkTac OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.network.tac"
+   ::= {sr1645v2CllRINetworkEntry 50331648}
+
+sr1645v2CllRINetworkCellId OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.network.cellId"
+   ::= {sr1645v2CllRINetworkEntry 67108864}
+
+
+sr1645v2CllRISnmpIndex OBJECT IDENTIFIER ::= {sr1645v2CllRI 269}
+
+sr1645v2CllRISnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRISnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2CllRISnmpIndex 1}
+
+sr1645v2CllRISnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRISnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRISnmpIndexGlobalIx }
+   ::= {sr1645v2CllRISnmpIndexTable 1}
+
+Sr1645v2CllRISnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRISnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2CllRISnmpIndexValue
+         Integer32
+      }
+
+sr1645v2CllRISnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRISnmpIndexEntry 10}
+
+sr1645v2CllRISnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.snmpIndex"
+   ::= {sr1645v2CllRISnmpIndexEntry 2147483648}
+
+
+sr1645v2CllRIRssi OBJECT IDENTIFIER ::= {sr1645v2CllRI 70}
+
+sr1645v2CllRIRssiTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRIRssiEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "rssi"
+   ::= {sr1645v2CllRIRssi 1}
+
+sr1645v2CllRIRssiEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRIRssiEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRIRssiGlobalIx }
+   ::= {sr1645v2CllRIRssiTable 1}
+
+Sr1645v2CllRIRssiEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRIRssiGlobalIx
+         GlobalIndex,
+      sr1645v2CllRIRssiValue
+         INTEGER
+      }
+
+sr1645v2CllRIRssiGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRIRssiEntry 10}
+
+sr1645v2CllRIRssiValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (-128)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.rssi
+
+       unit name = dBm
+       formula = 1 * ; 1 /
+
+       Possibilities:
+               <OPT>   (-128)"
+   ::= {sr1645v2CllRIRssiEntry 2147483648}
+
+
+sr1645v2CllRIEcio OBJECT IDENTIFIER ::= {sr1645v2CllRI 71}
+
+sr1645v2CllRIEcioTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRIEcioEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "EcIo"
+   ::= {sr1645v2CllRIEcio 1}
+
+sr1645v2CllRIEcioEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRIEcioEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRIEcioGlobalIx }
+   ::= {sr1645v2CllRIEcioTable 1}
+
+Sr1645v2CllRIEcioEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRIEcioGlobalIx
+         GlobalIndex,
+      sr1645v2CllRIEcioValue
+         INTEGER
+      }
+
+sr1645v2CllRIEcioGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRIEcioEntry 10}
+
+sr1645v2CllRIEcioValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (-32767)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.ecio
+
+       unit name = dB
+       formula = 2 / NEG ; 2 * NEG
+
+       Possibilities:
+               <OPT>   (-32767)"
+   ::= {sr1645v2CllRIEcioEntry 2147483648}
+
+
+sr1645v2CllRIRsrq OBJECT IDENTIFIER ::= {sr1645v2CllRI 72}
+
+sr1645v2CllRIRsrqTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRIRsrqEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "RSRQ"
+   ::= {sr1645v2CllRIRsrq 1}
+
+sr1645v2CllRIRsrqEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRIRsrqEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRIRsrqGlobalIx }
+   ::= {sr1645v2CllRIRsrqTable 1}
+
+Sr1645v2CllRIRsrqEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRIRsrqGlobalIx
+         GlobalIndex,
+      sr1645v2CllRIRsrqValue
+         INTEGER
+      }
+
+sr1645v2CllRIRsrqGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRIRsrqEntry 10}
+
+sr1645v2CllRIRsrqValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (0)
+               }
+   UNITS       "dB"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.rsrq
+
+       unit name = dB
+
+       Possibilities:
+               <OPT>   (0)"
+   ::= {sr1645v2CllRIRsrqEntry 2147483648}
+
+
+sr1645v2CllRIRsrp OBJECT IDENTIFIER ::= {sr1645v2CllRI 73}
+
+sr1645v2CllRIRsrpTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRIRsrpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "RSRP"
+   ::= {sr1645v2CllRIRsrp 1}
+
+sr1645v2CllRIRsrpEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRIRsrpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRIRsrpGlobalIx }
+   ::= {sr1645v2CllRIRsrpTable 1}
+
+Sr1645v2CllRIRsrpEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRIRsrpGlobalIx
+         GlobalIndex,
+      sr1645v2CllRIRsrpValue
+         INTEGER
+      }
+
+sr1645v2CllRIRsrpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRIRsrpEntry 10}
+
+sr1645v2CllRIRsrpValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (0)
+               }
+   UNITS       "dBm"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.rsrp
+
+       unit name = dBm
+
+       Possibilities:
+               <OPT>   (0)"
+   ::= {sr1645v2CllRIRsrpEntry 2147483648}
+
+
+sr1645v2CllRISnr OBJECT IDENTIFIER ::= {sr1645v2CllRI 74}
+
+sr1645v2CllRISnrTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2CllRISnrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNR"
+   ::= {sr1645v2CllRISnr 1}
+
+sr1645v2CllRISnrEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2CllRISnrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2CllRISnrGlobalIx }
+   ::= {sr1645v2CllRISnrTable 1}
+
+Sr1645v2CllRISnrEntry ::=
+   SEQUENCE
+      {
+      sr1645v2CllRISnrGlobalIx
+         GlobalIndex,
+      sr1645v2CllRISnrValue
+         INTEGER
+      }
+
+sr1645v2CllRISnrGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2CllRISnrEntry 10}
+
+sr1645v2CllRISnrValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (-32767)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.status.snr
+
+       unit name = dB
+       formula = 10 /  ; 10 *
+
+       Possibilities:
+               <OPT>   (-32767)"
+   ::= {sr1645v2CllRISnrEntry 2147483648}
+
+
+
+ar1645v2CllRI OBJECT IDENTIFIER ::= {r1645v2CllRI 16}
+
+
+ar1645v2CllRIHipReset OBJECT IDENTIFIER ::= {ar1645v2CllRI 501}
+
+ar1645v2CllRIHipResetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2CllRIHipResetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "hip reset"
+   ::= {ar1645v2CllRIHipReset 1}
+
+ar1645v2CllRIHipResetEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2CllRIHipResetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2CllRIHipResetGlobalIx }
+   ::= {ar1645v2CllRIHipResetTable 1}
+
+Ar1645v2CllRIHipResetEntry ::=
+   SEQUENCE
+      {
+      ar1645v2CllRIHipResetGlobalIx
+         GlobalIndex,
+      ar1645v2CllRIHipResetValue
+         Integer32
+      }
+
+ar1645v2CllRIHipResetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2CllRIHipResetEntry 10}
+
+ar1645v2CllRIHipResetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.actions.hipReset"
+   ::= {ar1645v2CllRIHipResetEntry 2147483648}
+
+
+ar1645v2CllRIUsbReset OBJECT IDENTIFIER ::= {ar1645v2CllRI 500}
+
+ar1645v2CllRIUsbResetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2CllRIUsbResetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "usb reset"
+   ::= {ar1645v2CllRIUsbReset 1}
+
+ar1645v2CllRIUsbResetEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2CllRIUsbResetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2CllRIUsbResetGlobalIx }
+   ::= {ar1645v2CllRIUsbResetTable 1}
+
+Ar1645v2CllRIUsbResetEntry ::=
+   SEQUENCE
+      {
+      ar1645v2CllRIUsbResetGlobalIx
+         GlobalIndex,
+      ar1645v2CllRIUsbResetValue
+         Integer32
+      }
+
+ar1645v2CllRIUsbResetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2CllRIUsbResetEntry 10}
+
+ar1645v2CllRIUsbResetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.actions.usbReset"
+   ::= {ar1645v2CllRIUsbResetEntry 2147483648}
+
+
+ar1645v2CllRISelectCarrier OBJECT IDENTIFIER ::= {ar1645v2CllRI 414}
+
+ar1645v2CllRISelectCarrierTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2CllRISelectCarrierEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Sierra Wireless Modem - select carrier"
+   ::= {ar1645v2CllRISelectCarrier 1}
+
+ar1645v2CllRISelectCarrierEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2CllRISelectCarrierEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2CllRISelectCarrierGlobalIx }
+   ::= {ar1645v2CllRISelectCarrierTable 1}
+
+Ar1645v2CllRISelectCarrierEntry ::=
+   SEQUENCE
+      {
+      ar1645v2CllRISelectCarrierGlobalIx
+         GlobalIndex,
+      ar1645v2CllRISelectCarrierValue
+         Integer32
+      }
+
+ar1645v2CllRISelectCarrierGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2CllRISelectCarrierEntry 10}
+
+ar1645v2CllRISelectCarrierValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.actions.selectCarrier"
+   ::= {ar1645v2CllRISelectCarrierEntry 2147483648}
+
+
+ar1645v2CllRICarrierName OBJECT IDENTIFIER ::= {ar1645v2CllRI 415}
+
+ar1645v2CllRICarrierNameTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2CllRICarrierNameEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Sierra Wireless Modem - carrier name"
+   ::= {ar1645v2CllRICarrierName 1}
+
+ar1645v2CllRICarrierNameEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2CllRICarrierNameEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2CllRICarrierNameGlobalIx }
+   ::= {ar1645v2CllRICarrierNameTable 1}
+
+Ar1645v2CllRICarrierNameEntry ::=
+   SEQUENCE
+      {
+      ar1645v2CllRICarrierNameGlobalIx
+         GlobalIndex,
+      ar1645v2CllRICarrierNameValue
+         DisplayString
+      }
+
+ar1645v2CllRICarrierNameGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2CllRICarrierNameEntry 10}
+
+ar1645v2CllRICarrierNameValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.actions.carrierName"
+   ::= {ar1645v2CllRICarrierNameEntry 2147483648}
+
+
+ar1645v2CllRISendSms OBJECT IDENTIFIER ::= {ar1645v2CllRI 412}
+
+ar1645v2CllRISendSmsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2CllRISendSmsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "send SMS"
+   ::= {ar1645v2CllRISendSms 1}
+
+ar1645v2CllRISendSmsEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2CllRISendSmsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2CllRISendSmsGlobalIx }
+   ::= {ar1645v2CllRISendSmsTable 1}
+
+Ar1645v2CllRISendSmsEntry ::=
+   SEQUENCE
+      {
+      ar1645v2CllRISendSmsGlobalIx
+         GlobalIndex,
+      ar1645v2CllRISendSmsValue
+         Integer32
+      }
+
+ar1645v2CllRISendSmsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2CllRISendSmsEntry 10}
+
+ar1645v2CllRISendSmsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.actions.sendSms"
+   ::= {ar1645v2CllRISendSmsEntry 2147483648}
+
+
+ar1645v2CllRISmsData OBJECT IDENTIFIER ::= {ar1645v2CllRI 413}
+
+ar1645v2CllRISmsDataSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2CllRISmsDataEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SMS to send"
+   ::= {ar1645v2CllRISmsData 1}
+
+ar1645v2CllRISmsDataEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2CllRISmsDataEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2CllRISmsDataGlobalIx }
+   ::= {ar1645v2CllRISmsDataSSCTable 1}
+
+Ar1645v2CllRISmsDataEntry ::=
+   SEQUENCE
+      {
+      ar1645v2CllRISmsDataGlobalIx
+         GlobalIndex,
+      ar1645v2CllRISmsDataTelephoneNumber
+         DisplayString,
+      ar1645v2CllRISmsDataMessage
+         DisplayString
+      }
+
+ar1645v2CllRISmsDataGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2CllRISmsDataEntry 10}
+
+ar1645v2CllRISmsDataTelephoneNumber OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.actions.smsData.telephoneNumber"
+   ::= {ar1645v2CllRISmsDataEntry 16777216}
+
+ar1645v2CllRISmsDataMessage OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.actions.smsData.message"
+   ::= {ar1645v2CllRISmsDataEntry 33554432}
+
+
+ar1645v2CllRISendAtCommand OBJECT IDENTIFIER ::= {ar1645v2CllRI 410}
+
+ar1645v2CllRISendAtCommandTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2CllRISendAtCommandEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "send AT command"
+   ::= {ar1645v2CllRISendAtCommand 1}
+
+ar1645v2CllRISendAtCommandEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2CllRISendAtCommandEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2CllRISendAtCommandGlobalIx }
+   ::= {ar1645v2CllRISendAtCommandTable 1}
+
+Ar1645v2CllRISendAtCommandEntry ::=
+   SEQUENCE
+      {
+      ar1645v2CllRISendAtCommandGlobalIx
+         GlobalIndex,
+      ar1645v2CllRISendAtCommandValue
+         Integer32
+      }
+
+ar1645v2CllRISendAtCommandGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2CllRISendAtCommandEntry 10}
+
+ar1645v2CllRISendAtCommandValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.actions.sendAtCommand"
+   ::= {ar1645v2CllRISendAtCommandEntry 2147483648}
+
+
+ar1645v2CllRIAtCommand OBJECT IDENTIFIER ::= {ar1645v2CllRI 411}
+
+ar1645v2CllRIAtCommandTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2CllRIAtCommandEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "AT command to execute"
+   ::= {ar1645v2CllRIAtCommand 1}
+
+ar1645v2CllRIAtCommandEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2CllRIAtCommandEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2CllRIAtCommandGlobalIx }
+   ::= {ar1645v2CllRIAtCommandTable 1}
+
+Ar1645v2CllRIAtCommandEntry ::=
+   SEQUENCE
+      {
+      ar1645v2CllRIAtCommandGlobalIx
+         GlobalIndex,
+      ar1645v2CllRIAtCommandValue
+         DisplayString
+      }
+
+ar1645v2CllRIAtCommandGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2CllRIAtCommandEntry 10}
+
+ar1645v2CllRIAtCommandValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.actions.atCommand"
+   ::= {ar1645v2CllRIAtCommandEntry 2147483648}
+
+
+ar1645v2CllRIResetModule OBJECT IDENTIFIER ::= {ar1645v2CllRI 409}
+
+ar1645v2CllRIResetModuleTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2CllRIResetModuleEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset module"
+   ::= {ar1645v2CllRIResetModule 1}
+
+ar1645v2CllRIResetModuleEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2CllRIResetModuleEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2CllRIResetModuleGlobalIx }
+   ::= {ar1645v2CllRIResetModuleTable 1}
+
+Ar1645v2CllRIResetModuleEntry ::=
+   SEQUENCE
+      {
+      ar1645v2CllRIResetModuleGlobalIx
+         GlobalIndex,
+      ar1645v2CllRIResetModuleValue
+         Integer32
+      }
+
+ar1645v2CllRIResetModuleGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2CllRIResetModuleEntry 10}
+
+ar1645v2CllRIResetModuleValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.actions.resetModule"
+   ::= {ar1645v2CllRIResetModuleEntry 2147483648}
+
+
+ar1645v2CllRIUpgradeFirmware OBJECT IDENTIFIER ::= {ar1645v2CllRI 408}
+
+ar1645v2CllRIUpgradeFirmwareTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2CllRIUpgradeFirmwareEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Sierra Wireless Modem - upgrade firmware"
+   ::= {ar1645v2CllRIUpgradeFirmware 1}
+
+ar1645v2CllRIUpgradeFirmwareEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2CllRIUpgradeFirmwareEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2CllRIUpgradeFirmwareGlobalIx }
+   ::= {ar1645v2CllRIUpgradeFirmwareTable 1}
+
+Ar1645v2CllRIUpgradeFirmwareEntry ::=
+   SEQUENCE
+      {
+      ar1645v2CllRIUpgradeFirmwareGlobalIx
+         GlobalIndex,
+      ar1645v2CllRIUpgradeFirmwareValue
+         Integer32
+      }
+
+ar1645v2CllRIUpgradeFirmwareGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2CllRIUpgradeFirmwareEntry 10}
+
+ar1645v2CllRIUpgradeFirmwareValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.actions.upgradeFirmware"
+   ::= {ar1645v2CllRIUpgradeFirmwareEntry 2147483648}
+
+
+ar1645v2CllRIFwFilename OBJECT IDENTIFIER ::= {ar1645v2CllRI 418}
+
+ar1645v2CllRIFwFilenameTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2CllRIFwFilenameEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Sierra Wireless Modem - upgrade firmware: filename"
+   ::= {ar1645v2CllRIFwFilename 1}
+
+ar1645v2CllRIFwFilenameEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2CllRIFwFilenameEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2CllRIFwFilenameGlobalIx }
+   ::= {ar1645v2CllRIFwFilenameTable 1}
+
+Ar1645v2CllRIFwFilenameEntry ::=
+   SEQUENCE
+      {
+      ar1645v2CllRIFwFilenameGlobalIx
+         GlobalIndex,
+      ar1645v2CllRIFwFilenameValue
+         DisplayString
+      }
+
+ar1645v2CllRIFwFilenameGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2CllRIFwFilenameEntry 10}
+
+ar1645v2CllRIFwFilenameValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: cellular.actions.fwFilename"
+   ::= {ar1645v2CllRIFwFilenameEntry 2147483648}
+
+
+
+END

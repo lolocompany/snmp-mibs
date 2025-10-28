@@ -1,0 +1,994 @@
+OneAccess-R1646v2-4483-Usb DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2Usb OBJECT IDENTIFIER ::= {r1646Rootv2 4483}
+
+r1646v2UsbMOProp OBJECT IDENTIFIER ::= {r1646v2Usb 1}
+
+r1646v2UsbMOPropEntry OBJECT IDENTIFIER ::= {r1646v2UsbMOProp 1}
+
+r1646v2UsbMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2UsbMOPropEntry 3}
+
+r1646v2UsbMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2UsbMOPropEntry 4}
+
+
+
+er1646v2Usb OBJECT IDENTIFIER ::= {r1646v2Usb 11}
+
+
+er1646v2UsbAdminStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               up (1),
+               down (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.editConf.adminStatus
+       Info: ifAdminStatus
+
+       Possibilities:
+               up   (1)
+               down   (2)"
+   ::= {er1646v2Usb 106}
+
+
+
+sr1646v2Usb OBJECT IDENTIFIER ::= {r1646v2Usb 14}
+
+
+sr1646v2UsbConnectedDevices OBJECT IDENTIFIER ::= {sr1646v2Usb 20}
+
+sr1646v2UsbConnectedDevicesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2UsbConnectedDevicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "connectedDevices"
+   ::= {sr1646v2UsbConnectedDevices 1}
+
+sr1646v2UsbConnectedDevicesEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2UsbConnectedDevicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2UsbConnectedDevicesTableIx }
+   ::= {sr1646v2UsbConnectedDevicesSSCTable 1}
+
+Sr1646v2UsbConnectedDevicesEntry ::=
+   SEQUENCE
+      {
+      sr1646v2UsbConnectedDevicesTableIx
+         TableIndex,
+      sr1646v2UsbConnectedDevicesDeviceName
+         DisplayString,
+      sr1646v2UsbConnectedDevicesDeviceType
+         INTEGER,
+      sr1646v2UsbConnectedDevicesBulkOutEndpoint
+         OCTET STRING,
+      sr1646v2UsbConnectedDevicesBulkInEndpoint
+         OCTET STRING,
+      sr1646v2UsbConnectedDevicesIntInEndpoint
+         OCTET STRING
+      }
+
+sr1646v2UsbConnectedDevicesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2UsbConnectedDevicesEntry 11}
+
+sr1646v2UsbConnectedDevicesDeviceName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.connectedDevices.deviceName"
+   ::= {sr1646v2UsbConnectedDevicesEntry 16777216}
+
+sr1646v2UsbConnectedDevicesDeviceType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               modem (0),
+               masssStorage (1),
+               serialsPort (2),
+               other (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.connectedDevices.deviceType
+
+       Possibilities:
+               Modem   (0)
+               Mass Storage   (1)
+               Serial Port   (2)
+               Other   (3)"
+   ::= {sr1646v2UsbConnectedDevicesEntry 33554432}
+
+sr1646v2UsbConnectedDevicesBulkOutEndpoint OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.connectedDevices.bulkOutEndpoint"
+   ::= {sr1646v2UsbConnectedDevicesEntry 50331648}
+
+sr1646v2UsbConnectedDevicesBulkInEndpoint OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.connectedDevices.bulkInEndpoint"
+   ::= {sr1646v2UsbConnectedDevicesEntry 67108864}
+
+sr1646v2UsbConnectedDevicesIntInEndpoint OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.connectedDevices.intInEndpoint"
+   ::= {sr1646v2UsbConnectedDevicesEntry 83886080}
+
+
+sr1646v2UsbDetectedDevices OBJECT IDENTIFIER ::= {sr1646v2Usb 21}
+
+sr1646v2UsbDetectedDevicesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2UsbDetectedDevicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "detectedDevices"
+   ::= {sr1646v2UsbDetectedDevices 1}
+
+sr1646v2UsbDetectedDevicesEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2UsbDetectedDevicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2UsbDetectedDevicesTableIx }
+   ::= {sr1646v2UsbDetectedDevicesSSCTable 1}
+
+Sr1646v2UsbDetectedDevicesEntry ::=
+   SEQUENCE
+      {
+      sr1646v2UsbDetectedDevicesTableIx
+         TableIndex,
+      sr1646v2UsbDetectedDevicesBLength
+         Integer32,
+      sr1646v2UsbDetectedDevicesBDescriptorType
+         Integer32,
+      sr1646v2UsbDetectedDevicesBcdUSB
+         Integer32,
+      sr1646v2UsbDetectedDevicesBDeviceClass
+         Integer32,
+      sr1646v2UsbDetectedDevicesBDeviceSubClass
+         Integer32,
+      sr1646v2UsbDetectedDevicesBDeviceProtocol
+         Integer32,
+      sr1646v2UsbDetectedDevicesBMaxPacketSize0
+         Integer32,
+      sr1646v2UsbDetectedDevicesIdVendor
+         OCTET STRING,
+      sr1646v2UsbDetectedDevicesIdProduct
+         OCTET STRING,
+      sr1646v2UsbDetectedDevicesBcdDevice
+         Integer32,
+      sr1646v2UsbDetectedDevicesIManufacturer
+         Integer32,
+      sr1646v2UsbDetectedDevicesIProduct
+         Integer32,
+      sr1646v2UsbDetectedDevicesISerialNumber
+         Integer32,
+      sr1646v2UsbDetectedDevicesBNumConfigurations
+         Integer32,
+      sr1646v2UsbDetectedDevicesBLengthCfg
+         Integer32,
+      sr1646v2UsbDetectedDevicesBDescriptorTypeCfg
+         Integer32,
+      sr1646v2UsbDetectedDevicesWTotalLengthCfg
+         Integer32,
+      sr1646v2UsbDetectedDevicesBNumInterfacesCfg
+         Integer32,
+      sr1646v2UsbDetectedDevicesBConfigurationValueCfg
+         Integer32,
+      sr1646v2UsbDetectedDevicesIConfigurationCfg
+         Integer32,
+      sr1646v2UsbDetectedDevicesBmAttributesCfg
+         Integer32,
+      sr1646v2UsbDetectedDevicesBMaxPowerCfg
+         Integer32
+      }
+
+sr1646v2UsbDetectedDevicesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2UsbDetectedDevicesEntry 11}
+
+sr1646v2UsbDetectedDevicesBLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bLength"
+   ::= {sr1646v2UsbDetectedDevicesEntry 33554432}
+
+sr1646v2UsbDetectedDevicesBDescriptorType OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bDescriptorType"
+   ::= {sr1646v2UsbDetectedDevicesEntry 50331648}
+
+sr1646v2UsbDetectedDevicesBcdUSB OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bcdUSB"
+   ::= {sr1646v2UsbDetectedDevicesEntry 67108864}
+
+sr1646v2UsbDetectedDevicesBDeviceClass OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bDeviceClass"
+   ::= {sr1646v2UsbDetectedDevicesEntry 83886080}
+
+sr1646v2UsbDetectedDevicesBDeviceSubClass OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bDeviceSubClass"
+   ::= {sr1646v2UsbDetectedDevicesEntry 100663296}
+
+sr1646v2UsbDetectedDevicesBDeviceProtocol OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bDeviceProtocol"
+   ::= {sr1646v2UsbDetectedDevicesEntry 117440512}
+
+sr1646v2UsbDetectedDevicesBMaxPacketSize0 OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bMaxPacketSize0"
+   ::= {sr1646v2UsbDetectedDevicesEntry 134217728}
+
+sr1646v2UsbDetectedDevicesIdVendor OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.idVendor"
+   ::= {sr1646v2UsbDetectedDevicesEntry 150994944}
+
+sr1646v2UsbDetectedDevicesIdProduct OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.idProduct"
+   ::= {sr1646v2UsbDetectedDevicesEntry 167772160}
+
+sr1646v2UsbDetectedDevicesBcdDevice OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bcdDevice"
+   ::= {sr1646v2UsbDetectedDevicesEntry 184549376}
+
+sr1646v2UsbDetectedDevicesIManufacturer OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.iManufacturer"
+   ::= {sr1646v2UsbDetectedDevicesEntry 201326592}
+
+sr1646v2UsbDetectedDevicesIProduct OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.iProduct"
+   ::= {sr1646v2UsbDetectedDevicesEntry 218103808}
+
+sr1646v2UsbDetectedDevicesISerialNumber OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.iSerialNumber"
+   ::= {sr1646v2UsbDetectedDevicesEntry 234881024}
+
+sr1646v2UsbDetectedDevicesBNumConfigurations OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bNumConfigurations"
+   ::= {sr1646v2UsbDetectedDevicesEntry 251658240}
+
+sr1646v2UsbDetectedDevicesBLengthCfg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bLengthCfg"
+   ::= {sr1646v2UsbDetectedDevicesEntry 268435456}
+
+sr1646v2UsbDetectedDevicesBDescriptorTypeCfg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bDescriptorTypeCfg"
+   ::= {sr1646v2UsbDetectedDevicesEntry 285212672}
+
+sr1646v2UsbDetectedDevicesWTotalLengthCfg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.wTotalLengthCfg"
+   ::= {sr1646v2UsbDetectedDevicesEntry 301989888}
+
+sr1646v2UsbDetectedDevicesBNumInterfacesCfg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bNumInterfacesCfg"
+   ::= {sr1646v2UsbDetectedDevicesEntry 318767104}
+
+sr1646v2UsbDetectedDevicesBConfigurationValueCfg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bConfigurationValueCfg"
+   ::= {sr1646v2UsbDetectedDevicesEntry 335544320}
+
+sr1646v2UsbDetectedDevicesIConfigurationCfg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.iConfigurationCfg"
+   ::= {sr1646v2UsbDetectedDevicesEntry 352321536}
+
+sr1646v2UsbDetectedDevicesBmAttributesCfg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bmAttributesCfg"
+   ::= {sr1646v2UsbDetectedDevicesEntry 369098752}
+
+sr1646v2UsbDetectedDevicesBMaxPowerCfg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.bMaxPowerCfg"
+   ::= {sr1646v2UsbDetectedDevicesEntry 385875968}
+
+sr1646v2UsbDetectedDevicesInterfaces OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2UsbDetectedDevicesInterfacesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2UsbDetectedDevices 402653184}
+
+sr1646v2UsbDetectedDevicesInterfacesEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2UsbDetectedDevicesInterfacesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2UsbDetectedDevicesTableIx,
+                sr1646v2UsbDetectedDevicesInterfacesTableIx }
+   ::= {sr1646v2UsbDetectedDevicesInterfaces 1}
+
+Sr1646v2UsbDetectedDevicesInterfacesEntry ::=
+   SEQUENCE
+      {
+      sr1646v2UsbDetectedDevicesInterfacesTableIx
+         TableIndex,
+      sr1646v2UsbDetectedDevicesInterfacesIntfId
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesBLength
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesBDescriptorType
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesBInterfaceNumber
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesBAlternateSetting
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesBNumEndpoints
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesBInterfaceClass
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesBInterfaceSubClass
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesBInterfaceProtocol
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesIInterface
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesUnbound
+         INTEGER
+      }
+
+sr1646v2UsbDetectedDevicesInterfacesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEntry 11}
+
+sr1646v2UsbDetectedDevicesInterfacesIntfId OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.intfId"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEntry 33554432}
+
+sr1646v2UsbDetectedDevicesInterfacesBLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.bLength"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEntry 50331648}
+
+sr1646v2UsbDetectedDevicesInterfacesBDescriptorType OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.bDescriptorType"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEntry 67108864}
+
+sr1646v2UsbDetectedDevicesInterfacesBInterfaceNumber OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.bInterfaceNumber"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEntry 83886080}
+
+sr1646v2UsbDetectedDevicesInterfacesBAlternateSetting OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.bAlternateSetting"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEntry 100663296}
+
+sr1646v2UsbDetectedDevicesInterfacesBNumEndpoints OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.bNumEndpoints"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEntry 117440512}
+
+sr1646v2UsbDetectedDevicesInterfacesBInterfaceClass OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.bInterfaceClass"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEntry 134217728}
+
+sr1646v2UsbDetectedDevicesInterfacesBInterfaceSubClass OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.bInterfaceSubClass"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEntry 150994944}
+
+sr1646v2UsbDetectedDevicesInterfacesBInterfaceProtocol OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.bInterfaceProtocol"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEntry 167772160}
+
+sr1646v2UsbDetectedDevicesInterfacesIInterface OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.iInterface"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEntry 184549376}
+
+sr1646v2UsbDetectedDevicesInterfacesUnbound OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.unbound
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEntry 201326592}
+
+sr1646v2UsbDetectedDevicesInterfacesEndPoints OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2UsbDetectedDevicesInterfacesEndPointsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2UsbDetectedDevices 403505152}
+
+sr1646v2UsbDetectedDevicesInterfacesEndPointsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2UsbDetectedDevicesInterfacesEndPointsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2UsbDetectedDevicesTableIx,
+                sr1646v2UsbDetectedDevicesInterfacesTableIx,
+                sr1646v2UsbDetectedDevicesInterfacesEndPointsTableIx }
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEndPoints 1}
+
+Sr1646v2UsbDetectedDevicesInterfacesEndPointsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2UsbDetectedDevicesInterfacesEndPointsTableIx
+         TableIndex,
+      sr1646v2UsbDetectedDevicesInterfacesEndPointsBLength
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesEndPointsBDescriptorType
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesEndPointsBEndpointAddress
+         OCTET STRING,
+      sr1646v2UsbDetectedDevicesInterfacesEndPointsBmAttributes
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesEndPointsWMaxPacketSize
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesEndPointsBInterval
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesEndPointsBRefresh
+         Integer32,
+      sr1646v2UsbDetectedDevicesInterfacesEndPointsBSynchAddress
+         Integer32
+      }
+
+sr1646v2UsbDetectedDevicesInterfacesEndPointsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEndPointsEntry 11}
+
+sr1646v2UsbDetectedDevicesInterfacesEndPointsBLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.endPoints.bLength"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEndPointsEntry 33554432}
+
+sr1646v2UsbDetectedDevicesInterfacesEndPointsBDescriptorType OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.endPoints.bDescriptorType"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEndPointsEntry 50331648}
+
+sr1646v2UsbDetectedDevicesInterfacesEndPointsBEndpointAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.endPoints.bEndpointAddress"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEndPointsEntry 67108864}
+
+sr1646v2UsbDetectedDevicesInterfacesEndPointsBmAttributes OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.endPoints.bmAttributes"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEndPointsEntry 83886080}
+
+sr1646v2UsbDetectedDevicesInterfacesEndPointsWMaxPacketSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.endPoints.wMaxPacketSize"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEndPointsEntry 100663296}
+
+sr1646v2UsbDetectedDevicesInterfacesEndPointsBInterval OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.endPoints.bInterval"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEndPointsEntry 117440512}
+
+sr1646v2UsbDetectedDevicesInterfacesEndPointsBRefresh OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.endPoints.bRefresh"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEndPointsEntry 134217728}
+
+sr1646v2UsbDetectedDevicesInterfacesEndPointsBSynchAddress OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.status.detectedDevices.interfaces.endPoints.bSynchAddress"
+   ::= {sr1646v2UsbDetectedDevicesInterfacesEndPointsEntry 150994944}
+
+
+
+pr1646v2Usb OBJECT IDENTIFIER ::= {r1646v2Usb 12}
+
+
+pr1646v2UsbConnectedDevices OBJECT IDENTIFIER ::= {pr1646v2Usb 30}
+
+pr1646v2UsbConnectedDevicesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2UsbConnectedDevicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "connectedDevicesPerf"
+   ::= {pr1646v2UsbConnectedDevices 1}
+
+pr1646v2UsbConnectedDevicesEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2UsbConnectedDevicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2UsbConnectedDevicesTableIx }
+   ::= {pr1646v2UsbConnectedDevicesSSCTable 1}
+
+Pr1646v2UsbConnectedDevicesEntry ::=
+   SEQUENCE
+      {
+      pr1646v2UsbConnectedDevicesTableIx
+         TableIndex,
+      pr1646v2UsbConnectedDevicesDeviceName
+         DisplayString,
+      pr1646v2UsbConnectedDevicesInOctets
+         Counter64,
+      pr1646v2UsbConnectedDevicesOutOctets
+         Counter64,
+      pr1646v2UsbConnectedDevicesInQLen
+         Gauge32,
+      pr1646v2UsbConnectedDevicesInQFull
+         INTEGER,
+      pr1646v2UsbConnectedDevicesOutQLen
+         Gauge32,
+      pr1646v2UsbConnectedDevicesOutQFull
+         INTEGER,
+      pr1646v2UsbConnectedDevicesUrbTotalInUrbs
+         Counter32,
+      pr1646v2UsbConnectedDevicesUrbTotalOutUrbs
+         Counter32,
+      pr1646v2UsbConnectedDevicesUrbCurrOutFree
+         Counter32,
+      pr1646v2UsbConnectedDevicesUrbCurrOutBusy
+         Counter32,
+      pr1646v2UsbConnectedDevicesUrbMaxOutBusy
+         Counter32,
+      pr1646v2UsbConnectedDevicesUrbCntNoMoreUrbs
+         Counter32,
+      pr1646v2UsbConnectedDevicesUrbCntAllUsedUrbs
+         Counter32,
+      pr1646v2UsbConnectedDevicesUrbCntFragMbuf
+         Counter32,
+      pr1646v2UsbConnectedDevicesUrbSubmitErrors
+         Counter32,
+      pr1646v2UsbConnectedDevicesUrbHcpprivErrors
+         Counter32,
+      pr1646v2UsbConnectedDevicesUrbTooBigErrors
+         Counter32,
+      pr1646v2UsbConnectedDevicesUrbTooBigMaxSize
+         Counter32
+      }
+
+pr1646v2UsbConnectedDevicesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2UsbConnectedDevicesEntry 11}
+
+pr1646v2UsbConnectedDevicesDeviceName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.deviceName"
+   ::= {pr1646v2UsbConnectedDevicesEntry 16777216}
+
+pr1646v2UsbConnectedDevicesInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.inOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 33554432}
+
+pr1646v2UsbConnectedDevicesOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.outOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 50331648}
+
+pr1646v2UsbConnectedDevicesInQLen OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.inQLen
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2UsbConnectedDevicesEntry 67108864}
+
+pr1646v2UsbConnectedDevicesInQFull OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.inQFull
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {pr1646v2UsbConnectedDevicesEntry 83886080}
+
+pr1646v2UsbConnectedDevicesOutQLen OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.outQLen
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2UsbConnectedDevicesEntry 100663296}
+
+pr1646v2UsbConnectedDevicesOutQFull OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.outQFull
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {pr1646v2UsbConnectedDevicesEntry 117440512}
+
+pr1646v2UsbConnectedDevicesUrbTotalInUrbs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.urb.totalInUrbs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 134283264}
+
+pr1646v2UsbConnectedDevicesUrbTotalOutUrbs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.urb.totalOutUrbs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 134348800}
+
+pr1646v2UsbConnectedDevicesUrbCurrOutFree OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.urb.currOutFree
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 134414336}
+
+pr1646v2UsbConnectedDevicesUrbCurrOutBusy OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.urb.currOutBusy
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 134479872}
+
+pr1646v2UsbConnectedDevicesUrbMaxOutBusy OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.urb.maxOutBusy
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 134545408}
+
+pr1646v2UsbConnectedDevicesUrbCntNoMoreUrbs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.urb.cntNoMoreUrbs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 134610944}
+
+pr1646v2UsbConnectedDevicesUrbCntAllUsedUrbs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.urb.cntAllUsedUrbs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 134676480}
+
+pr1646v2UsbConnectedDevicesUrbCntFragMbuf OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.urb.cntFragMbuf
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 134742016}
+
+pr1646v2UsbConnectedDevicesUrbSubmitErrors OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.urb.submitErrors
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 134807552}
+
+pr1646v2UsbConnectedDevicesUrbHcpprivErrors OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.urb.hcpprivErrors
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 134873088}
+
+pr1646v2UsbConnectedDevicesUrbTooBigErrors OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.urb.tooBigErrors
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 134938624}
+
+pr1646v2UsbConnectedDevicesUrbTooBigMaxSize OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.performance.connectedDevices.urb.tooBigMaxSize
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2UsbConnectedDevicesEntry 135004160}
+
+
+
+ar1646v2Usb OBJECT IDENTIFIER ::= {r1646v2Usb 16}
+
+
+ar1646v2UsbClearCounters OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: usb.actions.clearCounters
+       Info: reset counters"
+   ::= {ar1646v2Usb 263}
+
+
+
+END

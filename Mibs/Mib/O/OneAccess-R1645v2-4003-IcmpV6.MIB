@@ -1,0 +1,542 @@
+OneAccess-R1645v2-4003-IcmpV6 DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2IcmpV6 OBJECT IDENTIFIER ::= {r1645Rootv2 4003}
+
+r1645v2IcmpV6MOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2IcmpV6MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2IcmpV6 1}
+
+r1645v2IcmpV6MOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2IcmpV6MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2IcmpV6MOPropGlobalIx }
+   ::= {r1645v2IcmpV6MOProp 1}
+
+R1645v2IcmpV6MOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2IcmpV6MOPropPath
+         ContainmentPath,
+      r1645v2IcmpV6MOPropRev
+         ObjectRevision,
+      r1645v2IcmpV6MOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2IcmpV6MOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2IcmpV6MOPropEntry 3}
+
+r1645v2IcmpV6MOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2IcmpV6MOPropEntry 4}
+
+r1645v2IcmpV6MOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2IcmpV6MOPropEntry 10}
+
+
+
+er1645v2IcmpV6 OBJECT IDENTIFIER ::= {r1645v2IcmpV6 11}
+
+
+er1645v2IcmpV6Neighbors OBJECT IDENTIFIER ::= {er1645v2IcmpV6 4}
+
+er1645v2IcmpV6NeighborsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IcmpV6NeighborsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "icmpV6 static neighbors"
+   ::= {er1645v2IcmpV6Neighbors 1}
+
+er1645v2IcmpV6NeighborsEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IcmpV6NeighborsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IcmpV6NeighborsGlobalIx,
+                er1645v2IcmpV6NeighborsTableIx }
+   ::= {er1645v2IcmpV6NeighborsSSCTable 1}
+
+Er1645v2IcmpV6NeighborsEntry ::=
+   SEQUENCE
+      {
+      er1645v2IcmpV6NeighborsActions
+         VariableLengthTableActions,
+      er1645v2IcmpV6NeighborsGlobalIx
+         GlobalIndex,
+      er1645v2IcmpV6NeighborsTableIx
+         TableIndex,
+      er1645v2IcmpV6NeighborsAddress
+         Ipv6Address,
+      er1645v2IcmpV6NeighborsInterface
+         DisplayString,
+      er1645v2IcmpV6NeighborsLinkLayerAddress
+         OCTET STRING
+      }
+
+er1645v2IcmpV6NeighborsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2IcmpV6NeighborsEntry 2}
+
+er1645v2IcmpV6NeighborsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IcmpV6NeighborsEntry 10}
+
+er1645v2IcmpV6NeighborsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2IcmpV6NeighborsEntry 11}
+
+er1645v2IcmpV6NeighborsAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.editConf.neighbors.address
+
+       ipv6 address"
+   ::= {er1645v2IcmpV6NeighborsEntry 16777216}
+
+er1645v2IcmpV6NeighborsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.editConf.neighbors.interface"
+   ::= {er1645v2IcmpV6NeighborsEntry 33554432}
+
+er1645v2IcmpV6NeighborsLinkLayerAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.editConf.neighbors.linkLayerAddress"
+   ::= {er1645v2IcmpV6NeighborsEntry 50331648}
+
+
+er1645v2IcmpV6ErrorRateLimit OBJECT IDENTIFIER ::= {er1645v2IcmpV6 3}
+
+er1645v2IcmpV6ErrorRateLimitSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IcmpV6ErrorRateLimitEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "rate limiting of ICMPV6 Error messages"
+   ::= {er1645v2IcmpV6ErrorRateLimit 1}
+
+er1645v2IcmpV6ErrorRateLimitEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IcmpV6ErrorRateLimitEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IcmpV6ErrorRateLimitGlobalIx }
+   ::= {er1645v2IcmpV6ErrorRateLimitSSCTable 1}
+
+Er1645v2IcmpV6ErrorRateLimitEntry ::=
+   SEQUENCE
+      {
+      er1645v2IcmpV6ErrorRateLimitGlobalIx
+         GlobalIndex,
+      er1645v2IcmpV6ErrorRateLimitInterval
+         TimeTicks,
+      er1645v2IcmpV6ErrorRateLimitBucketSize
+         Integer32
+      }
+
+er1645v2IcmpV6ErrorRateLimitGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IcmpV6ErrorRateLimitEntry 10}
+
+er1645v2IcmpV6ErrorRateLimitInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.editConf.errorRateLimit.interval
+
+       Time in centi-second."
+   ::= {er1645v2IcmpV6ErrorRateLimitEntry 16777216}
+
+er1645v2IcmpV6ErrorRateLimitBucketSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.editConf.errorRateLimit.bucketSize"
+   ::= {er1645v2IcmpV6ErrorRateLimitEntry 33554432}
+
+
+er1645v2IcmpV6SendDestUnreachable OBJECT IDENTIFIER ::= {er1645v2IcmpV6 5}
+
+er1645v2IcmpV6SendDestUnreachableTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IcmpV6SendDestUnreachableEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "disable sending destination unreachable error messages"
+   ::= {er1645v2IcmpV6SendDestUnreachable 1}
+
+er1645v2IcmpV6SendDestUnreachableEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IcmpV6SendDestUnreachableEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IcmpV6SendDestUnreachableGlobalIx }
+   ::= {er1645v2IcmpV6SendDestUnreachableTable 1}
+
+Er1645v2IcmpV6SendDestUnreachableEntry ::=
+   SEQUENCE
+      {
+      er1645v2IcmpV6SendDestUnreachableGlobalIx
+         GlobalIndex,
+      er1645v2IcmpV6SendDestUnreachableValue
+         INTEGER
+      }
+
+er1645v2IcmpV6SendDestUnreachableGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IcmpV6SendDestUnreachableEntry 10}
+
+er1645v2IcmpV6SendDestUnreachableValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.editConf.sendDestUnreachable
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2IcmpV6SendDestUnreachableEntry 2147483648}
+
+
+
+sr1645v2IcmpV6 OBJECT IDENTIFIER ::= {r1645v2IcmpV6 14}
+
+
+sr1645v2IcmpV6SnmpIndex OBJECT IDENTIFIER ::= {sr1645v2IcmpV6 269}
+
+sr1645v2IcmpV6SnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2IcmpV6SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2IcmpV6SnmpIndex 1}
+
+sr1645v2IcmpV6SnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2IcmpV6SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2IcmpV6SnmpIndexGlobalIx }
+   ::= {sr1645v2IcmpV6SnmpIndexTable 1}
+
+Sr1645v2IcmpV6SnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2IcmpV6SnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2IcmpV6SnmpIndexValue
+         Integer32
+      }
+
+sr1645v2IcmpV6SnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2IcmpV6SnmpIndexEntry 10}
+
+sr1645v2IcmpV6SnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.status.snmpIndex"
+   ::= {sr1645v2IcmpV6SnmpIndexEntry 2147483648}
+
+
+sr1645v2IcmpV6Routers OBJECT IDENTIFIER ::= {sr1645v2IcmpV6 20}
+
+sr1645v2IcmpV6RoutersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2IcmpV6RoutersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipV6 routing interfaces"
+   ::= {sr1645v2IcmpV6Routers 1}
+
+sr1645v2IcmpV6RoutersEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2IcmpV6RoutersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2IcmpV6RoutersGlobalIx,
+                sr1645v2IcmpV6RoutersTableIx }
+   ::= {sr1645v2IcmpV6RoutersSSCTable 1}
+
+Sr1645v2IcmpV6RoutersEntry ::=
+   SEQUENCE
+      {
+      sr1645v2IcmpV6RoutersGlobalIx
+         GlobalIndex,
+      sr1645v2IcmpV6RoutersTableIx
+         TableIndex,
+      sr1645v2IcmpV6RoutersAddress
+         Ipv6Address,
+      sr1645v2IcmpV6RoutersInterface
+         DisplayString,
+      sr1645v2IcmpV6RoutersLifeTime
+         TimeTicks
+      }
+
+sr1645v2IcmpV6RoutersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2IcmpV6RoutersEntry 10}
+
+sr1645v2IcmpV6RoutersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2IcmpV6RoutersEntry 11}
+
+sr1645v2IcmpV6RoutersAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.status.routers.address
+
+       ipv6 address"
+   ::= {sr1645v2IcmpV6RoutersEntry 16777216}
+
+sr1645v2IcmpV6RoutersInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.status.routers.interface"
+   ::= {sr1645v2IcmpV6RoutersEntry 33554432}
+
+sr1645v2IcmpV6RoutersLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.status.routers.lifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2IcmpV6RoutersEntry 50331648}
+
+
+sr1645v2IcmpV6Neighbors OBJECT IDENTIFIER ::= {sr1645v2IcmpV6 21}
+
+sr1645v2IcmpV6NeighborsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2IcmpV6NeighborsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "icmpV6 neighbors"
+   ::= {sr1645v2IcmpV6Neighbors 1}
+
+sr1645v2IcmpV6NeighborsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2IcmpV6NeighborsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2IcmpV6NeighborsGlobalIx,
+                sr1645v2IcmpV6NeighborsTableIx }
+   ::= {sr1645v2IcmpV6NeighborsSSCTable 1}
+
+Sr1645v2IcmpV6NeighborsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2IcmpV6NeighborsGlobalIx
+         GlobalIndex,
+      sr1645v2IcmpV6NeighborsTableIx
+         TableIndex,
+      sr1645v2IcmpV6NeighborsAddress
+         Ipv6Address,
+      sr1645v2IcmpV6NeighborsInterface
+         DisplayString,
+      sr1645v2IcmpV6NeighborsState
+         INTEGER,
+      sr1645v2IcmpV6NeighborsLinkLayerAddress
+         OCTET STRING,
+      sr1645v2IcmpV6NeighborsTimeOut
+         TimeTicks
+      }
+
+sr1645v2IcmpV6NeighborsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2IcmpV6NeighborsEntry 10}
+
+sr1645v2IcmpV6NeighborsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2IcmpV6NeighborsEntry 11}
+
+sr1645v2IcmpV6NeighborsAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.status.neighbors.address
+
+       ipv6 address"
+   ::= {sr1645v2IcmpV6NeighborsEntry 16777216}
+
+sr1645v2IcmpV6NeighborsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.status.neighbors.interface"
+   ::= {sr1645v2IcmpV6NeighborsEntry 33554432}
+
+sr1645v2IcmpV6NeighborsState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (0),
+               incomplete (1),
+               reachable (2),
+               stale (3),
+               delay (4),
+               probe (5),
+               static (6)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.status.neighbors.state
+
+       Possibilities:
+               none   (0)
+               incomplete   (1)
+               reachable   (2)
+               stale   (3)
+               delay   (4)
+               probe   (5)
+               static   (6)"
+   ::= {sr1645v2IcmpV6NeighborsEntry 50331648}
+
+sr1645v2IcmpV6NeighborsLinkLayerAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.status.neighbors.linkLayerAddress"
+   ::= {sr1645v2IcmpV6NeighborsEntry 67108864}
+
+sr1645v2IcmpV6NeighborsTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: icmp.status.neighbors.timeOut
+
+       Time in centi-second."
+   ::= {sr1645v2IcmpV6NeighborsEntry 83886080}
+
+
+
+END

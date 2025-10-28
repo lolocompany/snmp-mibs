@@ -1,0 +1,1372 @@
+OneAccess-R1645v2-2288-RepLin7 DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2RepLin7 OBJECT IDENTIFIER ::= {r1645Rootv2 2288}
+
+r1645v2RepLin7MOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2RepLin7MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2RepLin7 1}
+
+r1645v2RepLin7MOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2RepLin7MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2RepLin7MOPropGlobalIx }
+   ::= {r1645v2RepLin7MOProp 1}
+
+R1645v2RepLin7MOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2RepLin7MOPropPath
+         ContainmentPath,
+      r1645v2RepLin7MOPropRev
+         ObjectRevision,
+      r1645v2RepLin7MOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2RepLin7MOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2RepLin7MOPropEntry 3}
+
+r1645v2RepLin7MOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2RepLin7MOPropEntry 4}
+
+r1645v2RepLin7MOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2RepLin7MOPropEntry 10}
+
+
+
+pr1645v2RepLin7 OBJECT IDENTIFIER ::= {r1645v2RepLin7 12}
+
+
+pr1645v2RepLin7H2 OBJECT IDENTIFIER ::= {pr1645v2RepLin7 21}
+
+pr1645v2RepLin7H2SSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2RepLin7H2Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h2Line"
+   ::= {pr1645v2RepLin7H2 1}
+
+pr1645v2RepLin7H2Entry OBJECT-TYPE
+   SYNTAX      Pr1645v2RepLin7H2Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2RepLin7H2GlobalIx,
+                pr1645v2RepLin7H2TableIx }
+   ::= {pr1645v2RepLin7H2SSCTable 1}
+
+Pr1645v2RepLin7H2Entry ::=
+   SEQUENCE
+      {
+      pr1645v2RepLin7H2GlobalIx
+         GlobalIndex,
+      pr1645v2RepLin7H2TableIx
+         TableIndex,
+      pr1645v2RepLin7H2SysUpTime
+         TimeTicks,
+      pr1645v2RepLin7H2LDownCnt
+         Counter32,
+      pr1645v2RepLin7H2LDownTme
+         TimeTicks
+      }
+
+pr1645v2RepLin7H2GlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2RepLin7H2Entry 10}
+
+pr1645v2RepLin7H2TableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2RepLin7H2Entry 11}
+
+pr1645v2RepLin7H2SysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.performance.h2Line.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2RepLin7H2Entry 16777216}
+
+pr1645v2RepLin7H2LDownCnt OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.performance.h2Line.linkDownCount
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2RepLin7H2Entry 33554432}
+
+pr1645v2RepLin7H2LDownTme OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.performance.h2Line.linkDownTime
+
+       Time in centi-second."
+   ::= {pr1645v2RepLin7H2Entry 50331648}
+
+
+pr1645v2RepLin7H24 OBJECT IDENTIFIER ::= {pr1645v2RepLin7 23}
+
+pr1645v2RepLin7H24SSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2RepLin7H24Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h24Line"
+   ::= {pr1645v2RepLin7H24 1}
+
+pr1645v2RepLin7H24Entry OBJECT-TYPE
+   SYNTAX      Pr1645v2RepLin7H24Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2RepLin7H24GlobalIx,
+                pr1645v2RepLin7H24TableIx }
+   ::= {pr1645v2RepLin7H24SSCTable 1}
+
+Pr1645v2RepLin7H24Entry ::=
+   SEQUENCE
+      {
+      pr1645v2RepLin7H24GlobalIx
+         GlobalIndex,
+      pr1645v2RepLin7H24TableIx
+         TableIndex,
+      pr1645v2RepLin7H24SysUpTime
+         TimeTicks,
+      pr1645v2RepLin7H24LDownCnt
+         Counter32,
+      pr1645v2RepLin7H24LDownTme
+         TimeTicks
+      }
+
+pr1645v2RepLin7H24GlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2RepLin7H24Entry 10}
+
+pr1645v2RepLin7H24TableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2RepLin7H24Entry 11}
+
+pr1645v2RepLin7H24SysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.performance.h24Line.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2RepLin7H24Entry 16777216}
+
+pr1645v2RepLin7H24LDownCnt OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.performance.h24Line.linkDownCount
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2RepLin7H24Entry 33554432}
+
+pr1645v2RepLin7H24LDownTme OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.performance.h24Line.linkDownTime
+
+       Time in centi-second."
+   ::= {pr1645v2RepLin7H24Entry 50331648}
+
+
+pr1645v2RepLin7D7 OBJECT IDENTIFIER ::= {pr1645v2RepLin7 26}
+
+pr1645v2RepLin7D7SSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2RepLin7D7Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "d7Line"
+   ::= {pr1645v2RepLin7D7 1}
+
+pr1645v2RepLin7D7Entry OBJECT-TYPE
+   SYNTAX      Pr1645v2RepLin7D7Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2RepLin7D7GlobalIx,
+                pr1645v2RepLin7D7TableIx }
+   ::= {pr1645v2RepLin7D7SSCTable 1}
+
+Pr1645v2RepLin7D7Entry ::=
+   SEQUENCE
+      {
+      pr1645v2RepLin7D7GlobalIx
+         GlobalIndex,
+      pr1645v2RepLin7D7TableIx
+         TableIndex,
+      pr1645v2RepLin7D7SysUpTime
+         TimeTicks,
+      pr1645v2RepLin7D7LDownCnt
+         Counter32,
+      pr1645v2RepLin7D7LDownTme
+         TimeTicks
+      }
+
+pr1645v2RepLin7D7GlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2RepLin7D7Entry 10}
+
+pr1645v2RepLin7D7TableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2RepLin7D7Entry 11}
+
+pr1645v2RepLin7D7SysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.performance.d7Line.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2RepLin7D7Entry 16777216}
+
+pr1645v2RepLin7D7LDownCnt OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.performance.d7Line.linkDownCount
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2RepLin7D7Entry 33554432}
+
+pr1645v2RepLin7D7LDownTme OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.performance.d7Line.linkDownTime
+
+       Time in centi-second."
+   ::= {pr1645v2RepLin7D7Entry 50331648}
+
+
+pr1645v2RepLin7Rel OBJECT IDENTIFIER ::= {pr1645v2RepLin7 30}
+
+pr1645v2RepLin7RelSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2RepLin7RelEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "relLine"
+   ::= {pr1645v2RepLin7Rel 1}
+
+pr1645v2RepLin7RelEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2RepLin7RelEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2RepLin7RelGlobalIx }
+   ::= {pr1645v2RepLin7RelSSCTable 1}
+
+Pr1645v2RepLin7RelEntry ::=
+   SEQUENCE
+      {
+      pr1645v2RepLin7RelGlobalIx
+         GlobalIndex,
+      pr1645v2RepLin7RelLDownCnt
+         Counter32,
+      pr1645v2RepLin7RelLDownTme
+         TimeTicks
+      }
+
+pr1645v2RepLin7RelGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2RepLin7RelEntry 10}
+
+pr1645v2RepLin7RelLDownCnt OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.performance.line.linkDownCount
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2RepLin7RelEntry 16777216}
+
+pr1645v2RepLin7RelLDownTme OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.performance.line.linkDownTime
+
+       Time in centi-second."
+   ::= {pr1645v2RepLin7RelEntry 33554432}
+
+
+
+ar1645v2RepLin7 OBJECT IDENTIFIER ::= {r1645v2RepLin7 16}
+
+
+ar1645v2RepLin7ClearCounters OBJECT IDENTIFIER ::= {ar1645v2RepLin7 263}
+
+ar1645v2RepLin7ClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2RepLin7ClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1645v2RepLin7ClearCounters 1}
+
+ar1645v2RepLin7ClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2RepLin7ClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2RepLin7ClearCountersGlobalIx }
+   ::= {ar1645v2RepLin7ClearCountersTable 1}
+
+Ar1645v2RepLin7ClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1645v2RepLin7ClearCountersGlobalIx
+         GlobalIndex,
+      ar1645v2RepLin7ClearCountersValue
+         Integer32
+      }
+
+ar1645v2RepLin7ClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2RepLin7ClearCountersEntry 10}
+
+ar1645v2RepLin7ClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.actions.clearCounters"
+   ::= {ar1645v2RepLin7ClearCountersEntry 2147483648}
+
+
+ar1645v2RepLin7LoopbActivation OBJECT IDENTIFIER ::= {ar1645v2RepLin7 150}
+
+ar1645v2RepLin7LoopbActivationTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2RepLin7LoopbActivationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "loopbackActivation"
+   ::= {ar1645v2RepLin7LoopbActivation 1}
+
+ar1645v2RepLin7LoopbActivationEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2RepLin7LoopbActivationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2RepLin7LoopbActivationGlobalIx }
+   ::= {ar1645v2RepLin7LoopbActivationTable 1}
+
+Ar1645v2RepLin7LoopbActivationEntry ::=
+   SEQUENCE
+      {
+      ar1645v2RepLin7LoopbActivationGlobalIx
+         GlobalIndex,
+      ar1645v2RepLin7LoopbActivationValue
+         Integer32
+      }
+
+ar1645v2RepLin7LoopbActivationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2RepLin7LoopbActivationEntry 10}
+
+ar1645v2RepLin7LoopbActivationValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.actions.loopbActivation"
+   ::= {ar1645v2RepLin7LoopbActivationEntry 2147483648}
+
+
+ar1645v2RepLin7TestActivationType OBJECT IDENTIFIER ::= {ar1645v2RepLin7 99}
+
+ar1645v2RepLin7TestActivationTypeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2RepLin7TestActivationTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "loopbackActivationType"
+   ::= {ar1645v2RepLin7TestActivationType 1}
+
+ar1645v2RepLin7TestActivationTypeEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2RepLin7TestActivationTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2RepLin7TestActivationTypeGlobalIx }
+   ::= {ar1645v2RepLin7TestActivationTypeTable 1}
+
+Ar1645v2RepLin7TestActivationTypeEntry ::=
+   SEQUENCE
+      {
+      ar1645v2RepLin7TestActivationTypeGlobalIx
+         GlobalIndex,
+      ar1645v2RepLin7TestActivationTypeValue
+         INTEGER
+      }
+
+ar1645v2RepLin7TestActivationTypeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2RepLin7TestActivationTypeEntry 10}
+
+ar1645v2RepLin7TestActivationTypeValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               customerLoopback (4),
+               networkLoopback (8),
+               no (64)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.actions.testActivationType
+
+       Possibilities:
+               customerLoopback   (4)
+               networkLoopback   (8)
+               no   (64)"
+   ::= {ar1645v2RepLin7TestActivationTypeEntry 2147483648}
+
+
+
+sr1645v2RepLin7 OBJECT IDENTIFIER ::= {r1645v2RepLin7 14}
+
+
+sr1645v2RepLin7VendId OBJECT IDENTIFIER ::= {sr1645v2RepLin7 110}
+
+sr1645v2RepLin7VendIdSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RepLin7VendIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "vendor ID"
+   ::= {sr1645v2RepLin7VendId 1}
+
+sr1645v2RepLin7VendIdEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RepLin7VendIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RepLin7VendIdGlobalIx }
+   ::= {sr1645v2RepLin7VendIdSSCTable 1}
+
+Sr1645v2RepLin7VendIdEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RepLin7VendIdGlobalIx
+         GlobalIndex,
+      sr1645v2RepLin7VendIdCountryCode
+         INTEGER,
+      sr1645v2RepLin7VendIdProviderCode
+         DisplayString,
+      sr1645v2RepLin7VendIdVendorSpec
+         Integer32
+      }
+
+sr1645v2RepLin7VendIdGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RepLin7VendIdEntry 10}
+
+sr1645v2RepLin7VendIdCountryCode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               japan (65280),
+               germany (65284),
+               belgium (65295),
+               denmark (65329),
+               finland (65340),
+               france (65341),
+               greece (65350),
+               hungary (65361),
+               ireland (65367),
+               italy (65369),
+               netherlands (65403),
+               poland (65418),
+               portugal (65419),
+               spain (65440),
+               sweden (65445),
+               switzerland (65446),
+               unitedsKingdom (65460),
+               unitedsStates (65461)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.status.vendorId.countryCode
+
+       Possibilities:
+               Japan   (65280)
+               Germany   (65284)
+               Belgium   (65295)
+               Denmark   (65329)
+               Finland   (65340)
+               France   (65341)
+               Greece   (65350)
+               Hungary   (65361)
+               Ireland   (65367)
+               Italy   (65369)
+               Netherlands   (65403)
+               Poland   (65418)
+               Portugal   (65419)
+               Spain   (65440)
+               Sweden   (65445)
+               Switzerland   (65446)
+               United Kingdom   (65460)
+               United States   (65461)"
+   ::= {sr1645v2RepLin7VendIdEntry 16777216}
+
+sr1645v2RepLin7VendIdProviderCode OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.status.vendorId.providerCode"
+   ::= {sr1645v2RepLin7VendIdEntry 33554432}
+
+sr1645v2RepLin7VendIdVendorSpec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.status.vendorId.vendorSpecific"
+   ::= {sr1645v2RepLin7VendIdEntry 50331648}
+
+
+sr1645v2RepLin7VendorModel OBJECT IDENTIFIER ::= {sr1645v2RepLin7 111}
+
+sr1645v2RepLin7VendorModelTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RepLin7VendorModelEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "vendor model"
+   ::= {sr1645v2RepLin7VendorModel 1}
+
+sr1645v2RepLin7VendorModelEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RepLin7VendorModelEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RepLin7VendorModelGlobalIx }
+   ::= {sr1645v2RepLin7VendorModelTable 1}
+
+Sr1645v2RepLin7VendorModelEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RepLin7VendorModelGlobalIx
+         GlobalIndex,
+      sr1645v2RepLin7VendorModelValue
+         DisplayString
+      }
+
+sr1645v2RepLin7VendorModelGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RepLin7VendorModelEntry 10}
+
+sr1645v2RepLin7VendorModelValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.status.vendorModel"
+   ::= {sr1645v2RepLin7VendorModelEntry 2147483648}
+
+
+sr1645v2RepLin7VendorSerial OBJECT IDENTIFIER ::= {sr1645v2RepLin7 112}
+
+sr1645v2RepLin7VendorSerialTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RepLin7VendorSerialEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "vendor serial nr"
+   ::= {sr1645v2RepLin7VendorSerial 1}
+
+sr1645v2RepLin7VendorSerialEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RepLin7VendorSerialEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RepLin7VendorSerialGlobalIx }
+   ::= {sr1645v2RepLin7VendorSerialTable 1}
+
+Sr1645v2RepLin7VendorSerialEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RepLin7VendorSerialGlobalIx
+         GlobalIndex,
+      sr1645v2RepLin7VendorSerialValue
+         DisplayString
+      }
+
+sr1645v2RepLin7VendorSerialGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RepLin7VendorSerialEntry 10}
+
+sr1645v2RepLin7VendorSerialValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.status.vendorSerial"
+   ::= {sr1645v2RepLin7VendorSerialEntry 2147483648}
+
+
+sr1645v2RepLin7VendorSoftVersion OBJECT IDENTIFIER ::= {sr1645v2RepLin7 113}
+
+sr1645v2RepLin7VendorSoftVersionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RepLin7VendorSoftVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "vendor software version"
+   ::= {sr1645v2RepLin7VendorSoftVersion 1}
+
+sr1645v2RepLin7VendorSoftVersionEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RepLin7VendorSoftVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RepLin7VendorSoftVersionGlobalIx }
+   ::= {sr1645v2RepLin7VendorSoftVersionTable 1}
+
+Sr1645v2RepLin7VendorSoftVersionEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RepLin7VendorSoftVersionGlobalIx
+         GlobalIndex,
+      sr1645v2RepLin7VendorSoftVersionValue
+         DisplayString
+      }
+
+sr1645v2RepLin7VendorSoftVersionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RepLin7VendorSoftVersionEntry 10}
+
+sr1645v2RepLin7VendorSoftVersionValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.status.vendorSoftVersion"
+   ::= {sr1645v2RepLin7VendorSoftVersionEntry 2147483648}
+
+
+sr1645v2RepLin7EocSoftVersion OBJECT IDENTIFIER ::= {sr1645v2RepLin7 114}
+
+sr1645v2RepLin7EocSoftVersionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RepLin7EocSoftVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "vendor Eoc software version"
+   ::= {sr1645v2RepLin7EocSoftVersion 1}
+
+sr1645v2RepLin7EocSoftVersionEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RepLin7EocSoftVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RepLin7EocSoftVersionGlobalIx }
+   ::= {sr1645v2RepLin7EocSoftVersionTable 1}
+
+Sr1645v2RepLin7EocSoftVersionEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RepLin7EocSoftVersionGlobalIx
+         GlobalIndex,
+      sr1645v2RepLin7EocSoftVersionValue
+         Integer32
+      }
+
+sr1645v2RepLin7EocSoftVersionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RepLin7EocSoftVersionEntry 10}
+
+sr1645v2RepLin7EocSoftVersionValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.status.eocSoftVersion"
+   ::= {sr1645v2RepLin7EocSoftVersionEntry 2147483648}
+
+
+sr1645v2RepLin7ShdslVersion OBJECT IDENTIFIER ::= {sr1645v2RepLin7 115}
+
+sr1645v2RepLin7ShdslVersionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RepLin7ShdslVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "shdsl version"
+   ::= {sr1645v2RepLin7ShdslVersion 1}
+
+sr1645v2RepLin7ShdslVersionEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RepLin7ShdslVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RepLin7ShdslVersionGlobalIx }
+   ::= {sr1645v2RepLin7ShdslVersionTable 1}
+
+Sr1645v2RepLin7ShdslVersionEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RepLin7ShdslVersionGlobalIx
+         GlobalIndex,
+      sr1645v2RepLin7ShdslVersionValue
+         Integer32
+      }
+
+sr1645v2RepLin7ShdslVersionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RepLin7ShdslVersionEntry 10}
+
+sr1645v2RepLin7ShdslVersionValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.status.shdslVersion"
+   ::= {sr1645v2RepLin7ShdslVersionEntry 2147483648}
+
+
+sr1645v2RepLin7EocState OBJECT IDENTIFIER ::= {sr1645v2RepLin7 116}
+
+sr1645v2RepLin7EocStateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RepLin7EocStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "eoc state"
+   ::= {sr1645v2RepLin7EocState 1}
+
+sr1645v2RepLin7EocStateEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RepLin7EocStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RepLin7EocStateGlobalIx }
+   ::= {sr1645v2RepLin7EocStateTable 1}
+
+Sr1645v2RepLin7EocStateEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RepLin7EocStateGlobalIx
+         GlobalIndex,
+      sr1645v2RepLin7EocStateValue
+         INTEGER
+      }
+
+sr1645v2RepLin7EocStateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RepLin7EocStateEntry 10}
+
+sr1645v2RepLin7EocStateValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               offline (0),
+               discoverysready (1),
+               online (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.status.eocState
+
+       Possibilities:
+               Offline   (0)
+               Discovery ready   (1)
+               Online   (2)"
+   ::= {sr1645v2RepLin7EocStateEntry 2147483648}
+
+
+sr1645v2RepLin7TestType OBJECT IDENTIFIER ::= {sr1645v2RepLin7 120}
+
+sr1645v2RepLin7TestTypeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RepLin7TestTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "test state"
+   ::= {sr1645v2RepLin7TestType 1}
+
+sr1645v2RepLin7TestTypeEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RepLin7TestTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RepLin7TestTypeGlobalIx }
+   ::= {sr1645v2RepLin7TestTypeTable 1}
+
+Sr1645v2RepLin7TestTypeEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RepLin7TestTypeGlobalIx
+         GlobalIndex,
+      sr1645v2RepLin7TestTypeValue
+         INTEGER
+      }
+
+sr1645v2RepLin7TestTypeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RepLin7TestTypeEntry 10}
+
+sr1645v2RepLin7TestTypeValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               proprietary (1),
+               networkLoopback (2),
+               customerLoopback (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.status.testType
+
+       Possibilities:
+               no   (0)
+               proprietary   (1)
+               networkLoopback   (2)
+               customerLoopback   (3)"
+   ::= {sr1645v2RepLin7TestTypeEntry 2147483648}
+
+
+sr1645v2RepLin7SnmpIndex OBJECT IDENTIFIER ::= {sr1645v2RepLin7 269}
+
+sr1645v2RepLin7SnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RepLin7SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2RepLin7SnmpIndex 1}
+
+sr1645v2RepLin7SnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RepLin7SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RepLin7SnmpIndexGlobalIx }
+   ::= {sr1645v2RepLin7SnmpIndexTable 1}
+
+Sr1645v2RepLin7SnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RepLin7SnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2RepLin7SnmpIndexValue
+         Integer32
+      }
+
+sr1645v2RepLin7SnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RepLin7SnmpIndexEntry 10}
+
+sr1645v2RepLin7SnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.status.snmpIndex"
+   ::= {sr1645v2RepLin7SnmpIndexEntry 2147483648}
+
+
+sr1645v2RepLin7EocAlThr OBJECT IDENTIFIER ::= {sr1645v2RepLin7 130}
+
+sr1645v2RepLin7EocAlThrSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RepLin7EocAlThrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "on threshold values transmittted by the eoc channel"
+   ::= {sr1645v2RepLin7EocAlThr 1}
+
+sr1645v2RepLin7EocAlThrEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RepLin7EocAlThrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RepLin7EocAlThrGlobalIx }
+   ::= {sr1645v2RepLin7EocAlThrSSCTable 1}
+
+Sr1645v2RepLin7EocAlThrEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RepLin7EocAlThrGlobalIx
+         GlobalIndex,
+      sr1645v2RepLin7EocAlThrLineAtt
+         Integer32,
+      sr1645v2RepLin7EocAlThrNoiseMargin
+         Integer32
+      }
+
+sr1645v2RepLin7EocAlThrGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RepLin7EocAlThrEntry 10}
+
+sr1645v2RepLin7EocAlThrLineAtt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.status.eocAlarmThresholds.lineAttenuation
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {sr1645v2RepLin7EocAlThrEntry 16777216}
+
+sr1645v2RepLin7EocAlThrNoiseMargin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.status.eocAlarmThresholds.noiseMargin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {sr1645v2RepLin7EocAlThrEntry 33554432}
+
+
+
+fr1645v2RepLin7 OBJECT IDENTIFIER ::= {r1645v2RepLin7 13}
+
+
+fr1645v2RepLin7AlInfo OBJECT IDENTIFIER ::= {fr1645v2RepLin7 202}
+
+fr1645v2RepLin7AlInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Fr1645v2RepLin7AlInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "lineAlarmInfo"
+   ::= {fr1645v2RepLin7AlInfo 1}
+
+fr1645v2RepLin7AlInfoEntry OBJECT-TYPE
+   SYNTAX      Fr1645v2RepLin7AlInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { fr1645v2RepLin7AlInfoGlobalIx }
+   ::= {fr1645v2RepLin7AlInfoSSCTable 1}
+
+Fr1645v2RepLin7AlInfoEntry ::=
+   SEQUENCE
+      {
+      fr1645v2RepLin7AlInfoGlobalIx
+         GlobalIndex,
+      fr1645v2RepLin7AlInfoDiscr
+         Integer32,
+      fr1645v2RepLin7AlInfoCurrAlms
+         Integer32,
+      fr1645v2RepLin7AlInfoPrevAlms
+         Integer32,
+      fr1645v2RepLin7AlInfoAlMask
+         Integer32,
+      fr1645v2RepLin7AlInfoAlLvlLnkDwn
+         Integer32,
+      fr1645v2RepLin7AlInfoAlLvlRAlmHgh
+         Integer32,
+      fr1645v2RepLin7AlInfoAlLvlRAlmLw
+         Integer32,
+      fr1645v2RepLin7AlInfoAlLvlUkwnSt
+         Integer32
+      }
+
+fr1645v2RepLin7AlInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {fr1645v2RepLin7AlInfoEntry 10}
+
+fr1645v2RepLin7AlInfoDiscr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.alarms.alarmInfo.discriminator"
+   ::= {fr1645v2RepLin7AlInfoEntry 16777216}
+
+fr1645v2RepLin7AlInfoCurrAlms OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.alarms.alarmInfo.currentAlarms
+
+       Bit meanings:
+               bit 0 = linkDown,
+               bit 1 = remoteAlarmHigh,
+               bit 2 = remoteAlarmLow,
+               bit 3 = unknownState"
+   ::= {fr1645v2RepLin7AlInfoEntry 33554432}
+
+fr1645v2RepLin7AlInfoPrevAlms OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.alarms.alarmInfo.previousAlarms
+
+       Bit meanings:
+               bit 0 = linkDown,
+               bit 1 = remoteAlarmHigh,
+               bit 2 = remoteAlarmLow,
+               bit 3 = unknownState"
+   ::= {fr1645v2RepLin7AlInfoEntry 50331648}
+
+fr1645v2RepLin7AlInfoAlMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.alarms.alarmInfo.alarmMask
+
+       Bit meanings:
+               bit 0 = linkDown,
+               bit 1 = remoteAlarmHigh,
+               bit 2 = remoteAlarmLow,
+               bit 3 = unknownState"
+   ::= {fr1645v2RepLin7AlInfoEntry 67108864}
+
+fr1645v2RepLin7AlInfoAlLvlLnkDwn OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.alarms.alarmInfo.alarmLevel.linkDown"
+   ::= {fr1645v2RepLin7AlInfoEntry 83951616}
+
+fr1645v2RepLin7AlInfoAlLvlRAlmHgh OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.alarms.alarmInfo.alarmLevel.remoteAlarmHigh"
+   ::= {fr1645v2RepLin7AlInfoEntry 84017152}
+
+fr1645v2RepLin7AlInfoAlLvlRAlmLw OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.alarms.alarmInfo.alarmLevel.remoteAlarmLow"
+   ::= {fr1645v2RepLin7AlInfoEntry 84082688}
+
+fr1645v2RepLin7AlInfoAlLvlUkwnSt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: repeater.alarms.alarmInfo.alarmLevel.unknownState"
+   ::= {fr1645v2RepLin7AlInfoEntry 84148224}
+
+
+fr1645v2RepLin7AlInfoE2 OBJECT IDENTIFIER ::= {fr1645v2RepLin7AlInfo 2}
+
+fr1645v2RepLin7AlInfoE2Entry OBJECT IDENTIFIER ::= {fr1645v2RepLin7AlInfoE2 1}
+
+fr1645v2RepLin7AlInfoE2LnkDwn OBJECT IDENTIFIER ::= {fr1645v2RepLin7AlInfoE2Entry 10}
+
+fr1645v2RepLin7AlInfoE2LnkDwnPfx OBJECT IDENTIFIER ::= {fr1645v2RepLin7AlInfoE2LnkDwn 0}
+
+fr1645v2RepLin7AlInfoE2LnkDwnOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'shdslCn7RepeaterLine'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2RepLin7AlInfoE2LnkDwnPfx 1}
+
+fr1645v2RepLin7AlInfoE2LnkDwnOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'shdslCn7RepeaterLine'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2RepLin7AlInfoE2LnkDwnPfx 2}
+
+fr1645v2RepLin7AlInfoE2RAlmHgh OBJECT IDENTIFIER ::= {fr1645v2RepLin7AlInfoE2Entry 11}
+
+fr1645v2RepLin7AlInfoE2RAlmHghPfx OBJECT IDENTIFIER ::= {fr1645v2RepLin7AlInfoE2RAlmHgh 0}
+
+fr1645v2RepLin7AlInfoE2RAlmHghOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'remoteAlarmHigh'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'shdslCn7RepeaterLine'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2RepLin7AlInfoE2RAlmHghPfx 1}
+
+fr1645v2RepLin7AlInfoE2RAlmHghOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'remoteAlarmHigh'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'shdslCn7RepeaterLine'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2RepLin7AlInfoE2RAlmHghPfx 2}
+
+fr1645v2RepLin7AlInfoE2RAlmLw OBJECT IDENTIFIER ::= {fr1645v2RepLin7AlInfoE2Entry 12}
+
+fr1645v2RepLin7AlInfoE2RAlmLwPfx OBJECT IDENTIFIER ::= {fr1645v2RepLin7AlInfoE2RAlmLw 0}
+
+fr1645v2RepLin7AlInfoE2RAlmLwOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'remoteAlarmLow'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'shdslCn7RepeaterLine'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2RepLin7AlInfoE2RAlmLwPfx 1}
+
+fr1645v2RepLin7AlInfoE2RAlmLwOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'remoteAlarmLow'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'shdslCn7RepeaterLine'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2RepLin7AlInfoE2RAlmLwPfx 2}
+
+fr1645v2RepLin7AlInfoE2UkwnSt OBJECT IDENTIFIER ::= {fr1645v2RepLin7AlInfoE2Entry 13}
+
+fr1645v2RepLin7AlInfoE2UkwnStPfx OBJECT IDENTIFIER ::= {fr1645v2RepLin7AlInfoE2UkwnSt 0}
+
+fr1645v2RepLin7AlInfoE2UkwnStOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'unknownState'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'shdslCn7RepeaterLine'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2RepLin7AlInfoE2UkwnStPfx 1}
+
+fr1645v2RepLin7AlInfoE2UkwnStOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'unknownState'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'shdslCn7RepeaterLine'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2RepLin7AlInfoE2UkwnStPfx 2}
+
+
+
+END

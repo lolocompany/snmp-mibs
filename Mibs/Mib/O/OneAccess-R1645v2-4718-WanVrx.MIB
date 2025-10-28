@@ -1,0 +1,4861 @@
+OneAccess-R1645v2-4718-WanVrx DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2WanVrx OBJECT IDENTIFIER ::= {r1645Rootv2 4718}
+
+r1645v2WanVrxMOProp OBJECT IDENTIFIER ::= {r1645v2WanVrx 1}
+
+r1645v2WanVrxMOPropEntry OBJECT IDENTIFIER ::= {r1645v2WanVrxMOProp 1}
+
+r1645v2WanVrxMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2WanVrxMOPropEntry 3}
+
+r1645v2WanVrxMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2WanVrxMOPropEntry 4}
+
+
+
+sr1645v2WanVrx OBJECT IDENTIFIER ::= {r1645v2WanVrx 14}
+
+
+sr1645v2WanVrxDescr OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.status.ifDescr
+       Info: ifDescr"
+   ::= {sr1645v2WanVrx 101}
+
+
+sr1645v2WanVrxType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               other (1),
+               regular1822 (2),
+               hdh1822 (3),
+               ddnmx25 (4),
+               rfc877mx25 (5),
+               ethernetmcsmacd (6),
+               iso88023mcsmacd (7),
+               iso88024mtokenBus (8),
+               iso88025mtokenRing (9),
+               is088026mman (10),
+               starlan (11),
+               proteonm10Mbit (12),
+               proteonm80Mbit (13),
+               hyperChannel (14),
+               fddi (15),
+               lapb (16),
+               sdlc (17),
+               ds1 (18),
+               e1 (19),
+               basicISDN (20),
+               primaryISDN (21),
+               propPointToPointSerial (22),
+               ppp (23),
+               softwareLoopback (24),
+               eon (25),
+               ethernetm3Mbit (26),
+               nsip (27),
+               slip (28),
+               ultra (29),
+               ds3 (30),
+               sip (31),
+               framemrelay (32),
+               rs232 (33),
+               para (34),
+               arcnet (35),
+               arcnetPlus (36),
+               atm (37),
+               miox25 (38),
+               sonet (39),
+               x25ple (40),
+               iso88022llc (41),
+               localTalk (42),
+               smdsDxi (43),
+               frameRelayService (44),
+               v35 (45),
+               hssi (46),
+               hippi (47),
+               modem (48),
+               aal5 (49),
+               sonetPath (50),
+               sonetVT (51),
+               smdsIcip (52),
+               propVirtual (53),
+               propMultiplexor (54),
+               ieee80212 (55),
+               fibreChannel (56),
+               hippiInterface (57),
+               frameRelayInterconnect (58),
+               aflane8023 (59),
+               aflane8025 (60),
+               cctEmul (61),
+               fastEther (62),
+               isdn (63),
+               v11 (64),
+               v36 (65),
+               g703at64k (66),
+               g703at2mb (67),
+               qllc (68),
+               fastEtherFX (69),
+               channel (70),
+               ieee80211 (71),
+               ibm370parChan (72),
+               escon (73),
+               dlsw (74),
+               isdns (75),
+               isdnu (76),
+               lapd (77),
+               ipSwitch (78),
+               rsrb (79),
+               atmmlogical (80),
+               ds0 (81),
+               ds0Bundle (82),
+               bsc (83),
+               async (84),
+               cnr (85),
+               iso88025Dtr (86),
+               eplrs (87),
+               arap (88),
+               propCnls (89),
+               hostPad (90),
+               termPad (91),
+               frameRelayMPI (92),
+               x213 (93),
+               adsl (94),
+               radsl (95),
+               sdsl (96),
+               vdsl (97),
+               iso88025CRFPInt (98),
+               myrinet (99),
+               voiceEM (100),
+               voiceFXO (101),
+               voiceFXS (102),
+               voiceEncap (103),
+               voiceOverIp (104),
+               atmDxi (105),
+               atmFuni (106),
+               atmIma (107),
+               pppMultilinkBundle (108),
+               ipOverCdlc (109),
+               ipOverClaw (110),
+               stackToStack (111),
+               virtualIpAddress (112),
+               mpc (113),
+               ipOverAtm (114),
+               iso88025Fiber (115),
+               tdlc (116),
+               gigabitEthernet (117),
+               hdlc (118),
+               lapf (119),
+               v37 (120),
+               x25mlp (121),
+               x25huntGroup (122),
+               trasnpHdlc (123),
+               interleave (124),
+               fast (125),
+               ip (126),
+               docsCableMaclayer (127),
+               docsCableDownstream (128),
+               docsCableUpstream (129),
+               a12MppSwitch (130),
+               tunnel (131),
+               coffee (132),
+               ces (133),
+               atmSubInterface (134),
+               l2vlan (135),
+               l3ipvlan (136),
+               l3ipxvlan (137),
+               digitalPowerline (138),
+               mediaMailOverIp (139),
+               dtm (140),
+               dcn (141),
+               ipForward (142),
+               msdsl (143),
+               ieee1394 (144),
+               ifmgsn (145),
+               dvbRccMacLayer (146),
+               dvbRccDownstream (147),
+               dvbRccUpstream (148),
+               atmVirtual (149),
+               mplsTunnel (150),
+               srp (151),
+               voiceOverAtm (152),
+               voiceOverFrameRelay (153),
+               idsl (154),
+               compositeLink (155),
+               ss7SigLink (156),
+               propWirelessP2P (157),
+               frForward (158),
+               rfc1483 (159),
+               usb (160),
+               ieee8023adLag (161),
+               bgppolicyaccounting (162),
+               frf16MfrBundle (163),
+               h323Gatekeeper (164),
+               h323Proxy (165),
+               mpls (166),
+               mfSigLink (167),
+               hdsl2 (168),
+               shdsl (169),
+               ds1FDL (170),
+               pos (171),
+               dvbAsiIn (172),
+               dvbAsiOut (173),
+               plc (174),
+               nfas (175),
+               tr008 (176),
+               gr303RDT (177),
+               gr303IDT (178),
+               isup (179),
+               propDocsWirelessMaclayer (180),
+               propDocsWirelessDownstream (181),
+               propDocsWirelessUpstream (182),
+               hiperlan2 (183),
+               propBWAp2Mp (184),
+               sonetOverheadChannel (185),
+               digitalWrapperOverheadChannel (186),
+               aal2 (187),
+               radioMAC (188),
+               atmRadio (189),
+               imt (190),
+               mvl (191),
+               reachDSL (192),
+               frDlciEndPt (193),
+               atmVciEndPt (194),
+               opticalChannel (195),
+               opticalTransport (196),
+               propAtm (197),
+               voiceOverCable (198),
+               infiniband (199),
+               teLink (200),
+               q2931 (201),
+               virtualTg (202),
+               sipTg (203),
+               sipSig (204),
+               docsCableUpstreamChannel (205),
+               econet (206),
+               pon155 (207),
+               pon622 (208),
+               bridge (209),
+               linegroup (210),
+               voiceEMFGD (211),
+               voiceFGDEANA (212),
+               voiceDID (213),
+               mpegTransport (214),
+               sixToFour (215),
+               gtp (216),
+               pdnEtherLoop1 (217),
+               pdnEtherLoop2 (218),
+               opticalChannelGroup (219),
+               homepna (220),
+               gfp (221),
+               ciscoISLvlan (222),
+               actelisMetaLOOP (223),
+               fcipLink (224),
+               rpr (225),
+               qam (226),
+               lmp (227),
+               cblVectaStar (228),
+               docsCableMCmtsDownstream (229),
+               adsl2 (230),
+               macSecControlledIF (231),
+               macSecUncontrolledIF (232),
+               aviciOpticalEther (233),
+               atmbond (234),
+               voiceFGDOS (235),
+               mocaVersion1 (236),
+               ieee80216WMAN (237),
+               adsl2plus (238),
+               dvbRcsMacLayer (239),
+               dvbTdm (240),
+               dvbRcsTdma (241),
+               x86Laps (242),
+               wwanPP (243),
+               wwanPP2 (244),
+               voiceEBS (245),
+               ifPwType (246),
+               ilan (247),
+               pip (248),
+               aluELP (249),
+               gpon (250),
+               vdsl2 (251),
+               capwapDot11Profile (252),
+               capwapDot11Bss (253),
+               capwapWtpVirtualRadio (254),
+               bits (255),
+               docsCableUpstreamRfPort (256),
+               cableDownstreamRfPort (257),
+               gfast (279)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.status.ifType
+       Info: ifType
+
+       Possibilities:
+               other   (1)
+               regular1822   (2)
+               hdh1822   (3)
+               ddn-x25   (4)
+               rfc877-x25   (5)
+               ethernet-csmacd   (6)
+               iso88023-csmacd   (7)
+               iso88024-tokenBus   (8)
+               iso88025-tokenRing   (9)
+               is088026-man   (10)
+               starlan   (11)
+               proteon-10Mbit   (12)
+               proteon-80Mbit   (13)
+               hyperChannel   (14)
+               fddi   (15)
+               lapb   (16)
+               sdlc   (17)
+               ds1   (18)
+               e1   (19)
+               basicISDN   (20)
+               primaryISDN   (21)
+               propPointToPointSerial   (22)
+               ppp   (23)
+               softwareLoopback   (24)
+               eon   (25)
+               ethernet-3Mbit   (26)
+               nsip   (27)
+               slip   (28)
+               ultra   (29)
+               ds3   (30)
+               sip   (31)
+               frame-relay   (32)
+               rs232   (33)
+               para   (34)
+               arcnet   (35)
+               arcnetPlus   (36)
+               atm   (37)
+               miox25   (38)
+               sonet   (39)
+               x25ple   (40)
+               iso88022llc   (41)
+               localTalk   (42)
+               smdsDxi   (43)
+               frameRelayService   (44)
+               v35   (45)
+               hssi   (46)
+               hippi   (47)
+               modem   (48)
+               aal5   (49)
+               sonetPath   (50)
+               sonetVT   (51)
+               smdsIcip   (52)
+               propVirtual   (53)
+               propMultiplexor   (54)
+               ieee80212   (55)
+               fibreChannel   (56)
+               hippiInterface   (57)
+               frameRelayInterconnect   (58)
+               aflane8023   (59)
+               aflane8025   (60)
+               cctEmul   (61)
+               fastEther   (62)
+               isdn   (63)
+               v11   (64)
+               v36   (65)
+               g703at64k   (66)
+               g703at2mb   (67)
+               qllc   (68)
+               fastEtherFX   (69)
+               channel   (70)
+               ieee80211   (71)
+               ibm370parChan   (72)
+               escon   (73)
+               dlsw   (74)
+               isdns   (75)
+               isdnu   (76)
+               lapd   (77)
+               ipSwitch   (78)
+               rsrb   (79)
+               atm-logical   (80)
+               ds0   (81)
+               ds0Bundle   (82)
+               bsc   (83)
+               async   (84)
+               cnr   (85)
+               iso88025Dtr   (86)
+               eplrs   (87)
+               arap   (88)
+               propCnls   (89)
+               hostPad   (90)
+               termPad   (91)
+               frameRelayMPI   (92)
+               x213   (93)
+               adsl   (94)
+               radsl   (95)
+               sdsl   (96)
+               vdsl   (97)
+               iso88025CRFPInt   (98)
+               myrinet   (99)
+               voiceEM   (100)
+               voiceFXO   (101)
+               voiceFXS   (102)
+               voiceEncap   (103)
+               voiceOverIp   (104)
+               atmDxi   (105)
+               atmFuni   (106)
+               atmIma   (107)
+               pppMultilinkBundle   (108)
+               ipOverCdlc   (109)
+               ipOverClaw   (110)
+               stackToStack   (111)
+               virtualIpAddress   (112)
+               mpc   (113)
+               ipOverAtm   (114)
+               iso88025Fiber   (115)
+               tdlc   (116)
+               gigabitEthernet   (117)
+               hdlc   (118)
+               lapf   (119)
+               v37   (120)
+               x25mlp   (121)
+               x25huntGroup   (122)
+               trasnpHdlc   (123)
+               interleave   (124)
+               fast   (125)
+               ip   (126)
+               docsCableMaclayer   (127)
+               docsCableDownstream   (128)
+               docsCableUpstream   (129)
+               a12MppSwitch   (130)
+               tunnel   (131)
+               coffee   (132)
+               ces   (133)
+               atmSubInterface   (134)
+               l2vlan   (135)
+               l3ipvlan   (136)
+               l3ipxvlan   (137)
+               digitalPowerline   (138)
+               mediaMailOverIp   (139)
+               dtm   (140)
+               dcn   (141)
+               ipForward   (142)
+               msdsl   (143)
+               ieee1394   (144)
+               if-gsn   (145)
+               dvbRccMacLayer   (146)
+               dvbRccDownstream   (147)
+               dvbRccUpstream   (148)
+               atmVirtual   (149)
+               mplsTunnel   (150)
+               srp   (151)
+               voiceOverAtm   (152)
+               voiceOverFrameRelay   (153)
+               idsl   (154)
+               compositeLink   (155)
+               ss7SigLink   (156)
+               propWirelessP2P   (157)
+               frForward   (158)
+               rfc1483   (159)
+               usb   (160)
+               ieee8023adLag   (161)
+               bgppolicyaccounting   (162)
+               frf16MfrBundle   (163)
+               h323Gatekeeper   (164)
+               h323Proxy   (165)
+               mpls   (166)
+               mfSigLink   (167)
+               hdsl2   (168)
+               shdsl   (169)
+               ds1FDL   (170)
+               pos   (171)
+               dvbAsiIn   (172)
+               dvbAsiOut   (173)
+               plc   (174)
+               nfas   (175)
+               tr008   (176)
+               gr303RDT   (177)
+               gr303IDT   (178)
+               isup   (179)
+               propDocsWirelessMaclayer   (180)
+               propDocsWirelessDownstream   (181)
+               propDocsWirelessUpstream   (182)
+               hiperlan2   (183)
+               propBWAp2Mp   (184)
+               sonetOverheadChannel   (185)
+               digitalWrapperOverheadChannel   (186)
+               aal2   (187)
+               radioMAC   (188)
+               atmRadio   (189)
+               imt   (190)
+               mvl   (191)
+               reachDSL   (192)
+               frDlciEndPt   (193)
+               atmVciEndPt   (194)
+               opticalChannel   (195)
+               opticalTransport   (196)
+               propAtm   (197)
+               voiceOverCable   (198)
+               infiniband   (199)
+               teLink   (200)
+               q2931   (201)
+               virtualTg   (202)
+               sipTg   (203)
+               sipSig   (204)
+               docsCableUpstreamChannel   (205)
+               econet   (206)
+               pon155   (207)
+               pon622   (208)
+               bridge   (209)
+               linegroup   (210)
+               voiceEMFGD   (211)
+               voiceFGDEANA   (212)
+               voiceDID   (213)
+               mpegTransport   (214)
+               sixToFour   (215)
+               gtp   (216)
+               pdnEtherLoop1   (217)
+               pdnEtherLoop2   (218)
+               opticalChannelGroup   (219)
+               homepna   (220)
+               gfp   (221)
+               ciscoISLvlan   (222)
+               actelisMetaLOOP   (223)
+               fcipLink   (224)
+               rpr   (225)
+               qam   (226)
+               lmp   (227)
+               cblVectaStar   (228)
+               docsCableMCmtsDownstream   (229)
+               adsl2   (230)
+               macSecControlledIF   (231)
+               macSecUncontrolledIF   (232)
+               aviciOpticalEther   (233)
+               atmbond   (234)
+               voiceFGDOS   (235)
+               mocaVersion1   (236)
+               ieee80216WMAN   (237)
+               adsl2plus   (238)
+               dvbRcsMacLayer   (239)
+               dvbTdm   (240)
+               dvbRcsTdma   (241)
+               x86Laps   (242)
+               wwanPP   (243)
+               wwanPP2   (244)
+               voiceEBS   (245)
+               ifPwType   (246)
+               ilan   (247)
+               pip   (248)
+               aluELP   (249)
+               gpon   (250)
+               vdsl2   (251)
+               capwapDot11Profile   (252)
+               capwapDot11Bss   (253)
+               capwapWtpVirtualRadio   (254)
+               bits   (255)
+               docsCableUpstreamRfPort   (256)
+               cableDownstreamRfPort   (257)
+               gfast   (279)"
+   ::= {sr1645v2WanVrx 102}
+
+
+sr1645v2WanVrxMtu OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.status.ifMtu
+       Info: ifMtu"
+   ::= {sr1645v2WanVrx 103}
+
+
+sr1645v2WanVrxOperStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               up (1),
+               down (2),
+               testing (3),
+               unknown (4),
+               dormant (5),
+               notPresent (6),
+               lowerLayerDown (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.status.ifOperStatus
+       Info: ifOperStatus
+
+       Possibilities:
+               up   (1)
+               down   (2)
+               testing   (3)
+               unknown   (4)
+               dormant   (5)
+               notPresent   (6)
+               lowerLayerDown   (7)"
+   ::= {sr1645v2WanVrx 107}
+
+
+sr1645v2WanVrxLastChange OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.status.ifLastChange
+       Info: ifLastChange
+
+       Time in centi-second."
+   ::= {sr1645v2WanVrx 108}
+
+
+sr1645v2WanVrxLastChangeD OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.status.ifLastChangeDate
+       Info: ifLastChangeDate"
+   ::= {sr1645v2WanVrx 183}
+
+
+sr1645v2WanVrxSnmpIndex OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.status.snmpIndex
+       Info: SNMP index assigned to this object"
+   ::= {sr1645v2WanVrx 269}
+
+
+sr1645v2WanVrxIfSpeed OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.status.ifSpeed
+       Info: ifSpeed
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2WanVrx 104}
+
+
+
+er1645v2WanVrx OBJECT IDENTIFIER ::= {r1645v2WanVrx 11}
+
+
+er1645v2WanVrxName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.name
+       Info: config interface name"
+   ::= {er1645v2WanVrx 2}
+
+
+er1645v2WanVrxRemark OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.remark
+       Info: intfRemark"
+   ::= {er1645v2WanVrx 321}
+
+
+er1645v2WanVrxAlarmMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.alarmMask
+       Info: ifAlarmMask
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {er1645v2WanVrx 135}
+
+
+er1645v2WanVrxAlarmLev OBJECT IDENTIFIER ::= {er1645v2WanVrx 170}
+
+er1645v2WanVrxAlarmLevSSC OBJECT IDENTIFIER ::= {er1645v2WanVrxAlarmLev 1}
+
+er1645v2WanVrxAlarmLevEntry OBJECT IDENTIFIER ::= {er1645v2WanVrxAlarmLevSSC 1}
+
+er1645v2WanVrxAlarmLevLinkDown OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.alarmLevel.linkDown"
+   ::= {er1645v2WanVrxAlarmLevEntry 16777216}
+
+
+er1645v2WanVrxPriorityPolicy OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.priorityPolicy
+       Info: Preferred Policy"
+   ::= {er1645v2WanVrx 33}
+
+
+er1645v2WanVrxMaxFifoQLen OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.maxFifoQLen
+       Info: maximun queue length for fifo"
+   ::= {er1645v2WanVrx 34}
+
+
+er1645v2WanVrxIbw OBJECT IDENTIFIER ::= {er1645v2WanVrx 13}
+
+er1645v2WanVrxIbwSSC OBJECT IDENTIFIER ::= {er1645v2WanVrxIbw 1}
+
+er1645v2WanVrxIbwEntry OBJECT IDENTIFIER ::= {er1645v2WanVrxIbwSSC 1}
+
+er1645v2WanVrxIbwCir OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.cir"
+   ::= {er1645v2WanVrxIbwEntry 16777216}
+
+er1645v2WanVrxIbwTc OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               auto (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.tc
+
+       Possibilities:
+               auto   (0)"
+   ::= {er1645v2WanVrxIbwEntry 100663296}
+
+er1645v2WanVrxIbwCorrType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noCorrection (0),
+               predefined (1),
+               manual (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.correction.type
+
+       Possibilities:
+               noCorrection   (0)
+               predefined   (1)
+               manual   (2)"
+   ::= {er1645v2WanVrxIbwEntry 35651584}
+
+er1645v2WanVrxIbwCorrPredefEncapsFrameRelay OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.correction.predefined.encapsulation.frameRelay"
+   ::= {er1645v2WanVrxIbwEntry 38027264}
+
+er1645v2WanVrxIbwCorrPredefEncapsPpp OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.correction.predefined.encapsulation.ppp"
+   ::= {er1645v2WanVrxIbwEntry 38043648}
+
+er1645v2WanVrxIbwCorrPredefEncapsAtmHl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               rfc2684 (0),
+               ppp (1),
+               pppOverEthernet (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.correction.predefined.encapsulation.atm.higherLayer
+
+       Possibilities:
+               rfc2684   (0)
+               ppp   (1)
+               pppOverEthernet   (2)"
+   ::= {er1645v2WanVrxIbwEntry 38062080}
+
+er1645v2WanVrxIbwCorrPredefEncapsAtmMp OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               llcEncapsulation (0),
+               vcMultiplexing (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.correction.predefined.encapsulation.atm.multiProtocol
+
+       Possibilities:
+               llcEncapsulation   (0)
+               vcMultiplexing   (1)"
+   ::= {er1645v2WanVrxIbwEntry 38064128}
+
+er1645v2WanVrxIbwCorrPredefEncapsHdlc OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.correction.predefined.encapsulation.hdlc"
+   ::= {er1645v2WanVrxIbwEntry 38076416}
+
+er1645v2WanVrxIbwCorrPredefEncapsEfmFs OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.correction.predefined.encapsulation.efm.fragmentSize"
+   ::= {er1645v2WanVrxIbwEntry 38094848}
+
+er1645v2WanVrxIbwCorrPredefEncapsEfmIb OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.correction.predefined.encapsulation.efm.idleBytes"
+   ::= {er1645v2WanVrxIbwEntry 38096896}
+
+er1645v2WanVrxIbwCorrPredefMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               routing (0),
+               bridging (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.correction.predefined.mode
+
+       Possibilities:
+               routing   (0)
+               bridging   (1)"
+   ::= {er1645v2WanVrxIbwEntry 38273024}
+
+er1645v2WanVrxIbwCorrManualOverhead OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.correction.manual.overhead"
+   ::= {er1645v2WanVrxIbwEntry 39854080}
+
+er1645v2WanVrxIbwCorrManualFrameData OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.correction.manual.frameData
+
+       32 bit unsigned wrappable counter."
+   ::= {er1645v2WanVrxIbwEntry 39862272}
+
+er1645v2WanVrxIbwCorrManualFrameHeader OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.correction.manual.frameHeader
+
+       32 bit unsigned wrappable counter."
+   ::= {er1645v2WanVrxIbwEntry 39870464}
+
+er1645v2WanVrxIbwMaxFifoQLen OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.maxFifoQLen"
+   ::= {er1645v2WanVrxIbwEntry 50331648}
+
+er1645v2WanVrxIbwPriorityPolicy OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.editConf.inboundBandwidth.priorityPolicy"
+   ::= {er1645v2WanVrxIbwEntry 67108864}
+
+
+
+pr1645v2WanVrx OBJECT IDENTIFIER ::= {r1645v2WanVrx 12}
+
+
+pr1645v2WanVrxInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInOctets
+       Info: ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 109}
+
+
+pr1645v2WanVrxInUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInUcastPkts
+       Info: ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 110}
+
+
+pr1645v2WanVrxInNUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInNUcastPkts
+       Info: ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 111}
+
+
+pr1645v2WanVrxInBcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInBcastPkts
+       Info: ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 211}
+
+
+pr1645v2WanVrxInMcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInMcastPkts
+       Info: ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 221}
+
+
+pr1645v2WanVrxInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInDiscards
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 112}
+
+
+pr1645v2WanVrxInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInErrors
+       Info: ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 113}
+
+
+pr1645v2WanVrxInUnknownProtos OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInUnknownProtos
+       Info: ifInUnknownprotos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 114}
+
+
+pr1645v2WanVrxInQLen OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInQLen
+       Info: ifInQLen
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2WanVrx 128}
+
+
+pr1645v2WanVrxInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInDropLevelExceeded
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 130}
+
+
+pr1645v2WanVrxInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInDiscardsNoMacFit
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 133}
+
+
+pr1645v2WanVrxInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInDiscardsNUCast
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 136}
+
+
+pr1645v2WanVrxInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInDiscardsFilter
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 137}
+
+
+pr1645v2WanVrxInQueues OBJECT IDENTIFIER ::= {pr1645v2WanVrx 131}
+
+pr1645v2WanVrxInQueuesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2WanVrxInQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Queue Lengths"
+   ::= {pr1645v2WanVrxInQueues 1}
+
+pr1645v2WanVrxInQueuesEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2WanVrxInQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2WanVrxInQueuesTableIx }
+   ::= {pr1645v2WanVrxInQueuesSSCTable 1}
+
+Pr1645v2WanVrxInQueuesEntry ::=
+   SEQUENCE
+      {
+      pr1645v2WanVrxInQueuesTableIx
+         TableIndex,
+      pr1645v2WanVrxInQueuesName
+         INTEGER,
+      pr1645v2WanVrxInQueuesLength
+         Integer32,
+      pr1645v2WanVrxInQueuesOctetLength
+         Integer32,
+      pr1645v2WanVrxInQueuesRedLength
+         Integer32,
+      pr1645v2WanVrxInQueuesPacketsTotal
+         Counter64,
+      pr1645v2WanVrxInQueuesPacketsDirectTx
+         Counter64,
+      pr1645v2WanVrxInQueuesPacketsQueued
+         Counter64,
+      pr1645v2WanVrxInQueuesPacketsDropped
+         Counter64,
+      pr1645v2WanVrxInQueuesPacketsRedDropped
+         Counter64,
+      pr1645v2WanVrxInQueuesPacketsCirTx
+         Counter64,
+      pr1645v2WanVrxInQueuesPacketsEirTx
+         Counter64,
+      pr1645v2WanVrxInQueuesPacketsViolateTx
+         Counter64,
+      pr1645v2WanVrxInQueuesOctetsTotal
+         Counter64,
+      pr1645v2WanVrxInQueuesOctetsDirectTx
+         Counter64,
+      pr1645v2WanVrxInQueuesOctetsQueued
+         Counter64,
+      pr1645v2WanVrxInQueuesOctetsDropped
+         Counter64,
+      pr1645v2WanVrxInQueuesOctetsRedDropped
+         Counter64,
+      pr1645v2WanVrxInQueuesOctetsCirTx
+         Counter64,
+      pr1645v2WanVrxInQueuesOctetsEirTx
+         Counter64,
+      pr1645v2WanVrxInQueuesOctetsViolateTx
+         Counter64,
+      pr1645v2WanVrxInQueuesOctetsBandwidth15sec
+         Integer32,
+      pr1645v2WanVrxInQueuesOctetsBandwidth30sec
+         Integer32,
+      pr1645v2WanVrxInQueuesOctetsBandwidth1min
+         Integer32,
+      pr1645v2WanVrxInQueuesOctetsBandwidth2min
+         Integer32,
+      pr1645v2WanVrxInQueuesOctetsBandwidth5min
+         Integer32
+      }
+
+pr1645v2WanVrxInQueuesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxInQueuesEntry 11}
+
+pr1645v2WanVrxInQueuesName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               queue (8),
+               queue1Sum (9),
+               queue2Sum (10),
+               queue3Sum (11),
+               queue4Sum (12),
+               queue5Sum (13),
+               lowDelayQueueSum (14),
+               lowDelay2QueueSum (15),
+               systemQueueSum (16),
+               queueSum (17),
+               queue1Driver (18),
+               queue2Driver (19),
+               queue3Driver (20),
+               queue4Driver (21),
+               queue5Driver (22),
+               lowDelayQueueDriver (23),
+               lowDelay2QueueDriver (24),
+               systemQueueDriver (25)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.name
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               queue   (8)
+               queue1Sum   (9)
+               queue2Sum   (10)
+               queue3Sum   (11)
+               queue4Sum   (12)
+               queue5Sum   (13)
+               lowDelayQueueSum   (14)
+               lowDelay2QueueSum   (15)
+               systemQueueSum   (16)
+               queueSum   (17)
+               queue1Driver   (18)
+               queue2Driver   (19)
+               queue3Driver   (20)
+               queue4Driver   (21)
+               queue5Driver   (22)
+               lowDelayQueueDriver   (23)
+               lowDelay2QueueDriver   (24)
+               systemQueueDriver   (25)"
+   ::= {pr1645v2WanVrxInQueuesEntry 16777216}
+
+pr1645v2WanVrxInQueuesLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.length"
+   ::= {pr1645v2WanVrxInQueuesEntry 33554432}
+
+pr1645v2WanVrxInQueuesOctetLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octetLength"
+   ::= {pr1645v2WanVrxInQueuesEntry 150994944}
+
+pr1645v2WanVrxInQueuesRedLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.redLength"
+   ::= {pr1645v2WanVrxInQueuesEntry 134217728}
+
+pr1645v2WanVrxInQueuesPacketsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.packets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 50790400}
+
+pr1645v2WanVrxInQueuesPacketsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.packets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 50397184}
+
+pr1645v2WanVrxInQueuesPacketsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.packets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 50462720}
+
+pr1645v2WanVrxInQueuesPacketsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.packets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 50528256}
+
+pr1645v2WanVrxInQueuesPacketsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.packets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 50724864}
+
+pr1645v2WanVrxInQueuesPacketsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.packets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 50593792}
+
+pr1645v2WanVrxInQueuesPacketsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.packets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 50659328}
+
+pr1645v2WanVrxInQueuesPacketsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.packets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 50855936}
+
+pr1645v2WanVrxInQueuesOctetsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 67567616}
+
+pr1645v2WanVrxInQueuesOctetsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 67174400}
+
+pr1645v2WanVrxInQueuesOctetsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 67239936}
+
+pr1645v2WanVrxInQueuesOctetsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 67305472}
+
+pr1645v2WanVrxInQueuesOctetsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 67502080}
+
+pr1645v2WanVrxInQueuesOctetsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 67371008}
+
+pr1645v2WanVrxInQueuesOctetsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 67436544}
+
+pr1645v2WanVrxInQueuesOctetsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesEntry 67633152}
+
+pr1645v2WanVrxInQueuesOctetsBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octets.bandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInQueuesEntry 70386944}
+
+pr1645v2WanVrxInQueuesOctetsBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octets.bandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInQueuesEntry 70388224}
+
+pr1645v2WanVrxInQueuesOctetsBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octets.bandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInQueuesEntry 70390784}
+
+pr1645v2WanVrxInQueuesOctetsBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octets.bandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInQueuesEntry 70395904}
+
+pr1645v2WanVrxInQueuesOctetsBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.octets.bandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInQueuesEntry 70411264}
+
+pr1645v2WanVrxInQueuesH2Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2WanVrxInQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxInQueues 83886080}
+
+pr1645v2WanVrxInQueuesH2PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2WanVrxInQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2WanVrxInQueuesTableIx,
+                pr1645v2WanVrxInQueuesH2PerformanceTableIx }
+   ::= {pr1645v2WanVrxInQueuesH2Performance 1}
+
+Pr1645v2WanVrxInQueuesH2PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2WanVrxInQueuesH2PerformanceTableIx
+         TableIndex,
+      pr1645v2WanVrxInQueuesH2PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2WanVrxInQueuesH2PerformanceTotPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceDirTxPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceQdPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceDropPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceRDropPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceCirTxPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceEirTxPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceViolTxPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceTotOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceDirTxOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceQdOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceDropOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceRDropOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceCirTxOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceEirTxOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceViolTxOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH2PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2WanVrxInQueuesH2PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 11}
+
+pr1645v2WanVrxInQueuesH2PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 16777216}
+
+pr1645v2WanVrxInQueuesH2PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 234881024}
+
+pr1645v2WanVrxInQueuesH2PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 33554432}
+
+pr1645v2WanVrxInQueuesH2PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 50331648}
+
+pr1645v2WanVrxInQueuesH2PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 67108864}
+
+pr1645v2WanVrxInQueuesH2PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 201326592}
+
+pr1645v2WanVrxInQueuesH2PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 83886080}
+
+pr1645v2WanVrxInQueuesH2PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 100663296}
+
+pr1645v2WanVrxInQueuesH2PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 301989888}
+
+pr1645v2WanVrxInQueuesH2PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 251658240}
+
+pr1645v2WanVrxInQueuesH2PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 117440512}
+
+pr1645v2WanVrxInQueuesH2PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 134217728}
+
+pr1645v2WanVrxInQueuesH2PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 150994944}
+
+pr1645v2WanVrxInQueuesH2PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 218103808}
+
+pr1645v2WanVrxInQueuesH2PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 167772160}
+
+pr1645v2WanVrxInQueuesH2PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 184549376}
+
+pr1645v2WanVrxInQueuesH2PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 318767104}
+
+pr1645v2WanVrxInQueuesH2PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h2Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInQueuesH2PerformanceEntry 268435456}
+
+pr1645v2WanVrxInQueuesH24Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2WanVrxInQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxInQueues 100663296}
+
+pr1645v2WanVrxInQueuesH24PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2WanVrxInQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2WanVrxInQueuesTableIx,
+                pr1645v2WanVrxInQueuesH24PerformanceTableIx }
+   ::= {pr1645v2WanVrxInQueuesH24Performance 1}
+
+Pr1645v2WanVrxInQueuesH24PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2WanVrxInQueuesH24PerformanceTableIx
+         TableIndex,
+      pr1645v2WanVrxInQueuesH24PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2WanVrxInQueuesH24PerformanceTotPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceDirTxPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceQdPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceDropPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceRDropPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceCirTxPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceEirTxPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceViolTxPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceTotOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceDirTxOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceQdOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceDropOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceRDropOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceCirTxOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceEirTxOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceViolTxOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesH24PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2WanVrxInQueuesH24PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 11}
+
+pr1645v2WanVrxInQueuesH24PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 16777216}
+
+pr1645v2WanVrxInQueuesH24PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 234881024}
+
+pr1645v2WanVrxInQueuesH24PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 33554432}
+
+pr1645v2WanVrxInQueuesH24PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 50331648}
+
+pr1645v2WanVrxInQueuesH24PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 67108864}
+
+pr1645v2WanVrxInQueuesH24PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 201326592}
+
+pr1645v2WanVrxInQueuesH24PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 83886080}
+
+pr1645v2WanVrxInQueuesH24PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 100663296}
+
+pr1645v2WanVrxInQueuesH24PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 301989888}
+
+pr1645v2WanVrxInQueuesH24PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 251658240}
+
+pr1645v2WanVrxInQueuesH24PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 117440512}
+
+pr1645v2WanVrxInQueuesH24PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 134217728}
+
+pr1645v2WanVrxInQueuesH24PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 150994944}
+
+pr1645v2WanVrxInQueuesH24PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 218103808}
+
+pr1645v2WanVrxInQueuesH24PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 167772160}
+
+pr1645v2WanVrxInQueuesH24PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 184549376}
+
+pr1645v2WanVrxInQueuesH24PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 318767104}
+
+pr1645v2WanVrxInQueuesH24PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.h24Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInQueuesH24PerformanceEntry 268435456}
+
+pr1645v2WanVrxInQueuesD7Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2WanVrxInQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxInQueues 117440512}
+
+pr1645v2WanVrxInQueuesD7PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2WanVrxInQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2WanVrxInQueuesTableIx,
+                pr1645v2WanVrxInQueuesD7PerformanceTableIx }
+   ::= {pr1645v2WanVrxInQueuesD7Performance 1}
+
+Pr1645v2WanVrxInQueuesD7PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2WanVrxInQueuesD7PerformanceTableIx
+         TableIndex,
+      pr1645v2WanVrxInQueuesD7PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2WanVrxInQueuesD7PerformanceTotPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceDirTxPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceQdPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceDropPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceRDropPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceCirTxPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceEirTxPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceViolTxPkts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceTotOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceDirTxOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceQdOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceDropOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceRDropOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceCirTxOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceEirTxOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceViolTxOcts
+         Counter64,
+      pr1645v2WanVrxInQueuesD7PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2WanVrxInQueuesD7PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 11}
+
+pr1645v2WanVrxInQueuesD7PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 16777216}
+
+pr1645v2WanVrxInQueuesD7PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 234881024}
+
+pr1645v2WanVrxInQueuesD7PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 33554432}
+
+pr1645v2WanVrxInQueuesD7PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 50331648}
+
+pr1645v2WanVrxInQueuesD7PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 67108864}
+
+pr1645v2WanVrxInQueuesD7PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 201326592}
+
+pr1645v2WanVrxInQueuesD7PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 83886080}
+
+pr1645v2WanVrxInQueuesD7PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 100663296}
+
+pr1645v2WanVrxInQueuesD7PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 301989888}
+
+pr1645v2WanVrxInQueuesD7PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 251658240}
+
+pr1645v2WanVrxInQueuesD7PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 117440512}
+
+pr1645v2WanVrxInQueuesD7PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 134217728}
+
+pr1645v2WanVrxInQueuesD7PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 150994944}
+
+pr1645v2WanVrxInQueuesD7PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 218103808}
+
+pr1645v2WanVrxInQueuesD7PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 167772160}
+
+pr1645v2WanVrxInQueuesD7PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 184549376}
+
+pr1645v2WanVrxInQueuesD7PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 318767104}
+
+pr1645v2WanVrxInQueuesD7PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInPriorityQueues.d7Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInQueuesD7PerformanceEntry 268435456}
+
+
+pr1645v2WanVrxInBandwidth OBJECT IDENTIFIER ::= {pr1645v2WanVrx 181}
+
+pr1645v2WanVrxInBandwidthSSC OBJECT IDENTIFIER ::= {pr1645v2WanVrxInBandwidth 1}
+
+pr1645v2WanVrxInBandwidthEntry OBJECT IDENTIFIER ::= {pr1645v2WanVrxInBandwidthSSC 1}
+
+pr1645v2WanVrxInBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInBandwidthEntry 83886080}
+
+pr1645v2WanVrxInBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInBandwidthEntry 167772160}
+
+pr1645v2WanVrxInBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInBandwidthEntry 335544320}
+
+pr1645v2WanVrxInBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInBandwidthEntry 671088640}
+
+pr1645v2WanVrxInBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifInBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInBandwidthEntry 1677721600}
+
+
+pr1645v2WanVrxOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutOctets
+       Info: ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 115}
+
+
+pr1645v2WanVrxOutUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutUcastPkts
+       Info: ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 116}
+
+
+pr1645v2WanVrxOutNUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutNUcastPkts
+       Info: ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 117}
+
+
+pr1645v2WanVrxOutBcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutBcastPkts
+       Info: ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 217}
+
+
+pr1645v2WanVrxOutMcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutMcastPkts
+       Info: ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 227}
+
+
+pr1645v2WanVrxOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutDiscards
+       Info: ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 118}
+
+
+pr1645v2WanVrxOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutErrors
+       Info: ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 119}
+
+
+pr1645v2WanVrxOutQLen OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutQLen
+       Info: ifOutQLen
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2WanVrx 120}
+
+
+pr1645v2WanVrxOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutDropLevelExceeded
+       Info: ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 127}
+
+
+pr1645v2WanVrxOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutDiscardsNoArp
+       Info: ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 134}
+
+
+pr1645v2WanVrxOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutDiscardsFilter
+       Info: ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrx 138}
+
+
+pr1645v2WanVrxIfOutPriorityQueues OBJECT IDENTIFIER ::= {pr1645v2WanVrx 129}
+
+pr1645v2WanVrxIfOutPriorityQueuesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2WanVrxIfOutPriorityQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Queue Lengths"
+   ::= {pr1645v2WanVrxIfOutPriorityQueues 1}
+
+pr1645v2WanVrxIfOutPriorityQueuesEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2WanVrxIfOutPriorityQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2WanVrxIfOutPriorityQueuesTableIx }
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesSSCTable 1}
+
+Pr1645v2WanVrxIfOutPriorityQueuesEntry ::=
+   SEQUENCE
+      {
+      pr1645v2WanVrxIfOutPriorityQueuesTableIx
+         TableIndex,
+      pr1645v2WanVrxIfOutPriorityQueuesName
+         INTEGER,
+      pr1645v2WanVrxIfOutPriorityQueuesLength
+         Integer32,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetLength
+         Integer32,
+      pr1645v2WanVrxIfOutPriorityQueuesRedLength
+         Integer32,
+      pr1645v2WanVrxIfOutPriorityQueuesPacketsTotal
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesPacketsDirectTx
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesPacketsQueued
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesPacketsDropped
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesPacketsRedDropped
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesPacketsCirTx
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesPacketsEirTx
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesPacketsViolateTx
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetsTotal
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetsDirectTx
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetsQueued
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetsDropped
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetsRedDropped
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetsCirTx
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetsEirTx
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetsViolateTx
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetsBandwidth15sec
+         Integer32,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetsBandwidth30sec
+         Integer32,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetsBandwidth1min
+         Integer32,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetsBandwidth2min
+         Integer32,
+      pr1645v2WanVrxIfOutPriorityQueuesOctetsBandwidth5min
+         Integer32
+      }
+
+pr1645v2WanVrxIfOutPriorityQueuesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 11}
+
+pr1645v2WanVrxIfOutPriorityQueuesName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               queue (8),
+               queue1Sum (9),
+               queue2Sum (10),
+               queue3Sum (11),
+               queue4Sum (12),
+               queue5Sum (13),
+               lowDelayQueueSum (14),
+               lowDelay2QueueSum (15),
+               systemQueueSum (16),
+               queueSum (17),
+               queue1Driver (18),
+               queue2Driver (19),
+               queue3Driver (20),
+               queue4Driver (21),
+               queue5Driver (22),
+               lowDelayQueueDriver (23),
+               lowDelay2QueueDriver (24),
+               systemQueueDriver (25)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.name
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               queue   (8)
+               queue1Sum   (9)
+               queue2Sum   (10)
+               queue3Sum   (11)
+               queue4Sum   (12)
+               queue5Sum   (13)
+               lowDelayQueueSum   (14)
+               lowDelay2QueueSum   (15)
+               systemQueueSum   (16)
+               queueSum   (17)
+               queue1Driver   (18)
+               queue2Driver   (19)
+               queue3Driver   (20)
+               queue4Driver   (21)
+               queue5Driver   (22)
+               lowDelayQueueDriver   (23)
+               lowDelay2QueueDriver   (24)
+               systemQueueDriver   (25)"
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 16777216}
+
+pr1645v2WanVrxIfOutPriorityQueuesLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.length"
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 33554432}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octetLength"
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 150994944}
+
+pr1645v2WanVrxIfOutPriorityQueuesRedLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.redLength"
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 134217728}
+
+pr1645v2WanVrxIfOutPriorityQueuesPacketsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.packets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 50790400}
+
+pr1645v2WanVrxIfOutPriorityQueuesPacketsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.packets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 50397184}
+
+pr1645v2WanVrxIfOutPriorityQueuesPacketsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.packets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 50462720}
+
+pr1645v2WanVrxIfOutPriorityQueuesPacketsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.packets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 50528256}
+
+pr1645v2WanVrxIfOutPriorityQueuesPacketsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.packets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 50724864}
+
+pr1645v2WanVrxIfOutPriorityQueuesPacketsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.packets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 50593792}
+
+pr1645v2WanVrxIfOutPriorityQueuesPacketsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.packets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 50659328}
+
+pr1645v2WanVrxIfOutPriorityQueuesPacketsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.packets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 50855936}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 67567616}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 67174400}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 67239936}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 67305472}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 67502080}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 67371008}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 67436544}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 67633152}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetsBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octets.bandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 70386944}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetsBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octets.bandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 70388224}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetsBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octets.bandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 70390784}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetsBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octets.bandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 70395904}
+
+pr1645v2WanVrxIfOutPriorityQueuesOctetsBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.octets.bandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesEntry 70411264}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxIfOutPriorityQueues 83886080}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2WanVrxIfOutPriorityQueuesTableIx,
+                pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceTableIx }
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2Performance 1}
+
+Pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceTableIx
+         TableIndex,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceTotPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceDirTxPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceQdPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceDropPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceRDropPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceCirTxPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEirTxPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceViolTxPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceTotOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceDirTxOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceQdOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceDropOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceRDropOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceCirTxOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEirTxOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceViolTxOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 11}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 16777216}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 234881024}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 33554432}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 50331648}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 67108864}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 201326592}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 83886080}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 100663296}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 301989888}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 251658240}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 117440512}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 134217728}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 150994944}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 218103808}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 167772160}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 184549376}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 318767104}
+
+pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h2Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH2PerformanceEntry 268435456}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxIfOutPriorityQueues 100663296}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2WanVrxIfOutPriorityQueuesTableIx,
+                pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceTableIx }
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24Performance 1}
+
+Pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceTableIx
+         TableIndex,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceTotPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceDirTxPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceQdPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceDropPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceRDropPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceCirTxPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEirTxPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceViolTxPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceTotOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceDirTxOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceQdOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceDropOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceRDropOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceCirTxOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEirTxOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceViolTxOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 11}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 16777216}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 234881024}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 33554432}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 50331648}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 67108864}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 201326592}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 83886080}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 100663296}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 301989888}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 251658240}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 117440512}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 134217728}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 150994944}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 218103808}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 167772160}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 184549376}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 318767104}
+
+pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.h24Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesH24PerformanceEntry 268435456}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxIfOutPriorityQueues 117440512}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2WanVrxIfOutPriorityQueuesTableIx,
+                pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceTableIx }
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7Performance 1}
+
+Pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceTableIx
+         TableIndex,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceTotPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceDirTxPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceQdPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceDropPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceRDropPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceCirTxPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEirTxPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceViolTxPkts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceTotOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceDirTxOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceQdOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceDropOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceRDropOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceCirTxOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEirTxOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceViolTxOcts
+         Counter64,
+      pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 11}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 16777216}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 234881024}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 33554432}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 50331648}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 67108864}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 201326592}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 83886080}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 100663296}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 301989888}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 251658240}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 117440512}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 134217728}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 150994944}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 218103808}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 167772160}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 184549376}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 318767104}
+
+pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutPriorityQueues.d7Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxIfOutPriorityQueuesD7PerformanceEntry 268435456}
+
+
+pr1645v2WanVrxOutBandwidth OBJECT IDENTIFIER ::= {pr1645v2WanVrx 182}
+
+pr1645v2WanVrxOutBandwidthSSC OBJECT IDENTIFIER ::= {pr1645v2WanVrxOutBandwidth 1}
+
+pr1645v2WanVrxOutBandwidthEntry OBJECT IDENTIFIER ::= {pr1645v2WanVrxOutBandwidthSSC 1}
+
+pr1645v2WanVrxOutBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxOutBandwidthEntry 83886080}
+
+pr1645v2WanVrxOutBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxOutBandwidthEntry 167772160}
+
+pr1645v2WanVrxOutBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxOutBandwidthEntry 335544320}
+
+pr1645v2WanVrxOutBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxOutBandwidthEntry 671088640}
+
+pr1645v2WanVrxOutBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.ifOutBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxOutBandwidthEntry 1677721600}
+
+
+pr1645v2WanVrxInP OBJECT IDENTIFIER ::= {pr1645v2WanVrx 307}
+
+pr1645v2WanVrxInPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2WanVrxInPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h2IfInPerformance"
+   ::= {pr1645v2WanVrxInP 1}
+
+pr1645v2WanVrxInPEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2WanVrxInPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2WanVrxInPTableIx }
+   ::= {pr1645v2WanVrxInPSSCTable 1}
+
+Pr1645v2WanVrxInPEntry ::=
+   SEQUENCE
+      {
+      pr1645v2WanVrxInPTableIx
+         TableIndex,
+      pr1645v2WanVrxInPSysUpTime
+         TimeTicks,
+      pr1645v2WanVrxInPIfUpTime
+         TimeTicks,
+      pr1645v2WanVrxInPIfStatChanges
+         Counter32,
+      pr1645v2WanVrxInPIfInOctets
+         Counter64,
+      pr1645v2WanVrxInPIfInUCPkts
+         Counter64,
+      pr1645v2WanVrxInPIfInNUCPkts
+         Counter64,
+      pr1645v2WanVrxInPIfInBCPkts
+         Counter64,
+      pr1645v2WanVrxInPIfInMCPkts
+         Counter64,
+      pr1645v2WanVrxInPIfInDiscards
+         Counter64,
+      pr1645v2WanVrxInPIfInErrors
+         Counter64,
+      pr1645v2WanVrxInPIfInUnkwn
+         Counter64,
+      pr1645v2WanVrxInPInDropEx
+         Counter64,
+      pr1645v2WanVrxInPInDropNoMac
+         Counter64,
+      pr1645v2WanVrxInPInDropNUCast
+         Counter64,
+      pr1645v2WanVrxInPInDropFilter
+         Counter64,
+      pr1645v2WanVrxInPIfInBandwidth
+         Integer32,
+      pr1645v2WanVrxInPIfOutOctets
+         Counter64,
+      pr1645v2WanVrxInPIfOutUCPkts
+         Counter64,
+      pr1645v2WanVrxInPIfOutNUCPkts
+         Counter64,
+      pr1645v2WanVrxInPIfOutBCPkts
+         Counter64,
+      pr1645v2WanVrxInPIfOutMCPkts
+         Counter64,
+      pr1645v2WanVrxInPIfOutDiscards
+         Counter64,
+      pr1645v2WanVrxInPIfOutErrors
+         Counter64,
+      pr1645v2WanVrxInPOutDropEx
+         Counter64,
+      pr1645v2WanVrxInPOutDropNoArp
+         Counter64,
+      pr1645v2WanVrxInPOutDropFilter
+         Counter64,
+      pr1645v2WanVrxInPIfOutBandwidth
+         Integer32,
+      pr1645v2WanVrxInPIfErrSec
+         Counter32
+      }
+
+pr1645v2WanVrxInPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxInPEntry 11}
+
+pr1645v2WanVrxInPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2WanVrxInPEntry 16777216}
+
+pr1645v2WanVrxInPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2WanVrxInPEntry 33554432}
+
+pr1645v2WanVrxInPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 50331648}
+
+pr1645v2WanVrxInPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 67108864}
+
+pr1645v2WanVrxInPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 83886080}
+
+pr1645v2WanVrxInPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 100663296}
+
+pr1645v2WanVrxInPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 419430400}
+
+pr1645v2WanVrxInPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 436207616}
+
+pr1645v2WanVrxInPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 117440512}
+
+pr1645v2WanVrxInPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 134217728}
+
+pr1645v2WanVrxInPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 150994944}
+
+pr1645v2WanVrxInPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 335544320}
+
+pr1645v2WanVrxInPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 301989888}
+
+pr1645v2WanVrxInPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 318767104}
+
+pr1645v2WanVrxInPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 385875968}
+
+pr1645v2WanVrxInPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInPEntry 268435456}
+
+pr1645v2WanVrxInPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 167772160}
+
+pr1645v2WanVrxInPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 184549376}
+
+pr1645v2WanVrxInPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 201326592}
+
+pr1645v2WanVrxInPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 452984832}
+
+pr1645v2WanVrxInPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 469762048}
+
+pr1645v2WanVrxInPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 218103808}
+
+pr1645v2WanVrxInPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 234881024}
+
+pr1645v2WanVrxInPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 352321536}
+
+pr1645v2WanVrxInPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 369098752}
+
+pr1645v2WanVrxInPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 402653184}
+
+pr1645v2WanVrxInPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxInPEntry 285212672}
+
+pr1645v2WanVrxInPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h2Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxInPEntry 251658240}
+
+
+pr1645v2WanVrxH24InP OBJECT IDENTIFIER ::= {pr1645v2WanVrx 308}
+
+pr1645v2WanVrxH24InPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2WanVrxH24InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h24IfInPerformance"
+   ::= {pr1645v2WanVrxH24InP 1}
+
+pr1645v2WanVrxH24InPEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2WanVrxH24InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2WanVrxH24InPTableIx }
+   ::= {pr1645v2WanVrxH24InPSSCTable 1}
+
+Pr1645v2WanVrxH24InPEntry ::=
+   SEQUENCE
+      {
+      pr1645v2WanVrxH24InPTableIx
+         TableIndex,
+      pr1645v2WanVrxH24InPSysUpTime
+         TimeTicks,
+      pr1645v2WanVrxH24InPIfUpTime
+         TimeTicks,
+      pr1645v2WanVrxH24InPIfStatChanges
+         Counter32,
+      pr1645v2WanVrxH24InPIfInOctets
+         Counter64,
+      pr1645v2WanVrxH24InPIfInUCPkts
+         Counter64,
+      pr1645v2WanVrxH24InPIfInNUCPkts
+         Counter64,
+      pr1645v2WanVrxH24InPIfInBCPkts
+         Counter64,
+      pr1645v2WanVrxH24InPIfInMCPkts
+         Counter64,
+      pr1645v2WanVrxH24InPIfInDiscards
+         Counter64,
+      pr1645v2WanVrxH24InPIfInErrors
+         Counter64,
+      pr1645v2WanVrxH24InPIfInUnkwn
+         Counter64,
+      pr1645v2WanVrxH24InPInDropEx
+         Counter64,
+      pr1645v2WanVrxH24InPInDropNoMac
+         Counter64,
+      pr1645v2WanVrxH24InPInDropNUCast
+         Counter64,
+      pr1645v2WanVrxH24InPInDropFilter
+         Counter64,
+      pr1645v2WanVrxH24InPIfInBandwidth
+         Integer32,
+      pr1645v2WanVrxH24InPIfOutOctets
+         Counter64,
+      pr1645v2WanVrxH24InPIfOutUCPkts
+         Counter64,
+      pr1645v2WanVrxH24InPIfOutNUCPkts
+         Counter64,
+      pr1645v2WanVrxH24InPIfOutBCPkts
+         Counter64,
+      pr1645v2WanVrxH24InPIfOutMCPkts
+         Counter64,
+      pr1645v2WanVrxH24InPIfOutDiscards
+         Counter64,
+      pr1645v2WanVrxH24InPIfOutErrors
+         Counter64,
+      pr1645v2WanVrxH24InPOutDropEx
+         Counter64,
+      pr1645v2WanVrxH24InPOutDropNoArp
+         Counter64,
+      pr1645v2WanVrxH24InPOutDropFilter
+         Counter64,
+      pr1645v2WanVrxH24InPIfOutBandwidth
+         Integer32,
+      pr1645v2WanVrxH24InPIfErrSec
+         Counter32
+      }
+
+pr1645v2WanVrxH24InPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxH24InPEntry 11}
+
+pr1645v2WanVrxH24InPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2WanVrxH24InPEntry 16777216}
+
+pr1645v2WanVrxH24InPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2WanVrxH24InPEntry 33554432}
+
+pr1645v2WanVrxH24InPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 50331648}
+
+pr1645v2WanVrxH24InPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 67108864}
+
+pr1645v2WanVrxH24InPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 83886080}
+
+pr1645v2WanVrxH24InPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 100663296}
+
+pr1645v2WanVrxH24InPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 419430400}
+
+pr1645v2WanVrxH24InPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 436207616}
+
+pr1645v2WanVrxH24InPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 117440512}
+
+pr1645v2WanVrxH24InPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 134217728}
+
+pr1645v2WanVrxH24InPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 150994944}
+
+pr1645v2WanVrxH24InPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 335544320}
+
+pr1645v2WanVrxH24InPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 301989888}
+
+pr1645v2WanVrxH24InPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 318767104}
+
+pr1645v2WanVrxH24InPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 385875968}
+
+pr1645v2WanVrxH24InPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxH24InPEntry 268435456}
+
+pr1645v2WanVrxH24InPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 167772160}
+
+pr1645v2WanVrxH24InPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 184549376}
+
+pr1645v2WanVrxH24InPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 201326592}
+
+pr1645v2WanVrxH24InPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 452984832}
+
+pr1645v2WanVrxH24InPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 469762048}
+
+pr1645v2WanVrxH24InPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 218103808}
+
+pr1645v2WanVrxH24InPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 234881024}
+
+pr1645v2WanVrxH24InPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 352321536}
+
+pr1645v2WanVrxH24InPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 369098752}
+
+pr1645v2WanVrxH24InPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 402653184}
+
+pr1645v2WanVrxH24InPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxH24InPEntry 285212672}
+
+pr1645v2WanVrxH24InPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.h24Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxH24InPEntry 251658240}
+
+
+pr1645v2WanVrxD7InP OBJECT IDENTIFIER ::= {pr1645v2WanVrx 309}
+
+pr1645v2WanVrxD7InPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2WanVrxD7InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "d7IfInPerformance"
+   ::= {pr1645v2WanVrxD7InP 1}
+
+pr1645v2WanVrxD7InPEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2WanVrxD7InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2WanVrxD7InPTableIx }
+   ::= {pr1645v2WanVrxD7InPSSCTable 1}
+
+Pr1645v2WanVrxD7InPEntry ::=
+   SEQUENCE
+      {
+      pr1645v2WanVrxD7InPTableIx
+         TableIndex,
+      pr1645v2WanVrxD7InPSysUpTime
+         TimeTicks,
+      pr1645v2WanVrxD7InPIfUpTime
+         TimeTicks,
+      pr1645v2WanVrxD7InPIfStatChanges
+         Counter32,
+      pr1645v2WanVrxD7InPIfInOctets
+         Counter64,
+      pr1645v2WanVrxD7InPIfInUCPkts
+         Counter64,
+      pr1645v2WanVrxD7InPIfInNUCPkts
+         Counter64,
+      pr1645v2WanVrxD7InPIfInBCPkts
+         Counter64,
+      pr1645v2WanVrxD7InPIfInMCPkts
+         Counter64,
+      pr1645v2WanVrxD7InPIfInDiscards
+         Counter64,
+      pr1645v2WanVrxD7InPIfInErrors
+         Counter64,
+      pr1645v2WanVrxD7InPIfInUnkwn
+         Counter64,
+      pr1645v2WanVrxD7InPInDropEx
+         Counter64,
+      pr1645v2WanVrxD7InPInDropNoMac
+         Counter64,
+      pr1645v2WanVrxD7InPInDropNUCast
+         Counter64,
+      pr1645v2WanVrxD7InPInDropFilter
+         Counter64,
+      pr1645v2WanVrxD7InPIfInBandwidth
+         Integer32,
+      pr1645v2WanVrxD7InPIfOutOctets
+         Counter64,
+      pr1645v2WanVrxD7InPIfOutUCPkts
+         Counter64,
+      pr1645v2WanVrxD7InPIfOutNUCPkts
+         Counter64,
+      pr1645v2WanVrxD7InPIfOutBCPkts
+         Counter64,
+      pr1645v2WanVrxD7InPIfOutMCPkts
+         Counter64,
+      pr1645v2WanVrxD7InPIfOutDiscards
+         Counter64,
+      pr1645v2WanVrxD7InPIfOutErrors
+         Counter64,
+      pr1645v2WanVrxD7InPOutDropEx
+         Counter64,
+      pr1645v2WanVrxD7InPOutDropNoArp
+         Counter64,
+      pr1645v2WanVrxD7InPOutDropFilter
+         Counter64,
+      pr1645v2WanVrxD7InPIfOutBandwidth
+         Integer32,
+      pr1645v2WanVrxD7InPIfErrSec
+         Counter32
+      }
+
+pr1645v2WanVrxD7InPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2WanVrxD7InPEntry 11}
+
+pr1645v2WanVrxD7InPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2WanVrxD7InPEntry 16777216}
+
+pr1645v2WanVrxD7InPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2WanVrxD7InPEntry 33554432}
+
+pr1645v2WanVrxD7InPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 50331648}
+
+pr1645v2WanVrxD7InPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 67108864}
+
+pr1645v2WanVrxD7InPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 83886080}
+
+pr1645v2WanVrxD7InPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 100663296}
+
+pr1645v2WanVrxD7InPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 419430400}
+
+pr1645v2WanVrxD7InPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 436207616}
+
+pr1645v2WanVrxD7InPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 117440512}
+
+pr1645v2WanVrxD7InPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 134217728}
+
+pr1645v2WanVrxD7InPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 150994944}
+
+pr1645v2WanVrxD7InPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 335544320}
+
+pr1645v2WanVrxD7InPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 301989888}
+
+pr1645v2WanVrxD7InPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 318767104}
+
+pr1645v2WanVrxD7InPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 385875968}
+
+pr1645v2WanVrxD7InPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxD7InPEntry 268435456}
+
+pr1645v2WanVrxD7InPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 167772160}
+
+pr1645v2WanVrxD7InPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 184549376}
+
+pr1645v2WanVrxD7InPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 201326592}
+
+pr1645v2WanVrxD7InPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 452984832}
+
+pr1645v2WanVrxD7InPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 469762048}
+
+pr1645v2WanVrxD7InPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 218103808}
+
+pr1645v2WanVrxD7InPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 234881024}
+
+pr1645v2WanVrxD7InPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 352321536}
+
+pr1645v2WanVrxD7InPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 369098752}
+
+pr1645v2WanVrxD7InPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 402653184}
+
+pr1645v2WanVrxD7InPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2WanVrxD7InPEntry 285212672}
+
+pr1645v2WanVrxD7InPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.performance.d7Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2WanVrxD7InPEntry 251658240}
+
+
+
+ar1645v2WanVrx OBJECT IDENTIFIER ::= {r1645v2WanVrx 16}
+
+
+ar1645v2WanVrxClearCounters OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.actions.clearCounters
+       Info: reset counters"
+   ::= {ar1645v2WanVrx 263}
+
+
+
+fr1645v2WanVrx OBJECT IDENTIFIER ::= {r1645v2WanVrx 13}
+
+
+fr1645v2WanVrxAlarm OBJECT IDENTIFIER ::= {fr1645v2WanVrx 207}
+
+fr1645v2WanVrxAlarmSSC OBJECT IDENTIFIER ::= {fr1645v2WanVrxAlarm 1}
+
+fr1645v2WanVrxAlarmEntry OBJECT IDENTIFIER ::= {fr1645v2WanVrxAlarmSSC 1}
+
+fr1645v2WanVrxAlarmDiscriminator OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.alarms.alarmInfo.discriminator"
+   ::= {fr1645v2WanVrxAlarmEntry 16777216}
+
+fr1645v2WanVrxAlarmCurrent OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.alarms.alarmInfo.currentAlarms
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {fr1645v2WanVrxAlarmEntry 33554432}
+
+fr1645v2WanVrxAlarmPrevious OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.alarms.alarmInfo.previousAlarms
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {fr1645v2WanVrxAlarmEntry 50331648}
+
+fr1645v2WanVrxAlarmMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.alarms.alarmInfo.alarmMask
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {fr1645v2WanVrxAlarmEntry 67108864}
+
+fr1645v2WanVrxAlarmLevLinkDown OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: wanInterface.alarms.alarmInfo.alarmLevel.linkDown"
+   ::= {fr1645v2WanVrxAlarmEntry 83951616}
+
+
+fr1645v2WanVrxAlarmE2 OBJECT IDENTIFIER ::= {fr1645v2WanVrxAlarm 2}
+
+fr1645v2WanVrxAlarmE2Entry OBJECT IDENTIFIER ::= {fr1645v2WanVrxAlarmE2 1}
+
+fr1645v2WanVrxAlarmE2LinkDown OBJECT IDENTIFIER ::= {fr1645v2WanVrxAlarmE2Entry 10}
+
+fr1645v2WanVrxAlarmE2LinkDownPfx OBJECT IDENTIFIER ::= {fr1645v2WanVrxAlarmE2LinkDown 0}
+
+fr1645v2WanVrxAlarmE2LinkDownOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'wanInterfaceLantiq'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2WanVrxAlarmE2LinkDownPfx 1}
+
+fr1645v2WanVrxAlarmE2LinkDownOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'wanInterfaceLantiq'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2WanVrxAlarmE2LinkDownPfx 2}
+
+
+
+END

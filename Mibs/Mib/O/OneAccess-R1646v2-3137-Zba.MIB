@@ -1,0 +1,560 @@
+OneAccess-R1646v2-3137-Zba DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2Zba OBJECT IDENTIFIER ::= {r1646Rootv2 3137}
+
+r1646v2ZbaMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2ZbaMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2Zba 1}
+
+r1646v2ZbaMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2ZbaMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2ZbaMOPropGlobalIx }
+   ::= {r1646v2ZbaMOProp 1}
+
+R1646v2ZbaMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2ZbaMOPropPath
+         ContainmentPath,
+      r1646v2ZbaMOPropRev
+         ObjectRevision,
+      r1646v2ZbaMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2ZbaMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2ZbaMOPropEntry 3}
+
+r1646v2ZbaMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2ZbaMOPropEntry 4}
+
+r1646v2ZbaMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2ZbaMOPropEntry 10}
+
+
+
+er1646v2Zba OBJECT IDENTIFIER ::= {r1646v2Zba 11}
+
+
+er1646v2ZbaFtp OBJECT IDENTIFIER ::= {er1646v2Zba 1}
+
+er1646v2ZbaFtpSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbaFtpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ALG for FTP application"
+   ::= {er1646v2ZbaFtp 1}
+
+er1646v2ZbaFtpEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbaFtpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbaFtpGlobalIx,
+                er1646v2ZbaFtpTableIx }
+   ::= {er1646v2ZbaFtpSSCTable 1}
+
+Er1646v2ZbaFtpEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbaFtpActions
+         VariableLengthTableActions,
+      er1646v2ZbaFtpGlobalIx
+         GlobalIndex,
+      er1646v2ZbaFtpTableIx
+         TableIndex,
+      er1646v2ZbaFtpName
+         DisplayString,
+      er1646v2ZbaFtpMode
+         INTEGER,
+      er1646v2ZbaFtpCommands
+         Integer32
+      }
+
+er1646v2ZbaFtpActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2ZbaFtpEntry 2}
+
+er1646v2ZbaFtpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbaFtpEntry 10}
+
+er1646v2ZbaFtpTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2ZbaFtpEntry 11}
+
+er1646v2ZbaFtpName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: alg.editConf.ftp.name"
+   ::= {er1646v2ZbaFtpEntry 16777216}
+
+er1646v2ZbaFtpMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: alg.editConf.ftp.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ZbaFtpEntry 50331648}
+
+er1646v2ZbaFtpCommands OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: alg.editConf.ftp.commands
+
+       Bit meanings:
+               bit 0 = writeFile,
+               bit 1 = readFile,
+               bit 2 = listDir,
+               bit 3 = createDir,
+               bit 4 = removeDir,
+               bit 5 = changeDir,
+               bit 6 = passiveMode"
+   ::= {er1646v2ZbaFtpEntry 33554432}
+
+
+er1646v2ZbaTftp OBJECT IDENTIFIER ::= {er1646v2Zba 2}
+
+er1646v2ZbaTftpSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbaTftpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ALG for TFTP application"
+   ::= {er1646v2ZbaTftp 1}
+
+er1646v2ZbaTftpEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbaTftpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbaTftpGlobalIx,
+                er1646v2ZbaTftpTableIx }
+   ::= {er1646v2ZbaTftpSSCTable 1}
+
+Er1646v2ZbaTftpEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbaTftpActions
+         VariableLengthTableActions,
+      er1646v2ZbaTftpGlobalIx
+         GlobalIndex,
+      er1646v2ZbaTftpTableIx
+         TableIndex,
+      er1646v2ZbaTftpName
+         DisplayString,
+      er1646v2ZbaTftpMode
+         INTEGER,
+      er1646v2ZbaTftpCommands
+         Integer32
+      }
+
+er1646v2ZbaTftpActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2ZbaTftpEntry 2}
+
+er1646v2ZbaTftpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbaTftpEntry 10}
+
+er1646v2ZbaTftpTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2ZbaTftpEntry 11}
+
+er1646v2ZbaTftpName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: alg.editConf.tftp.name"
+   ::= {er1646v2ZbaTftpEntry 16777216}
+
+er1646v2ZbaTftpMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: alg.editConf.tftp.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ZbaTftpEntry 50331648}
+
+er1646v2ZbaTftpCommands OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: alg.editConf.tftp.commands
+
+       Bit meanings:
+               bit 0 = writeFile,
+               bit 1 = readFile"
+   ::= {er1646v2ZbaTftpEntry 33554432}
+
+
+er1646v2ZbaDefaultFtpAlg OBJECT IDENTIFIER ::= {er1646v2Zba 7}
+
+er1646v2ZbaDefaultFtpAlgTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbaDefaultFtpAlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "settings for a default alg"
+   ::= {er1646v2ZbaDefaultFtpAlg 1}
+
+er1646v2ZbaDefaultFtpAlgEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbaDefaultFtpAlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbaDefaultFtpAlgGlobalIx }
+   ::= {er1646v2ZbaDefaultFtpAlgTable 1}
+
+Er1646v2ZbaDefaultFtpAlgEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbaDefaultFtpAlgGlobalIx
+         GlobalIndex,
+      er1646v2ZbaDefaultFtpAlgValue
+         INTEGER
+      }
+
+er1646v2ZbaDefaultFtpAlgGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbaDefaultFtpAlgEntry 10}
+
+er1646v2ZbaDefaultFtpAlgValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: alg.editConf.defaultFtpAlg
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ZbaDefaultFtpAlgEntry 2147483648}
+
+
+er1646v2ZbaDefaultTftpAlg OBJECT IDENTIFIER ::= {er1646v2Zba 8}
+
+er1646v2ZbaDefaultTftpAlgTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbaDefaultTftpAlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "settings for a default alg"
+   ::= {er1646v2ZbaDefaultTftpAlg 1}
+
+er1646v2ZbaDefaultTftpAlgEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbaDefaultTftpAlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbaDefaultTftpAlgGlobalIx }
+   ::= {er1646v2ZbaDefaultTftpAlgTable 1}
+
+Er1646v2ZbaDefaultTftpAlgEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbaDefaultTftpAlgGlobalIx
+         GlobalIndex,
+      er1646v2ZbaDefaultTftpAlgValue
+         INTEGER
+      }
+
+er1646v2ZbaDefaultTftpAlgGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbaDefaultTftpAlgEntry 10}
+
+er1646v2ZbaDefaultTftpAlgValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: alg.editConf.defaultTftpAlg
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ZbaDefaultTftpAlgEntry 2147483648}
+
+
+er1646v2ZbaDefaultSipAlg OBJECT IDENTIFIER ::= {er1646v2Zba 9}
+
+er1646v2ZbaDefaultSipAlgTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbaDefaultSipAlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "settings for a default alg"
+   ::= {er1646v2ZbaDefaultSipAlg 1}
+
+er1646v2ZbaDefaultSipAlgEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbaDefaultSipAlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbaDefaultSipAlgGlobalIx }
+   ::= {er1646v2ZbaDefaultSipAlgTable 1}
+
+Er1646v2ZbaDefaultSipAlgEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbaDefaultSipAlgGlobalIx
+         GlobalIndex,
+      er1646v2ZbaDefaultSipAlgValue
+         INTEGER
+      }
+
+er1646v2ZbaDefaultSipAlgGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbaDefaultSipAlgEntry 10}
+
+er1646v2ZbaDefaultSipAlgValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: alg.editConf.defaultSipAlg
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ZbaDefaultSipAlgEntry 2147483648}
+
+
+er1646v2ZbaDefaultH323Alg OBJECT IDENTIFIER ::= {er1646v2Zba 10}
+
+er1646v2ZbaDefaultH323AlgTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbaDefaultH323AlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "settings for a default alg"
+   ::= {er1646v2ZbaDefaultH323Alg 1}
+
+er1646v2ZbaDefaultH323AlgEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbaDefaultH323AlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbaDefaultH323AlgGlobalIx }
+   ::= {er1646v2ZbaDefaultH323AlgTable 1}
+
+Er1646v2ZbaDefaultH323AlgEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbaDefaultH323AlgGlobalIx
+         GlobalIndex,
+      er1646v2ZbaDefaultH323AlgValue
+         INTEGER
+      }
+
+er1646v2ZbaDefaultH323AlgGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbaDefaultH323AlgEntry 10}
+
+er1646v2ZbaDefaultH323AlgValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: alg.editConf.defaultH323Alg
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ZbaDefaultH323AlgEntry 2147483648}
+
+
+
+sr1646v2Zba OBJECT IDENTIFIER ::= {r1646v2Zba 14}
+
+
+sr1646v2ZbaSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2Zba 269}
+
+sr1646v2ZbaSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbaSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2ZbaSnmpIndex 1}
+
+sr1646v2ZbaSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbaSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbaSnmpIndexGlobalIx }
+   ::= {sr1646v2ZbaSnmpIndexTable 1}
+
+Sr1646v2ZbaSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbaSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2ZbaSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2ZbaSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbaSnmpIndexEntry 10}
+
+sr1646v2ZbaSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: alg.status.snmpIndex"
+   ::= {sr1646v2ZbaSnmpIndexEntry 2147483648}
+
+
+
+END

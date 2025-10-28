@@ -1,0 +1,1231 @@
+OneAccess-R1645v2-1305-Lpbkinst DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Lpbkinst OBJECT IDENTIFIER ::= {r1645Rootv2 1305}
+
+r1645v2LpbkinstMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2LpbkinstMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2Lpbkinst 1}
+
+r1645v2LpbkinstMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2LpbkinstMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2LpbkinstMOPropGlobalIx }
+   ::= {r1645v2LpbkinstMOProp 1}
+
+R1645v2LpbkinstMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2LpbkinstMOPropPath
+         ContainmentPath,
+      r1645v2LpbkinstMOPropRev
+         ObjectRevision,
+      r1645v2LpbkinstMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2LpbkinstMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2LpbkinstMOPropEntry 3}
+
+r1645v2LpbkinstMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2LpbkinstMOPropEntry 4}
+
+r1645v2LpbkinstMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2LpbkinstMOPropEntry 10}
+
+
+
+er1645v2Lpbkinst OBJECT IDENTIFIER ::= {r1645v2Lpbkinst 11}
+
+
+er1645v2LpbkinstRemark OBJECT IDENTIFIER ::= {er1645v2Lpbkinst 321}
+
+er1645v2LpbkinstRemarkTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2LpbkinstRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "intfRemark"
+   ::= {er1645v2LpbkinstRemark 1}
+
+er1645v2LpbkinstRemarkEntry OBJECT-TYPE
+   SYNTAX      Er1645v2LpbkinstRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2LpbkinstRemarkGlobalIx }
+   ::= {er1645v2LpbkinstRemarkTable 1}
+
+Er1645v2LpbkinstRemarkEntry ::=
+   SEQUENCE
+      {
+      er1645v2LpbkinstRemarkGlobalIx
+         GlobalIndex,
+      er1645v2LpbkinstRemarkValue
+         DisplayString
+      }
+
+er1645v2LpbkinstRemarkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2LpbkinstRemarkEntry 10}
+
+er1645v2LpbkinstRemarkValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: usrLoopback.editConf.remark"
+   ::= {er1645v2LpbkinstRemarkEntry 2147483648}
+
+
+er1645v2LpbkinstVrfRouter OBJECT IDENTIFIER ::= {er1645v2Lpbkinst 3}
+
+er1645v2LpbkinstVrfRouterTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2LpbkinstVrfRouterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "VRF router name"
+   ::= {er1645v2LpbkinstVrfRouter 1}
+
+er1645v2LpbkinstVrfRouterEntry OBJECT-TYPE
+   SYNTAX      Er1645v2LpbkinstVrfRouterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2LpbkinstVrfRouterGlobalIx }
+   ::= {er1645v2LpbkinstVrfRouterTable 1}
+
+Er1645v2LpbkinstVrfRouterEntry ::=
+   SEQUENCE
+      {
+      er1645v2LpbkinstVrfRouterGlobalIx
+         GlobalIndex,
+      er1645v2LpbkinstVrfRouterValue
+         DisplayString
+      }
+
+er1645v2LpbkinstVrfRouterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2LpbkinstVrfRouterEntry 10}
+
+er1645v2LpbkinstVrfRouterValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: usrLoopback.editConf.vrfRouter"
+   ::= {er1645v2LpbkinstVrfRouterEntry 2147483648}
+
+
+er1645v2LpbkinstIpAddress OBJECT IDENTIFIER ::= {er1645v2Lpbkinst 121}
+
+er1645v2LpbkinstIpAddressTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2LpbkinstIpAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipAdEntAddr"
+   ::= {er1645v2LpbkinstIpAddress 1}
+
+er1645v2LpbkinstIpAddressEntry OBJECT-TYPE
+   SYNTAX      Er1645v2LpbkinstIpAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2LpbkinstIpAddressGlobalIx }
+   ::= {er1645v2LpbkinstIpAddressTable 1}
+
+Er1645v2LpbkinstIpAddressEntry ::=
+   SEQUENCE
+      {
+      er1645v2LpbkinstIpAddressGlobalIx
+         GlobalIndex,
+      er1645v2LpbkinstIpAddressValue
+         IpAddress
+      }
+
+er1645v2LpbkinstIpAddressGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2LpbkinstIpAddressEntry 10}
+
+er1645v2LpbkinstIpAddressValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: usrLoopback.editConf.ipAddress"
+   ::= {er1645v2LpbkinstIpAddressEntry 2147483648}
+
+
+er1645v2LpbkinstIpNetMask OBJECT IDENTIFIER ::= {er1645v2Lpbkinst 123}
+
+er1645v2LpbkinstIpNetMaskTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2LpbkinstIpNetMaskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipAdEntAddr"
+   ::= {er1645v2LpbkinstIpNetMask 1}
+
+er1645v2LpbkinstIpNetMaskEntry OBJECT-TYPE
+   SYNTAX      Er1645v2LpbkinstIpNetMaskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2LpbkinstIpNetMaskGlobalIx }
+   ::= {er1645v2LpbkinstIpNetMaskTable 1}
+
+Er1645v2LpbkinstIpNetMaskEntry ::=
+   SEQUENCE
+      {
+      er1645v2LpbkinstIpNetMaskGlobalIx
+         GlobalIndex,
+      er1645v2LpbkinstIpNetMaskValue
+         IpAddress
+      }
+
+er1645v2LpbkinstIpNetMaskGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2LpbkinstIpNetMaskEntry 10}
+
+er1645v2LpbkinstIpNetMaskValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: usrLoopback.editConf.ipNetMask"
+   ::= {er1645v2LpbkinstIpNetMaskEntry 2147483648}
+
+
+er1645v2LpbkinstSNet OBJECT IDENTIFIER ::= {er1645v2Lpbkinst 51}
+
+er1645v2LpbkinstSNetSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2LpbkinstSNetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "sNet"
+   ::= {er1645v2LpbkinstSNet 1}
+
+er1645v2LpbkinstSNetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2LpbkinstSNetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2LpbkinstSNetGlobalIx }
+   ::= {er1645v2LpbkinstSNetSSCTable 1}
+
+Er1645v2LpbkinstSNetEntry ::=
+   SEQUENCE
+      {
+      er1645v2LpbkinstSNetGlobalIx
+         GlobalIndex,
+      er1645v2LpbkinstSNetName
+         INTEGER
+      }
+
+er1645v2LpbkinstSNetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2LpbkinstSNetEntry 10}
+
+er1645v2LpbkinstSNetName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (0),
+               management (250)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: usrLoopback.editConf.sNet.name
+
+       Possibilities:
+               <OPT>   (0)
+               management   (250)"
+   ::= {er1645v2LpbkinstSNetEntry 16777216}
+
+
+er1645v2LpbkinstSnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2Lpbkinst 268}
+
+er1645v2LpbkinstSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2LpbkinstSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2LpbkinstSnmpIndexOffset 1}
+
+er1645v2LpbkinstSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2LpbkinstSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2LpbkinstSnmpIndexOffsetGlobalIx }
+   ::= {er1645v2LpbkinstSnmpIndexOffsetTable 1}
+
+Er1645v2LpbkinstSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2LpbkinstSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2LpbkinstSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2LpbkinstSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2LpbkinstSnmpIndexOffsetEntry 10}
+
+er1645v2LpbkinstSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: usrLoopback.editConf.snmpIndexOffset"
+   ::= {er1645v2LpbkinstSnmpIndexOffsetEntry 2147483648}
+
+
+
+sr1645v2Lpbkinst OBJECT IDENTIFIER ::= {r1645v2Lpbkinst 14}
+
+
+sr1645v2LpbkinstIpAddress OBJECT IDENTIFIER ::= {sr1645v2Lpbkinst 16}
+
+sr1645v2LpbkinstIpAddressTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2LpbkinstIpAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipAdEntAddr"
+   ::= {sr1645v2LpbkinstIpAddress 1}
+
+sr1645v2LpbkinstIpAddressEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2LpbkinstIpAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2LpbkinstIpAddressGlobalIx }
+   ::= {sr1645v2LpbkinstIpAddressTable 1}
+
+Sr1645v2LpbkinstIpAddressEntry ::=
+   SEQUENCE
+      {
+      sr1645v2LpbkinstIpAddressGlobalIx
+         GlobalIndex,
+      sr1645v2LpbkinstIpAddressValue
+         IpAddress
+      }
+
+sr1645v2LpbkinstIpAddressGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2LpbkinstIpAddressEntry 10}
+
+sr1645v2LpbkinstIpAddressValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usrLoopback.status.ipAddress"
+   ::= {sr1645v2LpbkinstIpAddressEntry 2147483648}
+
+
+sr1645v2LpbkinstMask OBJECT IDENTIFIER ::= {sr1645v2Lpbkinst 17}
+
+sr1645v2LpbkinstMaskTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2LpbkinstMaskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipAdEntAddr"
+   ::= {sr1645v2LpbkinstMask 1}
+
+sr1645v2LpbkinstMaskEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2LpbkinstMaskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2LpbkinstMaskGlobalIx }
+   ::= {sr1645v2LpbkinstMaskTable 1}
+
+Sr1645v2LpbkinstMaskEntry ::=
+   SEQUENCE
+      {
+      sr1645v2LpbkinstMaskGlobalIx
+         GlobalIndex,
+      sr1645v2LpbkinstMaskValue
+         IpAddress
+      }
+
+sr1645v2LpbkinstMaskGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2LpbkinstMaskEntry 10}
+
+sr1645v2LpbkinstMaskValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usrLoopback.status.mask"
+   ::= {sr1645v2LpbkinstMaskEntry 2147483648}
+
+
+sr1645v2LpbkinstDescr OBJECT IDENTIFIER ::= {sr1645v2Lpbkinst 101}
+
+sr1645v2LpbkinstDescrTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2LpbkinstDescrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifDescr"
+   ::= {sr1645v2LpbkinstDescr 1}
+
+sr1645v2LpbkinstDescrEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2LpbkinstDescrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2LpbkinstDescrGlobalIx }
+   ::= {sr1645v2LpbkinstDescrTable 1}
+
+Sr1645v2LpbkinstDescrEntry ::=
+   SEQUENCE
+      {
+      sr1645v2LpbkinstDescrGlobalIx
+         GlobalIndex,
+      sr1645v2LpbkinstDescrValue
+         DisplayString
+      }
+
+sr1645v2LpbkinstDescrGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2LpbkinstDescrEntry 10}
+
+sr1645v2LpbkinstDescrValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usrLoopback.status.ifDescr"
+   ::= {sr1645v2LpbkinstDescrEntry 2147483648}
+
+
+sr1645v2LpbkinstType OBJECT IDENTIFIER ::= {sr1645v2Lpbkinst 102}
+
+sr1645v2LpbkinstTypeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2LpbkinstTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifType"
+   ::= {sr1645v2LpbkinstType 1}
+
+sr1645v2LpbkinstTypeEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2LpbkinstTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2LpbkinstTypeGlobalIx }
+   ::= {sr1645v2LpbkinstTypeTable 1}
+
+Sr1645v2LpbkinstTypeEntry ::=
+   SEQUENCE
+      {
+      sr1645v2LpbkinstTypeGlobalIx
+         GlobalIndex,
+      sr1645v2LpbkinstTypeValue
+         INTEGER
+      }
+
+sr1645v2LpbkinstTypeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2LpbkinstTypeEntry 10}
+
+sr1645v2LpbkinstTypeValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               other (1),
+               regular1822 (2),
+               hdh1822 (3),
+               ddnmx25 (4),
+               rfc877mx25 (5),
+               ethernetmcsmacd (6),
+               iso88023mcsmacd (7),
+               iso88024mtokenBus (8),
+               iso88025mtokenRing (9),
+               is088026mman (10),
+               starlan (11),
+               proteonm10Mbit (12),
+               proteonm80Mbit (13),
+               hyperChannel (14),
+               fddi (15),
+               lapb (16),
+               sdlc (17),
+               ds1 (18),
+               e1 (19),
+               basicISDN (20),
+               primaryISDN (21),
+               propPointToPointSerial (22),
+               ppp (23),
+               softwareLoopback (24),
+               eon (25),
+               ethernetm3Mbit (26),
+               nsip (27),
+               slip (28),
+               ultra (29),
+               ds3 (30),
+               sip (31),
+               framemrelay (32),
+               rs232 (33),
+               para (34),
+               arcnet (35),
+               arcnetPlus (36),
+               atm (37),
+               miox25 (38),
+               sonet (39),
+               x25ple (40),
+               iso88022llc (41),
+               localTalk (42),
+               smdsDxi (43),
+               frameRelayService (44),
+               v35 (45),
+               hssi (46),
+               hippi (47),
+               modem (48),
+               aal5 (49),
+               sonetPath (50),
+               sonetVT (51),
+               smdsIcip (52),
+               propVirtual (53),
+               propMultiplexor (54),
+               ieee80212 (55),
+               fibreChannel (56),
+               hippiInterface (57),
+               frameRelayInterconnect (58),
+               aflane8023 (59),
+               aflane8025 (60),
+               cctEmul (61),
+               fastEther (62),
+               isdn (63),
+               v11 (64),
+               v36 (65),
+               g703at64k (66),
+               g703at2mb (67),
+               qllc (68),
+               fastEtherFX (69),
+               channel (70),
+               ieee80211 (71),
+               ibm370parChan (72),
+               escon (73),
+               dlsw (74),
+               isdns (75),
+               isdnu (76),
+               lapd (77),
+               ipSwitch (78),
+               rsrb (79),
+               atmmlogical (80),
+               ds0 (81),
+               ds0Bundle (82),
+               bsc (83),
+               async (84),
+               cnr (85),
+               iso88025Dtr (86),
+               eplrs (87),
+               arap (88),
+               propCnls (89),
+               hostPad (90),
+               termPad (91),
+               frameRelayMPI (92),
+               x213 (93),
+               adsl (94),
+               radsl (95),
+               sdsl (96),
+               vdsl (97),
+               iso88025CRFPInt (98),
+               myrinet (99),
+               voiceEM (100),
+               voiceFXO (101),
+               voiceFXS (102),
+               voiceEncap (103),
+               voiceOverIp (104),
+               atmDxi (105),
+               atmFuni (106),
+               atmIma (107),
+               pppMultilinkBundle (108),
+               ipOverCdlc (109),
+               ipOverClaw (110),
+               stackToStack (111),
+               virtualIpAddress (112),
+               mpc (113),
+               ipOverAtm (114),
+               iso88025Fiber (115),
+               tdlc (116),
+               gigabitEthernet (117),
+               hdlc (118),
+               lapf (119),
+               v37 (120),
+               x25mlp (121),
+               x25huntGroup (122),
+               trasnpHdlc (123),
+               interleave (124),
+               fast (125),
+               ip (126),
+               docsCableMaclayer (127),
+               docsCableDownstream (128),
+               docsCableUpstream (129),
+               a12MppSwitch (130),
+               tunnel (131),
+               coffee (132),
+               ces (133),
+               atmSubInterface (134),
+               l2vlan (135),
+               l3ipvlan (136),
+               l3ipxvlan (137),
+               digitalPowerline (138),
+               mediaMailOverIp (139),
+               dtm (140),
+               dcn (141),
+               ipForward (142),
+               msdsl (143),
+               ieee1394 (144),
+               ifmgsn (145),
+               dvbRccMacLayer (146),
+               dvbRccDownstream (147),
+               dvbRccUpstream (148),
+               atmVirtual (149),
+               mplsTunnel (150),
+               srp (151),
+               voiceOverAtm (152),
+               voiceOverFrameRelay (153),
+               idsl (154),
+               compositeLink (155),
+               ss7SigLink (156),
+               propWirelessP2P (157),
+               frForward (158),
+               rfc1483 (159),
+               usb (160),
+               ieee8023adLag (161),
+               bgppolicyaccounting (162),
+               frf16MfrBundle (163),
+               h323Gatekeeper (164),
+               h323Proxy (165),
+               mpls (166),
+               mfSigLink (167),
+               hdsl2 (168),
+               shdsl (169),
+               ds1FDL (170),
+               pos (171),
+               dvbAsiIn (172),
+               dvbAsiOut (173),
+               plc (174),
+               nfas (175),
+               tr008 (176),
+               gr303RDT (177),
+               gr303IDT (178),
+               isup (179),
+               propDocsWirelessMaclayer (180),
+               propDocsWirelessDownstream (181),
+               propDocsWirelessUpstream (182),
+               hiperlan2 (183),
+               propBWAp2Mp (184),
+               sonetOverheadChannel (185),
+               digitalWrapperOverheadChannel (186),
+               aal2 (187),
+               radioMAC (188),
+               atmRadio (189),
+               imt (190),
+               mvl (191),
+               reachDSL (192),
+               frDlciEndPt (193),
+               atmVciEndPt (194),
+               opticalChannel (195),
+               opticalTransport (196),
+               propAtm (197),
+               voiceOverCable (198),
+               infiniband (199),
+               teLink (200),
+               q2931 (201),
+               virtualTg (202),
+               sipTg (203),
+               sipSig (204),
+               docsCableUpstreamChannel (205),
+               econet (206),
+               pon155 (207),
+               pon622 (208),
+               bridge (209),
+               linegroup (210),
+               voiceEMFGD (211),
+               voiceFGDEANA (212),
+               voiceDID (213),
+               mpegTransport (214),
+               sixToFour (215),
+               gtp (216),
+               pdnEtherLoop1 (217),
+               pdnEtherLoop2 (218),
+               opticalChannelGroup (219),
+               homepna (220),
+               gfp (221),
+               ciscoISLvlan (222),
+               actelisMetaLOOP (223),
+               fcipLink (224),
+               rpr (225),
+               qam (226),
+               lmp (227),
+               cblVectaStar (228),
+               docsCableMCmtsDownstream (229),
+               adsl2 (230),
+               macSecControlledIF (231),
+               macSecUncontrolledIF (232),
+               aviciOpticalEther (233),
+               atmbond (234),
+               voiceFGDOS (235),
+               mocaVersion1 (236),
+               ieee80216WMAN (237),
+               adsl2plus (238),
+               dvbRcsMacLayer (239),
+               dvbTdm (240),
+               dvbRcsTdma (241),
+               x86Laps (242),
+               wwanPP (243),
+               wwanPP2 (244),
+               voiceEBS (245),
+               ifPwType (246),
+               ilan (247),
+               pip (248),
+               aluELP (249),
+               gpon (250),
+               vdsl2 (251),
+               capwapDot11Profile (252),
+               capwapDot11Bss (253),
+               capwapWtpVirtualRadio (254),
+               bits (255),
+               docsCableUpstreamRfPort (256),
+               cableDownstreamRfPort (257),
+               gfast (279)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usrLoopback.status.ifType
+
+       Possibilities:
+               other   (1)
+               regular1822   (2)
+               hdh1822   (3)
+               ddn-x25   (4)
+               rfc877-x25   (5)
+               ethernet-csmacd   (6)
+               iso88023-csmacd   (7)
+               iso88024-tokenBus   (8)
+               iso88025-tokenRing   (9)
+               is088026-man   (10)
+               starlan   (11)
+               proteon-10Mbit   (12)
+               proteon-80Mbit   (13)
+               hyperChannel   (14)
+               fddi   (15)
+               lapb   (16)
+               sdlc   (17)
+               ds1   (18)
+               e1   (19)
+               basicISDN   (20)
+               primaryISDN   (21)
+               propPointToPointSerial   (22)
+               ppp   (23)
+               softwareLoopback   (24)
+               eon   (25)
+               ethernet-3Mbit   (26)
+               nsip   (27)
+               slip   (28)
+               ultra   (29)
+               ds3   (30)
+               sip   (31)
+               frame-relay   (32)
+               rs232   (33)
+               para   (34)
+               arcnet   (35)
+               arcnetPlus   (36)
+               atm   (37)
+               miox25   (38)
+               sonet   (39)
+               x25ple   (40)
+               iso88022llc   (41)
+               localTalk   (42)
+               smdsDxi   (43)
+               frameRelayService   (44)
+               v35   (45)
+               hssi   (46)
+               hippi   (47)
+               modem   (48)
+               aal5   (49)
+               sonetPath   (50)
+               sonetVT   (51)
+               smdsIcip   (52)
+               propVirtual   (53)
+               propMultiplexor   (54)
+               ieee80212   (55)
+               fibreChannel   (56)
+               hippiInterface   (57)
+               frameRelayInterconnect   (58)
+               aflane8023   (59)
+               aflane8025   (60)
+               cctEmul   (61)
+               fastEther   (62)
+               isdn   (63)
+               v11   (64)
+               v36   (65)
+               g703at64k   (66)
+               g703at2mb   (67)
+               qllc   (68)
+               fastEtherFX   (69)
+               channel   (70)
+               ieee80211   (71)
+               ibm370parChan   (72)
+               escon   (73)
+               dlsw   (74)
+               isdns   (75)
+               isdnu   (76)
+               lapd   (77)
+               ipSwitch   (78)
+               rsrb   (79)
+               atm-logical   (80)
+               ds0   (81)
+               ds0Bundle   (82)
+               bsc   (83)
+               async   (84)
+               cnr   (85)
+               iso88025Dtr   (86)
+               eplrs   (87)
+               arap   (88)
+               propCnls   (89)
+               hostPad   (90)
+               termPad   (91)
+               frameRelayMPI   (92)
+               x213   (93)
+               adsl   (94)
+               radsl   (95)
+               sdsl   (96)
+               vdsl   (97)
+               iso88025CRFPInt   (98)
+               myrinet   (99)
+               voiceEM   (100)
+               voiceFXO   (101)
+               voiceFXS   (102)
+               voiceEncap   (103)
+               voiceOverIp   (104)
+               atmDxi   (105)
+               atmFuni   (106)
+               atmIma   (107)
+               pppMultilinkBundle   (108)
+               ipOverCdlc   (109)
+               ipOverClaw   (110)
+               stackToStack   (111)
+               virtualIpAddress   (112)
+               mpc   (113)
+               ipOverAtm   (114)
+               iso88025Fiber   (115)
+               tdlc   (116)
+               gigabitEthernet   (117)
+               hdlc   (118)
+               lapf   (119)
+               v37   (120)
+               x25mlp   (121)
+               x25huntGroup   (122)
+               trasnpHdlc   (123)
+               interleave   (124)
+               fast   (125)
+               ip   (126)
+               docsCableMaclayer   (127)
+               docsCableDownstream   (128)
+               docsCableUpstream   (129)
+               a12MppSwitch   (130)
+               tunnel   (131)
+               coffee   (132)
+               ces   (133)
+               atmSubInterface   (134)
+               l2vlan   (135)
+               l3ipvlan   (136)
+               l3ipxvlan   (137)
+               digitalPowerline   (138)
+               mediaMailOverIp   (139)
+               dtm   (140)
+               dcn   (141)
+               ipForward   (142)
+               msdsl   (143)
+               ieee1394   (144)
+               if-gsn   (145)
+               dvbRccMacLayer   (146)
+               dvbRccDownstream   (147)
+               dvbRccUpstream   (148)
+               atmVirtual   (149)
+               mplsTunnel   (150)
+               srp   (151)
+               voiceOverAtm   (152)
+               voiceOverFrameRelay   (153)
+               idsl   (154)
+               compositeLink   (155)
+               ss7SigLink   (156)
+               propWirelessP2P   (157)
+               frForward   (158)
+               rfc1483   (159)
+               usb   (160)
+               ieee8023adLag   (161)
+               bgppolicyaccounting   (162)
+               frf16MfrBundle   (163)
+               h323Gatekeeper   (164)
+               h323Proxy   (165)
+               mpls   (166)
+               mfSigLink   (167)
+               hdsl2   (168)
+               shdsl   (169)
+               ds1FDL   (170)
+               pos   (171)
+               dvbAsiIn   (172)
+               dvbAsiOut   (173)
+               plc   (174)
+               nfas   (175)
+               tr008   (176)
+               gr303RDT   (177)
+               gr303IDT   (178)
+               isup   (179)
+               propDocsWirelessMaclayer   (180)
+               propDocsWirelessDownstream   (181)
+               propDocsWirelessUpstream   (182)
+               hiperlan2   (183)
+               propBWAp2Mp   (184)
+               sonetOverheadChannel   (185)
+               digitalWrapperOverheadChannel   (186)
+               aal2   (187)
+               radioMAC   (188)
+               atmRadio   (189)
+               imt   (190)
+               mvl   (191)
+               reachDSL   (192)
+               frDlciEndPt   (193)
+               atmVciEndPt   (194)
+               opticalChannel   (195)
+               opticalTransport   (196)
+               propAtm   (197)
+               voiceOverCable   (198)
+               infiniband   (199)
+               teLink   (200)
+               q2931   (201)
+               virtualTg   (202)
+               sipTg   (203)
+               sipSig   (204)
+               docsCableUpstreamChannel   (205)
+               econet   (206)
+               pon155   (207)
+               pon622   (208)
+               bridge   (209)
+               linegroup   (210)
+               voiceEMFGD   (211)
+               voiceFGDEANA   (212)
+               voiceDID   (213)
+               mpegTransport   (214)
+               sixToFour   (215)
+               gtp   (216)
+               pdnEtherLoop1   (217)
+               pdnEtherLoop2   (218)
+               opticalChannelGroup   (219)
+               homepna   (220)
+               gfp   (221)
+               ciscoISLvlan   (222)
+               actelisMetaLOOP   (223)
+               fcipLink   (224)
+               rpr   (225)
+               qam   (226)
+               lmp   (227)
+               cblVectaStar   (228)
+               docsCableMCmtsDownstream   (229)
+               adsl2   (230)
+               macSecControlledIF   (231)
+               macSecUncontrolledIF   (232)
+               aviciOpticalEther   (233)
+               atmbond   (234)
+               voiceFGDOS   (235)
+               mocaVersion1   (236)
+               ieee80216WMAN   (237)
+               adsl2plus   (238)
+               dvbRcsMacLayer   (239)
+               dvbTdm   (240)
+               dvbRcsTdma   (241)
+               x86Laps   (242)
+               wwanPP   (243)
+               wwanPP2   (244)
+               voiceEBS   (245)
+               ifPwType   (246)
+               ilan   (247)
+               pip   (248)
+               aluELP   (249)
+               gpon   (250)
+               vdsl2   (251)
+               capwapDot11Profile   (252)
+               capwapDot11Bss   (253)
+               capwapWtpVirtualRadio   (254)
+               bits   (255)
+               docsCableUpstreamRfPort   (256)
+               cableDownstreamRfPort   (257)
+               gfast   (279)"
+   ::= {sr1645v2LpbkinstTypeEntry 2147483648}
+
+
+sr1645v2LpbkinstMtu OBJECT IDENTIFIER ::= {sr1645v2Lpbkinst 103}
+
+sr1645v2LpbkinstMtuTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2LpbkinstMtuEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifMtu"
+   ::= {sr1645v2LpbkinstMtu 1}
+
+sr1645v2LpbkinstMtuEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2LpbkinstMtuEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2LpbkinstMtuGlobalIx }
+   ::= {sr1645v2LpbkinstMtuTable 1}
+
+Sr1645v2LpbkinstMtuEntry ::=
+   SEQUENCE
+      {
+      sr1645v2LpbkinstMtuGlobalIx
+         GlobalIndex,
+      sr1645v2LpbkinstMtuValue
+         Integer32
+      }
+
+sr1645v2LpbkinstMtuGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2LpbkinstMtuEntry 10}
+
+sr1645v2LpbkinstMtuValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usrLoopback.status.ifMtu"
+   ::= {sr1645v2LpbkinstMtuEntry 2147483648}
+
+
+sr1645v2LpbkinstOperStatus OBJECT IDENTIFIER ::= {sr1645v2Lpbkinst 107}
+
+sr1645v2LpbkinstOperStatusTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2LpbkinstOperStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOperStatus"
+   ::= {sr1645v2LpbkinstOperStatus 1}
+
+sr1645v2LpbkinstOperStatusEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2LpbkinstOperStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2LpbkinstOperStatusGlobalIx }
+   ::= {sr1645v2LpbkinstOperStatusTable 1}
+
+Sr1645v2LpbkinstOperStatusEntry ::=
+   SEQUENCE
+      {
+      sr1645v2LpbkinstOperStatusGlobalIx
+         GlobalIndex,
+      sr1645v2LpbkinstOperStatusValue
+         INTEGER
+      }
+
+sr1645v2LpbkinstOperStatusGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2LpbkinstOperStatusEntry 10}
+
+sr1645v2LpbkinstOperStatusValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               up (1),
+               down (2),
+               testing (3),
+               unknown (4),
+               dormant (5),
+               notPresent (6),
+               lowerLayerDown (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usrLoopback.status.ifOperStatus
+
+       Possibilities:
+               up   (1)
+               down   (2)
+               testing   (3)
+               unknown   (4)
+               dormant   (5)
+               notPresent   (6)
+               lowerLayerDown   (7)"
+   ::= {sr1645v2LpbkinstOperStatusEntry 2147483648}
+
+
+sr1645v2LpbkinstSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2Lpbkinst 269}
+
+sr1645v2LpbkinstSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2LpbkinstSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2LpbkinstSnmpIndex 1}
+
+sr1645v2LpbkinstSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2LpbkinstSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2LpbkinstSnmpIndexGlobalIx }
+   ::= {sr1645v2LpbkinstSnmpIndexTable 1}
+
+Sr1645v2LpbkinstSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2LpbkinstSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2LpbkinstSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2LpbkinstSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2LpbkinstSnmpIndexEntry 10}
+
+sr1645v2LpbkinstSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: usrLoopback.status.snmpIndex"
+   ::= {sr1645v2LpbkinstSnmpIndexEntry 2147483648}
+
+
+
+END

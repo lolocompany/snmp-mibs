@@ -1,0 +1,1587 @@
+OneAccess-R1646v2-2060-OspfRtr DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2OspfRtr OBJECT IDENTIFIER ::= {r1646Rootv2 2060}
+
+r1646v2OspfRtrMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2OspfRtrMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2OspfRtr 1}
+
+r1646v2OspfRtrMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2OspfRtrMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2OspfRtrMOPropGlobalIx }
+   ::= {r1646v2OspfRtrMOProp 1}
+
+R1646v2OspfRtrMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2OspfRtrMOPropPath
+         ContainmentPath,
+      r1646v2OspfRtrMOPropRev
+         ObjectRevision,
+      r1646v2OspfRtrMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2OspfRtrMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2OspfRtrMOPropEntry 3}
+
+r1646v2OspfRtrMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2OspfRtrMOPropEntry 4}
+
+r1646v2OspfRtrMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2OspfRtrMOPropEntry 10}
+
+
+
+er1646v2OspfRtr OBJECT IDENTIFIER ::= {r1646v2OspfRtr 11}
+
+
+er1646v2OspfRtrRouterId OBJECT IDENTIFIER ::= {er1646v2OspfRtr 2}
+
+er1646v2OspfRtrRouterIdTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfRtrRouterIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "router Id"
+   ::= {er1646v2OspfRtrRouterId 1}
+
+er1646v2OspfRtrRouterIdEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfRtrRouterIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfRtrRouterIdGlobalIx }
+   ::= {er1646v2OspfRtrRouterIdTable 1}
+
+Er1646v2OspfRtrRouterIdEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfRtrRouterIdGlobalIx
+         GlobalIndex,
+      er1646v2OspfRtrRouterIdValue
+         IpAddress
+      }
+
+er1646v2OspfRtrRouterIdGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfRtrRouterIdEntry 10}
+
+er1646v2OspfRtrRouterIdValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.routerId"
+   ::= {er1646v2OspfRtrRouterIdEntry 2147483648}
+
+
+er1646v2OspfRtrRefBandwidth OBJECT IDENTIFIER ::= {er1646v2OspfRtr 3}
+
+er1646v2OspfRtrRefBandwidthTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfRtrRefBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bandwith in kbps"
+   ::= {er1646v2OspfRtrRefBandwidth 1}
+
+er1646v2OspfRtrRefBandwidthEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfRtrRefBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfRtrRefBandwidthGlobalIx }
+   ::= {er1646v2OspfRtrRefBandwidthTable 1}
+
+Er1646v2OspfRtrRefBandwidthEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfRtrRefBandwidthGlobalIx
+         GlobalIndex,
+      er1646v2OspfRtrRefBandwidthValue
+         Integer32
+      }
+
+er1646v2OspfRtrRefBandwidthGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfRtrRefBandwidthEntry 10}
+
+er1646v2OspfRtrRefBandwidthValue OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "kbps"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.refBandwidth
+
+       unit name = kbps"
+   ::= {er1646v2OspfRtrRefBandwidthEntry 2147483648}
+
+
+er1646v2OspfRtrKeyChains OBJECT IDENTIFIER ::= {er1646v2OspfRtr 6}
+
+er1646v2OspfRtrKeyChainsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfRtrKeyChainsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf authentication key table"
+   ::= {er1646v2OspfRtrKeyChains 1}
+
+er1646v2OspfRtrKeyChainsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfRtrKeyChainsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfRtrKeyChainsGlobalIx,
+                er1646v2OspfRtrKeyChainsTableIx }
+   ::= {er1646v2OspfRtrKeyChainsSSCTable 1}
+
+Er1646v2OspfRtrKeyChainsEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfRtrKeyChainsActions
+         VariableLengthTableActions,
+      er1646v2OspfRtrKeyChainsGlobalIx
+         GlobalIndex,
+      er1646v2OspfRtrKeyChainsTableIx
+         TableIndex,
+      er1646v2OspfRtrKeyChainsName
+         DisplayString
+      }
+
+er1646v2OspfRtrKeyChainsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2OspfRtrKeyChainsEntry 2}
+
+er1646v2OspfRtrKeyChainsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfRtrKeyChainsEntry 10}
+
+er1646v2OspfRtrKeyChainsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2OspfRtrKeyChainsEntry 11}
+
+er1646v2OspfRtrKeyChainsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.keyChains.name"
+   ::= {er1646v2OspfRtrKeyChainsEntry 16777216}
+
+er1646v2OspfRtrKeyChainsChain OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfRtrKeyChainsChainEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2OspfRtrKeyChains 33554432}
+
+er1646v2OspfRtrKeyChainsChainEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfRtrKeyChainsChainEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfRtrKeyChainsChainGlobalIx,
+                er1646v2OspfRtrKeyChainsTableIx,
+                er1646v2OspfRtrKeyChainsChainTableIx }
+   ::= {er1646v2OspfRtrKeyChainsChain 1}
+
+Er1646v2OspfRtrKeyChainsChainEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfRtrKeyChainsChainActions
+         VariableLengthTableActions,
+      er1646v2OspfRtrKeyChainsChainGlobalIx
+         GlobalIndex,
+      er1646v2OspfRtrKeyChainsChainTableIx
+         TableIndex,
+      er1646v2OspfRtrKeyChainsChainKeyId
+         Integer32,
+      er1646v2OspfRtrKeyChainsChainSecret
+         DisplayString,
+      er1646v2OspfRtrKeyChainsChainSendDate
+         DisplayString,
+      er1646v2OspfRtrKeyChainsChainSendTime
+         DisplayString,
+      er1646v2OspfRtrKeyChainsChainSendDuration
+         TimeTicks,
+      er1646v2OspfRtrKeyChainsChainAcceptDate
+         DisplayString,
+      er1646v2OspfRtrKeyChainsChainAcceptTime
+         DisplayString,
+      er1646v2OspfRtrKeyChainsChainAcceptDuration
+         TimeTicks
+      }
+
+er1646v2OspfRtrKeyChainsChainActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2OspfRtrKeyChainsChainEntry 2}
+
+er1646v2OspfRtrKeyChainsChainGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfRtrKeyChainsChainEntry 10}
+
+er1646v2OspfRtrKeyChainsChainTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2OspfRtrKeyChainsChainEntry 11}
+
+er1646v2OspfRtrKeyChainsChainKeyId OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.keyChains.chain.keyId"
+   ::= {er1646v2OspfRtrKeyChainsChainEntry 16777216}
+
+er1646v2OspfRtrKeyChainsChainSecret OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.keyChains.chain.secret"
+   ::= {er1646v2OspfRtrKeyChainsChainEntry 33554432}
+
+er1646v2OspfRtrKeyChainsChainSendDate OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.keyChains.chain.sendDate"
+   ::= {er1646v2OspfRtrKeyChainsChainEntry 50331648}
+
+er1646v2OspfRtrKeyChainsChainSendTime OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.keyChains.chain.sendTime"
+   ::= {er1646v2OspfRtrKeyChainsChainEntry 67108864}
+
+er1646v2OspfRtrKeyChainsChainSendDuration OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.keyChains.chain.sendDuration
+
+       Time in centi-second."
+   ::= {er1646v2OspfRtrKeyChainsChainEntry 83886080}
+
+er1646v2OspfRtrKeyChainsChainAcceptDate OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.keyChains.chain.acceptDate"
+   ::= {er1646v2OspfRtrKeyChainsChainEntry 100663296}
+
+er1646v2OspfRtrKeyChainsChainAcceptTime OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.keyChains.chain.acceptTime"
+   ::= {er1646v2OspfRtrKeyChainsChainEntry 117440512}
+
+er1646v2OspfRtrKeyChainsChainAcceptDuration OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.keyChains.chain.acceptDuration
+
+       Time in centi-second."
+   ::= {er1646v2OspfRtrKeyChainsChainEntry 134217728}
+
+
+er1646v2OspfRtrImportDefault OBJECT IDENTIFIER ::= {er1646v2OspfRtr 9}
+
+er1646v2OspfRtrImportDefaultTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfRtrImportDefaultEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "import the default route in ospf"
+   ::= {er1646v2OspfRtrImportDefault 1}
+
+er1646v2OspfRtrImportDefaultEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfRtrImportDefaultEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfRtrImportDefaultGlobalIx }
+   ::= {er1646v2OspfRtrImportDefaultTable 1}
+
+Er1646v2OspfRtrImportDefaultEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfRtrImportDefaultGlobalIx
+         GlobalIndex,
+      er1646v2OspfRtrImportDefaultValue
+         INTEGER
+      }
+
+er1646v2OspfRtrImportDefaultGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfRtrImportDefaultEntry 10}
+
+er1646v2OspfRtrImportDefaultValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.importDefault
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2OspfRtrImportDefaultEntry 2147483648}
+
+
+er1646v2OspfRtrImportMetrics OBJECT IDENTIFIER ::= {er1646v2OspfRtr 7}
+
+er1646v2OspfRtrImportMetricsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfRtrImportMetricsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "metric of other route types imported in ospf"
+   ::= {er1646v2OspfRtrImportMetrics 1}
+
+er1646v2OspfRtrImportMetricsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfRtrImportMetricsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfRtrImportMetricsGlobalIx }
+   ::= {er1646v2OspfRtrImportMetricsSSCTable 1}
+
+Er1646v2OspfRtrImportMetricsEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfRtrImportMetricsGlobalIx
+         GlobalIndex,
+      er1646v2OspfRtrImportMetricsStatic
+         INTEGER,
+      er1646v2OspfRtrImportMetricsRip
+         INTEGER,
+      er1646v2OspfRtrImportMetricsBgp
+         INTEGER,
+      er1646v2OspfRtrImportMetricsRadius
+         INTEGER
+      }
+
+er1646v2OspfRtrImportMetricsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfRtrImportMetricsEntry 10}
+
+er1646v2OspfRtrImportMetricsStatic OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noImport (-1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.importMetrics.static
+
+       Possibilities:
+               noImport   (-1)"
+   ::= {er1646v2OspfRtrImportMetricsEntry 16777216}
+
+er1646v2OspfRtrImportMetricsRip OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noImport (-1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.importMetrics.rip
+
+       Possibilities:
+               noImport   (-1)"
+   ::= {er1646v2OspfRtrImportMetricsEntry 33554432}
+
+er1646v2OspfRtrImportMetricsBgp OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noImport (-1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.importMetrics.bgp
+
+       Possibilities:
+               noImport   (-1)"
+   ::= {er1646v2OspfRtrImportMetricsEntry 50331648}
+
+er1646v2OspfRtrImportMetricsRadius OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noImport (-1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.importMetrics.radius
+
+       Possibilities:
+               noImport   (-1)"
+   ::= {er1646v2OspfRtrImportMetricsEntry 67108864}
+
+
+er1646v2OspfRtrImportFilter OBJECT IDENTIFIER ::= {er1646v2OspfRtr 8}
+
+er1646v2OspfRtrImportFilterSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfRtrImportFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf router import filter definition"
+   ::= {er1646v2OspfRtrImportFilter 1}
+
+er1646v2OspfRtrImportFilterEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfRtrImportFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfRtrImportFilterGlobalIx,
+                er1646v2OspfRtrImportFilterTableIx }
+   ::= {er1646v2OspfRtrImportFilterSSCTable 1}
+
+Er1646v2OspfRtrImportFilterEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfRtrImportFilterActions
+         VariableLengthTableActions,
+      er1646v2OspfRtrImportFilterGlobalIx
+         GlobalIndex,
+      er1646v2OspfRtrImportFilterTableIx
+         TableIndex,
+      er1646v2OspfRtrImportFilterType
+         INTEGER,
+      er1646v2OspfRtrImportFilterAddress
+         IpAddress,
+      er1646v2OspfRtrImportFilterMask
+         IpAddress,
+      er1646v2OspfRtrImportFilterMode
+         INTEGER,
+      er1646v2OspfRtrImportFilterCostType
+         INTEGER,
+      er1646v2OspfRtrImportFilterCost
+         Integer32,
+      er1646v2OspfRtrImportFilterTag
+         Integer32
+      }
+
+er1646v2OspfRtrImportFilterActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2OspfRtrImportFilterEntry 2}
+
+er1646v2OspfRtrImportFilterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfRtrImportFilterEntry 10}
+
+er1646v2OspfRtrImportFilterTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2OspfRtrImportFilterEntry 11}
+
+er1646v2OspfRtrImportFilterType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               all (0),
+               static (1),
+               rip (2),
+               bgp (3),
+               radius (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.importFilter.type
+
+       Possibilities:
+               all   (0)
+               static   (1)
+               rip   (2)
+               bgp   (3)
+               radius   (4)"
+   ::= {er1646v2OspfRtrImportFilterEntry 16777216}
+
+er1646v2OspfRtrImportFilterAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.importFilter.address"
+   ::= {er1646v2OspfRtrImportFilterEntry 33554432}
+
+er1646v2OspfRtrImportFilterMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.importFilter.mask"
+   ::= {er1646v2OspfRtrImportFilterEntry 50331648}
+
+er1646v2OspfRtrImportFilterMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               deny (0),
+               allow (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.importFilter.mode
+
+       Possibilities:
+               deny   (0)
+               allow   (1)"
+   ::= {er1646v2OspfRtrImportFilterEntry 67108864}
+
+er1646v2OspfRtrImportFilterCostType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               type1 (0),
+               type2 (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.importFilter.costType
+
+       Possibilities:
+               type1   (0)
+               type2   (1)"
+   ::= {er1646v2OspfRtrImportFilterEntry 83886080}
+
+er1646v2OspfRtrImportFilterCost OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.importFilter.cost"
+   ::= {er1646v2OspfRtrImportFilterEntry 100663296}
+
+er1646v2OspfRtrImportFilterTag OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.importFilter.tag"
+   ::= {er1646v2OspfRtrImportFilterEntry 117440512}
+
+
+er1646v2OspfRtrPreference OBJECT IDENTIFIER ::= {er1646v2OspfRtr 15}
+
+er1646v2OspfRtrPreferenceTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2OspfRtrPreferenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "prefrence"
+   ::= {er1646v2OspfRtrPreference 1}
+
+er1646v2OspfRtrPreferenceEntry OBJECT-TYPE
+   SYNTAX      Er1646v2OspfRtrPreferenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2OspfRtrPreferenceGlobalIx }
+   ::= {er1646v2OspfRtrPreferenceTable 1}
+
+Er1646v2OspfRtrPreferenceEntry ::=
+   SEQUENCE
+      {
+      er1646v2OspfRtrPreferenceGlobalIx
+         GlobalIndex,
+      er1646v2OspfRtrPreferenceValue
+         Gauge32
+      }
+
+er1646v2OspfRtrPreferenceGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2OspfRtrPreferenceEntry 10}
+
+er1646v2OspfRtrPreferenceValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.editConf.preference
+
+       32 bit unsigned gauge value."
+   ::= {er1646v2OspfRtrPreferenceEntry 2147483648}
+
+
+
+sr1646v2OspfRtr OBJECT IDENTIFIER ::= {r1646v2OspfRtr 14}
+
+
+sr1646v2OspfRtrType OBJECT IDENTIFIER ::= {sr1646v2OspfRtr 20}
+
+sr1646v2OspfRtrTypeSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfRtrTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "router type"
+   ::= {sr1646v2OspfRtrType 1}
+
+sr1646v2OspfRtrTypeEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfRtrTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfRtrTypeGlobalIx }
+   ::= {sr1646v2OspfRtrTypeSSCTable 1}
+
+Sr1646v2OspfRtrTypeEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfRtrTypeGlobalIx
+         GlobalIndex,
+      sr1646v2OspfRtrTypeAbr
+         INTEGER,
+      sr1646v2OspfRtrTypeAsbr
+         INTEGER,
+      sr1646v2OspfRtrTypeVirtLnk
+         INTEGER,
+      sr1646v2OspfRtrTypeWcMCast
+         INTEGER,
+      sr1646v2OspfRtrTypeNssaTr
+         INTEGER
+      }
+
+sr1646v2OspfRtrTypeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfRtrTypeEntry 10}
+
+sr1646v2OspfRtrTypeAbr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.type.areaBorder
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfRtrTypeEntry 16777216}
+
+sr1646v2OspfRtrTypeAsbr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.type.asbr
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfRtrTypeEntry 33554432}
+
+sr1646v2OspfRtrTypeVirtLnk OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.type.virtualLink
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfRtrTypeEntry 50331648}
+
+sr1646v2OspfRtrTypeWcMCast OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.type.wildCardMulticast
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfRtrTypeEntry 67108864}
+
+sr1646v2OspfRtrTypeNssaTr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.type.nssaTranslator
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfRtrTypeEntry 83886080}
+
+
+sr1646v2OspfRtrRouterId OBJECT IDENTIFIER ::= {sr1646v2OspfRtr 24}
+
+sr1646v2OspfRtrRouterIdTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfRtrRouterIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "router Id"
+   ::= {sr1646v2OspfRtrRouterId 1}
+
+sr1646v2OspfRtrRouterIdEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfRtrRouterIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfRtrRouterIdGlobalIx }
+   ::= {sr1646v2OspfRtrRouterIdTable 1}
+
+Sr1646v2OspfRtrRouterIdEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfRtrRouterIdGlobalIx
+         GlobalIndex,
+      sr1646v2OspfRtrRouterIdValue
+         IpAddress
+      }
+
+sr1646v2OspfRtrRouterIdGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfRtrRouterIdEntry 10}
+
+sr1646v2OspfRtrRouterIdValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.routerId"
+   ::= {sr1646v2OspfRtrRouterIdEntry 2147483648}
+
+
+sr1646v2OspfRtrRoutes OBJECT IDENTIFIER ::= {sr1646v2OspfRtr 21}
+
+sr1646v2OspfRtrRoutesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfRtrRoutesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf router routing table overview"
+   ::= {sr1646v2OspfRtrRoutes 1}
+
+sr1646v2OspfRtrRoutesEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfRtrRoutesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfRtrRoutesGlobalIx,
+                sr1646v2OspfRtrRoutesTableIx }
+   ::= {sr1646v2OspfRtrRoutesSSCTable 1}
+
+Sr1646v2OspfRtrRoutesEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfRtrRoutesGlobalIx
+         GlobalIndex,
+      sr1646v2OspfRtrRoutesTableIx
+         TableIndex,
+      sr1646v2OspfRtrRoutesNetwork
+         IpAddress,
+      sr1646v2OspfRtrRoutesMask
+         IpAddress,
+      sr1646v2OspfRtrRoutesType
+         INTEGER,
+      sr1646v2OspfRtrRoutesCost
+         INTEGER,
+      sr1646v2OspfRtrRoutesGateway
+         IpAddress,
+      sr1646v2OspfRtrRoutesOutgoingIp
+         IpAddress,
+      sr1646v2OspfRtrRoutesInterface
+         DisplayString
+      }
+
+sr1646v2OspfRtrRoutesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfRtrRoutesEntry 10}
+
+sr1646v2OspfRtrRoutesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OspfRtrRoutesEntry 11}
+
+sr1646v2OspfRtrRoutesNetwork OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.routes.network"
+   ::= {sr1646v2OspfRtrRoutesEntry 16777216}
+
+sr1646v2OspfRtrRoutesMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.routes.mask"
+   ::= {sr1646v2OspfRtrRoutesEntry 33554432}
+
+sr1646v2OspfRtrRoutesType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               direct (1),
+               intra (2),
+               inter (3),
+               extType1 (4),
+               extType2 (5),
+               reject (6),
+               static (7),
+               none (8)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.routes.type
+
+       Possibilities:
+               direct   (1)
+               intra   (2)
+               inter   (3)
+               extType1   (4)
+               extType2   (5)
+               reject   (6)
+               static   (7)
+               none   (8)"
+   ::= {sr1646v2OspfRtrRoutesEntry 50331648}
+
+sr1646v2OspfRtrRoutesCost OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unknowns (-1),
+               infinite (16777215)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.routes.cost
+
+       Possibilities:
+               unknown    (-1)
+               infinite   (16777215)"
+   ::= {sr1646v2OspfRtrRoutesEntry 67108864}
+
+sr1646v2OspfRtrRoutesGateway OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.routes.gateway"
+   ::= {sr1646v2OspfRtrRoutesEntry 83886080}
+
+sr1646v2OspfRtrRoutesOutgoingIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.routes.outgoingIp"
+   ::= {sr1646v2OspfRtrRoutesEntry 100663296}
+
+sr1646v2OspfRtrRoutesInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.routes.interface"
+   ::= {sr1646v2OspfRtrRoutesEntry 117440512}
+
+
+sr1646v2OspfRtrExtRts OBJECT IDENTIFIER ::= {sr1646v2OspfRtr 22}
+
+sr1646v2OspfRtrExtRtsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfRtrExtRtsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf router external routes overview"
+   ::= {sr1646v2OspfRtrExtRts 1}
+
+sr1646v2OspfRtrExtRtsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfRtrExtRtsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfRtrExtRtsGlobalIx,
+                sr1646v2OspfRtrExtRtsTableIx }
+   ::= {sr1646v2OspfRtrExtRtsSSCTable 1}
+
+Sr1646v2OspfRtrExtRtsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfRtrExtRtsGlobalIx
+         GlobalIndex,
+      sr1646v2OspfRtrExtRtsTableIx
+         TableIndex,
+      sr1646v2OspfRtrExtRtsNetwork
+         IpAddress,
+      sr1646v2OspfRtrExtRtsMask
+         IpAddress,
+      sr1646v2OspfRtrExtRtsGateway
+         IpAddress,
+      sr1646v2OspfRtrExtRtsInterface
+         DisplayString,
+      sr1646v2OspfRtrExtRtsCostType
+         INTEGER,
+      sr1646v2OspfRtrExtRtsCost
+         INTEGER,
+      sr1646v2OspfRtrExtRtsTag
+         Integer32,
+      sr1646v2OspfRtrExtRtsAdvertise
+         INTEGER,
+      sr1646v2OspfRtrExtRtsRouteType
+         INTEGER
+      }
+
+sr1646v2OspfRtrExtRtsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfRtrExtRtsEntry 10}
+
+sr1646v2OspfRtrExtRtsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OspfRtrExtRtsEntry 11}
+
+sr1646v2OspfRtrExtRtsNetwork OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.externalRoutes.network"
+   ::= {sr1646v2OspfRtrExtRtsEntry 16777216}
+
+sr1646v2OspfRtrExtRtsMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.externalRoutes.mask"
+   ::= {sr1646v2OspfRtrExtRtsEntry 33554432}
+
+sr1646v2OspfRtrExtRtsGateway OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.externalRoutes.gateway"
+   ::= {sr1646v2OspfRtrExtRtsEntry 50331648}
+
+sr1646v2OspfRtrExtRtsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.externalRoutes.interface"
+   ::= {sr1646v2OspfRtrExtRtsEntry 67108864}
+
+sr1646v2OspfRtrExtRtsCostType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               type1 (0),
+               type2 (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.externalRoutes.costType
+
+       Possibilities:
+               type1   (0)
+               type2   (1)"
+   ::= {sr1646v2OspfRtrExtRtsEntry 83886080}
+
+sr1646v2OspfRtrExtRtsCost OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unknowns (-1),
+               infinite (16777215)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.externalRoutes.cost
+
+       Possibilities:
+               unknown    (-1)
+               infinite   (16777215)"
+   ::= {sr1646v2OspfRtrExtRtsEntry 100663296}
+
+sr1646v2OspfRtrExtRtsTag OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.externalRoutes.tag"
+   ::= {sr1646v2OspfRtrExtRtsEntry 117440512}
+
+sr1646v2OspfRtrExtRtsAdvertise OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.externalRoutes.advertise
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2OspfRtrExtRtsEntry 134217728}
+
+sr1646v2OspfRtrExtRtsRouteType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               static (1),
+               rip (2),
+               bgp (3),
+               radius (4)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.externalRoutes.routeType
+
+       Possibilities:
+               static   (1)
+               rip   (2)
+               bgp   (3)
+               radius   (4)"
+   ::= {sr1646v2OspfRtrExtRtsEntry 150994944}
+
+
+sr1646v2OspfRtrAsExtLsas OBJECT IDENTIFIER ::= {sr1646v2OspfRtr 23}
+
+sr1646v2OspfRtrAsExtLsasSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfRtrAsExtLsasEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ospf router as external lsa overview"
+   ::= {sr1646v2OspfRtrAsExtLsas 1}
+
+sr1646v2OspfRtrAsExtLsasEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfRtrAsExtLsasEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfRtrAsExtLsasGlobalIx,
+                sr1646v2OspfRtrAsExtLsasTableIx }
+   ::= {sr1646v2OspfRtrAsExtLsasSSCTable 1}
+
+Sr1646v2OspfRtrAsExtLsasEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfRtrAsExtLsasGlobalIx
+         GlobalIndex,
+      sr1646v2OspfRtrAsExtLsasTableIx
+         TableIndex,
+      sr1646v2OspfRtrAsExtLsasLinkStateId
+         IpAddress,
+      sr1646v2OspfRtrAsExtLsasAdvRouterId
+         IpAddress,
+      sr1646v2OspfRtrAsExtLsasAge
+         Integer32,
+      sr1646v2OspfRtrAsExtLsasSequenceNr
+         Integer32,
+      sr1646v2OspfRtrAsExtLsasOptsFldExt
+         INTEGER,
+      sr1646v2OspfRtrAsExtLsasOptsMCast
+         INTEGER,
+      sr1646v2OspfRtrAsExtLsasOptsNssa
+         INTEGER,
+      sr1646v2OspfRtrAsExtLsasOptsExtAttr
+         INTEGER,
+      sr1646v2OspfRtrAsExtLsasOptsDemCirc
+         INTEGER,
+      sr1646v2OspfRtrAsExtLsasOptsOpaque
+         INTEGER,
+      sr1646v2OspfRtrAsExtLsasNetMask
+         IpAddress,
+      sr1646v2OspfRtrAsExtLsasCostType
+         INTEGER,
+      sr1646v2OspfRtrAsExtLsasCost
+         Integer32,
+      sr1646v2OspfRtrAsExtLsasTag
+         Integer32,
+      sr1646v2OspfRtrAsExtLsasFwdAddr
+         IpAddress
+      }
+
+sr1646v2OspfRtrAsExtLsasGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 10}
+
+sr1646v2OspfRtrAsExtLsasTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 11}
+
+sr1646v2OspfRtrAsExtLsasLinkStateId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.linkStateId"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 16777216}
+
+sr1646v2OspfRtrAsExtLsasAdvRouterId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.advRouterId"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 33554432}
+
+sr1646v2OspfRtrAsExtLsasAge OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.age"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 50331648}
+
+sr1646v2OspfRtrAsExtLsasSequenceNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.sequenceNr"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 67108864}
+
+sr1646v2OspfRtrAsExtLsasOptsFldExt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.options.floodExternal
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 84017152}
+
+sr1646v2OspfRtrAsExtLsasOptsMCast OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.options.multicast
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 84082688}
+
+sr1646v2OspfRtrAsExtLsasOptsNssa OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.options.nssa
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 84148224}
+
+sr1646v2OspfRtrAsExtLsasOptsExtAttr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.options.externalAttributes
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 84213760}
+
+sr1646v2OspfRtrAsExtLsasOptsDemCirc OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.options.demandCircuit
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 84279296}
+
+sr1646v2OspfRtrAsExtLsasOptsOpaque OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.options.opaque
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 84344832}
+
+sr1646v2OspfRtrAsExtLsasNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.netMask"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 100663296}
+
+sr1646v2OspfRtrAsExtLsasCostType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               type1 (0),
+               type2 (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.costType
+
+       Possibilities:
+               type1   (0)
+               type2   (1)"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 117440512}
+
+sr1646v2OspfRtrAsExtLsasCost OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.cost"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 134217728}
+
+sr1646v2OspfRtrAsExtLsasTag OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.tag"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 150994944}
+
+sr1646v2OspfRtrAsExtLsasFwdAddr OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.asExtLsas.forwardAddress"
+   ::= {sr1646v2OspfRtrAsExtLsasEntry 167772160}
+
+
+sr1646v2OspfRtrSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2OspfRtr 269}
+
+sr1646v2OspfRtrSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OspfRtrSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2OspfRtrSnmpIndex 1}
+
+sr1646v2OspfRtrSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OspfRtrSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OspfRtrSnmpIndexGlobalIx }
+   ::= {sr1646v2OspfRtrSnmpIndexTable 1}
+
+Sr1646v2OspfRtrSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OspfRtrSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2OspfRtrSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2OspfRtrSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OspfRtrSnmpIndexEntry 10}
+
+sr1646v2OspfRtrSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.status.snmpIndex"
+   ::= {sr1646v2OspfRtrSnmpIndexEntry 2147483648}
+
+
+
+ar1646v2OspfRtr OBJECT IDENTIFIER ::= {r1646v2OspfRtr 16}
+
+
+ar1646v2OspfRtrRestartOspf OBJECT IDENTIFIER ::= {ar1646v2OspfRtr 101}
+
+ar1646v2OspfRtrRestartOspfTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2OspfRtrRestartOspfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "force restart of ospf router"
+   ::= {ar1646v2OspfRtrRestartOspf 1}
+
+ar1646v2OspfRtrRestartOspfEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2OspfRtrRestartOspfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2OspfRtrRestartOspfGlobalIx }
+   ::= {ar1646v2OspfRtrRestartOspfTable 1}
+
+Ar1646v2OspfRtrRestartOspfEntry ::=
+   SEQUENCE
+      {
+      ar1646v2OspfRtrRestartOspfGlobalIx
+         GlobalIndex,
+      ar1646v2OspfRtrRestartOspfValue
+         Integer32
+      }
+
+ar1646v2OspfRtrRestartOspfGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2OspfRtrRestartOspfEntry 10}
+
+ar1646v2OspfRtrRestartOspfValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ospf.actions.restartOspf"
+   ::= {ar1646v2OspfRtrRestartOspfEntry 2147483648}
+
+
+
+END

@@ -1,0 +1,4818 @@
+OneAccess-R1646v2-1423-Bali DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2Bali OBJECT IDENTIFIER ::= {r1646Rootv2 1423}
+
+r1646v2BaliMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2BaliMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2Bali 1}
+
+r1646v2BaliMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2BaliMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2BaliMOPropGlobalIx }
+   ::= {r1646v2BaliMOProp 1}
+
+R1646v2BaliMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2BaliMOPropPath
+         ContainmentPath,
+      r1646v2BaliMOPropRev
+         ObjectRevision,
+      r1646v2BaliMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2BaliMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2BaliMOPropEntry 3}
+
+r1646v2BaliMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2BaliMOPropEntry 4}
+
+r1646v2BaliMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2BaliMOPropEntry 10}
+
+
+
+er1646v2Bali OBJECT IDENTIFIER ::= {r1646v2Bali 11}
+
+
+er1646v2BaliSnmpIndexOffset OBJECT IDENTIFIER ::= {er1646v2Bali 268}
+
+er1646v2BaliSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BaliSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1646v2BaliSnmpIndexOffset 1}
+
+er1646v2BaliSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BaliSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BaliSnmpIndexOffsetGlobalIx }
+   ::= {er1646v2BaliSnmpIndexOffsetTable 1}
+
+Er1646v2BaliSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1646v2BaliSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1646v2BaliSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1646v2BaliSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BaliSnmpIndexOffsetEntry 10}
+
+er1646v2BaliSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.snmpIndexOffset"
+   ::= {er1646v2BaliSnmpIndexOffsetEntry 2147483648}
+
+
+er1646v2BaliRemark OBJECT IDENTIFIER ::= {er1646v2Bali 69}
+
+er1646v2BaliRemarkTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BaliRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BaliRemark 1}
+
+er1646v2BaliRemarkEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BaliRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BaliRemarkGlobalIx }
+   ::= {er1646v2BaliRemarkTable 1}
+
+Er1646v2BaliRemarkEntry ::=
+   SEQUENCE
+      {
+      er1646v2BaliRemarkGlobalIx
+         GlobalIndex,
+      er1646v2BaliRemarkValue
+         DisplayString
+      }
+
+er1646v2BaliRemarkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BaliRemarkEntry 10}
+
+er1646v2BaliRemarkValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.remark"
+   ::= {er1646v2BaliRemarkEntry 2147483648}
+
+
+er1646v2BaliMacAddress OBJECT IDENTIFIER ::= {er1646v2Bali 2}
+
+er1646v2BaliMacAddressSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BaliMacAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MAC addresses to deny access"
+   ::= {er1646v2BaliMacAddress 1}
+
+er1646v2BaliMacAddressEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BaliMacAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BaliMacAddressGlobalIx,
+                er1646v2BaliMacAddressTableIx }
+   ::= {er1646v2BaliMacAddressSSCTable 1}
+
+Er1646v2BaliMacAddressEntry ::=
+   SEQUENCE
+      {
+      er1646v2BaliMacAddressActions
+         VariableLengthTableActions,
+      er1646v2BaliMacAddressGlobalIx
+         GlobalIndex,
+      er1646v2BaliMacAddressTableIx
+         TableIndex,
+      er1646v2BaliMacAddressMacAddress
+         OCTET STRING
+      }
+
+er1646v2BaliMacAddressActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BaliMacAddressEntry 2}
+
+er1646v2BaliMacAddressGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BaliMacAddressEntry 10}
+
+er1646v2BaliMacAddressTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BaliMacAddressEntry 11}
+
+er1646v2BaliMacAddressMacAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.macAddress.macAddress
+
+       MAC address."
+   ::= {er1646v2BaliMacAddressEntry 16777216}
+
+
+er1646v2BaliAdvancedFilter OBJECT IDENTIFIER ::= {er1646v2Bali 4}
+
+er1646v2BaliAdvancedFilterSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BaliAdvancedFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "advanced filtering on Layer 2"
+   ::= {er1646v2BaliAdvancedFilter 1}
+
+er1646v2BaliAdvancedFilterEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BaliAdvancedFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BaliAdvancedFilterGlobalIx,
+                er1646v2BaliAdvancedFilterTableIx }
+   ::= {er1646v2BaliAdvancedFilterSSCTable 1}
+
+Er1646v2BaliAdvancedFilterEntry ::=
+   SEQUENCE
+      {
+      er1646v2BaliAdvancedFilterActions
+         VariableLengthTableActions,
+      er1646v2BaliAdvancedFilterGlobalIx
+         GlobalIndex,
+      er1646v2BaliAdvancedFilterTableIx
+         TableIndex,
+      er1646v2BaliAdvancedFilterName
+         DisplayString,
+      er1646v2BaliAdvancedFilterRemark
+         DisplayString,
+      er1646v2BaliAdvancedFilterSms
+         OCTET STRING,
+      er1646v2BaliAdvancedFilterSme
+         OCTET STRING,
+      er1646v2BaliAdvancedFilterDms
+         OCTET STRING,
+      er1646v2BaliAdvancedFilterDme
+         OCTET STRING,
+      er1646v2BaliAdvancedFilterVlanDepth
+         Integer32,
+      er1646v2BaliAdvancedFilterTpid
+         INTEGER,
+      er1646v2BaliAdvancedFilterVlan
+         INTEGER,
+      er1646v2BaliAdvancedFilterEndVlan
+         Integer32,
+      er1646v2BaliAdvancedFilterPriority
+         INTEGER,
+      er1646v2BaliAdvancedFilterDei
+         INTEGER,
+      er1646v2BaliAdvancedFilterPro
+         INTEGER,
+      er1646v2BaliAdvancedFilterAct
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvNone
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvLimitTcpSynMode
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvLimitTcpSynRate
+         Integer32,
+      er1646v2BaliAdvancedFilterAdvJumpOver
+         Integer32,
+      er1646v2BaliAdvancedFilterAdvJumpTo
+         DisplayString,
+      er1646v2BaliAdvancedFilterAdvMSetQueueQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMSetQueueDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMSetQueueDeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMSetTosAndCosTos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMSetTosAndCosCos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMSetTosAndCosDei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMSetTosAndCosQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMSetTosAndCosDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMSetTosAndCosDeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP0Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP0DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP0DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP0Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP0Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP1Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP1DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP1DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP1Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP1Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP2Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP2DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP2DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP2Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP2Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP3Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP3DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP3DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP3Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP3Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP4Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP4DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP4DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP4Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP4Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP5Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP5DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP5DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP5Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP5Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP6Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP6DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP6DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP6Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP6Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP7Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP7DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP7DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP7Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueP7Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueUntaggedQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueUntaggedDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapCosToQueueUntaggedDeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiClearQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiClearDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiClearDeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiClearCos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiClearDei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiSetQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiSetDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiSetDeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiSetCos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiSetDei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapDeiToQueueUntaggedQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapDeiToQueueUntaggedDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapDeiToQueueUntaggedDeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvIpTrafficPolicy
+         DisplayString,
+      er1646v2BaliAdvancedFilterAdvMTaSetQueueQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaSetQueueDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaSetQueueDeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaSetTosAndCosTos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaSetTosAndCosCos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaSetTosAndCosDei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaSetTosAndCosQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaSetTosAndCosDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaSetTosAndCosDeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP0Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP0DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP0DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP0Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP0Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP1Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP1DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP1DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP1Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP1Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP2Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP2DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP2DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP2Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP2Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP3Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP3DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP3DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP3Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP3Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP4Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP4DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP4DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP4Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP4Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP5Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP5DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP5DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP5Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP5Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP6Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP6DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP6DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP6Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP6Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP7Queue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP7DropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP7DeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP7Cos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP7Dei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueUntaggedQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueUntaggedDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueUntaggedDeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiClearQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiClearDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiClearDeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiClearCos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiClearDei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiSetQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiSetDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiSetDeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiSetCos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiSetDei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueUntaggedQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueUntaggedDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueUntaggedDeFlag
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvCapture
+         Integer32,
+      er1646v2BaliAdvancedFilterLimiterNone
+         INTEGER,
+      er1646v2BaliAdvancedFilterLimiterName
+         DisplayString,
+      er1646v2BaliAdvancedFilterLimiterQueueQueue1
+         DisplayString,
+      er1646v2BaliAdvancedFilterLimiterQueueQueue2
+         DisplayString,
+      er1646v2BaliAdvancedFilterLimiterQueueQueue3
+         DisplayString,
+      er1646v2BaliAdvancedFilterLimiterQueueQueue4
+         DisplayString,
+      er1646v2BaliAdvancedFilterLimiterQueueQueue5
+         DisplayString,
+      er1646v2BaliAdvancedFilterLimiterQueueLowDelayQueue
+         DisplayString,
+      er1646v2BaliAdvancedFilterLimiterQueueLowDelay2Queue
+         DisplayString,
+      er1646v2BaliAdvancedFilterLimiterQueueSystemQueue
+         DisplayString
+      }
+
+er1646v2BaliAdvancedFilterActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BaliAdvancedFilterEntry 2}
+
+er1646v2BaliAdvancedFilterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BaliAdvancedFilterEntry 10}
+
+er1646v2BaliAdvancedFilterTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BaliAdvancedFilterEntry 11}
+
+er1646v2BaliAdvancedFilterName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.name"
+   ::= {er1646v2BaliAdvancedFilterEntry 218103808}
+
+er1646v2BaliAdvancedFilterRemark OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.remark"
+   ::= {er1646v2BaliAdvancedFilterEntry 1157627904}
+
+er1646v2BaliAdvancedFilterSms OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.sourceMacStart
+
+       MAC address."
+   ::= {er1646v2BaliAdvancedFilterEntry 16777216}
+
+er1646v2BaliAdvancedFilterSme OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.sourceMacEnd
+
+       MAC address."
+   ::= {er1646v2BaliAdvancedFilterEntry 33554432}
+
+er1646v2BaliAdvancedFilterDms OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.destinationMacStart
+
+       MAC address."
+   ::= {er1646v2BaliAdvancedFilterEntry 50331648}
+
+er1646v2BaliAdvancedFilterDme OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.destinationMacEnd
+
+       MAC address."
+   ::= {er1646v2BaliAdvancedFilterEntry 67108864}
+
+er1646v2BaliAdvancedFilterVlanDepth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.vlanDepth"
+   ::= {er1646v2BaliAdvancedFilterEntry 234881024}
+
+er1646v2BaliAdvancedFilterTpid OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dot1q (33024),
+               dot1ad (34984),
+               s0x9100 (37120),
+               s0x9200 (37376),
+               s0x9300 (37632),
+               dot1qOrDot1ad (65536)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.tpid
+
+       Possibilities:
+               dot1q   (33024)
+               dot1ad   (34984)
+               0x9100   (37120)
+               0x9200   (37376)
+               0x9300   (37632)
+               dot1qOrDot1ad   (65536)"
+   ::= {er1646v2BaliAdvancedFilterEntry 268435456}
+
+er1646v2BaliAdvancedFilterVlan OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               priorityTagged (0),
+               untagged (4096),
+               any (4097),
+               anyVlan (4098)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.vlan
+
+       Possibilities:
+               priorityTagged   (0)
+               untagged   (4096)
+               any   (4097)
+               anyVlan   (4098)"
+   ::= {er1646v2BaliAdvancedFilterEntry 150994944}
+
+er1646v2BaliAdvancedFilterEndVlan OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.endVlan"
+   ::= {er1646v2BaliAdvancedFilterEntry 251658240}
+
+er1646v2BaliAdvancedFilterPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.priority
+
+       Possibilities:
+               any   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 167772160}
+
+er1646v2BaliAdvancedFilterDei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               clear (0),
+               set (1),
+               any (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.dei
+
+       Possibilities:
+               clear   (0)
+               set   (1)
+               any   (2)"
+   ::= {er1646v2BaliAdvancedFilterEntry 285212672}
+
+er1646v2BaliAdvancedFilterPro OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (65536),
+               ip (2048),
+               arp (2054),
+               rarp (32821),
+               vlanTagged (33024),
+               ipV6 (34525),
+               slowProtocols (34825),
+               mplsUnicast (34887),
+               mplsMulticast (34888),
+               pppoeControl (34915),
+               pppoeData (34916),
+               svlan802d1ad (34984),
+               llcSnap (65537)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.protocol
+
+       Possibilities:
+               any   (65536)
+               ip   (2048)
+               arp   (2054)
+               rarp   (32821)
+               vlanTagged   (33024)
+               ipV6   (34525)
+               slowProtocols   (34825)
+               mplsUnicast   (34887)
+               mplsMulticast   (34888)
+               pppoeControl   (34915)
+               pppoeData   (34916)
+               svlan802.1ad   (34984)
+               llcSnap   (65537)"
+   ::= {er1646v2BaliAdvancedFilterEntry 83886080}
+
+er1646v2BaliAdvancedFilterAct OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               deny (0),
+               permit (1),
+               continue (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.action
+
+       Possibilities:
+               deny   (0)
+               permit   (1)
+               continue   (2)"
+   ::= {er1646v2BaliAdvancedFilterEntry 100663296}
+
+er1646v2BaliAdvancedFilterAdvNone OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.none
+
+       Possibilities:
+               none   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134283264}
+
+er1646v2BaliAdvancedFilterAdvLimitTcpSynMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               global (1),
+               perMac (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.limitTcpSyn.mode
+
+       Possibilities:
+               global   (1)
+               perMac   (2)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134349056}
+
+er1646v2BaliAdvancedFilterAdvLimitTcpSynRate OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "SynPerMinute"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.limitTcpSyn.rate
+
+       unit name = SynPerMinute"
+   ::= {er1646v2BaliAdvancedFilterEntry 134349312}
+
+er1646v2BaliAdvancedFilterAdvJumpOver OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.jumpOver"
+   ::= {er1646v2BaliAdvancedFilterEntry 134414336}
+
+er1646v2BaliAdvancedFilterAdvJumpTo OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.jumpTo"
+   ::= {er1646v2BaliAdvancedFilterEntry 134545408}
+
+er1646v2BaliAdvancedFilterAdvMSetQueueQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.setQueue.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134488192}
+
+er1646v2BaliAdvancedFilterAdvMSetQueueDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.setQueue.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134488224}
+
+er1646v2BaliAdvancedFilterAdvMSetQueueDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.setQueue.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134488288}
+
+er1646v2BaliAdvancedFilterAdvMSetTosAndCosTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.setTosAndCos.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134496320}
+
+er1646v2BaliAdvancedFilterAdvMSetTosAndCosCos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.setTosAndCos.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134496352}
+
+er1646v2BaliAdvancedFilterAdvMSetTosAndCosDei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.setTosAndCos.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134496448}
+
+er1646v2BaliAdvancedFilterAdvMSetTosAndCosQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.setTosAndCos.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134496384}
+
+er1646v2BaliAdvancedFilterAdvMSetTosAndCosDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.setTosAndCos.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134496416}
+
+er1646v2BaliAdvancedFilterAdvMSetTosAndCosDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.setTosAndCos.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134496480}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP0Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p0.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134513160}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP0DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p0.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134513162}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP0DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p0.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134513166}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP0Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p0.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134513158}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP0Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p0.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134513164}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP1Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p1.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134513672}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP1DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p1.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134513674}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP1DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p1.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134513678}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP1Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p1.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134513670}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP1Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p1.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134513676}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP2Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p2.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134514184}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP2DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p2.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134514186}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP2DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p2.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134514190}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP2Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p2.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134514182}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP2Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p2.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134514188}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP3Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p3.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134514696}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP3DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p3.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134514698}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP3DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p3.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134514702}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP3Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p3.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134514694}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP3Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p3.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134514700}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP4Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p4.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134515208}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP4DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p4.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134515210}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP4DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p4.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134515214}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP4Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p4.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134515206}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP4Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p4.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134515212}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP5Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p5.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134515720}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP5DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p5.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134515722}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP5DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p5.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134515726}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP5Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p5.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134515718}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP5Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p5.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134515724}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP6Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p6.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134516232}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP6DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p6.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134516234}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP6DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p6.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134516238}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP6Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p6.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134516230}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP6Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p6.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134516236}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP7Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p7.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134516744}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP7DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p7.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134516746}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP7DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p7.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134516750}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP7Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p7.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134516742}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueP7Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.p7.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134516748}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueUntaggedQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.untagged.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134517256}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueUntaggedDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.untagged.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134517258}
+
+er1646v2BaliAdvancedFilterAdvMMapCosToQueueUntaggedDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapCosToQueue.untagged.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134517262}
+
+er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiClearQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapDeiToQueue.deiClear.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134521352}
+
+er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiClearDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapDeiToQueue.deiClear.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134521354}
+
+er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiClearDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapDeiToQueue.deiClear.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134521358}
+
+er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiClearCos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapDeiToQueue.deiClear.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134521350}
+
+er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiClearDei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapDeiToQueue.deiClear.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134521356}
+
+er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiSetQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapDeiToQueue.deiSet.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134521864}
+
+er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiSetDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapDeiToQueue.deiSet.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134521866}
+
+er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiSetDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapDeiToQueue.deiSet.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134521870}
+
+er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiSetCos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapDeiToQueue.deiSet.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134521862}
+
+er1646v2BaliAdvancedFilterAdvMMapDeiToQueueDeiSetDei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapDeiToQueue.deiSet.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134521868}
+
+er1646v2BaliAdvancedFilterAdvMMapDeiToQueueUntaggedQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapDeiToQueue.untagged.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134525448}
+
+er1646v2BaliAdvancedFilterAdvMMapDeiToQueueUntaggedDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapDeiToQueue.untagged.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134525450}
+
+er1646v2BaliAdvancedFilterAdvMMapDeiToQueueUntaggedDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapDeiToQueue.untagged.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134525454}
+
+er1646v2BaliAdvancedFilterAdvIpTrafficPolicy OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.ipTrafficPolicy"
+   ::= {er1646v2BaliAdvancedFilterEntry 134610944}
+
+er1646v2BaliAdvancedFilterAdvMTaSetQueueQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.setQueue.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134815872}
+
+er1646v2BaliAdvancedFilterAdvMTaSetQueueDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.setQueue.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134815904}
+
+er1646v2BaliAdvancedFilterAdvMTaSetQueueDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.setQueue.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134815968}
+
+er1646v2BaliAdvancedFilterAdvMTaSetTosAndCosTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.setTosAndCos.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134824000}
+
+er1646v2BaliAdvancedFilterAdvMTaSetTosAndCosCos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.setTosAndCos.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134824032}
+
+er1646v2BaliAdvancedFilterAdvMTaSetTosAndCosDei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.setTosAndCos.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134824128}
+
+er1646v2BaliAdvancedFilterAdvMTaSetTosAndCosQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.setTosAndCos.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134824064}
+
+er1646v2BaliAdvancedFilterAdvMTaSetTosAndCosDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.setTosAndCos.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134824096}
+
+er1646v2BaliAdvancedFilterAdvMTaSetTosAndCosDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.setTosAndCos.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134824160}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP0Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p0.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134840840}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP0DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p0.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134840842}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP0DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p0.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134840846}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP0Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p0.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134840838}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP0Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p0.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134840844}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP1Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p1.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134841352}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP1DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p1.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134841354}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP1DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p1.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134841358}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP1Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p1.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134841350}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP1Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p1.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134841356}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP2Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p2.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134841864}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP2DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p2.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134841866}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP2DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p2.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134841870}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP2Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p2.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134841862}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP2Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p2.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134841868}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP3Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p3.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134842376}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP3DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p3.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134842378}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP3DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p3.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134842382}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP3Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p3.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134842374}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP3Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p3.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134842380}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP4Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p4.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134842888}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP4DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p4.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134842890}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP4DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p4.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134842894}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP4Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p4.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134842886}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP4Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p4.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134842892}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP5Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p5.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134843400}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP5DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p5.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134843402}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP5DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p5.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134843406}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP5Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p5.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134843398}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP5Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p5.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134843404}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP6Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p6.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134843912}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP6DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p6.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134843914}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP6DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p6.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134843918}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP6Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p6.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134843910}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP6Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p6.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134843916}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP7Queue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p7.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134844424}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP7DropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p7.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134844426}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP7DeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p7.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134844430}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP7Cos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p7.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134844422}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueP7Dei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.p7.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134844428}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueUntaggedQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.untagged.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134844936}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueUntaggedDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.untagged.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134844938}
+
+er1646v2BaliAdvancedFilterAdvMTaMapCosToQueueUntaggedDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapCosToQueue.untagged.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134844942}
+
+er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiClearQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapDeiToQueue.deiClear.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134849032}
+
+er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiClearDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapDeiToQueue.deiClear.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134849034}
+
+er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiClearDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapDeiToQueue.deiClear.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134849038}
+
+er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiClearCos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapDeiToQueue.deiClear.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134849030}
+
+er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiClearDei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapDeiToQueue.deiClear.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134849036}
+
+er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiSetQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapDeiToQueue.deiSet.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134849544}
+
+er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiSetDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapDeiToQueue.deiSet.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134849546}
+
+er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiSetDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapDeiToQueue.deiSet.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134849550}
+
+er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiSetCos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapDeiToQueue.deiSet.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134849542}
+
+er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueDeiSetDei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapDeiToQueue.deiSet.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134849548}
+
+er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueUntaggedQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapDeiToQueue.untagged.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134853128}
+
+er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueUntaggedDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapDeiToQueue.untagged.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134853130}
+
+er1646v2BaliAdvancedFilterAdvMTaMapDeiToQueueUntaggedDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapDeiToQueue.untagged.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterEntry 134853134}
+
+er1646v2BaliAdvancedFilterAdvCapture OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.capture"
+   ::= {er1646v2BaliAdvancedFilterEntry 134676480}
+
+er1646v2BaliAdvancedFilterLimiterNone OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.limiter.none
+
+       Possibilities:
+               none   (0)"
+   ::= {er1646v2BaliAdvancedFilterEntry 302055424}
+
+er1646v2BaliAdvancedFilterLimiterName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.limiter.name"
+   ::= {er1646v2BaliAdvancedFilterEntry 302120960}
+
+er1646v2BaliAdvancedFilterLimiterQueueQueue1 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.limiter.queue.queue1"
+   ::= {er1646v2BaliAdvancedFilterEntry 302186752}
+
+er1646v2BaliAdvancedFilterLimiterQueueQueue2 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.limiter.queue.queue2"
+   ::= {er1646v2BaliAdvancedFilterEntry 302187008}
+
+er1646v2BaliAdvancedFilterLimiterQueueQueue3 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.limiter.queue.queue3"
+   ::= {er1646v2BaliAdvancedFilterEntry 302187264}
+
+er1646v2BaliAdvancedFilterLimiterQueueQueue4 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.limiter.queue.queue4"
+   ::= {er1646v2BaliAdvancedFilterEntry 302187520}
+
+er1646v2BaliAdvancedFilterLimiterQueueQueue5 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.limiter.queue.queue5"
+   ::= {er1646v2BaliAdvancedFilterEntry 302187776}
+
+er1646v2BaliAdvancedFilterLimiterQueueLowDelayQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.limiter.queue.lowDelayQueue"
+   ::= {er1646v2BaliAdvancedFilterEntry 302188032}
+
+er1646v2BaliAdvancedFilterLimiterQueueLowDelay2Queue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.limiter.queue.lowDelay2Queue"
+   ::= {er1646v2BaliAdvancedFilterEntry 302188288}
+
+er1646v2BaliAdvancedFilterLimiterQueueSystemQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.limiter.queue.systemQueue"
+   ::= {er1646v2BaliAdvancedFilterEntry 302188544}
+
+er1646v2BaliAdvancedFilterAdvMMapTosToCos OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BaliAdvancedFilter 134504448}
+
+er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BaliAdvancedFilterAdvMMapTosToCosGlobalIx,
+                er1646v2BaliAdvancedFilterTableIx,
+                er1646v2BaliAdvancedFilterAdvMMapTosToCosTableIx }
+   ::= {er1646v2BaliAdvancedFilterAdvMMapTosToCos 1}
+
+Er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry ::=
+   SEQUENCE
+      {
+      er1646v2BaliAdvancedFilterAdvMMapTosToCosActions
+         VariableLengthTableActions,
+      er1646v2BaliAdvancedFilterAdvMMapTosToCosGlobalIx
+         GlobalIndex,
+      er1646v2BaliAdvancedFilterAdvMMapTosToCosTableIx
+         TableIndex,
+      er1646v2BaliAdvancedFilterAdvMMapTosToCosStartTos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapTosToCosEndTos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapTosToCosCos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapTosToCosDei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapTosToCosQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapTosToCosDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMMapTosToCosDeFlag
+         INTEGER
+      }
+
+er1646v2BaliAdvancedFilterAdvMMapTosToCosActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry 2}
+
+er1646v2BaliAdvancedFilterAdvMMapTosToCosGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry 10}
+
+er1646v2BaliAdvancedFilterAdvMMapTosToCosTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry 11}
+
+er1646v2BaliAdvancedFilterAdvMMapTosToCosStartTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               nonIp (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapTosToCos.startTos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               nonIp   (256)"
+   ::= {er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry 16777216}
+
+er1646v2BaliAdvancedFilterAdvMMapTosToCosEndTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               nonIp (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapTosToCos.endTos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               nonIp   (256)"
+   ::= {er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry 33554432}
+
+er1646v2BaliAdvancedFilterAdvMMapTosToCosCos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapTosToCos.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry 50331648}
+
+er1646v2BaliAdvancedFilterAdvMMapTosToCosDei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapTosToCos.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry 100663296}
+
+er1646v2BaliAdvancedFilterAdvMMapTosToCosQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapTosToCos.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry 67108864}
+
+er1646v2BaliAdvancedFilterAdvMMapTosToCosDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapTosToCos.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry 83886080}
+
+er1646v2BaliAdvancedFilterAdvMMapTosToCosDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.mark.mapTosToCos.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterAdvMMapTosToCosEntry 117440512}
+
+er1646v2BaliAdvancedFilterAdvPolicyTosBased OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BaliAdvancedFilterAdvPolicyTosBasedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BaliAdvancedFilter 134742784}
+
+er1646v2BaliAdvancedFilterAdvPolicyTosBasedEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BaliAdvancedFilterAdvPolicyTosBasedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BaliAdvancedFilterAdvPolicyTosBasedGlobalIx,
+                er1646v2BaliAdvancedFilterTableIx,
+                er1646v2BaliAdvancedFilterAdvPolicyTosBasedTableIx }
+   ::= {er1646v2BaliAdvancedFilterAdvPolicyTosBased 1}
+
+Er1646v2BaliAdvancedFilterAdvPolicyTosBasedEntry ::=
+   SEQUENCE
+      {
+      er1646v2BaliAdvancedFilterAdvPolicyTosBasedActions
+         VariableLengthTableActions,
+      er1646v2BaliAdvancedFilterAdvPolicyTosBasedGlobalIx
+         GlobalIndex,
+      er1646v2BaliAdvancedFilterAdvPolicyTosBasedTableIx
+         TableIndex,
+      er1646v2BaliAdvancedFilterAdvPolicyTosBasedStartTos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvPolicyTosBasedEndTos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvPolicyTosBasedCos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvPolicyTosBasedQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvPolicyTosBasedDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvPolicyTosBasedPort
+         DisplayString
+      }
+
+er1646v2BaliAdvancedFilterAdvPolicyTosBasedActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BaliAdvancedFilterAdvPolicyTosBasedEntry 2}
+
+er1646v2BaliAdvancedFilterAdvPolicyTosBasedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BaliAdvancedFilterAdvPolicyTosBasedEntry 10}
+
+er1646v2BaliAdvancedFilterAdvPolicyTosBasedTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BaliAdvancedFilterAdvPolicyTosBasedEntry 11}
+
+er1646v2BaliAdvancedFilterAdvPolicyTosBasedStartTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               nonIp (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.policy.tosBased.startTos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               nonIp   (256)"
+   ::= {er1646v2BaliAdvancedFilterAdvPolicyTosBasedEntry 16777216}
+
+er1646v2BaliAdvancedFilterAdvPolicyTosBasedEndTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               nonIp (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.policy.tosBased.endTos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               nonIp   (256)"
+   ::= {er1646v2BaliAdvancedFilterAdvPolicyTosBasedEntry 33554432}
+
+er1646v2BaliAdvancedFilterAdvPolicyTosBasedCos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.policy.tosBased.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterAdvPolicyTosBasedEntry 50331648}
+
+er1646v2BaliAdvancedFilterAdvPolicyTosBasedQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.policy.tosBased.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1646v2BaliAdvancedFilterAdvPolicyTosBasedEntry 67108864}
+
+er1646v2BaliAdvancedFilterAdvPolicyTosBasedDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.policy.tosBased.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterAdvPolicyTosBasedEntry 83886080}
+
+er1646v2BaliAdvancedFilterAdvPolicyTosBasedPort OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.policy.tosBased.port"
+   ::= {er1646v2BaliAdvancedFilterAdvPolicyTosBasedEntry 100663296}
+
+er1646v2BaliAdvancedFilterAdvMTaMapTosToCos OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BaliAdvancedFilter 134832128}
+
+er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BaliAdvancedFilterAdvMTaMapTosToCosGlobalIx,
+                er1646v2BaliAdvancedFilterTableIx,
+                er1646v2BaliAdvancedFilterAdvMTaMapTosToCosTableIx }
+   ::= {er1646v2BaliAdvancedFilterAdvMTaMapTosToCos 1}
+
+Er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry ::=
+   SEQUENCE
+      {
+      er1646v2BaliAdvancedFilterAdvMTaMapTosToCosActions
+         VariableLengthTableActions,
+      er1646v2BaliAdvancedFilterAdvMTaMapTosToCosGlobalIx
+         GlobalIndex,
+      er1646v2BaliAdvancedFilterAdvMTaMapTosToCosTableIx
+         TableIndex,
+      er1646v2BaliAdvancedFilterAdvMTaMapTosToCosStartTos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEndTos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapTosToCosCos
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapTosToCosDei
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapTosToCosQueue
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapTosToCosDropLevel
+         INTEGER,
+      er1646v2BaliAdvancedFilterAdvMTaMapTosToCosDeFlag
+         INTEGER
+      }
+
+er1646v2BaliAdvancedFilterAdvMTaMapTosToCosActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry 2}
+
+er1646v2BaliAdvancedFilterAdvMTaMapTosToCosGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry 10}
+
+er1646v2BaliAdvancedFilterAdvMTaMapTosToCosTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry 11}
+
+er1646v2BaliAdvancedFilterAdvMTaMapTosToCosStartTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               nonIp (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapTosToCos.startTos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               nonIp   (256)"
+   ::= {er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry 16777216}
+
+er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEndTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               nonIp (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapTosToCos.endTos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               nonIp   (256)"
+   ::= {er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry 33554432}
+
+er1646v2BaliAdvancedFilterAdvMTaMapTosToCosCos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapTosToCos.cos
+
+       Possibilities:
+               unchanged   (8)"
+   ::= {er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry 50331648}
+
+er1646v2BaliAdvancedFilterAdvMTaMapTosToCosDei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapTosToCos.dei
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry 100663296}
+
+er1646v2BaliAdvancedFilterAdvMTaMapTosToCosQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               drop (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapTosToCos.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               drop   (8)"
+   ::= {er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry 67108864}
+
+er1646v2BaliAdvancedFilterAdvMTaMapTosToCosDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnQueue (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapTosToCos.dropLevel
+
+       Possibilities:
+               dropOnQueue   (0)"
+   ::= {er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry 83886080}
+
+er1646v2BaliAdvancedFilterAdvMTaMapTosToCosDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.editConf.advancedFilter.advanced.markTcpAck.mapTosToCos.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1646v2BaliAdvancedFilterAdvMTaMapTosToCosEntry 117440512}
+
+
+
+sr1646v2Bali OBJECT IDENTIFIER ::= {r1646v2Bali 14}
+
+
+sr1646v2BaliSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2Bali 269}
+
+sr1646v2BaliSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BaliSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2BaliSnmpIndex 1}
+
+sr1646v2BaliSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BaliSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BaliSnmpIndexGlobalIx }
+   ::= {sr1646v2BaliSnmpIndexTable 1}
+
+Sr1646v2BaliSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BaliSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2BaliSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2BaliSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BaliSnmpIndexEntry 10}
+
+sr1646v2BaliSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.status.snmpIndex"
+   ::= {sr1646v2BaliSnmpIndexEntry 2147483648}
+
+
+
+pr1646v2Bali OBJECT IDENTIFIER ::= {r1646v2Bali 12}
+
+
+pr1646v2BaliBrAccLP OBJECT IDENTIFIER ::= {pr1646v2Bali 3}
+
+pr1646v2BaliBrAccLPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2BaliBrAccLPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "number of MAC address denials due to a bridge access list"
+   ::= {pr1646v2BaliBrAccLP 1}
+
+pr1646v2BaliBrAccLPEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2BaliBrAccLPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2BaliBrAccLPGlobalIx,
+                pr1646v2BaliBrAccLPTableIx }
+   ::= {pr1646v2BaliBrAccLPSSCTable 1}
+
+Pr1646v2BaliBrAccLPEntry ::=
+   SEQUENCE
+      {
+      pr1646v2BaliBrAccLPGlobalIx
+         GlobalIndex,
+      pr1646v2BaliBrAccLPTableIx
+         TableIndex,
+      pr1646v2BaliBrAccLPMacAddress
+         OCTET STRING,
+      pr1646v2BaliBrAccLPUses
+         Counter32
+      }
+
+pr1646v2BaliBrAccLPGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2BaliBrAccLPEntry 10}
+
+pr1646v2BaliBrAccLPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2BaliBrAccLPEntry 11}
+
+pr1646v2BaliBrAccLPMacAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.bridgeAccessList.macAddress
+
+       MAC address."
+   ::= {pr1646v2BaliBrAccLPEntry 16777216}
+
+pr1646v2BaliBrAccLPUses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.bridgeAccessList.uses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2BaliBrAccLPEntry 33554432}
+
+
+pr1646v2BaliAdvancedFilter OBJECT IDENTIFIER ::= {pr1646v2Bali 5}
+
+pr1646v2BaliAdvancedFilterSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2BaliAdvancedFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MAC addresses to deny access"
+   ::= {pr1646v2BaliAdvancedFilter 1}
+
+pr1646v2BaliAdvancedFilterEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2BaliAdvancedFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2BaliAdvancedFilterGlobalIx,
+                pr1646v2BaliAdvancedFilterTableIx }
+   ::= {pr1646v2BaliAdvancedFilterSSCTable 1}
+
+Pr1646v2BaliAdvancedFilterEntry ::=
+   SEQUENCE
+      {
+      pr1646v2BaliAdvancedFilterGlobalIx
+         GlobalIndex,
+      pr1646v2BaliAdvancedFilterTableIx
+         TableIndex,
+      pr1646v2BaliAdvancedFilterName
+         DisplayString,
+      pr1646v2BaliAdvancedFilterMatched
+         Gauge32,
+      pr1646v2BaliAdvancedFilterChecked
+         Gauge32,
+      pr1646v2BaliAdvancedFilterSms
+         OCTET STRING,
+      pr1646v2BaliAdvancedFilterSme
+         OCTET STRING,
+      pr1646v2BaliAdvancedFilterDms
+         OCTET STRING,
+      pr1646v2BaliAdvancedFilterDme
+         OCTET STRING,
+      pr1646v2BaliAdvancedFilterVlanDepth
+         INTEGER,
+      pr1646v2BaliAdvancedFilterTpid
+         INTEGER,
+      pr1646v2BaliAdvancedFilterVlan
+         INTEGER,
+      pr1646v2BaliAdvancedFilterEndVlan
+         INTEGER,
+      pr1646v2BaliAdvancedFilterPriority
+         INTEGER,
+      pr1646v2BaliAdvancedFilterDei
+         INTEGER,
+      pr1646v2BaliAdvancedFilterPro
+         INTEGER,
+      pr1646v2BaliAdvancedFilterAct
+         INTEGER,
+      pr1646v2BaliAdvancedFilterAdvdr
+         Gauge32,
+      pr1646v2BaliAdvancedFilterAdv
+         DisplayString
+      }
+
+pr1646v2BaliAdvancedFilterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2BaliAdvancedFilterEntry 10}
+
+pr1646v2BaliAdvancedFilterTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2BaliAdvancedFilterEntry 11}
+
+pr1646v2BaliAdvancedFilterName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.name"
+   ::= {pr1646v2BaliAdvancedFilterEntry 218103808}
+
+pr1646v2BaliAdvancedFilterMatched OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.matched
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2BaliAdvancedFilterEntry 150994944}
+
+pr1646v2BaliAdvancedFilterChecked OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.checked
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2BaliAdvancedFilterEntry 167772160}
+
+pr1646v2BaliAdvancedFilterSms OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.sourceMacStart
+
+       MAC address."
+   ::= {pr1646v2BaliAdvancedFilterEntry 16777216}
+
+pr1646v2BaliAdvancedFilterSme OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.sourceMacEnd
+
+       MAC address."
+   ::= {pr1646v2BaliAdvancedFilterEntry 33554432}
+
+pr1646v2BaliAdvancedFilterDms OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.destinationMacStart
+
+       MAC address."
+   ::= {pr1646v2BaliAdvancedFilterEntry 50331648}
+
+pr1646v2BaliAdvancedFilterDme OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.destinationMacEnd
+
+       MAC address."
+   ::= {pr1646v2BaliAdvancedFilterEntry 67108864}
+
+pr1646v2BaliAdvancedFilterVlanDepth OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unused (0)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.vlanDepth
+
+       Possibilities:
+               unused   (0)"
+   ::= {pr1646v2BaliAdvancedFilterEntry 234881024}
+
+pr1646v2BaliAdvancedFilterTpid OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dot1q (33024),
+               dot1ad (34984),
+               s0x9100 (37120),
+               s0x9200 (37376),
+               s0x9300 (37632),
+               dot1qOrDot1ad (65536),
+               notUsed (65537)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.tpid
+
+       Possibilities:
+               dot1q   (33024)
+               dot1ad   (34984)
+               0x9100   (37120)
+               0x9200   (37376)
+               0x9300   (37632)
+               dot1qOrDot1ad   (65536)
+               notUsed   (65537)"
+   ::= {pr1646v2BaliAdvancedFilterEntry 285212672}
+
+pr1646v2BaliAdvancedFilterVlan OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               priorityTagged (0),
+               untagged (4096),
+               any (4097),
+               anyVlan (4098)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.vlan
+
+       Possibilities:
+               priorityTagged   (0)
+               untagged   (4096)
+               any   (4097)
+               anyVlan   (4098)"
+   ::= {pr1646v2BaliAdvancedFilterEntry 184549376}
+
+pr1646v2BaliAdvancedFilterEndVlan OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notUsed (0)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.endVlan
+
+       Possibilities:
+               notUsed   (0)"
+   ::= {pr1646v2BaliAdvancedFilterEntry 268435456}
+
+pr1646v2BaliAdvancedFilterPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (8)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.priority
+
+       Possibilities:
+               any   (8)"
+   ::= {pr1646v2BaliAdvancedFilterEntry 201326592}
+
+pr1646v2BaliAdvancedFilterDei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               clear (0),
+               set (1),
+               any (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.dei
+
+       Possibilities:
+               clear   (0)
+               set   (1)
+               any   (2)"
+   ::= {pr1646v2BaliAdvancedFilterEntry 301989888}
+
+pr1646v2BaliAdvancedFilterPro OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (65536),
+               ip (2048),
+               arp (2054),
+               rarp (32821),
+               vlanTagged (33024),
+               ipV6 (34525),
+               slowProtocols (34825),
+               mplsUnicast (34887),
+               mplsMulticast (34888),
+               pppoeControl (34915),
+               pppoeData (34916),
+               svlan802d1ad (34984),
+               llcSnap (65537)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.protocol
+
+       Possibilities:
+               any   (65536)
+               ip   (2048)
+               arp   (2054)
+               rarp   (32821)
+               vlanTagged   (33024)
+               ipV6   (34525)
+               slowProtocols   (34825)
+               mplsUnicast   (34887)
+               mplsMulticast   (34888)
+               pppoeControl   (34915)
+               pppoeData   (34916)
+               svlan802.1ad   (34984)
+               llcSnap   (65537)"
+   ::= {pr1646v2BaliAdvancedFilterEntry 83886080}
+
+pr1646v2BaliAdvancedFilterAct OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               deny (0),
+               permit (1),
+               continue (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.action
+
+       Possibilities:
+               deny   (0)
+               permit   (1)
+               continue   (2)"
+   ::= {pr1646v2BaliAdvancedFilterEntry 100663296}
+
+pr1646v2BaliAdvancedFilterAdvdr OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.advancedDrops
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2BaliAdvancedFilterEntry 251658240}
+
+pr1646v2BaliAdvancedFilterAdv OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.performance.advancedFilter.advanced"
+   ::= {pr1646v2BaliAdvancedFilterEntry 134217728}
+
+
+
+ar1646v2Bali OBJECT IDENTIFIER ::= {r1646v2Bali 16}
+
+
+ar1646v2BaliClearCounters OBJECT IDENTIFIER ::= {ar1646v2Bali 263}
+
+ar1646v2BaliClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2BaliClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1646v2BaliClearCounters 1}
+
+ar1646v2BaliClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2BaliClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2BaliClearCountersGlobalIx }
+   ::= {ar1646v2BaliClearCountersTable 1}
+
+Ar1646v2BaliClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1646v2BaliClearCountersGlobalIx
+         GlobalIndex,
+      ar1646v2BaliClearCountersValue
+         Integer32
+      }
+
+ar1646v2BaliClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2BaliClearCountersEntry 10}
+
+ar1646v2BaliClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: accessList.actions.clearCounters"
+   ::= {ar1646v2BaliClearCountersEntry 2147483648}
+
+
+
+END

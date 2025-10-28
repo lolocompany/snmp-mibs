@@ -1,0 +1,881 @@
+OneAccess-R1645v2-4834-MtGFast DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2MtGFast OBJECT IDENTIFIER ::= {r1645Rootv2 4834}
+
+r1645v2MtGFastMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2MtGFastMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2MtGFast 1}
+
+r1645v2MtGFastMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2MtGFastMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2MtGFastMOPropGlobalIx }
+   ::= {r1645v2MtGFastMOProp 1}
+
+R1645v2MtGFastMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2MtGFastMOPropPath
+         ContainmentPath,
+      r1645v2MtGFastMOPropRev
+         ObjectRevision,
+      r1645v2MtGFastMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2MtGFastMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2MtGFastMOPropEntry 3}
+
+r1645v2MtGFastMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2MtGFastMOPropEntry 4}
+
+r1645v2MtGFastMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2MtGFastMOPropEntry 10}
+
+
+
+er1645v2MtGFast OBJECT IDENTIFIER ::= {r1645v2MtGFast 11}
+
+
+er1645v2MtGFastSnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2MtGFast 268}
+
+er1645v2MtGFastSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2MtGFastSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2MtGFastSnmpIndexOffset 1}
+
+er1645v2MtGFastSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2MtGFastSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2MtGFastSnmpIndexOffsetGlobalIx }
+   ::= {er1645v2MtGFastSnmpIndexOffsetTable 1}
+
+Er1645v2MtGFastSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2MtGFastSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2MtGFastSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2MtGFastSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2MtGFastSnmpIndexOffsetEntry 10}
+
+er1645v2MtGFastSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.editConf.snmpIndexOffset"
+   ::= {er1645v2MtGFastSnmpIndexOffsetEntry 2147483648}
+
+
+
+sr1645v2MtGFast OBJECT IDENTIFIER ::= {r1645v2MtGFast 14}
+
+
+sr1645v2MtGFastSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2MtGFast 269}
+
+sr1645v2MtGFastSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MtGFastSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2MtGFastSnmpIndex 1}
+
+sr1645v2MtGFastSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MtGFastSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MtGFastSnmpIndexGlobalIx }
+   ::= {sr1645v2MtGFastSnmpIndexTable 1}
+
+Sr1645v2MtGFastSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MtGFastSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2MtGFastSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2MtGFastSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MtGFastSnmpIndexEntry 10}
+
+sr1645v2MtGFastSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.status.snmpIndex"
+   ::= {sr1645v2MtGFastSnmpIndexEntry 2147483648}
+
+
+sr1645v2MtGFastMacAddress OBJECT IDENTIFIER ::= {sr1645v2MtGFast 18}
+
+sr1645v2MtGFastMacAddressTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MtGFastMacAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "GFast mac address"
+   ::= {sr1645v2MtGFastMacAddress 1}
+
+sr1645v2MtGFastMacAddressEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MtGFastMacAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MtGFastMacAddressGlobalIx }
+   ::= {sr1645v2MtGFastMacAddressTable 1}
+
+Sr1645v2MtGFastMacAddressEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MtGFastMacAddressGlobalIx
+         GlobalIndex,
+      sr1645v2MtGFastMacAddressValue
+         OCTET STRING
+      }
+
+sr1645v2MtGFastMacAddressGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MtGFastMacAddressEntry 10}
+
+sr1645v2MtGFastMacAddressValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.status.macAddress
+
+       MAC address."
+   ::= {sr1645v2MtGFastMacAddressEntry 2147483648}
+
+
+sr1645v2MtGFastSoftwareVersion OBJECT IDENTIFIER ::= {sr1645v2MtGFast 11}
+
+sr1645v2MtGFastSoftwareVersionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MtGFastSoftwareVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "GFast version string"
+   ::= {sr1645v2MtGFastSoftwareVersion 1}
+
+sr1645v2MtGFastSoftwareVersionEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MtGFastSoftwareVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MtGFastSoftwareVersionGlobalIx }
+   ::= {sr1645v2MtGFastSoftwareVersionTable 1}
+
+Sr1645v2MtGFastSoftwareVersionEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MtGFastSoftwareVersionGlobalIx
+         GlobalIndex,
+      sr1645v2MtGFastSoftwareVersionValue
+         DisplayString
+      }
+
+sr1645v2MtGFastSoftwareVersionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MtGFastSoftwareVersionEntry 10}
+
+sr1645v2MtGFastSoftwareVersionValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.status.softwareVersion"
+   ::= {sr1645v2MtGFastSoftwareVersionEntry 2147483648}
+
+
+sr1645v2MtGFastSoftwareDate OBJECT IDENTIFIER ::= {sr1645v2MtGFast 15}
+
+sr1645v2MtGFastSoftwareDateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MtGFastSoftwareDateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "GFast version date"
+   ::= {sr1645v2MtGFastSoftwareDate 1}
+
+sr1645v2MtGFastSoftwareDateEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MtGFastSoftwareDateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MtGFastSoftwareDateGlobalIx }
+   ::= {sr1645v2MtGFastSoftwareDateTable 1}
+
+Sr1645v2MtGFastSoftwareDateEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MtGFastSoftwareDateGlobalIx
+         GlobalIndex,
+      sr1645v2MtGFastSoftwareDateValue
+         OCTET STRING
+      }
+
+sr1645v2MtGFastSoftwareDateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MtGFastSoftwareDateEntry 10}
+
+sr1645v2MtGFastSoftwareDateValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.status.softwareDate"
+   ::= {sr1645v2MtGFastSoftwareDateEntry 2147483648}
+
+
+sr1645v2MtGFastSoftwareTime OBJECT IDENTIFIER ::= {sr1645v2MtGFast 16}
+
+sr1645v2MtGFastSoftwareTimeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MtGFastSoftwareTimeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "GFast version time"
+   ::= {sr1645v2MtGFastSoftwareTime 1}
+
+sr1645v2MtGFastSoftwareTimeEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MtGFastSoftwareTimeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MtGFastSoftwareTimeGlobalIx }
+   ::= {sr1645v2MtGFastSoftwareTimeTable 1}
+
+Sr1645v2MtGFastSoftwareTimeEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MtGFastSoftwareTimeGlobalIx
+         GlobalIndex,
+      sr1645v2MtGFastSoftwareTimeValue
+         OCTET STRING
+      }
+
+sr1645v2MtGFastSoftwareTimeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MtGFastSoftwareTimeEntry 10}
+
+sr1645v2MtGFastSoftwareTimeValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.status.softwareTime"
+   ::= {sr1645v2MtGFastSoftwareTimeEntry 2147483648}
+
+
+sr1645v2MtGFastSelfTest OBJECT IDENTIFIER ::= {sr1645v2MtGFast 19}
+
+sr1645v2MtGFastSelfTestTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MtGFastSelfTestEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Module selftest result"
+   ::= {sr1645v2MtGFastSelfTest 1}
+
+sr1645v2MtGFastSelfTestEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MtGFastSelfTestEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MtGFastSelfTestGlobalIx }
+   ::= {sr1645v2MtGFastSelfTestTable 1}
+
+Sr1645v2MtGFastSelfTestEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MtGFastSelfTestGlobalIx
+         GlobalIndex,
+      sr1645v2MtGFastSelfTestValue
+         INTEGER
+      }
+
+sr1645v2MtGFastSelfTestGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MtGFastSelfTestEntry 10}
+
+sr1645v2MtGFastSelfTestValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               passed (0),
+               failed (1),
+               notAvailable (127)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.status.selfTest
+
+       Possibilities:
+               passed   (0)
+               failed   (1)
+               notAvailable   (127)"
+   ::= {sr1645v2MtGFastSelfTestEntry 2147483648}
+
+
+sr1645v2MtGFastModuleState OBJECT IDENTIFIER ::= {sr1645v2MtGFast 13}
+
+sr1645v2MtGFastModuleStateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MtGFastModuleStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Module state"
+   ::= {sr1645v2MtGFastModuleState 1}
+
+sr1645v2MtGFastModuleStateEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MtGFastModuleStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MtGFastModuleStateGlobalIx }
+   ::= {sr1645v2MtGFastModuleStateTable 1}
+
+Sr1645v2MtGFastModuleStateEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MtGFastModuleStateGlobalIx
+         GlobalIndex,
+      sr1645v2MtGFastModuleStateValue
+         INTEGER
+      }
+
+sr1645v2MtGFastModuleStateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MtGFastModuleStateEntry 10}
+
+sr1645v2MtGFastModuleStateValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               idle (0),
+               moduleWait (1),
+               moduleGetMAC (2),
+               swiftInit (3),
+               appInit (4),
+               appConnected (5),
+               appDisconnected (6),
+               appDeinit (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.status.moduleState
+
+       Possibilities:
+               idle   (0)
+               moduleWait   (1)
+               moduleGetMAC   (2)
+               swiftInit   (3)
+               appInit   (4)
+               appConnected   (5)
+               appDisconnected   (6)
+               appDeinit   (7)"
+   ::= {sr1645v2MtGFastModuleStateEntry 2147483648}
+
+
+sr1645v2MtGFastUpgradeResult OBJECT IDENTIFIER ::= {sr1645v2MtGFast 20}
+
+sr1645v2MtGFastUpgradeResultTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MtGFastUpgradeResultEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "result of upgrade firmware"
+   ::= {sr1645v2MtGFastUpgradeResult 1}
+
+sr1645v2MtGFastUpgradeResultEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MtGFastUpgradeResultEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MtGFastUpgradeResultGlobalIx }
+   ::= {sr1645v2MtGFastUpgradeResultTable 1}
+
+Sr1645v2MtGFastUpgradeResultEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MtGFastUpgradeResultGlobalIx
+         GlobalIndex,
+      sr1645v2MtGFastUpgradeResultValue
+         DisplayString
+      }
+
+sr1645v2MtGFastUpgradeResultGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MtGFastUpgradeResultEntry 10}
+
+sr1645v2MtGFastUpgradeResultValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.status.upgradeResult"
+   ::= {sr1645v2MtGFastUpgradeResultEntry 2147483648}
+
+
+
+ar1645v2MtGFast OBJECT IDENTIFIER ::= {r1645v2MtGFast 16}
+
+
+ar1645v2MtGFastResetModule OBJECT IDENTIFIER ::= {ar1645v2MtGFast 252}
+
+ar1645v2MtGFastResetModuleTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2MtGFastResetModuleEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset module trough by toggling tx disable pin"
+   ::= {ar1645v2MtGFastResetModule 1}
+
+ar1645v2MtGFastResetModuleEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2MtGFastResetModuleEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2MtGFastResetModuleGlobalIx }
+   ::= {ar1645v2MtGFastResetModuleTable 1}
+
+Ar1645v2MtGFastResetModuleEntry ::=
+   SEQUENCE
+      {
+      ar1645v2MtGFastResetModuleGlobalIx
+         GlobalIndex,
+      ar1645v2MtGFastResetModuleValue
+         Integer32
+      }
+
+ar1645v2MtGFastResetModuleGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2MtGFastResetModuleEntry 10}
+
+ar1645v2MtGFastResetModuleValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.actions.resetModule"
+   ::= {ar1645v2MtGFastResetModuleEntry 2147483648}
+
+
+ar1645v2MtGFastUpgradeFirmware OBJECT IDENTIFIER ::= {ar1645v2MtGFast 408}
+
+ar1645v2MtGFastUpgradeFirmwareTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2MtGFastUpgradeFirmwareEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Metanoia upgrade firmware"
+   ::= {ar1645v2MtGFastUpgradeFirmware 1}
+
+ar1645v2MtGFastUpgradeFirmwareEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2MtGFastUpgradeFirmwareEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2MtGFastUpgradeFirmwareGlobalIx }
+   ::= {ar1645v2MtGFastUpgradeFirmwareTable 1}
+
+Ar1645v2MtGFastUpgradeFirmwareEntry ::=
+   SEQUENCE
+      {
+      ar1645v2MtGFastUpgradeFirmwareGlobalIx
+         GlobalIndex,
+      ar1645v2MtGFastUpgradeFirmwareValue
+         Integer32
+      }
+
+ar1645v2MtGFastUpgradeFirmwareGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2MtGFastUpgradeFirmwareEntry 10}
+
+ar1645v2MtGFastUpgradeFirmwareValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.actions.upgradeFirmware"
+   ::= {ar1645v2MtGFastUpgradeFirmwareEntry 2147483648}
+
+
+ar1645v2MtGFastSwFilename OBJECT IDENTIFIER ::= {ar1645v2MtGFast 418}
+
+ar1645v2MtGFastSwFilenameTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2MtGFastSwFilenameEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Metanoia upgrade software: filename"
+   ::= {ar1645v2MtGFastSwFilename 1}
+
+ar1645v2MtGFastSwFilenameEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2MtGFastSwFilenameEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2MtGFastSwFilenameGlobalIx }
+   ::= {ar1645v2MtGFastSwFilenameTable 1}
+
+Ar1645v2MtGFastSwFilenameEntry ::=
+   SEQUENCE
+      {
+      ar1645v2MtGFastSwFilenameGlobalIx
+         GlobalIndex,
+      ar1645v2MtGFastSwFilenameValue
+         DisplayString
+      }
+
+ar1645v2MtGFastSwFilenameGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2MtGFastSwFilenameEntry 10}
+
+ar1645v2MtGFastSwFilenameValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.actions.swFilename"
+   ::= {ar1645v2MtGFastSwFilenameEntry 2147483648}
+
+
+ar1645v2MtGFastReadMib OBJECT IDENTIFIER ::= {ar1645v2MtGFast 250}
+
+ar1645v2MtGFastReadMibTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2MtGFastReadMibEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "read a mib object"
+   ::= {ar1645v2MtGFastReadMib 1}
+
+ar1645v2MtGFastReadMibEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2MtGFastReadMibEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2MtGFastReadMibGlobalIx }
+   ::= {ar1645v2MtGFastReadMibTable 1}
+
+Ar1645v2MtGFastReadMibEntry ::=
+   SEQUENCE
+      {
+      ar1645v2MtGFastReadMibGlobalIx
+         GlobalIndex,
+      ar1645v2MtGFastReadMibValue
+         Integer32
+      }
+
+ar1645v2MtGFastReadMibGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2MtGFastReadMibEntry 10}
+
+ar1645v2MtGFastReadMibValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.actions.readMib"
+   ::= {ar1645v2MtGFastReadMibEntry 2147483648}
+
+
+ar1645v2MtGFastReadMibData OBJECT IDENTIFIER ::= {ar1645v2MtGFast 251}
+
+ar1645v2MtGFastReadMibDataSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2MtGFastReadMibDataEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "data needed for the read mib"
+   ::= {ar1645v2MtGFastReadMibData 1}
+
+ar1645v2MtGFastReadMibDataEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2MtGFastReadMibDataEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2MtGFastReadMibDataGlobalIx }
+   ::= {ar1645v2MtGFastReadMibDataSSCTable 1}
+
+Ar1645v2MtGFastReadMibDataEntry ::=
+   SEQUENCE
+      {
+      ar1645v2MtGFastReadMibDataGlobalIx
+         GlobalIndex,
+      ar1645v2MtGFastReadMibDataGid
+         Integer32,
+      ar1645v2MtGFastReadMibDataTid
+         Integer32,
+      ar1645v2MtGFastReadMibDataPid
+         Integer32,
+      ar1645v2MtGFastReadMibDataIndex
+         Integer32,
+      ar1645v2MtGFastReadMibDataIndexLength
+         Integer32,
+      ar1645v2MtGFastReadMibDataType
+         INTEGER
+      }
+
+ar1645v2MtGFastReadMibDataGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2MtGFastReadMibDataEntry 10}
+
+ar1645v2MtGFastReadMibDataGid OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.actions.readMibData.gid"
+   ::= {ar1645v2MtGFastReadMibDataEntry 16777216}
+
+ar1645v2MtGFastReadMibDataTid OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.actions.readMibData.tid"
+   ::= {ar1645v2MtGFastReadMibDataEntry 33554432}
+
+ar1645v2MtGFastReadMibDataPid OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.actions.readMibData.pid"
+   ::= {ar1645v2MtGFastReadMibDataEntry 50331648}
+
+ar1645v2MtGFastReadMibDataIndex OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.actions.readMibData.index"
+   ::= {ar1645v2MtGFastReadMibDataEntry 67108864}
+
+ar1645v2MtGFastReadMibDataIndexLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.actions.readMibData.indexLength"
+   ::= {ar1645v2MtGFastReadMibDataEntry 83886080}
+
+ar1645v2MtGFastReadMibDataType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unsigneduintu32 (0),
+               signeduintu32 (1),
+               unsigneduintu16 (2),
+               signeduintu16 (3),
+               unsigneduintu8 (4),
+               signeduintu8 (5),
+               string (6),
+               boolean (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.actions.readMibData.type
+
+       Possibilities:
+               unsigned_int_32   (0)
+               signed_int_32   (1)
+               unsigned_int_16   (2)
+               signed_int_16   (3)
+               unsigned_int_8   (4)
+               signed_int_8   (5)
+               string   (6)
+               boolean   (7)"
+   ::= {ar1645v2MtGFastReadMibDataEntry 100663296}
+
+
+ar1645v2MtGFastClearCounters OBJECT IDENTIFIER ::= {ar1645v2MtGFast 263}
+
+ar1645v2MtGFastClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2MtGFastClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1645v2MtGFastClearCounters 1}
+
+ar1645v2MtGFastClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2MtGFastClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2MtGFastClearCountersGlobalIx }
+   ::= {ar1645v2MtGFastClearCountersTable 1}
+
+Ar1645v2MtGFastClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1645v2MtGFastClearCountersGlobalIx
+         GlobalIndex,
+      ar1645v2MtGFastClearCountersValue
+         Integer32
+      }
+
+ar1645v2MtGFastClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2MtGFastClearCountersEntry 10}
+
+ar1645v2MtGFastClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: gfast.actions.clearCounters"
+   ::= {ar1645v2MtGFastClearCountersEntry 2147483648}
+
+
+
+END

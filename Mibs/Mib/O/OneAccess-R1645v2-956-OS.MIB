@@ -1,0 +1,2094 @@
+OneAccess-R1645v2-956-OS DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2OS OBJECT IDENTIFIER ::= {r1645Rootv2 956}
+
+r1645v2OSMOProp OBJECT IDENTIFIER ::= {r1645v2OS 1}
+
+r1645v2OSMOPropEntry OBJECT IDENTIFIER ::= {r1645v2OSMOProp 1}
+
+r1645v2OSMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2OSMOPropEntry 3}
+
+r1645v2OSMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2OSMOPropEntry 4}
+
+
+
+pr1645v2OS OBJECT IDENTIFIER ::= {r1645v2OS 12}
+
+
+pr1645v2OSCurrUsedProcPower OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.currUsedProcPower
+       Info: currently used processing power in the system
+
+       unit name = %"
+   ::= {pr1645v2OS 10}
+
+
+pr1645v2OSUsedProcPower OBJECT IDENTIFIER ::= {pr1645v2OS 11}
+
+pr1645v2OSUsedProcPowerSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2OSUsedProcPowerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "used processing power 5-minute history"
+   ::= {pr1645v2OSUsedProcPower 1}
+
+pr1645v2OSUsedProcPowerEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2OSUsedProcPowerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2OSUsedProcPowerTableIx }
+   ::= {pr1645v2OSUsedProcPowerSSCTable 1}
+
+Pr1645v2OSUsedProcPowerEntry ::=
+   SEQUENCE
+      {
+      pr1645v2OSUsedProcPowerTableIx
+         TableIndex,
+      pr1645v2OSUsedProcPowerSysUpTime
+         TimeTicks,
+      pr1645v2OSUsedProcPowerMin
+         Integer32,
+      pr1645v2OSUsedProcPowerAverage
+         Integer32,
+      pr1645v2OSUsedProcPowerMax
+         Integer32
+      }
+
+pr1645v2OSUsedProcPowerTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2OSUsedProcPowerEntry 11}
+
+pr1645v2OSUsedProcPowerSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.usedProcPower.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2OSUsedProcPowerEntry 67108864}
+
+pr1645v2OSUsedProcPowerMin OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.usedProcPower.min
+
+       unit name = %"
+   ::= {pr1645v2OSUsedProcPowerEntry 50331648}
+
+pr1645v2OSUsedProcPowerAverage OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.usedProcPower.average
+
+       unit name = %"
+   ::= {pr1645v2OSUsedProcPowerEntry 16777216}
+
+pr1645v2OSUsedProcPowerMax OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.usedProcPower.max
+
+       unit name = %"
+   ::= {pr1645v2OSUsedProcPowerEntry 33554432}
+
+
+pr1645v2OSFreeDataBuffers OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.freeDataBuffers
+       Info: amount of free databuffers
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2OS 12}
+
+
+pr1645v2OSTotalDataBuffers OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.totalDataBuffers
+       Info: total amount of databuffers (= free + used)
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2OS 13}
+
+
+pr1645v2OSFreeMemory OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.freeMemory
+       Info: free memory in the system in bytes
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2OS 16}
+
+
+pr1645v2OSTotalMemory OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.totalMemory
+       Info: total memory in the system in bytes
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2OS 17}
+
+
+pr1645v2OSMemAllocations OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.memAllocations
+       Info: total number of memory allocations
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2OS 61}
+
+
+pr1645v2OSMemOutstanding OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.memOutstanding
+       Info: memory outstanding
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2OS 62}
+
+
+pr1645v2OSMemOverview OBJECT IDENTIFIER ::= {pr1645v2OS 63}
+
+pr1645v2OSMemOverviewSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2OSMemOverviewEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2OSMemOverview 1}
+
+pr1645v2OSMemOverviewEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2OSMemOverviewEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2OSMemOverviewTableIx }
+   ::= {pr1645v2OSMemOverviewSSCTable 1}
+
+Pr1645v2OSMemOverviewEntry ::=
+   SEQUENCE
+      {
+      pr1645v2OSMemOverviewTableIx
+         TableIndex,
+      pr1645v2OSMemOverviewSize
+         INTEGER,
+      pr1645v2OSMemOverviewAllocations
+         Counter32,
+      pr1645v2OSMemOverviewOutstanding
+         Gauge32,
+      pr1645v2OSMemOverviewPartFreeSegs
+         Gauge32,
+      pr1645v2OSMemOverviewFullFreeSegs
+         Gauge32,
+      pr1645v2OSMemOverviewCompFilledSegs
+         Gauge32,
+      pr1645v2OSMemOverviewFreeMemory
+         Gauge32
+      }
+
+pr1645v2OSMemOverviewTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2OSMemOverviewEntry 11}
+
+pr1645v2OSMemOverviewSize OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               sg32K (1),
+               s1Km32K (2),
+               s128m1K (3),
+               s0m128 (4),
+               s8 (5),
+               s16 (6),
+               s24 (7),
+               s32 (8),
+               s48 (9),
+               s64 (10),
+               s80 (11),
+               s96 (12),
+               s128 (13),
+               s (100)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.memOverview.size
+
+       Possibilities:
+               >32K   (1)
+               1K-32K   (2)
+               128-1K   (3)
+               0-128   (4)
+               8   (5)
+               16   (6)
+               24   (7)
+               32   (8)
+               48   (9)
+               64   (10)
+               80   (11)
+               96   (12)
+               128   (13)
+                  (100)"
+   ::= {pr1645v2OSMemOverviewEntry 16777216}
+
+pr1645v2OSMemOverviewAllocations OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.memOverview.allocations
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2OSMemOverviewEntry 33554432}
+
+pr1645v2OSMemOverviewOutstanding OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.memOverview.outstanding
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2OSMemOverviewEntry 50331648}
+
+pr1645v2OSMemOverviewPartFreeSegs OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.memOverview.partialFreeSegments
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2OSMemOverviewEntry 67108864}
+
+pr1645v2OSMemOverviewFullFreeSegs OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.memOverview.fullFreeSegments
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2OSMemOverviewEntry 83886080}
+
+pr1645v2OSMemOverviewCompFilledSegs OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.memOverview.completeFilledSegments
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2OSMemOverviewEntry 100663296}
+
+pr1645v2OSMemOverviewFreeMemory OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.memOverview.freeMemory
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2OSMemOverviewEntry 117440512}
+
+
+pr1645v2OSFreeShortBuffers OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.freeShortBuffers
+       Info: amount of free databuffers
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2OS 20}
+
+
+pr1645v2OSTotalShortBuffers OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.totalShortBuffers
+       Info: total amount of databuffers (= free + used)
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2OS 21}
+
+
+pr1645v2OSTaskInfo OBJECT IDENTIFIER ::= {pr1645v2OS 32}
+
+pr1645v2OSTaskInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2OSTaskInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "task-related information"
+   ::= {pr1645v2OSTaskInfo 1}
+
+pr1645v2OSTaskInfoEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2OSTaskInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2OSTaskInfoTableIx }
+   ::= {pr1645v2OSTaskInfoSSCTable 1}
+
+Pr1645v2OSTaskInfoEntry ::=
+   SEQUENCE
+      {
+      pr1645v2OSTaskInfoTableIx
+         TableIndex,
+      pr1645v2OSTaskInfoTaskName
+         DisplayString,
+      pr1645v2OSTaskInfoTaskStatus
+         INTEGER,
+      pr1645v2OSTaskInfoLoad30s
+         Integer32,
+      pr1645v2OSTaskInfoLoad5m
+         Integer32,
+      pr1645v2OSTaskInfoRunningInMedium
+         Integer32,
+      pr1645v2OSTaskInfoRunningInHigh
+         Integer32,
+      pr1645v2OSTaskInfoActivity
+         Gauge32
+      }
+
+pr1645v2OSTaskInfoTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2OSTaskInfoEntry 11}
+
+pr1645v2OSTaskInfoTaskName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.taskInfo.taskName"
+   ::= {pr1645v2OSTaskInfoEntry 16777216}
+
+pr1645v2OSTaskInfoTaskStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               asleep (1),
+               awake (2),
+               inactive (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.taskInfo.taskStatus
+
+       Possibilities:
+               asleep   (1)
+               awake   (2)
+               inactive   (3)"
+   ::= {pr1645v2OSTaskInfoEntry 33554432}
+
+pr1645v2OSTaskInfoLoad30s OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.taskInfo.load30s
+
+       unit name = %
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2OSTaskInfoEntry 50331648}
+
+pr1645v2OSTaskInfoLoad5m OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.taskInfo.load5m
+
+       unit name = %
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2OSTaskInfoEntry 67108864}
+
+pr1645v2OSTaskInfoRunningInMedium OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.taskInfo.runningInMedium
+
+       unit name = %
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2OSTaskInfoEntry 100663296}
+
+pr1645v2OSTaskInfoRunningInHigh OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.taskInfo.runningInHigh
+
+       unit name = %
+       formula = 10 / ; 10 *"
+   ::= {pr1645v2OSTaskInfoEntry 117440512}
+
+pr1645v2OSTaskInfoActivity OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.taskInfo.activity
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2OSTaskInfoEntry 419430400}
+
+
+pr1645v2OSProcPower OBJECT IDENTIFIER ::= {pr1645v2OS 28}
+
+pr1645v2OSProcPowerSSC OBJECT IDENTIFIER ::= {pr1645v2OSProcPower 1}
+
+pr1645v2OSProcPowerEntry OBJECT IDENTIFIER ::= {pr1645v2OSProcPowerSSC 1}
+
+pr1645v2OSProcPower15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.procPower.15sec
+
+       unit name = %"
+   ::= {pr1645v2OSProcPowerEntry 83886080}
+
+pr1645v2OSProcPower30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.procPower.30sec
+
+       unit name = %"
+   ::= {pr1645v2OSProcPowerEntry 167772160}
+
+pr1645v2OSProcPower1min OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.procPower.1min
+
+       unit name = %"
+   ::= {pr1645v2OSProcPowerEntry 335544320}
+
+pr1645v2OSProcPower2min OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.procPower.2min
+
+       unit name = %"
+   ::= {pr1645v2OSProcPowerEntry 671088640}
+
+pr1645v2OSProcPower5min OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.procPower.5min
+
+       unit name = %"
+   ::= {pr1645v2OSProcPowerEntry 1677721600}
+
+
+pr1645v2OSH2OperatingSystem OBJECT IDENTIFIER ::= {pr1645v2OS 25}
+
+pr1645v2OSH2OperatingSystemSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2OSH2OperatingSystemEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "os statistics"
+   ::= {pr1645v2OSH2OperatingSystem 1}
+
+pr1645v2OSH2OperatingSystemEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2OSH2OperatingSystemEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2OSH2OperatingSystemTableIx }
+   ::= {pr1645v2OSH2OperatingSystemSSCTable 1}
+
+Pr1645v2OSH2OperatingSystemEntry ::=
+   SEQUENCE
+      {
+      pr1645v2OSH2OperatingSystemTableIx
+         TableIndex,
+      pr1645v2OSH2OperatingSystemSysUpTime
+         TimeTicks,
+      pr1645v2OSH2OperatingSystemUsedProcPowerMin
+         Integer32,
+      pr1645v2OSH2OperatingSystemUsedProcPowerAvrg
+         Integer32,
+      pr1645v2OSH2OperatingSystemUsedProcPowerMax
+         Integer32,
+      pr1645v2OSH2OperatingSystemFreeMemoryMin
+         Integer32,
+      pr1645v2OSH2OperatingSystemFreeMemoryAvrg
+         Integer32,
+      pr1645v2OSH2OperatingSystemFreeMemoryMax
+         Integer32,
+      pr1645v2OSH2OperatingSystemMemOutstanding
+         Integer32,
+      pr1645v2OSH2OperatingSystemFreeDataBuffersMin
+         Integer32,
+      pr1645v2OSH2OperatingSystemFreeDataBuffersAvrg
+         Integer32,
+      pr1645v2OSH2OperatingSystemFreeDataBuffersMax
+         Integer32,
+      pr1645v2OSH2OperatingSystemFreeShortBuffersMin
+         Integer32,
+      pr1645v2OSH2OperatingSystemFreeShortBuffersAvrg
+         Integer32,
+      pr1645v2OSH2OperatingSystemFreeShortBuffersMax
+         Integer32,
+      pr1645v2OSH2OperatingSystemFreeDiskSpaceMin
+         Integer32,
+      pr1645v2OSH2OperatingSystemFreeDiskSpaceAvrg
+         Integer32,
+      pr1645v2OSH2OperatingSystemFreeDiskSpaceMax
+         Integer32
+      }
+
+pr1645v2OSH2OperatingSystemTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2OSH2OperatingSystemEntry 11}
+
+pr1645v2OSH2OperatingSystemSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2OSH2OperatingSystemEntry 16777216}
+
+pr1645v2OSH2OperatingSystemUsedProcPowerMin OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.usedProcPowerMin
+
+       unit name = %"
+   ::= {pr1645v2OSH2OperatingSystemEntry 33554432}
+
+pr1645v2OSH2OperatingSystemUsedProcPowerAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.usedProcPowerAvrg
+
+       unit name = %"
+   ::= {pr1645v2OSH2OperatingSystemEntry 50331648}
+
+pr1645v2OSH2OperatingSystemUsedProcPowerMax OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.usedProcPowerMax
+
+       unit name = %"
+   ::= {pr1645v2OSH2OperatingSystemEntry 67108864}
+
+pr1645v2OSH2OperatingSystemFreeMemoryMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.freeMemoryMin
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH2OperatingSystemEntry 83886080}
+
+pr1645v2OSH2OperatingSystemFreeMemoryAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.freeMemoryAvrg
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH2OperatingSystemEntry 100663296}
+
+pr1645v2OSH2OperatingSystemFreeMemoryMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.freeMemoryMax
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH2OperatingSystemEntry 117440512}
+
+pr1645v2OSH2OperatingSystemMemOutstanding OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.memOutstanding
+
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH2OperatingSystemEntry 234881024}
+
+pr1645v2OSH2OperatingSystemFreeDataBuffersMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.freeDataBuffersMin"
+   ::= {pr1645v2OSH2OperatingSystemEntry 134217728}
+
+pr1645v2OSH2OperatingSystemFreeDataBuffersAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.freeDataBuffersAvrg"
+   ::= {pr1645v2OSH2OperatingSystemEntry 150994944}
+
+pr1645v2OSH2OperatingSystemFreeDataBuffersMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.freeDataBuffersMax"
+   ::= {pr1645v2OSH2OperatingSystemEntry 167772160}
+
+pr1645v2OSH2OperatingSystemFreeShortBuffersMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.freeShortBuffersMin"
+   ::= {pr1645v2OSH2OperatingSystemEntry 184549376}
+
+pr1645v2OSH2OperatingSystemFreeShortBuffersAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.freeShortBuffersAvrg"
+   ::= {pr1645v2OSH2OperatingSystemEntry 201326592}
+
+pr1645v2OSH2OperatingSystemFreeShortBuffersMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.freeShortBuffersMax"
+   ::= {pr1645v2OSH2OperatingSystemEntry 218103808}
+
+pr1645v2OSH2OperatingSystemFreeDiskSpaceMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.freeDiskSpaceMin
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH2OperatingSystemEntry 251658240}
+
+pr1645v2OSH2OperatingSystemFreeDiskSpaceAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.freeDiskSpaceAvrg
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH2OperatingSystemEntry 268435456}
+
+pr1645v2OSH2OperatingSystemFreeDiskSpaceMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h2OperatingSystem.freeDiskSpaceMax
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH2OperatingSystemEntry 285212672}
+
+
+pr1645v2OSH24OperatingSystem OBJECT IDENTIFIER ::= {pr1645v2OS 26}
+
+pr1645v2OSH24OperatingSystemSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2OSH24OperatingSystemEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "os statistics"
+   ::= {pr1645v2OSH24OperatingSystem 1}
+
+pr1645v2OSH24OperatingSystemEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2OSH24OperatingSystemEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2OSH24OperatingSystemTableIx }
+   ::= {pr1645v2OSH24OperatingSystemSSCTable 1}
+
+Pr1645v2OSH24OperatingSystemEntry ::=
+   SEQUENCE
+      {
+      pr1645v2OSH24OperatingSystemTableIx
+         TableIndex,
+      pr1645v2OSH24OperatingSystemSysUpTime
+         TimeTicks,
+      pr1645v2OSH24OperatingSystemUsedProcPowerMin
+         Integer32,
+      pr1645v2OSH24OperatingSystemUsedProcPowerAvrg
+         Integer32,
+      pr1645v2OSH24OperatingSystemUsedProcPowerMax
+         Integer32,
+      pr1645v2OSH24OperatingSystemFreeMemoryMin
+         Integer32,
+      pr1645v2OSH24OperatingSystemFreeMemoryAvrg
+         Integer32,
+      pr1645v2OSH24OperatingSystemFreeMemoryMax
+         Integer32,
+      pr1645v2OSH24OperatingSystemMemOutstanding
+         Integer32,
+      pr1645v2OSH24OperatingSystemFreeDataBuffersMin
+         Integer32,
+      pr1645v2OSH24OperatingSystemFreeDataBuffersAvrg
+         Integer32,
+      pr1645v2OSH24OperatingSystemFreeDataBuffersMax
+         Integer32,
+      pr1645v2OSH24OperatingSystemFreeShortBuffersMin
+         Integer32,
+      pr1645v2OSH24OperatingSystemFreeShortBuffersAvrg
+         Integer32,
+      pr1645v2OSH24OperatingSystemFreeShortBuffersMax
+         Integer32,
+      pr1645v2OSH24OperatingSystemFreeDiskSpaceMin
+         Integer32,
+      pr1645v2OSH24OperatingSystemFreeDiskSpaceAvrg
+         Integer32,
+      pr1645v2OSH24OperatingSystemFreeDiskSpaceMax
+         Integer32
+      }
+
+pr1645v2OSH24OperatingSystemTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2OSH24OperatingSystemEntry 11}
+
+pr1645v2OSH24OperatingSystemSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2OSH24OperatingSystemEntry 16777216}
+
+pr1645v2OSH24OperatingSystemUsedProcPowerMin OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.usedProcPowerMin
+
+       unit name = %"
+   ::= {pr1645v2OSH24OperatingSystemEntry 33554432}
+
+pr1645v2OSH24OperatingSystemUsedProcPowerAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.usedProcPowerAvrg
+
+       unit name = %"
+   ::= {pr1645v2OSH24OperatingSystemEntry 50331648}
+
+pr1645v2OSH24OperatingSystemUsedProcPowerMax OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.usedProcPowerMax
+
+       unit name = %"
+   ::= {pr1645v2OSH24OperatingSystemEntry 67108864}
+
+pr1645v2OSH24OperatingSystemFreeMemoryMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.freeMemoryMin
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH24OperatingSystemEntry 83886080}
+
+pr1645v2OSH24OperatingSystemFreeMemoryAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.freeMemoryAvrg
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH24OperatingSystemEntry 100663296}
+
+pr1645v2OSH24OperatingSystemFreeMemoryMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.freeMemoryMax
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH24OperatingSystemEntry 117440512}
+
+pr1645v2OSH24OperatingSystemMemOutstanding OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.memOutstanding
+
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH24OperatingSystemEntry 234881024}
+
+pr1645v2OSH24OperatingSystemFreeDataBuffersMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.freeDataBuffersMin"
+   ::= {pr1645v2OSH24OperatingSystemEntry 134217728}
+
+pr1645v2OSH24OperatingSystemFreeDataBuffersAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.freeDataBuffersAvrg"
+   ::= {pr1645v2OSH24OperatingSystemEntry 150994944}
+
+pr1645v2OSH24OperatingSystemFreeDataBuffersMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.freeDataBuffersMax"
+   ::= {pr1645v2OSH24OperatingSystemEntry 167772160}
+
+pr1645v2OSH24OperatingSystemFreeShortBuffersMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.freeShortBuffersMin"
+   ::= {pr1645v2OSH24OperatingSystemEntry 184549376}
+
+pr1645v2OSH24OperatingSystemFreeShortBuffersAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.freeShortBuffersAvrg"
+   ::= {pr1645v2OSH24OperatingSystemEntry 201326592}
+
+pr1645v2OSH24OperatingSystemFreeShortBuffersMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.freeShortBuffersMax"
+   ::= {pr1645v2OSH24OperatingSystemEntry 218103808}
+
+pr1645v2OSH24OperatingSystemFreeDiskSpaceMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.freeDiskSpaceMin
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH24OperatingSystemEntry 251658240}
+
+pr1645v2OSH24OperatingSystemFreeDiskSpaceAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.freeDiskSpaceAvrg
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH24OperatingSystemEntry 268435456}
+
+pr1645v2OSH24OperatingSystemFreeDiskSpaceMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.h24OperatingSystem.freeDiskSpaceMax
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSH24OperatingSystemEntry 285212672}
+
+
+pr1645v2OSD7OperatingSystem OBJECT IDENTIFIER ::= {pr1645v2OS 27}
+
+pr1645v2OSD7OperatingSystemSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2OSD7OperatingSystemEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "os statistics"
+   ::= {pr1645v2OSD7OperatingSystem 1}
+
+pr1645v2OSD7OperatingSystemEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2OSD7OperatingSystemEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2OSD7OperatingSystemTableIx }
+   ::= {pr1645v2OSD7OperatingSystemSSCTable 1}
+
+Pr1645v2OSD7OperatingSystemEntry ::=
+   SEQUENCE
+      {
+      pr1645v2OSD7OperatingSystemTableIx
+         TableIndex,
+      pr1645v2OSD7OperatingSystemSysUpTime
+         TimeTicks,
+      pr1645v2OSD7OperatingSystemUsedProcPowerMin
+         Integer32,
+      pr1645v2OSD7OperatingSystemUsedProcPowerAvrg
+         Integer32,
+      pr1645v2OSD7OperatingSystemUsedProcPowerMax
+         Integer32,
+      pr1645v2OSD7OperatingSystemFreeMemoryMin
+         Integer32,
+      pr1645v2OSD7OperatingSystemFreeMemoryAvrg
+         Integer32,
+      pr1645v2OSD7OperatingSystemFreeMemoryMax
+         Integer32,
+      pr1645v2OSD7OperatingSystemMemOutstanding
+         Integer32,
+      pr1645v2OSD7OperatingSystemFreeDataBuffersMin
+         Integer32,
+      pr1645v2OSD7OperatingSystemFreeDataBuffersAvrg
+         Integer32,
+      pr1645v2OSD7OperatingSystemFreeDataBuffersMax
+         Integer32,
+      pr1645v2OSD7OperatingSystemFreeShortBuffersMin
+         Integer32,
+      pr1645v2OSD7OperatingSystemFreeShortBuffersAvrg
+         Integer32,
+      pr1645v2OSD7OperatingSystemFreeShortBuffersMax
+         Integer32,
+      pr1645v2OSD7OperatingSystemFreeDiskSpaceMin
+         Integer32,
+      pr1645v2OSD7OperatingSystemFreeDiskSpaceAvrg
+         Integer32,
+      pr1645v2OSD7OperatingSystemFreeDiskSpaceMax
+         Integer32
+      }
+
+pr1645v2OSD7OperatingSystemTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2OSD7OperatingSystemEntry 11}
+
+pr1645v2OSD7OperatingSystemSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2OSD7OperatingSystemEntry 16777216}
+
+pr1645v2OSD7OperatingSystemUsedProcPowerMin OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.usedProcPowerMin
+
+       unit name = %"
+   ::= {pr1645v2OSD7OperatingSystemEntry 33554432}
+
+pr1645v2OSD7OperatingSystemUsedProcPowerAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.usedProcPowerAvrg
+
+       unit name = %"
+   ::= {pr1645v2OSD7OperatingSystemEntry 50331648}
+
+pr1645v2OSD7OperatingSystemUsedProcPowerMax OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.usedProcPowerMax
+
+       unit name = %"
+   ::= {pr1645v2OSD7OperatingSystemEntry 67108864}
+
+pr1645v2OSD7OperatingSystemFreeMemoryMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.freeMemoryMin
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSD7OperatingSystemEntry 83886080}
+
+pr1645v2OSD7OperatingSystemFreeMemoryAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.freeMemoryAvrg
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSD7OperatingSystemEntry 100663296}
+
+pr1645v2OSD7OperatingSystemFreeMemoryMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.freeMemoryMax
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSD7OperatingSystemEntry 117440512}
+
+pr1645v2OSD7OperatingSystemMemOutstanding OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.memOutstanding
+
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSD7OperatingSystemEntry 234881024}
+
+pr1645v2OSD7OperatingSystemFreeDataBuffersMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.freeDataBuffersMin"
+   ::= {pr1645v2OSD7OperatingSystemEntry 134217728}
+
+pr1645v2OSD7OperatingSystemFreeDataBuffersAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.freeDataBuffersAvrg"
+   ::= {pr1645v2OSD7OperatingSystemEntry 150994944}
+
+pr1645v2OSD7OperatingSystemFreeDataBuffersMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.freeDataBuffersMax"
+   ::= {pr1645v2OSD7OperatingSystemEntry 167772160}
+
+pr1645v2OSD7OperatingSystemFreeShortBuffersMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.freeShortBuffersMin"
+   ::= {pr1645v2OSD7OperatingSystemEntry 184549376}
+
+pr1645v2OSD7OperatingSystemFreeShortBuffersAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.freeShortBuffersAvrg"
+   ::= {pr1645v2OSD7OperatingSystemEntry 201326592}
+
+pr1645v2OSD7OperatingSystemFreeShortBuffersMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.freeShortBuffersMax"
+   ::= {pr1645v2OSD7OperatingSystemEntry 218103808}
+
+pr1645v2OSD7OperatingSystemFreeDiskSpaceMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.freeDiskSpaceMin
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSD7OperatingSystemEntry 251658240}
+
+pr1645v2OSD7OperatingSystemFreeDiskSpaceAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.freeDiskSpaceAvrg
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSD7OperatingSystemEntry 268435456}
+
+pr1645v2OSD7OperatingSystemFreeDiskSpaceMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.performance.d7OperatingSystem.freeDiskSpaceMax
+
+       unit name = kbyte
+       formula = 16 * ; 16 /"
+   ::= {pr1645v2OSD7OperatingSystemEntry 285212672}
+
+
+
+sr1645v2OS OBJECT IDENTIFIER ::= {r1645v2OS 14}
+
+
+sr1645v2OSTaskInfo OBJECT IDENTIFIER ::= {sr1645v2OS 30}
+
+sr1645v2OSTaskInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2OSTaskInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "task-related information"
+   ::= {sr1645v2OSTaskInfo 1}
+
+sr1645v2OSTaskInfoEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2OSTaskInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2OSTaskInfoTableIx }
+   ::= {sr1645v2OSTaskInfoSSCTable 1}
+
+Sr1645v2OSTaskInfoEntry ::=
+   SEQUENCE
+      {
+      sr1645v2OSTaskInfoTableIx
+         TableIndex,
+      sr1645v2OSTaskInfoTaskName
+         DisplayString,
+      sr1645v2OSTaskInfoTaskStatus
+         INTEGER,
+      sr1645v2OSTaskInfoTaskId
+         Integer32,
+      sr1645v2OSTaskInfoProgramCounter
+         OCTET STRING
+      }
+
+sr1645v2OSTaskInfoTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2OSTaskInfoEntry 11}
+
+sr1645v2OSTaskInfoTaskName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.taskInfo.taskName"
+   ::= {sr1645v2OSTaskInfoEntry 16777216}
+
+sr1645v2OSTaskInfoTaskStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               asleep (1),
+               awake (2),
+               inactive (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.taskInfo.taskStatus
+
+       Possibilities:
+               asleep   (1)
+               awake   (2)
+               inactive   (3)"
+   ::= {sr1645v2OSTaskInfoEntry 33554432}
+
+sr1645v2OSTaskInfoTaskId OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.taskInfo.taskId"
+   ::= {sr1645v2OSTaskInfoEntry 1778384896}
+
+sr1645v2OSTaskInfoProgramCounter OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.taskInfo.programCounter"
+   ::= {sr1645v2OSTaskInfoEntry 83886080}
+
+
+sr1645v2OSCDump OBJECT IDENTIFIER ::= {sr1645v2OS 19}
+
+sr1645v2OSCDumpSSC OBJECT IDENTIFIER ::= {sr1645v2OSCDump 1}
+
+sr1645v2OSCDumpEntry OBJECT IDENTIFIER ::= {sr1645v2OSCDumpSSC 1}
+
+sr1645v2OSCDumpExStCType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               res0 (0),
+               sysRst (1),
+               macChk (2),
+               dsi (3),
+               isi (4),
+               extInt (5),
+               align (6),
+               prog (7),
+               fpuUna (8),
+               decr (9),
+               critInt (10),
+               res1 (11),
+               sysCall (12),
+               trace (13),
+               res2 (14),
+               res3 (15),
+               iTLB (16),
+               dTLB (17),
+               dSTLB (18),
+               iBrPnt (19),
+               sMgm (20),
+               res4 (21),
+               res5 (22),
+               res6 (23),
+               res7 (24),
+               res8 (25),
+               res9 (26),
+               res10 (27),
+               res11 (28),
+               res12 (29),
+               res13 (30),
+               res14 (31)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.coreDump.type
+
+       Possibilities:
+               reserved   (0)
+               systemReset   (1)
+               machineCheck   (2)
+               dsiException   (3)
+               isiException   (4)
+               extIntException   (5)
+               alignmentException   (6)
+               programException   (7)
+               fluUnavailable   (8)
+               decrementerException   (9)
+               criticalInt   (10)
+               reserved1   (11)
+               systemCallException   (12)
+               traceException   (13)
+               reserved2   (14)
+               reserved3   (15)
+               instructionTranslationMiss   (16)
+               dataLoadTranslationMiss   (17)
+               dataStoreTranslationMiss   (18)
+               instructionBreakpoint   (19)
+               systemManagementInt   (20)
+               reserved4   (21)
+               reserved5   (22)
+               reserved6   (23)
+               reserved7   (24)
+               reserved8   (25)
+               reserved9   (26)
+               reserved10   (27)
+               reserved11   (28)
+               reserved12   (29)
+               reserved13   (30)
+               reserved14   (31)"
+   ::= {sr1645v2OSCDumpEntry 16843008}
+
+sr1645v2OSCDumpExStCPCnt OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.coreDump.programCounter"
+   ::= {sr1645v2OSCDumpEntry 16843264}
+
+sr1645v2OSCDumpExStCSpRegXER OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.coreDump.sPRegisters.XER"
+   ::= {sr1645v2OSCDumpEntry 16843521}
+
+sr1645v2OSCDumpExStCSpRegLR OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.coreDump.sPRegisters.LR"
+   ::= {sr1645v2OSCDumpEntry 16843522}
+
+sr1645v2OSCDumpExStCSpRegCTR OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.coreDump.sPRegisters.CTR"
+   ::= {sr1645v2OSCDumpEntry 16843523}
+
+sr1645v2OSCDumpExStCSpRegSRR0 OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.coreDump.sPRegisters.SRR0"
+   ::= {sr1645v2OSCDumpEntry 16843524}
+
+sr1645v2OSCDumpExStCSpRegSRR1 OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.coreDump.sPRegisters.SRR1"
+   ::= {sr1645v2OSCDumpEntry 16843525}
+
+sr1645v2OSCDumpExStCSpRegDAR OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.coreDump.sPRegisters.DAR"
+   ::= {sr1645v2OSCDumpEntry 16843526}
+
+sr1645v2OSCDumpExStCSpRegDSISR OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.coreDump.sPRegisters.DSISR"
+   ::= {sr1645v2OSCDumpEntry 16843527}
+
+sr1645v2OSCDumpExStTName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.currentTaskName"
+   ::= {sr1645v2OSCDumpEntry 16908288}
+
+sr1645v2OSCDumpExStIntRegSIMSRh OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.interruptRegisters.SIMSRh"
+   ::= {sr1645v2OSCDumpEntry 17105152}
+
+sr1645v2OSCDumpExStIntRegSIMSRl OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.interruptRegisters.SIMSRl"
+   ::= {sr1645v2OSCDumpEntry 17105408}
+
+sr1645v2OSCDumpExStIntRegSEMSR OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.interruptRegisters.SEMSR"
+   ::= {sr1645v2OSCDumpEntry 17105664}
+
+sr1645v2OSCDumpExStIntRegSEPNR OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.interruptRegisters.SEPNR"
+   ::= {sr1645v2OSCDumpEntry 17105920}
+
+sr1645v2OSCDumpExStIntRegSINPRh OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.interruptRegisters.SINPRh"
+   ::= {sr1645v2OSCDumpEntry 17106176}
+
+sr1645v2OSCDumpExStIntRegSINPRl OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.interruptRegisters.SINPRl"
+   ::= {sr1645v2OSCDumpEntry 17106432}
+
+sr1645v2OSCDumpExStIntRegSICFR OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.interruptRegisters.SICFR"
+   ::= {sr1645v2OSCDumpEntry 17106688}
+
+sr1645v2OSCDumpExStIntRegSIVCR OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.interruptRegisters.SIVCR"
+   ::= {sr1645v2OSCDumpEntry 17106944}
+
+sr1645v2OSCDumpExStArbRegAEATR OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.arbiterRegisters.AEATR"
+   ::= {sr1645v2OSCDumpEntry 17170688}
+
+sr1645v2OSCDumpExStArbRegAEADR OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.arbiterRegisters.AEADR"
+   ::= {sr1645v2OSCDumpEntry 17170944}
+
+sr1645v2OSCDumpWDogTName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.watchDog.taskName"
+   ::= {sr1645v2OSCDumpEntry 50397184}
+
+sr1645v2OSCDumpWDogWdAct OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.watchDog.watchdogActive"
+   ::= {sr1645v2OSCDumpEntry 50462720}
+
+sr1645v2OSCDumpWDogWdTr OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.watchDog.watchdogTrigger"
+   ::= {sr1645v2OSCDumpEntry 50528256}
+
+sr1645v2OSCDumpWDogTStAdd OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.watchDog.taskStackAddress"
+   ::= {sr1645v2OSCDumpEntry 50790400}
+
+sr1645v2OSCDumpRebootReason OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.reboot.reason
+
+       Bit meanings:
+               bit 27 = scheduled,
+               bit 26 = warmBoot,
+               bit 25 = coldBoot,
+               bit 24 = powerDown,
+               bit 22 = codeCheck,
+               bit 21 = configCheck,
+               bit 20 = coreDump"
+   ::= {sr1645v2OSCDumpEntry 671154176}
+
+sr1645v2OSCDumpRebootUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.reboot.upTime
+
+       Time in centi-second."
+   ::= {sr1645v2OSCDumpEntry 671219712}
+
+sr1645v2OSCDumpExStStInf OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2OSCDumpExStStInfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2OSCDump 16973824}
+
+sr1645v2OSCDumpExStStInfEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2OSCDumpExStStInfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2OSCDumpExStStInfTableIx }
+   ::= {sr1645v2OSCDumpExStStInf 1}
+
+Sr1645v2OSCDumpExStStInfEntry ::=
+   SEQUENCE
+      {
+      sr1645v2OSCDumpExStStInfTableIx
+         TableIndex,
+      sr1645v2OSCDumpExStStInfRow
+         OCTET STRING
+      }
+
+sr1645v2OSCDumpExStStInfTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2OSCDumpExStStInfEntry 11}
+
+sr1645v2OSCDumpExStStInfRow OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.currentStack.row"
+   ::= {sr1645v2OSCDumpExStStInfEntry 16777216}
+
+sr1645v2OSCDumpExStReg OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2OSCDumpExStRegEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2OSCDump 17039360}
+
+sr1645v2OSCDumpExStRegEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2OSCDumpExStRegEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2OSCDumpExStRegTableIx }
+   ::= {sr1645v2OSCDumpExStReg 1}
+
+Sr1645v2OSCDumpExStRegEntry ::=
+   SEQUENCE
+      {
+      sr1645v2OSCDumpExStRegTableIx
+         TableIndex,
+      sr1645v2OSCDumpExStRegGPR0uGPR31
+         OCTET STRING
+      }
+
+sr1645v2OSCDumpExStRegTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2OSCDumpExStRegEntry 11}
+
+sr1645v2OSCDumpExStRegGPR0uGPR31 OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.gPRegisters.GPR0_GPR31"
+   ::= {sr1645v2OSCDumpExStRegEntry 16777216}
+
+sr1645v2OSCDumpExStSreg OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2OSCDumpExStSregEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2OSCDump 17235968}
+
+sr1645v2OSCDumpExStSregEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2OSCDumpExStSregEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2OSCDumpExStSregTableIx }
+   ::= {sr1645v2OSCDumpExStSreg 1}
+
+Sr1645v2OSCDumpExStSregEntry ::=
+   SEQUENCE
+      {
+      sr1645v2OSCDumpExStSregTableIx
+         TableIndex,
+      sr1645v2OSCDumpExStSregSPR0uSPR7
+         OCTET STRING
+      }
+
+sr1645v2OSCDumpExStSregTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2OSCDumpExStSregEntry 11}
+
+sr1645v2OSCDumpExStSregSPR0uSPR7 OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.sPRegisters.SPR0_SPR7"
+   ::= {sr1645v2OSCDumpExStSregEntry 16777216}
+
+sr1645v2OSCDumpExStCStck OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2OSCDumpExStCStckEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2OSCDump 17301504}
+
+sr1645v2OSCDumpExStCStckEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2OSCDumpExStCStckEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2OSCDumpExStCStckTableIx }
+   ::= {sr1645v2OSCDumpExStCStck 1}
+
+Sr1645v2OSCDumpExStCStckEntry ::=
+   SEQUENCE
+      {
+      sr1645v2OSCDumpExStCStckTableIx
+         TableIndex,
+      sr1645v2OSCDumpExStCStckRow
+         DisplayString
+      }
+
+sr1645v2OSCDumpExStCStckTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2OSCDumpExStCStckEntry 11}
+
+sr1645v2OSCDumpExStCStckRow OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.exceptionStack.callingStack.row"
+   ::= {sr1645v2OSCDumpExStCStckEntry 16777216}
+
+sr1645v2OSCDumpWDogTStInf OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2OSCDumpWDogTStInfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2OSCDump 50659328}
+
+sr1645v2OSCDumpWDogTStInfEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2OSCDumpWDogTStInfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2OSCDumpWDogTStInfTableIx }
+   ::= {sr1645v2OSCDumpWDogTStInf 1}
+
+Sr1645v2OSCDumpWDogTStInfEntry ::=
+   SEQUENCE
+      {
+      sr1645v2OSCDumpWDogTStInfTableIx
+         TableIndex,
+      sr1645v2OSCDumpWDogTStInfRow
+         OCTET STRING
+      }
+
+sr1645v2OSCDumpWDogTStInfTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2OSCDumpWDogTStInfEntry 11}
+
+sr1645v2OSCDumpWDogTStInfRow OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.watchDog.taskStackInfo.row"
+   ::= {sr1645v2OSCDumpWDogTStInfEntry 16777216}
+
+sr1645v2OSCDumpWDogCStck OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2OSCDumpWDogCStckEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2OSCDump 50724864}
+
+sr1645v2OSCDumpWDogCStckEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2OSCDumpWDogCStckEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2OSCDumpWDogCStckTableIx }
+   ::= {sr1645v2OSCDumpWDogCStck 1}
+
+Sr1645v2OSCDumpWDogCStckEntry ::=
+   SEQUENCE
+      {
+      sr1645v2OSCDumpWDogCStckTableIx
+         TableIndex,
+      sr1645v2OSCDumpWDogCStckRow
+         DisplayString
+      }
+
+sr1645v2OSCDumpWDogCStckTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2OSCDumpWDogCStckEntry 11}
+
+sr1645v2OSCDumpWDogCStckRow OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.status.coreDump.watchDog.callingStack.row"
+   ::= {sr1645v2OSCDumpWDogCStckEntry 16777216}
+
+
+
+ar1645v2OS OBJECT IDENTIFIER ::= {r1645v2OS 16}
+
+
+ar1645v2OSClearICCounters OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.actions.clearICCounters
+       Info: reset counters"
+   ::= {ar1645v2OS 57}
+
+
+ar1645v2OSCheckFreeStack OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.actions.checkFreeStack
+       Info: general purpose counter configuration
+
+       32 bit unsigned wrappable counter."
+   ::= {ar1645v2OS 56}
+
+
+ar1645v2OSNoFillMemory OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.actions.noFillMemory
+       Info: general purpose counter configuration
+
+       32 bit unsigned wrappable counter."
+   ::= {ar1645v2OS 53}
+
+
+ar1645v2OSFillMemory OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.actions.fillMemory
+       Info: general purpose counter configuration
+
+       32 bit unsigned wrappable counter."
+   ::= {ar1645v2OS 52}
+
+
+ar1645v2OSStopMbufAllocLoss OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.actions.stopMbufAllocLoss
+       Info: general purpose counter configuration
+
+       32 bit unsigned wrappable counter."
+   ::= {ar1645v2OS 55}
+
+
+ar1645v2OSStartMbufAllocLoss OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.actions.startMbufAllocLoss
+       Info: general purpose counter configuration
+
+       32 bit unsigned wrappable counter."
+   ::= {ar1645v2OS 54}
+
+
+ar1645v2OSStopMemAllocLoss OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.actions.stopMemAllocLoss
+       Info: general purpose counter configuration
+
+       32 bit unsigned wrappable counter."
+   ::= {ar1645v2OS 51}
+
+
+ar1645v2OSStartMemAllocLoss OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.actions.startMemAllocLoss
+       Info: general purpose counter configuration
+
+       32 bit unsigned wrappable counter."
+   ::= {ar1645v2OS 50}
+
+
+ar1645v2OSTriggerCoredump OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.actions.triggerCoredump
+       Info: Trigger Coredump"
+   ::= {ar1645v2OS 800}
+
+
+ar1645v2OSTriggerCoredumpType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               doubleMbufFree (0),
+               watchdog (1),
+               doubleMemFree (2),
+               illegal (3),
+               trap (4),
+               overwriteHEAP (5),
+               null (6),
+               alignment (7),
+               busError (8),
+               powerDown (9)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.actions.triggerCoredumpType
+       Info: Trigger Coredump
+
+       Possibilities:
+               doubleMbufFree   (0)
+               watchdog   (1)
+               doubleMemFree   (2)
+               illegal   (3)
+               trap   (4)
+               overwriteHEAP   (5)
+               null   (6)
+               alignment   (7)
+               busError   (8)
+               powerDown   (9)"
+   ::= {ar1645v2OS 801}
+
+
+ar1645v2OSClearCounters OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: operatingSystem.actions.clearCounters
+       Info: reset counters"
+   ::= {ar1645v2OS 263}
+
+
+
+END

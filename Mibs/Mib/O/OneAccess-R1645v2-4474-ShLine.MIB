@@ -1,0 +1,3293 @@
+OneAccess-R1645v2-4474-ShLine DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2ShLine OBJECT IDENTIFIER ::= {r1645Rootv2 4474}
+
+r1645v2ShLineMOProp OBJECT IDENTIFIER ::= {r1645v2ShLine 1}
+
+r1645v2ShLineMOPropEntry OBJECT IDENTIFIER ::= {r1645v2ShLineMOProp 1}
+
+r1645v2ShLineMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2ShLineMOPropEntry 3}
+
+r1645v2ShLineMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2ShLineMOPropEntry 4}
+
+
+
+sr1645v2ShLine OBJECT IDENTIFIER ::= {r1645v2ShLine 14}
+
+
+sr1645v2ShLineIfDescr OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.ifDescr
+       Info: ifDescr"
+   ::= {sr1645v2ShLine 101}
+
+
+sr1645v2ShLineIfType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               other (1),
+               regular1822 (2),
+               hdh1822 (3),
+               ddnmx25 (4),
+               rfc877mx25 (5),
+               ethernetmcsmacd (6),
+               iso88023mcsmacd (7),
+               iso88024mtokenBus (8),
+               iso88025mtokenRing (9),
+               is088026mman (10),
+               starlan (11),
+               proteonm10Mbit (12),
+               proteonm80Mbit (13),
+               hyperChannel (14),
+               fddi (15),
+               lapb (16),
+               sdlc (17),
+               ds1 (18),
+               e1 (19),
+               basicISDN (20),
+               primaryISDN (21),
+               propPointToPointSerial (22),
+               ppp (23),
+               softwareLoopback (24),
+               eon (25),
+               ethernetm3Mbit (26),
+               nsip (27),
+               slip (28),
+               ultra (29),
+               ds3 (30),
+               sip (31),
+               framemrelay (32),
+               rs232 (33),
+               para (34),
+               arcnet (35),
+               arcnetPlus (36),
+               atm (37),
+               miox25 (38),
+               sonet (39),
+               x25ple (40),
+               iso88022llc (41),
+               localTalk (42),
+               smdsDxi (43),
+               frameRelayService (44),
+               v35 (45),
+               hssi (46),
+               hippi (47),
+               modem (48),
+               aal5 (49),
+               sonetPath (50),
+               sonetVT (51),
+               smdsIcip (52),
+               propVirtual (53),
+               propMultiplexor (54),
+               ieee80212 (55),
+               fibreChannel (56),
+               hippiInterface (57),
+               frameRelayInterconnect (58),
+               aflane8023 (59),
+               aflane8025 (60),
+               cctEmul (61),
+               fastEther (62),
+               isdn (63),
+               v11 (64),
+               v36 (65),
+               g703at64k (66),
+               g703at2mb (67),
+               qllc (68),
+               fastEtherFX (69),
+               channel (70),
+               ieee80211 (71),
+               ibm370parChan (72),
+               escon (73),
+               dlsw (74),
+               isdns (75),
+               isdnu (76),
+               lapd (77),
+               ipSwitch (78),
+               rsrb (79),
+               atmmlogical (80),
+               ds0 (81),
+               ds0Bundle (82),
+               bsc (83),
+               async (84),
+               cnr (85),
+               iso88025Dtr (86),
+               eplrs (87),
+               arap (88),
+               propCnls (89),
+               hostPad (90),
+               termPad (91),
+               frameRelayMPI (92),
+               x213 (93),
+               adsl (94),
+               radsl (95),
+               sdsl (96),
+               vdsl (97),
+               iso88025CRFPInt (98),
+               myrinet (99),
+               voiceEM (100),
+               voiceFXO (101),
+               voiceFXS (102),
+               voiceEncap (103),
+               voiceOverIp (104),
+               atmDxi (105),
+               atmFuni (106),
+               atmIma (107),
+               pppMultilinkBundle (108),
+               ipOverCdlc (109),
+               ipOverClaw (110),
+               stackToStack (111),
+               virtualIpAddress (112),
+               mpc (113),
+               ipOverAtm (114),
+               iso88025Fiber (115),
+               tdlc (116),
+               gigabitEthernet (117),
+               hdlc (118),
+               lapf (119),
+               v37 (120),
+               x25mlp (121),
+               x25huntGroup (122),
+               trasnpHdlc (123),
+               interleave (124),
+               fast (125),
+               ip (126),
+               docsCableMaclayer (127),
+               docsCableDownstream (128),
+               docsCableUpstream (129),
+               a12MppSwitch (130),
+               tunnel (131),
+               coffee (132),
+               ces (133),
+               atmSubInterface (134),
+               l2vlan (135),
+               l3ipvlan (136),
+               l3ipxvlan (137),
+               digitalPowerline (138),
+               mediaMailOverIp (139),
+               dtm (140),
+               dcn (141),
+               ipForward (142),
+               msdsl (143),
+               ieee1394 (144),
+               ifmgsn (145),
+               dvbRccMacLayer (146),
+               dvbRccDownstream (147),
+               dvbRccUpstream (148),
+               atmVirtual (149),
+               mplsTunnel (150),
+               srp (151),
+               voiceOverAtm (152),
+               voiceOverFrameRelay (153),
+               idsl (154),
+               compositeLink (155),
+               ss7SigLink (156),
+               propWirelessP2P (157),
+               frForward (158),
+               rfc1483 (159),
+               usb (160),
+               ieee8023adLag (161),
+               bgppolicyaccounting (162),
+               frf16MfrBundle (163),
+               h323Gatekeeper (164),
+               h323Proxy (165),
+               mpls (166),
+               mfSigLink (167),
+               hdsl2 (168),
+               shdsl (169),
+               ds1FDL (170),
+               pos (171),
+               dvbAsiIn (172),
+               dvbAsiOut (173),
+               plc (174),
+               nfas (175),
+               tr008 (176),
+               gr303RDT (177),
+               gr303IDT (178),
+               isup (179),
+               propDocsWirelessMaclayer (180),
+               propDocsWirelessDownstream (181),
+               propDocsWirelessUpstream (182),
+               hiperlan2 (183),
+               propBWAp2Mp (184),
+               sonetOverheadChannel (185),
+               digitalWrapperOverheadChannel (186),
+               aal2 (187),
+               radioMAC (188),
+               atmRadio (189),
+               imt (190),
+               mvl (191),
+               reachDSL (192),
+               frDlciEndPt (193),
+               atmVciEndPt (194),
+               opticalChannel (195),
+               opticalTransport (196),
+               propAtm (197),
+               voiceOverCable (198),
+               infiniband (199),
+               teLink (200),
+               q2931 (201),
+               virtualTg (202),
+               sipTg (203),
+               sipSig (204),
+               docsCableUpstreamChannel (205),
+               econet (206),
+               pon155 (207),
+               pon622 (208),
+               bridge (209),
+               linegroup (210),
+               voiceEMFGD (211),
+               voiceFGDEANA (212),
+               voiceDID (213),
+               mpegTransport (214),
+               sixToFour (215),
+               gtp (216),
+               pdnEtherLoop1 (217),
+               pdnEtherLoop2 (218),
+               opticalChannelGroup (219),
+               homepna (220),
+               gfp (221),
+               ciscoISLvlan (222),
+               actelisMetaLOOP (223),
+               fcipLink (224),
+               rpr (225),
+               qam (226),
+               lmp (227),
+               cblVectaStar (228),
+               docsCableMCmtsDownstream (229),
+               adsl2 (230),
+               macSecControlledIF (231),
+               macSecUncontrolledIF (232),
+               aviciOpticalEther (233),
+               atmbond (234),
+               voiceFGDOS (235),
+               mocaVersion1 (236),
+               ieee80216WMAN (237),
+               adsl2plus (238),
+               dvbRcsMacLayer (239),
+               dvbTdm (240),
+               dvbRcsTdma (241),
+               x86Laps (242),
+               wwanPP (243),
+               wwanPP2 (244),
+               voiceEBS (245),
+               ifPwType (246),
+               ilan (247),
+               pip (248),
+               aluELP (249),
+               gpon (250),
+               vdsl2 (251),
+               capwapDot11Profile (252),
+               capwapDot11Bss (253),
+               capwapWtpVirtualRadio (254),
+               bits (255),
+               docsCableUpstreamRfPort (256),
+               cableDownstreamRfPort (257),
+               gfast (279)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.ifType
+       Info: ifType
+
+       Possibilities:
+               other   (1)
+               regular1822   (2)
+               hdh1822   (3)
+               ddn-x25   (4)
+               rfc877-x25   (5)
+               ethernet-csmacd   (6)
+               iso88023-csmacd   (7)
+               iso88024-tokenBus   (8)
+               iso88025-tokenRing   (9)
+               is088026-man   (10)
+               starlan   (11)
+               proteon-10Mbit   (12)
+               proteon-80Mbit   (13)
+               hyperChannel   (14)
+               fddi   (15)
+               lapb   (16)
+               sdlc   (17)
+               ds1   (18)
+               e1   (19)
+               basicISDN   (20)
+               primaryISDN   (21)
+               propPointToPointSerial   (22)
+               ppp   (23)
+               softwareLoopback   (24)
+               eon   (25)
+               ethernet-3Mbit   (26)
+               nsip   (27)
+               slip   (28)
+               ultra   (29)
+               ds3   (30)
+               sip   (31)
+               frame-relay   (32)
+               rs232   (33)
+               para   (34)
+               arcnet   (35)
+               arcnetPlus   (36)
+               atm   (37)
+               miox25   (38)
+               sonet   (39)
+               x25ple   (40)
+               iso88022llc   (41)
+               localTalk   (42)
+               smdsDxi   (43)
+               frameRelayService   (44)
+               v35   (45)
+               hssi   (46)
+               hippi   (47)
+               modem   (48)
+               aal5   (49)
+               sonetPath   (50)
+               sonetVT   (51)
+               smdsIcip   (52)
+               propVirtual   (53)
+               propMultiplexor   (54)
+               ieee80212   (55)
+               fibreChannel   (56)
+               hippiInterface   (57)
+               frameRelayInterconnect   (58)
+               aflane8023   (59)
+               aflane8025   (60)
+               cctEmul   (61)
+               fastEther   (62)
+               isdn   (63)
+               v11   (64)
+               v36   (65)
+               g703at64k   (66)
+               g703at2mb   (67)
+               qllc   (68)
+               fastEtherFX   (69)
+               channel   (70)
+               ieee80211   (71)
+               ibm370parChan   (72)
+               escon   (73)
+               dlsw   (74)
+               isdns   (75)
+               isdnu   (76)
+               lapd   (77)
+               ipSwitch   (78)
+               rsrb   (79)
+               atm-logical   (80)
+               ds0   (81)
+               ds0Bundle   (82)
+               bsc   (83)
+               async   (84)
+               cnr   (85)
+               iso88025Dtr   (86)
+               eplrs   (87)
+               arap   (88)
+               propCnls   (89)
+               hostPad   (90)
+               termPad   (91)
+               frameRelayMPI   (92)
+               x213   (93)
+               adsl   (94)
+               radsl   (95)
+               sdsl   (96)
+               vdsl   (97)
+               iso88025CRFPInt   (98)
+               myrinet   (99)
+               voiceEM   (100)
+               voiceFXO   (101)
+               voiceFXS   (102)
+               voiceEncap   (103)
+               voiceOverIp   (104)
+               atmDxi   (105)
+               atmFuni   (106)
+               atmIma   (107)
+               pppMultilinkBundle   (108)
+               ipOverCdlc   (109)
+               ipOverClaw   (110)
+               stackToStack   (111)
+               virtualIpAddress   (112)
+               mpc   (113)
+               ipOverAtm   (114)
+               iso88025Fiber   (115)
+               tdlc   (116)
+               gigabitEthernet   (117)
+               hdlc   (118)
+               lapf   (119)
+               v37   (120)
+               x25mlp   (121)
+               x25huntGroup   (122)
+               trasnpHdlc   (123)
+               interleave   (124)
+               fast   (125)
+               ip   (126)
+               docsCableMaclayer   (127)
+               docsCableDownstream   (128)
+               docsCableUpstream   (129)
+               a12MppSwitch   (130)
+               tunnel   (131)
+               coffee   (132)
+               ces   (133)
+               atmSubInterface   (134)
+               l2vlan   (135)
+               l3ipvlan   (136)
+               l3ipxvlan   (137)
+               digitalPowerline   (138)
+               mediaMailOverIp   (139)
+               dtm   (140)
+               dcn   (141)
+               ipForward   (142)
+               msdsl   (143)
+               ieee1394   (144)
+               if-gsn   (145)
+               dvbRccMacLayer   (146)
+               dvbRccDownstream   (147)
+               dvbRccUpstream   (148)
+               atmVirtual   (149)
+               mplsTunnel   (150)
+               srp   (151)
+               voiceOverAtm   (152)
+               voiceOverFrameRelay   (153)
+               idsl   (154)
+               compositeLink   (155)
+               ss7SigLink   (156)
+               propWirelessP2P   (157)
+               frForward   (158)
+               rfc1483   (159)
+               usb   (160)
+               ieee8023adLag   (161)
+               bgppolicyaccounting   (162)
+               frf16MfrBundle   (163)
+               h323Gatekeeper   (164)
+               h323Proxy   (165)
+               mpls   (166)
+               mfSigLink   (167)
+               hdsl2   (168)
+               shdsl   (169)
+               ds1FDL   (170)
+               pos   (171)
+               dvbAsiIn   (172)
+               dvbAsiOut   (173)
+               plc   (174)
+               nfas   (175)
+               tr008   (176)
+               gr303RDT   (177)
+               gr303IDT   (178)
+               isup   (179)
+               propDocsWirelessMaclayer   (180)
+               propDocsWirelessDownstream   (181)
+               propDocsWirelessUpstream   (182)
+               hiperlan2   (183)
+               propBWAp2Mp   (184)
+               sonetOverheadChannel   (185)
+               digitalWrapperOverheadChannel   (186)
+               aal2   (187)
+               radioMAC   (188)
+               atmRadio   (189)
+               imt   (190)
+               mvl   (191)
+               reachDSL   (192)
+               frDlciEndPt   (193)
+               atmVciEndPt   (194)
+               opticalChannel   (195)
+               opticalTransport   (196)
+               propAtm   (197)
+               voiceOverCable   (198)
+               infiniband   (199)
+               teLink   (200)
+               q2931   (201)
+               virtualTg   (202)
+               sipTg   (203)
+               sipSig   (204)
+               docsCableUpstreamChannel   (205)
+               econet   (206)
+               pon155   (207)
+               pon622   (208)
+               bridge   (209)
+               linegroup   (210)
+               voiceEMFGD   (211)
+               voiceFGDEANA   (212)
+               voiceDID   (213)
+               mpegTransport   (214)
+               sixToFour   (215)
+               gtp   (216)
+               pdnEtherLoop1   (217)
+               pdnEtherLoop2   (218)
+               opticalChannelGroup   (219)
+               homepna   (220)
+               gfp   (221)
+               ciscoISLvlan   (222)
+               actelisMetaLOOP   (223)
+               fcipLink   (224)
+               rpr   (225)
+               qam   (226)
+               lmp   (227)
+               cblVectaStar   (228)
+               docsCableMCmtsDownstream   (229)
+               adsl2   (230)
+               macSecControlledIF   (231)
+               macSecUncontrolledIF   (232)
+               aviciOpticalEther   (233)
+               atmbond   (234)
+               voiceFGDOS   (235)
+               mocaVersion1   (236)
+               ieee80216WMAN   (237)
+               adsl2plus   (238)
+               dvbRcsMacLayer   (239)
+               dvbTdm   (240)
+               dvbRcsTdma   (241)
+               x86Laps   (242)
+               wwanPP   (243)
+               wwanPP2   (244)
+               voiceEBS   (245)
+               ifPwType   (246)
+               ilan   (247)
+               pip   (248)
+               aluELP   (249)
+               gpon   (250)
+               vdsl2   (251)
+               capwapDot11Profile   (252)
+               capwapDot11Bss   (253)
+               capwapWtpVirtualRadio   (254)
+               bits   (255)
+               docsCableUpstreamRfPort   (256)
+               cableDownstreamRfPort   (257)
+               gfast   (279)"
+   ::= {sr1645v2ShLine 102}
+
+
+sr1645v2ShLineIfSpeed OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.ifSpeed
+       Info: ifSpeed
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2ShLine 104}
+
+
+sr1645v2ShLineIfOperStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               up (1),
+               down (2),
+               testing (3),
+               unknown (4),
+               dormant (5),
+               notPresent (6),
+               lowerLayerDown (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.ifOperStatus
+       Info: ifOperStatus
+
+       Possibilities:
+               up   (1)
+               down   (2)
+               testing   (3)
+               unknown   (4)
+               dormant   (5)
+               notPresent   (6)
+               lowerLayerDown   (7)"
+   ::= {sr1645v2ShLine 107}
+
+
+sr1645v2ShLineMinLpSpeed OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.minLinePairSpeed
+       Info: line pair speed status
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2ShLine 91}
+
+
+sr1645v2ShLineMaxLpSpeed OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.maxLinePairSpeed
+       Info: line pair speed status
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2ShLine 92}
+
+
+sr1645v2ShLineEocAlThr OBJECT IDENTIFIER ::= {sr1645v2ShLine 130}
+
+sr1645v2ShLineEocAlThrSSC OBJECT IDENTIFIER ::= {sr1645v2ShLineEocAlThr 1}
+
+sr1645v2ShLineEocAlThrEntry OBJECT IDENTIFIER ::= {sr1645v2ShLineEocAlThrSSC 1}
+
+sr1645v2ShLineEocAlThrLineAtt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.eocAlarmThresholds.lineAttenuation
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {sr1645v2ShLineEocAlThrEntry 16777216}
+
+sr1645v2ShLineEocAlThrNoiseMargin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.eocAlarmThresholds.noiseMargin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {sr1645v2ShLineEocAlThrEntry 33554432}
+
+
+sr1645v2ShLineSnmpIndex OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.snmpIndex
+       Info: SNMP index assigned to this object"
+   ::= {sr1645v2ShLine 269}
+
+
+sr1645v2ShLineRegion OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               annexAuF (1),
+               annexBuG (2),
+               auto (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.region
+       Info: Region Status
+
+       Possibilities:
+               annexA_F   (1)
+               annexB_G   (2)
+               auto   (3)"
+   ::= {sr1645v2ShLine 80}
+
+
+sr1645v2ShLineFramerType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               efm (5),
+               atm (6)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.framerType
+       Info: Framer Type status
+
+       Possibilities:
+               efm   (5)
+               atm   (6)"
+   ::= {sr1645v2ShLine 93}
+
+
+sr1645v2ShLineWireMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               singlePair (1),
+               multiPair (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.wireMode
+
+       Possibilities:
+               singlePair   (1)
+               multiPair   (2)"
+   ::= {sr1645v2ShLine 411}
+
+
+sr1645v2ShLineNrOfActivePairs OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.nrOfActivePairs"
+   ::= {sr1645v2ShLine 413}
+
+
+sr1645v2ShLinePairOrder OBJECT IDENTIFIER ::= {sr1645v2ShLine 414}
+
+sr1645v2ShLinePairOrderSSC OBJECT IDENTIFIER ::= {sr1645v2ShLinePairOrder 1}
+
+sr1645v2ShLinePairOrderEntry OBJECT IDENTIFIER ::= {sr1645v2ShLinePairOrderSSC 1}
+
+sr1645v2ShLinePairOrderMaster OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (0),
+               linePair1 (1),
+               linePair2 (2),
+               linePair3 (3),
+               linePair4 (4)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.pairOrder.master
+
+       Possibilities:
+               <OPT>   (0)
+               linePair[1]   (1)
+               linePair[2]   (2)
+               linePair[3]   (3)
+               linePair[4]   (4)"
+   ::= {sr1645v2ShLinePairOrderEntry 16777216}
+
+sr1645v2ShLinePairOrderSlave1 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (0),
+               linePair1 (1),
+               linePair2 (2),
+               linePair3 (3),
+               linePair4 (4)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.pairOrder.slave1
+
+       Possibilities:
+               <OPT>   (0)
+               linePair[1]   (1)
+               linePair[2]   (2)
+               linePair[3]   (3)
+               linePair[4]   (4)"
+   ::= {sr1645v2ShLinePairOrderEntry 33554432}
+
+sr1645v2ShLinePairOrderSlave2 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (0),
+               linePair1 (1),
+               linePair2 (2),
+               linePair3 (3),
+               linePair4 (4)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.pairOrder.slave2
+
+       Possibilities:
+               <OPT>   (0)
+               linePair[1]   (1)
+               linePair[2]   (2)
+               linePair[3]   (3)
+               linePair[4]   (4)"
+   ::= {sr1645v2ShLinePairOrderEntry 50331648}
+
+sr1645v2ShLinePairOrderSlave3 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (0),
+               linePair1 (1),
+               linePair2 (2),
+               linePair3 (3),
+               linePair4 (4)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.pairOrder.slave3
+
+       Possibilities:
+               <OPT>   (0)
+               linePair[1]   (1)
+               linePair[2]   (2)
+               linePair[3]   (3)
+               linePair[4]   (4)"
+   ::= {sr1645v2ShLinePairOrderEntry 67108864}
+
+
+sr1645v2ShLineVendorName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iFTN (0),
+               gSPN (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.vendorName
+       Info: Selected Vendor Name
+
+       Possibilities:
+               IFTN   (0)
+               GSPN   (1)"
+   ::= {sr1645v2ShLine 417}
+
+
+sr1645v2ShLineIdcFwVersion OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.idcFwVersion
+       Info: Selected IDC version"
+   ::= {sr1645v2ShLine 434}
+
+
+sr1645v2ShLineSdfeFwVersion OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.sdfeFwVersion
+       Info: Selected SDFE version"
+   ::= {sr1645v2ShLine 435}
+
+
+sr1645v2ShLineExtendedRates OBJECT IDENTIFIER ::= {sr1645v2ShLine 701}
+
+sr1645v2ShLineExtendedRatesSSC OBJECT IDENTIFIER ::= {sr1645v2ShLineExtendedRates 1}
+
+sr1645v2ShLineExtendedRatesEntry OBJECT IDENTIFIER ::= {sr1645v2ShLineExtendedRatesSSC 1}
+
+sr1645v2ShLineExtendedRatesMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               fixed (1),
+               adaptive (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.extendedRates.mode
+
+       Possibilities:
+               disabled   (0)
+               fixed   (1)
+               adaptive   (2)"
+   ::= {sr1645v2ShLineExtendedRatesEntry 16777216}
+
+sr1645v2ShLineExtendedRatesFixedRate OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "kbps"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.extendedRates.fixed.rate
+
+       unit name = kbps"
+   ::= {sr1645v2ShLineExtendedRatesEntry 33619968}
+
+sr1645v2ShLineExtendedRatesFixedModulation OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               tcmpam4 (1),
+               tcmpam8 (2),
+               tcmpam16 (3),
+               tcmpam32 (4),
+               tcmpam64 (5),
+               tcmpam128 (6)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.extendedRates.fixed.modulation
+
+       Possibilities:
+               tc-pam4   (1)
+               tc-pam8   (2)
+               tc-pam16   (3)
+               tc-pam32   (4)
+               tc-pam64   (5)
+               tc-pam128   (6)"
+   ::= {sr1645v2ShLineExtendedRatesEntry 33685504}
+
+sr1645v2ShLineExtendedRatesAdaptiveMaxmrate OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "kbps"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.extendedRates.adaptive.max-rate
+
+       unit name = kbps"
+   ::= {sr1645v2ShLineExtendedRatesEntry 50397184}
+
+sr1645v2ShLineExtendedRatesAdaptiveModulation OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.extendedRates.adaptive.modulation
+
+       Bit meanings:
+               bit 0 = tc-pam4,
+               bit 1 = tc-pam8,
+               bit 2 = tc-pam16,
+               bit 3 = tc-pam32,
+               bit 4 = tc-pam64,
+               bit 5 = tc-pam128"
+   ::= {sr1645v2ShLineExtendedRatesEntry 50462720}
+
+sr1645v2ShLineExtendedRatesAdaptiveMaxmbaudrate OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "ksyms/s"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.status.extendedRates.adaptive.max-baudrate
+
+       unit name = ksyms/s"
+   ::= {sr1645v2ShLineExtendedRatesEntry 50528256}
+
+
+
+er1645v2ShLine OBJECT IDENTIFIER ::= {r1645v2ShLine 11}
+
+
+er1645v2ShLineRemark OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.remark
+       Info: intfRemark"
+   ::= {er1645v2ShLine 321}
+
+
+er1645v2ShLineManagement OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               transp (0),
+               o10 (2),
+               path (3),
+               o10path (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.management
+       Info: mgmntBits use
+
+       Possibilities:
+               transparent   (0)
+               o10Management   (2)
+               pathManagement   (3)
+               o10-PathManagement   (4)"
+   ::= {er1645v2ShLine 29}
+
+
+er1645v2ShLineEndAlmMsk OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.endAlarmMask
+       Info: lineAlarmMask
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {er1645v2ShLine 83}
+
+
+er1645v2ShLineEndAlmLev OBJECT IDENTIFIER ::= {er1645v2ShLine 82}
+
+er1645v2ShLineEndAlmLevSSC OBJECT IDENTIFIER ::= {er1645v2ShLineEndAlmLev 1}
+
+er1645v2ShLineEndAlmLevEntry OBJECT IDENTIFIER ::= {er1645v2ShLineEndAlmLevSSC 1}
+
+er1645v2ShLineEndAlmLevLnkDwn OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.endAlarmLevel.linkDown"
+   ::= {er1645v2ShLineEndAlmLevEntry 16777216}
+
+
+er1645v2ShLineRepAlmMsk OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.repeaterAlarmMask
+       Info: lineAlarmMask
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {er1645v2ShLine 85}
+
+
+er1645v2ShLineRepAlmLev OBJECT IDENTIFIER ::= {er1645v2ShLine 84}
+
+er1645v2ShLineRepAlmLevSSC OBJECT IDENTIFIER ::= {er1645v2ShLineRepAlmLev 1}
+
+er1645v2ShLineRepAlmLevEntry OBJECT IDENTIFIER ::= {er1645v2ShLineRepAlmLevSSC 1}
+
+er1645v2ShLineRepAlmLevLnkDwn OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.repeaterAlarmLevel.linkDown"
+   ::= {er1645v2ShLineRepAlmLevEntry 16777216}
+
+
+er1645v2ShLineName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.name
+       Info: config interface name"
+   ::= {er1645v2ShLine 262}
+
+
+er1645v2ShLineChannel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               central (0),
+               remote (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.channel
+       Info: channel
+
+       Possibilities:
+               central   (0)
+               remote   (1)"
+   ::= {er1645v2ShLine 1}
+
+
+er1645v2ShLineStartupMargin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               sm10dB (1),
+               sm9dB (2),
+               sm8dB (3),
+               sm7dB (4),
+               sm6dB (5),
+               sm5dB (6),
+               sm4dB (7),
+               sm3dB (8),
+               sm2dB (9),
+               sm1dB (10),
+               s0dB (11),
+               s1dB (12),
+               s2dB (13),
+               s3dB (14),
+               s4dB (15),
+               s5dB (16),
+               s6dB (17),
+               s7dB (18),
+               s8dB (19),
+               s9dB (20),
+               s10dB (21)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.startupMargin
+       Info: startupMargin
+
+       Possibilities:
+               disabled   (0)
+               -10dB   (1)
+               -9dB   (2)
+               -8dB   (3)
+               -7dB   (4)
+               -6dB   (5)
+               -5dB   (6)
+               -4dB   (7)
+               -3dB   (8)
+               -2dB   (9)
+               -1dB   (10)
+               0dB   (11)
+               1dB   (12)
+               2dB   (13)
+               3dB   (14)
+               4dB   (15)
+               5dB   (16)
+               6dB   (17)
+               7dB   (18)
+               8dB   (19)
+               9dB   (20)
+               10dB   (21)"
+   ::= {er1645v2ShLine 7}
+
+
+er1645v2ShLineSmm OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               normal (1),
+               forced (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.startupMarginMode
+
+       Possibilities:
+               normal   (1)
+               forced   (2)"
+   ::= {er1645v2ShLine 430}
+
+
+er1645v2ShLineAlThr OBJECT IDENTIFIER ::= {er1645v2ShLine 11}
+
+er1645v2ShLineAlThrSSC OBJECT IDENTIFIER ::= {er1645v2ShLineAlThr 1}
+
+er1645v2ShLineAlThrEntry OBJECT IDENTIFIER ::= {er1645v2ShLineAlThrSSC 1}
+
+er1645v2ShLineAlThrLineAtt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.linkAlarmThresholds.lineAttenuation
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {er1645v2ShLineAlThrEntry 16777216}
+
+er1645v2ShLineAlThrNoiseMargin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.linkAlarmThresholds.noiseMargin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {er1645v2ShLineAlThrEntry 33554432}
+
+er1645v2ShLineAlThrEsrExc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.linkAlarmThresholds.errSecRatioExceeded
+
+       unit name = ratio
+       formula = 1000 / ; 1000 *"
+   ::= {er1645v2ShLineAlThrEntry 100663296}
+
+er1645v2ShLineAlThrSesrExc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.linkAlarmThresholds.sevErrSecRatioExceeded
+
+       unit name = ratio
+       formula = 1000 / ; 1000 *"
+   ::= {er1645v2ShLineAlThrEntry 117440512}
+
+er1645v2ShLineAlThrBberExc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.linkAlarmThresholds.bBErrRatioExceeded
+
+       unit name = ratio
+       formula = 1000000 / ; 1000000 *"
+   ::= {er1645v2ShLineAlThrEntry 134217728}
+
+er1645v2ShLineAlThrIfSpeed OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0)
+               }
+   UNITS       "bps"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.linkAlarmThresholds.ifSpeed
+
+       unit name = bps
+
+       Possibilities:
+               disabled   (0)"
+   ::= {er1645v2ShLineAlThrEntry 150994944}
+
+er1645v2ShLineAlThrAggregatedIfSpeed OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0)
+               }
+   UNITS       "bps"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.linkAlarmThresholds.aggregatedIfSpeed
+
+       unit name = bps
+
+       Possibilities:
+               disabled   (0)"
+   ::= {er1645v2ShLineAlThrEntry 167772160}
+
+
+er1645v2ShLineNbERep OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.numExpectedRepeaters
+       Info: Number of expected repeaters"
+   ::= {er1645v2ShLine 160}
+
+
+er1645v2ShLineEocHandling OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               passive (10),
+               none (0),
+               discovery (1),
+               inventory (2),
+               info (3),
+               alarmConfiguration (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.eocHandling
+       Info: define the eoc handling level
+
+       Possibilities:
+               passive   (10)
+               none   (0)
+               discovery   (1)
+               inventory   (2)
+               info   (3)
+               alarmConfiguration   (4)"
+   ::= {er1645v2ShLine 162}
+
+
+er1645v2ShLineEocPerfCounters OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               absolute (1),
+               differential (2),
+               auto (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.eocPerfCounters
+
+       Possibilities:
+               absolute   (1)
+               differential   (2)
+               auto   (3)"
+   ::= {er1645v2ShLine 416}
+
+
+er1645v2ShLineWcStartupMargin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               sm10dB (1),
+               sm9dB (2),
+               sm8dB (3),
+               sm7dB (4),
+               sm6dB (5),
+               sm5dB (6),
+               sm4dB (7),
+               sm3dB (8),
+               sm2dB (9),
+               sm1dB (10),
+               s0dB (11),
+               s1dB (12),
+               s2dB (13),
+               s3dB (14),
+               s4dB (15),
+               s5dB (16),
+               s6dB (17),
+               s7dB (18),
+               s8dB (19),
+               s9dB (20),
+               s10dB (21)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.wcStartupMargin
+       Info: startupMargin
+
+       Possibilities:
+               disabled   (0)
+               -10dB   (1)
+               -9dB   (2)
+               -8dB   (3)
+               -7dB   (4)
+               -6dB   (5)
+               -5dB   (6)
+               -4dB   (7)
+               -3dB   (8)
+               -2dB   (9)
+               -1dB   (10)
+               0dB   (11)
+               1dB   (12)
+               2dB   (13)
+               3dB   (14)
+               4dB   (15)
+               5dB   (16)
+               6dB   (17)
+               7dB   (18)
+               8dB   (19)
+               9dB   (20)
+               10dB   (21)"
+   ::= {er1645v2ShLine 8}
+
+
+er1645v2ShLineRegion OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               annexAuF (1),
+               annexBuG (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.region
+       Info: Region Selection
+
+       Possibilities:
+               annexA_F   (1)
+               annexB_G   (2)"
+   ::= {er1645v2ShLine 6}
+
+
+er1645v2ShLineRetrain OBJECT IDENTIFIER ::= {er1645v2ShLine 5}
+
+er1645v2ShLineRetrainSSC OBJECT IDENTIFIER ::= {er1645v2ShLineRetrain 1}
+
+er1645v2ShLineRetrainEntry OBJECT IDENTIFIER ::= {er1645v2ShLineRetrainSSC 1}
+
+er1645v2ShLineRetrainEnabled OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.retrain.enabled
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {er1645v2ShLineRetrainEntry 16777216}
+
+er1645v2ShLineRetrainLayer2Check OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.retrain.layer2Check
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2ShLineRetrainEntry 117440512}
+
+er1645v2ShLineRetrainErrPersistT OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "seconds"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.retrain.errorPersistenceTime
+
+       unit name = seconds"
+   ::= {er1645v2ShLineRetrainEntry 33554432}
+
+er1645v2ShLineRetrainErrThresh OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "proMille"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.retrain.errorThreshold
+
+       unit name = proMille"
+   ::= {er1645v2ShLineRetrainEntry 50331648}
+
+er1645v2ShLineRetrainNmThresh OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               sm2dB (-2),
+               sm1dB (-1),
+               s0dB (0),
+               s1dB (1),
+               s2dB (2),
+               s3dB (3),
+               s4dB (4),
+               s5dB (5),
+               s6dB (6),
+               s7dB (7),
+               s8dB (8),
+               s9dB (9),
+               s10dB (10),
+               s11dB (11),
+               s12dB (12),
+               s13dB (13),
+               s14dB (14),
+               s15dB (15)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.retrain.noiseMarginThreshold
+
+       Possibilities:
+               -2dB   (-2)
+               -1dB   (-1)
+               0dB   (0)
+               1dB   (1)
+               2dB   (2)
+               3dB   (3)
+               4dB   (4)
+               5dB   (5)
+               6dB   (6)
+               7dB   (7)
+               8dB   (8)
+               9dB   (9)
+               10dB   (10)
+               11dB   (11)
+               12dB   (12)
+               13dB   (13)
+               14dB   (14)
+               15dB   (15)"
+   ::= {er1645v2ShLineRetrainEntry 67108864}
+
+er1645v2ShLineRetrainStepupMg OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               s3d0dB (6),
+               s3d5dB (7),
+               s4d0dB (8),
+               s4d5dB (9),
+               s5d0dB (10),
+               s5d5dB (11),
+               s6d0dB (12),
+               s6d5dB (13),
+               s7d0dB (14),
+               s7d5dB (15),
+               s8d0dB (16),
+               s8d5dB (17),
+               s9d0dB (18),
+               s9d5dB (19),
+               s10d0dB (20),
+               s10d5dB (21),
+               s11d0dB (22),
+               s11d5dB (23),
+               s12d0dB (24),
+               s12d5dB (25),
+               s13d0dB (26),
+               s13d5dB (27),
+               s14d0dB (28),
+               s14d5dB (29),
+               s15d0dB (30)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.retrain.stepupMargin
+
+       Possibilities:
+               disabled   (0)
+               3.0dB   (6)
+               3.5dB   (7)
+               4.0dB   (8)
+               4.5dB   (9)
+               5.0dB   (10)
+               5.5dB   (11)
+               6.0dB   (12)
+               6.5dB   (13)
+               7.0dB   (14)
+               7.5dB   (15)
+               8.0dB   (16)
+               8.5dB   (17)
+               9.0dB   (18)
+               9.5dB   (19)
+               10.0dB   (20)
+               10.5dB   (21)
+               11.0dB   (22)
+               11.5dB   (23)
+               12.0dB   (24)
+               12.5dB   (25)
+               13.0dB   (26)
+               13.5dB   (27)
+               14.0dB   (28)
+               14.5dB   (29)
+               15.0dB   (30)"
+   ::= {er1645v2ShLineRetrainEntry 83886080}
+
+
+er1645v2ShLineMinLpSpeed OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s192kbps (3),
+               s256kbps (4),
+               s320kbps (5),
+               s384kbps (6),
+               s448kbps (7),
+               s512kbps (8),
+               s576kbps (9),
+               s640kbps (10),
+               s704kbps (11),
+               s768kbps (12),
+               s832kbps (13),
+               s896kbps (14),
+               s960kbps (15),
+               s1024kbps (16),
+               s1088kbps (17),
+               s1152kbps (18),
+               s1216kbps (19),
+               s1280kbps (20),
+               s1344kbps (21),
+               s1408kbps (22),
+               s1472kbps (23),
+               s1536kbps (24),
+               s1600kbps (25),
+               s1664kbps (26),
+               s1728kbps (27),
+               s1792kbps (28),
+               s1856kbps (29),
+               s1920kbps (30),
+               s1984kbps (31),
+               s2048kbps (32),
+               s2112kbps (33),
+               s2176kbps (34),
+               s2240kbps (35),
+               s2304kbps (36),
+               s2368kbps (37),
+               s2432kbps (38),
+               s2496kbps (39),
+               s2560kbps (40),
+               s2624kbps (41),
+               s2688kbps (42),
+               s2752kbps (43),
+               s2816kbps (44),
+               s2880kbps (45),
+               s2944kbps (46),
+               s3008kbps (47),
+               s3072kbps (48),
+               s3136kbps (49),
+               s3200kbps (50),
+               s3264kbps (51),
+               s3328kbps (52),
+               s3392kbps (53),
+               s3456kbps (54),
+               s3520kbps (55),
+               s3584kbps (56),
+               s3648kbps (57),
+               s3712kbps (58),
+               s3776kbps (59),
+               s3840kbps (60),
+               s3904kbps (61),
+               s3968kbps (62),
+               s4032kbps (63),
+               s4096kbps (64),
+               s4160kbps (65),
+               s4224kbps (66),
+               s4288kbps (67),
+               s4352kbps (68),
+               s4416kbps (69),
+               s4480kbps (70),
+               s4544kbps (71),
+               s4608kbps (72),
+               s4672kbps (73),
+               s4736kbps (74),
+               s4800kbps (75),
+               s4864kbps (76),
+               s4928kbps (77),
+               s4992kbps (78),
+               s5056kbps (79),
+               s5120kbps (80),
+               s5184kbps (81),
+               s5248kbps (82),
+               s5312kbps (83),
+               s5376kbps (84),
+               s5440kbps (85),
+               s5504kbps (86),
+               s5568kbps (87),
+               s5632kbps (88),
+               s5696kbps (89)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.minLinePairSpeed
+       Info: min speed which should be used by each linepair
+
+       Possibilities:
+               192kbps   (3)
+               256kbps   (4)
+               320kbps   (5)
+               384kbps   (6)
+               448kbps   (7)
+               512kbps   (8)
+               576kbps   (9)
+               640kbps   (10)
+               704kbps   (11)
+               768kbps   (12)
+               832kbps   (13)
+               896kbps   (14)
+               960kbps   (15)
+               1024kbps   (16)
+               1088kbps   (17)
+               1152kbps   (18)
+               1216kbps   (19)
+               1280kbps   (20)
+               1344kbps   (21)
+               1408kbps   (22)
+               1472kbps   (23)
+               1536kbps   (24)
+               1600kbps   (25)
+               1664kbps   (26)
+               1728kbps   (27)
+               1792kbps   (28)
+               1856kbps   (29)
+               1920kbps   (30)
+               1984kbps   (31)
+               2048kbps   (32)
+               2112kbps   (33)
+               2176kbps   (34)
+               2240kbps   (35)
+               2304kbps   (36)
+               2368kbps   (37)
+               2432kbps   (38)
+               2496kbps   (39)
+               2560kbps   (40)
+               2624kbps   (41)
+               2688kbps   (42)
+               2752kbps   (43)
+               2816kbps   (44)
+               2880kbps   (45)
+               2944kbps   (46)
+               3008kbps   (47)
+               3072kbps   (48)
+               3136kbps   (49)
+               3200kbps   (50)
+               3264kbps   (51)
+               3328kbps   (52)
+               3392kbps   (53)
+               3456kbps   (54)
+               3520kbps   (55)
+               3584kbps   (56)
+               3648kbps   (57)
+               3712kbps   (58)
+               3776kbps   (59)
+               3840kbps   (60)
+               3904kbps   (61)
+               3968kbps   (62)
+               4032kbps   (63)
+               4096kbps   (64)
+               4160kbps   (65)
+               4224kbps   (66)
+               4288kbps   (67)
+               4352kbps   (68)
+               4416kbps   (69)
+               4480kbps   (70)
+               4544kbps   (71)
+               4608kbps   (72)
+               4672kbps   (73)
+               4736kbps   (74)
+               4800kbps   (75)
+               4864kbps   (76)
+               4928kbps   (77)
+               4992kbps   (78)
+               5056kbps   (79)
+               5120kbps   (80)
+               5184kbps   (81)
+               5248kbps   (82)
+               5312kbps   (83)
+               5376kbps   (84)
+               5440kbps   (85)
+               5504kbps   (86)
+               5568kbps   (87)
+               5632kbps   (88)
+               5696kbps   (89)"
+   ::= {er1645v2ShLine 14}
+
+
+er1645v2ShLineMaxLpSpeed OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s192kbps (3),
+               s256kbps (4),
+               s320kbps (5),
+               s384kbps (6),
+               s448kbps (7),
+               s512kbps (8),
+               s576kbps (9),
+               s640kbps (10),
+               s704kbps (11),
+               s768kbps (12),
+               s832kbps (13),
+               s896kbps (14),
+               s960kbps (15),
+               s1024kbps (16),
+               s1088kbps (17),
+               s1152kbps (18),
+               s1216kbps (19),
+               s1280kbps (20),
+               s1344kbps (21),
+               s1408kbps (22),
+               s1472kbps (23),
+               s1536kbps (24),
+               s1600kbps (25),
+               s1664kbps (26),
+               s1728kbps (27),
+               s1792kbps (28),
+               s1856kbps (29),
+               s1920kbps (30),
+               s1984kbps (31),
+               s2048kbps (32),
+               s2112kbps (33),
+               s2176kbps (34),
+               s2240kbps (35),
+               s2304kbps (36),
+               s2368kbps (37),
+               s2432kbps (38),
+               s2496kbps (39),
+               s2560kbps (40),
+               s2624kbps (41),
+               s2688kbps (42),
+               s2752kbps (43),
+               s2816kbps (44),
+               s2880kbps (45),
+               s2944kbps (46),
+               s3008kbps (47),
+               s3072kbps (48),
+               s3136kbps (49),
+               s3200kbps (50),
+               s3264kbps (51),
+               s3328kbps (52),
+               s3392kbps (53),
+               s3456kbps (54),
+               s3520kbps (55),
+               s3584kbps (56),
+               s3648kbps (57),
+               s3712kbps (58),
+               s3776kbps (59),
+               s3840kbps (60),
+               s3904kbps (61),
+               s3968kbps (62),
+               s4032kbps (63),
+               s4096kbps (64),
+               s4160kbps (65),
+               s4224kbps (66),
+               s4288kbps (67),
+               s4352kbps (68),
+               s4416kbps (69),
+               s4480kbps (70),
+               s4544kbps (71),
+               s4608kbps (72),
+               s4672kbps (73),
+               s4736kbps (74),
+               s4800kbps (75),
+               s4864kbps (76),
+               s4928kbps (77),
+               s4992kbps (78),
+               s5056kbps (79),
+               s5120kbps (80),
+               s5184kbps (81),
+               s5248kbps (82),
+               s5312kbps (83),
+               s5376kbps (84),
+               s5440kbps (85),
+               s5504kbps (86),
+               s5568kbps (87),
+               s5632kbps (88),
+               s5696kbps (89)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.maxLinePairSpeed
+       Info: min speed which should be used by each linepair
+
+       Possibilities:
+               192kbps   (3)
+               256kbps   (4)
+               320kbps   (5)
+               384kbps   (6)
+               448kbps   (7)
+               512kbps   (8)
+               576kbps   (9)
+               640kbps   (10)
+               704kbps   (11)
+               768kbps   (12)
+               832kbps   (13)
+               896kbps   (14)
+               960kbps   (15)
+               1024kbps   (16)
+               1088kbps   (17)
+               1152kbps   (18)
+               1216kbps   (19)
+               1280kbps   (20)
+               1344kbps   (21)
+               1408kbps   (22)
+               1472kbps   (23)
+               1536kbps   (24)
+               1600kbps   (25)
+               1664kbps   (26)
+               1728kbps   (27)
+               1792kbps   (28)
+               1856kbps   (29)
+               1920kbps   (30)
+               1984kbps   (31)
+               2048kbps   (32)
+               2112kbps   (33)
+               2176kbps   (34)
+               2240kbps   (35)
+               2304kbps   (36)
+               2368kbps   (37)
+               2432kbps   (38)
+               2496kbps   (39)
+               2560kbps   (40)
+               2624kbps   (41)
+               2688kbps   (42)
+               2752kbps   (43)
+               2816kbps   (44)
+               2880kbps   (45)
+               2944kbps   (46)
+               3008kbps   (47)
+               3072kbps   (48)
+               3136kbps   (49)
+               3200kbps   (50)
+               3264kbps   (51)
+               3328kbps   (52)
+               3392kbps   (53)
+               3456kbps   (54)
+               3520kbps   (55)
+               3584kbps   (56)
+               3648kbps   (57)
+               3712kbps   (58)
+               3776kbps   (59)
+               3840kbps   (60)
+               3904kbps   (61)
+               3968kbps   (62)
+               4032kbps   (63)
+               4096kbps   (64)
+               4160kbps   (65)
+               4224kbps   (66)
+               4288kbps   (67)
+               4352kbps   (68)
+               4416kbps   (69)
+               4480kbps   (70)
+               4544kbps   (71)
+               4608kbps   (72)
+               4672kbps   (73)
+               4736kbps   (74)
+               4800kbps   (75)
+               4864kbps   (76)
+               4928kbps   (77)
+               4992kbps   (78)
+               5056kbps   (79)
+               5120kbps   (80)
+               5184kbps   (81)
+               5248kbps   (82)
+               5312kbps   (83)
+               5376kbps   (84)
+               5440kbps   (85)
+               5504kbps   (86)
+               5568kbps   (87)
+               5632kbps   (88)
+               5696kbps   (89)"
+   ::= {er1645v2ShLine 402}
+
+
+er1645v2ShLineAutoConfig OBJECT IDENTIFIER ::= {er1645v2ShLine 412}
+
+er1645v2ShLineAutoConfigSSC OBJECT IDENTIFIER ::= {er1645v2ShLineAutoConfig 1}
+
+er1645v2ShLineAutoConfigEntry OBJECT IDENTIFIER ::= {er1645v2ShLineAutoConfigSSC 1}
+
+er1645v2ShLineAutoConfigOperation OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.autoConfig.operation
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2ShLineAutoConfigEntry 16777216}
+
+er1645v2ShLineAutoConfigInitialWireMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               singlePair (1),
+               multiPair (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.autoConfig.initialWireMode
+
+       Possibilities:
+               singlePair   (1)
+               multiPair   (2)"
+   ::= {er1645v2ShLineAutoConfigEntry 33554432}
+
+
+er1645v2ShLineModulation OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               auto (0),
+               tcmpam16 (1),
+               tcmpam32 (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.modulation
+       Info: modulation selection
+
+       Possibilities:
+               auto   (0)
+               tc-pam16   (1)
+               tc-pam32   (2)"
+   ::= {er1645v2ShLine 401}
+
+
+er1645v2ShLineLineProbing OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               normal (0),
+               adaptive (1),
+               simulated (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.lineProbing
+       Info: Line Probing
+
+       Possibilities:
+               normal   (0)
+               adaptive   (1)
+               simulated   (2)"
+   ::= {er1645v2ShLine 415}
+
+
+er1645v2ShLineCompatibility OBJECT IDENTIFIER ::= {er1645v2ShLine 407}
+
+er1645v2ShLineCompatibilitySSC OBJECT IDENTIFIER ::= {er1645v2ShLineCompatibility 1}
+
+er1645v2ShLineCompatibilityEntry OBJECT IDENTIFIER ::= {er1645v2ShLineCompatibilitySSC 1}
+
+er1645v2ShLineCompatibilityCapList OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               auto (2),
+               newStyle (0),
+               oldStyle (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.compatibility.capList
+
+       Possibilities:
+               auto   (2)
+               newStyle   (0)
+               oldStyle   (1)"
+   ::= {er1645v2ShLineCompatibilityEntry 16777216}
+
+er1645v2ShLineCompatibilityPmmsMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               normal (0),
+               globespan (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.compatibility.pmmsMode
+
+       Possibilities:
+               normal   (0)
+               globespan   (1)"
+   ::= {er1645v2ShLineCompatibilityEntry 33554432}
+
+er1645v2ShLineCompatibilityFourWireMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               auto (0),
+               enhanced (1),
+               standard (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.compatibility.fourWireMode
+
+       Possibilities:
+               auto   (0)
+               enhanced   (1)
+               standard   (2)"
+   ::= {er1645v2ShLineCompatibilityEntry 50331648}
+
+er1645v2ShLineCompatibilityVendorSpecOctets OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.compatibility.vendorSpecOctets"
+   ::= {er1645v2ShLineCompatibilityEntry 67108864}
+
+er1645v2ShLineCompatibilityVendorName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iFTN (0),
+               gSPN (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.compatibility.vendorName
+
+       Possibilities:
+               IFTN   (0)
+               GSPN   (1)"
+   ::= {er1645v2ShLineCompatibilityEntry 117440512}
+
+er1645v2ShLineCompatibilityAutoWireMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               mode0 (0),
+               mode1 (1),
+               mode2 (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.compatibility.autoWireMode
+
+       Possibilities:
+               mode0   (0)
+               mode1   (1)
+               mode2   (2)"
+   ::= {er1645v2ShLineCompatibilityEntry 134217728}
+
+er1645v2ShLineCompatibilityEfmAggregation OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               auto (1),
+               negotiated (2),
+               static (3),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.compatibility.efmAggregation
+
+       Possibilities:
+               auto   (1)
+               negotiated   (2)
+               static   (3)
+               disabled   (0)"
+   ::= {er1645v2ShLineCompatibilityEntry 83886080}
+
+er1645v2ShLineCompatibilityTcLayerMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               single (0),
+               all (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.compatibility.tcLayerMode
+
+       Possibilities:
+               single   (0)
+               all   (1)"
+   ::= {er1645v2ShLineCompatibilityEntry 100663296}
+
+er1645v2ShLineCompatibilityEfmTcTree OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ieee (0),
+               itu (1),
+               auto (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.compatibility.efmTcTree
+
+       Possibilities:
+               ieee   (0)
+               itu   (1)
+               auto   (2)"
+   ::= {er1645v2ShLineCompatibilityEntry 268435456}
+
+er1645v2ShLineCompatibilityTcSyncTxDelay OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.compatibility.tcSyncTxDelay
+
+       Time in centi-second."
+   ::= {er1645v2ShLineCompatibilityEntry 318767104}
+
+er1645v2ShLineCompatibilityPafFragmentSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.compatibility.pafFragmentSize"
+   ::= {er1645v2ShLineCompatibilityEntry 335544320}
+
+er1645v2ShLineCompatibilityFwAltVersion OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               default (0),
+               s2d1d0 (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.compatibility.fwAltVersion
+
+       Possibilities:
+               default   (0)
+               2.1.0   (1)"
+   ::= {er1645v2ShLineCompatibilityEntry 352321536}
+
+
+er1645v2ShLineAlarmMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.alarmMask
+       Info: lineAlarmMask
+
+       Bit meanings:
+               bit 0 = linkDown,
+               bit 1 = invalidNumRepeaters,
+               bit 11 = remotePowerFail,
+               bit 12 = aggregatedIfSpeed"
+   ::= {er1645v2ShLine 10}
+
+
+er1645v2ShLineAlarmLevel OBJECT IDENTIFIER ::= {er1645v2ShLine 61}
+
+er1645v2ShLineAlarmLevelSSC OBJECT IDENTIFIER ::= {er1645v2ShLineAlarmLevel 1}
+
+er1645v2ShLineAlarmLevelEntry OBJECT IDENTIFIER ::= {er1645v2ShLineAlarmLevelSSC 1}
+
+er1645v2ShLineAlarmLevelLnkDwn OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.alarmLevel.linkDown"
+   ::= {er1645v2ShLineAlarmLevelEntry 16777216}
+
+er1645v2ShLineAlarmLevelInvNRep OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.alarmLevel.invalidNumRepeaters"
+   ::= {er1645v2ShLineAlarmLevelEntry 33554432}
+
+er1645v2ShLineAlarmLevelRemPowFl OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.alarmLevel.remotePowerFail"
+   ::= {er1645v2ShLineAlarmLevelEntry 201326592}
+
+er1645v2ShLineAlarmLevelAggSpd OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.alarmLevel.aggregatedIfSpeed"
+   ::= {er1645v2ShLineAlarmLevelEntry 218103808}
+
+
+er1645v2ShLineELpAlmMsk OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.endLinePairAlarmMask
+       Info: linePairAlarmMask
+
+       Bit meanings:
+               bit 1 = lineAttenuation,
+               bit 2 = noiseMargin,
+               bit 3 = errSecRatioExceeded,
+               bit 4 = sevErrSecRatioExceeded,
+               bit 5 = bBErrRatioExceeded"
+   ::= {er1645v2ShLine 89}
+
+
+er1645v2ShLineELpAlmLev OBJECT IDENTIFIER ::= {er1645v2ShLine 88}
+
+er1645v2ShLineELpAlmLevSSC OBJECT IDENTIFIER ::= {er1645v2ShLineELpAlmLev 1}
+
+er1645v2ShLineELpAlmLevEntry OBJECT IDENTIFIER ::= {er1645v2ShLineELpAlmLevSSC 1}
+
+er1645v2ShLineELpAlmLevLpatt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.endLinePairAlarmLevel.lineAttenuation"
+   ::= {er1645v2ShLineELpAlmLevEntry 33554432}
+
+er1645v2ShLineELpAlmLevNm OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.endLinePairAlarmLevel.noiseMargin"
+   ::= {er1645v2ShLineELpAlmLevEntry 50331648}
+
+er1645v2ShLineELpAlmLevEsrExc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.endLinePairAlarmLevel.errSecRatioExceeded"
+   ::= {er1645v2ShLineELpAlmLevEntry 67108864}
+
+er1645v2ShLineELpAlmLevSesrExc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.endLinePairAlarmLevel.sevErrSecRatioExceeded"
+   ::= {er1645v2ShLineELpAlmLevEntry 83886080}
+
+er1645v2ShLineELpAlmLevBberExc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.endLinePairAlarmLevel.bBErrRatioExceeded"
+   ::= {er1645v2ShLineELpAlmLevEntry 100663296}
+
+
+er1645v2ShLineRpLpAlmMsk OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.repeaterLinePairAlarmMask
+       Info: linePairAlarmMask
+
+       Bit meanings:
+               bit 1 = lineAttenuation,
+               bit 2 = noiseMargin,
+               bit 3 = errSecRatioExceeded,
+               bit 4 = sevErrSecRatioExceeded,
+               bit 5 = bBErrRatioExceeded"
+   ::= {er1645v2ShLine 87}
+
+
+er1645v2ShLineRpLpAlmLev OBJECT IDENTIFIER ::= {er1645v2ShLine 86}
+
+er1645v2ShLineRpLpAlmLevSSC OBJECT IDENTIFIER ::= {er1645v2ShLineRpLpAlmLev 1}
+
+er1645v2ShLineRpLpAlmLevEntry OBJECT IDENTIFIER ::= {er1645v2ShLineRpLpAlmLevSSC 1}
+
+er1645v2ShLineRpLpAlmLevLpatt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.repeaterLinePairAlarmLevel.lineAttenuation"
+   ::= {er1645v2ShLineRpLpAlmLevEntry 33554432}
+
+er1645v2ShLineRpLpAlmLevNm OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.repeaterLinePairAlarmLevel.noiseMargin"
+   ::= {er1645v2ShLineRpLpAlmLevEntry 50331648}
+
+er1645v2ShLineRpLpAlmLevEsrExc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.repeaterLinePairAlarmLevel.errSecRatioExceeded"
+   ::= {er1645v2ShLineRpLpAlmLevEntry 67108864}
+
+er1645v2ShLineRpLpAlmLevSesrExc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.repeaterLinePairAlarmLevel.sevErrSecRatioExceeded"
+   ::= {er1645v2ShLineRpLpAlmLevEntry 83886080}
+
+er1645v2ShLineRpLpAlmLevBberExc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.repeaterLinePairAlarmLevel.bBErrRatioExceeded"
+   ::= {er1645v2ShLineRpLpAlmLevEntry 100663296}
+
+
+er1645v2ShLineExtendedRates OBJECT IDENTIFIER ::= {er1645v2ShLine 700}
+
+er1645v2ShLineExtendedRatesSSC OBJECT IDENTIFIER ::= {er1645v2ShLineExtendedRates 1}
+
+er1645v2ShLineExtendedRatesEntry OBJECT IDENTIFIER ::= {er1645v2ShLineExtendedRatesSSC 1}
+
+er1645v2ShLineExtendedRatesMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               fixed (1),
+               adaptive (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.extendedRates.mode
+
+       Possibilities:
+               disabled   (0)
+               fixed   (1)
+               adaptive   (2)"
+   ::= {er1645v2ShLineExtendedRatesEntry 16777216}
+
+er1645v2ShLineExtendedRatesFixedRate OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "kbps"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.extendedRates.fixed.rate
+
+       unit name = kbps"
+   ::= {er1645v2ShLineExtendedRatesEntry 33619968}
+
+er1645v2ShLineExtendedRatesFixedModulation OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               tcmpam4 (1),
+               tcmpam8 (2),
+               tcmpam16 (3),
+               tcmpam32 (4),
+               tcmpam64 (5),
+               tcmpam128 (6)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.extendedRates.fixed.modulation
+
+       Possibilities:
+               tc-pam4   (1)
+               tc-pam8   (2)
+               tc-pam16   (3)
+               tc-pam32   (4)
+               tc-pam64   (5)
+               tc-pam128   (6)"
+   ::= {er1645v2ShLineExtendedRatesEntry 33685504}
+
+er1645v2ShLineExtendedRatesAdaptiveMaxmrate OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "kbps"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.extendedRates.adaptive.max-rate
+
+       unit name = kbps"
+   ::= {er1645v2ShLineExtendedRatesEntry 50397184}
+
+er1645v2ShLineExtendedRatesAdaptiveModulation OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.extendedRates.adaptive.modulation
+
+       Bit meanings:
+               bit 0 = tc-pam4,
+               bit 1 = tc-pam8,
+               bit 2 = tc-pam16,
+               bit 3 = tc-pam32,
+               bit 4 = tc-pam64,
+               bit 5 = tc-pam128"
+   ::= {er1645v2ShLineExtendedRatesEntry 50462720}
+
+er1645v2ShLineExtendedRatesAdaptiveMaxmbaudrate OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "ksyms/s"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.editConf.extendedRates.adaptive.max-baudrate
+
+       unit name = ksyms/s"
+   ::= {er1645v2ShLineExtendedRatesEntry 50528256}
+
+
+
+pr1645v2ShLine OBJECT IDENTIFIER ::= {r1645v2ShLine 12}
+
+
+pr1645v2ShLineH2 OBJECT IDENTIFIER ::= {pr1645v2ShLine 21}
+
+pr1645v2ShLineH2SSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2ShLineH2Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h2Line"
+   ::= {pr1645v2ShLineH2 1}
+
+pr1645v2ShLineH2Entry OBJECT-TYPE
+   SYNTAX      Pr1645v2ShLineH2Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2ShLineH2TableIx }
+   ::= {pr1645v2ShLineH2SSCTable 1}
+
+Pr1645v2ShLineH2Entry ::=
+   SEQUENCE
+      {
+      pr1645v2ShLineH2TableIx
+         TableIndex,
+      pr1645v2ShLineH2SysUpTime
+         TimeTicks,
+      pr1645v2ShLineH2LDownCnt
+         Counter32,
+      pr1645v2ShLineH2LDownTme
+         TimeTicks
+      }
+
+pr1645v2ShLineH2TableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2ShLineH2Entry 11}
+
+pr1645v2ShLineH2SysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.performance.h2Line.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2ShLineH2Entry 16777216}
+
+pr1645v2ShLineH2LDownCnt OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.performance.h2Line.linkDownCount
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2ShLineH2Entry 33554432}
+
+pr1645v2ShLineH2LDownTme OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.performance.h2Line.linkDownTime
+
+       Time in centi-second."
+   ::= {pr1645v2ShLineH2Entry 50331648}
+
+
+pr1645v2ShLineH24 OBJECT IDENTIFIER ::= {pr1645v2ShLine 23}
+
+pr1645v2ShLineH24SSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2ShLineH24Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h24Line"
+   ::= {pr1645v2ShLineH24 1}
+
+pr1645v2ShLineH24Entry OBJECT-TYPE
+   SYNTAX      Pr1645v2ShLineH24Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2ShLineH24TableIx }
+   ::= {pr1645v2ShLineH24SSCTable 1}
+
+Pr1645v2ShLineH24Entry ::=
+   SEQUENCE
+      {
+      pr1645v2ShLineH24TableIx
+         TableIndex,
+      pr1645v2ShLineH24SysUpTime
+         TimeTicks,
+      pr1645v2ShLineH24LDownCnt
+         Counter32,
+      pr1645v2ShLineH24LDownTme
+         TimeTicks
+      }
+
+pr1645v2ShLineH24TableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2ShLineH24Entry 11}
+
+pr1645v2ShLineH24SysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.performance.h24Line.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2ShLineH24Entry 16777216}
+
+pr1645v2ShLineH24LDownCnt OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.performance.h24Line.linkDownCount
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2ShLineH24Entry 33554432}
+
+pr1645v2ShLineH24LDownTme OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.performance.h24Line.linkDownTime
+
+       Time in centi-second."
+   ::= {pr1645v2ShLineH24Entry 50331648}
+
+
+pr1645v2ShLineD7 OBJECT IDENTIFIER ::= {pr1645v2ShLine 26}
+
+pr1645v2ShLineD7SSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2ShLineD7Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "d7Line"
+   ::= {pr1645v2ShLineD7 1}
+
+pr1645v2ShLineD7Entry OBJECT-TYPE
+   SYNTAX      Pr1645v2ShLineD7Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2ShLineD7TableIx }
+   ::= {pr1645v2ShLineD7SSCTable 1}
+
+Pr1645v2ShLineD7Entry ::=
+   SEQUENCE
+      {
+      pr1645v2ShLineD7TableIx
+         TableIndex,
+      pr1645v2ShLineD7SysUpTime
+         TimeTicks,
+      pr1645v2ShLineD7LDownCnt
+         Counter32,
+      pr1645v2ShLineD7LDownTme
+         TimeTicks
+      }
+
+pr1645v2ShLineD7TableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2ShLineD7Entry 11}
+
+pr1645v2ShLineD7SysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.performance.d7Line.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2ShLineD7Entry 16777216}
+
+pr1645v2ShLineD7LDownCnt OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.performance.d7Line.linkDownCount
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2ShLineD7Entry 33554432}
+
+pr1645v2ShLineD7LDownTme OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.performance.d7Line.linkDownTime
+
+       Time in centi-second."
+   ::= {pr1645v2ShLineD7Entry 50331648}
+
+
+pr1645v2ShLineRel OBJECT IDENTIFIER ::= {pr1645v2ShLine 30}
+
+pr1645v2ShLineRelSSC OBJECT IDENTIFIER ::= {pr1645v2ShLineRel 1}
+
+pr1645v2ShLineRelEntry OBJECT IDENTIFIER ::= {pr1645v2ShLineRelSSC 1}
+
+pr1645v2ShLineRelLDownCnt OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.performance.line.linkDownCount
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2ShLineRelEntry 16777216}
+
+pr1645v2ShLineRelLDownTme OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.performance.line.linkDownTime
+
+       Time in centi-second."
+   ::= {pr1645v2ShLineRelEntry 33554432}
+
+
+
+ar1645v2ShLine OBJECT IDENTIFIER ::= {r1645v2ShLine 16}
+
+
+ar1645v2ShLineResetEOCCounters OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.resetEOCCounters
+       Info: action in the debug group"
+   ::= {ar1645v2ShLine 685}
+
+
+ar1645v2ShLineClearCounters OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.clearCounters
+       Info: reset counters"
+   ::= {ar1645v2ShLine 263}
+
+
+ar1645v2ShLineForceRetrain OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.forceRetrain
+       Info: forceRetrain"
+   ::= {ar1645v2ShLine 131}
+
+
+ar1645v2ShLineResetSdfe4 OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.resetSdfe4
+       Info: reset Sdfe4"
+   ::= {ar1645v2ShLine 277}
+
+
+ar1645v2ShLinePsdMeasurement OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.psdMeasurement
+       Info: PSDMeasurement"
+   ::= {ar1645v2ShLine 431}
+
+
+ar1645v2ShLinePsdMeasurementType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               start (0),
+               stop (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.psdMeasurementType
+       Info: PSDMeasurementType
+
+       Possibilities:
+               start   (0)
+               stop   (1)"
+   ::= {ar1645v2ShLine 432}
+
+
+ar1645v2ShLinePowerScaleValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               sp0d5dB (27659),
+               sp0d4dB (27342),
+               sp0d3dB (27029),
+               sp0d2dB (26720),
+               sp0d1dB (26414),
+               s0dB (26112),
+               sm0d1dB (25813),
+               sm0d2dB (25517),
+               sm0d3dB (25225),
+               sm0d4dB (24936),
+               sm0d5dB (24651),
+               sm0d6dB (24369),
+               sm0d7dB (24090),
+               sm0d8dB (23814),
+               sm0d9dB (23541),
+               sm1d0dB (23272),
+               sm1d1dB (23005),
+               sm1d2dB (22742),
+               sm1d3dB (22482),
+               sm1d4dB (22224),
+               sm1d5dB (21970),
+               sm1d6dB (21719),
+               sm1d7dB (21470),
+               sm1d8dB (21224),
+               sm1d9dB (20981),
+               sm2dB (20741),
+               sm3dB (18485),
+               sm4dB (16475),
+               sm5dB (14683),
+               sm6dB (13087),
+               sm7dB (11663),
+               sm8dB (10395),
+               sm9dB (9264),
+               sm10dB (8257),
+               sm11dB (7359),
+               sm12dB (6559),
+               sm13dB (5845),
+               sm14dB (5210),
+               sm15dB (4643)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.powerScaleValue
+       Info: powerScaleValue
+
+       Possibilities:
+               +0.5dB   (27659)
+               +0.4dB   (27342)
+               +0.3dB   (27029)
+               +0.2dB   (26720)
+               +0.1dB   (26414)
+               0dB   (26112)
+               -0.1dB   (25813)
+               -0.2dB   (25517)
+               -0.3dB   (25225)
+               -0.4dB   (24936)
+               -0.5dB   (24651)
+               -0.6dB   (24369)
+               -0.7dB   (24090)
+               -0.8dB   (23814)
+               -0.9dB   (23541)
+               -1.0dB   (23272)
+               -1.1dB   (23005)
+               -1.2dB   (22742)
+               -1.3dB   (22482)
+               -1.4dB   (22224)
+               -1.5dB   (21970)
+               -1.6dB   (21719)
+               -1.7dB   (21470)
+               -1.8dB   (21224)
+               -1.9dB   (20981)
+               -2dB   (20741)
+               -3dB   (18485)
+               -4dB   (16475)
+               -5dB   (14683)
+               -6dB   (13087)
+               -7dB   (11663)
+               -8dB   (10395)
+               -9dB   (9264)
+               -10dB   (8257)
+               -11dB   (7359)
+               -12dB   (6559)
+               -13dB   (5845)
+               -14dB   (5210)
+               -15dB   (4643)"
+   ::= {ar1645v2ShLine 154}
+
+
+ar1645v2ShLineReadDebugRegAction OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.readDebugRegAction
+       Info: reads Soc4e Debug registers"
+   ::= {ar1645v2ShLine 690}
+
+
+ar1645v2ShLineSetDebugRegAction OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.setDebugRegAction
+       Info: generic action attribute"
+   ::= {ar1645v2ShLine 688}
+
+
+ar1645v2ShLineSetDebugRegValue OBJECT IDENTIFIER ::= {ar1645v2ShLine 689}
+
+ar1645v2ShLineSetDebugRegValueSSC OBJECT IDENTIFIER ::= {ar1645v2ShLineSetDebugRegValue 1}
+
+ar1645v2ShLineSetDebugRegValueEntry OBJECT IDENTIFIER ::= {ar1645v2ShLineSetDebugRegValueSSC 1}
+
+ar1645v2ShLineSetDebugRegValueModule OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dBGuModuleuATMuTC (0),
+               dBGuModuleuATMuOAM (1),
+               dBGuModuleuSAR (2),
+               dBGuModuleuTCuFIFO (3),
+               dBGuModuleuHDLC (4),
+               dBGuModuleuxMII (5),
+               dBGuModuleuMAC (6),
+               dBGuModuleuEFMuTC (10),
+               dBGuModuleuMDIO (11),
+               dBGuModuleuCntMem1 (12),
+               dBGuModuleuPAF (13),
+               dBGuModuleuPAFuQueue (14),
+               dBGuModuleuPDI (15),
+               dBGuModuleuCntMem2 (16)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.setDebugRegValue.module
+
+       Possibilities:
+               DBG_Module_ATM_TC   (0)
+               DBG_Module_ATM_OAM   (1)
+               DBG_Module_SAR   (2)
+               DBG_Module_TC_FIFO   (3)
+               DBG_Module_HDLC   (4)
+               DBG_Module_xMII   (5)
+               DBG_Module_MAC   (6)
+               DBG_Module_EFM_TC   (10)
+               DBG_Module_MDIO   (11)
+               DBG_Module_CntMem1   (12)
+               DBG_Module_PAF   (13)
+               DBG_Module_PAF_Queue   (14)
+               DBG_Module_PDI   (15)
+               DBG_Module_CntMem2   (16)"
+   ::= {ar1645v2ShLineSetDebugRegValueEntry 16777216}
+
+ar1645v2ShLineSetDebugRegValueSlice OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dBGuSliceu0 (0),
+               dBGuSliceu1 (1),
+               dBGuSliceu2 (2),
+               dBGuSliceu3 (3),
+               dBGuPSI (32),
+               dBGuEFMuOAM (33),
+               dBGuxTCuTop (63)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.setDebugRegValue.slice
+
+       Possibilities:
+               DBG_Slice_0   (0)
+               DBG_Slice_1   (1)
+               DBG_Slice_2   (2)
+               DBG_Slice_3   (3)
+               DBG_PSI   (32)
+               DBG_EFM_OAM   (33)
+               DBG_xTC_Top   (63)"
+   ::= {ar1645v2ShLineSetDebugRegValueEntry 33554432}
+
+ar1645v2ShLineSetDebugRegValueBlock OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dBGuBlockuxTC (1),
+               dBGuBlockuxSwitch (2),
+               dBGuBlockuBoot (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.setDebugRegValue.block
+
+       Possibilities:
+               DBG_Block_xTC   (1)
+               DBG_Block_xSwitch   (2)
+               DBG_Block_Boot   (3)"
+   ::= {ar1645v2ShLineSetDebugRegValueEntry 50331648}
+
+ar1645v2ShLineSetDebugRegValueRegister OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.setDebugRegValue.register"
+   ::= {ar1645v2ShLineSetDebugRegValueEntry 67108864}
+
+ar1645v2ShLineSetDebugRegValueValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.setDebugRegValue.value"
+   ::= {ar1645v2ShLineSetDebugRegValueEntry 83886080}
+
+
+ar1645v2ShLineResetDebugCounters OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: line.actions.resetDebugCounters
+       Info: resetDebugCounters"
+   ::= {ar1645v2ShLine 601}
+
+
+
+fr1645v2ShLine OBJECT IDENTIFIER ::= {r1645v2ShLine 13}
+
+
+fr1645v2ShLineAlInfo OBJECT IDENTIFIER ::= {fr1645v2ShLine 207}
+
+fr1645v2ShLineAlInfoSSC OBJECT IDENTIFIER ::= {fr1645v2ShLineAlInfo 1}
+
+fr1645v2ShLineAlInfoEntry OBJECT IDENTIFIER ::= {fr1645v2ShLineAlInfoSSC 1}
+
+fr1645v2ShLineAlInfoDiscr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.alarms.alarmInfo.discriminator"
+   ::= {fr1645v2ShLineAlInfoEntry 16777216}
+
+fr1645v2ShLineAlInfoCurrAlms OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.alarms.alarmInfo.currentAlarms
+
+       Bit meanings:
+               bit 0 = linkDown,
+               bit 1 = invalidNumRepeaters,
+               bit 11 = remotePowerFail,
+               bit 12 = aggregatedIfSpeed"
+   ::= {fr1645v2ShLineAlInfoEntry 33554432}
+
+fr1645v2ShLineAlInfoPrevAlms OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.alarms.alarmInfo.previousAlarms
+
+       Bit meanings:
+               bit 0 = linkDown,
+               bit 1 = invalidNumRepeaters,
+               bit 11 = remotePowerFail,
+               bit 12 = aggregatedIfSpeed"
+   ::= {fr1645v2ShLineAlInfoEntry 50331648}
+
+fr1645v2ShLineAlInfoAlMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.alarms.alarmInfo.alarmMask
+
+       Bit meanings:
+               bit 0 = linkDown,
+               bit 1 = invalidNumRepeaters,
+               bit 11 = remotePowerFail,
+               bit 12 = aggregatedIfSpeed"
+   ::= {fr1645v2ShLineAlInfoEntry 67108864}
+
+fr1645v2ShLineAlInfoAlLvlLnkDwn OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.alarms.alarmInfo.alarmLevel.linkDown"
+   ::= {fr1645v2ShLineAlInfoEntry 83951616}
+
+fr1645v2ShLineAlInfoAlLvlInvNRep OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.alarms.alarmInfo.alarmLevel.invalidNumRepeaters"
+   ::= {fr1645v2ShLineAlInfoEntry 84017152}
+
+fr1645v2ShLineAlInfoAlLvlRemPowFl OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.alarms.alarmInfo.alarmLevel.remotePowerFail"
+   ::= {fr1645v2ShLineAlInfoEntry 84672512}
+
+fr1645v2ShLineAlInfoAlLvlAggSpd OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: line.alarms.alarmInfo.alarmLevel.aggregatedIfSpeed"
+   ::= {fr1645v2ShLineAlInfoEntry 84738048}
+
+
+fr1645v2ShLineAlInfoE2 OBJECT IDENTIFIER ::= {fr1645v2ShLineAlInfo 2}
+
+fr1645v2ShLineAlInfoE2Entry OBJECT IDENTIFIER ::= {fr1645v2ShLineAlInfoE2 1}
+
+fr1645v2ShLineAlInfoE2LnkDwn OBJECT IDENTIFIER ::= {fr1645v2ShLineAlInfoE2Entry 10}
+
+fr1645v2ShLineAlInfoE2LnkDwnPfx OBJECT IDENTIFIER ::= {fr1645v2ShLineAlInfoE2LnkDwn 0}
+
+fr1645v2ShLineAlInfoE2LnkDwnOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'socratesLine'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2ShLineAlInfoE2LnkDwnPfx 1}
+
+fr1645v2ShLineAlInfoE2LnkDwnOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'socratesLine'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2ShLineAlInfoE2LnkDwnPfx 2}
+
+fr1645v2ShLineAlInfoE2InvNRep OBJECT IDENTIFIER ::= {fr1645v2ShLineAlInfoE2Entry 11}
+
+fr1645v2ShLineAlInfoE2InvNRepPfx OBJECT IDENTIFIER ::= {fr1645v2ShLineAlInfoE2InvNRep 0}
+
+fr1645v2ShLineAlInfoE2InvNRepOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'invalidNumRepeaters'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'socratesLine'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2ShLineAlInfoE2InvNRepPfx 1}
+
+fr1645v2ShLineAlInfoE2InvNRepOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'invalidNumRepeaters'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'socratesLine'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2ShLineAlInfoE2InvNRepPfx 2}
+
+fr1645v2ShLineAlInfoE2RemPowFl OBJECT IDENTIFIER ::= {fr1645v2ShLineAlInfoE2Entry 21}
+
+fr1645v2ShLineAlInfoE2RemPowFlPfx OBJECT IDENTIFIER ::= {fr1645v2ShLineAlInfoE2RemPowFl 0}
+
+fr1645v2ShLineAlInfoE2RemPowFlOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'remotePowerFail'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'socratesLine'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2ShLineAlInfoE2RemPowFlPfx 1}
+
+fr1645v2ShLineAlInfoE2RemPowFlOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'remotePowerFail'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'socratesLine'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2ShLineAlInfoE2RemPowFlPfx 2}
+
+fr1645v2ShLineAlInfoE2AggSpd OBJECT IDENTIFIER ::= {fr1645v2ShLineAlInfoE2Entry 22}
+
+fr1645v2ShLineAlInfoE2AggSpdPfx OBJECT IDENTIFIER ::= {fr1645v2ShLineAlInfoE2AggSpd 0}
+
+fr1645v2ShLineAlInfoE2AggSpdOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'aggregatedIfSpeed'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'socratesLine'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2ShLineAlInfoE2AggSpdPfx 1}
+
+fr1645v2ShLineAlInfoE2AggSpdOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'aggregatedIfSpeed'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'socratesLine'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2ShLineAlInfoE2AggSpdPfx 2}
+
+
+
+END

@@ -1,0 +1,1569 @@
+OneAccess-R1646v2-4008-Manipv6 DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2Manipv6 OBJECT IDENTIFIER ::= {r1646Rootv2 4008}
+
+r1646v2Manipv6MOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2Manipv6MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2Manipv6 1}
+
+r1646v2Manipv6MOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2Manipv6MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2Manipv6MOPropGlobalIx }
+   ::= {r1646v2Manipv6MOProp 1}
+
+R1646v2Manipv6MOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2Manipv6MOPropPath
+         ContainmentPath,
+      r1646v2Manipv6MOPropRev
+         ObjectRevision,
+      r1646v2Manipv6MOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2Manipv6MOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2Manipv6MOPropEntry 3}
+
+r1646v2Manipv6MOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2Manipv6MOPropEntry 4}
+
+r1646v2Manipv6MOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2Manipv6MOPropEntry 10}
+
+
+
+er1646v2Manipv6 OBJECT IDENTIFIER ::= {r1646v2Manipv6 11}
+
+
+er1646v2Manipv6Tcp OBJECT IDENTIFIER ::= {er1646v2Manipv6 34}
+
+er1646v2Manipv6TcpSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2Manipv6TcpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "tcp configuration parameters"
+   ::= {er1646v2Manipv6Tcp 1}
+
+er1646v2Manipv6TcpEntry OBJECT-TYPE
+   SYNTAX      Er1646v2Manipv6TcpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2Manipv6TcpGlobalIx }
+   ::= {er1646v2Manipv6TcpSSCTable 1}
+
+Er1646v2Manipv6TcpEntry ::=
+   SEQUENCE
+      {
+      er1646v2Manipv6TcpGlobalIx
+         GlobalIndex,
+      er1646v2Manipv6TcpMaxReceiveWindow
+         Integer32,
+      er1646v2Manipv6TcpMaxSegmentSize
+         Integer32
+      }
+
+er1646v2Manipv6TcpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2Manipv6TcpEntry 10}
+
+er1646v2Manipv6TcpMaxReceiveWindow OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.tcp.maxReceiveWindow"
+   ::= {er1646v2Manipv6TcpEntry 16777216}
+
+er1646v2Manipv6TcpMaxSegmentSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.tcp.maxSegmentSize"
+   ::= {er1646v2Manipv6TcpEntry 33554432}
+
+
+er1646v2Manipv6MaxPingReplies OBJECT IDENTIFIER ::= {er1646v2Manipv6 26}
+
+er1646v2Manipv6MaxPingRepliesTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2Manipv6MaxPingRepliesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "max nr of ping replies per second"
+   ::= {er1646v2Manipv6MaxPingReplies 1}
+
+er1646v2Manipv6MaxPingRepliesEntry OBJECT-TYPE
+   SYNTAX      Er1646v2Manipv6MaxPingRepliesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2Manipv6MaxPingRepliesGlobalIx }
+   ::= {er1646v2Manipv6MaxPingRepliesTable 1}
+
+Er1646v2Manipv6MaxPingRepliesEntry ::=
+   SEQUENCE
+      {
+      er1646v2Manipv6MaxPingRepliesGlobalIx
+         GlobalIndex,
+      er1646v2Manipv6MaxPingRepliesValue
+         INTEGER
+      }
+
+er1646v2Manipv6MaxPingRepliesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2Manipv6MaxPingRepliesEntry 10}
+
+er1646v2Manipv6MaxPingRepliesValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.maxPingReplies
+
+       Possibilities:
+               disabled   (0)"
+   ::= {er1646v2Manipv6MaxPingRepliesEntry 2147483648}
+
+
+er1646v2Manipv6AutoConfigure OBJECT IDENTIFIER ::= {er1646v2Manipv6 35}
+
+er1646v2Manipv6AutoConfigureTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2Manipv6AutoConfigureEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "set restrictions to auto configuration using TFTP"
+   ::= {er1646v2Manipv6AutoConfigure 1}
+
+er1646v2Manipv6AutoConfigureEntry OBJECT-TYPE
+   SYNTAX      Er1646v2Manipv6AutoConfigureEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2Manipv6AutoConfigureGlobalIx }
+   ::= {er1646v2Manipv6AutoConfigureTable 1}
+
+Er1646v2Manipv6AutoConfigureEntry ::=
+   SEQUENCE
+      {
+      er1646v2Manipv6AutoConfigureGlobalIx
+         GlobalIndex,
+      er1646v2Manipv6AutoConfigureValue
+         INTEGER
+      }
+
+er1646v2Manipv6AutoConfigureGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2Manipv6AutoConfigureEntry 10}
+
+er1646v2Manipv6AutoConfigureValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (0),
+               onTftpServer (1),
+               onBootFile (2),
+               onTftpServerAndBootFile (3),
+               disabled (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.autoConfigure
+
+       Possibilities:
+               enabled   (0)
+               onTftpServer   (1)
+               onBootFile   (2)
+               onTftpServerAndBootFile   (3)
+               disabled   (4)"
+   ::= {er1646v2Manipv6AutoConfigureEntry 2147483648}
+
+
+er1646v2Manipv6Tma OBJECT IDENTIFIER ::= {er1646v2Manipv6 36}
+
+er1646v2Manipv6TmaTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2Manipv6TmaEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Attribute that controls the orchid how to treat the UDP packets for the TMA port
+                         enabled:    act on UDP packets destined for the TMA port
+                         disabled:   discard UDP packets destined for the TMA port"
+   ::= {er1646v2Manipv6Tma 1}
+
+er1646v2Manipv6TmaEntry OBJECT-TYPE
+   SYNTAX      Er1646v2Manipv6TmaEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2Manipv6TmaGlobalIx }
+   ::= {er1646v2Manipv6TmaTable 1}
+
+Er1646v2Manipv6TmaEntry ::=
+   SEQUENCE
+      {
+      er1646v2Manipv6TmaGlobalIx
+         GlobalIndex,
+      er1646v2Manipv6TmaValue
+         INTEGER
+      }
+
+er1646v2Manipv6TmaGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2Manipv6TmaEntry 10}
+
+er1646v2Manipv6TmaValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.tma
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2Manipv6TmaEntry 2147483648}
+
+
+er1646v2Manipv6Snmp OBJECT IDENTIFIER ::= {er1646v2Manipv6 18}
+
+er1646v2Manipv6SnmpTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2Manipv6SnmpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Attribute that controls the orchid how to treat the UDP packets for the SNMP port (161)
+                         enabled:    act on UDP packets destined for the SNMP port
+                         disabled:   discard UDP packets destined for the SNMP port"
+   ::= {er1646v2Manipv6Snmp 1}
+
+er1646v2Manipv6SnmpEntry OBJECT-TYPE
+   SYNTAX      Er1646v2Manipv6SnmpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2Manipv6SnmpGlobalIx }
+   ::= {er1646v2Manipv6SnmpTable 1}
+
+Er1646v2Manipv6SnmpEntry ::=
+   SEQUENCE
+      {
+      er1646v2Manipv6SnmpGlobalIx
+         GlobalIndex,
+      er1646v2Manipv6SnmpValue
+         INTEGER
+      }
+
+er1646v2Manipv6SnmpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2Manipv6SnmpEntry 10}
+
+er1646v2Manipv6SnmpValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.snmp
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2Manipv6SnmpEntry 2147483648}
+
+
+er1646v2Manipv6Telnet OBJECT IDENTIFIER ::= {er1646v2Manipv6 19}
+
+er1646v2Manipv6TelnetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2Manipv6TelnetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Attribute that controls the orchid how to treat the TCP packets for the TELNET port
+                         enabled:    act on TCP packets destined for the TELNET port
+                         disabled:   discard TCP packets destined for the TELNET port"
+   ::= {er1646v2Manipv6Telnet 1}
+
+er1646v2Manipv6TelnetEntry OBJECT-TYPE
+   SYNTAX      Er1646v2Manipv6TelnetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2Manipv6TelnetGlobalIx }
+   ::= {er1646v2Manipv6TelnetTable 1}
+
+Er1646v2Manipv6TelnetEntry ::=
+   SEQUENCE
+      {
+      er1646v2Manipv6TelnetGlobalIx
+         GlobalIndex,
+      er1646v2Manipv6TelnetValue
+         INTEGER
+      }
+
+er1646v2Manipv6TelnetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2Manipv6TelnetEntry 10}
+
+er1646v2Manipv6TelnetValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.telnet
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2Manipv6TelnetEntry 2147483648}
+
+
+er1646v2Manipv6Http OBJECT IDENTIFIER ::= {er1646v2Manipv6 77}
+
+er1646v2Manipv6HttpTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2Manipv6HttpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Attribute that controls the orchid how to treat the TCP packets for the TELNET port
+                         enabled:    act on TCP packets destined for the TELNET port
+                         disabled:   discard TCP packets destined for the TELNET port"
+   ::= {er1646v2Manipv6Http 1}
+
+er1646v2Manipv6HttpEntry OBJECT-TYPE
+   SYNTAX      Er1646v2Manipv6HttpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2Manipv6HttpGlobalIx }
+   ::= {er1646v2Manipv6HttpTable 1}
+
+Er1646v2Manipv6HttpEntry ::=
+   SEQUENCE
+      {
+      er1646v2Manipv6HttpGlobalIx
+         GlobalIndex,
+      er1646v2Manipv6HttpValue
+         INTEGER
+      }
+
+er1646v2Manipv6HttpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2Manipv6HttpEntry 10}
+
+er1646v2Manipv6HttpValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.http
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2Manipv6HttpEntry 2147483648}
+
+
+er1646v2Manipv6Https OBJECT IDENTIFIER ::= {er1646v2Manipv6 27}
+
+er1646v2Manipv6HttpsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2Manipv6HttpsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Attribute that controls the orchid how to treat the TCP packets for the TELNET port
+                         enabled:    act on TCP packets destined for the TELNET port
+                         disabled:   discard TCP packets destined for the TELNET port"
+   ::= {er1646v2Manipv6Https 1}
+
+er1646v2Manipv6HttpsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2Manipv6HttpsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2Manipv6HttpsGlobalIx }
+   ::= {er1646v2Manipv6HttpsTable 1}
+
+Er1646v2Manipv6HttpsEntry ::=
+   SEQUENCE
+      {
+      er1646v2Manipv6HttpsGlobalIx
+         GlobalIndex,
+      er1646v2Manipv6HttpsValue
+         INTEGER
+      }
+
+er1646v2Manipv6HttpsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2Manipv6HttpsEntry 10}
+
+er1646v2Manipv6HttpsValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.https
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2Manipv6HttpsEntry 2147483648}
+
+
+er1646v2Manipv6Ssh OBJECT IDENTIFIER ::= {er1646v2Manipv6 30}
+
+er1646v2Manipv6SshTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2Manipv6SshEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Attribute that controls the orchid how to treat the TCP packets for the TELNET port
+                         enabled:    act on TCP packets destined for the TELNET port
+                         disabled:   discard TCP packets destined for the TELNET port"
+   ::= {er1646v2Manipv6Ssh 1}
+
+er1646v2Manipv6SshEntry OBJECT-TYPE
+   SYNTAX      Er1646v2Manipv6SshEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2Manipv6SshGlobalIx }
+   ::= {er1646v2Manipv6SshTable 1}
+
+Er1646v2Manipv6SshEntry ::=
+   SEQUENCE
+      {
+      er1646v2Manipv6SshGlobalIx
+         GlobalIndex,
+      er1646v2Manipv6SshValue
+         INTEGER
+      }
+
+er1646v2Manipv6SshGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2Manipv6SshEntry 10}
+
+er1646v2Manipv6SshValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.ssh
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2Manipv6SshEntry 2147483648}
+
+
+er1646v2Manipv6Echo OBJECT IDENTIFIER ::= {er1646v2Manipv6 7}
+
+er1646v2Manipv6EchoTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2Manipv6EchoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Attribute that controls the orchid how to treat the TCP packets for the TELNET port
+                         enabled:    act on TCP packets destined for the TELNET port
+                         disabled:   discard TCP packets destined for the TELNET port"
+   ::= {er1646v2Manipv6Echo 1}
+
+er1646v2Manipv6EchoEntry OBJECT-TYPE
+   SYNTAX      Er1646v2Manipv6EchoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2Manipv6EchoGlobalIx }
+   ::= {er1646v2Manipv6EchoTable 1}
+
+Er1646v2Manipv6EchoEntry ::=
+   SEQUENCE
+      {
+      er1646v2Manipv6EchoGlobalIx
+         GlobalIndex,
+      er1646v2Manipv6EchoValue
+         INTEGER
+      }
+
+er1646v2Manipv6EchoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2Manipv6EchoEntry 10}
+
+er1646v2Manipv6EchoValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.echo
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2Manipv6EchoEntry 2147483648}
+
+
+er1646v2Manipv6Discard OBJECT IDENTIFIER ::= {er1646v2Manipv6 9}
+
+er1646v2Manipv6DiscardTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2Manipv6DiscardEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Attribute that controls the orchid how to treat the TCP packets for the TELNET port
+                         enabled:    act on TCP packets destined for the TELNET port
+                         disabled:   discard TCP packets destined for the TELNET port"
+   ::= {er1646v2Manipv6Discard 1}
+
+er1646v2Manipv6DiscardEntry OBJECT-TYPE
+   SYNTAX      Er1646v2Manipv6DiscardEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2Manipv6DiscardGlobalIx }
+   ::= {er1646v2Manipv6DiscardTable 1}
+
+Er1646v2Manipv6DiscardEntry ::=
+   SEQUENCE
+      {
+      er1646v2Manipv6DiscardGlobalIx
+         GlobalIndex,
+      er1646v2Manipv6DiscardValue
+         INTEGER
+      }
+
+er1646v2Manipv6DiscardGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2Manipv6DiscardEntry 10}
+
+er1646v2Manipv6DiscardValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.discard
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2Manipv6DiscardEntry 2147483648}
+
+
+er1646v2Manipv6TrafficPolicy OBJECT IDENTIFIER ::= {er1646v2Manipv6 73}
+
+er1646v2Manipv6TrafficPolicySSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2Manipv6TrafficPolicyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "access traffic policy name"
+   ::= {er1646v2Manipv6TrafficPolicy 1}
+
+er1646v2Manipv6TrafficPolicyEntry OBJECT-TYPE
+   SYNTAX      Er1646v2Manipv6TrafficPolicyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2Manipv6TrafficPolicyGlobalIx }
+   ::= {er1646v2Manipv6TrafficPolicySSCTable 1}
+
+Er1646v2Manipv6TrafficPolicyEntry ::=
+   SEQUENCE
+      {
+      er1646v2Manipv6TrafficPolicyGlobalIx
+         GlobalIndex,
+      er1646v2Manipv6TrafficPolicyInbound
+         DisplayString,
+      er1646v2Manipv6TrafficPolicyOutbound
+         DisplayString
+      }
+
+er1646v2Manipv6TrafficPolicyGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2Manipv6TrafficPolicyEntry 10}
+
+er1646v2Manipv6TrafficPolicyInbound OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.trafficPolicy.inbound"
+   ::= {er1646v2Manipv6TrafficPolicyEntry 16777216}
+
+er1646v2Manipv6TrafficPolicyOutbound OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.editConf.trafficPolicy.outbound"
+   ::= {er1646v2Manipv6TrafficPolicyEntry 33554432}
+
+
+
+sr1646v2Manipv6 OBJECT IDENTIFIER ::= {r1646v2Manipv6 14}
+
+
+sr1646v2Manipv6SnmpIndex OBJECT IDENTIFIER ::= {sr1646v2Manipv6 269}
+
+sr1646v2Manipv6SnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2Manipv6SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2Manipv6SnmpIndex 1}
+
+sr1646v2Manipv6SnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2Manipv6SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2Manipv6SnmpIndexGlobalIx }
+   ::= {sr1646v2Manipv6SnmpIndexTable 1}
+
+Sr1646v2Manipv6SnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2Manipv6SnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2Manipv6SnmpIndexValue
+         Integer32
+      }
+
+sr1646v2Manipv6SnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2Manipv6SnmpIndexEntry 10}
+
+sr1646v2Manipv6SnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.status.snmpIndex"
+   ::= {sr1646v2Manipv6SnmpIndexEntry 2147483648}
+
+
+sr1646v2Manipv6TcpSession OBJECT IDENTIFIER ::= {sr1646v2Manipv6 45}
+
+sr1646v2Manipv6TcpSessionSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2Manipv6TcpSessionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "TCP session overview"
+   ::= {sr1646v2Manipv6TcpSession 1}
+
+sr1646v2Manipv6TcpSessionEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2Manipv6TcpSessionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2Manipv6TcpSessionGlobalIx,
+                sr1646v2Manipv6TcpSessionTableIx }
+   ::= {sr1646v2Manipv6TcpSessionSSCTable 1}
+
+Sr1646v2Manipv6TcpSessionEntry ::=
+   SEQUENCE
+      {
+      sr1646v2Manipv6TcpSessionGlobalIx
+         GlobalIndex,
+      sr1646v2Manipv6TcpSessionTableIx
+         TableIndex,
+      sr1646v2Manipv6TcpSessionLocalIp
+         Ipv6Address,
+      sr1646v2Manipv6TcpSessionLocalPort
+         INTEGER,
+      sr1646v2Manipv6TcpSessionRemoteIp
+         Ipv6Address,
+      sr1646v2Manipv6TcpSessionRemotePort
+         INTEGER,
+      sr1646v2Manipv6TcpSessionState
+         INTEGER,
+      sr1646v2Manipv6TcpSessionType
+         INTEGER,
+      sr1646v2Manipv6TcpSessionInOctets
+         Counter32,
+      sr1646v2Manipv6TcpSessionOutOctets
+         Counter32,
+      sr1646v2Manipv6TcpSessionOutQLen
+         Counter32,
+      sr1646v2Manipv6TcpSessionOutQOctets
+         Counter32,
+      sr1646v2Manipv6TcpSessionOutOfOrder
+         Counter32
+      }
+
+sr1646v2Manipv6TcpSessionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2Manipv6TcpSessionEntry 10}
+
+sr1646v2Manipv6TcpSessionTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2Manipv6TcpSessionEntry 11}
+
+sr1646v2Manipv6TcpSessionLocalIp OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.status.tcpSession.localIp
+
+       ipv6 address"
+   ::= {sr1646v2Manipv6TcpSessionEntry 16777216}
+
+sr1646v2Manipv6TcpSessionLocalPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.status.tcpSession.localPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1646v2Manipv6TcpSessionEntry 33554432}
+
+sr1646v2Manipv6TcpSessionRemoteIp OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.status.tcpSession.remoteIp
+
+       ipv6 address"
+   ::= {sr1646v2Manipv6TcpSessionEntry 50331648}
+
+sr1646v2Manipv6TcpSessionRemotePort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.status.tcpSession.remotePort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1646v2Manipv6TcpSessionEntry 67108864}
+
+sr1646v2Manipv6TcpSessionState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               closed (0),
+               listen (1),
+               synSent (2),
+               synReceived (3),
+               established (4),
+               finWait1 (5),
+               finWait2 (6),
+               closing (7),
+               timeWait (8),
+               closeWait (9),
+               lastAck (10),
+               notFound (11),
+               dnsReqSent (12)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.status.tcpSession.state
+
+       Possibilities:
+               closed   (0)
+               listen   (1)
+               synSent   (2)
+               synReceived   (3)
+               established   (4)
+               finWait1   (5)
+               finWait2   (6)
+               closing   (7)
+               timeWait   (8)
+               closeWait   (9)
+               lastAck   (10)
+               notFound   (11)
+               dnsReqSent   (12)"
+   ::= {sr1646v2Manipv6TcpSessionEntry 83886080}
+
+sr1646v2Manipv6TcpSessionType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               passivesstatic (1),
+               active (2),
+               passivesdynamic (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.status.tcpSession.type
+
+       Possibilities:
+               passive static   (1)
+               active   (2)
+               passive dynamic   (3)"
+   ::= {sr1646v2Manipv6TcpSessionEntry 117440512}
+
+sr1646v2Manipv6TcpSessionInOctets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.status.tcpSession.inOctets
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2Manipv6TcpSessionEntry 134217728}
+
+sr1646v2Manipv6TcpSessionOutOctets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.status.tcpSession.outOctets
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2Manipv6TcpSessionEntry 150994944}
+
+sr1646v2Manipv6TcpSessionOutQLen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.status.tcpSession.outQLen
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2Manipv6TcpSessionEntry 167772160}
+
+sr1646v2Manipv6TcpSessionOutQOctets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.status.tcpSession.outQOctets
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2Manipv6TcpSessionEntry 184549376}
+
+sr1646v2Manipv6TcpSessionOutOfOrder OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.status.tcpSession.outOfOrder
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2Manipv6TcpSessionEntry 201326592}
+
+
+
+pr1646v2Manipv6 OBJECT IDENTIFIER ::= {r1646v2Manipv6 12}
+
+
+pr1646v2Manipv6TcpSessionCount OBJECT IDENTIFIER ::= {pr1646v2Manipv6 43}
+
+pr1646v2Manipv6TcpSessionCountTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2Manipv6TcpSessionCountEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Number of sessions currently in use."
+   ::= {pr1646v2Manipv6TcpSessionCount 1}
+
+pr1646v2Manipv6TcpSessionCountEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2Manipv6TcpSessionCountEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2Manipv6TcpSessionCountGlobalIx }
+   ::= {pr1646v2Manipv6TcpSessionCountTable 1}
+
+Pr1646v2Manipv6TcpSessionCountEntry ::=
+   SEQUENCE
+      {
+      pr1646v2Manipv6TcpSessionCountGlobalIx
+         GlobalIndex,
+      pr1646v2Manipv6TcpSessionCountValue
+         Gauge32
+      }
+
+pr1646v2Manipv6TcpSessionCountGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2Manipv6TcpSessionCountEntry 10}
+
+pr1646v2Manipv6TcpSessionCountValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.performance.tcpSessionCount
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2Manipv6TcpSessionCountEntry 2147483648}
+
+
+pr1646v2Manipv6TcpSession OBJECT IDENTIFIER ::= {pr1646v2Manipv6 47}
+
+pr1646v2Manipv6TcpSessionSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2Manipv6TcpSessionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Total sessions used"
+   ::= {pr1646v2Manipv6TcpSession 1}
+
+pr1646v2Manipv6TcpSessionEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2Manipv6TcpSessionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2Manipv6TcpSessionGlobalIx }
+   ::= {pr1646v2Manipv6TcpSessionSSCTable 1}
+
+Pr1646v2Manipv6TcpSessionEntry ::=
+   SEQUENCE
+      {
+      pr1646v2Manipv6TcpSessionGlobalIx
+         GlobalIndex,
+      pr1646v2Manipv6TcpSessionIncomingHttp
+         Counter32,
+      pr1646v2Manipv6TcpSessionIncomingHttps
+         Counter32,
+      pr1646v2Manipv6TcpSessionIncomingTelnet
+         Counter32,
+      pr1646v2Manipv6TcpSessionIncomingSsh
+         Counter32,
+      pr1646v2Manipv6TcpSessionIncomingFtpCtrl
+         Counter32,
+      pr1646v2Manipv6TcpSessionIncomingFtpData
+         Counter32
+      }
+
+pr1646v2Manipv6TcpSessionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2Manipv6TcpSessionEntry 10}
+
+pr1646v2Manipv6TcpSessionIncomingHttp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.performance.tcpSession.incoming.http
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2Manipv6TcpSessionEntry 16842752}
+
+pr1646v2Manipv6TcpSessionIncomingHttps OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.performance.tcpSession.incoming.https
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2Manipv6TcpSessionEntry 17170432}
+
+pr1646v2Manipv6TcpSessionIncomingTelnet OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.performance.tcpSession.incoming.telnet
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2Manipv6TcpSessionEntry 16908288}
+
+pr1646v2Manipv6TcpSessionIncomingSsh OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.performance.tcpSession.incoming.ssh
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2Manipv6TcpSessionEntry 16973824}
+
+pr1646v2Manipv6TcpSessionIncomingFtpCtrl OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.performance.tcpSession.incoming.ftpCtrl
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2Manipv6TcpSessionEntry 17039360}
+
+pr1646v2Manipv6TcpSessionIncomingFtpData OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.performance.tcpSession.incoming.ftpData
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2Manipv6TcpSessionEntry 17104896}
+
+
+pr1646v2Manipv6TcpSyn OBJECT IDENTIFIER ::= {pr1646v2Manipv6 76}
+
+pr1646v2Manipv6TcpSynSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2Manipv6TcpSynEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "statistics for TCP SYN packets to device"
+   ::= {pr1646v2Manipv6TcpSyn 1}
+
+pr1646v2Manipv6TcpSynEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2Manipv6TcpSynEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2Manipv6TcpSynGlobalIx }
+   ::= {pr1646v2Manipv6TcpSynSSCTable 1}
+
+Pr1646v2Manipv6TcpSynEntry ::=
+   SEQUENCE
+      {
+      pr1646v2Manipv6TcpSynGlobalIx
+         GlobalIndex,
+      pr1646v2Manipv6TcpSynTotalRxSyn
+         Counter32,
+      pr1646v2Manipv6TcpSynTotalMaxSynRate
+         Gauge32,
+      pr1646v2Manipv6TcpSynTotalDropped
+         Counter32,
+      pr1646v2Manipv6TcpSynKnownPortsRxSyn
+         Counter32,
+      pr1646v2Manipv6TcpSynKnownPortsMaxSynRate
+         Gauge32,
+      pr1646v2Manipv6TcpSynKnownPortsDropped
+         Counter32
+      }
+
+pr1646v2Manipv6TcpSynGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2Manipv6TcpSynEntry 10}
+
+pr1646v2Manipv6TcpSynTotalRxSyn OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.performance.tcpSyn.total.rxSyn
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2Manipv6TcpSynEntry 16842752}
+
+pr1646v2Manipv6TcpSynTotalMaxSynRate OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.performance.tcpSyn.total.maxSynRate
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2Manipv6TcpSynEntry 16908288}
+
+pr1646v2Manipv6TcpSynTotalDropped OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.performance.tcpSyn.total.dropped
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2Manipv6TcpSynEntry 16973824}
+
+pr1646v2Manipv6TcpSynKnownPortsRxSyn OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.performance.tcpSyn.knownPorts.rxSyn
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2Manipv6TcpSynEntry 33619968}
+
+pr1646v2Manipv6TcpSynKnownPortsMaxSynRate OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.performance.tcpSyn.knownPorts.maxSynRate
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2Manipv6TcpSynEntry 33685504}
+
+pr1646v2Manipv6TcpSynKnownPortsDropped OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: management.performance.tcpSyn.knownPorts.dropped
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2Manipv6TcpSynEntry 33751040}
+
+
+
+ar1646v2Manipv6 OBJECT IDENTIFIER ::= {r1646v2Manipv6 16}
+
+
+ar1646v2Manipv6ClearCounters OBJECT IDENTIFIER ::= {ar1646v2Manipv6 263}
+
+ar1646v2Manipv6ClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2Manipv6ClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1646v2Manipv6ClearCounters 1}
+
+ar1646v2Manipv6ClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2Manipv6ClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2Manipv6ClearCountersGlobalIx }
+   ::= {ar1646v2Manipv6ClearCountersTable 1}
+
+Ar1646v2Manipv6ClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1646v2Manipv6ClearCountersGlobalIx
+         GlobalIndex,
+      ar1646v2Manipv6ClearCountersValue
+         Integer32
+      }
+
+ar1646v2Manipv6ClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2Manipv6ClearCountersEntry 10}
+
+ar1646v2Manipv6ClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: management.actions.clearCounters"
+   ::= {ar1646v2Manipv6ClearCountersEntry 2147483648}
+
+
+
+END

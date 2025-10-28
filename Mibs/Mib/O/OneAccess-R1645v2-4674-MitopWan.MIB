@@ -1,0 +1,683 @@
+OneAccess-R1645v2-4674-MitopWan DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2MitopWan OBJECT IDENTIFIER ::= {r1645Rootv2 4674}
+
+r1645v2MitopWanMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2MitopWanMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2MitopWan 1}
+
+r1645v2MitopWanMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2MitopWanMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2MitopWanMOPropGlobalIx }
+   ::= {r1645v2MitopWanMOProp 1}
+
+R1645v2MitopWanMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2MitopWanMOPropPath
+         ContainmentPath,
+      r1645v2MitopWanMOPropRev
+         ObjectRevision,
+      r1645v2MitopWanMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2MitopWanMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2MitopWanMOPropEntry 3}
+
+r1645v2MitopWanMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2MitopWanMOPropEntry 4}
+
+r1645v2MitopWanMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2MitopWanMOPropEntry 10}
+
+
+
+er1645v2MitopWan OBJECT IDENTIFIER ::= {r1645v2MitopWan 11}
+
+
+er1645v2MitopWanClocking OBJECT IDENTIFIER ::= {er1645v2MitopWan 17}
+
+er1645v2MitopWanClockingTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2MitopWanClockingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP E1 clocking"
+   ::= {er1645v2MitopWanClocking 1}
+
+er1645v2MitopWanClockingEntry OBJECT-TYPE
+   SYNTAX      Er1645v2MitopWanClockingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2MitopWanClockingGlobalIx }
+   ::= {er1645v2MitopWanClockingTable 1}
+
+Er1645v2MitopWanClockingEntry ::=
+   SEQUENCE
+      {
+      er1645v2MitopWanClockingGlobalIx
+         GlobalIndex,
+      er1645v2MitopWanClockingValue
+         INTEGER
+      }
+
+er1645v2MitopWanClockingGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2MitopWanClockingEntry 10}
+
+er1645v2MitopWanClockingValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               internal (0),
+               slaveReceive (1),
+               adaptive (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: e1.editConf.clocking
+
+       Possibilities:
+               internal   (0)
+               slaveReceive   (1)
+               adaptive   (2)"
+   ::= {er1645v2MitopWanClockingEntry 2147483648}
+
+
+er1645v2MitopWanFraming OBJECT IDENTIFIER ::= {er1645v2MitopWan 18}
+
+er1645v2MitopWanFramingTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2MitopWanFramingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP framing mode"
+   ::= {er1645v2MitopWanFraming 1}
+
+er1645v2MitopWanFramingEntry OBJECT-TYPE
+   SYNTAX      Er1645v2MitopWanFramingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2MitopWanFramingGlobalIx }
+   ::= {er1645v2MitopWanFramingTable 1}
+
+Er1645v2MitopWanFramingEntry ::=
+   SEQUENCE
+      {
+      er1645v2MitopWanFramingGlobalIx
+         GlobalIndex,
+      er1645v2MitopWanFramingValue
+         INTEGER
+      }
+
+er1645v2MitopWanFramingGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2MitopWanFramingEntry 10}
+
+er1645v2MitopWanFramingValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unframed (0),
+               framed (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: e1.editConf.framing
+
+       Possibilities:
+               unframed   (0)
+               framed   (1)"
+   ::= {er1645v2MitopWanFramingEntry 2147483648}
+
+
+er1645v2MitopWanCrc4Insertion OBJECT IDENTIFIER ::= {er1645v2MitopWan 19}
+
+er1645v2MitopWanCrc4InsertionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2MitopWanCrc4InsertionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP CRC4 insertion"
+   ::= {er1645v2MitopWanCrc4Insertion 1}
+
+er1645v2MitopWanCrc4InsertionEntry OBJECT-TYPE
+   SYNTAX      Er1645v2MitopWanCrc4InsertionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2MitopWanCrc4InsertionGlobalIx }
+   ::= {er1645v2MitopWanCrc4InsertionTable 1}
+
+Er1645v2MitopWanCrc4InsertionEntry ::=
+   SEQUENCE
+      {
+      er1645v2MitopWanCrc4InsertionGlobalIx
+         GlobalIndex,
+      er1645v2MitopWanCrc4InsertionValue
+         INTEGER
+      }
+
+er1645v2MitopWanCrc4InsertionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2MitopWanCrc4InsertionEntry 10}
+
+er1645v2MitopWanCrc4InsertionValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (0),
+               disabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: e1.editConf.crc4Insertion
+
+       Possibilities:
+               enabled   (0)
+               disabled   (1)"
+   ::= {er1645v2MitopWanCrc4InsertionEntry 2147483648}
+
+
+er1645v2MitopWanCoding OBJECT IDENTIFIER ::= {er1645v2MitopWan 37}
+
+er1645v2MitopWanCodingTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2MitopWanCodingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP line code"
+   ::= {er1645v2MitopWanCoding 1}
+
+er1645v2MitopWanCodingEntry OBJECT-TYPE
+   SYNTAX      Er1645v2MitopWanCodingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2MitopWanCodingGlobalIx }
+   ::= {er1645v2MitopWanCodingTable 1}
+
+Er1645v2MitopWanCodingEntry ::=
+   SEQUENCE
+      {
+      er1645v2MitopWanCodingGlobalIx
+         GlobalIndex,
+      er1645v2MitopWanCodingValue
+         INTEGER
+      }
+
+er1645v2MitopWanCodingGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2MitopWanCodingEntry 10}
+
+er1645v2MitopWanCodingValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               hdb3 (0),
+               ami (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: e1.editConf.coding
+
+       Possibilities:
+               hdb3   (0)
+               ami   (1)"
+   ::= {er1645v2MitopWanCodingEntry 2147483648}
+
+
+er1645v2MitopWanRxSensitivity OBJECT IDENTIFIER ::= {er1645v2MitopWan 38}
+
+er1645v2MitopWanRxSensitivityTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2MitopWanRxSensitivityEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP rx sensitivity"
+   ::= {er1645v2MitopWanRxSensitivity 1}
+
+er1645v2MitopWanRxSensitivityEntry OBJECT-TYPE
+   SYNTAX      Er1645v2MitopWanRxSensitivityEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2MitopWanRxSensitivityGlobalIx }
+   ::= {er1645v2MitopWanRxSensitivityTable 1}
+
+Er1645v2MitopWanRxSensitivityEntry ::=
+   SEQUENCE
+      {
+      er1645v2MitopWanRxSensitivityGlobalIx
+         GlobalIndex,
+      er1645v2MitopWanRxSensitivityValue
+         INTEGER
+      }
+
+er1645v2MitopWanRxSensitivityGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2MitopWanRxSensitivityEntry 10}
+
+er1645v2MitopWanRxSensitivityValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               shortHaul (0),
+               longHaul (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: e1.editConf.rxSensitivity
+
+       Possibilities:
+               shortHaul   (0)
+               longHaul   (1)"
+   ::= {er1645v2MitopWanRxSensitivityEntry 2147483648}
+
+
+
+sr1645v2MitopWan OBJECT IDENTIFIER ::= {r1645v2MitopWan 14}
+
+
+sr1645v2MitopWanLos OBJECT IDENTIFIER ::= {sr1645v2MitopWan 30}
+
+sr1645v2MitopWanLosTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MitopWanLosEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP WAN status"
+   ::= {sr1645v2MitopWanLos 1}
+
+sr1645v2MitopWanLosEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MitopWanLosEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MitopWanLosGlobalIx }
+   ::= {sr1645v2MitopWanLosTable 1}
+
+Sr1645v2MitopWanLosEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MitopWanLosGlobalIx
+         GlobalIndex,
+      sr1645v2MitopWanLosValue
+         INTEGER
+      }
+
+sr1645v2MitopWanLosGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MitopWanLosEntry 10}
+
+sr1645v2MitopWanLosValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               off (0),
+               on (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: e1.status.los
+
+       Possibilities:
+               off   (0)
+               on   (1)"
+   ::= {sr1645v2MitopWanLosEntry 2147483648}
+
+
+sr1645v2MitopWanLfa OBJECT IDENTIFIER ::= {sr1645v2MitopWan 31}
+
+sr1645v2MitopWanLfaTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MitopWanLfaEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP WAN status"
+   ::= {sr1645v2MitopWanLfa 1}
+
+sr1645v2MitopWanLfaEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MitopWanLfaEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MitopWanLfaGlobalIx }
+   ::= {sr1645v2MitopWanLfaTable 1}
+
+Sr1645v2MitopWanLfaEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MitopWanLfaGlobalIx
+         GlobalIndex,
+      sr1645v2MitopWanLfaValue
+         INTEGER
+      }
+
+sr1645v2MitopWanLfaGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MitopWanLfaEntry 10}
+
+sr1645v2MitopWanLfaValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               off (0),
+               on (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: e1.status.lfa
+
+       Possibilities:
+               off   (0)
+               on   (1)"
+   ::= {sr1645v2MitopWanLfaEntry 2147483648}
+
+
+sr1645v2MitopWanAis OBJECT IDENTIFIER ::= {sr1645v2MitopWan 32}
+
+sr1645v2MitopWanAisTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MitopWanAisEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP WAN status"
+   ::= {sr1645v2MitopWanAis 1}
+
+sr1645v2MitopWanAisEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MitopWanAisEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MitopWanAisGlobalIx }
+   ::= {sr1645v2MitopWanAisTable 1}
+
+Sr1645v2MitopWanAisEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MitopWanAisGlobalIx
+         GlobalIndex,
+      sr1645v2MitopWanAisValue
+         INTEGER
+      }
+
+sr1645v2MitopWanAisGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MitopWanAisEntry 10}
+
+sr1645v2MitopWanAisValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               off (0),
+               on (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: e1.status.ais
+
+       Possibilities:
+               off   (0)
+               on   (1)"
+   ::= {sr1645v2MitopWanAisEntry 2147483648}
+
+
+sr1645v2MitopWanRdi OBJECT IDENTIFIER ::= {sr1645v2MitopWan 39}
+
+sr1645v2MitopWanRdiTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MitopWanRdiEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP WAN status"
+   ::= {sr1645v2MitopWanRdi 1}
+
+sr1645v2MitopWanRdiEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MitopWanRdiEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MitopWanRdiGlobalIx }
+   ::= {sr1645v2MitopWanRdiTable 1}
+
+Sr1645v2MitopWanRdiEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MitopWanRdiGlobalIx
+         GlobalIndex,
+      sr1645v2MitopWanRdiValue
+         INTEGER
+      }
+
+sr1645v2MitopWanRdiGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MitopWanRdiEntry 10}
+
+sr1645v2MitopWanRdiValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               off (0),
+               on (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: e1.status.rdi
+
+       Possibilities:
+               off   (0)
+               on   (1)"
+   ::= {sr1645v2MitopWanRdiEntry 2147483648}
+
+
+sr1645v2MitopWanAdaptiveClock OBJECT IDENTIFIER ::= {sr1645v2MitopWan 41}
+
+sr1645v2MitopWanAdaptiveClockTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MitopWanAdaptiveClockEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP adaptive clock state"
+   ::= {sr1645v2MitopWanAdaptiveClock 1}
+
+sr1645v2MitopWanAdaptiveClockEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MitopWanAdaptiveClockEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MitopWanAdaptiveClockGlobalIx }
+   ::= {sr1645v2MitopWanAdaptiveClockTable 1}
+
+Sr1645v2MitopWanAdaptiveClockEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MitopWanAdaptiveClockGlobalIx
+         GlobalIndex,
+      sr1645v2MitopWanAdaptiveClockValue
+         INTEGER
+      }
+
+sr1645v2MitopWanAdaptiveClockGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MitopWanAdaptiveClockEntry 10}
+
+sr1645v2MitopWanAdaptiveClockValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               idle (0),
+               acquisition (2),
+               tracking1 (3),
+               tracking2 (4),
+               recovering (5)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: e1.status.adaptiveClock
+
+       Possibilities:
+               idle   (0)
+               acquisition   (2)
+               tracking1   (3)
+               tracking2   (4)
+               recovering   (5)"
+   ::= {sr1645v2MitopWanAdaptiveClockEntry 2147483648}
+
+
+sr1645v2MitopWanSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2MitopWan 269}
+
+sr1645v2MitopWanSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MitopWanSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2MitopWanSnmpIndex 1}
+
+sr1645v2MitopWanSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MitopWanSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MitopWanSnmpIndexGlobalIx }
+   ::= {sr1645v2MitopWanSnmpIndexTable 1}
+
+Sr1645v2MitopWanSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MitopWanSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2MitopWanSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2MitopWanSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MitopWanSnmpIndexEntry 10}
+
+sr1645v2MitopWanSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: e1.status.snmpIndex"
+   ::= {sr1645v2MitopWanSnmpIndexEntry 2147483648}
+
+
+
+END

@@ -1,0 +1,757 @@
+OneAccess-R1645v2-3136-Zbips DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Zbips OBJECT IDENTIFIER ::= {r1645Rootv2 3136}
+
+r1645v2ZbipsMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2ZbipsMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2Zbips 1}
+
+r1645v2ZbipsMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2ZbipsMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2ZbipsMOPropGlobalIx }
+   ::= {r1645v2ZbipsMOProp 1}
+
+R1645v2ZbipsMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2ZbipsMOPropPath
+         ContainmentPath,
+      r1645v2ZbipsMOPropRev
+         ObjectRevision,
+      r1645v2ZbipsMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2ZbipsMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2ZbipsMOPropEntry 3}
+
+r1645v2ZbipsMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2ZbipsMOPropEntry 4}
+
+r1645v2ZbipsMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2ZbipsMOPropEntry 10}
+
+
+
+er1645v2Zbips OBJECT IDENTIFIER ::= {r1645v2Zbips 11}
+
+
+er1645v2ZbipsSnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2Zbips 268}
+
+er1645v2ZbipsSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2ZbipsSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2ZbipsSnmpIndexOffset 1}
+
+er1645v2ZbipsSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2ZbipsSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2ZbipsSnmpIndexOffsetGlobalIx }
+   ::= {er1645v2ZbipsSnmpIndexOffsetTable 1}
+
+Er1645v2ZbipsSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2ZbipsSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2ZbipsSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2ZbipsSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2ZbipsSnmpIndexOffsetEntry 10}
+
+er1645v2ZbipsSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: service.editConf.snmpIndexOffset"
+   ::= {er1645v2ZbipsSnmpIndexOffsetEntry 2147483648}
+
+
+er1645v2ZbipsRecords OBJECT IDENTIFIER ::= {er1645v2Zbips 2}
+
+er1645v2ZbipsRecordsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2ZbipsRecordsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "serviceRecord"
+   ::= {er1645v2ZbipsRecords 1}
+
+er1645v2ZbipsRecordsEntry OBJECT-TYPE
+   SYNTAX      Er1645v2ZbipsRecordsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2ZbipsRecordsGlobalIx,
+                er1645v2ZbipsRecordsTableIx }
+   ::= {er1645v2ZbipsRecordsSSCTable 1}
+
+Er1645v2ZbipsRecordsEntry ::=
+   SEQUENCE
+      {
+      er1645v2ZbipsRecordsActions
+         VariableLengthTableActions,
+      er1645v2ZbipsRecordsGlobalIx
+         GlobalIndex,
+      er1645v2ZbipsRecordsTableIx
+         TableIndex,
+      er1645v2ZbipsRecordsProtocol
+         INTEGER,
+      er1645v2ZbipsRecordsSrcStartPort
+         INTEGER,
+      er1645v2ZbipsRecordsSrcEndPort
+         INTEGER,
+      er1645v2ZbipsRecordsDstStartPort
+         INTEGER,
+      er1645v2ZbipsRecordsDstEndPort
+         INTEGER
+      }
+
+er1645v2ZbipsRecordsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2ZbipsRecordsEntry 2}
+
+er1645v2ZbipsRecordsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2ZbipsRecordsEntry 10}
+
+er1645v2ZbipsRecordsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2ZbipsRecordsEntry 11}
+
+er1645v2ZbipsRecordsProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               ah (51),
+               egp (8),
+               esp (50),
+               gre (47),
+               icmp (1),
+               igp (9),
+               igmp (2),
+               igrp (88),
+               ipInIp (4),
+               ospf (89),
+               udp (17),
+               rsvp (46),
+               tcp (6),
+               icmpV6 (58),
+               l2tp (115)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: service.editConf.records.protocol
+
+       Possibilities:
+               any   (0)
+               ah   (51)
+               egp   (8)
+               esp   (50)
+               gre   (47)
+               icmp   (1)
+               igp   (9)
+               igmp   (2)
+               igrp   (88)
+               ipInIp   (4)
+               ospf   (89)
+               udp   (17)
+               rsvp   (46)
+               tcp   (6)
+               icmpV6   (58)
+               l2tp   (115)"
+   ::= {er1645v2ZbipsRecordsEntry 16777216}
+
+er1645v2ZbipsRecordsSrcStartPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: service.editConf.records.srcStartPort
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2ZbipsRecordsEntry 33554432}
+
+er1645v2ZbipsRecordsSrcEndPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: service.editConf.records.srcEndPort
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2ZbipsRecordsEntry 50331648}
+
+er1645v2ZbipsRecordsDstStartPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: service.editConf.records.dstStartPort
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2ZbipsRecordsEntry 67108864}
+
+er1645v2ZbipsRecordsDstEndPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: service.editConf.records.dstEndPort
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2ZbipsRecordsEntry 83886080}
+
+
+
+sr1645v2Zbips OBJECT IDENTIFIER ::= {r1645v2Zbips 14}
+
+
+sr1645v2ZbipsSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2Zbips 269}
+
+sr1645v2ZbipsSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2ZbipsSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2ZbipsSnmpIndex 1}
+
+sr1645v2ZbipsSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2ZbipsSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2ZbipsSnmpIndexGlobalIx }
+   ::= {sr1645v2ZbipsSnmpIndexTable 1}
+
+Sr1645v2ZbipsSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2ZbipsSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2ZbipsSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2ZbipsSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2ZbipsSnmpIndexEntry 10}
+
+sr1645v2ZbipsSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: service.status.snmpIndex"
+   ::= {sr1645v2ZbipsSnmpIndexEntry 2147483648}
+
+
+
+END

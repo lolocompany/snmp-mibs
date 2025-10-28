@@ -1,0 +1,2029 @@
+OneAccess-R1645v2-2247-Fsc DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Fsc OBJECT IDENTIFIER ::= {r1645Rootv2 2247}
+
+r1645v2FscMOProp OBJECT IDENTIFIER ::= {r1645v2Fsc 1}
+
+r1645v2FscMOPropEntry OBJECT IDENTIFIER ::= {r1645v2FscMOProp 1}
+
+r1645v2FscMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2FscMOPropEntry 3}
+
+r1645v2FscMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2FscMOPropEntry 4}
+
+
+
+sr1645v2Fsc OBJECT IDENTIFIER ::= {r1645v2Fsc 14}
+
+
+sr1645v2FscTotalSize OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "bytes"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.totalSize
+       Info: Free disk space in bytes
+
+       unit name = bytes"
+   ::= {sr1645v2Fsc 7}
+
+
+sr1645v2FscFreeSpace OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "bytes"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.freeSpace
+       Info: Free disk space in bytes
+
+       unit name = bytes"
+   ::= {sr1645v2Fsc 2}
+
+
+sr1645v2FscStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ready (0),
+               formatting (1),
+               corrupt (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.status
+       Info: Current status of the flash. Can be: ready, formatting or corrupt
+
+       Possibilities:
+               ready   (0)
+               formatting   (1)
+               corrupt   (2)"
+   ::= {sr1645v2Fsc 3}
+
+
+sr1645v2FscCorruptBlocks OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.corruptBlocks
+       Info: returns the number of corrupt blocks"
+   ::= {sr1645v2Fsc 4}
+
+
+sr1645v2FscTftpSession OBJECT IDENTIFIER ::= {sr1645v2Fsc 76}
+
+sr1645v2FscTftpSessionSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2FscTftpSessionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "TFTP session overview"
+   ::= {sr1645v2FscTftpSession 1}
+
+sr1645v2FscTftpSessionEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2FscTftpSessionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2FscTftpSessionTableIx }
+   ::= {sr1645v2FscTftpSessionSSCTable 1}
+
+Sr1645v2FscTftpSessionEntry ::=
+   SEQUENCE
+      {
+      sr1645v2FscTftpSessionTableIx
+         TableIndex,
+      sr1645v2FscTftpSessionSessionId
+         Integer32,
+      sr1645v2FscTftpSessionType
+         INTEGER,
+      sr1645v2FscTftpSessionDirection
+         INTEGER,
+      sr1645v2FscTftpSessionVrfRouter
+         DisplayString,
+      sr1645v2FscTftpSessionLocalIp
+         IpAddress,
+      sr1645v2FscTftpSessionRemoteIp
+         IpAddress,
+      sr1645v2FscTftpSessionOctets
+         Counter32,
+      sr1645v2FscTftpSessionSourceFile
+         DisplayString,
+      sr1645v2FscTftpSessionDestinationFile
+         DisplayString
+      }
+
+sr1645v2FscTftpSessionTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2FscTftpSessionEntry 11}
+
+sr1645v2FscTftpSessionSessionId OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.tftpSession.sessionId"
+   ::= {sr1645v2FscTftpSessionEntry 150994944}
+
+sr1645v2FscTftpSessionType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               client (1),
+               server (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.tftpSession.type
+
+       Possibilities:
+               client   (1)
+               server   (2)"
+   ::= {sr1645v2FscTftpSessionEntry 67108864}
+
+sr1645v2FscTftpSessionDirection OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               get (1),
+               put (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.tftpSession.direction
+
+       Possibilities:
+               get   (1)
+               put   (2)"
+   ::= {sr1645v2FscTftpSessionEntry 83886080}
+
+sr1645v2FscTftpSessionVrfRouter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.tftpSession.vrfRouter"
+   ::= {sr1645v2FscTftpSessionEntry 134217728}
+
+sr1645v2FscTftpSessionLocalIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.tftpSession.localIp"
+   ::= {sr1645v2FscTftpSessionEntry 16777216}
+
+sr1645v2FscTftpSessionRemoteIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.tftpSession.remoteIp"
+   ::= {sr1645v2FscTftpSessionEntry 33554432}
+
+sr1645v2FscTftpSessionOctets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.tftpSession.octets
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2FscTftpSessionEntry 50331648}
+
+sr1645v2FscTftpSessionSourceFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.tftpSession.sourceFile"
+   ::= {sr1645v2FscTftpSessionEntry 100663296}
+
+sr1645v2FscTftpSessionDestinationFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.tftpSession.destinationFile"
+   ::= {sr1645v2FscTftpSessionEntry 117440512}
+
+
+sr1645v2FscHttpSession OBJECT IDENTIFIER ::= {sr1645v2Fsc 77}
+
+sr1645v2FscHttpSessionSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2FscHttpSessionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "HTTP session overview"
+   ::= {sr1645v2FscHttpSession 1}
+
+sr1645v2FscHttpSessionEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2FscHttpSessionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2FscHttpSessionTableIx }
+   ::= {sr1645v2FscHttpSessionSSCTable 1}
+
+Sr1645v2FscHttpSessionEntry ::=
+   SEQUENCE
+      {
+      sr1645v2FscHttpSessionTableIx
+         TableIndex,
+      sr1645v2FscHttpSessionSessionId
+         Integer32,
+      sr1645v2FscHttpSessionState
+         INTEGER,
+      sr1645v2FscHttpSessionLastActionDate
+         DisplayString,
+      sr1645v2FscHttpSessionType
+         INTEGER,
+      sr1645v2FscHttpSessionDirection
+         INTEGER,
+      sr1645v2FscHttpSessionVrfRouter
+         DisplayString,
+      sr1645v2FscHttpSessionHostname
+         DisplayString,
+      sr1645v2FscHttpSessionOctets
+         Counter32,
+      sr1645v2FscHttpSessionSourceFile
+         DisplayString,
+      sr1645v2FscHttpSessionDestinationFile
+         DisplayString,
+      sr1645v2FscHttpSessionUsername
+         DisplayString
+      }
+
+sr1645v2FscHttpSessionTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2FscHttpSessionEntry 11}
+
+sr1645v2FscHttpSessionSessionId OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.httpSession.sessionId"
+   ::= {sr1645v2FscHttpSessionEntry 150994944}
+
+sr1645v2FscHttpSessionState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               running (1),
+               createSocket (5),
+               createSocketFailed (6),
+               setupConnection (13),
+               setupConnectionFailed (14),
+               openFile (29),
+               openSrcFileFailed (30),
+               transferData (61),
+               transferDataFailed (62),
+               transferFileClose (125),
+               password (141),
+               passwordFail (142),
+               finished (126),
+               openDestFile (257),
+               openDestFileFailed (258)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.httpSession.state
+
+       Possibilities:
+               running   (1)
+               createSocket   (5)
+               createSocketFailed   (6)
+               setupConnection   (13)
+               setupConnectionFailed   (14)
+               openFile   (29)
+               openSrcFileFailed   (30)
+               transferData   (61)
+               transferDataFailed   (62)
+               transferFileClose   (125)
+               password   (141)
+               passwordFail   (142)
+               finished   (126)
+               openDestFile   (257)
+               openDestFileFailed   (258)"
+   ::= {sr1645v2FscHttpSessionEntry 184549376}
+
+sr1645v2FscHttpSessionLastActionDate OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.httpSession.lastActionDate"
+   ::= {sr1645v2FscHttpSessionEntry 167772160}
+
+sr1645v2FscHttpSessionType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               client (1),
+               server (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.httpSession.type
+
+       Possibilities:
+               client   (1)
+               server   (2)"
+   ::= {sr1645v2FscHttpSessionEntry 67108864}
+
+sr1645v2FscHttpSessionDirection OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               get (1),
+               put (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.httpSession.direction
+
+       Possibilities:
+               get   (1)
+               put   (2)"
+   ::= {sr1645v2FscHttpSessionEntry 83886080}
+
+sr1645v2FscHttpSessionVrfRouter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.httpSession.vrfRouter"
+   ::= {sr1645v2FscHttpSessionEntry 134217728}
+
+sr1645v2FscHttpSessionHostname OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.httpSession.hostname"
+   ::= {sr1645v2FscHttpSessionEntry 33554432}
+
+sr1645v2FscHttpSessionOctets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.httpSession.octets
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2FscHttpSessionEntry 50331648}
+
+sr1645v2FscHttpSessionSourceFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.httpSession.sourceFile"
+   ::= {sr1645v2FscHttpSessionEntry 100663296}
+
+sr1645v2FscHttpSessionDestinationFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.httpSession.destinationFile"
+   ::= {sr1645v2FscHttpSessionEntry 117440512}
+
+sr1645v2FscHttpSessionUsername OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.httpSession.username"
+   ::= {sr1645v2FscHttpSessionEntry 201326592}
+
+
+sr1645v2FscSshKeyFingerprint OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.sshKeyFingerprint
+       Info: Ssh key finger print value"
+   ::= {sr1645v2Fsc 48}
+
+
+sr1645v2FscCapture OBJECT IDENTIFIER ::= {sr1645v2Fsc 49}
+
+sr1645v2FscCaptureSSC OBJECT IDENTIFIER ::= {sr1645v2FscCapture 1}
+
+sr1645v2FscCaptureEntry OBJECT IDENTIFIER ::= {sr1645v2FscCaptureSSC 1}
+
+sr1645v2FscCaptureState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               init (1),
+               waitForStart (2),
+               capturing (3),
+               halted (4)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.capture.state
+
+       Possibilities:
+               init   (1)
+               waitForStart   (2)
+               capturing   (3)
+               halted   (4)"
+   ::= {sr1645v2FscCaptureEntry 67108864}
+
+sr1645v2FscCapturePackets OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.capture.packets"
+   ::= {sr1645v2FscCaptureEntry 16777216}
+
+sr1645v2FscCaptureSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.capture.size"
+   ::= {sr1645v2FscCaptureEntry 33554432}
+
+sr1645v2FscCaptureTags OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2FscCaptureTagsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2FscCapture 50331648}
+
+sr1645v2FscCaptureTagsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2FscCaptureTagsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2FscCaptureTagsTableIx }
+   ::= {sr1645v2FscCaptureTags 1}
+
+Sr1645v2FscCaptureTagsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2FscCaptureTagsTableIx
+         TableIndex,
+      sr1645v2FscCaptureTagsTag
+         INTEGER,
+      sr1645v2FscCaptureTagsPackets
+         Integer32,
+      sr1645v2FscCaptureTagsSize
+         Integer32
+      }
+
+sr1645v2FscCaptureTagsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2FscCaptureTagsEntry 11}
+
+sr1645v2FscCaptureTagsTag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               interface (8)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.capture.tags.tag
+
+       Possibilities:
+               interface   (8)"
+   ::= {sr1645v2FscCaptureTagsEntry 50331648}
+
+sr1645v2FscCaptureTagsPackets OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.capture.tags.packets"
+   ::= {sr1645v2FscCaptureTagsEntry 16777216}
+
+sr1645v2FscCaptureTagsSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.capture.tags.size"
+   ::= {sr1645v2FscCaptureTagsEntry 33554432}
+
+
+sr1645v2FscList OBJECT IDENTIFIER ::= {sr1645v2Fsc 1}
+
+sr1645v2FscListSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2FscListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Array of Files entries with supplemental the creation date and time"
+   ::= {sr1645v2FscList 1}
+
+sr1645v2FscListEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2FscListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2FscListTableIx }
+   ::= {sr1645v2FscListSSCTable 1}
+
+Sr1645v2FscListEntry ::=
+   SEQUENCE
+      {
+      sr1645v2FscListTableIx
+         TableIndex,
+      sr1645v2FscListName
+         DisplayString,
+      sr1645v2FscListLength
+         Integer32,
+      sr1645v2FscListDate
+         DisplayString,
+      sr1645v2FscListTime
+         DisplayString
+      }
+
+sr1645v2FscListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2FscListEntry 11}
+
+sr1645v2FscListName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.fileList.name"
+   ::= {sr1645v2FscListEntry 16777216}
+
+sr1645v2FscListLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.fileList.length"
+   ::= {sr1645v2FscListEntry 33554432}
+
+sr1645v2FscListDate OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.fileList.date"
+   ::= {sr1645v2FscListEntry 50331648}
+
+sr1645v2FscListTime OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.fileList.time"
+   ::= {sr1645v2FscListEntry 67108864}
+
+
+sr1645v2FscTrustCert OBJECT IDENTIFIER ::= {sr1645v2Fsc 10}
+
+sr1645v2FscTrustCertSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2FscTrustCertEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "certificats in Intoto memory"
+   ::= {sr1645v2FscTrustCert 1}
+
+sr1645v2FscTrustCertEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2FscTrustCertEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2FscTrustCertTableIx }
+   ::= {sr1645v2FscTrustCertSSCTable 1}
+
+Sr1645v2FscTrustCertEntry ::=
+   SEQUENCE
+      {
+      sr1645v2FscTrustCertTableIx
+         TableIndex,
+      sr1645v2FscTrustCertName
+         DisplayString,
+      sr1645v2FscTrustCertExpiry
+         DisplayString,
+      sr1645v2FscTrustCertIssuer
+         DisplayString,
+      sr1645v2FscTrustCertSubject
+         DisplayString,
+      sr1645v2FscTrustCertSubjectAltName
+         DisplayString,
+      sr1645v2FscTrustCertKeyUsage
+         DisplayString
+      }
+
+sr1645v2FscTrustCertTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2FscTrustCertEntry 11}
+
+sr1645v2FscTrustCertName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.trustedCertificates.name"
+   ::= {sr1645v2FscTrustCertEntry 16777216}
+
+sr1645v2FscTrustCertExpiry OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.trustedCertificates.expiry"
+   ::= {sr1645v2FscTrustCertEntry 33554432}
+
+sr1645v2FscTrustCertIssuer OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.trustedCertificates.issuer"
+   ::= {sr1645v2FscTrustCertEntry 50331648}
+
+sr1645v2FscTrustCertSubject OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.trustedCertificates.subject"
+   ::= {sr1645v2FscTrustCertEntry 67108864}
+
+sr1645v2FscTrustCertSubjectAltName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.trustedCertificates.subjectAltName"
+   ::= {sr1645v2FscTrustCertEntry 83886080}
+
+sr1645v2FscTrustCertKeyUsage OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.trustedCertificates.keyUsage"
+   ::= {sr1645v2FscTrustCertEntry 100663296}
+
+
+sr1645v2FscSelfCert OBJECT IDENTIFIER ::= {sr1645v2Fsc 11}
+
+sr1645v2FscSelfCertSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2FscSelfCertEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "certificats in Intoto memory"
+   ::= {sr1645v2FscSelfCert 1}
+
+sr1645v2FscSelfCertEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2FscSelfCertEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2FscSelfCertTableIx }
+   ::= {sr1645v2FscSelfCertSSCTable 1}
+
+Sr1645v2FscSelfCertEntry ::=
+   SEQUENCE
+      {
+      sr1645v2FscSelfCertTableIx
+         TableIndex,
+      sr1645v2FscSelfCertName
+         DisplayString,
+      sr1645v2FscSelfCertExpiry
+         DisplayString,
+      sr1645v2FscSelfCertIssuer
+         DisplayString,
+      sr1645v2FscSelfCertSubject
+         DisplayString,
+      sr1645v2FscSelfCertSubjectAltName
+         DisplayString,
+      sr1645v2FscSelfCertKeyUsage
+         DisplayString
+      }
+
+sr1645v2FscSelfCertTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2FscSelfCertEntry 11}
+
+sr1645v2FscSelfCertName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.selfCertificates.name"
+   ::= {sr1645v2FscSelfCertEntry 16777216}
+
+sr1645v2FscSelfCertExpiry OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.selfCertificates.expiry"
+   ::= {sr1645v2FscSelfCertEntry 33554432}
+
+sr1645v2FscSelfCertIssuer OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.selfCertificates.issuer"
+   ::= {sr1645v2FscSelfCertEntry 50331648}
+
+sr1645v2FscSelfCertSubject OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.selfCertificates.subject"
+   ::= {sr1645v2FscSelfCertEntry 67108864}
+
+sr1645v2FscSelfCertSubjectAltName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.selfCertificates.subjectAltName"
+   ::= {sr1645v2FscSelfCertEntry 83886080}
+
+sr1645v2FscSelfCertKeyUsage OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.status.selfCertificates.keyUsage"
+   ::= {sr1645v2FscSelfCertEntry 100663296}
+
+
+
+ar1645v2Fsc OBJECT IDENTIFIER ::= {r1645v2Fsc 16}
+
+
+ar1645v2FscFormatFlash OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.formatFlash
+       Info: Formats the flash"
+   ::= {ar1645v2Fsc 22}
+
+
+ar1645v2FscStartHttp OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.startHttp
+       Info: start tftp"
+   ::= {ar1645v2Fsc 78}
+
+
+ar1645v2FscHttpData OBJECT IDENTIFIER ::= {ar1645v2Fsc 79}
+
+ar1645v2FscHttpDataSSC OBJECT IDENTIFIER ::= {ar1645v2FscHttpData 1}
+
+ar1645v2FscHttpDataEntry OBJECT IDENTIFIER ::= {ar1645v2FscHttpDataSSC 1}
+
+ar1645v2FscHttpDataVrfRouter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.httpData.vrfRouter"
+   ::= {ar1645v2FscHttpDataEntry 117440512}
+
+ar1645v2FscHttpDataHostName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.httpData.hostName"
+   ::= {ar1645v2FscHttpDataEntry 100663296}
+
+ar1645v2FscHttpDataAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               get (1),
+               post (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.httpData.action
+
+       Possibilities:
+               get   (1)
+               post   (2)"
+   ::= {ar1645v2FscHttpDataEntry 33554432}
+
+ar1645v2FscHttpDataSourceFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.httpData.sourceFile"
+   ::= {ar1645v2FscHttpDataEntry 50331648}
+
+ar1645v2FscHttpDataDestinationFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.httpData.destinationFile"
+   ::= {ar1645v2FscHttpDataEntry 83886080}
+
+ar1645v2FscHttpDataUsername OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.httpData.username"
+   ::= {ar1645v2FscHttpDataEntry 134217728}
+
+ar1645v2FscHttpDataPassword OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.httpData.password"
+   ::= {ar1645v2FscHttpDataEntry 150994944}
+
+
+ar1645v2FscStopTftp OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.stopTftp
+       Info: start tftp"
+   ::= {ar1645v2Fsc 72}
+
+
+ar1645v2FscTftpStopData OBJECT IDENTIFIER ::= {ar1645v2Fsc 73}
+
+ar1645v2FscTftpStopDataSSC OBJECT IDENTIFIER ::= {ar1645v2FscTftpStopData 1}
+
+ar1645v2FscTftpStopDataEntry OBJECT IDENTIFIER ::= {ar1645v2FscTftpStopDataSSC 1}
+
+ar1645v2FscTftpStopDataSessionId OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.tftpStopData.sessionId"
+   ::= {ar1645v2FscTftpStopDataEntry 16777216}
+
+
+ar1645v2FscStartTftp OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.startTftp
+       Info: start tftp"
+   ::= {ar1645v2Fsc 70}
+
+
+ar1645v2FscTftpData OBJECT IDENTIFIER ::= {ar1645v2Fsc 71}
+
+ar1645v2FscTftpDataSSC OBJECT IDENTIFIER ::= {ar1645v2FscTftpData 1}
+
+ar1645v2FscTftpDataEntry OBJECT IDENTIFIER ::= {ar1645v2FscTftpDataSSC 1}
+
+ar1645v2FscTftpDataIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.tftpData.ipAddress"
+   ::= {ar1645v2FscTftpDataEntry 16777216}
+
+ar1645v2FscTftpDataVrfRouter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.tftpData.vrfRouter"
+   ::= {ar1645v2FscTftpDataEntry 117440512}
+
+ar1645v2FscTftpDataHostName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.tftpData.hostName"
+   ::= {ar1645v2FscTftpDataEntry 100663296}
+
+ar1645v2FscTftpDataSourceIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.tftpData.sourceIp"
+   ::= {ar1645v2FscTftpDataEntry 67108864}
+
+ar1645v2FscTftpDataAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               get (1),
+               put (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.tftpData.action
+
+       Possibilities:
+               get   (1)
+               put   (2)"
+   ::= {ar1645v2FscTftpDataEntry 33554432}
+
+ar1645v2FscTftpDataSourceFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.tftpData.sourceFile"
+   ::= {ar1645v2FscTftpDataEntry 50331648}
+
+ar1645v2FscTftpDataDestinationFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.tftpData.destinationFile"
+   ::= {ar1645v2FscTftpDataEntry 83886080}
+
+ar1645v2FscTftpDataRetryTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.tftpData.retryTimeOut
+
+       Time in centi-second."
+   ::= {ar1645v2FscTftpDataEntry 134217728}
+
+ar1645v2FscTftpDataMaxRetries OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.tftpData.maxRetries"
+   ::= {ar1645v2FscTftpDataEntry 150994944}
+
+
+ar1645v2FscUntarFile OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.untarFile"
+   ::= {ar1645v2Fsc 74}
+
+
+ar1645v2FscUntarFileName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.untarFileName
+       Info: File Name (empty allowed)"
+   ::= {ar1645v2Fsc 75}
+
+
+ar1645v2FscRenameFile OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.renameFile"
+   ::= {ar1645v2Fsc 23}
+
+
+ar1645v2FscRename OBJECT IDENTIFIER ::= {ar1645v2Fsc 24}
+
+ar1645v2FscRenameSSC OBJECT IDENTIFIER ::= {ar1645v2FscRename 1}
+
+ar1645v2FscRenameEntry OBJECT IDENTIFIER ::= {ar1645v2FscRenameSSC 1}
+
+ar1645v2FscRenameOldName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.renameFileNames.oldName"
+   ::= {ar1645v2FscRenameEntry 16777216}
+
+ar1645v2FscRenameNewName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.renameFileNames.newName"
+   ::= {ar1645v2FscRenameEntry 33554432}
+
+
+ar1645v2FscDeleteFile OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.deleteFile"
+   ::= {ar1645v2Fsc 20}
+
+
+ar1645v2FscDeleteFileName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.deleteFileName
+       Info: File Name"
+   ::= {ar1645v2Fsc 21}
+
+
+ar1645v2FscExec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.exec
+       Info: exec a cli and save output to file"
+   ::= {ar1645v2Fsc 152}
+
+
+ar1645v2FscCommand OBJECT IDENTIFIER ::= {ar1645v2Fsc 153}
+
+ar1645v2FscCommandSSC OBJECT IDENTIFIER ::= {ar1645v2FscCommand 1}
+
+ar1645v2FscCommandEntry OBJECT IDENTIFIER ::= {ar1645v2FscCommandSSC 1}
+
+ar1645v2FscCommandCliCliCommand OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.command.cli.cliCommand"
+   ::= {ar1645v2FscCommandEntry 16842752}
+
+ar1645v2FscCommandCliFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.command.cli.file"
+   ::= {ar1645v2FscCommandEntry 16908288}
+
+ar1645v2FscCommandDstFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.command.dstFile"
+   ::= {ar1645v2FscCommandEntry 33554432}
+
+
+ar1645v2FscStopintfCapture OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.stopintfCapture
+       Info: Save the current capture"
+   ::= {ar1645v2Fsc 54}
+
+
+ar1645v2FscCapture OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.capture
+       Info: Generate a SSH key"
+   ::= {ar1645v2Fsc 52}
+
+
+ar1645v2FscSettings OBJECT IDENTIFIER ::= {ar1645v2Fsc 53}
+
+ar1645v2FscSettingsSSC OBJECT IDENTIFIER ::= {ar1645v2FscSettings 1}
+
+ar1645v2FscSettingsEntry OBJECT IDENTIFIER ::= {ar1645v2FscSettingsSSC 1}
+
+ar1645v2FscSettingsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.settings.interface"
+   ::= {ar1645v2FscSettingsEntry 16777216}
+
+ar1645v2FscSettingsLinktype OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ip (0),
+               ethernet (1),
+               ppp (9),
+               atmllc (11),
+               frameRelay (107),
+               mlFrameRelay (182),
+               auto (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.settings.linktype
+
+       Possibilities:
+               ip   (0)
+               ethernet   (1)
+               ppp   (9)
+               atmllc   (11)
+               frameRelay   (107)
+               mlFrameRelay   (182)
+               auto   (256)"
+   ::= {ar1645v2FscSettingsEntry 50331648}
+
+ar1645v2FscSettingsOffset OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.settings.offset"
+   ::= {ar1645v2FscSettingsEntry 67108864}
+
+
+ar1645v2FscClearCapture OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.clearCapture
+       Info: clear the current capture"
+   ::= {ar1645v2Fsc 58}
+
+
+ar1645v2FscSaveCapture OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.saveCapture
+       Info: Save the current capture"
+   ::= {ar1645v2Fsc 51}
+
+
+ar1645v2FscCaptureFileName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.captureFileName
+       Info: File Name(empty not allowed)"
+   ::= {ar1645v2Fsc 57}
+
+
+ar1645v2FscGenSSHKey OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.genSSHKey
+       Info: Generate a SSH key"
+   ::= {ar1645v2Fsc 46}
+
+
+ar1645v2FscSshKeyLength OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s512 (512),
+               s1024 (1024),
+               s2048 (2048)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.sshKeyLength
+       Info: Length of the SSH key
+
+       Possibilities:
+               512   (512)
+               1024   (1024)
+               2048   (2048)"
+   ::= {ar1645v2Fsc 47}
+
+
+ar1645v2FscAddPkcs12 OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.addPkcs12
+       Info: Add a Pkcs12File"
+   ::= {ar1645v2Fsc 55}
+
+
+ar1645v2FscPkcs12Prm OBJECT IDENTIFIER ::= {ar1645v2Fsc 56}
+
+ar1645v2FscPkcs12PrmSSC OBJECT IDENTIFIER ::= {ar1645v2FscPkcs12Prm 1}
+
+ar1645v2FscPkcs12PrmEntry OBJECT IDENTIFIER ::= {ar1645v2FscPkcs12PrmSSC 1}
+
+ar1645v2FscPkcs12PrmFileName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.loadPkcs12Data.fileName"
+   ::= {ar1645v2FscPkcs12PrmEntry 16777216}
+
+ar1645v2FscPkcs12PrmPassword OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.loadPkcs12Data.password"
+   ::= {ar1645v2FscPkcs12PrmEntry 33554432}
+
+
+ar1645v2FscSaveCertificates OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.saveCertificates
+       Info: Self certificate File Name"
+   ::= {ar1645v2Fsc 31}
+
+
+ar1645v2FscGetCrl OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.getCrl
+       Info: Get CA CRL"
+   ::= {ar1645v2Fsc 44}
+
+
+ar1645v2FscCrlParms OBJECT IDENTIFIER ::= {ar1645v2Fsc 45}
+
+ar1645v2FscCrlParmsSSC OBJECT IDENTIFIER ::= {ar1645v2FscCrlParms 1}
+
+ar1645v2FscCrlParmsEntry OBJECT IDENTIFIER ::= {ar1645v2FscCrlParmsSSC 1}
+
+ar1645v2FscCrlParmsServer OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.crlScepData.server"
+   ::= {ar1645v2FscCrlParmsEntry 16777216}
+
+ar1645v2FscCrlParmsUrl OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.crlScepData.url"
+   ::= {ar1645v2FscCrlParmsEntry 33554432}
+
+ar1645v2FscCrlParmsCaName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cam0 (0),
+               cam1 (1),
+               cam2 (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.crlScepData.caName
+
+       Possibilities:
+               ca-0   (0)
+               ca-1   (1)
+               ca-2   (2)"
+   ::= {ar1645v2FscCrlParmsEntry 50331648}
+
+ar1645v2FscCrlParmsPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.crlScepData.port"
+   ::= {ar1645v2FscCrlParmsEntry 67108864}
+
+
+ar1645v2FscGetCertificate OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.getCertificate
+       Info: Get CA Certificate"
+   ::= {ar1645v2Fsc 42}
+
+
+ar1645v2FscCertParms OBJECT IDENTIFIER ::= {ar1645v2Fsc 43}
+
+ar1645v2FscCertParmsSSC OBJECT IDENTIFIER ::= {ar1645v2FscCertParms 1}
+
+ar1645v2FscCertParmsEntry OBJECT IDENTIFIER ::= {ar1645v2FscCertParmsSSC 1}
+
+ar1645v2FscCertParmsServer OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.trustedCertScepData.server"
+   ::= {ar1645v2FscCertParmsEntry 16777216}
+
+ar1645v2FscCertParmsUrl OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.trustedCertScepData.url"
+   ::= {ar1645v2FscCertParmsEntry 33554432}
+
+ar1645v2FscCertParmsCaName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.trustedCertScepData.caName"
+   ::= {ar1645v2FscCertParmsEntry 50331648}
+
+ar1645v2FscCertParmsPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.trustedCertScepData.port"
+   ::= {ar1645v2FscCertParmsEntry 67108864}
+
+
+ar1645v2FscGetSelfCertificate OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.getSelfCertificate
+       Info: Get CA Certificate"
+   ::= {ar1645v2Fsc 40}
+
+
+ar1645v2FscSCertParms OBJECT IDENTIFIER ::= {ar1645v2Fsc 41}
+
+ar1645v2FscSCertParmsSSC OBJECT IDENTIFIER ::= {ar1645v2FscSCertParms 1}
+
+ar1645v2FscSCertParmsEntry OBJECT IDENTIFIER ::= {ar1645v2FscSCertParmsSSC 1}
+
+ar1645v2FscSCertParmsServer OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertScepData.server"
+   ::= {ar1645v2FscSCertParmsEntry 16777216}
+
+ar1645v2FscSCertParmsUrl OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertScepData.url"
+   ::= {ar1645v2FscSCertParmsEntry 33554432}
+
+ar1645v2FscSCertParmsType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               rsammd5 (0),
+               rsamsha1 (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertScepData.type
+
+       Possibilities:
+               rsa-md5   (0)
+               rsa-sha1   (1)"
+   ::= {ar1645v2FscSCertParmsEntry 50331648}
+
+ar1645v2FscSCertParmsSubject OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertScepData.subject"
+   ::= {ar1645v2FscSCertParmsEntry 67108864}
+
+ar1645v2FscSCertParmsChallenge OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertScepData.challenge"
+   ::= {ar1645v2FscSCertParmsEntry 83886080}
+
+ar1645v2FscSCertParmsCaName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cam0 (0),
+               cam1 (1),
+               cam2 (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertScepData.caName
+
+       Possibilities:
+               ca-0   (0)
+               ca-1   (1)
+               ca-2   (2)"
+   ::= {ar1645v2FscSCertParmsEntry 100663296}
+
+ar1645v2FscSCertParmsPrivKey OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertScepData.privateKeyName"
+   ::= {ar1645v2FscSCertParmsEntry 117440512}
+
+ar1645v2FscSCertParmsIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertScepData.ipAddress"
+   ::= {ar1645v2FscSCertParmsEntry 134217728}
+
+ar1645v2FscSCertParmsHn OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertScepData.hostName"
+   ::= {ar1645v2FscSCertParmsEntry 150994944}
+
+ar1645v2FscSCertParmsUn OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertScepData.user"
+   ::= {ar1645v2FscSCertParmsEntry 167772160}
+
+ar1645v2FscSCertParmsPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertScepData.port"
+   ::= {ar1645v2FscSCertParmsEntry 184549376}
+
+ar1645v2FscSCertParmsKeyLength OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s512 (512),
+               s1024 (1024),
+               s2048 (2048)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertScepData.keyLength
+
+       Possibilities:
+               512   (512)
+               1024   (1024)
+               2048   (2048)"
+   ::= {ar1645v2FscSCertParmsEntry 201326592}
+
+
+ar1645v2FscAddSelfCertificate OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.addSelfCertificate
+       Info: Add a self certificate"
+   ::= {ar1645v2Fsc 29}
+
+
+ar1645v2FscSlfPrm OBJECT IDENTIFIER ::= {ar1645v2Fsc 30}
+
+ar1645v2FscSlfPrmSSC OBJECT IDENTIFIER ::= {ar1645v2FscSlfPrm 1}
+
+ar1645v2FscSlfPrmEntry OBJECT IDENTIFIER ::= {ar1645v2FscSlfPrmSSC 1}
+
+ar1645v2FscSlfPrmFileName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.loadSelfCertData.fileName"
+   ::= {ar1645v2FscSlfPrmEntry 16777216}
+
+ar1645v2FscSlfPrmPrivKey OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.loadSelfCertData.privateKeyName"
+   ::= {ar1645v2FscSlfPrmEntry 33554432}
+
+
+ar1645v2FscGenCertReq OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.genCertReq
+       Info: Generate a certificate request"
+   ::= {ar1645v2Fsc 27}
+
+
+ar1645v2FscReqPrm OBJECT IDENTIFIER ::= {ar1645v2Fsc 28}
+
+ar1645v2FscReqPrmSSC OBJECT IDENTIFIER ::= {ar1645v2FscReqPrm 1}
+
+ar1645v2FscReqPrmEntry OBJECT IDENTIFIER ::= {ar1645v2FscReqPrmSSC 1}
+
+ar1645v2FscReqPrmFileName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertReqData.fileName"
+   ::= {ar1645v2FscReqPrmEntry 16777216}
+
+ar1645v2FscReqPrmType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               rsammd5 (1),
+               rsamsha1 (2),
+               dssmsha1 (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertReqData.type
+
+       Possibilities:
+               rsa-md5   (1)
+               rsa-sha1   (2)
+               dss-sha1   (3)"
+   ::= {ar1645v2FscReqPrmEntry 83886080}
+
+ar1645v2FscReqPrmSubjectName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertReqData.subject.name"
+   ::= {ar1645v2FscReqPrmEntry 151060480}
+
+ar1645v2FscReqPrmSubjectOrg OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertReqData.subject.org"
+   ::= {ar1645v2FscReqPrmEntry 151126016}
+
+ar1645v2FscReqPrmSubjectDept OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertReqData.subject.dept"
+   ::= {ar1645v2FscReqPrmEntry 151191552}
+
+ar1645v2FscReqPrmSubjectCity OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertReqData.subject.city"
+   ::= {ar1645v2FscReqPrmEntry 151257088}
+
+ar1645v2FscReqPrmSubjectState OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertReqData.subject.state"
+   ::= {ar1645v2FscReqPrmEntry 151322624}
+
+ar1645v2FscReqPrmSubjectCountry OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertReqData.subject.country"
+   ::= {ar1645v2FscReqPrmEntry 151388160}
+
+ar1645v2FscReqPrmPrivKey OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertReqData.privateKeyName"
+   ::= {ar1645v2FscReqPrmEntry 33554432}
+
+ar1645v2FscReqPrmIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertReqData.ipAddress"
+   ::= {ar1645v2FscReqPrmEntry 67108864}
+
+ar1645v2FscReqPrmHostName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertReqData.hostName"
+   ::= {ar1645v2FscReqPrmEntry 117440512}
+
+ar1645v2FscReqPrmUser OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertReqData.user"
+   ::= {ar1645v2FscReqPrmEntry 134217728}
+
+ar1645v2FscReqPrmKeyLength OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s512 (1),
+               s1024 (2),
+               s2048 (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.selfCertReqData.keyLength
+
+       Possibilities:
+               512   (1)
+               1024   (2)
+               2048   (3)"
+   ::= {ar1645v2FscReqPrmEntry 100663296}
+
+
+ar1645v2FscAddCertificate OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.addCertificate
+       Info: Add a certificate"
+   ::= {ar1645v2Fsc 25}
+
+
+ar1645v2FscTrustedCertFileName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.actions.trustedCertFileName
+       Info: Certificate File Name"
+   ::= {ar1645v2Fsc 26}
+
+
+
+er1645v2Fsc OBJECT IDENTIFIER ::= {r1645v2Fsc 11}
+
+
+er1645v2FscCapture OBJECT IDENTIFIER ::= {er1645v2Fsc 50}
+
+er1645v2FscCaptureSSC OBJECT IDENTIFIER ::= {er1645v2FscCapture 1}
+
+er1645v2FscCaptureEntry OBJECT IDENTIFIER ::= {er1645v2FscCaptureSSC 1}
+
+er1645v2FscCaptureWriteIntfCapture OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.writeIntfCapture
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2FscCaptureEntry 67108864}
+
+er1645v2FscCaptureCaptureMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.captureMask
+
+       Bit meanings:
+               bit 0 = tag0,
+               bit 1 = tag1,
+               bit 2 = tag2,
+               bit 3 = tag3,
+               bit 4 = tag4,
+               bit 5 = tag5,
+               bit 6 = tag6,
+               bit 7 = tag7"
+   ::= {er1645v2FscCaptureEntry 16777216}
+
+er1645v2FscCaptureWriteMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.writeMask
+
+       Bit meanings:
+               bit 0 = tag0,
+               bit 1 = tag1,
+               bit 2 = tag2,
+               bit 3 = tag3,
+               bit 4 = tag4,
+               bit 5 = tag5,
+               bit 6 = tag6,
+               bit 7 = tag7"
+   ::= {er1645v2FscCaptureEntry 33554432}
+
+er1645v2FscCaptureMaxSize OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "bytes"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.maxSize
+
+       unit name = bytes"
+   ::= {er1645v2FscCaptureEntry 50331648}
+
+er1645v2FscCaptureMaxFrameSize OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noLimit (65535)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.maxFrameSize
+
+       Possibilities:
+               noLimit   (65535)"
+   ::= {er1645v2FscCaptureEntry 83886080}
+
+er1645v2FscCaptureBigPackets OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               capture (1),
+               notCaptured (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.bigPackets
+
+       Possibilities:
+               capture   (1)
+               notCaptured   (2)"
+   ::= {er1645v2FscCaptureEntry 134217728}
+
+er1645v2FscCaptureStartOnImmediate OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.startOn.immediate"
+   ::= {er1645v2FscCaptureEntry 100728832}
+
+er1645v2FscCaptureStartOnMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.startOn.mask
+
+       Bit meanings:
+               bit 0 = tag0,
+               bit 1 = tag1,
+               bit 2 = tag2,
+               bit 3 = tag3,
+               bit 4 = tag4,
+               bit 5 = tag5,
+               bit 6 = tag6,
+               bit 7 = tag7"
+   ::= {er1645v2FscCaptureEntry 100859904}
+
+er1645v2FscCaptureStopOnCaptureFull OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.stopOn.captureFull"
+   ::= {er1645v2FscCaptureEntry 117506048}
+
+er1645v2FscCaptureStopOnNever OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.stopOn.never"
+   ::= {er1645v2FscCaptureEntry 117571584}
+
+er1645v2FscCaptureStopOnMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.stopOn.mask
+
+       Bit meanings:
+               bit 0 = tag0,
+               bit 1 = tag1,
+               bit 2 = tag2,
+               bit 3 = tag3,
+               bit 4 = tag4,
+               bit 5 = tag5,
+               bit 6 = tag6,
+               bit 7 = tag7"
+   ::= {er1645v2FscCaptureEntry 117637120}
+
+er1645v2FscCaptureFilterTcpNoFilter OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.filter.tcp.noFilter"
+   ::= {er1645v2FscCaptureEntry 151060736}
+
+er1645v2FscCaptureFilterTcpControlSyn OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.filter.tcp.control.syn
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2FscCaptureEntry 151060993}
+
+er1645v2FscCaptureFilterTcpControlFin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.filter.tcp.control.fin
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2FscCaptureEntry 151060994}
+
+er1645v2FscCaptureFilterTcpControlReset OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.filter.tcp.control.reset
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2FscCaptureEntry 151060995}
+
+er1645v2FscCaptureFilterTcpControlMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: fileSystem.editConf.capture.filter.tcp.control.mask
+
+       Bit meanings:
+               bit 0 = tag0,
+               bit 1 = tag1,
+               bit 2 = tag2,
+               bit 3 = tag3,
+               bit 4 = tag4,
+               bit 5 = tag5,
+               bit 6 = tag6,
+               bit 7 = tag7"
+   ::= {er1645v2FscCaptureEntry 151060996}
+
+
+
+END

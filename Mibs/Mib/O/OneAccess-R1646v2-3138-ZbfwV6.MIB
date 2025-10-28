@@ -1,0 +1,4912 @@
+OneAccess-R1646v2-3138-ZbfwV6 DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2ZbfwV6 OBJECT IDENTIFIER ::= {r1646Rootv2 3138}
+
+r1646v2ZbfwV6MOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2ZbfwV6MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2ZbfwV6 1}
+
+r1646v2ZbfwV6MOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2ZbfwV6MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2ZbfwV6MOPropGlobalIx }
+   ::= {r1646v2ZbfwV6MOProp 1}
+
+R1646v2ZbfwV6MOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2ZbfwV6MOPropPath
+         ContainmentPath,
+      r1646v2ZbfwV6MOPropRev
+         ObjectRevision,
+      r1646v2ZbfwV6MOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2ZbfwV6MOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2ZbfwV6MOPropEntry 3}
+
+r1646v2ZbfwV6MOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2ZbfwV6MOPropEntry 4}
+
+r1646v2ZbfwV6MOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2ZbfwV6MOPropEntry 10}
+
+
+
+er1646v2ZbfwV6 OBJECT IDENTIFIER ::= {r1646v2ZbfwV6 11}
+
+
+er1646v2ZbfwV6Inspection OBJECT IDENTIFIER ::= {er1646v2ZbfwV6 6}
+
+er1646v2ZbfwV6InspectionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbfwV6InspectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "activate or deactivate inspection"
+   ::= {er1646v2ZbfwV6Inspection 1}
+
+er1646v2ZbfwV6InspectionEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbfwV6InspectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbfwV6InspectionGlobalIx }
+   ::= {er1646v2ZbfwV6InspectionTable 1}
+
+Er1646v2ZbfwV6InspectionEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbfwV6InspectionGlobalIx
+         GlobalIndex,
+      er1646v2ZbfwV6InspectionValue
+         INTEGER
+      }
+
+er1646v2ZbfwV6InspectionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbfwV6InspectionEntry 10}
+
+er1646v2ZbfwV6InspectionValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.inspection
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ZbfwV6InspectionEntry 2147483648}
+
+
+er1646v2ZbfwV6MaxConnections OBJECT IDENTIFIER ::= {er1646v2ZbfwV6 7}
+
+er1646v2ZbfwV6MaxConnectionsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbfwV6MaxConnectionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "maximum nr of connections"
+   ::= {er1646v2ZbfwV6MaxConnections 1}
+
+er1646v2ZbfwV6MaxConnectionsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbfwV6MaxConnectionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbfwV6MaxConnectionsGlobalIx }
+   ::= {er1646v2ZbfwV6MaxConnectionsTable 1}
+
+Er1646v2ZbfwV6MaxConnectionsEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbfwV6MaxConnectionsGlobalIx
+         GlobalIndex,
+      er1646v2ZbfwV6MaxConnectionsValue
+         Counter32
+      }
+
+er1646v2ZbfwV6MaxConnectionsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbfwV6MaxConnectionsEntry 10}
+
+er1646v2ZbfwV6MaxConnectionsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.maxConnections
+
+       32 bit unsigned wrappable counter."
+   ::= {er1646v2ZbfwV6MaxConnectionsEntry 2147483648}
+
+
+er1646v2ZbfwV6FlowStatistics OBJECT IDENTIFIER ::= {er1646v2ZbfwV6 9}
+
+er1646v2ZbfwV6FlowStatisticsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbfwV6FlowStatisticsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "immediate or delayed flow statistics processing"
+   ::= {er1646v2ZbfwV6FlowStatistics 1}
+
+er1646v2ZbfwV6FlowStatisticsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbfwV6FlowStatisticsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbfwV6FlowStatisticsGlobalIx }
+   ::= {er1646v2ZbfwV6FlowStatisticsTable 1}
+
+Er1646v2ZbfwV6FlowStatisticsEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbfwV6FlowStatisticsGlobalIx
+         GlobalIndex,
+      er1646v2ZbfwV6FlowStatisticsValue
+         INTEGER
+      }
+
+er1646v2ZbfwV6FlowStatisticsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbfwV6FlowStatisticsEntry 10}
+
+er1646v2ZbfwV6FlowStatisticsValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               immediate (0),
+               delayed (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.flowStatistics
+
+       Possibilities:
+               immediate   (0)
+               delayed   (1)"
+   ::= {er1646v2ZbfwV6FlowStatisticsEntry 2147483648}
+
+
+er1646v2ZbfwV6Zc OBJECT IDENTIFIER ::= {er1646v2ZbfwV6 1}
+
+er1646v2ZbfwV6ZcSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbfwV6ZcEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "zoneTable"
+   ::= {er1646v2ZbfwV6Zc 1}
+
+er1646v2ZbfwV6ZcEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbfwV6ZcEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbfwV6ZcGlobalIx,
+                er1646v2ZbfwV6ZcTableIx }
+   ::= {er1646v2ZbfwV6ZcSSCTable 1}
+
+Er1646v2ZbfwV6ZcEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbfwV6ZcActions
+         VariableLengthTableActions,
+      er1646v2ZbfwV6ZcGlobalIx
+         GlobalIndex,
+      er1646v2ZbfwV6ZcTableIx
+         TableIndex,
+      er1646v2ZbfwV6ZcName
+         DisplayString
+      }
+
+er1646v2ZbfwV6ZcActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2ZbfwV6ZcEntry 2}
+
+er1646v2ZbfwV6ZcGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbfwV6ZcEntry 10}
+
+er1646v2ZbfwV6ZcTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2ZbfwV6ZcEntry 11}
+
+er1646v2ZbfwV6ZcName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.zones.name"
+   ::= {er1646v2ZbfwV6ZcEntry 16777216}
+
+
+er1646v2ZbfwV6Zpc OBJECT IDENTIFIER ::= {er1646v2ZbfwV6 2}
+
+er1646v2ZbfwV6ZpcSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbfwV6ZpcEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "zonepairTable"
+   ::= {er1646v2ZbfwV6Zpc 1}
+
+er1646v2ZbfwV6ZpcEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbfwV6ZpcEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbfwV6ZpcGlobalIx,
+                er1646v2ZbfwV6ZpcTableIx }
+   ::= {er1646v2ZbfwV6ZpcSSCTable 1}
+
+Er1646v2ZbfwV6ZpcEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbfwV6ZpcActions
+         VariableLengthTableActions,
+      er1646v2ZbfwV6ZpcGlobalIx
+         GlobalIndex,
+      er1646v2ZbfwV6ZpcTableIx
+         TableIndex,
+      er1646v2ZbfwV6ZpcName
+         DisplayString,
+      er1646v2ZbfwV6ZpcSrcZone
+         DisplayString,
+      er1646v2ZbfwV6ZpcDstZone
+         DisplayString,
+      er1646v2ZbfwV6ZpcPolicy
+         DisplayString
+      }
+
+er1646v2ZbfwV6ZpcActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2ZbfwV6ZpcEntry 2}
+
+er1646v2ZbfwV6ZpcGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbfwV6ZpcEntry 10}
+
+er1646v2ZbfwV6ZpcTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2ZbfwV6ZpcEntry 11}
+
+er1646v2ZbfwV6ZpcName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.zonePairs.name"
+   ::= {er1646v2ZbfwV6ZpcEntry 16777216}
+
+er1646v2ZbfwV6ZpcSrcZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.zonePairs.srcZone"
+   ::= {er1646v2ZbfwV6ZpcEntry 33554432}
+
+er1646v2ZbfwV6ZpcDstZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.zonePairs.dstZone"
+   ::= {er1646v2ZbfwV6ZpcEntry 50331648}
+
+er1646v2ZbfwV6ZpcPolicy OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.zonePairs.policy"
+   ::= {er1646v2ZbfwV6ZpcEntry 83886080}
+
+
+er1646v2ZbfwV6Ac OBJECT IDENTIFIER ::= {er1646v2ZbfwV6 3}
+
+er1646v2ZbfwV6AcSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbfwV6AcEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "actionTable"
+   ::= {er1646v2ZbfwV6Ac 1}
+
+er1646v2ZbfwV6AcEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbfwV6AcEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbfwV6AcGlobalIx,
+                er1646v2ZbfwV6AcTableIx }
+   ::= {er1646v2ZbfwV6AcSSCTable 1}
+
+Er1646v2ZbfwV6AcEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbfwV6AcActions
+         VariableLengthTableActions,
+      er1646v2ZbfwV6AcGlobalIx
+         GlobalIndex,
+      er1646v2ZbfwV6AcTableIx
+         TableIndex,
+      er1646v2ZbfwV6AcName
+         DisplayString,
+      er1646v2ZbfwV6AcAction
+         INTEGER,
+      er1646v2ZbfwV6AcQosTos
+         INTEGER
+      }
+
+er1646v2ZbfwV6AcActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2ZbfwV6AcEntry 2}
+
+er1646v2ZbfwV6AcGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbfwV6AcEntry 10}
+
+er1646v2ZbfwV6AcTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2ZbfwV6AcEntry 11}
+
+er1646v2ZbfwV6AcName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.actions.name"
+   ::= {er1646v2ZbfwV6AcEntry 16777216}
+
+er1646v2ZbfwV6AcAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               pass (0),
+               drop (1),
+               inspect (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.actions.action
+
+       Possibilities:
+               pass   (0)
+               drop   (1)
+               inspect   (2)"
+   ::= {er1646v2ZbfwV6AcEntry 33554432}
+
+er1646v2ZbfwV6AcQosTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (65535)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.actions.qos.tos
+
+       Possibilities:
+               unchanged   (65535)"
+   ::= {er1646v2ZbfwV6AcEntry 100728832}
+
+
+er1646v2ZbfwV6Pmc OBJECT IDENTIFIER ::= {er1646v2ZbfwV6 4}
+
+er1646v2ZbfwV6PmcSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbfwV6PmcEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "parameters"
+   ::= {er1646v2ZbfwV6Pmc 1}
+
+er1646v2ZbfwV6PmcEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbfwV6PmcEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbfwV6PmcGlobalIx,
+                er1646v2ZbfwV6PmcTableIx }
+   ::= {er1646v2ZbfwV6PmcSSCTable 1}
+
+Er1646v2ZbfwV6PmcEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbfwV6PmcActions
+         VariableLengthTableActions,
+      er1646v2ZbfwV6PmcGlobalIx
+         GlobalIndex,
+      er1646v2ZbfwV6PmcTableIx
+         TableIndex,
+      er1646v2ZbfwV6PmcName
+         DisplayString,
+      er1646v2ZbfwV6PmcMaxConnsPerRule
+         Integer32,
+      er1646v2ZbfwV6PmcTimersTimeOut
+         TimeTicks,
+      er1646v2ZbfwV6PmcTcpWatchTimeOut
+         TimeTicks,
+      er1646v2ZbfwV6PmcTcpFinRstTimeOut
+         TimeTicks,
+      er1646v2ZbfwV6PmcTcpConnectionTimeOut
+         TimeTicks,
+      er1646v2ZbfwV6PmcTcpMssAdjustFwd
+         INTEGER,
+      er1646v2ZbfwV6PmcTcpMssAdjustRev
+         INTEGER,
+      er1646v2ZbfwV6PmcUdpWatchTimeOut
+         TimeTicks,
+      er1646v2ZbfwV6PmcUdpTimeOut
+         TimeTicks,
+      er1646v2ZbfwV6PmcIcmpTimeOut
+         TimeTicks,
+      er1646v2ZbfwV6PmcIcmpErrorMessages
+         Integer32,
+      er1646v2ZbfwV6PmcDnsTimeOut
+         TimeTicks,
+      er1646v2ZbfwV6PmcStealthOnDeny
+         INTEGER,
+      er1646v2ZbfwV6PmcStealthOnDrop
+         INTEGER,
+      er1646v2ZbfwV6PmcStealthOnTcpError
+         INTEGER
+      }
+
+er1646v2ZbfwV6PmcActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2ZbfwV6PmcEntry 2}
+
+er1646v2ZbfwV6PmcGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbfwV6PmcEntry 10}
+
+er1646v2ZbfwV6PmcTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2ZbfwV6PmcEntry 11}
+
+er1646v2ZbfwV6PmcName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.name"
+   ::= {er1646v2ZbfwV6PmcEntry 16777216}
+
+er1646v2ZbfwV6PmcMaxConnsPerRule OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.maxConnsPerRule"
+   ::= {er1646v2ZbfwV6PmcEntry 33554432}
+
+er1646v2ZbfwV6PmcTimersTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.timers.timeOut
+
+       Time in centi-second."
+   ::= {er1646v2ZbfwV6PmcEntry 50397184}
+
+er1646v2ZbfwV6PmcTcpWatchTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.tcp.watchTimeOut
+
+       Time in centi-second."
+   ::= {er1646v2ZbfwV6PmcEntry 67174400}
+
+er1646v2ZbfwV6PmcTcpFinRstTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.tcp.finRstTimeOut
+
+       Time in centi-second."
+   ::= {er1646v2ZbfwV6PmcEntry 67239936}
+
+er1646v2ZbfwV6PmcTcpConnectionTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.tcp.connectionTimeOut
+
+       Time in centi-second."
+   ::= {er1646v2ZbfwV6PmcEntry 67305472}
+
+er1646v2ZbfwV6PmcTcpMssAdjustFwd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.tcp.mssAdjustFwd
+
+       Possibilities:
+               disabled   (0)"
+   ::= {er1646v2ZbfwV6PmcEntry 67371008}
+
+er1646v2ZbfwV6PmcTcpMssAdjustRev OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.tcp.mssAdjustRev
+
+       Possibilities:
+               disabled   (0)"
+   ::= {er1646v2ZbfwV6PmcEntry 67436544}
+
+er1646v2ZbfwV6PmcUdpWatchTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.udp.watchTimeOut
+
+       Time in centi-second."
+   ::= {er1646v2ZbfwV6PmcEntry 83951616}
+
+er1646v2ZbfwV6PmcUdpTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.udp.timeOut
+
+       Time in centi-second."
+   ::= {er1646v2ZbfwV6PmcEntry 84017152}
+
+er1646v2ZbfwV6PmcIcmpTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.icmp.timeOut
+
+       Time in centi-second."
+   ::= {er1646v2ZbfwV6PmcEntry 100728832}
+
+er1646v2ZbfwV6PmcIcmpErrorMessages OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.icmp.errorMessages
+
+       Bit meanings:
+               bit 0 = netUnreachable,
+               bit 1 = hostUnreachable,
+               bit 2 = protocolUnreachable,
+               bit 3 = portUnreachable,
+               bit 4 = fragNeeded,
+               bit 5 = srcRouteFail,
+               bit 6 = adminProhibited,
+               bit 7 = redirect,
+               bit 8 = ttlExceeded,
+               bit 9 = paramProblem"
+   ::= {er1646v2ZbfwV6PmcEntry 100794368}
+
+er1646v2ZbfwV6PmcDnsTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.dns.timeOut
+
+       Time in centi-second."
+   ::= {er1646v2ZbfwV6PmcEntry 117506048}
+
+er1646v2ZbfwV6PmcStealthOnDeny OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.stealth.onDeny
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ZbfwV6PmcEntry 134283264}
+
+er1646v2ZbfwV6PmcStealthOnDrop OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.stealth.onDrop
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ZbfwV6PmcEntry 134348800}
+
+er1646v2ZbfwV6PmcStealthOnTcpError OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.parameters.stealth.onTcpError
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ZbfwV6PmcEntry 134414336}
+
+
+er1646v2ZbfwV6Logging OBJECT IDENTIFIER ::= {er1646v2ZbfwV6 5}
+
+er1646v2ZbfwV6LoggingSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbfwV6LoggingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "firewall Logging"
+   ::= {er1646v2ZbfwV6Logging 1}
+
+er1646v2ZbfwV6LoggingEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbfwV6LoggingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbfwV6LoggingGlobalIx }
+   ::= {er1646v2ZbfwV6LoggingSSCTable 1}
+
+Er1646v2ZbfwV6LoggingEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbfwV6LoggingGlobalIx
+         GlobalIndex,
+      er1646v2ZbfwV6LoggingModulesConfigurationConsole
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesConfigurationBuffered
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesConfigurationSyslog
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesConfigurationElements
+         Integer32,
+      er1646v2ZbfwV6LoggingModulesConfigurationFacility
+         Integer32,
+      er1646v2ZbfwV6LoggingModulesAttackConsole
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesAttackBuffered
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesAttackSyslog
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesAttackElements
+         Integer32,
+      er1646v2ZbfwV6LoggingModulesAttackFacility
+         Integer32,
+      er1646v2ZbfwV6LoggingModulesTrafficConsole
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesTrafficBuffered
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesTrafficSyslog
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesTrafficElements
+         Integer32,
+      er1646v2ZbfwV6LoggingModulesTrafficFacility
+         Integer32,
+      er1646v2ZbfwV6LoggingModulesAlgConsole
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesAlgBuffered
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesAlgSyslog
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesAlgElements
+         Integer32,
+      er1646v2ZbfwV6LoggingModulesAlgFacility
+         Integer32,
+      er1646v2ZbfwV6LoggingModulesGeneralConsole
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesGeneralBuffered
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesGeneralSyslog
+         INTEGER,
+      er1646v2ZbfwV6LoggingModulesGeneralElements
+         Integer32,
+      er1646v2ZbfwV6LoggingModulesGeneralFacility
+         Integer32,
+      er1646v2ZbfwV6LoggingConsoleMode
+         INTEGER,
+      er1646v2ZbfwV6LoggingConsoleRateLimitNrMessages
+         Counter32,
+      er1646v2ZbfwV6LoggingConsoleRateLimitInterval
+         Integer32,
+      er1646v2ZbfwV6LoggingBufferedMode
+         INTEGER,
+      er1646v2ZbfwV6LoggingBufferedMaxMessages
+         Integer32,
+      er1646v2ZbfwV6LoggingBufferedRateLimitNrMessages
+         Counter32,
+      er1646v2ZbfwV6LoggingBufferedRateLimitInterval
+         Integer32,
+      er1646v2ZbfwV6LoggingRateLimitEmergencyNrMessages
+         Counter32,
+      er1646v2ZbfwV6LoggingRateLimitEmergencyInterval
+         Integer32,
+      er1646v2ZbfwV6LoggingRateLimitAlertNrMessages
+         Counter32,
+      er1646v2ZbfwV6LoggingRateLimitAlertInterval
+         Integer32,
+      er1646v2ZbfwV6LoggingRateLimitCriticalNrMessages
+         Counter32,
+      er1646v2ZbfwV6LoggingRateLimitCriticalInterval
+         Integer32,
+      er1646v2ZbfwV6LoggingRateLimitErrorNrMessages
+         Counter32,
+      er1646v2ZbfwV6LoggingRateLimitErrorInterval
+         Integer32,
+      er1646v2ZbfwV6LoggingRateLimitWarningNrMessages
+         Counter32,
+      er1646v2ZbfwV6LoggingRateLimitWarningInterval
+         Integer32,
+      er1646v2ZbfwV6LoggingRateLimitNoticeNrMessages
+         Counter32,
+      er1646v2ZbfwV6LoggingRateLimitNoticeInterval
+         Integer32,
+      er1646v2ZbfwV6LoggingRateLimitInformationalNrMessages
+         Counter32,
+      er1646v2ZbfwV6LoggingRateLimitInformationalInterval
+         Integer32,
+      er1646v2ZbfwV6LoggingRateLimitDebugNrMessages
+         Counter32,
+      er1646v2ZbfwV6LoggingRateLimitDebugInterval
+         Integer32
+      }
+
+er1646v2ZbfwV6LoggingGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbfwV6LoggingEntry 10}
+
+er1646v2ZbfwV6LoggingModulesConfigurationConsole OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.configuration.console
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 16843008}
+
+er1646v2ZbfwV6LoggingModulesConfigurationBuffered OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.configuration.buffered
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 16843264}
+
+er1646v2ZbfwV6LoggingModulesConfigurationSyslog OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.configuration.syslog
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 16843520}
+
+er1646v2ZbfwV6LoggingModulesConfigurationElements OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.configuration.elements
+
+       Bit meanings:
+               bit 0 = reconfiguration,
+               bit 1 = configError"
+   ::= {er1646v2ZbfwV6LoggingEntry 16843776}
+
+er1646v2ZbfwV6LoggingModulesConfigurationFacility OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.configuration.facility"
+   ::= {er1646v2ZbfwV6LoggingEntry 16844032}
+
+er1646v2ZbfwV6LoggingModulesAttackConsole OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.attack.console
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 16908544}
+
+er1646v2ZbfwV6LoggingModulesAttackBuffered OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.attack.buffered
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 16908800}
+
+er1646v2ZbfwV6LoggingModulesAttackSyslog OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.attack.syslog
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 16909056}
+
+er1646v2ZbfwV6LoggingModulesAttackElements OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.attack.elements
+
+       Bit meanings:
+               bit 0 = synFlooding,
+               bit 1 = pingOfDeath,
+               bit 2 = ipSpoofing,
+               bit 3 = winNuke,
+               bit 4 = ipOption,
+               bit 5 = tcpProbe"
+   ::= {er1646v2ZbfwV6LoggingEntry 16909312}
+
+er1646v2ZbfwV6LoggingModulesAttackFacility OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.attack.facility"
+   ::= {er1646v2ZbfwV6LoggingEntry 16909568}
+
+er1646v2ZbfwV6LoggingModulesTrafficConsole OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.traffic.console
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 16974080}
+
+er1646v2ZbfwV6LoggingModulesTrafficBuffered OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.traffic.buffered
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 16974336}
+
+er1646v2ZbfwV6LoggingModulesTrafficSyslog OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.traffic.syslog
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 16974592}
+
+er1646v2ZbfwV6LoggingModulesTrafficElements OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.traffic.elements
+
+       Bit meanings:
+               bit 0 = connection,
+               bit 1 = dropPolicy,
+               bit 2 = implicitDeny,
+               bit 3 = halfOpenConnection"
+   ::= {er1646v2ZbfwV6LoggingEntry 16974848}
+
+er1646v2ZbfwV6LoggingModulesTrafficFacility OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.traffic.facility"
+   ::= {er1646v2ZbfwV6LoggingEntry 16975104}
+
+er1646v2ZbfwV6LoggingModulesAlgConsole OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.alg.console
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 17039616}
+
+er1646v2ZbfwV6LoggingModulesAlgBuffered OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.alg.buffered
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 17039872}
+
+er1646v2ZbfwV6LoggingModulesAlgSyslog OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.alg.syslog
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 17040128}
+
+er1646v2ZbfwV6LoggingModulesAlgElements OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.alg.elements
+
+       Bit meanings:
+               bit 0 = ftp,
+               bit 1 = tftp,
+               bit 2 = sip,
+               bit 3 = h323"
+   ::= {er1646v2ZbfwV6LoggingEntry 17040384}
+
+er1646v2ZbfwV6LoggingModulesAlgFacility OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.alg.facility"
+   ::= {er1646v2ZbfwV6LoggingEntry 17040640}
+
+er1646v2ZbfwV6LoggingModulesGeneralConsole OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.general.console
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 17105152}
+
+er1646v2ZbfwV6LoggingModulesGeneralBuffered OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.general.buffered
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 17105408}
+
+er1646v2ZbfwV6LoggingModulesGeneralSyslog OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.general.syslog
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {er1646v2ZbfwV6LoggingEntry 17105664}
+
+er1646v2ZbfwV6LoggingModulesGeneralElements OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.general.elements
+
+       Bit meanings:
+               bit 0 = systemErrors,
+               bit 1 = memory"
+   ::= {er1646v2ZbfwV6LoggingEntry 17105920}
+
+er1646v2ZbfwV6LoggingModulesGeneralFacility OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.modules.general.facility"
+   ::= {er1646v2ZbfwV6LoggingEntry 17106176}
+
+er1646v2ZbfwV6LoggingConsoleMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.console.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ZbfwV6LoggingEntry 33619968}
+
+er1646v2ZbfwV6LoggingConsoleRateLimitNrMessages OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.console.rateLimit.nrMessages
+
+       32 bit unsigned wrappable counter."
+   ::= {er1646v2ZbfwV6LoggingEntry 33685760}
+
+er1646v2ZbfwV6LoggingConsoleRateLimitInterval OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.console.rateLimit.interval
+
+       unit name = sec"
+   ::= {er1646v2ZbfwV6LoggingEntry 33686016}
+
+er1646v2ZbfwV6LoggingBufferedMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.buffered.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ZbfwV6LoggingEntry 50397184}
+
+er1646v2ZbfwV6LoggingBufferedMaxMessages OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.buffered.maxMessages"
+   ::= {er1646v2ZbfwV6LoggingEntry 50462720}
+
+er1646v2ZbfwV6LoggingBufferedRateLimitNrMessages OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.buffered.rateLimit.nrMessages
+
+       32 bit unsigned wrappable counter."
+   ::= {er1646v2ZbfwV6LoggingEntry 50528512}
+
+er1646v2ZbfwV6LoggingBufferedRateLimitInterval OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.buffered.rateLimit.interval
+
+       unit name = sec"
+   ::= {er1646v2ZbfwV6LoggingEntry 50528768}
+
+er1646v2ZbfwV6LoggingRateLimitEmergencyNrMessages OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.emergency.nrMessages
+
+       32 bit unsigned wrappable counter."
+   ::= {er1646v2ZbfwV6LoggingEntry 83951872}
+
+er1646v2ZbfwV6LoggingRateLimitEmergencyInterval OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.emergency.interval
+
+       unit name = sec"
+   ::= {er1646v2ZbfwV6LoggingEntry 83952128}
+
+er1646v2ZbfwV6LoggingRateLimitAlertNrMessages OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.alert.nrMessages
+
+       32 bit unsigned wrappable counter."
+   ::= {er1646v2ZbfwV6LoggingEntry 84017408}
+
+er1646v2ZbfwV6LoggingRateLimitAlertInterval OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.alert.interval
+
+       unit name = sec"
+   ::= {er1646v2ZbfwV6LoggingEntry 84017664}
+
+er1646v2ZbfwV6LoggingRateLimitCriticalNrMessages OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.critical.nrMessages
+
+       32 bit unsigned wrappable counter."
+   ::= {er1646v2ZbfwV6LoggingEntry 84082944}
+
+er1646v2ZbfwV6LoggingRateLimitCriticalInterval OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.critical.interval
+
+       unit name = sec"
+   ::= {er1646v2ZbfwV6LoggingEntry 84083200}
+
+er1646v2ZbfwV6LoggingRateLimitErrorNrMessages OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.error.nrMessages
+
+       32 bit unsigned wrappable counter."
+   ::= {er1646v2ZbfwV6LoggingEntry 84148480}
+
+er1646v2ZbfwV6LoggingRateLimitErrorInterval OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.error.interval
+
+       unit name = sec"
+   ::= {er1646v2ZbfwV6LoggingEntry 84148736}
+
+er1646v2ZbfwV6LoggingRateLimitWarningNrMessages OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.warning.nrMessages
+
+       32 bit unsigned wrappable counter."
+   ::= {er1646v2ZbfwV6LoggingEntry 84214016}
+
+er1646v2ZbfwV6LoggingRateLimitWarningInterval OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.warning.interval
+
+       unit name = sec"
+   ::= {er1646v2ZbfwV6LoggingEntry 84214272}
+
+er1646v2ZbfwV6LoggingRateLimitNoticeNrMessages OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.notice.nrMessages
+
+       32 bit unsigned wrappable counter."
+   ::= {er1646v2ZbfwV6LoggingEntry 84279552}
+
+er1646v2ZbfwV6LoggingRateLimitNoticeInterval OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.notice.interval
+
+       unit name = sec"
+   ::= {er1646v2ZbfwV6LoggingEntry 84279808}
+
+er1646v2ZbfwV6LoggingRateLimitInformationalNrMessages OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.informational.nrMessages
+
+       32 bit unsigned wrappable counter."
+   ::= {er1646v2ZbfwV6LoggingEntry 84345088}
+
+er1646v2ZbfwV6LoggingRateLimitInformationalInterval OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.informational.interval
+
+       unit name = sec"
+   ::= {er1646v2ZbfwV6LoggingEntry 84345344}
+
+er1646v2ZbfwV6LoggingRateLimitDebugNrMessages OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.debug.nrMessages
+
+       32 bit unsigned wrappable counter."
+   ::= {er1646v2ZbfwV6LoggingEntry 84410624}
+
+er1646v2ZbfwV6LoggingRateLimitDebugInterval OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.logging.rateLimit.debug.interval
+
+       unit name = sec"
+   ::= {er1646v2ZbfwV6LoggingEntry 84410880}
+
+
+er1646v2ZbfwV6Attacks OBJECT IDENTIFIER ::= {er1646v2ZbfwV6 8}
+
+er1646v2ZbfwV6AttacksSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbfwV6AttacksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "global attack parameters"
+   ::= {er1646v2ZbfwV6Attacks 1}
+
+er1646v2ZbfwV6AttacksEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbfwV6AttacksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbfwV6AttacksGlobalIx }
+   ::= {er1646v2ZbfwV6AttacksSSCTable 1}
+
+Er1646v2ZbfwV6AttacksEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbfwV6AttacksGlobalIx
+         GlobalIndex,
+      er1646v2ZbfwV6AttacksTcpMaxIncompleteLow
+         Integer32,
+      er1646v2ZbfwV6AttacksTcpMaxIncompleteHigh
+         Integer32
+      }
+
+er1646v2ZbfwV6AttacksGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbfwV6AttacksEntry 10}
+
+er1646v2ZbfwV6AttacksTcpMaxIncompleteLow OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.attacks.tcp.maxIncompleteLow"
+   ::= {er1646v2ZbfwV6AttacksEntry 16842752}
+
+er1646v2ZbfwV6AttacksTcpMaxIncompleteHigh OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.editConf.attacks.tcp.maxIncompleteHigh"
+   ::= {er1646v2ZbfwV6AttacksEntry 16908288}
+
+
+
+sr1646v2ZbfwV6 OBJECT IDENTIFIER ::= {r1646v2ZbfwV6 14}
+
+
+sr1646v2ZbfwV6SnmpIndex OBJECT IDENTIFIER ::= {sr1646v2ZbfwV6 269}
+
+sr1646v2ZbfwV6SnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbfwV6SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2ZbfwV6SnmpIndex 1}
+
+sr1646v2ZbfwV6SnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbfwV6SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbfwV6SnmpIndexGlobalIx }
+   ::= {sr1646v2ZbfwV6SnmpIndexTable 1}
+
+Sr1646v2ZbfwV6SnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbfwV6SnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2ZbfwV6SnmpIndexValue
+         Integer32
+      }
+
+sr1646v2ZbfwV6SnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbfwV6SnmpIndexEntry 10}
+
+sr1646v2ZbfwV6SnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.snmpIndex"
+   ::= {sr1646v2ZbfwV6SnmpIndexEntry 2147483648}
+
+
+sr1646v2ZbfwV6Zones OBJECT IDENTIFIER ::= {sr1646v2ZbfwV6 21}
+
+sr1646v2ZbfwV6ZonesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbfwV6ZonesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "runtime zone table"
+   ::= {sr1646v2ZbfwV6Zones 1}
+
+sr1646v2ZbfwV6ZonesEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbfwV6ZonesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbfwV6ZonesGlobalIx,
+                sr1646v2ZbfwV6ZonesTableIx }
+   ::= {sr1646v2ZbfwV6ZonesSSCTable 1}
+
+Sr1646v2ZbfwV6ZonesEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbfwV6ZonesGlobalIx
+         GlobalIndex,
+      sr1646v2ZbfwV6ZonesTableIx
+         TableIndex,
+      sr1646v2ZbfwV6ZonesName
+         DisplayString
+      }
+
+sr1646v2ZbfwV6ZonesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbfwV6ZonesEntry 10}
+
+sr1646v2ZbfwV6ZonesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2ZbfwV6ZonesEntry 11}
+
+sr1646v2ZbfwV6ZonesName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.zones.name"
+   ::= {sr1646v2ZbfwV6ZonesEntry 16777216}
+
+
+sr1646v2ZbfwV6ZonePairs OBJECT IDENTIFIER ::= {sr1646v2ZbfwV6 22}
+
+sr1646v2ZbfwV6ZonePairsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbfwV6ZonePairsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "runtime zone pair status table"
+   ::= {sr1646v2ZbfwV6ZonePairs 1}
+
+sr1646v2ZbfwV6ZonePairsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbfwV6ZonePairsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbfwV6ZonePairsGlobalIx,
+                sr1646v2ZbfwV6ZonePairsTableIx }
+   ::= {sr1646v2ZbfwV6ZonePairsSSCTable 1}
+
+Sr1646v2ZbfwV6ZonePairsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbfwV6ZonePairsGlobalIx
+         GlobalIndex,
+      sr1646v2ZbfwV6ZonePairsTableIx
+         TableIndex,
+      sr1646v2ZbfwV6ZonePairsName
+         DisplayString,
+      sr1646v2ZbfwV6ZonePairsSrcZone
+         DisplayString,
+      sr1646v2ZbfwV6ZonePairsDstZone
+         DisplayString,
+      sr1646v2ZbfwV6ZonePairsPolicy
+         DisplayString,
+      sr1646v2ZbfwV6ZonePairsCountersProcessed
+         Counter32,
+      sr1646v2ZbfwV6ZonePairsCountersApplied
+         Counter32,
+      sr1646v2ZbfwV6ZonePairsCountersConnections
+         Counter32,
+      sr1646v2ZbfwV6ZonePairsCountersPackets
+         Counter32,
+      sr1646v2ZbfwV6ZonePairsCountersOctets
+         Counter32,
+      sr1646v2ZbfwV6ZonePairsCountersReversePackets
+         Counter32,
+      sr1646v2ZbfwV6ZonePairsCountersReverseOctets
+         Counter32
+      }
+
+sr1646v2ZbfwV6ZonePairsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbfwV6ZonePairsEntry 10}
+
+sr1646v2ZbfwV6ZonePairsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2ZbfwV6ZonePairsEntry 11}
+
+sr1646v2ZbfwV6ZonePairsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.zonePairs.name"
+   ::= {sr1646v2ZbfwV6ZonePairsEntry 16777216}
+
+sr1646v2ZbfwV6ZonePairsSrcZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.zonePairs.srcZone"
+   ::= {sr1646v2ZbfwV6ZonePairsEntry 33554432}
+
+sr1646v2ZbfwV6ZonePairsDstZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.zonePairs.dstZone"
+   ::= {sr1646v2ZbfwV6ZonePairsEntry 50331648}
+
+sr1646v2ZbfwV6ZonePairsPolicy OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.zonePairs.policy"
+   ::= {sr1646v2ZbfwV6ZonePairsEntry 83886080}
+
+sr1646v2ZbfwV6ZonePairsCountersProcessed OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.zonePairs.counters.processed
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6ZonePairsEntry 100728832}
+
+sr1646v2ZbfwV6ZonePairsCountersApplied OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.zonePairs.counters.applied
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6ZonePairsEntry 100794368}
+
+sr1646v2ZbfwV6ZonePairsCountersConnections OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.zonePairs.counters.connections
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6ZonePairsEntry 100859904}
+
+sr1646v2ZbfwV6ZonePairsCountersPackets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.zonePairs.counters.packets
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6ZonePairsEntry 100925440}
+
+sr1646v2ZbfwV6ZonePairsCountersOctets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.zonePairs.counters.octets
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6ZonePairsEntry 100990976}
+
+sr1646v2ZbfwV6ZonePairsCountersReversePackets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.zonePairs.counters.reversePackets
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6ZonePairsEntry 101056512}
+
+sr1646v2ZbfwV6ZonePairsCountersReverseOctets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.zonePairs.counters.reverseOctets
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6ZonePairsEntry 101122048}
+
+
+sr1646v2ZbfwV6Interfaces OBJECT IDENTIFIER ::= {sr1646v2ZbfwV6 25}
+
+sr1646v2ZbfwV6InterfacesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbfwV6InterfacesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "monitored interface status"
+   ::= {sr1646v2ZbfwV6Interfaces 1}
+
+sr1646v2ZbfwV6InterfacesEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbfwV6InterfacesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbfwV6InterfacesGlobalIx,
+                sr1646v2ZbfwV6InterfacesTableIx }
+   ::= {sr1646v2ZbfwV6InterfacesSSCTable 1}
+
+Sr1646v2ZbfwV6InterfacesEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbfwV6InterfacesGlobalIx
+         GlobalIndex,
+      sr1646v2ZbfwV6InterfacesTableIx
+         TableIndex,
+      sr1646v2ZbfwV6InterfacesName
+         DisplayString,
+      sr1646v2ZbfwV6InterfacesZone
+         DisplayString
+      }
+
+sr1646v2ZbfwV6InterfacesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbfwV6InterfacesEntry 10}
+
+sr1646v2ZbfwV6InterfacesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2ZbfwV6InterfacesEntry 11}
+
+sr1646v2ZbfwV6InterfacesName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.interfaces.name"
+   ::= {sr1646v2ZbfwV6InterfacesEntry 16777216}
+
+sr1646v2ZbfwV6InterfacesZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.interfaces.zone"
+   ::= {sr1646v2ZbfwV6InterfacesEntry 33554432}
+
+
+sr1646v2ZbfwV6Flows OBJECT IDENTIFIER ::= {sr1646v2ZbfwV6 23}
+
+sr1646v2ZbfwV6FlowsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbfwV6FlowsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "open flow status"
+   ::= {sr1646v2ZbfwV6Flows 1}
+
+sr1646v2ZbfwV6FlowsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbfwV6FlowsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbfwV6FlowsGlobalIx,
+                sr1646v2ZbfwV6FlowsTableIx }
+   ::= {sr1646v2ZbfwV6FlowsSSCTable 1}
+
+Sr1646v2ZbfwV6FlowsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbfwV6FlowsGlobalIx
+         GlobalIndex,
+      sr1646v2ZbfwV6FlowsTableIx
+         TableIndex,
+      sr1646v2ZbfwV6FlowsDir
+         INTEGER,
+      sr1646v2ZbfwV6FlowsConnId
+         Counter32,
+      sr1646v2ZbfwV6FlowsSrcIntf
+         DisplayString,
+      sr1646v2ZbfwV6FlowsSrcZone
+         DisplayString,
+      sr1646v2ZbfwV6FlowsDstIntf
+         DisplayString,
+      sr1646v2ZbfwV6FlowsDstZone
+         DisplayString,
+      sr1646v2ZbfwV6FlowsSrcAddress
+         Ipv6Address,
+      sr1646v2ZbfwV6FlowsDstAddress
+         Ipv6Address,
+      sr1646v2ZbfwV6FlowsProt
+         INTEGER,
+      sr1646v2ZbfwV6FlowsSrcPort
+         Integer32,
+      sr1646v2ZbfwV6FlowsDstPort
+         Integer32,
+      sr1646v2ZbfwV6FlowsAge
+         TimeTicks,
+      sr1646v2ZbfwV6FlowsTimeOut
+         TimeTicks,
+      sr1646v2ZbfwV6FlowsProtInfoTcpState
+         INTEGER,
+      sr1646v2ZbfwV6FlowsProtInfoTcpSeqNr
+         Counter32,
+      sr1646v2ZbfwV6FlowsProtInfoTcpAckedNr
+         Counter32,
+      sr1646v2ZbfwV6FlowsRulesZonePair
+         DisplayString,
+      sr1646v2ZbfwV6FlowsRulesPolicy
+         DisplayString,
+      sr1646v2ZbfwV6FlowsRulesPolicyRule
+         DisplayString,
+      sr1646v2ZbfwV6FlowsRulesFilter
+         DisplayString,
+      sr1646v2ZbfwV6FlowsRulesFilterRule
+         DisplayString,
+      sr1646v2ZbfwV6FlowsModeReverse
+         INTEGER,
+      sr1646v2ZbfwV6FlowsModeAlg
+         INTEGER
+      }
+
+sr1646v2ZbfwV6FlowsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbfwV6FlowsEntry 10}
+
+sr1646v2ZbfwV6FlowsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2ZbfwV6FlowsEntry 11}
+
+sr1646v2ZbfwV6FlowsDir OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               sg (0),
+               sl (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.dir
+
+       Possibilities:
+               >   (0)
+               <   (1)"
+   ::= {sr1646v2ZbfwV6FlowsEntry 838860800}
+
+sr1646v2ZbfwV6FlowsConnId OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.connId
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6FlowsEntry 285212672}
+
+sr1646v2ZbfwV6FlowsSrcIntf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.srcIntf"
+   ::= {sr1646v2ZbfwV6FlowsEntry 16777216}
+
+sr1646v2ZbfwV6FlowsSrcZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.srcZone"
+   ::= {sr1646v2ZbfwV6FlowsEntry 33554432}
+
+sr1646v2ZbfwV6FlowsDstIntf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.dstIntf"
+   ::= {sr1646v2ZbfwV6FlowsEntry 50331648}
+
+sr1646v2ZbfwV6FlowsDstZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.dstZone"
+   ::= {sr1646v2ZbfwV6FlowsEntry 67108864}
+
+sr1646v2ZbfwV6FlowsSrcAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.srcAddress
+
+       ipv6 address"
+   ::= {sr1646v2ZbfwV6FlowsEntry 83886080}
+
+sr1646v2ZbfwV6FlowsDstAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.dstAddress
+
+       ipv6 address"
+   ::= {sr1646v2ZbfwV6FlowsEntry 100663296}
+
+sr1646v2ZbfwV6FlowsProt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               ah (51),
+               egp (8),
+               esp (50),
+               gre (47),
+               icmp (1),
+               igp (9),
+               igmp (2),
+               igrp (88),
+               ipInIp (4),
+               ospf (89),
+               udp (17),
+               rsvp (46),
+               tcp (6),
+               icmpV6 (58),
+               l2tp (115)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.prot
+
+       Possibilities:
+               any   (0)
+               ah   (51)
+               egp   (8)
+               esp   (50)
+               gre   (47)
+               icmp   (1)
+               igp   (9)
+               igmp   (2)
+               igrp   (88)
+               ipInIp   (4)
+               ospf   (89)
+               udp   (17)
+               rsvp   (46)
+               tcp   (6)
+               icmpV6   (58)
+               l2tp   (115)"
+   ::= {sr1646v2ZbfwV6FlowsEntry 117440512}
+
+sr1646v2ZbfwV6FlowsSrcPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.srcPort"
+   ::= {sr1646v2ZbfwV6FlowsEntry 134217728}
+
+sr1646v2ZbfwV6FlowsDstPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.dstPort"
+   ::= {sr1646v2ZbfwV6FlowsEntry 150994944}
+
+sr1646v2ZbfwV6FlowsAge OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.age
+
+       Time in centi-second."
+   ::= {sr1646v2ZbfwV6FlowsEntry 167772160}
+
+sr1646v2ZbfwV6FlowsTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.timeOut
+
+       Time in centi-second."
+   ::= {sr1646v2ZbfwV6FlowsEntry 184549376}
+
+sr1646v2ZbfwV6FlowsProtInfoTcpState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               idle (0),
+               listen (1),
+               synSent (2),
+               synAcked (3),
+               established (4),
+               finSent (5),
+               finAcked (6),
+               closed (7),
+               reset (8)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.protInfo.tcp.state
+
+       Possibilities:
+               idle   (0)
+               listen   (1)
+               synSent   (2)
+               synAcked   (3)
+               established   (4)
+               finSent   (5)
+               finAcked   (6)
+               closed   (7)
+               reset   (8)"
+   ::= {sr1646v2ZbfwV6FlowsEntry 234946816}
+
+sr1646v2ZbfwV6FlowsProtInfoTcpSeqNr OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.protInfo.tcp.seqNr
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6FlowsEntry 234947072}
+
+sr1646v2ZbfwV6FlowsProtInfoTcpAckedNr OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.protInfo.tcp.ackedNr
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6FlowsEntry 234947328}
+
+sr1646v2ZbfwV6FlowsRulesZonePair OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.rules.zonePair"
+   ::= {sr1646v2ZbfwV6FlowsEntry 251723776}
+
+sr1646v2ZbfwV6FlowsRulesPolicy OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.rules.policy"
+   ::= {sr1646v2ZbfwV6FlowsEntry 251789312}
+
+sr1646v2ZbfwV6FlowsRulesPolicyRule OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.rules.policyRule"
+   ::= {sr1646v2ZbfwV6FlowsEntry 251854848}
+
+sr1646v2ZbfwV6FlowsRulesFilter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.rules.filter"
+   ::= {sr1646v2ZbfwV6FlowsEntry 251920384}
+
+sr1646v2ZbfwV6FlowsRulesFilterRule OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.rules.filterRule"
+   ::= {sr1646v2ZbfwV6FlowsEntry 251985920}
+
+sr1646v2ZbfwV6FlowsModeReverse OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               false (0),
+               true (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.mode.reverse
+
+       Possibilities:
+               false   (0)
+               true   (1)"
+   ::= {sr1646v2ZbfwV6FlowsEntry 268500992}
+
+sr1646v2ZbfwV6FlowsModeAlg OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               false (0),
+               true (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.flows.mode.alg
+
+       Possibilities:
+               false   (0)
+               true   (1)"
+   ::= {sr1646v2ZbfwV6FlowsEntry 268566528}
+
+
+sr1646v2ZbfwV6DropFlows OBJECT IDENTIFIER ::= {sr1646v2ZbfwV6 35}
+
+sr1646v2ZbfwV6DropFlowsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbfwV6DropFlowsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "open flow status"
+   ::= {sr1646v2ZbfwV6DropFlows 1}
+
+sr1646v2ZbfwV6DropFlowsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbfwV6DropFlowsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbfwV6DropFlowsGlobalIx,
+                sr1646v2ZbfwV6DropFlowsTableIx }
+   ::= {sr1646v2ZbfwV6DropFlowsSSCTable 1}
+
+Sr1646v2ZbfwV6DropFlowsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbfwV6DropFlowsGlobalIx
+         GlobalIndex,
+      sr1646v2ZbfwV6DropFlowsTableIx
+         TableIndex,
+      sr1646v2ZbfwV6DropFlowsDir
+         INTEGER,
+      sr1646v2ZbfwV6DropFlowsConnId
+         Counter32,
+      sr1646v2ZbfwV6DropFlowsSrcIntf
+         DisplayString,
+      sr1646v2ZbfwV6DropFlowsSrcZone
+         DisplayString,
+      sr1646v2ZbfwV6DropFlowsDstIntf
+         DisplayString,
+      sr1646v2ZbfwV6DropFlowsDstZone
+         DisplayString,
+      sr1646v2ZbfwV6DropFlowsSrcAddress
+         Ipv6Address,
+      sr1646v2ZbfwV6DropFlowsDstAddress
+         Ipv6Address,
+      sr1646v2ZbfwV6DropFlowsProt
+         INTEGER,
+      sr1646v2ZbfwV6DropFlowsSrcPort
+         Integer32,
+      sr1646v2ZbfwV6DropFlowsDstPort
+         Integer32,
+      sr1646v2ZbfwV6DropFlowsAge
+         TimeTicks,
+      sr1646v2ZbfwV6DropFlowsTimeOut
+         TimeTicks,
+      sr1646v2ZbfwV6DropFlowsProtInfoTcpState
+         INTEGER,
+      sr1646v2ZbfwV6DropFlowsProtInfoTcpSeqNr
+         Counter32,
+      sr1646v2ZbfwV6DropFlowsProtInfoTcpAckedNr
+         Counter32,
+      sr1646v2ZbfwV6DropFlowsRulesZonePair
+         DisplayString,
+      sr1646v2ZbfwV6DropFlowsRulesPolicy
+         DisplayString,
+      sr1646v2ZbfwV6DropFlowsRulesPolicyRule
+         DisplayString,
+      sr1646v2ZbfwV6DropFlowsRulesFilter
+         DisplayString,
+      sr1646v2ZbfwV6DropFlowsRulesFilterRule
+         DisplayString,
+      sr1646v2ZbfwV6DropFlowsModeReverse
+         INTEGER,
+      sr1646v2ZbfwV6DropFlowsModeAlg
+         INTEGER
+      }
+
+sr1646v2ZbfwV6DropFlowsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 10}
+
+sr1646v2ZbfwV6DropFlowsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 11}
+
+sr1646v2ZbfwV6DropFlowsDir OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               sg (0),
+               sl (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.dir
+
+       Possibilities:
+               >   (0)
+               <   (1)"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 838860800}
+
+sr1646v2ZbfwV6DropFlowsConnId OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.connId
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 285212672}
+
+sr1646v2ZbfwV6DropFlowsSrcIntf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.srcIntf"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 16777216}
+
+sr1646v2ZbfwV6DropFlowsSrcZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.srcZone"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 33554432}
+
+sr1646v2ZbfwV6DropFlowsDstIntf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.dstIntf"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 50331648}
+
+sr1646v2ZbfwV6DropFlowsDstZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.dstZone"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 67108864}
+
+sr1646v2ZbfwV6DropFlowsSrcAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.srcAddress
+
+       ipv6 address"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 83886080}
+
+sr1646v2ZbfwV6DropFlowsDstAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.dstAddress
+
+       ipv6 address"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 100663296}
+
+sr1646v2ZbfwV6DropFlowsProt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               ah (51),
+               egp (8),
+               esp (50),
+               gre (47),
+               icmp (1),
+               igp (9),
+               igmp (2),
+               igrp (88),
+               ipInIp (4),
+               ospf (89),
+               udp (17),
+               rsvp (46),
+               tcp (6),
+               icmpV6 (58),
+               l2tp (115)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.prot
+
+       Possibilities:
+               any   (0)
+               ah   (51)
+               egp   (8)
+               esp   (50)
+               gre   (47)
+               icmp   (1)
+               igp   (9)
+               igmp   (2)
+               igrp   (88)
+               ipInIp   (4)
+               ospf   (89)
+               udp   (17)
+               rsvp   (46)
+               tcp   (6)
+               icmpV6   (58)
+               l2tp   (115)"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 117440512}
+
+sr1646v2ZbfwV6DropFlowsSrcPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.srcPort"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 134217728}
+
+sr1646v2ZbfwV6DropFlowsDstPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.dstPort"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 150994944}
+
+sr1646v2ZbfwV6DropFlowsAge OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.age
+
+       Time in centi-second."
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 167772160}
+
+sr1646v2ZbfwV6DropFlowsTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.timeOut
+
+       Time in centi-second."
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 184549376}
+
+sr1646v2ZbfwV6DropFlowsProtInfoTcpState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               idle (0),
+               listen (1),
+               synSent (2),
+               synAcked (3),
+               established (4),
+               finSent (5),
+               finAcked (6),
+               closed (7),
+               reset (8)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.protInfo.tcp.state
+
+       Possibilities:
+               idle   (0)
+               listen   (1)
+               synSent   (2)
+               synAcked   (3)
+               established   (4)
+               finSent   (5)
+               finAcked   (6)
+               closed   (7)
+               reset   (8)"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 234946816}
+
+sr1646v2ZbfwV6DropFlowsProtInfoTcpSeqNr OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.protInfo.tcp.seqNr
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 234947072}
+
+sr1646v2ZbfwV6DropFlowsProtInfoTcpAckedNr OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.protInfo.tcp.ackedNr
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 234947328}
+
+sr1646v2ZbfwV6DropFlowsRulesZonePair OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.rules.zonePair"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 251723776}
+
+sr1646v2ZbfwV6DropFlowsRulesPolicy OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.rules.policy"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 251789312}
+
+sr1646v2ZbfwV6DropFlowsRulesPolicyRule OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.rules.policyRule"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 251854848}
+
+sr1646v2ZbfwV6DropFlowsRulesFilter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.rules.filter"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 251920384}
+
+sr1646v2ZbfwV6DropFlowsRulesFilterRule OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.rules.filterRule"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 251985920}
+
+sr1646v2ZbfwV6DropFlowsModeReverse OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               false (0),
+               true (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.mode.reverse
+
+       Possibilities:
+               false   (0)
+               true   (1)"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 268500992}
+
+sr1646v2ZbfwV6DropFlowsModeAlg OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               false (0),
+               true (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.dropFlows.mode.alg
+
+       Possibilities:
+               false   (0)
+               true   (1)"
+   ::= {sr1646v2ZbfwV6DropFlowsEntry 268566528}
+
+
+sr1646v2ZbfwV6BwControl OBJECT IDENTIFIER ::= {sr1646v2ZbfwV6 29}
+
+sr1646v2ZbfwV6BwControlSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbfwV6BwControlEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bw control status"
+   ::= {sr1646v2ZbfwV6BwControl 1}
+
+sr1646v2ZbfwV6BwControlEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbfwV6BwControlEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbfwV6BwControlGlobalIx,
+                sr1646v2ZbfwV6BwControlTableIx }
+   ::= {sr1646v2ZbfwV6BwControlSSCTable 1}
+
+Sr1646v2ZbfwV6BwControlEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbfwV6BwControlGlobalIx
+         GlobalIndex,
+      sr1646v2ZbfwV6BwControlTableIx
+         TableIndex,
+      sr1646v2ZbfwV6BwControlFlowRefCnt
+         Integer32,
+      sr1646v2ZbfwV6BwControlTimeQuotum
+         Integer32,
+      sr1646v2ZbfwV6BwControlCirQuotum
+         Integer32,
+      sr1646v2ZbfwV6BwControlPktsPassed
+         Counter32,
+      sr1646v2ZbfwV6BwControlOctetsPassed
+         Counter32,
+      sr1646v2ZbfwV6BwControlPktsDropped
+         Counter32,
+      sr1646v2ZbfwV6BwControlOctetsDropped
+         Counter32
+      }
+
+sr1646v2ZbfwV6BwControlGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbfwV6BwControlEntry 10}
+
+sr1646v2ZbfwV6BwControlTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2ZbfwV6BwControlEntry 11}
+
+sr1646v2ZbfwV6BwControlFlowRefCnt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.bwControl.flowRefCnt"
+   ::= {sr1646v2ZbfwV6BwControlEntry 16777216}
+
+sr1646v2ZbfwV6BwControlTimeQuotum OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.bwControl.timeQuotum"
+   ::= {sr1646v2ZbfwV6BwControlEntry 33554432}
+
+sr1646v2ZbfwV6BwControlCirQuotum OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.bwControl.cirQuotum"
+   ::= {sr1646v2ZbfwV6BwControlEntry 50331648}
+
+sr1646v2ZbfwV6BwControlPktsPassed OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.bwControl.pktsPassed
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6BwControlEntry 67108864}
+
+sr1646v2ZbfwV6BwControlOctetsPassed OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.bwControl.octetsPassed
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6BwControlEntry 83886080}
+
+sr1646v2ZbfwV6BwControlPktsDropped OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.bwControl.pktsDropped
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6BwControlEntry 100663296}
+
+sr1646v2ZbfwV6BwControlOctetsDropped OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.bwControl.octetsDropped
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6BwControlEntry 117440512}
+
+
+sr1646v2ZbfwV6PredefinedServices OBJECT IDENTIFIER ::= {sr1646v2ZbfwV6 31}
+
+sr1646v2ZbfwV6PredefinedServicesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbfwV6PredefinedServicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "predefined service status"
+   ::= {sr1646v2ZbfwV6PredefinedServices 1}
+
+sr1646v2ZbfwV6PredefinedServicesEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbfwV6PredefinedServicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbfwV6PredefinedServicesGlobalIx,
+                sr1646v2ZbfwV6PredefinedServicesTableIx }
+   ::= {sr1646v2ZbfwV6PredefinedServicesSSCTable 1}
+
+Sr1646v2ZbfwV6PredefinedServicesEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbfwV6PredefinedServicesGlobalIx
+         GlobalIndex,
+      sr1646v2ZbfwV6PredefinedServicesTableIx
+         TableIndex,
+      sr1646v2ZbfwV6PredefinedServicesName
+         DisplayString,
+      sr1646v2ZbfwV6PredefinedServicesProtocol
+         INTEGER,
+      sr1646v2ZbfwV6PredefinedServicesPort
+         Integer32
+      }
+
+sr1646v2ZbfwV6PredefinedServicesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbfwV6PredefinedServicesEntry 10}
+
+sr1646v2ZbfwV6PredefinedServicesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2ZbfwV6PredefinedServicesEntry 11}
+
+sr1646v2ZbfwV6PredefinedServicesName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.predefinedServices.name"
+   ::= {sr1646v2ZbfwV6PredefinedServicesEntry 16777216}
+
+sr1646v2ZbfwV6PredefinedServicesProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               ah (51),
+               egp (8),
+               esp (50),
+               gre (47),
+               icmp (1),
+               igp (9),
+               igmp (2),
+               igrp (88),
+               ipInIp (4),
+               ospf (89),
+               udp (17),
+               rsvp (46),
+               tcp (6),
+               icmpV6 (58),
+               l2tp (115)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.predefinedServices.protocol
+
+       Possibilities:
+               any   (0)
+               ah   (51)
+               egp   (8)
+               esp   (50)
+               gre   (47)
+               icmp   (1)
+               igp   (9)
+               igmp   (2)
+               igrp   (88)
+               ipInIp   (4)
+               ospf   (89)
+               udp   (17)
+               rsvp   (46)
+               tcp   (6)
+               icmpV6   (58)
+               l2tp   (115)"
+   ::= {sr1646v2ZbfwV6PredefinedServicesEntry 33554432}
+
+sr1646v2ZbfwV6PredefinedServicesPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.predefinedServices.port"
+   ::= {sr1646v2ZbfwV6PredefinedServicesEntry 50331648}
+
+
+sr1646v2ZbfwV6LogMessages OBJECT IDENTIFIER ::= {sr1646v2ZbfwV6 24}
+
+sr1646v2ZbfwV6LogMessagesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbfwV6LogMessagesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Configuration Messages"
+   ::= {sr1646v2ZbfwV6LogMessages 1}
+
+sr1646v2ZbfwV6LogMessagesEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbfwV6LogMessagesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbfwV6LogMessagesGlobalIx,
+                sr1646v2ZbfwV6LogMessagesTableIx }
+   ::= {sr1646v2ZbfwV6LogMessagesSSCTable 1}
+
+Sr1646v2ZbfwV6LogMessagesEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbfwV6LogMessagesGlobalIx
+         GlobalIndex,
+      sr1646v2ZbfwV6LogMessagesTableIx
+         TableIndex,
+      sr1646v2ZbfwV6LogMessagesTime
+         TimeTicks,
+      sr1646v2ZbfwV6LogMessagesSeqNr
+         Integer32,
+      sr1646v2ZbfwV6LogMessagesModule
+         INTEGER,
+      sr1646v2ZbfwV6LogMessagesSeverity
+         INTEGER,
+      sr1646v2ZbfwV6LogMessagesMsgId
+         INTEGER,
+      sr1646v2ZbfwV6LogMessagesMessage
+         DisplayString
+      }
+
+sr1646v2ZbfwV6LogMessagesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbfwV6LogMessagesEntry 10}
+
+sr1646v2ZbfwV6LogMessagesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2ZbfwV6LogMessagesEntry 11}
+
+sr1646v2ZbfwV6LogMessagesTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.logMessages.time
+
+       Time in centi-second."
+   ::= {sr1646v2ZbfwV6LogMessagesEntry 16777216}
+
+sr1646v2ZbfwV6LogMessagesSeqNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.logMessages.seqNr"
+   ::= {sr1646v2ZbfwV6LogMessagesEntry 33554432}
+
+sr1646v2ZbfwV6LogMessagesModule OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               config (0),
+               attack (1),
+               traffic (2),
+               alg (3),
+               general (4)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.logMessages.module
+
+       Possibilities:
+               config   (0)
+               attack   (1)
+               traffic   (2)
+               alg   (3)
+               general   (4)"
+   ::= {sr1646v2ZbfwV6LogMessagesEntry 50331648}
+
+sr1646v2ZbfwV6LogMessagesSeverity OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.logMessages.severity
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {sr1646v2ZbfwV6LogMessagesEntry 67108864}
+
+sr1646v2ZbfwV6LogMessagesMsgId OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               incomplZonePair (0),
+               incomplPolicy (1),
+               incomplPolicyRule (2),
+               incomplFilter (3),
+               incomplFilterRule (4),
+               incomplAction (5),
+               incomplNat (6),
+               invalidVrf (7),
+               connCreate (8),
+               connClose (9),
+               connTimeOut (10),
+               dropPolicy (11),
+               noPolicy (12),
+               connRefused (13),
+               ftpCommandDenied (14),
+               synfloodAggrMode (15),
+               duplicZonePair (16),
+               duplicPolicyRule (17),
+               duplicFilterRule (18),
+               configModified (19),
+               connExceeded (20)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.logMessages.msgId
+
+       Possibilities:
+               incomplZonePair   (0)
+               incomplPolicy   (1)
+               incomplPolicyRule   (2)
+               incomplFilter   (3)
+               incomplFilterRule   (4)
+               incomplAction   (5)
+               incomplNat   (6)
+               invalidVrf   (7)
+               connCreate   (8)
+               connClose   (9)
+               connTimeOut   (10)
+               dropPolicy   (11)
+               noPolicy   (12)
+               connRefused   (13)
+               ftpCommandDenied   (14)
+               synfloodAggrMode   (15)
+               duplicZonePair   (16)
+               duplicPolicyRule   (17)
+               duplicFilterRule   (18)
+               configModified   (19)
+               connExceeded   (20)"
+   ::= {sr1646v2ZbfwV6LogMessagesEntry 83886080}
+
+sr1646v2ZbfwV6LogMessagesMessage OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.logMessages.message"
+   ::= {sr1646v2ZbfwV6LogMessagesEntry 100663296}
+
+
+sr1646v2ZbfwV6ConfigMessages OBJECT IDENTIFIER ::= {sr1646v2ZbfwV6 26}
+
+sr1646v2ZbfwV6ConfigMessagesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbfwV6ConfigMessagesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Configuration Messages"
+   ::= {sr1646v2ZbfwV6ConfigMessages 1}
+
+sr1646v2ZbfwV6ConfigMessagesEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbfwV6ConfigMessagesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbfwV6ConfigMessagesGlobalIx,
+                sr1646v2ZbfwV6ConfigMessagesTableIx }
+   ::= {sr1646v2ZbfwV6ConfigMessagesSSCTable 1}
+
+Sr1646v2ZbfwV6ConfigMessagesEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbfwV6ConfigMessagesGlobalIx
+         GlobalIndex,
+      sr1646v2ZbfwV6ConfigMessagesTableIx
+         TableIndex,
+      sr1646v2ZbfwV6ConfigMessagesTime
+         TimeTicks,
+      sr1646v2ZbfwV6ConfigMessagesSeverity
+         INTEGER,
+      sr1646v2ZbfwV6ConfigMessagesMsgId
+         INTEGER,
+      sr1646v2ZbfwV6ConfigMessagesMessage
+         DisplayString
+      }
+
+sr1646v2ZbfwV6ConfigMessagesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbfwV6ConfigMessagesEntry 10}
+
+sr1646v2ZbfwV6ConfigMessagesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2ZbfwV6ConfigMessagesEntry 11}
+
+sr1646v2ZbfwV6ConfigMessagesTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.configMessages.time
+
+       Time in centi-second."
+   ::= {sr1646v2ZbfwV6ConfigMessagesEntry 16777216}
+
+sr1646v2ZbfwV6ConfigMessagesSeverity OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               informational (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.configMessages.severity
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               informational   (6)
+               debug   (7)"
+   ::= {sr1646v2ZbfwV6ConfigMessagesEntry 33554432}
+
+sr1646v2ZbfwV6ConfigMessagesMsgId OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               incomplZonePair (0),
+               incomplPolicy (1),
+               incomplPolicyRule (2),
+               incomplFilter (3),
+               incomplFilterRule (4),
+               incomplAction (5),
+               incomplNat (6),
+               invalidVrf (7),
+               connCreate (8),
+               connClose (9),
+               connTimeOut (10),
+               dropPolicy (11),
+               noPolicy (12),
+               connRefused (13),
+               ftpCommandDenied (14),
+               synfloodAggrMode (15),
+               duplicZonePair (16),
+               duplicPolicyRule (17),
+               duplicFilterRule (18),
+               configModified (19),
+               connExceeded (20)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.configMessages.msgId
+
+       Possibilities:
+               incomplZonePair   (0)
+               incomplPolicy   (1)
+               incomplPolicyRule   (2)
+               incomplFilter   (3)
+               incomplFilterRule   (4)
+               incomplAction   (5)
+               incomplNat   (6)
+               invalidVrf   (7)
+               connCreate   (8)
+               connClose   (9)
+               connTimeOut   (10)
+               dropPolicy   (11)
+               noPolicy   (12)
+               connRefused   (13)
+               ftpCommandDenied   (14)
+               synfloodAggrMode   (15)
+               duplicZonePair   (16)
+               duplicPolicyRule   (17)
+               duplicFilterRule   (18)
+               configModified   (19)
+               connExceeded   (20)"
+   ::= {sr1646v2ZbfwV6ConfigMessagesEntry 50331648}
+
+sr1646v2ZbfwV6ConfigMessagesMessage OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.configMessages.message"
+   ::= {sr1646v2ZbfwV6ConfigMessagesEntry 67108864}
+
+
+sr1646v2ZbfwV6Attacks OBJECT IDENTIFIER ::= {sr1646v2ZbfwV6 32}
+
+sr1646v2ZbfwV6AttacksSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbfwV6AttacksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "firewall Logging"
+   ::= {sr1646v2ZbfwV6Attacks 1}
+
+sr1646v2ZbfwV6AttacksEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbfwV6AttacksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbfwV6AttacksGlobalIx }
+   ::= {sr1646v2ZbfwV6AttacksSSCTable 1}
+
+Sr1646v2ZbfwV6AttacksEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbfwV6AttacksGlobalIx
+         GlobalIndex,
+      sr1646v2ZbfwV6AttacksSynFloodingAggressiveMode
+         INTEGER,
+      sr1646v2ZbfwV6AttacksSynFloodingMaxIncompleteLow
+         Integer32,
+      sr1646v2ZbfwV6AttacksSynFloodingMaxIncompleteHigh
+         Integer32,
+      sr1646v2ZbfwV6AttacksSynFloodingIncompleteSessions
+         Integer32
+      }
+
+sr1646v2ZbfwV6AttacksGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbfwV6AttacksEntry 10}
+
+sr1646v2ZbfwV6AttacksSynFloodingAggressiveMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.attacks.synFlooding.aggressiveMode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2ZbfwV6AttacksEntry 16842752}
+
+sr1646v2ZbfwV6AttacksSynFloodingMaxIncompleteLow OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.attacks.synFlooding.maxIncompleteLow"
+   ::= {sr1646v2ZbfwV6AttacksEntry 16973824}
+
+sr1646v2ZbfwV6AttacksSynFloodingMaxIncompleteHigh OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.attacks.synFlooding.maxIncompleteHigh"
+   ::= {sr1646v2ZbfwV6AttacksEntry 17039360}
+
+sr1646v2ZbfwV6AttacksSynFloodingIncompleteSessions OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.attacks.synFlooding.incompleteSessions"
+   ::= {sr1646v2ZbfwV6AttacksEntry 16908288}
+
+
+sr1646v2ZbfwV6UsedConnections OBJECT IDENTIFIER ::= {sr1646v2ZbfwV6 33}
+
+sr1646v2ZbfwV6UsedConnectionsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbfwV6UsedConnectionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nr of used connections"
+   ::= {sr1646v2ZbfwV6UsedConnections 1}
+
+sr1646v2ZbfwV6UsedConnectionsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbfwV6UsedConnectionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbfwV6UsedConnectionsGlobalIx }
+   ::= {sr1646v2ZbfwV6UsedConnectionsTable 1}
+
+Sr1646v2ZbfwV6UsedConnectionsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbfwV6UsedConnectionsGlobalIx
+         GlobalIndex,
+      sr1646v2ZbfwV6UsedConnectionsValue
+         Counter32
+      }
+
+sr1646v2ZbfwV6UsedConnectionsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbfwV6UsedConnectionsEntry 10}
+
+sr1646v2ZbfwV6UsedConnectionsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.usedConnections
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6UsedConnectionsEntry 2147483648}
+
+
+sr1646v2ZbfwV6MaxConnectionsUsed OBJECT IDENTIFIER ::= {sr1646v2ZbfwV6 34}
+
+sr1646v2ZbfwV6MaxConnectionsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbfwV6MaxConnectionsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "maximum nr of connections used at the same time"
+   ::= {sr1646v2ZbfwV6MaxConnectionsUsed 1}
+
+sr1646v2ZbfwV6MaxConnectionsUsedEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbfwV6MaxConnectionsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbfwV6MaxConnectionsUsedGlobalIx }
+   ::= {sr1646v2ZbfwV6MaxConnectionsUsedTable 1}
+
+Sr1646v2ZbfwV6MaxConnectionsUsedEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbfwV6MaxConnectionsUsedGlobalIx
+         GlobalIndex,
+      sr1646v2ZbfwV6MaxConnectionsUsedValue
+         Counter32
+      }
+
+sr1646v2ZbfwV6MaxConnectionsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbfwV6MaxConnectionsUsedEntry 10}
+
+sr1646v2ZbfwV6MaxConnectionsUsedValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.status.maxConnectionsUsed
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2ZbfwV6MaxConnectionsUsedEntry 2147483648}
+
+
+
+pr1646v2ZbfwV6 OBJECT IDENTIFIER ::= {r1646v2ZbfwV6 12}
+
+
+pr1646v2ZbfwV6Router OBJECT IDENTIFIER ::= {pr1646v2ZbfwV6 40}
+
+pr1646v2ZbfwV6RouterSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ZbfwV6RouterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "router statistics"
+   ::= {pr1646v2ZbfwV6Router 1}
+
+pr1646v2ZbfwV6RouterEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ZbfwV6RouterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ZbfwV6RouterGlobalIx }
+   ::= {pr1646v2ZbfwV6RouterSSCTable 1}
+
+Pr1646v2ZbfwV6RouterEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ZbfwV6RouterGlobalIx
+         GlobalIndex,
+      pr1646v2ZbfwV6RouterConnectionsCreated
+         Counter32,
+      pr1646v2ZbfwV6RouterConnectionsClosed
+         Counter32,
+      pr1646v2ZbfwV6RouterConnectionsTimedOut
+         Counter32
+      }
+
+pr1646v2ZbfwV6RouterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2ZbfwV6RouterEntry 10}
+
+pr1646v2ZbfwV6RouterConnectionsCreated OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.router.connections.created
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6RouterEntry 16842752}
+
+pr1646v2ZbfwV6RouterConnectionsClosed OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.router.connections.closed
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6RouterEntry 16908288}
+
+pr1646v2ZbfwV6RouterConnectionsTimedOut OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.router.connections.timedOut
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6RouterEntry 16973824}
+
+
+pr1646v2ZbfwV6Packets OBJECT IDENTIFIER ::= {pr1646v2ZbfwV6 41}
+
+pr1646v2ZbfwV6PacketsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ZbfwV6PacketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "packet statistics"
+   ::= {pr1646v2ZbfwV6Packets 1}
+
+pr1646v2ZbfwV6PacketsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ZbfwV6PacketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ZbfwV6PacketsGlobalIx }
+   ::= {pr1646v2ZbfwV6PacketsSSCTable 1}
+
+Pr1646v2ZbfwV6PacketsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ZbfwV6PacketsGlobalIx
+         GlobalIndex,
+      pr1646v2ZbfwV6PacketsProcessed
+         Counter32,
+      pr1646v2ZbfwV6PacketsPassed
+         Counter32,
+      pr1646v2ZbfwV6PacketsDropped
+         Counter32,
+      pr1646v2ZbfwV6PacketsRejected
+         Counter32,
+      pr1646v2ZbfwV6PacketsRejectStatsInvalidIntf
+         Counter32,
+      pr1646v2ZbfwV6PacketsRejectStatsNoPolicy
+         Counter32,
+      pr1646v2ZbfwV6PacketsRejectStatsNoConnSetup
+         Counter32,
+      pr1646v2ZbfwV6PacketsRejectStatsConnExceeded
+         Counter32,
+      pr1646v2ZbfwV6PacketsRejectStatsProtocol
+         Counter32,
+      pr1646v2ZbfwV6PacketsRejectStatsAlg
+         Counter32,
+      pr1646v2ZbfwV6PacketsRejectStatsBandwidth
+         Counter32
+      }
+
+pr1646v2ZbfwV6PacketsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2ZbfwV6PacketsEntry 10}
+
+pr1646v2ZbfwV6PacketsProcessed OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.packets.processed
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6PacketsEntry 16777216}
+
+pr1646v2ZbfwV6PacketsPassed OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.packets.passed
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6PacketsEntry 33554432}
+
+pr1646v2ZbfwV6PacketsDropped OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.packets.dropped
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6PacketsEntry 50331648}
+
+pr1646v2ZbfwV6PacketsRejected OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.packets.rejected
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6PacketsEntry 67108864}
+
+pr1646v2ZbfwV6PacketsRejectStatsInvalidIntf OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.packets.rejectStats.invalidIntf
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6PacketsEntry 83951616}
+
+pr1646v2ZbfwV6PacketsRejectStatsNoPolicy OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.packets.rejectStats.noPolicy
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6PacketsEntry 84017152}
+
+pr1646v2ZbfwV6PacketsRejectStatsNoConnSetup OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.packets.rejectStats.noConnSetup
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6PacketsEntry 84082688}
+
+pr1646v2ZbfwV6PacketsRejectStatsConnExceeded OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.packets.rejectStats.connExceeded
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6PacketsEntry 84344832}
+
+pr1646v2ZbfwV6PacketsRejectStatsProtocol OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.packets.rejectStats.protocol
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6PacketsEntry 84148224}
+
+pr1646v2ZbfwV6PacketsRejectStatsAlg OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.packets.rejectStats.alg
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6PacketsEntry 84213760}
+
+pr1646v2ZbfwV6PacketsRejectStatsBandwidth OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.packets.rejectStats.bandwidth
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6PacketsEntry 84279296}
+
+
+pr1646v2ZbfwV6Fragments OBJECT IDENTIFIER ::= {pr1646v2ZbfwV6 42}
+
+pr1646v2ZbfwV6FragmentsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ZbfwV6FragmentsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "fragment statistics"
+   ::= {pr1646v2ZbfwV6Fragments 1}
+
+pr1646v2ZbfwV6FragmentsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ZbfwV6FragmentsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ZbfwV6FragmentsGlobalIx }
+   ::= {pr1646v2ZbfwV6FragmentsSSCTable 1}
+
+Pr1646v2ZbfwV6FragmentsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ZbfwV6FragmentsGlobalIx
+         GlobalIndex,
+      pr1646v2ZbfwV6FragmentsFragPktsRcvd
+         Counter32,
+      pr1646v2ZbfwV6FragmentsFragsRcvd
+         Counter32,
+      pr1646v2ZbfwV6FragmentsCachedFrags
+         Counter32,
+      pr1646v2ZbfwV6FragmentsLostFrags
+         Counter32
+      }
+
+pr1646v2ZbfwV6FragmentsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2ZbfwV6FragmentsEntry 10}
+
+pr1646v2ZbfwV6FragmentsFragPktsRcvd OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.fragments.fragPktsRcvd
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6FragmentsEntry 16777216}
+
+pr1646v2ZbfwV6FragmentsFragsRcvd OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.fragments.fragsRcvd
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6FragmentsEntry 33554432}
+
+pr1646v2ZbfwV6FragmentsCachedFrags OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.fragments.cachedFrags
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6FragmentsEntry 50331648}
+
+pr1646v2ZbfwV6FragmentsLostFrags OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.fragments.lostFrags
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6FragmentsEntry 67108864}
+
+
+pr1646v2ZbfwV6Attacks OBJECT IDENTIFIER ::= {pr1646v2ZbfwV6 43}
+
+pr1646v2ZbfwV6AttacksSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ZbfwV6AttacksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "attack statistics"
+   ::= {pr1646v2ZbfwV6Attacks 1}
+
+pr1646v2ZbfwV6AttacksEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ZbfwV6AttacksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ZbfwV6AttacksGlobalIx }
+   ::= {pr1646v2ZbfwV6AttacksSSCTable 1}
+
+Pr1646v2ZbfwV6AttacksEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ZbfwV6AttacksGlobalIx
+         GlobalIndex,
+      pr1646v2ZbfwV6AttacksSynFloodingNrTcpAggressiveMode
+         Counter32,
+      pr1646v2ZbfwV6AttacksSynFloodingNrTcpCleanedUp
+         Counter32
+      }
+
+pr1646v2ZbfwV6AttacksGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2ZbfwV6AttacksEntry 10}
+
+pr1646v2ZbfwV6AttacksSynFloodingNrTcpAggressiveMode OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.attacks.synFlooding.nrTcpAggressiveMode
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6AttacksEntry 16842752}
+
+pr1646v2ZbfwV6AttacksSynFloodingNrTcpCleanedUp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.attacks.synFlooding.nrTcpCleanedUp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6AttacksEntry 16908288}
+
+
+pr1646v2ZbfwV6Flows OBJECT IDENTIFIER ::= {pr1646v2ZbfwV6 44}
+
+pr1646v2ZbfwV6FlowsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ZbfwV6FlowsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "open flow stats"
+   ::= {pr1646v2ZbfwV6Flows 1}
+
+pr1646v2ZbfwV6FlowsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ZbfwV6FlowsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ZbfwV6FlowsGlobalIx,
+                pr1646v2ZbfwV6FlowsTableIx }
+   ::= {pr1646v2ZbfwV6FlowsSSCTable 1}
+
+Pr1646v2ZbfwV6FlowsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ZbfwV6FlowsGlobalIx
+         GlobalIndex,
+      pr1646v2ZbfwV6FlowsTableIx
+         TableIndex,
+      pr1646v2ZbfwV6FlowsDir
+         INTEGER,
+      pr1646v2ZbfwV6FlowsConnId
+         Counter32,
+      pr1646v2ZbfwV6FlowsSrcIntf
+         DisplayString,
+      pr1646v2ZbfwV6FlowsSrcZone
+         DisplayString,
+      pr1646v2ZbfwV6FlowsDstIntf
+         DisplayString,
+      pr1646v2ZbfwV6FlowsDstZone
+         DisplayString,
+      pr1646v2ZbfwV6FlowsSrcAddress
+         Ipv6Address,
+      pr1646v2ZbfwV6FlowsDstAddress
+         Ipv6Address,
+      pr1646v2ZbfwV6FlowsProt
+         INTEGER,
+      pr1646v2ZbfwV6FlowsSrcPort
+         Integer32,
+      pr1646v2ZbfwV6FlowsDstPort
+         Integer32,
+      pr1646v2ZbfwV6FlowsPackets
+         Counter32,
+      pr1646v2ZbfwV6FlowsOctets
+         Counter32,
+      pr1646v2ZbfwV6FlowsRejected
+         Counter32,
+      pr1646v2ZbfwV6FlowsIcmpErrors
+         Counter32
+      }
+
+pr1646v2ZbfwV6FlowsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2ZbfwV6FlowsEntry 10}
+
+pr1646v2ZbfwV6FlowsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ZbfwV6FlowsEntry 11}
+
+pr1646v2ZbfwV6FlowsDir OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               sg (0),
+               sl (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.dir
+
+       Possibilities:
+               >   (0)
+               <   (1)"
+   ::= {pr1646v2ZbfwV6FlowsEntry 838860800}
+
+pr1646v2ZbfwV6FlowsConnId OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.connId
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6FlowsEntry 285212672}
+
+pr1646v2ZbfwV6FlowsSrcIntf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.srcIntf"
+   ::= {pr1646v2ZbfwV6FlowsEntry 16777216}
+
+pr1646v2ZbfwV6FlowsSrcZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.srcZone"
+   ::= {pr1646v2ZbfwV6FlowsEntry 33554432}
+
+pr1646v2ZbfwV6FlowsDstIntf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.dstIntf"
+   ::= {pr1646v2ZbfwV6FlowsEntry 50331648}
+
+pr1646v2ZbfwV6FlowsDstZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.dstZone"
+   ::= {pr1646v2ZbfwV6FlowsEntry 67108864}
+
+pr1646v2ZbfwV6FlowsSrcAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.srcAddress
+
+       ipv6 address"
+   ::= {pr1646v2ZbfwV6FlowsEntry 83886080}
+
+pr1646v2ZbfwV6FlowsDstAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.dstAddress
+
+       ipv6 address"
+   ::= {pr1646v2ZbfwV6FlowsEntry 100663296}
+
+pr1646v2ZbfwV6FlowsProt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               ah (51),
+               egp (8),
+               esp (50),
+               gre (47),
+               icmp (1),
+               igp (9),
+               igmp (2),
+               igrp (88),
+               ipInIp (4),
+               ospf (89),
+               udp (17),
+               rsvp (46),
+               tcp (6),
+               icmpV6 (58),
+               l2tp (115)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.prot
+
+       Possibilities:
+               any   (0)
+               ah   (51)
+               egp   (8)
+               esp   (50)
+               gre   (47)
+               icmp   (1)
+               igp   (9)
+               igmp   (2)
+               igrp   (88)
+               ipInIp   (4)
+               ospf   (89)
+               udp   (17)
+               rsvp   (46)
+               tcp   (6)
+               icmpV6   (58)
+               l2tp   (115)"
+   ::= {pr1646v2ZbfwV6FlowsEntry 117440512}
+
+pr1646v2ZbfwV6FlowsSrcPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.srcPort"
+   ::= {pr1646v2ZbfwV6FlowsEntry 134217728}
+
+pr1646v2ZbfwV6FlowsDstPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.dstPort"
+   ::= {pr1646v2ZbfwV6FlowsEntry 150994944}
+
+pr1646v2ZbfwV6FlowsPackets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.packets
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6FlowsEntry 301989888}
+
+pr1646v2ZbfwV6FlowsOctets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.octets
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6FlowsEntry 318767104}
+
+pr1646v2ZbfwV6FlowsRejected OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.rejected
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6FlowsEntry 335544320}
+
+pr1646v2ZbfwV6FlowsIcmpErrors OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.flows.icmpErrors
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6FlowsEntry 872415232}
+
+
+pr1646v2ZbfwV6DropFlows OBJECT IDENTIFIER ::= {pr1646v2ZbfwV6 45}
+
+pr1646v2ZbfwV6DropFlowsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ZbfwV6DropFlowsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "open flow stats"
+   ::= {pr1646v2ZbfwV6DropFlows 1}
+
+pr1646v2ZbfwV6DropFlowsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ZbfwV6DropFlowsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ZbfwV6DropFlowsGlobalIx,
+                pr1646v2ZbfwV6DropFlowsTableIx }
+   ::= {pr1646v2ZbfwV6DropFlowsSSCTable 1}
+
+Pr1646v2ZbfwV6DropFlowsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ZbfwV6DropFlowsGlobalIx
+         GlobalIndex,
+      pr1646v2ZbfwV6DropFlowsTableIx
+         TableIndex,
+      pr1646v2ZbfwV6DropFlowsDir
+         INTEGER,
+      pr1646v2ZbfwV6DropFlowsConnId
+         Counter32,
+      pr1646v2ZbfwV6DropFlowsSrcIntf
+         DisplayString,
+      pr1646v2ZbfwV6DropFlowsSrcZone
+         DisplayString,
+      pr1646v2ZbfwV6DropFlowsDstIntf
+         DisplayString,
+      pr1646v2ZbfwV6DropFlowsDstZone
+         DisplayString,
+      pr1646v2ZbfwV6DropFlowsSrcAddress
+         Ipv6Address,
+      pr1646v2ZbfwV6DropFlowsDstAddress
+         Ipv6Address,
+      pr1646v2ZbfwV6DropFlowsProt
+         INTEGER,
+      pr1646v2ZbfwV6DropFlowsSrcPort
+         Integer32,
+      pr1646v2ZbfwV6DropFlowsDstPort
+         Integer32,
+      pr1646v2ZbfwV6DropFlowsPackets
+         Counter32,
+      pr1646v2ZbfwV6DropFlowsOctets
+         Counter32,
+      pr1646v2ZbfwV6DropFlowsRejected
+         Counter32,
+      pr1646v2ZbfwV6DropFlowsIcmpErrors
+         Counter32
+      }
+
+pr1646v2ZbfwV6DropFlowsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 10}
+
+pr1646v2ZbfwV6DropFlowsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 11}
+
+pr1646v2ZbfwV6DropFlowsDir OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               sg (0),
+               sl (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.dir
+
+       Possibilities:
+               >   (0)
+               <   (1)"
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 838860800}
+
+pr1646v2ZbfwV6DropFlowsConnId OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.connId
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 285212672}
+
+pr1646v2ZbfwV6DropFlowsSrcIntf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.srcIntf"
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 16777216}
+
+pr1646v2ZbfwV6DropFlowsSrcZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.srcZone"
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 33554432}
+
+pr1646v2ZbfwV6DropFlowsDstIntf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.dstIntf"
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 50331648}
+
+pr1646v2ZbfwV6DropFlowsDstZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.dstZone"
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 67108864}
+
+pr1646v2ZbfwV6DropFlowsSrcAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.srcAddress
+
+       ipv6 address"
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 83886080}
+
+pr1646v2ZbfwV6DropFlowsDstAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.dstAddress
+
+       ipv6 address"
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 100663296}
+
+pr1646v2ZbfwV6DropFlowsProt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               ah (51),
+               egp (8),
+               esp (50),
+               gre (47),
+               icmp (1),
+               igp (9),
+               igmp (2),
+               igrp (88),
+               ipInIp (4),
+               ospf (89),
+               udp (17),
+               rsvp (46),
+               tcp (6),
+               icmpV6 (58),
+               l2tp (115)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.prot
+
+       Possibilities:
+               any   (0)
+               ah   (51)
+               egp   (8)
+               esp   (50)
+               gre   (47)
+               icmp   (1)
+               igp   (9)
+               igmp   (2)
+               igrp   (88)
+               ipInIp   (4)
+               ospf   (89)
+               udp   (17)
+               rsvp   (46)
+               tcp   (6)
+               icmpV6   (58)
+               l2tp   (115)"
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 117440512}
+
+pr1646v2ZbfwV6DropFlowsSrcPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.srcPort"
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 134217728}
+
+pr1646v2ZbfwV6DropFlowsDstPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.dstPort"
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 150994944}
+
+pr1646v2ZbfwV6DropFlowsPackets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.packets
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 301989888}
+
+pr1646v2ZbfwV6DropFlowsOctets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.octets
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 318767104}
+
+pr1646v2ZbfwV6DropFlowsRejected OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.rejected
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 335544320}
+
+pr1646v2ZbfwV6DropFlowsIcmpErrors OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.performance.dropFlows.icmpErrors
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ZbfwV6DropFlowsEntry 872415232}
+
+
+
+ar1646v2ZbfwV6 OBJECT IDENTIFIER ::= {r1646v2ZbfwV6 16}
+
+
+ar1646v2ZbfwV6ClearCounters OBJECT IDENTIFIER ::= {ar1646v2ZbfwV6 263}
+
+ar1646v2ZbfwV6ClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2ZbfwV6ClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1646v2ZbfwV6ClearCounters 1}
+
+ar1646v2ZbfwV6ClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2ZbfwV6ClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2ZbfwV6ClearCountersGlobalIx }
+   ::= {ar1646v2ZbfwV6ClearCountersTable 1}
+
+Ar1646v2ZbfwV6ClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1646v2ZbfwV6ClearCountersGlobalIx
+         GlobalIndex,
+      ar1646v2ZbfwV6ClearCountersValue
+         Integer32
+      }
+
+ar1646v2ZbfwV6ClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2ZbfwV6ClearCountersEntry 10}
+
+ar1646v2ZbfwV6ClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.actions.clearCounters"
+   ::= {ar1646v2ZbfwV6ClearCountersEntry 2147483648}
+
+
+ar1646v2ZbfwV6ClearLogMessages OBJECT IDENTIFIER ::= {ar1646v2ZbfwV6 87}
+
+ar1646v2ZbfwV6ClearLogMessagesTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2ZbfwV6ClearLogMessagesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "delete a connection"
+   ::= {ar1646v2ZbfwV6ClearLogMessages 1}
+
+ar1646v2ZbfwV6ClearLogMessagesEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2ZbfwV6ClearLogMessagesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2ZbfwV6ClearLogMessagesGlobalIx }
+   ::= {ar1646v2ZbfwV6ClearLogMessagesTable 1}
+
+Ar1646v2ZbfwV6ClearLogMessagesEntry ::=
+   SEQUENCE
+      {
+      ar1646v2ZbfwV6ClearLogMessagesGlobalIx
+         GlobalIndex,
+      ar1646v2ZbfwV6ClearLogMessagesValue
+         Integer32
+      }
+
+ar1646v2ZbfwV6ClearLogMessagesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2ZbfwV6ClearLogMessagesEntry 10}
+
+ar1646v2ZbfwV6ClearLogMessagesValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.actions.clearLogMessages"
+   ::= {ar1646v2ZbfwV6ClearLogMessagesEntry 2147483648}
+
+
+ar1646v2ZbfwV6DeleteAllConnections OBJECT IDENTIFIER ::= {ar1646v2ZbfwV6 86}
+
+ar1646v2ZbfwV6DeleteAllConnectionsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2ZbfwV6DeleteAllConnectionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "delete all connections"
+   ::= {ar1646v2ZbfwV6DeleteAllConnections 1}
+
+ar1646v2ZbfwV6DeleteAllConnectionsEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2ZbfwV6DeleteAllConnectionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2ZbfwV6DeleteAllConnectionsGlobalIx }
+   ::= {ar1646v2ZbfwV6DeleteAllConnectionsTable 1}
+
+Ar1646v2ZbfwV6DeleteAllConnectionsEntry ::=
+   SEQUENCE
+      {
+      ar1646v2ZbfwV6DeleteAllConnectionsGlobalIx
+         GlobalIndex,
+      ar1646v2ZbfwV6DeleteAllConnectionsValue
+         Integer32
+      }
+
+ar1646v2ZbfwV6DeleteAllConnectionsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2ZbfwV6DeleteAllConnectionsEntry 10}
+
+ar1646v2ZbfwV6DeleteAllConnectionsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.actions.deleteAllConnections"
+   ::= {ar1646v2ZbfwV6DeleteAllConnectionsEntry 2147483648}
+
+
+ar1646v2ZbfwV6DeleteConnection OBJECT IDENTIFIER ::= {ar1646v2ZbfwV6 84}
+
+ar1646v2ZbfwV6DeleteConnectionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2ZbfwV6DeleteConnectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "delete a connection"
+   ::= {ar1646v2ZbfwV6DeleteConnection 1}
+
+ar1646v2ZbfwV6DeleteConnectionEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2ZbfwV6DeleteConnectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2ZbfwV6DeleteConnectionGlobalIx }
+   ::= {ar1646v2ZbfwV6DeleteConnectionTable 1}
+
+Ar1646v2ZbfwV6DeleteConnectionEntry ::=
+   SEQUENCE
+      {
+      ar1646v2ZbfwV6DeleteConnectionGlobalIx
+         GlobalIndex,
+      ar1646v2ZbfwV6DeleteConnectionValue
+         Integer32
+      }
+
+ar1646v2ZbfwV6DeleteConnectionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2ZbfwV6DeleteConnectionEntry 10}
+
+ar1646v2ZbfwV6DeleteConnectionValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.actions.deleteConnection"
+   ::= {ar1646v2ZbfwV6DeleteConnectionEntry 2147483648}
+
+
+ar1646v2ZbfwV6DeleteConnectionParams OBJECT IDENTIFIER ::= {ar1646v2ZbfwV6 85}
+
+ar1646v2ZbfwV6DeleteConnectionParamsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2ZbfwV6DeleteConnectionParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Id of the connection to be deleted"
+   ::= {ar1646v2ZbfwV6DeleteConnectionParams 1}
+
+ar1646v2ZbfwV6DeleteConnectionParamsEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2ZbfwV6DeleteConnectionParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2ZbfwV6DeleteConnectionParamsGlobalIx }
+   ::= {ar1646v2ZbfwV6DeleteConnectionParamsTable 1}
+
+Ar1646v2ZbfwV6DeleteConnectionParamsEntry ::=
+   SEQUENCE
+      {
+      ar1646v2ZbfwV6DeleteConnectionParamsGlobalIx
+         GlobalIndex,
+      ar1646v2ZbfwV6DeleteConnectionParamsValue
+         Integer32
+      }
+
+ar1646v2ZbfwV6DeleteConnectionParamsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2ZbfwV6DeleteConnectionParamsEntry 10}
+
+ar1646v2ZbfwV6DeleteConnectionParamsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.actions.deleteConnectionParams"
+   ::= {ar1646v2ZbfwV6DeleteConnectionParamsEntry 2147483648}
+
+
+ar1646v2ZbfwV6SavePolicyDbToFile OBJECT IDENTIFIER ::= {ar1646v2ZbfwV6 82}
+
+ar1646v2ZbfwV6SavePolicyDbToFileTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2ZbfwV6SavePolicyDbToFileEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "save policy database to file"
+   ::= {ar1646v2ZbfwV6SavePolicyDbToFile 1}
+
+ar1646v2ZbfwV6SavePolicyDbToFileEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2ZbfwV6SavePolicyDbToFileEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2ZbfwV6SavePolicyDbToFileGlobalIx }
+   ::= {ar1646v2ZbfwV6SavePolicyDbToFileTable 1}
+
+Ar1646v2ZbfwV6SavePolicyDbToFileEntry ::=
+   SEQUENCE
+      {
+      ar1646v2ZbfwV6SavePolicyDbToFileGlobalIx
+         GlobalIndex,
+      ar1646v2ZbfwV6SavePolicyDbToFileValue
+         Integer32
+      }
+
+ar1646v2ZbfwV6SavePolicyDbToFileGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2ZbfwV6SavePolicyDbToFileEntry 10}
+
+ar1646v2ZbfwV6SavePolicyDbToFileValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.actions.savePolicyDbToFile"
+   ::= {ar1646v2ZbfwV6SavePolicyDbToFileEntry 2147483648}
+
+
+ar1646v2ZbfwV6SavePolicyDbParams OBJECT IDENTIFIER ::= {ar1646v2ZbfwV6 83}
+
+ar1646v2ZbfwV6SavePolicyDbParamsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2ZbfwV6SavePolicyDbParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "file in which the policy database will be saved"
+   ::= {ar1646v2ZbfwV6SavePolicyDbParams 1}
+
+ar1646v2ZbfwV6SavePolicyDbParamsEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2ZbfwV6SavePolicyDbParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2ZbfwV6SavePolicyDbParamsGlobalIx }
+   ::= {ar1646v2ZbfwV6SavePolicyDbParamsTable 1}
+
+Ar1646v2ZbfwV6SavePolicyDbParamsEntry ::=
+   SEQUENCE
+      {
+      ar1646v2ZbfwV6SavePolicyDbParamsGlobalIx
+         GlobalIndex,
+      ar1646v2ZbfwV6SavePolicyDbParamsValue
+         DisplayString
+      }
+
+ar1646v2ZbfwV6SavePolicyDbParamsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2ZbfwV6SavePolicyDbParamsEntry 10}
+
+ar1646v2ZbfwV6SavePolicyDbParamsValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.actions.savePolicyDbParams"
+   ::= {ar1646v2ZbfwV6SavePolicyDbParamsEntry 2147483648}
+
+
+ar1646v2ZbfwV6SetReferenceCnt OBJECT IDENTIFIER ::= {ar1646v2ZbfwV6 80}
+
+ar1646v2ZbfwV6SetReferenceCntTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2ZbfwV6SetReferenceCntEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "set reference count"
+   ::= {ar1646v2ZbfwV6SetReferenceCnt 1}
+
+ar1646v2ZbfwV6SetReferenceCntEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2ZbfwV6SetReferenceCntEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2ZbfwV6SetReferenceCntGlobalIx }
+   ::= {ar1646v2ZbfwV6SetReferenceCntTable 1}
+
+Ar1646v2ZbfwV6SetReferenceCntEntry ::=
+   SEQUENCE
+      {
+      ar1646v2ZbfwV6SetReferenceCntGlobalIx
+         GlobalIndex,
+      ar1646v2ZbfwV6SetReferenceCntValue
+         Integer32
+      }
+
+ar1646v2ZbfwV6SetReferenceCntGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2ZbfwV6SetReferenceCntEntry 10}
+
+ar1646v2ZbfwV6SetReferenceCntValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.actions.setReferenceCnt"
+   ::= {ar1646v2ZbfwV6SetReferenceCntEntry 2147483648}
+
+
+ar1646v2ZbfwV6SetRefCntParams OBJECT IDENTIFIER ::= {ar1646v2ZbfwV6 81}
+
+ar1646v2ZbfwV6SetRefCntParamsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2ZbfwV6SetRefCntParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "set reference count parameters"
+   ::= {ar1646v2ZbfwV6SetRefCntParams 1}
+
+ar1646v2ZbfwV6SetRefCntParamsEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2ZbfwV6SetRefCntParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2ZbfwV6SetRefCntParamsGlobalIx }
+   ::= {ar1646v2ZbfwV6SetRefCntParamsSSCTable 1}
+
+Ar1646v2ZbfwV6SetRefCntParamsEntry ::=
+   SEQUENCE
+      {
+      ar1646v2ZbfwV6SetRefCntParamsGlobalIx
+         GlobalIndex,
+      ar1646v2ZbfwV6SetRefCntParamsPath
+         DisplayString,
+      ar1646v2ZbfwV6SetRefCntParamsValue
+         Integer32
+      }
+
+ar1646v2ZbfwV6SetRefCntParamsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2ZbfwV6SetRefCntParamsEntry 10}
+
+ar1646v2ZbfwV6SetRefCntParamsPath OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.actions.setRefCntParams.path"
+   ::= {ar1646v2ZbfwV6SetRefCntParamsEntry 16777216}
+
+ar1646v2ZbfwV6SetRefCntParamsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: zbFirewall.actions.setRefCntParams.value"
+   ::= {ar1646v2ZbfwV6SetRefCntParamsEntry 33554432}
+
+
+
+END

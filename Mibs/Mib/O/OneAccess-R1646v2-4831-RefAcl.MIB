@@ -1,0 +1,5495 @@
+OneAccess-R1646v2-4831-RefAcl DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2RefAcl OBJECT IDENTIFIER ::= {r1646Rootv2 4831}
+
+r1646v2RefAclMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2RefAclMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2RefAcl 1}
+
+r1646v2RefAclMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2RefAclMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2RefAclMOPropGlobalIx }
+   ::= {r1646v2RefAclMOProp 1}
+
+R1646v2RefAclMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2RefAclMOPropPath
+         ContainmentPath,
+      r1646v2RefAclMOPropRev
+         ObjectRevision,
+      r1646v2RefAclMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2RefAclMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2RefAclMOPropEntry 3}
+
+r1646v2RefAclMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2RefAclMOPropEntry 4}
+
+r1646v2RefAclMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2RefAclMOPropEntry 10}
+
+
+
+er1646v2RefAcl OBJECT IDENTIFIER ::= {r1646v2RefAcl 11}
+
+
+er1646v2RefAclSnmpIndexOffset OBJECT IDENTIFIER ::= {er1646v2RefAcl 268}
+
+er1646v2RefAclSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RefAclSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1646v2RefAclSnmpIndexOffset 1}
+
+er1646v2RefAclSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RefAclSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RefAclSnmpIndexOffsetGlobalIx }
+   ::= {er1646v2RefAclSnmpIndexOffsetTable 1}
+
+Er1646v2RefAclSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1646v2RefAclSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1646v2RefAclSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1646v2RefAclSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RefAclSnmpIndexOffsetEntry 10}
+
+er1646v2RefAclSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.snmpIndexOffset"
+   ::= {er1646v2RefAclSnmpIndexOffsetEntry 2147483648}
+
+
+er1646v2RefAclOutAccPol OBJECT IDENTIFIER ::= {er1646v2RefAcl 80}
+
+er1646v2RefAclOutAccPolTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RefAclOutAccPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "trafficPolicy to be applied in the inbound direction for NAT"
+   ::= {er1646v2RefAclOutAccPol 1}
+
+er1646v2RefAclOutAccPolEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RefAclOutAccPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RefAclOutAccPolGlobalIx }
+   ::= {er1646v2RefAclOutAccPolTable 1}
+
+Er1646v2RefAclOutAccPolEntry ::=
+   SEQUENCE
+      {
+      er1646v2RefAclOutAccPolGlobalIx
+         GlobalIndex,
+      er1646v2RefAclOutAccPolValue
+         DisplayString
+      }
+
+er1646v2RefAclOutAccPolGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RefAclOutAccPolEntry 10}
+
+er1646v2RefAclOutAccPolValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.outPolicy"
+   ::= {er1646v2RefAclOutAccPolEntry 2147483648}
+
+
+er1646v2RefAclInAccPol OBJECT IDENTIFIER ::= {er1646v2RefAcl 73}
+
+er1646v2RefAclInAccPolTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RefAclInAccPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "trafficPolicy to be applied in the inbound direction for NAT"
+   ::= {er1646v2RefAclInAccPol 1}
+
+er1646v2RefAclInAccPolEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RefAclInAccPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RefAclInAccPolGlobalIx }
+   ::= {er1646v2RefAclInAccPolTable 1}
+
+Er1646v2RefAclInAccPolEntry ::=
+   SEQUENCE
+      {
+      er1646v2RefAclInAccPolGlobalIx
+         GlobalIndex,
+      er1646v2RefAclInAccPolValue
+         DisplayString
+      }
+
+er1646v2RefAclInAccPolGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RefAclInAccPolEntry 10}
+
+er1646v2RefAclInAccPolValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.inPolicy"
+   ::= {er1646v2RefAclInAccPolEntry 2147483648}
+
+
+er1646v2RefAclTcpSocTO OBJECT IDENTIFIER ::= {er1646v2RefAcl 7}
+
+er1646v2RefAclTcpSocTOTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RefAclTcpSocTOEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "NAT socket time-out"
+   ::= {er1646v2RefAclTcpSocTO 1}
+
+er1646v2RefAclTcpSocTOEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RefAclTcpSocTOEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RefAclTcpSocTOGlobalIx }
+   ::= {er1646v2RefAclTcpSocTOTable 1}
+
+Er1646v2RefAclTcpSocTOEntry ::=
+   SEQUENCE
+      {
+      er1646v2RefAclTcpSocTOGlobalIx
+         GlobalIndex,
+      er1646v2RefAclTcpSocTOValue
+         TimeTicks
+      }
+
+er1646v2RefAclTcpSocTOGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RefAclTcpSocTOEntry 10}
+
+er1646v2RefAclTcpSocTOValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.tcpSocketTimeOut
+
+       Time in centi-second."
+   ::= {er1646v2RefAclTcpSocTOEntry 2147483648}
+
+
+er1646v2RefAclTcpMsl OBJECT IDENTIFIER ::= {er1646v2RefAcl 83}
+
+er1646v2RefAclTcpMslTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RefAclTcpMslEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "adapt msl=maximum segment lifetime"
+   ::= {er1646v2RefAclTcpMsl 1}
+
+er1646v2RefAclTcpMslEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RefAclTcpMslEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RefAclTcpMslGlobalIx }
+   ::= {er1646v2RefAclTcpMslTable 1}
+
+Er1646v2RefAclTcpMslEntry ::=
+   SEQUENCE
+      {
+      er1646v2RefAclTcpMslGlobalIx
+         GlobalIndex,
+      er1646v2RefAclTcpMslValue
+         Integer32
+      }
+
+er1646v2RefAclTcpMslGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RefAclTcpMslEntry 10}
+
+er1646v2RefAclTcpMslValue OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.tcpMsl
+
+       unit name = sec"
+   ::= {er1646v2RefAclTcpMslEntry 2147483648}
+
+
+er1646v2RefAclUdpSocTO OBJECT IDENTIFIER ::= {er1646v2RefAcl 63}
+
+er1646v2RefAclUdpSocTOTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RefAclUdpSocTOEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "NAT socket time-out"
+   ::= {er1646v2RefAclUdpSocTO 1}
+
+er1646v2RefAclUdpSocTOEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RefAclUdpSocTOEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RefAclUdpSocTOGlobalIx }
+   ::= {er1646v2RefAclUdpSocTOTable 1}
+
+Er1646v2RefAclUdpSocTOEntry ::=
+   SEQUENCE
+      {
+      er1646v2RefAclUdpSocTOGlobalIx
+         GlobalIndex,
+      er1646v2RefAclUdpSocTOValue
+         TimeTicks
+      }
+
+er1646v2RefAclUdpSocTOGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RefAclUdpSocTOEntry 10}
+
+er1646v2RefAclUdpSocTOValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.udpSocketTimeOut
+
+       Time in centi-second."
+   ::= {er1646v2RefAclUdpSocTOEntry 2147483648}
+
+
+er1646v2RefAclTcpSoc OBJECT IDENTIFIER ::= {er1646v2RefAcl 61}
+
+er1646v2RefAclTcpSocTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RefAclTcpSocEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nr of nat sockets for udp/icmp or tcp"
+   ::= {er1646v2RefAclTcpSoc 1}
+
+er1646v2RefAclTcpSocEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RefAclTcpSocEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RefAclTcpSocGlobalIx }
+   ::= {er1646v2RefAclTcpSocTable 1}
+
+Er1646v2RefAclTcpSocEntry ::=
+   SEQUENCE
+      {
+      er1646v2RefAclTcpSocGlobalIx
+         GlobalIndex,
+      er1646v2RefAclTcpSocValue
+         Integer32
+      }
+
+er1646v2RefAclTcpSocGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RefAclTcpSocEntry 10}
+
+er1646v2RefAclTcpSocValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.tcpSockets"
+   ::= {er1646v2RefAclTcpSocEntry 2147483648}
+
+
+er1646v2RefAclUdpSoc OBJECT IDENTIFIER ::= {er1646v2RefAcl 62}
+
+er1646v2RefAclUdpSocTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RefAclUdpSocEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nr of nat sockets for udp/icmp or tcp"
+   ::= {er1646v2RefAclUdpSoc 1}
+
+er1646v2RefAclUdpSocEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RefAclUdpSocEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RefAclUdpSocGlobalIx }
+   ::= {er1646v2RefAclUdpSocTable 1}
+
+Er1646v2RefAclUdpSocEntry ::=
+   SEQUENCE
+      {
+      er1646v2RefAclUdpSocGlobalIx
+         GlobalIndex,
+      er1646v2RefAclUdpSocValue
+         Integer32
+      }
+
+er1646v2RefAclUdpSocGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RefAclUdpSocEntry 10}
+
+er1646v2RefAclUdpSocValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.udpSockets"
+   ::= {er1646v2RefAclUdpSocEntry 2147483648}
+
+
+er1646v2RefAclLog OBJECT IDENTIFIER ::= {er1646v2RefAcl 78}
+
+er1646v2RefAclLogSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RefAclLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat logging"
+   ::= {er1646v2RefAclLog 1}
+
+er1646v2RefAclLogEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RefAclLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RefAclLogGlobalIx }
+   ::= {er1646v2RefAclLogSSCTable 1}
+
+Er1646v2RefAclLogEntry ::=
+   SEQUENCE
+      {
+      er1646v2RefAclLogGlobalIx
+         GlobalIndex,
+      er1646v2RefAclLogMode
+         INTEGER,
+      er1646v2RefAclLogSyslogMask
+         Integer32,
+      er1646v2RefAclLogFile
+         DisplayString
+      }
+
+er1646v2RefAclLogGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RefAclLogEntry 10}
+
+er1646v2RefAclLogMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.log.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2RefAclLogEntry 16777216}
+
+er1646v2RefAclLogSyslogMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.log.syslogMask
+
+       Bit meanings:
+               bit 0 = socketClose,
+               bit 1 = perUserLimit"
+   ::= {er1646v2RefAclLogEntry 33554432}
+
+er1646v2RefAclLogFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.log.file"
+   ::= {er1646v2RefAclLogEntry 50331648}
+
+
+er1646v2RefAclAlg OBJECT IDENTIFIER ::= {er1646v2RefAcl 77}
+
+er1646v2RefAclAlgSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RefAclAlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Application Level Gateway configuration"
+   ::= {er1646v2RefAclAlg 1}
+
+er1646v2RefAclAlgEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RefAclAlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RefAclAlgGlobalIx }
+   ::= {er1646v2RefAclAlgSSCTable 1}
+
+Er1646v2RefAclAlgEntry ::=
+   SEQUENCE
+      {
+      er1646v2RefAclAlgGlobalIx
+         GlobalIndex,
+      er1646v2RefAclAlgSipMode
+         INTEGER,
+      er1646v2RefAclAlgSipDatPubTosValue
+         INTEGER,
+      er1646v2RefAclAlgSipDatPubPriority
+         INTEGER,
+      er1646v2RefAclAlgSipDatPubDropLevel
+         INTEGER,
+      er1646v2RefAclAlgSipDatPubCapture
+         INTEGER,
+      er1646v2RefAclAlgSipDatPubLimiterNone
+         INTEGER,
+      er1646v2RefAclAlgSipDatPubLimiterName
+         DisplayString,
+      er1646v2RefAclAlgSipDatPubLimiterQueueQueue1
+         DisplayString,
+      er1646v2RefAclAlgSipDatPubLimiterQueueQueue2
+         DisplayString,
+      er1646v2RefAclAlgSipDatPubLimiterQueueQueue3
+         DisplayString,
+      er1646v2RefAclAlgSipDatPubLimiterQueueQueue4
+         DisplayString,
+      er1646v2RefAclAlgSipDatPubLimiterQueueQueue5
+         DisplayString,
+      er1646v2RefAclAlgSipDatPubLimiterQueueLowDelayQueue
+         DisplayString,
+      er1646v2RefAclAlgSipDatPubLimiterQueueLowDelay2Queue
+         DisplayString,
+      er1646v2RefAclAlgSipDatPubLimiterQueueSystemQueue
+         DisplayString,
+      er1646v2RefAclAlgFtpMode
+         INTEGER,
+      er1646v2RefAclAlgFtpDatPubTosValue
+         INTEGER,
+      er1646v2RefAclAlgFtpDatPubPriority
+         INTEGER,
+      er1646v2RefAclAlgFtpDatPubDropLevel
+         INTEGER,
+      er1646v2RefAclAlgFtpDatPubCapture
+         INTEGER,
+      er1646v2RefAclAlgFtpDatPubLimiterNone
+         INTEGER,
+      er1646v2RefAclAlgFtpDatPubLimiterName
+         DisplayString,
+      er1646v2RefAclAlgFtpDatPubLimiterQueueQueue1
+         DisplayString,
+      er1646v2RefAclAlgFtpDatPubLimiterQueueQueue2
+         DisplayString,
+      er1646v2RefAclAlgFtpDatPubLimiterQueueQueue3
+         DisplayString,
+      er1646v2RefAclAlgFtpDatPubLimiterQueueQueue4
+         DisplayString,
+      er1646v2RefAclAlgFtpDatPubLimiterQueueQueue5
+         DisplayString,
+      er1646v2RefAclAlgFtpDatPubLimiterQueueLowDelayQueue
+         DisplayString,
+      er1646v2RefAclAlgFtpDatPubLimiterQueueLowDelay2Queue
+         DisplayString,
+      er1646v2RefAclAlgFtpDatPubLimiterQueueSystemQueue
+         DisplayString,
+      er1646v2RefAclAlgTftpMode
+         INTEGER,
+      er1646v2RefAclAlgTftpDatPubTosValue
+         INTEGER,
+      er1646v2RefAclAlgTftpDatPubPriority
+         INTEGER,
+      er1646v2RefAclAlgTftpDatPubDropLevel
+         INTEGER,
+      er1646v2RefAclAlgTftpDatPubCapture
+         INTEGER,
+      er1646v2RefAclAlgTftpDatPubLimiterNone
+         INTEGER,
+      er1646v2RefAclAlgTftpDatPubLimiterName
+         DisplayString,
+      er1646v2RefAclAlgTftpDatPubLimiterQueueQueue1
+         DisplayString,
+      er1646v2RefAclAlgTftpDatPubLimiterQueueQueue2
+         DisplayString,
+      er1646v2RefAclAlgTftpDatPubLimiterQueueQueue3
+         DisplayString,
+      er1646v2RefAclAlgTftpDatPubLimiterQueueQueue4
+         DisplayString,
+      er1646v2RefAclAlgTftpDatPubLimiterQueueQueue5
+         DisplayString,
+      er1646v2RefAclAlgTftpDatPubLimiterQueueLowDelayQueue
+         DisplayString,
+      er1646v2RefAclAlgTftpDatPubLimiterQueueLowDelay2Queue
+         DisplayString,
+      er1646v2RefAclAlgTftpDatPubLimiterQueueSystemQueue
+         DisplayString,
+      er1646v2RefAclAlgHttpMode
+         INTEGER
+      }
+
+er1646v2RefAclAlgGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RefAclAlgEntry 10}
+
+er1646v2RefAclAlgSipMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.mode
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1646v2RefAclAlgEntry 17825792}
+
+er1646v2RefAclAlgSipDatPubTosValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.tosValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1646v2RefAclAlgEntry 18939904}
+
+er1646v2RefAclAlgSipDatPubPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.priority
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1646v2RefAclAlgEntry 19005440}
+
+er1646v2RefAclAlgSipDatPubDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1646v2RefAclAlgEntry 19202048}
+
+er1646v2RefAclAlgSipDatPubCapture OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.capture
+
+       Possibilities:
+               disabled   (8)"
+   ::= {er1646v2RefAclAlgEntry 19070976}
+
+er1646v2RefAclAlgSipDatPubLimiterNone OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.limiter.none
+
+       Possibilities:
+               none   (0)"
+   ::= {er1646v2RefAclAlgEntry 19136768}
+
+er1646v2RefAclAlgSipDatPubLimiterName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.limiter.name"
+   ::= {er1646v2RefAclAlgEntry 19137024}
+
+er1646v2RefAclAlgSipDatPubLimiterQueueQueue1 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.limiter.queue.queue1"
+   ::= {er1646v2RefAclAlgEntry 19137281}
+
+er1646v2RefAclAlgSipDatPubLimiterQueueQueue2 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.limiter.queue.queue2"
+   ::= {er1646v2RefAclAlgEntry 19137282}
+
+er1646v2RefAclAlgSipDatPubLimiterQueueQueue3 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.limiter.queue.queue3"
+   ::= {er1646v2RefAclAlgEntry 19137283}
+
+er1646v2RefAclAlgSipDatPubLimiterQueueQueue4 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.limiter.queue.queue4"
+   ::= {er1646v2RefAclAlgEntry 19137284}
+
+er1646v2RefAclAlgSipDatPubLimiterQueueQueue5 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.limiter.queue.queue5"
+   ::= {er1646v2RefAclAlgEntry 19137285}
+
+er1646v2RefAclAlgSipDatPubLimiterQueueLowDelayQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.limiter.queue.lowDelayQueue"
+   ::= {er1646v2RefAclAlgEntry 19137286}
+
+er1646v2RefAclAlgSipDatPubLimiterQueueLowDelay2Queue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.limiter.queue.lowDelay2Queue"
+   ::= {er1646v2RefAclAlgEntry 19137287}
+
+er1646v2RefAclAlgSipDatPubLimiterQueueSystemQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.sip.dataToPublic.limiter.queue.systemQueue"
+   ::= {er1646v2RefAclAlgEntry 19137288}
+
+er1646v2RefAclAlgFtpMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.mode
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1646v2RefAclAlgEntry 51380224}
+
+er1646v2RefAclAlgFtpDatPubTosValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.tosValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1646v2RefAclAlgEntry 52494336}
+
+er1646v2RefAclAlgFtpDatPubPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.priority
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1646v2RefAclAlgEntry 52559872}
+
+er1646v2RefAclAlgFtpDatPubDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1646v2RefAclAlgEntry 52756480}
+
+er1646v2RefAclAlgFtpDatPubCapture OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.capture
+
+       Possibilities:
+               disabled   (8)"
+   ::= {er1646v2RefAclAlgEntry 52625408}
+
+er1646v2RefAclAlgFtpDatPubLimiterNone OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.limiter.none
+
+       Possibilities:
+               none   (0)"
+   ::= {er1646v2RefAclAlgEntry 52691200}
+
+er1646v2RefAclAlgFtpDatPubLimiterName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.limiter.name"
+   ::= {er1646v2RefAclAlgEntry 52691456}
+
+er1646v2RefAclAlgFtpDatPubLimiterQueueQueue1 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.limiter.queue.queue1"
+   ::= {er1646v2RefAclAlgEntry 52691713}
+
+er1646v2RefAclAlgFtpDatPubLimiterQueueQueue2 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.limiter.queue.queue2"
+   ::= {er1646v2RefAclAlgEntry 52691714}
+
+er1646v2RefAclAlgFtpDatPubLimiterQueueQueue3 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.limiter.queue.queue3"
+   ::= {er1646v2RefAclAlgEntry 52691715}
+
+er1646v2RefAclAlgFtpDatPubLimiterQueueQueue4 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.limiter.queue.queue4"
+   ::= {er1646v2RefAclAlgEntry 52691716}
+
+er1646v2RefAclAlgFtpDatPubLimiterQueueQueue5 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.limiter.queue.queue5"
+   ::= {er1646v2RefAclAlgEntry 52691717}
+
+er1646v2RefAclAlgFtpDatPubLimiterQueueLowDelayQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.limiter.queue.lowDelayQueue"
+   ::= {er1646v2RefAclAlgEntry 52691718}
+
+er1646v2RefAclAlgFtpDatPubLimiterQueueLowDelay2Queue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.limiter.queue.lowDelay2Queue"
+   ::= {er1646v2RefAclAlgEntry 52691719}
+
+er1646v2RefAclAlgFtpDatPubLimiterQueueSystemQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.ftp.dataToPublic.limiter.queue.systemQueue"
+   ::= {er1646v2RefAclAlgEntry 52691720}
+
+er1646v2RefAclAlgTftpMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.mode
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1646v2RefAclAlgEntry 68157440}
+
+er1646v2RefAclAlgTftpDatPubTosValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.tosValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1646v2RefAclAlgEntry 69271552}
+
+er1646v2RefAclAlgTftpDatPubPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.priority
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1646v2RefAclAlgEntry 69337088}
+
+er1646v2RefAclAlgTftpDatPubDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1646v2RefAclAlgEntry 69533696}
+
+er1646v2RefAclAlgTftpDatPubCapture OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.capture
+
+       Possibilities:
+               disabled   (8)"
+   ::= {er1646v2RefAclAlgEntry 69402624}
+
+er1646v2RefAclAlgTftpDatPubLimiterNone OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.limiter.none
+
+       Possibilities:
+               none   (0)"
+   ::= {er1646v2RefAclAlgEntry 69468416}
+
+er1646v2RefAclAlgTftpDatPubLimiterName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.limiter.name"
+   ::= {er1646v2RefAclAlgEntry 69468672}
+
+er1646v2RefAclAlgTftpDatPubLimiterQueueQueue1 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.limiter.queue.queue1"
+   ::= {er1646v2RefAclAlgEntry 69468929}
+
+er1646v2RefAclAlgTftpDatPubLimiterQueueQueue2 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.limiter.queue.queue2"
+   ::= {er1646v2RefAclAlgEntry 69468930}
+
+er1646v2RefAclAlgTftpDatPubLimiterQueueQueue3 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.limiter.queue.queue3"
+   ::= {er1646v2RefAclAlgEntry 69468931}
+
+er1646v2RefAclAlgTftpDatPubLimiterQueueQueue4 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.limiter.queue.queue4"
+   ::= {er1646v2RefAclAlgEntry 69468932}
+
+er1646v2RefAclAlgTftpDatPubLimiterQueueQueue5 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.limiter.queue.queue5"
+   ::= {er1646v2RefAclAlgEntry 69468933}
+
+er1646v2RefAclAlgTftpDatPubLimiterQueueLowDelayQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.limiter.queue.lowDelayQueue"
+   ::= {er1646v2RefAclAlgEntry 69468934}
+
+er1646v2RefAclAlgTftpDatPubLimiterQueueLowDelay2Queue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.limiter.queue.lowDelay2Queue"
+   ::= {er1646v2RefAclAlgEntry 69468935}
+
+er1646v2RefAclAlgTftpDatPubLimiterQueueSystemQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.tftp.dataToPublic.limiter.queue.systemQueue"
+   ::= {er1646v2RefAclAlgEntry 69468936}
+
+er1646v2RefAclAlgHttpMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.alg.http.mode
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1646v2RefAclAlgEntry 33619968}
+
+
+er1646v2RefAclSph OBJECT IDENTIFIER ::= {er1646v2RefAcl 79}
+
+er1646v2RefAclSphTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RefAclSphEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "limit of number of sessions per src IP"
+   ::= {er1646v2RefAclSph 1}
+
+er1646v2RefAclSphEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RefAclSphEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RefAclSphGlobalIx }
+   ::= {er1646v2RefAclSphTable 1}
+
+Er1646v2RefAclSphEntry ::=
+   SEQUENCE
+      {
+      er1646v2RefAclSphGlobalIx
+         GlobalIndex,
+      er1646v2RefAclSphValue
+         INTEGER
+      }
+
+er1646v2RefAclSphGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RefAclSphEntry 10}
+
+er1646v2RefAclSphValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unlimited (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.maxSocketsPerHost
+
+       Possibilities:
+               unlimited   (0)"
+   ::= {er1646v2RefAclSphEntry 2147483648}
+
+
+er1646v2RefAclCapNoSes OBJECT IDENTIFIER ::= {er1646v2RefAcl 121}
+
+er1646v2RefAclCapNoSesTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RefAclCapNoSesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "cdapture the no session"
+   ::= {er1646v2RefAclCapNoSes 1}
+
+er1646v2RefAclCapNoSesEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RefAclCapNoSesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RefAclCapNoSesGlobalIx }
+   ::= {er1646v2RefAclCapNoSesTable 1}
+
+Er1646v2RefAclCapNoSesEntry ::=
+   SEQUENCE
+      {
+      er1646v2RefAclCapNoSesGlobalIx
+         GlobalIndex,
+      er1646v2RefAclCapNoSesValue
+         INTEGER
+      }
+
+er1646v2RefAclCapNoSesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RefAclCapNoSesEntry 10}
+
+er1646v2RefAclCapNoSesValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.editConf.captureNoSession
+
+       Possibilities:
+               disabled   (8)"
+   ::= {er1646v2RefAclCapNoSesEntry 2147483648}
+
+
+
+sr1646v2RefAcl OBJECT IDENTIFIER ::= {r1646v2RefAcl 14}
+
+
+sr1646v2RefAclSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2RefAcl 269}
+
+sr1646v2RefAclSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2RefAclSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2RefAclSnmpIndex 1}
+
+sr1646v2RefAclSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2RefAclSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2RefAclSnmpIndexGlobalIx }
+   ::= {sr1646v2RefAclSnmpIndexTable 1}
+
+Sr1646v2RefAclSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2RefAclSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2RefAclSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2RefAclSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2RefAclSnmpIndexEntry 10}
+
+sr1646v2RefAclSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.snmpIndex"
+   ::= {sr1646v2RefAclSnmpIndexEntry 2147483648}
+
+
+sr1646v2RefAclSockets OBJECT IDENTIFIER ::= {sr1646v2RefAcl 72}
+
+sr1646v2RefAclSocketsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2RefAclSocketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "routingTable"
+   ::= {sr1646v2RefAclSockets 1}
+
+sr1646v2RefAclSocketsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2RefAclSocketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2RefAclSocketsGlobalIx,
+                sr1646v2RefAclSocketsTableIx }
+   ::= {sr1646v2RefAclSocketsSSCTable 1}
+
+Sr1646v2RefAclSocketsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2RefAclSocketsGlobalIx
+         GlobalIndex,
+      sr1646v2RefAclSocketsTableIx
+         TableIndex,
+      sr1646v2RefAclSocketsDirection
+         INTEGER,
+      sr1646v2RefAclSocketsIntDestination
+         IpAddress,
+      sr1646v2RefAclSocketsExtDestination
+         IpAddress,
+      sr1646v2RefAclSocketsProtocol
+         INTEGER,
+      sr1646v2RefAclSocketsIntPortIpAddress
+         IpAddress,
+      sr1646v2RefAclSocketsIntPortPort
+         INTEGER,
+      sr1646v2RefAclSocketsIntPortCallId
+         Gauge32,
+      sr1646v2RefAclSocketsIntPortSpi
+         Gauge32,
+      sr1646v2RefAclSocketsIntPortIdent
+         Gauge32,
+      sr1646v2RefAclSocketsExtPortIpAddress
+         IpAddress,
+      sr1646v2RefAclSocketsExtPortPort
+         INTEGER,
+      sr1646v2RefAclSocketsExtPortCallId
+         Gauge32,
+      sr1646v2RefAclSocketsExtPortSpi
+         Gauge32,
+      sr1646v2RefAclSocketsExtPortIdent
+         Gauge32,
+      sr1646v2RefAclSocketsPacketsToPublic
+         Counter32,
+      sr1646v2RefAclSocketsOctetsToPublic
+         Counter32,
+      sr1646v2RefAclSocketsPacketsToPrivate
+         Counter32,
+      sr1646v2RefAclSocketsOctetsToPrivate
+         Counter32,
+      sr1646v2RefAclSocketsTtl
+         TimeTicks,
+      sr1646v2RefAclSocketsAge
+         TimeTicks
+      }
+
+sr1646v2RefAclSocketsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2RefAclSocketsEntry 10}
+
+sr1646v2RefAclSocketsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2RefAclSocketsEntry 11}
+
+sr1646v2RefAclSocketsDirection OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               inbound (0),
+               outbound (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.direction
+
+       Possibilities:
+               inbound   (0)
+               outbound   (1)"
+   ::= {sr1646v2RefAclSocketsEntry 218103808}
+
+sr1646v2RefAclSocketsIntDestination OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.intDestination"
+   ::= {sr1646v2RefAclSocketsEntry 16777216}
+
+sr1646v2RefAclSocketsExtDestination OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.extDestination"
+   ::= {sr1646v2RefAclSocketsEntry 50331648}
+
+sr1646v2RefAclSocketsProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iCMP (1),
+               iGMP (2),
+               iPinIP (4),
+               tCP (6),
+               eGP (8),
+               iGP (9),
+               uDP (17),
+               rSVP (46),
+               iGRP (88),
+               oSPF (89),
+               eSP (50),
+               aH (51),
+               gRE (47),
+               iPV6 (41),
+               rTPd (250),
+               rTPc (251),
+               unknown (255)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.protocol
+
+       Possibilities:
+               ICMP   (1)
+               IGMP   (2)
+               IPinIP   (4)
+               TCP   (6)
+               EGP   (8)
+               IGP   (9)
+               UDP   (17)
+               RSVP   (46)
+               IGRP   (88)
+               OSPF   (89)
+               ESP   (50)
+               AH   (51)
+               GRE   (47)
+               IPV6   (41)
+               RTPd   (250)
+               RTPc   (251)
+               Unknown   (255)"
+   ::= {sr1646v2RefAclSocketsEntry 67108864}
+
+sr1646v2RefAclSocketsIntPortIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.intPort.ipAddress"
+   ::= {sr1646v2RefAclSocketsEntry 83951616}
+
+sr1646v2RefAclSocketsIntPortPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.intPort.port
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1646v2RefAclSocketsEntry 84017152}
+
+sr1646v2RefAclSocketsIntPortCallId OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.intPort.callId
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2RefAclSocketsEntry 84082688}
+
+sr1646v2RefAclSocketsIntPortSpi OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.intPort.spi
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2RefAclSocketsEntry 84148224}
+
+sr1646v2RefAclSocketsIntPortIdent OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.intPort.ident
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2RefAclSocketsEntry 84213760}
+
+sr1646v2RefAclSocketsExtPortIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.extPort.ipAddress"
+   ::= {sr1646v2RefAclSocketsEntry 117506048}
+
+sr1646v2RefAclSocketsExtPortPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.extPort.port
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1646v2RefAclSocketsEntry 117571584}
+
+sr1646v2RefAclSocketsExtPortCallId OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.extPort.callId
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2RefAclSocketsEntry 117637120}
+
+sr1646v2RefAclSocketsExtPortSpi OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.extPort.spi
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2RefAclSocketsEntry 117702656}
+
+sr1646v2RefAclSocketsExtPortIdent OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.extPort.ident
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2RefAclSocketsEntry 117768192}
+
+sr1646v2RefAclSocketsPacketsToPublic OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.packetsToPublic
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2RefAclSocketsEntry 134217728}
+
+sr1646v2RefAclSocketsOctetsToPublic OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.octetsToPublic
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2RefAclSocketsEntry 150994944}
+
+sr1646v2RefAclSocketsPacketsToPrivate OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.packetsToPrivate
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2RefAclSocketsEntry 167772160}
+
+sr1646v2RefAclSocketsOctetsToPrivate OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.octetsToPrivate
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2RefAclSocketsEntry 184549376}
+
+sr1646v2RefAclSocketsTtl OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.ttl
+
+       Time in centi-second."
+   ::= {sr1646v2RefAclSocketsEntry 201326592}
+
+sr1646v2RefAclSocketsAge OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.sockets.age
+
+       Time in centi-second."
+   ::= {sr1646v2RefAclSocketsEntry 251658240}
+
+
+sr1646v2RefAclDiscards OBJECT IDENTIFIER ::= {sr1646v2RefAcl 82}
+
+sr1646v2RefAclDiscardsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2RefAclDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat discard table"
+   ::= {sr1646v2RefAclDiscards 1}
+
+sr1646v2RefAclDiscardsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2RefAclDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2RefAclDiscardsGlobalIx,
+                sr1646v2RefAclDiscardsTableIx }
+   ::= {sr1646v2RefAclDiscardsSSCTable 1}
+
+Sr1646v2RefAclDiscardsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2RefAclDiscardsGlobalIx
+         GlobalIndex,
+      sr1646v2RefAclDiscardsTableIx
+         TableIndex,
+      sr1646v2RefAclDiscardsDirection
+         INTEGER,
+      sr1646v2RefAclDiscardsExtDestination
+         IpAddress,
+      sr1646v2RefAclDiscardsIntDestination
+         IpAddress,
+      sr1646v2RefAclDiscardsProtocol
+         INTEGER,
+      sr1646v2RefAclDiscardsExtPort
+         INTEGER,
+      sr1646v2RefAclDiscardsIntPort
+         INTEGER,
+      sr1646v2RefAclDiscardsDate
+         DisplayString
+      }
+
+sr1646v2RefAclDiscardsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2RefAclDiscardsEntry 10}
+
+sr1646v2RefAclDiscardsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2RefAclDiscardsEntry 11}
+
+sr1646v2RefAclDiscardsDirection OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               inbound (0),
+               outbound (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.discards.direction
+
+       Possibilities:
+               inbound   (0)
+               outbound   (1)"
+   ::= {sr1646v2RefAclDiscardsEntry 218103808}
+
+sr1646v2RefAclDiscardsExtDestination OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.discards.extDestination"
+   ::= {sr1646v2RefAclDiscardsEntry 50331648}
+
+sr1646v2RefAclDiscardsIntDestination OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.discards.intDestination"
+   ::= {sr1646v2RefAclDiscardsEntry 16777216}
+
+sr1646v2RefAclDiscardsProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iCMP (1),
+               iGMP (2),
+               iPinIP (4),
+               tCP (6),
+               eGP (8),
+               iGP (9),
+               uDP (17),
+               rSVP (46),
+               iGRP (88),
+               oSPF (89),
+               eSP (50),
+               aH (51),
+               gRE (47),
+               iPV6 (41),
+               rTPd (250),
+               rTPc (251),
+               unknown (255)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.discards.protocol
+
+       Possibilities:
+               ICMP   (1)
+               IGMP   (2)
+               IPinIP   (4)
+               TCP   (6)
+               EGP   (8)
+               IGP   (9)
+               UDP   (17)
+               RSVP   (46)
+               IGRP   (88)
+               OSPF   (89)
+               ESP   (50)
+               AH   (51)
+               GRE   (47)
+               IPV6   (41)
+               RTPd   (250)
+               RTPc   (251)
+               Unknown   (255)"
+   ::= {sr1646v2RefAclDiscardsEntry 67108864}
+
+sr1646v2RefAclDiscardsExtPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.discards.extPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1646v2RefAclDiscardsEntry 117440512}
+
+sr1646v2RefAclDiscardsIntPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.discards.intPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1646v2RefAclDiscardsEntry 83886080}
+
+sr1646v2RefAclDiscardsDate OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.status.discards.date"
+   ::= {sr1646v2RefAclDiscardsEntry 520093696}
+
+
+
+pr1646v2RefAcl OBJECT IDENTIFIER ::= {r1646v2RefAcl 12}
+
+
+pr1646v2RefAclTcpSocketsUsed OBJECT IDENTIFIER ::= {pr1646v2RefAcl 21}
+
+pr1646v2RefAclTcpSocketsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclTcpSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1646v2RefAclTcpSocketsUsed 1}
+
+pr1646v2RefAclTcpSocketsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclTcpSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclTcpSocketsUsedGlobalIx }
+   ::= {pr1646v2RefAclTcpSocketsUsedTable 1}
+
+Pr1646v2RefAclTcpSocketsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclTcpSocketsUsedGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclTcpSocketsUsedValue
+         Integer32
+      }
+
+pr1646v2RefAclTcpSocketsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclTcpSocketsUsedEntry 10}
+
+pr1646v2RefAclTcpSocketsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.tcpSocketsUsed"
+   ::= {pr1646v2RefAclTcpSocketsUsedEntry 2147483648}
+
+
+pr1646v2RefAclUdpSocketsUsed OBJECT IDENTIFIER ::= {pr1646v2RefAcl 22}
+
+pr1646v2RefAclUdpSocketsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclUdpSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1646v2RefAclUdpSocketsUsed 1}
+
+pr1646v2RefAclUdpSocketsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclUdpSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclUdpSocketsUsedGlobalIx }
+   ::= {pr1646v2RefAclUdpSocketsUsedTable 1}
+
+Pr1646v2RefAclUdpSocketsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclUdpSocketsUsedGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclUdpSocketsUsedValue
+         Integer32
+      }
+
+pr1646v2RefAclUdpSocketsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclUdpSocketsUsedEntry 10}
+
+pr1646v2RefAclUdpSocketsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.udpSocketsUsed"
+   ::= {pr1646v2RefAclUdpSocketsUsedEntry 2147483648}
+
+
+pr1646v2RefAclIcmpSocketsUsed OBJECT IDENTIFIER ::= {pr1646v2RefAcl 23}
+
+pr1646v2RefAclIcmpSocketsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclIcmpSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1646v2RefAclIcmpSocketsUsed 1}
+
+pr1646v2RefAclIcmpSocketsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclIcmpSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclIcmpSocketsUsedGlobalIx }
+   ::= {pr1646v2RefAclIcmpSocketsUsedTable 1}
+
+Pr1646v2RefAclIcmpSocketsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclIcmpSocketsUsedGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclIcmpSocketsUsedValue
+         Integer32
+      }
+
+pr1646v2RefAclIcmpSocketsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclIcmpSocketsUsedEntry 10}
+
+pr1646v2RefAclIcmpSocketsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.icmpSocketsUsed"
+   ::= {pr1646v2RefAclIcmpSocketsUsedEntry 2147483648}
+
+
+pr1646v2RefAclEspSocketsUsed OBJECT IDENTIFIER ::= {pr1646v2RefAcl 30}
+
+pr1646v2RefAclEspSocketsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclEspSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1646v2RefAclEspSocketsUsed 1}
+
+pr1646v2RefAclEspSocketsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclEspSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclEspSocketsUsedGlobalIx }
+   ::= {pr1646v2RefAclEspSocketsUsedTable 1}
+
+Pr1646v2RefAclEspSocketsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclEspSocketsUsedGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclEspSocketsUsedValue
+         Integer32
+      }
+
+pr1646v2RefAclEspSocketsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclEspSocketsUsedEntry 10}
+
+pr1646v2RefAclEspSocketsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.espSocketsUsed"
+   ::= {pr1646v2RefAclEspSocketsUsedEntry 2147483648}
+
+
+pr1646v2RefAclGreSocketsUsed OBJECT IDENTIFIER ::= {pr1646v2RefAcl 31}
+
+pr1646v2RefAclGreSocketsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclGreSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1646v2RefAclGreSocketsUsed 1}
+
+pr1646v2RefAclGreSocketsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclGreSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclGreSocketsUsedGlobalIx }
+   ::= {pr1646v2RefAclGreSocketsUsedTable 1}
+
+Pr1646v2RefAclGreSocketsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclGreSocketsUsedGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclGreSocketsUsedValue
+         Integer32
+      }
+
+pr1646v2RefAclGreSocketsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclGreSocketsUsedEntry 10}
+
+pr1646v2RefAclGreSocketsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.greSocketsUsed"
+   ::= {pr1646v2RefAclGreSocketsUsedEntry 2147483648}
+
+
+pr1646v2RefAclIpV6SocketsUsed OBJECT IDENTIFIER ::= {pr1646v2RefAcl 35}
+
+pr1646v2RefAclIpV6SocketsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclIpV6SocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1646v2RefAclIpV6SocketsUsed 1}
+
+pr1646v2RefAclIpV6SocketsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclIpV6SocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclIpV6SocketsUsedGlobalIx }
+   ::= {pr1646v2RefAclIpV6SocketsUsedTable 1}
+
+Pr1646v2RefAclIpV6SocketsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclIpV6SocketsUsedGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclIpV6SocketsUsedValue
+         Integer32
+      }
+
+pr1646v2RefAclIpV6SocketsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclIpV6SocketsUsedEntry 10}
+
+pr1646v2RefAclIpV6SocketsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.ipV6SocketsUsed"
+   ::= {pr1646v2RefAclIpV6SocketsUsedEntry 2147483648}
+
+
+pr1646v2RefAclAlgStructsUsed OBJECT IDENTIFIER ::= {pr1646v2RefAcl 136}
+
+pr1646v2RefAclAlgStructsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclAlgStructsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1646v2RefAclAlgStructsUsed 1}
+
+pr1646v2RefAclAlgStructsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclAlgStructsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclAlgStructsUsedGlobalIx }
+   ::= {pr1646v2RefAclAlgStructsUsedTable 1}
+
+Pr1646v2RefAclAlgStructsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclAlgStructsUsedGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclAlgStructsUsedValue
+         Integer32
+      }
+
+pr1646v2RefAclAlgStructsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclAlgStructsUsedEntry 10}
+
+pr1646v2RefAclAlgStructsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.algStructsUsed"
+   ::= {pr1646v2RefAclAlgStructsUsedEntry 2147483648}
+
+
+pr1646v2RefAclHttpStructsUsed OBJECT IDENTIFIER ::= {pr1646v2RefAcl 137}
+
+pr1646v2RefAclHttpStructsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclHttpStructsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1646v2RefAclHttpStructsUsed 1}
+
+pr1646v2RefAclHttpStructsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclHttpStructsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclHttpStructsUsedGlobalIx }
+   ::= {pr1646v2RefAclHttpStructsUsedTable 1}
+
+Pr1646v2RefAclHttpStructsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclHttpStructsUsedGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclHttpStructsUsedValue
+         Integer32
+      }
+
+pr1646v2RefAclHttpStructsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclHttpStructsUsedEntry 10}
+
+pr1646v2RefAclHttpStructsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.httpStructsUsed"
+   ::= {pr1646v2RefAclHttpStructsUsedEntry 2147483648}
+
+
+pr1646v2RefAclRtpStructsUsed OBJECT IDENTIFIER ::= {pr1646v2RefAcl 135}
+
+pr1646v2RefAclRtpStructsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclRtpStructsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1646v2RefAclRtpStructsUsed 1}
+
+pr1646v2RefAclRtpStructsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclRtpStructsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclRtpStructsUsedGlobalIx }
+   ::= {pr1646v2RefAclRtpStructsUsedTable 1}
+
+Pr1646v2RefAclRtpStructsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclRtpStructsUsedGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclRtpStructsUsedValue
+         Integer32
+      }
+
+pr1646v2RefAclRtpStructsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclRtpStructsUsedEntry 10}
+
+pr1646v2RefAclRtpStructsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.rtpStructsUsed"
+   ::= {pr1646v2RefAclRtpStructsUsedEntry 2147483648}
+
+
+pr1646v2RefAclSocketsFree OBJECT IDENTIFIER ::= {pr1646v2RefAcl 24}
+
+pr1646v2RefAclSocketsFreeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclSocketsFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1646v2RefAclSocketsFree 1}
+
+pr1646v2RefAclSocketsFreeEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclSocketsFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclSocketsFreeGlobalIx }
+   ::= {pr1646v2RefAclSocketsFreeTable 1}
+
+Pr1646v2RefAclSocketsFreeEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclSocketsFreeGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclSocketsFreeValue
+         Integer32
+      }
+
+pr1646v2RefAclSocketsFreeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclSocketsFreeEntry 10}
+
+pr1646v2RefAclSocketsFreeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.socketsFree"
+   ::= {pr1646v2RefAclSocketsFreeEntry 2147483648}
+
+
+pr1646v2RefAclAlgFree OBJECT IDENTIFIER ::= {pr1646v2RefAcl 138}
+
+pr1646v2RefAclAlgFreeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclAlgFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1646v2RefAclAlgFree 1}
+
+pr1646v2RefAclAlgFreeEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclAlgFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclAlgFreeGlobalIx }
+   ::= {pr1646v2RefAclAlgFreeTable 1}
+
+Pr1646v2RefAclAlgFreeEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclAlgFreeGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclAlgFreeValue
+         Integer32
+      }
+
+pr1646v2RefAclAlgFreeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclAlgFreeEntry 10}
+
+pr1646v2RefAclAlgFreeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.algFree"
+   ::= {pr1646v2RefAclAlgFreeEntry 2147483648}
+
+
+pr1646v2RefAclHttpFree OBJECT IDENTIFIER ::= {pr1646v2RefAcl 139}
+
+pr1646v2RefAclHttpFreeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclHttpFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1646v2RefAclHttpFree 1}
+
+pr1646v2RefAclHttpFreeEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclHttpFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclHttpFreeGlobalIx }
+   ::= {pr1646v2RefAclHttpFreeTable 1}
+
+Pr1646v2RefAclHttpFreeEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclHttpFreeGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclHttpFreeValue
+         Integer32
+      }
+
+pr1646v2RefAclHttpFreeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclHttpFreeEntry 10}
+
+pr1646v2RefAclHttpFreeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.httpFree"
+   ::= {pr1646v2RefAclHttpFreeEntry 2147483648}
+
+
+pr1646v2RefAclRtpFree OBJECT IDENTIFIER ::= {pr1646v2RefAcl 140}
+
+pr1646v2RefAclRtpFreeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclRtpFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1646v2RefAclRtpFree 1}
+
+pr1646v2RefAclRtpFreeEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclRtpFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclRtpFreeGlobalIx }
+   ::= {pr1646v2RefAclRtpFreeTable 1}
+
+Pr1646v2RefAclRtpFreeEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclRtpFreeGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclRtpFreeValue
+         Integer32
+      }
+
+pr1646v2RefAclRtpFreeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclRtpFreeEntry 10}
+
+pr1646v2RefAclRtpFreeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.rtpFree"
+   ::= {pr1646v2RefAclRtpFreeEntry 2147483648}
+
+
+pr1646v2RefAclAllocFails OBJECT IDENTIFIER ::= {pr1646v2RefAcl 25}
+
+pr1646v2RefAclAllocFailsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclAllocFailsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclAllocFails 1}
+
+pr1646v2RefAclAllocFailsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclAllocFailsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclAllocFailsGlobalIx }
+   ::= {pr1646v2RefAclAllocFailsTable 1}
+
+Pr1646v2RefAclAllocFailsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclAllocFailsGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclAllocFailsValue
+         Counter32
+      }
+
+pr1646v2RefAclAllocFailsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclAllocFailsEntry 10}
+
+pr1646v2RefAclAllocFailsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.allocFails
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclAllocFailsEntry 2147483648}
+
+
+pr1646v2RefAclTcpAllocs OBJECT IDENTIFIER ::= {pr1646v2RefAcl 26}
+
+pr1646v2RefAclTcpAllocsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclTcpAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclTcpAllocs 1}
+
+pr1646v2RefAclTcpAllocsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclTcpAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclTcpAllocsGlobalIx }
+   ::= {pr1646v2RefAclTcpAllocsTable 1}
+
+Pr1646v2RefAclTcpAllocsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclTcpAllocsGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclTcpAllocsValue
+         Counter32
+      }
+
+pr1646v2RefAclTcpAllocsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclTcpAllocsEntry 10}
+
+pr1646v2RefAclTcpAllocsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.tcpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclTcpAllocsEntry 2147483648}
+
+
+pr1646v2RefAclUdpAllocs OBJECT IDENTIFIER ::= {pr1646v2RefAcl 27}
+
+pr1646v2RefAclUdpAllocsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclUdpAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclUdpAllocs 1}
+
+pr1646v2RefAclUdpAllocsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclUdpAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclUdpAllocsGlobalIx }
+   ::= {pr1646v2RefAclUdpAllocsTable 1}
+
+Pr1646v2RefAclUdpAllocsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclUdpAllocsGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclUdpAllocsValue
+         Counter32
+      }
+
+pr1646v2RefAclUdpAllocsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclUdpAllocsEntry 10}
+
+pr1646v2RefAclUdpAllocsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.udpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclUdpAllocsEntry 2147483648}
+
+
+pr1646v2RefAclIcmpAllocs OBJECT IDENTIFIER ::= {pr1646v2RefAcl 28}
+
+pr1646v2RefAclIcmpAllocsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclIcmpAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclIcmpAllocs 1}
+
+pr1646v2RefAclIcmpAllocsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclIcmpAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclIcmpAllocsGlobalIx }
+   ::= {pr1646v2RefAclIcmpAllocsTable 1}
+
+Pr1646v2RefAclIcmpAllocsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclIcmpAllocsGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclIcmpAllocsValue
+         Counter32
+      }
+
+pr1646v2RefAclIcmpAllocsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclIcmpAllocsEntry 10}
+
+pr1646v2RefAclIcmpAllocsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.icmpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclIcmpAllocsEntry 2147483648}
+
+
+pr1646v2RefAclEspAllocs OBJECT IDENTIFIER ::= {pr1646v2RefAcl 32}
+
+pr1646v2RefAclEspAllocsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclEspAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclEspAllocs 1}
+
+pr1646v2RefAclEspAllocsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclEspAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclEspAllocsGlobalIx }
+   ::= {pr1646v2RefAclEspAllocsTable 1}
+
+Pr1646v2RefAclEspAllocsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclEspAllocsGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclEspAllocsValue
+         Counter32
+      }
+
+pr1646v2RefAclEspAllocsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclEspAllocsEntry 10}
+
+pr1646v2RefAclEspAllocsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.espAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclEspAllocsEntry 2147483648}
+
+
+pr1646v2RefAclGreAllocs OBJECT IDENTIFIER ::= {pr1646v2RefAcl 33}
+
+pr1646v2RefAclGreAllocsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclGreAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclGreAllocs 1}
+
+pr1646v2RefAclGreAllocsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclGreAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclGreAllocsGlobalIx }
+   ::= {pr1646v2RefAclGreAllocsTable 1}
+
+Pr1646v2RefAclGreAllocsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclGreAllocsGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclGreAllocsValue
+         Counter32
+      }
+
+pr1646v2RefAclGreAllocsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclGreAllocsEntry 10}
+
+pr1646v2RefAclGreAllocsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.greAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclGreAllocsEntry 2147483648}
+
+
+pr1646v2RefAclIpV6Allocs OBJECT IDENTIFIER ::= {pr1646v2RefAcl 34}
+
+pr1646v2RefAclIpV6AllocsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclIpV6AllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclIpV6Allocs 1}
+
+pr1646v2RefAclIpV6AllocsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclIpV6AllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclIpV6AllocsGlobalIx }
+   ::= {pr1646v2RefAclIpV6AllocsTable 1}
+
+Pr1646v2RefAclIpV6AllocsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclIpV6AllocsGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclIpV6AllocsValue
+         Counter32
+      }
+
+pr1646v2RefAclIpV6AllocsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclIpV6AllocsEntry 10}
+
+pr1646v2RefAclIpV6AllocsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.ipV6Allocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclIpV6AllocsEntry 2147483648}
+
+
+pr1646v2RefAclBypasses OBJECT IDENTIFIER ::= {pr1646v2RefAcl 36}
+
+pr1646v2RefAclBypassesTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclBypassesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclBypasses 1}
+
+pr1646v2RefAclBypassesEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclBypassesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclBypassesGlobalIx }
+   ::= {pr1646v2RefAclBypassesTable 1}
+
+Pr1646v2RefAclBypassesEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclBypassesGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclBypassesValue
+         Counter32
+      }
+
+pr1646v2RefAclBypassesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclBypassesEntry 10}
+
+pr1646v2RefAclBypassesValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.bypasses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclBypassesEntry 2147483648}
+
+
+pr1646v2RefAclDiscards OBJECT IDENTIFIER ::= {pr1646v2RefAcl 29}
+
+pr1646v2RefAclDiscardsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclDiscards 1}
+
+pr1646v2RefAclDiscardsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclDiscardsGlobalIx }
+   ::= {pr1646v2RefAclDiscardsTable 1}
+
+Pr1646v2RefAclDiscardsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclDiscardsGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclDiscardsValue
+         Counter32
+      }
+
+pr1646v2RefAclDiscardsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclDiscardsEntry 10}
+
+pr1646v2RefAclDiscardsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.discards
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclDiscardsEntry 2147483648}
+
+
+pr1646v2RefAclHostSocketsExceeded OBJECT IDENTIFIER ::= {pr1646v2RefAcl 51}
+
+pr1646v2RefAclHostSocketsExceededTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclHostSocketsExceededEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclHostSocketsExceeded 1}
+
+pr1646v2RefAclHostSocketsExceededEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclHostSocketsExceededEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclHostSocketsExceededGlobalIx }
+   ::= {pr1646v2RefAclHostSocketsExceededTable 1}
+
+Pr1646v2RefAclHostSocketsExceededEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclHostSocketsExceededGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclHostSocketsExceededValue
+         Counter32
+      }
+
+pr1646v2RefAclHostSocketsExceededGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclHostSocketsExceededEntry 10}
+
+pr1646v2RefAclHostSocketsExceededValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.hostSocketsExceeded
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclHostSocketsExceededEntry 2147483648}
+
+
+pr1646v2RefAclHostSocketsMax OBJECT IDENTIFIER ::= {pr1646v2RefAcl 52}
+
+pr1646v2RefAclHostSocketsMaxTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclHostSocketsMaxEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclHostSocketsMax 1}
+
+pr1646v2RefAclHostSocketsMaxEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclHostSocketsMaxEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclHostSocketsMaxGlobalIx }
+   ::= {pr1646v2RefAclHostSocketsMaxTable 1}
+
+Pr1646v2RefAclHostSocketsMaxEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclHostSocketsMaxGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclHostSocketsMaxValue
+         Counter32
+      }
+
+pr1646v2RefAclHostSocketsMaxGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclHostSocketsMaxEntry 10}
+
+pr1646v2RefAclHostSocketsMaxValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.hostSocketsMax
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclHostSocketsMaxEntry 2147483648}
+
+
+pr1646v2RefAclSynFloodsInbound OBJECT IDENTIFIER ::= {pr1646v2RefAcl 54}
+
+pr1646v2RefAclSynFloodsInboundTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclSynFloodsInboundEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclSynFloodsInbound 1}
+
+pr1646v2RefAclSynFloodsInboundEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclSynFloodsInboundEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclSynFloodsInboundGlobalIx }
+   ::= {pr1646v2RefAclSynFloodsInboundTable 1}
+
+Pr1646v2RefAclSynFloodsInboundEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclSynFloodsInboundGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclSynFloodsInboundValue
+         Counter32
+      }
+
+pr1646v2RefAclSynFloodsInboundGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclSynFloodsInboundEntry 10}
+
+pr1646v2RefAclSynFloodsInboundValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.synFloodsInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclSynFloodsInboundEntry 2147483648}
+
+
+pr1646v2RefAclSynFloodsOutbound OBJECT IDENTIFIER ::= {pr1646v2RefAcl 55}
+
+pr1646v2RefAclSynFloodsOutboundTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclSynFloodsOutboundEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclSynFloodsOutbound 1}
+
+pr1646v2RefAclSynFloodsOutboundEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclSynFloodsOutboundEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclSynFloodsOutboundGlobalIx }
+   ::= {pr1646v2RefAclSynFloodsOutboundTable 1}
+
+Pr1646v2RefAclSynFloodsOutboundEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclSynFloodsOutboundGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclSynFloodsOutboundValue
+         Counter32
+      }
+
+pr1646v2RefAclSynFloodsOutboundGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclSynFloodsOutboundEntry 10}
+
+pr1646v2RefAclSynFloodsOutboundValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.synFloodsOutbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclSynFloodsOutboundEntry 2147483648}
+
+
+pr1646v2RefAclPacketsToPublic OBJECT IDENTIFIER ::= {pr1646v2RefAcl 40}
+
+pr1646v2RefAclPacketsToPublicTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclPacketsToPublicEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclPacketsToPublic 1}
+
+pr1646v2RefAclPacketsToPublicEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclPacketsToPublicEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclPacketsToPublicGlobalIx }
+   ::= {pr1646v2RefAclPacketsToPublicTable 1}
+
+Pr1646v2RefAclPacketsToPublicEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclPacketsToPublicGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclPacketsToPublicValue
+         Counter64
+      }
+
+pr1646v2RefAclPacketsToPublicGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclPacketsToPublicEntry 10}
+
+pr1646v2RefAclPacketsToPublicValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.packetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclPacketsToPublicEntry 2147483648}
+
+
+pr1646v2RefAclOctetsToPublic OBJECT IDENTIFIER ::= {pr1646v2RefAcl 41}
+
+pr1646v2RefAclOctetsToPublicTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclOctetsToPublicEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclOctetsToPublic 1}
+
+pr1646v2RefAclOctetsToPublicEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclOctetsToPublicEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclOctetsToPublicGlobalIx }
+   ::= {pr1646v2RefAclOctetsToPublicTable 1}
+
+Pr1646v2RefAclOctetsToPublicEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclOctetsToPublicGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclOctetsToPublicValue
+         Counter64
+      }
+
+pr1646v2RefAclOctetsToPublicGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclOctetsToPublicEntry 10}
+
+pr1646v2RefAclOctetsToPublicValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.octetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclOctetsToPublicEntry 2147483648}
+
+
+pr1646v2RefAclPacketsToPrivate OBJECT IDENTIFIER ::= {pr1646v2RefAcl 42}
+
+pr1646v2RefAclPacketsToPrivateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclPacketsToPrivateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclPacketsToPrivate 1}
+
+pr1646v2RefAclPacketsToPrivateEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclPacketsToPrivateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclPacketsToPrivateGlobalIx }
+   ::= {pr1646v2RefAclPacketsToPrivateTable 1}
+
+Pr1646v2RefAclPacketsToPrivateEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclPacketsToPrivateGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclPacketsToPrivateValue
+         Counter64
+      }
+
+pr1646v2RefAclPacketsToPrivateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclPacketsToPrivateEntry 10}
+
+pr1646v2RefAclPacketsToPrivateValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.packetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclPacketsToPrivateEntry 2147483648}
+
+
+pr1646v2RefAclOctetsToPrivate OBJECT IDENTIFIER ::= {pr1646v2RefAcl 43}
+
+pr1646v2RefAclOctetsToPrivateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclOctetsToPrivateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1646v2RefAclOctetsToPrivate 1}
+
+pr1646v2RefAclOctetsToPrivateEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclOctetsToPrivateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclOctetsToPrivateGlobalIx }
+   ::= {pr1646v2RefAclOctetsToPrivateTable 1}
+
+Pr1646v2RefAclOctetsToPrivateEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclOctetsToPrivateGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclOctetsToPrivateValue
+         Counter64
+      }
+
+pr1646v2RefAclOctetsToPrivateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclOctetsToPrivateEntry 10}
+
+pr1646v2RefAclOctetsToPrivateValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.octetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclOctetsToPrivateEntry 2147483648}
+
+
+pr1646v2RefAclInboundServices OBJECT IDENTIFIER ::= {pr1646v2RefAcl 74}
+
+pr1646v2RefAclInboundServicesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclInboundServicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "stats on inbound services or dmzHost stuff"
+   ::= {pr1646v2RefAclInboundServices 1}
+
+pr1646v2RefAclInboundServicesEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclInboundServicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclInboundServicesGlobalIx }
+   ::= {pr1646v2RefAclInboundServicesSSCTable 1}
+
+Pr1646v2RefAclInboundServicesEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclInboundServicesGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclInboundServicesTcp
+         Counter32,
+      pr1646v2RefAclInboundServicesUdp
+         Counter32,
+      pr1646v2RefAclInboundServicesEsp
+         Counter32,
+      pr1646v2RefAclInboundServicesGre
+         Counter32,
+      pr1646v2RefAclInboundServicesIcmp
+         Counter32,
+      pr1646v2RefAclInboundServicesIpV6
+         Counter32,
+      pr1646v2RefAclInboundServicesDmz
+         Counter32
+      }
+
+pr1646v2RefAclInboundServicesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclInboundServicesEntry 10}
+
+pr1646v2RefAclInboundServicesTcp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.inboundServices.tcp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclInboundServicesEntry 738197504}
+
+pr1646v2RefAclInboundServicesUdp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.inboundServices.udp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclInboundServicesEntry 754974720}
+
+pr1646v2RefAclInboundServicesEsp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.inboundServices.esp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclInboundServicesEntry 771751936}
+
+pr1646v2RefAclInboundServicesGre OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.inboundServices.gre
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclInboundServicesEntry 788529152}
+
+pr1646v2RefAclInboundServicesIcmp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.inboundServices.icmp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclInboundServicesEntry 805306368}
+
+pr1646v2RefAclInboundServicesIpV6 OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.inboundServices.ipV6
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclInboundServicesEntry 838860800}
+
+pr1646v2RefAclInboundServicesDmz OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.inboundServices.dmz
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclInboundServicesEntry 822083584}
+
+
+pr1646v2RefAclHttpInfo OBJECT IDENTIFIER ::= {pr1646v2RefAcl 75}
+
+pr1646v2RefAclHttpInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclHttpInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "which sites are our users interested in"
+   ::= {pr1646v2RefAclHttpInfo 1}
+
+pr1646v2RefAclHttpInfoEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclHttpInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclHttpInfoGlobalIx,
+                pr1646v2RefAclHttpInfoTableIx }
+   ::= {pr1646v2RefAclHttpInfoSSCTable 1}
+
+Pr1646v2RefAclHttpInfoEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclHttpInfoGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclHttpInfoTableIx
+         TableIndex,
+      pr1646v2RefAclHttpInfoHost
+         DisplayString,
+      pr1646v2RefAclHttpInfoIp
+         IpAddress,
+      pr1646v2RefAclHttpInfoPort
+         INTEGER,
+      pr1646v2RefAclHttpInfoConnections
+         Counter32,
+      pr1646v2RefAclHttpInfoPacketsToPublic
+         Counter64,
+      pr1646v2RefAclHttpInfoPacketsToPrivate
+         Counter64,
+      pr1646v2RefAclHttpInfoOctetsToPublic
+         Counter64,
+      pr1646v2RefAclHttpInfoOctetsToPrivate
+         Counter64
+      }
+
+pr1646v2RefAclHttpInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclHttpInfoEntry 10}
+
+pr1646v2RefAclHttpInfoTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2RefAclHttpInfoEntry 11}
+
+pr1646v2RefAclHttpInfoHost OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.httpInfo.host"
+   ::= {pr1646v2RefAclHttpInfoEntry 16777216}
+
+pr1646v2RefAclHttpInfoIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.httpInfo.ip"
+   ::= {pr1646v2RefAclHttpInfoEntry 117440512}
+
+pr1646v2RefAclHttpInfoPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.httpInfo.port
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1646v2RefAclHttpInfoEntry 134217728}
+
+pr1646v2RefAclHttpInfoConnections OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.httpInfo.connections
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclHttpInfoEntry 33554432}
+
+pr1646v2RefAclHttpInfoPacketsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.httpInfo.packetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclHttpInfoEntry 50331648}
+
+pr1646v2RefAclHttpInfoPacketsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.httpInfo.packetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclHttpInfoEntry 67108864}
+
+pr1646v2RefAclHttpInfoOctetsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.httpInfo.octetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclHttpInfoEntry 83886080}
+
+pr1646v2RefAclHttpInfoOctetsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.httpInfo.octetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclHttpInfoEntry 100663296}
+
+
+pr1646v2RefAclH2Nat OBJECT IDENTIFIER ::= {pr1646v2RefAcl 180}
+
+pr1646v2RefAclH2NatSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclH2NatEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "timedNatStats"
+   ::= {pr1646v2RefAclH2Nat 1}
+
+pr1646v2RefAclH2NatEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclH2NatEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclH2NatGlobalIx,
+                pr1646v2RefAclH2NatTableIx }
+   ::= {pr1646v2RefAclH2NatSSCTable 1}
+
+Pr1646v2RefAclH2NatEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclH2NatGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclH2NatTableIx
+         TableIndex,
+      pr1646v2RefAclH2NatSysUpTime
+         TimeTicks,
+      pr1646v2RefAclH2NatAllocFails
+         Counter32,
+      pr1646v2RefAclH2NatTcpAllocs
+         Counter32,
+      pr1646v2RefAclH2NatTcpSockMin
+         Integer32,
+      pr1646v2RefAclH2NatTcpSockAvg
+         Integer32,
+      pr1646v2RefAclH2NatTcpSockMax
+         Integer32,
+      pr1646v2RefAclH2NatNonTcpSockMin
+         Integer32,
+      pr1646v2RefAclH2NatNonTcpSockAvg
+         Integer32,
+      pr1646v2RefAclH2NatNonTcpSockMax
+         Integer32,
+      pr1646v2RefAclH2NatUdpAllocs
+         Counter32,
+      pr1646v2RefAclH2NatIcmpAllocs
+         Counter32,
+      pr1646v2RefAclH2NatEspAllocs
+         Counter32,
+      pr1646v2RefAclH2NatGreAllocs
+         Counter32,
+      pr1646v2RefAclH2NatIpV6Allocs
+         Counter32,
+      pr1646v2RefAclH2NatUnknownAllocs
+         Counter32,
+      pr1646v2RefAclH2NatPacketsToPublic
+         Counter64,
+      pr1646v2RefAclH2NatOctetsToPublic
+         Counter64,
+      pr1646v2RefAclH2NatPacketsToPrivate
+         Counter64,
+      pr1646v2RefAclH2NatOctetsToPrivate
+         Counter64,
+      pr1646v2RefAclH2NatTcpInbound
+         Counter32,
+      pr1646v2RefAclH2NatUdpInbound
+         Counter32,
+      pr1646v2RefAclH2NatEspInbound
+         Counter32,
+      pr1646v2RefAclH2NatGreInbound
+         Counter32,
+      pr1646v2RefAclH2NatIcmpInbound
+         Counter32,
+      pr1646v2RefAclH2NatIpV6Inbound
+         Counter32,
+      pr1646v2RefAclH2NatDmzInbound
+         Counter32,
+      pr1646v2RefAclH2NatBypasses
+         Counter32,
+      pr1646v2RefAclH2NatHostSocketsExceeded
+         Counter32,
+      pr1646v2RefAclH2NatSynFloodsInbound
+         Counter32,
+      pr1646v2RefAclH2NatSynFloodsOutbound
+         Counter32,
+      pr1646v2RefAclH2NatDiscards
+         Counter32
+      }
+
+pr1646v2RefAclH2NatGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclH2NatEntry 10}
+
+pr1646v2RefAclH2NatTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2RefAclH2NatEntry 11}
+
+pr1646v2RefAclH2NatSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2RefAclH2NatEntry 16777216}
+
+pr1646v2RefAclH2NatAllocFails OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.allocFails
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 33554432}
+
+pr1646v2RefAclH2NatTcpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.tcpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 50331648}
+
+pr1646v2RefAclH2NatTcpSockMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.tcpSockMin"
+   ::= {pr1646v2RefAclH2NatEntry 452984832}
+
+pr1646v2RefAclH2NatTcpSockAvg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.tcpSockAvg"
+   ::= {pr1646v2RefAclH2NatEntry 469762048}
+
+pr1646v2RefAclH2NatTcpSockMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.tcpSockMax"
+   ::= {pr1646v2RefAclH2NatEntry 486539264}
+
+pr1646v2RefAclH2NatNonTcpSockMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.nonTcpSockMin"
+   ::= {pr1646v2RefAclH2NatEntry 503316480}
+
+pr1646v2RefAclH2NatNonTcpSockAvg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.nonTcpSockAvg"
+   ::= {pr1646v2RefAclH2NatEntry 520093696}
+
+pr1646v2RefAclH2NatNonTcpSockMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.nonTcpSockMax"
+   ::= {pr1646v2RefAclH2NatEntry 536870912}
+
+pr1646v2RefAclH2NatUdpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.udpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 67108864}
+
+pr1646v2RefAclH2NatIcmpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.icmpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 83886080}
+
+pr1646v2RefAclH2NatEspAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.espAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 100663296}
+
+pr1646v2RefAclH2NatGreAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.greAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 117440512}
+
+pr1646v2RefAclH2NatIpV6Allocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.ipV6Allocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 134217728}
+
+pr1646v2RefAclH2NatUnknownAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.unknownAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 385875968}
+
+pr1646v2RefAclH2NatPacketsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.packetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 150994944}
+
+pr1646v2RefAclH2NatOctetsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.octetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 167772160}
+
+pr1646v2RefAclH2NatPacketsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.packetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 184549376}
+
+pr1646v2RefAclH2NatOctetsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.octetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 201326592}
+
+pr1646v2RefAclH2NatTcpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.tcpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 218103808}
+
+pr1646v2RefAclH2NatUdpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.udpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 234881024}
+
+pr1646v2RefAclH2NatEspInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.espInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 251658240}
+
+pr1646v2RefAclH2NatGreInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.greInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 268435456}
+
+pr1646v2RefAclH2NatIcmpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.icmpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 285212672}
+
+pr1646v2RefAclH2NatIpV6Inbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.ipV6Inbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 318767104}
+
+pr1646v2RefAclH2NatDmzInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.dmzInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 301989888}
+
+pr1646v2RefAclH2NatBypasses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.bypasses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 335544320}
+
+pr1646v2RefAclH2NatHostSocketsExceeded OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.hostSocketsExceeded
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 352321536}
+
+pr1646v2RefAclH2NatSynFloodsInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.synFloodsInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 402653184}
+
+pr1646v2RefAclH2NatSynFloodsOutbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.synFloodsOutbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 419430400}
+
+pr1646v2RefAclH2NatDiscards OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h2Nat.discards
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH2NatEntry 369098752}
+
+
+pr1646v2RefAclH24Nat OBJECT IDENTIFIER ::= {pr1646v2RefAcl 181}
+
+pr1646v2RefAclH24NatSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclH24NatEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "timedNatStats"
+   ::= {pr1646v2RefAclH24Nat 1}
+
+pr1646v2RefAclH24NatEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclH24NatEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclH24NatGlobalIx,
+                pr1646v2RefAclH24NatTableIx }
+   ::= {pr1646v2RefAclH24NatSSCTable 1}
+
+Pr1646v2RefAclH24NatEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclH24NatGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclH24NatTableIx
+         TableIndex,
+      pr1646v2RefAclH24NatSysUpTime
+         TimeTicks,
+      pr1646v2RefAclH24NatAllocFails
+         Counter32,
+      pr1646v2RefAclH24NatTcpAllocs
+         Counter32,
+      pr1646v2RefAclH24NatTcpSockMin
+         Integer32,
+      pr1646v2RefAclH24NatTcpSockAvg
+         Integer32,
+      pr1646v2RefAclH24NatTcpSockMax
+         Integer32,
+      pr1646v2RefAclH24NatNonTcpSockMin
+         Integer32,
+      pr1646v2RefAclH24NatNonTcpSockAvg
+         Integer32,
+      pr1646v2RefAclH24NatNonTcpSockMax
+         Integer32,
+      pr1646v2RefAclH24NatUdpAllocs
+         Counter32,
+      pr1646v2RefAclH24NatIcmpAllocs
+         Counter32,
+      pr1646v2RefAclH24NatEspAllocs
+         Counter32,
+      pr1646v2RefAclH24NatGreAllocs
+         Counter32,
+      pr1646v2RefAclH24NatIpV6Allocs
+         Counter32,
+      pr1646v2RefAclH24NatUnknownAllocs
+         Counter32,
+      pr1646v2RefAclH24NatPacketsToPublic
+         Counter64,
+      pr1646v2RefAclH24NatOctetsToPublic
+         Counter64,
+      pr1646v2RefAclH24NatPacketsToPrivate
+         Counter64,
+      pr1646v2RefAclH24NatOctetsToPrivate
+         Counter64,
+      pr1646v2RefAclH24NatTcpInbound
+         Counter32,
+      pr1646v2RefAclH24NatUdpInbound
+         Counter32,
+      pr1646v2RefAclH24NatEspInbound
+         Counter32,
+      pr1646v2RefAclH24NatGreInbound
+         Counter32,
+      pr1646v2RefAclH24NatIcmpInbound
+         Counter32,
+      pr1646v2RefAclH24NatIpV6Inbound
+         Counter32,
+      pr1646v2RefAclH24NatDmzInbound
+         Counter32,
+      pr1646v2RefAclH24NatBypasses
+         Counter32,
+      pr1646v2RefAclH24NatHostSocketsExceeded
+         Counter32,
+      pr1646v2RefAclH24NatSynFloodsInbound
+         Counter32,
+      pr1646v2RefAclH24NatSynFloodsOutbound
+         Counter32,
+      pr1646v2RefAclH24NatDiscards
+         Counter32
+      }
+
+pr1646v2RefAclH24NatGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclH24NatEntry 10}
+
+pr1646v2RefAclH24NatTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2RefAclH24NatEntry 11}
+
+pr1646v2RefAclH24NatSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2RefAclH24NatEntry 16777216}
+
+pr1646v2RefAclH24NatAllocFails OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.allocFails
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 33554432}
+
+pr1646v2RefAclH24NatTcpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.tcpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 50331648}
+
+pr1646v2RefAclH24NatTcpSockMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.tcpSockMin"
+   ::= {pr1646v2RefAclH24NatEntry 452984832}
+
+pr1646v2RefAclH24NatTcpSockAvg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.tcpSockAvg"
+   ::= {pr1646v2RefAclH24NatEntry 469762048}
+
+pr1646v2RefAclH24NatTcpSockMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.tcpSockMax"
+   ::= {pr1646v2RefAclH24NatEntry 486539264}
+
+pr1646v2RefAclH24NatNonTcpSockMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.nonTcpSockMin"
+   ::= {pr1646v2RefAclH24NatEntry 503316480}
+
+pr1646v2RefAclH24NatNonTcpSockAvg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.nonTcpSockAvg"
+   ::= {pr1646v2RefAclH24NatEntry 520093696}
+
+pr1646v2RefAclH24NatNonTcpSockMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.nonTcpSockMax"
+   ::= {pr1646v2RefAclH24NatEntry 536870912}
+
+pr1646v2RefAclH24NatUdpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.udpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 67108864}
+
+pr1646v2RefAclH24NatIcmpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.icmpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 83886080}
+
+pr1646v2RefAclH24NatEspAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.espAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 100663296}
+
+pr1646v2RefAclH24NatGreAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.greAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 117440512}
+
+pr1646v2RefAclH24NatIpV6Allocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.ipV6Allocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 134217728}
+
+pr1646v2RefAclH24NatUnknownAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.unknownAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 385875968}
+
+pr1646v2RefAclH24NatPacketsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.packetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 150994944}
+
+pr1646v2RefAclH24NatOctetsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.octetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 167772160}
+
+pr1646v2RefAclH24NatPacketsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.packetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 184549376}
+
+pr1646v2RefAclH24NatOctetsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.octetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 201326592}
+
+pr1646v2RefAclH24NatTcpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.tcpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 218103808}
+
+pr1646v2RefAclH24NatUdpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.udpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 234881024}
+
+pr1646v2RefAclH24NatEspInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.espInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 251658240}
+
+pr1646v2RefAclH24NatGreInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.greInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 268435456}
+
+pr1646v2RefAclH24NatIcmpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.icmpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 285212672}
+
+pr1646v2RefAclH24NatIpV6Inbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.ipV6Inbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 318767104}
+
+pr1646v2RefAclH24NatDmzInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.dmzInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 301989888}
+
+pr1646v2RefAclH24NatBypasses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.bypasses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 335544320}
+
+pr1646v2RefAclH24NatHostSocketsExceeded OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.hostSocketsExceeded
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 352321536}
+
+pr1646v2RefAclH24NatSynFloodsInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.synFloodsInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 402653184}
+
+pr1646v2RefAclH24NatSynFloodsOutbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.synFloodsOutbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 419430400}
+
+pr1646v2RefAclH24NatDiscards OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.h24Nat.discards
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclH24NatEntry 369098752}
+
+
+pr1646v2RefAclD7Nat OBJECT IDENTIFIER ::= {pr1646v2RefAcl 182}
+
+pr1646v2RefAclD7NatSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RefAclD7NatEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "timedNatStats"
+   ::= {pr1646v2RefAclD7Nat 1}
+
+pr1646v2RefAclD7NatEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RefAclD7NatEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RefAclD7NatGlobalIx,
+                pr1646v2RefAclD7NatTableIx }
+   ::= {pr1646v2RefAclD7NatSSCTable 1}
+
+Pr1646v2RefAclD7NatEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RefAclD7NatGlobalIx
+         GlobalIndex,
+      pr1646v2RefAclD7NatTableIx
+         TableIndex,
+      pr1646v2RefAclD7NatSysUpTime
+         TimeTicks,
+      pr1646v2RefAclD7NatAllocFails
+         Counter32,
+      pr1646v2RefAclD7NatTcpAllocs
+         Counter32,
+      pr1646v2RefAclD7NatTcpSockMin
+         Integer32,
+      pr1646v2RefAclD7NatTcpSockAvg
+         Integer32,
+      pr1646v2RefAclD7NatTcpSockMax
+         Integer32,
+      pr1646v2RefAclD7NatNonTcpSockMin
+         Integer32,
+      pr1646v2RefAclD7NatNonTcpSockAvg
+         Integer32,
+      pr1646v2RefAclD7NatNonTcpSockMax
+         Integer32,
+      pr1646v2RefAclD7NatUdpAllocs
+         Counter32,
+      pr1646v2RefAclD7NatIcmpAllocs
+         Counter32,
+      pr1646v2RefAclD7NatEspAllocs
+         Counter32,
+      pr1646v2RefAclD7NatGreAllocs
+         Counter32,
+      pr1646v2RefAclD7NatIpV6Allocs
+         Counter32,
+      pr1646v2RefAclD7NatUnknownAllocs
+         Counter32,
+      pr1646v2RefAclD7NatPacketsToPublic
+         Counter64,
+      pr1646v2RefAclD7NatOctetsToPublic
+         Counter64,
+      pr1646v2RefAclD7NatPacketsToPrivate
+         Counter64,
+      pr1646v2RefAclD7NatOctetsToPrivate
+         Counter64,
+      pr1646v2RefAclD7NatTcpInbound
+         Counter32,
+      pr1646v2RefAclD7NatUdpInbound
+         Counter32,
+      pr1646v2RefAclD7NatEspInbound
+         Counter32,
+      pr1646v2RefAclD7NatGreInbound
+         Counter32,
+      pr1646v2RefAclD7NatIcmpInbound
+         Counter32,
+      pr1646v2RefAclD7NatIpV6Inbound
+         Counter32,
+      pr1646v2RefAclD7NatDmzInbound
+         Counter32,
+      pr1646v2RefAclD7NatBypasses
+         Counter32,
+      pr1646v2RefAclD7NatHostSocketsExceeded
+         Counter32,
+      pr1646v2RefAclD7NatSynFloodsInbound
+         Counter32,
+      pr1646v2RefAclD7NatSynFloodsOutbound
+         Counter32,
+      pr1646v2RefAclD7NatDiscards
+         Counter32
+      }
+
+pr1646v2RefAclD7NatGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RefAclD7NatEntry 10}
+
+pr1646v2RefAclD7NatTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2RefAclD7NatEntry 11}
+
+pr1646v2RefAclD7NatSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2RefAclD7NatEntry 16777216}
+
+pr1646v2RefAclD7NatAllocFails OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.allocFails
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 33554432}
+
+pr1646v2RefAclD7NatTcpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.tcpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 50331648}
+
+pr1646v2RefAclD7NatTcpSockMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.tcpSockMin"
+   ::= {pr1646v2RefAclD7NatEntry 452984832}
+
+pr1646v2RefAclD7NatTcpSockAvg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.tcpSockAvg"
+   ::= {pr1646v2RefAclD7NatEntry 469762048}
+
+pr1646v2RefAclD7NatTcpSockMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.tcpSockMax"
+   ::= {pr1646v2RefAclD7NatEntry 486539264}
+
+pr1646v2RefAclD7NatNonTcpSockMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.nonTcpSockMin"
+   ::= {pr1646v2RefAclD7NatEntry 503316480}
+
+pr1646v2RefAclD7NatNonTcpSockAvg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.nonTcpSockAvg"
+   ::= {pr1646v2RefAclD7NatEntry 520093696}
+
+pr1646v2RefAclD7NatNonTcpSockMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.nonTcpSockMax"
+   ::= {pr1646v2RefAclD7NatEntry 536870912}
+
+pr1646v2RefAclD7NatUdpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.udpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 67108864}
+
+pr1646v2RefAclD7NatIcmpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.icmpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 83886080}
+
+pr1646v2RefAclD7NatEspAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.espAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 100663296}
+
+pr1646v2RefAclD7NatGreAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.greAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 117440512}
+
+pr1646v2RefAclD7NatIpV6Allocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.ipV6Allocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 134217728}
+
+pr1646v2RefAclD7NatUnknownAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.unknownAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 385875968}
+
+pr1646v2RefAclD7NatPacketsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.packetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 150994944}
+
+pr1646v2RefAclD7NatOctetsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.octetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 167772160}
+
+pr1646v2RefAclD7NatPacketsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.packetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 184549376}
+
+pr1646v2RefAclD7NatOctetsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.octetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 201326592}
+
+pr1646v2RefAclD7NatTcpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.tcpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 218103808}
+
+pr1646v2RefAclD7NatUdpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.udpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 234881024}
+
+pr1646v2RefAclD7NatEspInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.espInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 251658240}
+
+pr1646v2RefAclD7NatGreInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.greInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 268435456}
+
+pr1646v2RefAclD7NatIcmpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.icmpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 285212672}
+
+pr1646v2RefAclD7NatIpV6Inbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.ipV6Inbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 318767104}
+
+pr1646v2RefAclD7NatDmzInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.dmzInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 301989888}
+
+pr1646v2RefAclD7NatBypasses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.bypasses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 335544320}
+
+pr1646v2RefAclD7NatHostSocketsExceeded OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.hostSocketsExceeded
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 352321536}
+
+pr1646v2RefAclD7NatSynFloodsInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.synFloodsInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 402653184}
+
+pr1646v2RefAclD7NatSynFloodsOutbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.synFloodsOutbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 419430400}
+
+pr1646v2RefAclD7NatDiscards OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.performance.d7Nat.discards
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2RefAclD7NatEntry 369098752}
+
+
+
+ar1646v2RefAcl OBJECT IDENTIFIER ::= {r1646v2RefAcl 16}
+
+
+ar1646v2RefAclClearCounters OBJECT IDENTIFIER ::= {ar1646v2RefAcl 263}
+
+ar1646v2RefAclClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2RefAclClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1646v2RefAclClearCounters 1}
+
+ar1646v2RefAclClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2RefAclClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2RefAclClearCountersGlobalIx }
+   ::= {ar1646v2RefAclClearCountersTable 1}
+
+Ar1646v2RefAclClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1646v2RefAclClearCountersGlobalIx
+         GlobalIndex,
+      ar1646v2RefAclClearCountersValue
+         Integer32
+      }
+
+ar1646v2RefAclClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2RefAclClearCountersEntry 10}
+
+ar1646v2RefAclClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.actions.clearCounters"
+   ::= {ar1646v2RefAclClearCountersEntry 2147483648}
+
+
+ar1646v2RefAclResetAcl OBJECT IDENTIFIER ::= {ar1646v2RefAcl 50}
+
+ar1646v2RefAclResetAclTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2RefAclResetAclEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "clears all NAT info"
+   ::= {ar1646v2RefAclResetAcl 1}
+
+ar1646v2RefAclResetAclEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2RefAclResetAclEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2RefAclResetAclGlobalIx }
+   ::= {ar1646v2RefAclResetAclTable 1}
+
+Ar1646v2RefAclResetAclEntry ::=
+   SEQUENCE
+      {
+      ar1646v2RefAclResetAclGlobalIx
+         GlobalIndex,
+      ar1646v2RefAclResetAclValue
+         Integer32
+      }
+
+ar1646v2RefAclResetAclGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2RefAclResetAclEntry 10}
+
+ar1646v2RefAclResetAclValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: reflexiveAcl.actions.resetAcl"
+   ::= {ar1646v2RefAclResetAclEntry 2147483648}
+
+
+
+END

@@ -1,0 +1,776 @@
+OneAccess-R1645v2-1432-MSA DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2MSA OBJECT IDENTIFIER ::= {r1645Rootv2 1432}
+
+r1645v2MSAMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2MSAMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2MSA 1}
+
+r1645v2MSAMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2MSAMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2MSAMOPropGlobalIx }
+   ::= {r1645v2MSAMOProp 1}
+
+R1645v2MSAMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2MSAMOPropPath
+         ContainmentPath,
+      r1645v2MSAMOPropRev
+         ObjectRevision,
+      r1645v2MSAMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2MSAMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2MSAMOPropEntry 3}
+
+r1645v2MSAMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2MSAMOPropEntry 4}
+
+r1645v2MSAMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2MSAMOPropEntry 10}
+
+
+
+er1645v2MSA OBJECT IDENTIFIER ::= {r1645v2MSA 11}
+
+
+er1645v2MSASnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2MSA 268}
+
+er1645v2MSASnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2MSASnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2MSASnmpIndexOffset 1}
+
+er1645v2MSASnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2MSASnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2MSASnmpIndexOffsetGlobalIx }
+   ::= {er1645v2MSASnmpIndexOffsetTable 1}
+
+Er1645v2MSASnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2MSASnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2MSASnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2MSASnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2MSASnmpIndexOffsetEntry 10}
+
+er1645v2MSASnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.editConf.snmpIndexOffset"
+   ::= {er1645v2MSASnmpIndexOffsetEntry 2147483648}
+
+
+er1645v2MSAEspEncryptionAlgorithm OBJECT IDENTIFIER ::= {er1645v2MSA 7}
+
+er1645v2MSAEspEncryptionAlgorithmTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2MSAEspEncryptionAlgorithmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2MSAEspEncryptionAlgorithm 1}
+
+er1645v2MSAEspEncryptionAlgorithmEntry OBJECT-TYPE
+   SYNTAX      Er1645v2MSAEspEncryptionAlgorithmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2MSAEspEncryptionAlgorithmGlobalIx }
+   ::= {er1645v2MSAEspEncryptionAlgorithmTable 1}
+
+Er1645v2MSAEspEncryptionAlgorithmEntry ::=
+   SEQUENCE
+      {
+      er1645v2MSAEspEncryptionAlgorithmGlobalIx
+         GlobalIndex,
+      er1645v2MSAEspEncryptionAlgorithmValue
+         INTEGER
+      }
+
+er1645v2MSAEspEncryptionAlgorithmGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2MSAEspEncryptionAlgorithmEntry 10}
+
+er1645v2MSAEspEncryptionAlgorithmValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               null (0),
+               des (1),
+               s3des (2),
+               aes128 (3),
+               aes192 (4),
+               aes256 (5)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.editConf.espEncryptionAlgorithm
+
+       Possibilities:
+               null   (0)
+               des   (1)
+               3des   (2)
+               aes128   (3)
+               aes192   (4)
+               aes256   (5)"
+   ::= {er1645v2MSAEspEncryptionAlgorithmEntry 2147483648}
+
+
+er1645v2MSAEspEncryptionKey OBJECT IDENTIFIER ::= {er1645v2MSA 8}
+
+er1645v2MSAEspEncryptionKeyTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2MSAEspEncryptionKeyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2MSAEspEncryptionKey 1}
+
+er1645v2MSAEspEncryptionKeyEntry OBJECT-TYPE
+   SYNTAX      Er1645v2MSAEspEncryptionKeyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2MSAEspEncryptionKeyGlobalIx }
+   ::= {er1645v2MSAEspEncryptionKeyTable 1}
+
+Er1645v2MSAEspEncryptionKeyEntry ::=
+   SEQUENCE
+      {
+      er1645v2MSAEspEncryptionKeyGlobalIx
+         GlobalIndex,
+      er1645v2MSAEspEncryptionKeyValue
+         OCTET STRING
+      }
+
+er1645v2MSAEspEncryptionKeyGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2MSAEspEncryptionKeyEntry 10}
+
+er1645v2MSAEspEncryptionKeyValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.editConf.espEncryptionKey"
+   ::= {er1645v2MSAEspEncryptionKeyEntry 2147483648}
+
+
+er1645v2MSAEspAuthenticationAlgorithm OBJECT IDENTIFIER ::= {er1645v2MSA 9}
+
+er1645v2MSAEspAuthenticationAlgorithmTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2MSAEspAuthenticationAlgorithmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2MSAEspAuthenticationAlgorithm 1}
+
+er1645v2MSAEspAuthenticationAlgorithmEntry OBJECT-TYPE
+   SYNTAX      Er1645v2MSAEspAuthenticationAlgorithmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2MSAEspAuthenticationAlgorithmGlobalIx }
+   ::= {er1645v2MSAEspAuthenticationAlgorithmTable 1}
+
+Er1645v2MSAEspAuthenticationAlgorithmEntry ::=
+   SEQUENCE
+      {
+      er1645v2MSAEspAuthenticationAlgorithmGlobalIx
+         GlobalIndex,
+      er1645v2MSAEspAuthenticationAlgorithmValue
+         INTEGER
+      }
+
+er1645v2MSAEspAuthenticationAlgorithmGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2MSAEspAuthenticationAlgorithmEntry 10}
+
+er1645v2MSAEspAuthenticationAlgorithmValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               null (0),
+               hmacumd5 (16),
+               hmacusham1 (32)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.editConf.espAuthenticationAlgorithm
+
+       Possibilities:
+               null   (0)
+               hmac_md5   (16)
+               hmac_sha-1   (32)"
+   ::= {er1645v2MSAEspAuthenticationAlgorithmEntry 2147483648}
+
+
+er1645v2MSAEspAuthenticationKey OBJECT IDENTIFIER ::= {er1645v2MSA 10}
+
+er1645v2MSAEspAuthenticationKeyTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2MSAEspAuthenticationKeyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2MSAEspAuthenticationKey 1}
+
+er1645v2MSAEspAuthenticationKeyEntry OBJECT-TYPE
+   SYNTAX      Er1645v2MSAEspAuthenticationKeyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2MSAEspAuthenticationKeyGlobalIx }
+   ::= {er1645v2MSAEspAuthenticationKeyTable 1}
+
+Er1645v2MSAEspAuthenticationKeyEntry ::=
+   SEQUENCE
+      {
+      er1645v2MSAEspAuthenticationKeyGlobalIx
+         GlobalIndex,
+      er1645v2MSAEspAuthenticationKeyValue
+         OCTET STRING
+      }
+
+er1645v2MSAEspAuthenticationKeyGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2MSAEspAuthenticationKeyEntry 10}
+
+er1645v2MSAEspAuthenticationKeyValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.editConf.espAuthenticationKey"
+   ::= {er1645v2MSAEspAuthenticationKeyEntry 2147483648}
+
+
+er1645v2MSASpi OBJECT IDENTIFIER ::= {er1645v2MSA 11}
+
+er1645v2MSASpiTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2MSASpiEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2MSASpi 1}
+
+er1645v2MSASpiEntry OBJECT-TYPE
+   SYNTAX      Er1645v2MSASpiEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2MSASpiGlobalIx }
+   ::= {er1645v2MSASpiTable 1}
+
+Er1645v2MSASpiEntry ::=
+   SEQUENCE
+      {
+      er1645v2MSASpiGlobalIx
+         GlobalIndex,
+      er1645v2MSASpiValue
+         Integer32
+      }
+
+er1645v2MSASpiGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2MSASpiEntry 10}
+
+er1645v2MSASpiValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.editConf.spi"
+   ::= {er1645v2MSASpiEntry 2147483648}
+
+
+
+sr1645v2MSA OBJECT IDENTIFIER ::= {r1645v2MSA 14}
+
+
+sr1645v2MSASnmpIndex OBJECT IDENTIFIER ::= {sr1645v2MSA 269}
+
+sr1645v2MSASnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2MSASnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2MSASnmpIndex 1}
+
+sr1645v2MSASnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2MSASnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2MSASnmpIndexGlobalIx }
+   ::= {sr1645v2MSASnmpIndexTable 1}
+
+Sr1645v2MSASnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2MSASnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2MSASnmpIndexValue
+         Integer32
+      }
+
+sr1645v2MSASnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2MSASnmpIndexEntry 10}
+
+sr1645v2MSASnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.status.snmpIndex"
+   ::= {sr1645v2MSASnmpIndexEntry 2147483648}
+
+
+
+pr1645v2MSA OBJECT IDENTIFIER ::= {r1645v2MSA 12}
+
+
+pr1645v2MSAInPackets OBJECT IDENTIFIER ::= {pr1645v2MSA 40}
+
+pr1645v2MSAInPacketsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2MSAInPacketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2MSAInPackets 1}
+
+pr1645v2MSAInPacketsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2MSAInPacketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2MSAInPacketsGlobalIx }
+   ::= {pr1645v2MSAInPacketsTable 1}
+
+Pr1645v2MSAInPacketsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2MSAInPacketsGlobalIx
+         GlobalIndex,
+      pr1645v2MSAInPacketsValue
+         Counter32
+      }
+
+pr1645v2MSAInPacketsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2MSAInPacketsEntry 10}
+
+pr1645v2MSAInPacketsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.performance.inPackets
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2MSAInPacketsEntry 2147483648}
+
+
+pr1645v2MSAOutPackets OBJECT IDENTIFIER ::= {pr1645v2MSA 41}
+
+pr1645v2MSAOutPacketsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2MSAOutPacketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2MSAOutPackets 1}
+
+pr1645v2MSAOutPacketsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2MSAOutPacketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2MSAOutPacketsGlobalIx }
+   ::= {pr1645v2MSAOutPacketsTable 1}
+
+Pr1645v2MSAOutPacketsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2MSAOutPacketsGlobalIx
+         GlobalIndex,
+      pr1645v2MSAOutPacketsValue
+         Counter32
+      }
+
+pr1645v2MSAOutPacketsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2MSAOutPacketsEntry 10}
+
+pr1645v2MSAOutPacketsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.performance.outPackets
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2MSAOutPacketsEntry 2147483648}
+
+
+pr1645v2MSAEspAuthenticationFailure OBJECT IDENTIFIER ::= {pr1645v2MSA 30}
+
+pr1645v2MSAEspAuthenticationFailureTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2MSAEspAuthenticationFailureEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2MSAEspAuthenticationFailure 1}
+
+pr1645v2MSAEspAuthenticationFailureEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2MSAEspAuthenticationFailureEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2MSAEspAuthenticationFailureGlobalIx }
+   ::= {pr1645v2MSAEspAuthenticationFailureTable 1}
+
+Pr1645v2MSAEspAuthenticationFailureEntry ::=
+   SEQUENCE
+      {
+      pr1645v2MSAEspAuthenticationFailureGlobalIx
+         GlobalIndex,
+      pr1645v2MSAEspAuthenticationFailureValue
+         Counter32
+      }
+
+pr1645v2MSAEspAuthenticationFailureGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2MSAEspAuthenticationFailureEntry 10}
+
+pr1645v2MSAEspAuthenticationFailureValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.performance.espAuthenticationFailure
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2MSAEspAuthenticationFailureEntry 2147483648}
+
+
+pr1645v2MSAEspDecryptionFailure OBJECT IDENTIFIER ::= {pr1645v2MSA 31}
+
+pr1645v2MSAEspDecryptionFailureTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2MSAEspDecryptionFailureEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2MSAEspDecryptionFailure 1}
+
+pr1645v2MSAEspDecryptionFailureEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2MSAEspDecryptionFailureEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2MSAEspDecryptionFailureGlobalIx }
+   ::= {pr1645v2MSAEspDecryptionFailureTable 1}
+
+Pr1645v2MSAEspDecryptionFailureEntry ::=
+   SEQUENCE
+      {
+      pr1645v2MSAEspDecryptionFailureGlobalIx
+         GlobalIndex,
+      pr1645v2MSAEspDecryptionFailureValue
+         Counter32
+      }
+
+pr1645v2MSAEspDecryptionFailureGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2MSAEspDecryptionFailureEntry 10}
+
+pr1645v2MSAEspDecryptionFailureValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.performance.espDecryptionFailure
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2MSAEspDecryptionFailureEntry 2147483648}
+
+
+pr1645v2MSAEspSequenceNrReplay OBJECT IDENTIFIER ::= {pr1645v2MSA 32}
+
+pr1645v2MSAEspSequenceNrReplayTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2MSAEspSequenceNrReplayEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2MSAEspSequenceNrReplay 1}
+
+pr1645v2MSAEspSequenceNrReplayEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2MSAEspSequenceNrReplayEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2MSAEspSequenceNrReplayGlobalIx }
+   ::= {pr1645v2MSAEspSequenceNrReplayTable 1}
+
+Pr1645v2MSAEspSequenceNrReplayEntry ::=
+   SEQUENCE
+      {
+      pr1645v2MSAEspSequenceNrReplayGlobalIx
+         GlobalIndex,
+      pr1645v2MSAEspSequenceNrReplayValue
+         Counter32
+      }
+
+pr1645v2MSAEspSequenceNrReplayGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2MSAEspSequenceNrReplayEntry 10}
+
+pr1645v2MSAEspSequenceNrReplayValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.performance.espSequenceNrReplay
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2MSAEspSequenceNrReplayEntry 2147483648}
+
+
+pr1645v2MSAEspDroppedFrames OBJECT IDENTIFIER ::= {pr1645v2MSA 33}
+
+pr1645v2MSAEspDroppedFramesTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2MSAEspDroppedFramesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2MSAEspDroppedFrames 1}
+
+pr1645v2MSAEspDroppedFramesEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2MSAEspDroppedFramesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2MSAEspDroppedFramesGlobalIx }
+   ::= {pr1645v2MSAEspDroppedFramesTable 1}
+
+Pr1645v2MSAEspDroppedFramesEntry ::=
+   SEQUENCE
+      {
+      pr1645v2MSAEspDroppedFramesGlobalIx
+         GlobalIndex,
+      pr1645v2MSAEspDroppedFramesValue
+         Counter32
+      }
+
+pr1645v2MSAEspDroppedFramesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2MSAEspDroppedFramesEntry 10}
+
+pr1645v2MSAEspDroppedFramesValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.performance.espDroppedFrames
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2MSAEspDroppedFramesEntry 2147483648}
+
+
+
+ar1645v2MSA OBJECT IDENTIFIER ::= {r1645v2MSA 16}
+
+
+ar1645v2MSAClearCounters OBJECT IDENTIFIER ::= {ar1645v2MSA 263}
+
+ar1645v2MSAClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2MSAClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1645v2MSAClearCounters 1}
+
+ar1645v2MSAClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2MSAClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2MSAClearCountersGlobalIx }
+   ::= {ar1645v2MSAClearCountersTable 1}
+
+Ar1645v2MSAClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1645v2MSAClearCountersGlobalIx
+         GlobalIndex,
+      ar1645v2MSAClearCountersValue
+         Integer32
+      }
+
+ar1645v2MSAClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2MSAClearCountersEntry 10}
+
+ar1645v2MSAClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: manualSA.actions.clearCounters"
+   ::= {ar1645v2MSAClearCountersEntry 2147483648}
+
+
+
+END

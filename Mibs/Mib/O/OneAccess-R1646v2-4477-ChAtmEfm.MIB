@@ -1,0 +1,4708 @@
+OneAccess-R1646v2-4477-ChAtmEfm DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2ChAtmEfm OBJECT IDENTIFIER ::= {r1646Rootv2 4477}
+
+r1646v2ChAtmEfmMOProp OBJECT IDENTIFIER ::= {r1646v2ChAtmEfm 1}
+
+r1646v2ChAtmEfmMOPropEntry OBJECT IDENTIFIER ::= {r1646v2ChAtmEfmMOProp 1}
+
+r1646v2ChAtmEfmMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2ChAtmEfmMOPropEntry 3}
+
+r1646v2ChAtmEfmMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2ChAtmEfmMOPropEntry 4}
+
+
+
+er1646v2ChAtmEfm OBJECT IDENTIFIER ::= {r1646v2ChAtmEfm 11}
+
+
+er1646v2ChAtmEfmRemark OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.editConf.remark
+       Info: intfRemark"
+   ::= {er1646v2ChAtmEfm 321}
+
+
+er1646v2ChAtmEfmAlarmMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.editConf.alarmMask
+       Info: ifAlarmMask
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {er1646v2ChAtmEfm 135}
+
+
+er1646v2ChAtmEfmAlarmLev OBJECT IDENTIFIER ::= {er1646v2ChAtmEfm 170}
+
+er1646v2ChAtmEfmAlarmLevSSC OBJECT IDENTIFIER ::= {er1646v2ChAtmEfmAlarmLev 1}
+
+er1646v2ChAtmEfmAlarmLevEntry OBJECT IDENTIFIER ::= {er1646v2ChAtmEfmAlarmLevSSC 1}
+
+er1646v2ChAtmEfmAlarmLevLinkDown OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.editConf.alarmLevel.linkDown"
+   ::= {er1646v2ChAtmEfmAlarmLevEntry 16777216}
+
+
+er1646v2ChAtmEfmMaxFifoQLen OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.editConf.maxFifoQLen
+       Info: maximun queue length for fifo"
+   ::= {er1646v2ChAtmEfm 34}
+
+
+er1646v2ChAtmEfmEncapsulation OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               efm (9),
+               atm (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.editConf.encapsulation
+       Info: Encapsulation
+
+       Possibilities:
+               efm   (9)
+               atm   (4)"
+   ::= {er1646v2ChAtmEfm 20}
+
+
+er1646v2ChAtmEfmAutoEncapsulation OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.editConf.autoEncapsulation
+       Info: Activate Automatic Encapsulation
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ChAtmEfm 600}
+
+
+
+sr1646v2ChAtmEfm OBJECT IDENTIFIER ::= {r1646v2ChAtmEfm 14}
+
+
+sr1646v2ChAtmEfmDescr OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.status.ifDescr
+       Info: ifDescr"
+   ::= {sr1646v2ChAtmEfm 101}
+
+
+sr1646v2ChAtmEfmType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               other (1),
+               regular1822 (2),
+               hdh1822 (3),
+               ddnmx25 (4),
+               rfc877mx25 (5),
+               ethernetmcsmacd (6),
+               iso88023mcsmacd (7),
+               iso88024mtokenBus (8),
+               iso88025mtokenRing (9),
+               is088026mman (10),
+               starlan (11),
+               proteonm10Mbit (12),
+               proteonm80Mbit (13),
+               hyperChannel (14),
+               fddi (15),
+               lapb (16),
+               sdlc (17),
+               ds1 (18),
+               e1 (19),
+               basicISDN (20),
+               primaryISDN (21),
+               propPointToPointSerial (22),
+               ppp (23),
+               softwareLoopback (24),
+               eon (25),
+               ethernetm3Mbit (26),
+               nsip (27),
+               slip (28),
+               ultra (29),
+               ds3 (30),
+               sip (31),
+               framemrelay (32),
+               rs232 (33),
+               para (34),
+               arcnet (35),
+               arcnetPlus (36),
+               atm (37),
+               miox25 (38),
+               sonet (39),
+               x25ple (40),
+               iso88022llc (41),
+               localTalk (42),
+               smdsDxi (43),
+               frameRelayService (44),
+               v35 (45),
+               hssi (46),
+               hippi (47),
+               modem (48),
+               aal5 (49),
+               sonetPath (50),
+               sonetVT (51),
+               smdsIcip (52),
+               propVirtual (53),
+               propMultiplexor (54),
+               ieee80212 (55),
+               fibreChannel (56),
+               hippiInterface (57),
+               frameRelayInterconnect (58),
+               aflane8023 (59),
+               aflane8025 (60),
+               cctEmul (61),
+               fastEther (62),
+               isdn (63),
+               v11 (64),
+               v36 (65),
+               g703at64k (66),
+               g703at2mb (67),
+               qllc (68),
+               fastEtherFX (69),
+               channel (70),
+               ieee80211 (71),
+               ibm370parChan (72),
+               escon (73),
+               dlsw (74),
+               isdns (75),
+               isdnu (76),
+               lapd (77),
+               ipSwitch (78),
+               rsrb (79),
+               atmmlogical (80),
+               ds0 (81),
+               ds0Bundle (82),
+               bsc (83),
+               async (84),
+               cnr (85),
+               iso88025Dtr (86),
+               eplrs (87),
+               arap (88),
+               propCnls (89),
+               hostPad (90),
+               termPad (91),
+               frameRelayMPI (92),
+               x213 (93),
+               adsl (94),
+               radsl (95),
+               sdsl (96),
+               vdsl (97),
+               iso88025CRFPInt (98),
+               myrinet (99),
+               voiceEM (100),
+               voiceFXO (101),
+               voiceFXS (102),
+               voiceEncap (103),
+               voiceOverIp (104),
+               atmDxi (105),
+               atmFuni (106),
+               atmIma (107),
+               pppMultilinkBundle (108),
+               ipOverCdlc (109),
+               ipOverClaw (110),
+               stackToStack (111),
+               virtualIpAddress (112),
+               mpc (113),
+               ipOverAtm (114),
+               iso88025Fiber (115),
+               tdlc (116),
+               gigabitEthernet (117),
+               hdlc (118),
+               lapf (119),
+               v37 (120),
+               x25mlp (121),
+               x25huntGroup (122),
+               trasnpHdlc (123),
+               interleave (124),
+               fast (125),
+               ip (126),
+               docsCableMaclayer (127),
+               docsCableDownstream (128),
+               docsCableUpstream (129),
+               a12MppSwitch (130),
+               tunnel (131),
+               coffee (132),
+               ces (133),
+               atmSubInterface (134),
+               l2vlan (135),
+               l3ipvlan (136),
+               l3ipxvlan (137),
+               digitalPowerline (138),
+               mediaMailOverIp (139),
+               dtm (140),
+               dcn (141),
+               ipForward (142),
+               msdsl (143),
+               ieee1394 (144),
+               ifmgsn (145),
+               dvbRccMacLayer (146),
+               dvbRccDownstream (147),
+               dvbRccUpstream (148),
+               atmVirtual (149),
+               mplsTunnel (150),
+               srp (151),
+               voiceOverAtm (152),
+               voiceOverFrameRelay (153),
+               idsl (154),
+               compositeLink (155),
+               ss7SigLink (156),
+               propWirelessP2P (157),
+               frForward (158),
+               rfc1483 (159),
+               usb (160),
+               ieee8023adLag (161),
+               bgppolicyaccounting (162),
+               frf16MfrBundle (163),
+               h323Gatekeeper (164),
+               h323Proxy (165),
+               mpls (166),
+               mfSigLink (167),
+               hdsl2 (168),
+               shdsl (169),
+               ds1FDL (170),
+               pos (171),
+               dvbAsiIn (172),
+               dvbAsiOut (173),
+               plc (174),
+               nfas (175),
+               tr008 (176),
+               gr303RDT (177),
+               gr303IDT (178),
+               isup (179),
+               propDocsWirelessMaclayer (180),
+               propDocsWirelessDownstream (181),
+               propDocsWirelessUpstream (182),
+               hiperlan2 (183),
+               propBWAp2Mp (184),
+               sonetOverheadChannel (185),
+               digitalWrapperOverheadChannel (186),
+               aal2 (187),
+               radioMAC (188),
+               atmRadio (189),
+               imt (190),
+               mvl (191),
+               reachDSL (192),
+               frDlciEndPt (193),
+               atmVciEndPt (194),
+               opticalChannel (195),
+               opticalTransport (196),
+               propAtm (197),
+               voiceOverCable (198),
+               infiniband (199),
+               teLink (200),
+               q2931 (201),
+               virtualTg (202),
+               sipTg (203),
+               sipSig (204),
+               docsCableUpstreamChannel (205),
+               econet (206),
+               pon155 (207),
+               pon622 (208),
+               bridge (209),
+               linegroup (210),
+               voiceEMFGD (211),
+               voiceFGDEANA (212),
+               voiceDID (213),
+               mpegTransport (214),
+               sixToFour (215),
+               gtp (216),
+               pdnEtherLoop1 (217),
+               pdnEtherLoop2 (218),
+               opticalChannelGroup (219),
+               homepna (220),
+               gfp (221),
+               ciscoISLvlan (222),
+               actelisMetaLOOP (223),
+               fcipLink (224),
+               rpr (225),
+               qam (226),
+               lmp (227),
+               cblVectaStar (228),
+               docsCableMCmtsDownstream (229),
+               adsl2 (230),
+               macSecControlledIF (231),
+               macSecUncontrolledIF (232),
+               aviciOpticalEther (233),
+               atmbond (234),
+               voiceFGDOS (235),
+               mocaVersion1 (236),
+               ieee80216WMAN (237),
+               adsl2plus (238),
+               dvbRcsMacLayer (239),
+               dvbTdm (240),
+               dvbRcsTdma (241),
+               x86Laps (242),
+               wwanPP (243),
+               wwanPP2 (244),
+               voiceEBS (245),
+               ifPwType (246),
+               ilan (247),
+               pip (248),
+               aluELP (249),
+               gpon (250),
+               vdsl2 (251),
+               capwapDot11Profile (252),
+               capwapDot11Bss (253),
+               capwapWtpVirtualRadio (254),
+               bits (255),
+               docsCableUpstreamRfPort (256),
+               cableDownstreamRfPort (257),
+               gfast (279)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.status.ifType
+       Info: ifType
+
+       Possibilities:
+               other   (1)
+               regular1822   (2)
+               hdh1822   (3)
+               ddn-x25   (4)
+               rfc877-x25   (5)
+               ethernet-csmacd   (6)
+               iso88023-csmacd   (7)
+               iso88024-tokenBus   (8)
+               iso88025-tokenRing   (9)
+               is088026-man   (10)
+               starlan   (11)
+               proteon-10Mbit   (12)
+               proteon-80Mbit   (13)
+               hyperChannel   (14)
+               fddi   (15)
+               lapb   (16)
+               sdlc   (17)
+               ds1   (18)
+               e1   (19)
+               basicISDN   (20)
+               primaryISDN   (21)
+               propPointToPointSerial   (22)
+               ppp   (23)
+               softwareLoopback   (24)
+               eon   (25)
+               ethernet-3Mbit   (26)
+               nsip   (27)
+               slip   (28)
+               ultra   (29)
+               ds3   (30)
+               sip   (31)
+               frame-relay   (32)
+               rs232   (33)
+               para   (34)
+               arcnet   (35)
+               arcnetPlus   (36)
+               atm   (37)
+               miox25   (38)
+               sonet   (39)
+               x25ple   (40)
+               iso88022llc   (41)
+               localTalk   (42)
+               smdsDxi   (43)
+               frameRelayService   (44)
+               v35   (45)
+               hssi   (46)
+               hippi   (47)
+               modem   (48)
+               aal5   (49)
+               sonetPath   (50)
+               sonetVT   (51)
+               smdsIcip   (52)
+               propVirtual   (53)
+               propMultiplexor   (54)
+               ieee80212   (55)
+               fibreChannel   (56)
+               hippiInterface   (57)
+               frameRelayInterconnect   (58)
+               aflane8023   (59)
+               aflane8025   (60)
+               cctEmul   (61)
+               fastEther   (62)
+               isdn   (63)
+               v11   (64)
+               v36   (65)
+               g703at64k   (66)
+               g703at2mb   (67)
+               qllc   (68)
+               fastEtherFX   (69)
+               channel   (70)
+               ieee80211   (71)
+               ibm370parChan   (72)
+               escon   (73)
+               dlsw   (74)
+               isdns   (75)
+               isdnu   (76)
+               lapd   (77)
+               ipSwitch   (78)
+               rsrb   (79)
+               atm-logical   (80)
+               ds0   (81)
+               ds0Bundle   (82)
+               bsc   (83)
+               async   (84)
+               cnr   (85)
+               iso88025Dtr   (86)
+               eplrs   (87)
+               arap   (88)
+               propCnls   (89)
+               hostPad   (90)
+               termPad   (91)
+               frameRelayMPI   (92)
+               x213   (93)
+               adsl   (94)
+               radsl   (95)
+               sdsl   (96)
+               vdsl   (97)
+               iso88025CRFPInt   (98)
+               myrinet   (99)
+               voiceEM   (100)
+               voiceFXO   (101)
+               voiceFXS   (102)
+               voiceEncap   (103)
+               voiceOverIp   (104)
+               atmDxi   (105)
+               atmFuni   (106)
+               atmIma   (107)
+               pppMultilinkBundle   (108)
+               ipOverCdlc   (109)
+               ipOverClaw   (110)
+               stackToStack   (111)
+               virtualIpAddress   (112)
+               mpc   (113)
+               ipOverAtm   (114)
+               iso88025Fiber   (115)
+               tdlc   (116)
+               gigabitEthernet   (117)
+               hdlc   (118)
+               lapf   (119)
+               v37   (120)
+               x25mlp   (121)
+               x25huntGroup   (122)
+               trasnpHdlc   (123)
+               interleave   (124)
+               fast   (125)
+               ip   (126)
+               docsCableMaclayer   (127)
+               docsCableDownstream   (128)
+               docsCableUpstream   (129)
+               a12MppSwitch   (130)
+               tunnel   (131)
+               coffee   (132)
+               ces   (133)
+               atmSubInterface   (134)
+               l2vlan   (135)
+               l3ipvlan   (136)
+               l3ipxvlan   (137)
+               digitalPowerline   (138)
+               mediaMailOverIp   (139)
+               dtm   (140)
+               dcn   (141)
+               ipForward   (142)
+               msdsl   (143)
+               ieee1394   (144)
+               if-gsn   (145)
+               dvbRccMacLayer   (146)
+               dvbRccDownstream   (147)
+               dvbRccUpstream   (148)
+               atmVirtual   (149)
+               mplsTunnel   (150)
+               srp   (151)
+               voiceOverAtm   (152)
+               voiceOverFrameRelay   (153)
+               idsl   (154)
+               compositeLink   (155)
+               ss7SigLink   (156)
+               propWirelessP2P   (157)
+               frForward   (158)
+               rfc1483   (159)
+               usb   (160)
+               ieee8023adLag   (161)
+               bgppolicyaccounting   (162)
+               frf16MfrBundle   (163)
+               h323Gatekeeper   (164)
+               h323Proxy   (165)
+               mpls   (166)
+               mfSigLink   (167)
+               hdsl2   (168)
+               shdsl   (169)
+               ds1FDL   (170)
+               pos   (171)
+               dvbAsiIn   (172)
+               dvbAsiOut   (173)
+               plc   (174)
+               nfas   (175)
+               tr008   (176)
+               gr303RDT   (177)
+               gr303IDT   (178)
+               isup   (179)
+               propDocsWirelessMaclayer   (180)
+               propDocsWirelessDownstream   (181)
+               propDocsWirelessUpstream   (182)
+               hiperlan2   (183)
+               propBWAp2Mp   (184)
+               sonetOverheadChannel   (185)
+               digitalWrapperOverheadChannel   (186)
+               aal2   (187)
+               radioMAC   (188)
+               atmRadio   (189)
+               imt   (190)
+               mvl   (191)
+               reachDSL   (192)
+               frDlciEndPt   (193)
+               atmVciEndPt   (194)
+               opticalChannel   (195)
+               opticalTransport   (196)
+               propAtm   (197)
+               voiceOverCable   (198)
+               infiniband   (199)
+               teLink   (200)
+               q2931   (201)
+               virtualTg   (202)
+               sipTg   (203)
+               sipSig   (204)
+               docsCableUpstreamChannel   (205)
+               econet   (206)
+               pon155   (207)
+               pon622   (208)
+               bridge   (209)
+               linegroup   (210)
+               voiceEMFGD   (211)
+               voiceFGDEANA   (212)
+               voiceDID   (213)
+               mpegTransport   (214)
+               sixToFour   (215)
+               gtp   (216)
+               pdnEtherLoop1   (217)
+               pdnEtherLoop2   (218)
+               opticalChannelGroup   (219)
+               homepna   (220)
+               gfp   (221)
+               ciscoISLvlan   (222)
+               actelisMetaLOOP   (223)
+               fcipLink   (224)
+               rpr   (225)
+               qam   (226)
+               lmp   (227)
+               cblVectaStar   (228)
+               docsCableMCmtsDownstream   (229)
+               adsl2   (230)
+               macSecControlledIF   (231)
+               macSecUncontrolledIF   (232)
+               aviciOpticalEther   (233)
+               atmbond   (234)
+               voiceFGDOS   (235)
+               mocaVersion1   (236)
+               ieee80216WMAN   (237)
+               adsl2plus   (238)
+               dvbRcsMacLayer   (239)
+               dvbTdm   (240)
+               dvbRcsTdma   (241)
+               x86Laps   (242)
+               wwanPP   (243)
+               wwanPP2   (244)
+               voiceEBS   (245)
+               ifPwType   (246)
+               ilan   (247)
+               pip   (248)
+               aluELP   (249)
+               gpon   (250)
+               vdsl2   (251)
+               capwapDot11Profile   (252)
+               capwapDot11Bss   (253)
+               capwapWtpVirtualRadio   (254)
+               bits   (255)
+               docsCableUpstreamRfPort   (256)
+               cableDownstreamRfPort   (257)
+               gfast   (279)"
+   ::= {sr1646v2ChAtmEfm 102}
+
+
+sr1646v2ChAtmEfmMtu OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.status.ifMtu
+       Info: ifMtu"
+   ::= {sr1646v2ChAtmEfm 103}
+
+
+sr1646v2ChAtmEfmOperStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               up (1),
+               down (2),
+               testing (3),
+               unknown (4),
+               dormant (5),
+               notPresent (6),
+               lowerLayerDown (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.status.ifOperStatus
+       Info: ifOperStatus
+
+       Possibilities:
+               up   (1)
+               down   (2)
+               testing   (3)
+               unknown   (4)
+               dormant   (5)
+               notPresent   (6)
+               lowerLayerDown   (7)"
+   ::= {sr1646v2ChAtmEfm 107}
+
+
+sr1646v2ChAtmEfmLastChange OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.status.ifLastChange
+       Info: ifLastChange
+
+       Time in centi-second."
+   ::= {sr1646v2ChAtmEfm 108}
+
+
+sr1646v2ChAtmEfmLastChangeD OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.status.ifLastChangeDate
+       Info: ifLastChangeDate"
+   ::= {sr1646v2ChAtmEfm 183}
+
+
+sr1646v2ChAtmEfmSnmpIndex OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.status.snmpIndex
+       Info: SNMP index assigned to this object"
+   ::= {sr1646v2ChAtmEfm 269}
+
+
+sr1646v2ChAtmEfmIfSpeed OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.status.ifSpeed
+       Info: ifSpeed
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2ChAtmEfm 104}
+
+
+sr1646v2ChAtmEfmMacAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.status.macAddress
+       Info: ifPhysAddress
+
+       MAC address."
+   ::= {sr1646v2ChAtmEfm 105}
+
+
+
+pr1646v2ChAtmEfm OBJECT IDENTIFIER ::= {r1646v2ChAtmEfm 12}
+
+
+pr1646v2ChAtmEfmInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInOctets
+       Info: ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 109}
+
+
+pr1646v2ChAtmEfmInUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInUcastPkts
+       Info: ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 110}
+
+
+pr1646v2ChAtmEfmInNUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInNUcastPkts
+       Info: ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 111}
+
+
+pr1646v2ChAtmEfmInBcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInBcastPkts
+       Info: ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 211}
+
+
+pr1646v2ChAtmEfmInMcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInMcastPkts
+       Info: ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 221}
+
+
+pr1646v2ChAtmEfmInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInDiscards
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 112}
+
+
+pr1646v2ChAtmEfmInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInErrors
+       Info: ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 113}
+
+
+pr1646v2ChAtmEfmInUnknownProtos OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInUnknownProtos
+       Info: ifInUnknownprotos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 114}
+
+
+pr1646v2ChAtmEfmInQLen OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInQLen
+       Info: ifInQLen
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2ChAtmEfm 128}
+
+
+pr1646v2ChAtmEfmInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInDropLevelExceeded
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 130}
+
+
+pr1646v2ChAtmEfmInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInDiscardsNoMacFit
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 133}
+
+
+pr1646v2ChAtmEfmInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInDiscardsNUCast
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 136}
+
+
+pr1646v2ChAtmEfmInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInDiscardsFilter
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 137}
+
+
+pr1646v2ChAtmEfmInQueues OBJECT IDENTIFIER ::= {pr1646v2ChAtmEfm 131}
+
+pr1646v2ChAtmEfmInQueuesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ChAtmEfmInQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Queue Lengths"
+   ::= {pr1646v2ChAtmEfmInQueues 1}
+
+pr1646v2ChAtmEfmInQueuesEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ChAtmEfmInQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ChAtmEfmInQueuesTableIx }
+   ::= {pr1646v2ChAtmEfmInQueuesSSCTable 1}
+
+Pr1646v2ChAtmEfmInQueuesEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ChAtmEfmInQueuesTableIx
+         TableIndex,
+      pr1646v2ChAtmEfmInQueuesName
+         INTEGER,
+      pr1646v2ChAtmEfmInQueuesLength
+         Integer32,
+      pr1646v2ChAtmEfmInQueuesOctetLength
+         Integer32,
+      pr1646v2ChAtmEfmInQueuesRedLength
+         Integer32,
+      pr1646v2ChAtmEfmInQueuesPacketsTotal
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesPacketsDirectTx
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesPacketsQueued
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesPacketsDropped
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesPacketsRedDropped
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesPacketsCirTx
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesPacketsEirTx
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesPacketsViolateTx
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesOctetsTotal
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesOctetsDirectTx
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesOctetsQueued
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesOctetsDropped
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesOctetsRedDropped
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesOctetsCirTx
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesOctetsEirTx
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesOctetsViolateTx
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesOctetsBandwidth15sec
+         Integer32,
+      pr1646v2ChAtmEfmInQueuesOctetsBandwidth30sec
+         Integer32,
+      pr1646v2ChAtmEfmInQueuesOctetsBandwidth1min
+         Integer32,
+      pr1646v2ChAtmEfmInQueuesOctetsBandwidth2min
+         Integer32,
+      pr1646v2ChAtmEfmInQueuesOctetsBandwidth5min
+         Integer32
+      }
+
+pr1646v2ChAtmEfmInQueuesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 11}
+
+pr1646v2ChAtmEfmInQueuesName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               queue (8),
+               queue1Sum (9),
+               queue2Sum (10),
+               queue3Sum (11),
+               queue4Sum (12),
+               queue5Sum (13),
+               lowDelayQueueSum (14),
+               lowDelay2QueueSum (15),
+               systemQueueSum (16),
+               queueSum (17),
+               queue1Driver (18),
+               queue2Driver (19),
+               queue3Driver (20),
+               queue4Driver (21),
+               queue5Driver (22),
+               lowDelayQueueDriver (23),
+               lowDelay2QueueDriver (24),
+               systemQueueDriver (25)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.name
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               queue   (8)
+               queue1Sum   (9)
+               queue2Sum   (10)
+               queue3Sum   (11)
+               queue4Sum   (12)
+               queue5Sum   (13)
+               lowDelayQueueSum   (14)
+               lowDelay2QueueSum   (15)
+               systemQueueSum   (16)
+               queueSum   (17)
+               queue1Driver   (18)
+               queue2Driver   (19)
+               queue3Driver   (20)
+               queue4Driver   (21)
+               queue5Driver   (22)
+               lowDelayQueueDriver   (23)
+               lowDelay2QueueDriver   (24)
+               systemQueueDriver   (25)"
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 16777216}
+
+pr1646v2ChAtmEfmInQueuesLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.length"
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 33554432}
+
+pr1646v2ChAtmEfmInQueuesOctetLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octetLength"
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 150994944}
+
+pr1646v2ChAtmEfmInQueuesRedLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.redLength"
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 134217728}
+
+pr1646v2ChAtmEfmInQueuesPacketsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.packets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 50790400}
+
+pr1646v2ChAtmEfmInQueuesPacketsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.packets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 50397184}
+
+pr1646v2ChAtmEfmInQueuesPacketsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.packets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 50462720}
+
+pr1646v2ChAtmEfmInQueuesPacketsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.packets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 50528256}
+
+pr1646v2ChAtmEfmInQueuesPacketsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.packets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 50724864}
+
+pr1646v2ChAtmEfmInQueuesPacketsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.packets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 50593792}
+
+pr1646v2ChAtmEfmInQueuesPacketsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.packets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 50659328}
+
+pr1646v2ChAtmEfmInQueuesPacketsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.packets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 50855936}
+
+pr1646v2ChAtmEfmInQueuesOctetsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 67567616}
+
+pr1646v2ChAtmEfmInQueuesOctetsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 67174400}
+
+pr1646v2ChAtmEfmInQueuesOctetsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 67239936}
+
+pr1646v2ChAtmEfmInQueuesOctetsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 67305472}
+
+pr1646v2ChAtmEfmInQueuesOctetsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 67502080}
+
+pr1646v2ChAtmEfmInQueuesOctetsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 67371008}
+
+pr1646v2ChAtmEfmInQueuesOctetsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 67436544}
+
+pr1646v2ChAtmEfmInQueuesOctetsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 67633152}
+
+pr1646v2ChAtmEfmInQueuesOctetsBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octets.bandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 70386944}
+
+pr1646v2ChAtmEfmInQueuesOctetsBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octets.bandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 70388224}
+
+pr1646v2ChAtmEfmInQueuesOctetsBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octets.bandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 70390784}
+
+pr1646v2ChAtmEfmInQueuesOctetsBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octets.bandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 70395904}
+
+pr1646v2ChAtmEfmInQueuesOctetsBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.octets.bandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInQueuesEntry 70411264}
+
+pr1646v2ChAtmEfmInQueuesH2Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ChAtmEfmInQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmInQueues 83886080}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ChAtmEfmInQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ChAtmEfmInQueuesTableIx,
+                pr1646v2ChAtmEfmInQueuesH2PerformanceTableIx }
+   ::= {pr1646v2ChAtmEfmInQueuesH2Performance 1}
+
+Pr1646v2ChAtmEfmInQueuesH2PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ChAtmEfmInQueuesH2PerformanceTableIx
+         TableIndex,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceTotPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceDirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceQdPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceDropPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceRDropPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceCirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceEirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceViolTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceTotOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceDirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceQdOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceDropOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceRDropOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceCirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceEirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceViolTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH2PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 11}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 16777216}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 234881024}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 33554432}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 50331648}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 67108864}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 201326592}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 83886080}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 100663296}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 301989888}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 251658240}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 117440512}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 134217728}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 150994944}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 218103808}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 167772160}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 184549376}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 318767104}
+
+pr1646v2ChAtmEfmInQueuesH2PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h2Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInQueuesH2PerformanceEntry 268435456}
+
+pr1646v2ChAtmEfmInQueuesH24Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ChAtmEfmInQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmInQueues 100663296}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ChAtmEfmInQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ChAtmEfmInQueuesTableIx,
+                pr1646v2ChAtmEfmInQueuesH24PerformanceTableIx }
+   ::= {pr1646v2ChAtmEfmInQueuesH24Performance 1}
+
+Pr1646v2ChAtmEfmInQueuesH24PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ChAtmEfmInQueuesH24PerformanceTableIx
+         TableIndex,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceTotPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceDirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceQdPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceDropPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceRDropPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceCirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceEirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceViolTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceTotOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceDirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceQdOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceDropOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceRDropOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceCirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceEirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceViolTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesH24PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 11}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 16777216}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 234881024}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 33554432}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 50331648}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 67108864}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 201326592}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 83886080}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 100663296}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 301989888}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 251658240}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 117440512}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 134217728}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 150994944}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 218103808}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 167772160}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 184549376}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 318767104}
+
+pr1646v2ChAtmEfmInQueuesH24PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.h24Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInQueuesH24PerformanceEntry 268435456}
+
+pr1646v2ChAtmEfmInQueuesD7Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ChAtmEfmInQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmInQueues 117440512}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ChAtmEfmInQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ChAtmEfmInQueuesTableIx,
+                pr1646v2ChAtmEfmInQueuesD7PerformanceTableIx }
+   ::= {pr1646v2ChAtmEfmInQueuesD7Performance 1}
+
+Pr1646v2ChAtmEfmInQueuesD7PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ChAtmEfmInQueuesD7PerformanceTableIx
+         TableIndex,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceTotPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceDirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceQdPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceDropPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceRDropPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceCirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceEirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceViolTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceTotOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceDirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceQdOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceDropOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceRDropOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceCirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceEirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceViolTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmInQueuesD7PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 11}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 16777216}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 234881024}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 33554432}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 50331648}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 67108864}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 201326592}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 83886080}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 100663296}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 301989888}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 251658240}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 117440512}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 134217728}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 150994944}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 218103808}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 167772160}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 184549376}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 318767104}
+
+pr1646v2ChAtmEfmInQueuesD7PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInPriorityQueues.d7Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInQueuesD7PerformanceEntry 268435456}
+
+
+pr1646v2ChAtmEfmInBandwidth OBJECT IDENTIFIER ::= {pr1646v2ChAtmEfm 181}
+
+pr1646v2ChAtmEfmInBandwidthSSC OBJECT IDENTIFIER ::= {pr1646v2ChAtmEfmInBandwidth 1}
+
+pr1646v2ChAtmEfmInBandwidthEntry OBJECT IDENTIFIER ::= {pr1646v2ChAtmEfmInBandwidthSSC 1}
+
+pr1646v2ChAtmEfmInBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInBandwidthEntry 83886080}
+
+pr1646v2ChAtmEfmInBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInBandwidthEntry 167772160}
+
+pr1646v2ChAtmEfmInBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInBandwidthEntry 335544320}
+
+pr1646v2ChAtmEfmInBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInBandwidthEntry 671088640}
+
+pr1646v2ChAtmEfmInBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifInBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInBandwidthEntry 1677721600}
+
+
+pr1646v2ChAtmEfmOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutOctets
+       Info: ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 115}
+
+
+pr1646v2ChAtmEfmOutUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutUcastPkts
+       Info: ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 116}
+
+
+pr1646v2ChAtmEfmOutNUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutNUcastPkts
+       Info: ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 117}
+
+
+pr1646v2ChAtmEfmOutBcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutBcastPkts
+       Info: ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 217}
+
+
+pr1646v2ChAtmEfmOutMcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutMcastPkts
+       Info: ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 227}
+
+
+pr1646v2ChAtmEfmOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutDiscards
+       Info: ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 118}
+
+
+pr1646v2ChAtmEfmOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutErrors
+       Info: ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 119}
+
+
+pr1646v2ChAtmEfmOutQLen OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutQLen
+       Info: ifOutQLen
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2ChAtmEfm 120}
+
+
+pr1646v2ChAtmEfmOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutDropLevelExceeded
+       Info: ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 127}
+
+
+pr1646v2ChAtmEfmOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutDiscardsNoArp
+       Info: ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 134}
+
+
+pr1646v2ChAtmEfmOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutDiscardsFilter
+       Info: ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfm 138}
+
+
+pr1646v2ChAtmEfmIfOutPriorityQueues OBJECT IDENTIFIER ::= {pr1646v2ChAtmEfm 129}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ChAtmEfmIfOutPriorityQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Queue Lengths"
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueues 1}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ChAtmEfmIfOutPriorityQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ChAtmEfmIfOutPriorityQueuesTableIx }
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesSSCTable 1}
+
+Pr1646v2ChAtmEfmIfOutPriorityQueuesEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ChAtmEfmIfOutPriorityQueuesTableIx
+         TableIndex,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesName
+         INTEGER,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesLength
+         Integer32,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetLength
+         Integer32,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesRedLength
+         Integer32,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsTotal
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsDirectTx
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsQueued
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsDropped
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsRedDropped
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsCirTx
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsEirTx
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsViolateTx
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsTotal
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsDirectTx
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsQueued
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsDropped
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsRedDropped
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsCirTx
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsEirTx
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsViolateTx
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsBandwidth15sec
+         Integer32,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsBandwidth30sec
+         Integer32,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsBandwidth1min
+         Integer32,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsBandwidth2min
+         Integer32,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsBandwidth5min
+         Integer32
+      }
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 11}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               queue (8),
+               queue1Sum (9),
+               queue2Sum (10),
+               queue3Sum (11),
+               queue4Sum (12),
+               queue5Sum (13),
+               lowDelayQueueSum (14),
+               lowDelay2QueueSum (15),
+               systemQueueSum (16),
+               queueSum (17),
+               queue1Driver (18),
+               queue2Driver (19),
+               queue3Driver (20),
+               queue4Driver (21),
+               queue5Driver (22),
+               lowDelayQueueDriver (23),
+               lowDelay2QueueDriver (24),
+               systemQueueDriver (25)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.name
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               queue   (8)
+               queue1Sum   (9)
+               queue2Sum   (10)
+               queue3Sum   (11)
+               queue4Sum   (12)
+               queue5Sum   (13)
+               lowDelayQueueSum   (14)
+               lowDelay2QueueSum   (15)
+               systemQueueSum   (16)
+               queueSum   (17)
+               queue1Driver   (18)
+               queue2Driver   (19)
+               queue3Driver   (20)
+               queue4Driver   (21)
+               queue5Driver   (22)
+               lowDelayQueueDriver   (23)
+               lowDelay2QueueDriver   (24)
+               systemQueueDriver   (25)"
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 16777216}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.length"
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 33554432}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octetLength"
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 150994944}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesRedLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.redLength"
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 134217728}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.packets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 50790400}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.packets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 50397184}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.packets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 50462720}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.packets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 50528256}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.packets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 50724864}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.packets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 50593792}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.packets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 50659328}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesPacketsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.packets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 50855936}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 67567616}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 67174400}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 67239936}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 67305472}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 67502080}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 67371008}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 67436544}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 67633152}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octets.bandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 70386944}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octets.bandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 70388224}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octets.bandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 70390784}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octets.bandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 70395904}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesOctetsBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.octets.bandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesEntry 70411264}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueues 83886080}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ChAtmEfmIfOutPriorityQueuesTableIx,
+                pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceTableIx }
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2Performance 1}
+
+Pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceTableIx
+         TableIndex,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceTotPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceDirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceQdPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceDropPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceRDropPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceCirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceViolTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceTotOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceDirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceQdOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceDropOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceRDropOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceCirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceViolTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 11}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 16777216}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 234881024}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 33554432}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 50331648}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 67108864}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 201326592}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 83886080}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 100663296}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 301989888}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 251658240}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 117440512}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 134217728}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 150994944}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 218103808}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 167772160}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 184549376}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 318767104}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h2Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH2PerformanceEntry 268435456}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueues 100663296}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ChAtmEfmIfOutPriorityQueuesTableIx,
+                pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceTableIx }
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24Performance 1}
+
+Pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceTableIx
+         TableIndex,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceTotPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceDirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceQdPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceDropPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceRDropPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceCirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceViolTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceTotOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceDirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceQdOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceDropOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceRDropOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceCirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceViolTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 11}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 16777216}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 234881024}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 33554432}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 50331648}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 67108864}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 201326592}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 83886080}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 100663296}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 301989888}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 251658240}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 117440512}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 134217728}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 150994944}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 218103808}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 167772160}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 184549376}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 318767104}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.h24Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesH24PerformanceEntry 268435456}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueues 117440512}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ChAtmEfmIfOutPriorityQueuesTableIx,
+                pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceTableIx }
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7Performance 1}
+
+Pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceTableIx
+         TableIndex,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceTotPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceDirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceQdPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceDropPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceRDropPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceCirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEirTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceViolTxPkts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceTotOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceDirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceQdOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceDropOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceRDropOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceCirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEirTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceViolTxOcts
+         Counter64,
+      pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 11}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 16777216}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 234881024}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 33554432}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 50331648}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 67108864}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 201326592}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 83886080}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 100663296}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 301989888}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 251658240}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 117440512}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 134217728}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 150994944}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 218103808}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 167772160}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 184549376}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 318767104}
+
+pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutPriorityQueues.d7Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmIfOutPriorityQueuesD7PerformanceEntry 268435456}
+
+
+pr1646v2ChAtmEfmOutBandwidth OBJECT IDENTIFIER ::= {pr1646v2ChAtmEfm 182}
+
+pr1646v2ChAtmEfmOutBandwidthSSC OBJECT IDENTIFIER ::= {pr1646v2ChAtmEfmOutBandwidth 1}
+
+pr1646v2ChAtmEfmOutBandwidthEntry OBJECT IDENTIFIER ::= {pr1646v2ChAtmEfmOutBandwidthSSC 1}
+
+pr1646v2ChAtmEfmOutBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmOutBandwidthEntry 83886080}
+
+pr1646v2ChAtmEfmOutBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmOutBandwidthEntry 167772160}
+
+pr1646v2ChAtmEfmOutBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmOutBandwidthEntry 335544320}
+
+pr1646v2ChAtmEfmOutBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmOutBandwidthEntry 671088640}
+
+pr1646v2ChAtmEfmOutBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.ifOutBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmOutBandwidthEntry 1677721600}
+
+
+pr1646v2ChAtmEfmInP OBJECT IDENTIFIER ::= {pr1646v2ChAtmEfm 307}
+
+pr1646v2ChAtmEfmInPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ChAtmEfmInPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h2IfInPerformance"
+   ::= {pr1646v2ChAtmEfmInP 1}
+
+pr1646v2ChAtmEfmInPEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ChAtmEfmInPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ChAtmEfmInPTableIx }
+   ::= {pr1646v2ChAtmEfmInPSSCTable 1}
+
+Pr1646v2ChAtmEfmInPEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ChAtmEfmInPTableIx
+         TableIndex,
+      pr1646v2ChAtmEfmInPSysUpTime
+         TimeTicks,
+      pr1646v2ChAtmEfmInPIfUpTime
+         TimeTicks,
+      pr1646v2ChAtmEfmInPIfStatChanges
+         Counter32,
+      pr1646v2ChAtmEfmInPIfInOctets
+         Counter64,
+      pr1646v2ChAtmEfmInPIfInUCPkts
+         Counter64,
+      pr1646v2ChAtmEfmInPIfInNUCPkts
+         Counter64,
+      pr1646v2ChAtmEfmInPIfInBCPkts
+         Counter64,
+      pr1646v2ChAtmEfmInPIfInMCPkts
+         Counter64,
+      pr1646v2ChAtmEfmInPIfInDiscards
+         Counter64,
+      pr1646v2ChAtmEfmInPIfInErrors
+         Counter64,
+      pr1646v2ChAtmEfmInPIfInUnkwn
+         Counter64,
+      pr1646v2ChAtmEfmInPInDropEx
+         Counter64,
+      pr1646v2ChAtmEfmInPInDropNoMac
+         Counter64,
+      pr1646v2ChAtmEfmInPInDropNUCast
+         Counter64,
+      pr1646v2ChAtmEfmInPInDropFilter
+         Counter64,
+      pr1646v2ChAtmEfmInPIfInBandwidth
+         Integer32,
+      pr1646v2ChAtmEfmInPIfOutOctets
+         Counter64,
+      pr1646v2ChAtmEfmInPIfOutUCPkts
+         Counter64,
+      pr1646v2ChAtmEfmInPIfOutNUCPkts
+         Counter64,
+      pr1646v2ChAtmEfmInPIfOutBCPkts
+         Counter64,
+      pr1646v2ChAtmEfmInPIfOutMCPkts
+         Counter64,
+      pr1646v2ChAtmEfmInPIfOutDiscards
+         Counter64,
+      pr1646v2ChAtmEfmInPIfOutErrors
+         Counter64,
+      pr1646v2ChAtmEfmInPOutDropEx
+         Counter64,
+      pr1646v2ChAtmEfmInPOutDropNoArp
+         Counter64,
+      pr1646v2ChAtmEfmInPOutDropFilter
+         Counter64,
+      pr1646v2ChAtmEfmInPIfOutBandwidth
+         Integer32,
+      pr1646v2ChAtmEfmInPIfErrSec
+         Counter32
+      }
+
+pr1646v2ChAtmEfmInPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmInPEntry 11}
+
+pr1646v2ChAtmEfmInPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2ChAtmEfmInPEntry 16777216}
+
+pr1646v2ChAtmEfmInPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2ChAtmEfmInPEntry 33554432}
+
+pr1646v2ChAtmEfmInPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 50331648}
+
+pr1646v2ChAtmEfmInPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 67108864}
+
+pr1646v2ChAtmEfmInPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 83886080}
+
+pr1646v2ChAtmEfmInPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 100663296}
+
+pr1646v2ChAtmEfmInPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 419430400}
+
+pr1646v2ChAtmEfmInPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 436207616}
+
+pr1646v2ChAtmEfmInPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 117440512}
+
+pr1646v2ChAtmEfmInPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 134217728}
+
+pr1646v2ChAtmEfmInPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 150994944}
+
+pr1646v2ChAtmEfmInPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 335544320}
+
+pr1646v2ChAtmEfmInPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 301989888}
+
+pr1646v2ChAtmEfmInPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 318767104}
+
+pr1646v2ChAtmEfmInPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 385875968}
+
+pr1646v2ChAtmEfmInPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInPEntry 268435456}
+
+pr1646v2ChAtmEfmInPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 167772160}
+
+pr1646v2ChAtmEfmInPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 184549376}
+
+pr1646v2ChAtmEfmInPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 201326592}
+
+pr1646v2ChAtmEfmInPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 452984832}
+
+pr1646v2ChAtmEfmInPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 469762048}
+
+pr1646v2ChAtmEfmInPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 218103808}
+
+pr1646v2ChAtmEfmInPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 234881024}
+
+pr1646v2ChAtmEfmInPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 352321536}
+
+pr1646v2ChAtmEfmInPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 369098752}
+
+pr1646v2ChAtmEfmInPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 402653184}
+
+pr1646v2ChAtmEfmInPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmInPEntry 285212672}
+
+pr1646v2ChAtmEfmInPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h2Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmInPEntry 251658240}
+
+
+pr1646v2ChAtmEfmH24InP OBJECT IDENTIFIER ::= {pr1646v2ChAtmEfm 308}
+
+pr1646v2ChAtmEfmH24InPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ChAtmEfmH24InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h24IfInPerformance"
+   ::= {pr1646v2ChAtmEfmH24InP 1}
+
+pr1646v2ChAtmEfmH24InPEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ChAtmEfmH24InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ChAtmEfmH24InPTableIx }
+   ::= {pr1646v2ChAtmEfmH24InPSSCTable 1}
+
+Pr1646v2ChAtmEfmH24InPEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ChAtmEfmH24InPTableIx
+         TableIndex,
+      pr1646v2ChAtmEfmH24InPSysUpTime
+         TimeTicks,
+      pr1646v2ChAtmEfmH24InPIfUpTime
+         TimeTicks,
+      pr1646v2ChAtmEfmH24InPIfStatChanges
+         Counter32,
+      pr1646v2ChAtmEfmH24InPIfInOctets
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfInUCPkts
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfInNUCPkts
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfInBCPkts
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfInMCPkts
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfInDiscards
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfInErrors
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfInUnkwn
+         Counter64,
+      pr1646v2ChAtmEfmH24InPInDropEx
+         Counter64,
+      pr1646v2ChAtmEfmH24InPInDropNoMac
+         Counter64,
+      pr1646v2ChAtmEfmH24InPInDropNUCast
+         Counter64,
+      pr1646v2ChAtmEfmH24InPInDropFilter
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfInBandwidth
+         Integer32,
+      pr1646v2ChAtmEfmH24InPIfOutOctets
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfOutUCPkts
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfOutNUCPkts
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfOutBCPkts
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfOutMCPkts
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfOutDiscards
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfOutErrors
+         Counter64,
+      pr1646v2ChAtmEfmH24InPOutDropEx
+         Counter64,
+      pr1646v2ChAtmEfmH24InPOutDropNoArp
+         Counter64,
+      pr1646v2ChAtmEfmH24InPOutDropFilter
+         Counter64,
+      pr1646v2ChAtmEfmH24InPIfOutBandwidth
+         Integer32,
+      pr1646v2ChAtmEfmH24InPIfErrSec
+         Counter32
+      }
+
+pr1646v2ChAtmEfmH24InPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmH24InPEntry 11}
+
+pr1646v2ChAtmEfmH24InPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 16777216}
+
+pr1646v2ChAtmEfmH24InPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 33554432}
+
+pr1646v2ChAtmEfmH24InPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 50331648}
+
+pr1646v2ChAtmEfmH24InPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 67108864}
+
+pr1646v2ChAtmEfmH24InPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 83886080}
+
+pr1646v2ChAtmEfmH24InPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 100663296}
+
+pr1646v2ChAtmEfmH24InPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 419430400}
+
+pr1646v2ChAtmEfmH24InPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 436207616}
+
+pr1646v2ChAtmEfmH24InPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 117440512}
+
+pr1646v2ChAtmEfmH24InPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 134217728}
+
+pr1646v2ChAtmEfmH24InPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 150994944}
+
+pr1646v2ChAtmEfmH24InPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 335544320}
+
+pr1646v2ChAtmEfmH24InPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 301989888}
+
+pr1646v2ChAtmEfmH24InPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 318767104}
+
+pr1646v2ChAtmEfmH24InPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 385875968}
+
+pr1646v2ChAtmEfmH24InPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmH24InPEntry 268435456}
+
+pr1646v2ChAtmEfmH24InPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 167772160}
+
+pr1646v2ChAtmEfmH24InPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 184549376}
+
+pr1646v2ChAtmEfmH24InPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 201326592}
+
+pr1646v2ChAtmEfmH24InPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 452984832}
+
+pr1646v2ChAtmEfmH24InPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 469762048}
+
+pr1646v2ChAtmEfmH24InPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 218103808}
+
+pr1646v2ChAtmEfmH24InPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 234881024}
+
+pr1646v2ChAtmEfmH24InPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 352321536}
+
+pr1646v2ChAtmEfmH24InPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 369098752}
+
+pr1646v2ChAtmEfmH24InPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 402653184}
+
+pr1646v2ChAtmEfmH24InPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmH24InPEntry 285212672}
+
+pr1646v2ChAtmEfmH24InPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.h24Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmH24InPEntry 251658240}
+
+
+pr1646v2ChAtmEfmD7InP OBJECT IDENTIFIER ::= {pr1646v2ChAtmEfm 309}
+
+pr1646v2ChAtmEfmD7InPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2ChAtmEfmD7InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "d7IfInPerformance"
+   ::= {pr1646v2ChAtmEfmD7InP 1}
+
+pr1646v2ChAtmEfmD7InPEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2ChAtmEfmD7InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2ChAtmEfmD7InPTableIx }
+   ::= {pr1646v2ChAtmEfmD7InPSSCTable 1}
+
+Pr1646v2ChAtmEfmD7InPEntry ::=
+   SEQUENCE
+      {
+      pr1646v2ChAtmEfmD7InPTableIx
+         TableIndex,
+      pr1646v2ChAtmEfmD7InPSysUpTime
+         TimeTicks,
+      pr1646v2ChAtmEfmD7InPIfUpTime
+         TimeTicks,
+      pr1646v2ChAtmEfmD7InPIfStatChanges
+         Counter32,
+      pr1646v2ChAtmEfmD7InPIfInOctets
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfInUCPkts
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfInNUCPkts
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfInBCPkts
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfInMCPkts
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfInDiscards
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfInErrors
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfInUnkwn
+         Counter64,
+      pr1646v2ChAtmEfmD7InPInDropEx
+         Counter64,
+      pr1646v2ChAtmEfmD7InPInDropNoMac
+         Counter64,
+      pr1646v2ChAtmEfmD7InPInDropNUCast
+         Counter64,
+      pr1646v2ChAtmEfmD7InPInDropFilter
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfInBandwidth
+         Integer32,
+      pr1646v2ChAtmEfmD7InPIfOutOctets
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfOutUCPkts
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfOutNUCPkts
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfOutBCPkts
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfOutMCPkts
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfOutDiscards
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfOutErrors
+         Counter64,
+      pr1646v2ChAtmEfmD7InPOutDropEx
+         Counter64,
+      pr1646v2ChAtmEfmD7InPOutDropNoArp
+         Counter64,
+      pr1646v2ChAtmEfmD7InPOutDropFilter
+         Counter64,
+      pr1646v2ChAtmEfmD7InPIfOutBandwidth
+         Integer32,
+      pr1646v2ChAtmEfmD7InPIfErrSec
+         Counter32
+      }
+
+pr1646v2ChAtmEfmD7InPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2ChAtmEfmD7InPEntry 11}
+
+pr1646v2ChAtmEfmD7InPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 16777216}
+
+pr1646v2ChAtmEfmD7InPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 33554432}
+
+pr1646v2ChAtmEfmD7InPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 50331648}
+
+pr1646v2ChAtmEfmD7InPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 67108864}
+
+pr1646v2ChAtmEfmD7InPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 83886080}
+
+pr1646v2ChAtmEfmD7InPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 100663296}
+
+pr1646v2ChAtmEfmD7InPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 419430400}
+
+pr1646v2ChAtmEfmD7InPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 436207616}
+
+pr1646v2ChAtmEfmD7InPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 117440512}
+
+pr1646v2ChAtmEfmD7InPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 134217728}
+
+pr1646v2ChAtmEfmD7InPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 150994944}
+
+pr1646v2ChAtmEfmD7InPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 335544320}
+
+pr1646v2ChAtmEfmD7InPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 301989888}
+
+pr1646v2ChAtmEfmD7InPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 318767104}
+
+pr1646v2ChAtmEfmD7InPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 385875968}
+
+pr1646v2ChAtmEfmD7InPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmD7InPEntry 268435456}
+
+pr1646v2ChAtmEfmD7InPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 167772160}
+
+pr1646v2ChAtmEfmD7InPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 184549376}
+
+pr1646v2ChAtmEfmD7InPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 201326592}
+
+pr1646v2ChAtmEfmD7InPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 452984832}
+
+pr1646v2ChAtmEfmD7InPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 469762048}
+
+pr1646v2ChAtmEfmD7InPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 218103808}
+
+pr1646v2ChAtmEfmD7InPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 234881024}
+
+pr1646v2ChAtmEfmD7InPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 352321536}
+
+pr1646v2ChAtmEfmD7InPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 369098752}
+
+pr1646v2ChAtmEfmD7InPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 402653184}
+
+pr1646v2ChAtmEfmD7InPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2ChAtmEfmD7InPEntry 285212672}
+
+pr1646v2ChAtmEfmD7InPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.performance.d7Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2ChAtmEfmD7InPEntry 251658240}
+
+
+
+fr1646v2ChAtmEfm OBJECT IDENTIFIER ::= {r1646v2ChAtmEfm 13}
+
+
+fr1646v2ChAtmEfmAlarm OBJECT IDENTIFIER ::= {fr1646v2ChAtmEfm 207}
+
+fr1646v2ChAtmEfmAlarmSSC OBJECT IDENTIFIER ::= {fr1646v2ChAtmEfmAlarm 1}
+
+fr1646v2ChAtmEfmAlarmEntry OBJECT IDENTIFIER ::= {fr1646v2ChAtmEfmAlarmSSC 1}
+
+fr1646v2ChAtmEfmAlarmDiscriminator OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.alarms.alarmInfo.discriminator"
+   ::= {fr1646v2ChAtmEfmAlarmEntry 16777216}
+
+fr1646v2ChAtmEfmAlarmCurrent OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.alarms.alarmInfo.currentAlarms
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {fr1646v2ChAtmEfmAlarmEntry 33554432}
+
+fr1646v2ChAtmEfmAlarmPrevious OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.alarms.alarmInfo.previousAlarms
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {fr1646v2ChAtmEfmAlarmEntry 50331648}
+
+fr1646v2ChAtmEfmAlarmMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.alarms.alarmInfo.alarmMask
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {fr1646v2ChAtmEfmAlarmEntry 67108864}
+
+fr1646v2ChAtmEfmAlarmLevLinkDown OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.alarms.alarmInfo.alarmLevel.linkDown"
+   ::= {fr1646v2ChAtmEfmAlarmEntry 83951616}
+
+
+fr1646v2ChAtmEfmAlarmE2 OBJECT IDENTIFIER ::= {fr1646v2ChAtmEfmAlarm 2}
+
+fr1646v2ChAtmEfmAlarmE2Entry OBJECT IDENTIFIER ::= {fr1646v2ChAtmEfmAlarmE2 1}
+
+fr1646v2ChAtmEfmAlarmE2LinkDown OBJECT IDENTIFIER ::= {fr1646v2ChAtmEfmAlarmE2Entry 10}
+
+fr1646v2ChAtmEfmAlarmE2LinkDownPfx OBJECT IDENTIFIER ::= {fr1646v2ChAtmEfmAlarmE2LinkDown 0}
+
+fr1646v2ChAtmEfmAlarmE2LinkDownOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'wanInterface1424ChannelAtmEfm'
+                (root='router1646') has changed from the ON to the OFF state."
+   ::= {fr1646v2ChAtmEfmAlarmE2LinkDownPfx 1}
+
+fr1646v2ChAtmEfmAlarmE2LinkDownOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'wanInterface1424ChannelAtmEfm'
+                (root='router1646') has changed from the OFF to the ON state."
+   ::= {fr1646v2ChAtmEfmAlarmE2LinkDownPfx 2}
+
+
+
+ar1646v2ChAtmEfm OBJECT IDENTIFIER ::= {r1646v2ChAtmEfm 16}
+
+
+ar1646v2ChAtmEfmClearCounters OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: channel.actions.clearCounters
+       Info: reset counters"
+   ::= {ar1646v2ChAtmEfm 263}
+
+
+
+END
