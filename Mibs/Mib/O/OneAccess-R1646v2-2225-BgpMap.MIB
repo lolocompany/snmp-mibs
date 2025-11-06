@@ -1,0 +1,1029 @@
+OneAccess-R1646v2-2225-BgpMap DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2BgpMap OBJECT IDENTIFIER ::= {r1646Rootv2 2225}
+
+r1646v2BgpMapMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2BgpMapMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2BgpMap 1}
+
+r1646v2BgpMapMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2BgpMapMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2BgpMapMOPropGlobalIx }
+   ::= {r1646v2BgpMapMOProp 1}
+
+R1646v2BgpMapMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2BgpMapMOPropPath
+         ContainmentPath,
+      r1646v2BgpMapMOPropRev
+         ObjectRevision,
+      r1646v2BgpMapMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2BgpMapMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2BgpMapMOPropEntry 3}
+
+r1646v2BgpMapMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2BgpMapMOPropEntry 4}
+
+r1646v2BgpMapMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2BgpMapMOPropEntry 10}
+
+
+
+er1646v2BgpMap OBJECT IDENTIFIER ::= {r1646v2BgpMap 11}
+
+
+er1646v2BgpMapSnmpIndexOffset OBJECT IDENTIFIER ::= {er1646v2BgpMap 268}
+
+er1646v2BgpMapSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpMapSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1646v2BgpMapSnmpIndexOffset 1}
+
+er1646v2BgpMapSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpMapSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpMapSnmpIndexOffsetGlobalIx }
+   ::= {er1646v2BgpMapSnmpIndexOffsetTable 1}
+
+Er1646v2BgpMapSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpMapSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1646v2BgpMapSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1646v2BgpMapSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpMapSnmpIndexOffsetEntry 10}
+
+er1646v2BgpMapSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.snmpIndexOffset"
+   ::= {er1646v2BgpMapSnmpIndexOffsetEntry 2147483648}
+
+
+er1646v2BgpMapFilter OBJECT IDENTIFIER ::= {er1646v2BgpMap 2}
+
+er1646v2BgpMapFilterTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpMapFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "filter reference"
+   ::= {er1646v2BgpMapFilter 1}
+
+er1646v2BgpMapFilterEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpMapFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpMapFilterGlobalIx }
+   ::= {er1646v2BgpMapFilterTable 1}
+
+Er1646v2BgpMapFilterEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpMapFilterGlobalIx
+         GlobalIndex,
+      er1646v2BgpMapFilterValue
+         DisplayString
+      }
+
+er1646v2BgpMapFilterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpMapFilterEntry 10}
+
+er1646v2BgpMapFilterValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.filter"
+   ::= {er1646v2BgpMapFilterEntry 2147483648}
+
+
+er1646v2BgpMapNextHop OBJECT IDENTIFIER ::= {er1646v2BgpMap 4}
+
+er1646v2BgpMapNextHopTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpMapNextHopEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "map next hop value"
+   ::= {er1646v2BgpMapNextHop 1}
+
+er1646v2BgpMapNextHopEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpMapNextHopEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpMapNextHopGlobalIx }
+   ::= {er1646v2BgpMapNextHopTable 1}
+
+Er1646v2BgpMapNextHopEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpMapNextHopGlobalIx
+         GlobalIndex,
+      er1646v2BgpMapNextHopValue
+         IpAddress
+      }
+
+er1646v2BgpMapNextHopGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpMapNextHopEntry 10}
+
+er1646v2BgpMapNextHopValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.nextHop"
+   ::= {er1646v2BgpMapNextHopEntry 2147483648}
+
+
+er1646v2BgpMapWeight OBJECT IDENTIFIER ::= {er1646v2BgpMap 7}
+
+er1646v2BgpMapWeightTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpMapWeightEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "map weight value"
+   ::= {er1646v2BgpMapWeight 1}
+
+er1646v2BgpMapWeightEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpMapWeightEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpMapWeightGlobalIx }
+   ::= {er1646v2BgpMapWeightTable 1}
+
+Er1646v2BgpMapWeightEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpMapWeightGlobalIx
+         GlobalIndex,
+      er1646v2BgpMapWeightValue
+         Gauge32
+      }
+
+er1646v2BgpMapWeightGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpMapWeightEntry 10}
+
+er1646v2BgpMapWeightValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.weight
+
+       32 bit unsigned gauge value."
+   ::= {er1646v2BgpMapWeightEntry 2147483648}
+
+
+er1646v2BgpMapLocalPreference OBJECT IDENTIFIER ::= {er1646v2BgpMap 6}
+
+er1646v2BgpMapLocalPreferenceTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpMapLocalPreferenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "default local preference value"
+   ::= {er1646v2BgpMapLocalPreference 1}
+
+er1646v2BgpMapLocalPreferenceEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpMapLocalPreferenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpMapLocalPreferenceGlobalIx }
+   ::= {er1646v2BgpMapLocalPreferenceTable 1}
+
+Er1646v2BgpMapLocalPreferenceEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpMapLocalPreferenceGlobalIx
+         GlobalIndex,
+      er1646v2BgpMapLocalPreferenceValue
+         Gauge32
+      }
+
+er1646v2BgpMapLocalPreferenceGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpMapLocalPreferenceEntry 10}
+
+er1646v2BgpMapLocalPreferenceValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.localPreference
+
+       32 bit unsigned gauge value."
+   ::= {er1646v2BgpMapLocalPreferenceEntry 2147483648}
+
+
+er1646v2BgpMapPrependAsPath OBJECT IDENTIFIER ::= {er1646v2BgpMap 8}
+
+er1646v2BgpMapPrependAsPathTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpMapPrependAsPathEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "map as path value"
+   ::= {er1646v2BgpMapPrependAsPath 1}
+
+er1646v2BgpMapPrependAsPathEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpMapPrependAsPathEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpMapPrependAsPathGlobalIx }
+   ::= {er1646v2BgpMapPrependAsPathTable 1}
+
+Er1646v2BgpMapPrependAsPathEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpMapPrependAsPathGlobalIx
+         GlobalIndex,
+      er1646v2BgpMapPrependAsPathValue
+         DisplayString
+      }
+
+er1646v2BgpMapPrependAsPathGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpMapPrependAsPathEntry 10}
+
+er1646v2BgpMapPrependAsPathValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.prependAsPath"
+   ::= {er1646v2BgpMapPrependAsPathEntry 2147483648}
+
+
+er1646v2BgpMapOrigin OBJECT IDENTIFIER ::= {er1646v2BgpMap 3}
+
+er1646v2BgpMapOriginTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpMapOriginEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "map origin value"
+   ::= {er1646v2BgpMapOrigin 1}
+
+er1646v2BgpMapOriginEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpMapOriginEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpMapOriginGlobalIx }
+   ::= {er1646v2BgpMapOriginTable 1}
+
+Er1646v2BgpMapOriginEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpMapOriginGlobalIx
+         GlobalIndex,
+      er1646v2BgpMapOriginValue
+         INTEGER
+      }
+
+er1646v2BgpMapOriginGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpMapOriginEntry 10}
+
+er1646v2BgpMapOriginValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               igp (0),
+               egp (1),
+               incomplete (2),
+               any (65535)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.origin
+
+       Possibilities:
+               igp   (0)
+               egp   (1)
+               incomplete   (2)
+               any   (65535)"
+   ::= {er1646v2BgpMapOriginEntry 2147483648}
+
+
+er1646v2BgpMapMed OBJECT IDENTIFIER ::= {er1646v2BgpMap 5}
+
+er1646v2BgpMapMedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpMapMedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "map MED value"
+   ::= {er1646v2BgpMapMed 1}
+
+er1646v2BgpMapMedEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpMapMedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpMapMedGlobalIx }
+   ::= {er1646v2BgpMapMedTable 1}
+
+Er1646v2BgpMapMedEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpMapMedGlobalIx
+         GlobalIndex,
+      er1646v2BgpMapMedValue
+         Gauge32
+      }
+
+er1646v2BgpMapMedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpMapMedEntry 10}
+
+er1646v2BgpMapMedValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.med
+
+       32 bit unsigned gauge value."
+   ::= {er1646v2BgpMapMedEntry 2147483648}
+
+
+er1646v2BgpMapCommunity OBJECT IDENTIFIER ::= {er1646v2BgpMap 9}
+
+er1646v2BgpMapCommunitySSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpMapCommunityEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "map community value"
+   ::= {er1646v2BgpMapCommunity 1}
+
+er1646v2BgpMapCommunityEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpMapCommunityEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpMapCommunityGlobalIx }
+   ::= {er1646v2BgpMapCommunitySSCTable 1}
+
+Er1646v2BgpMapCommunityEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpMapCommunityGlobalIx
+         GlobalIndex,
+      er1646v2BgpMapCommunityRemoveNone
+         DisplayString,
+      er1646v2BgpMapCommunityRemoveAll
+         DisplayString,
+      er1646v2BgpMapCommunityAddNone
+         DisplayString
+      }
+
+er1646v2BgpMapCommunityGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpMapCommunityEntry 10}
+
+er1646v2BgpMapCommunityRemoveNone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.community.remove.none"
+   ::= {er1646v2BgpMapCommunityEntry 16842752}
+
+er1646v2BgpMapCommunityRemoveAll OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.community.remove.all"
+   ::= {er1646v2BgpMapCommunityEntry 16908288}
+
+er1646v2BgpMapCommunityAddNone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.community.add.none"
+   ::= {er1646v2BgpMapCommunityEntry 33619968}
+
+er1646v2BgpMapCommunityRemoveList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpMapCommunityRemoveListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpMapCommunity 16973824}
+
+er1646v2BgpMapCommunityRemoveListEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpMapCommunityRemoveListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpMapCommunityRemoveListGlobalIx,
+                er1646v2BgpMapCommunityRemoveListTableIx }
+   ::= {er1646v2BgpMapCommunityRemoveList 1}
+
+Er1646v2BgpMapCommunityRemoveListEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpMapCommunityRemoveListActions
+         VariableLengthTableActions,
+      er1646v2BgpMapCommunityRemoveListGlobalIx
+         GlobalIndex,
+      er1646v2BgpMapCommunityRemoveListTableIx
+         TableIndex,
+      er1646v2BgpMapCommunityRemoveListType
+         INTEGER,
+      er1646v2BgpMapCommunityRemoveListAsNr
+         Integer32,
+      er1646v2BgpMapCommunityRemoveListCommNr
+         Integer32
+      }
+
+er1646v2BgpMapCommunityRemoveListActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpMapCommunityRemoveListEntry 2}
+
+er1646v2BgpMapCommunityRemoveListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpMapCommunityRemoveListEntry 10}
+
+er1646v2BgpMapCommunityRemoveListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpMapCommunityRemoveListEntry 11}
+
+er1646v2BgpMapCommunityRemoveListType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               manual (0),
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.community.remove.list.type
+
+       Possibilities:
+               manual   (0)
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {er1646v2BgpMapCommunityRemoveListEntry 16777216}
+
+er1646v2BgpMapCommunityRemoveListAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.community.remove.list.asNr"
+   ::= {er1646v2BgpMapCommunityRemoveListEntry 33554432}
+
+er1646v2BgpMapCommunityRemoveListCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.community.remove.list.communityNr"
+   ::= {er1646v2BgpMapCommunityRemoveListEntry 50331648}
+
+er1646v2BgpMapCommunityAddList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpMapCommunityAddListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpMapCommunity 33685504}
+
+er1646v2BgpMapCommunityAddListEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpMapCommunityAddListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpMapCommunityAddListGlobalIx,
+                er1646v2BgpMapCommunityAddListTableIx }
+   ::= {er1646v2BgpMapCommunityAddList 1}
+
+Er1646v2BgpMapCommunityAddListEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpMapCommunityAddListActions
+         VariableLengthTableActions,
+      er1646v2BgpMapCommunityAddListGlobalIx
+         GlobalIndex,
+      er1646v2BgpMapCommunityAddListTableIx
+         TableIndex,
+      er1646v2BgpMapCommunityAddListType
+         INTEGER,
+      er1646v2BgpMapCommunityAddListAsNr
+         Integer32,
+      er1646v2BgpMapCommunityAddListCommNr
+         Integer32
+      }
+
+er1646v2BgpMapCommunityAddListActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2BgpMapCommunityAddListEntry 2}
+
+er1646v2BgpMapCommunityAddListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpMapCommunityAddListEntry 10}
+
+er1646v2BgpMapCommunityAddListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2BgpMapCommunityAddListEntry 11}
+
+er1646v2BgpMapCommunityAddListType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               manual (0),
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.community.add.list.type
+
+       Possibilities:
+               manual   (0)
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {er1646v2BgpMapCommunityAddListEntry 16777216}
+
+er1646v2BgpMapCommunityAddListAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.community.add.list.asNr"
+   ::= {er1646v2BgpMapCommunityAddListEntry 33554432}
+
+er1646v2BgpMapCommunityAddListCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.community.add.list.communityNr"
+   ::= {er1646v2BgpMapCommunityAddListEntry 50331648}
+
+
+er1646v2BgpMapTag OBJECT IDENTIFIER ::= {er1646v2BgpMap 10}
+
+er1646v2BgpMapTagTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2BgpMapTagEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "local tag"
+   ::= {er1646v2BgpMapTag 1}
+
+er1646v2BgpMapTagEntry OBJECT-TYPE
+   SYNTAX      Er1646v2BgpMapTagEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2BgpMapTagGlobalIx }
+   ::= {er1646v2BgpMapTagTable 1}
+
+Er1646v2BgpMapTagEntry ::=
+   SEQUENCE
+      {
+      er1646v2BgpMapTagGlobalIx
+         GlobalIndex,
+      er1646v2BgpMapTagValue
+         DisplayString
+      }
+
+er1646v2BgpMapTagGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2BgpMapTagEntry 10}
+
+er1646v2BgpMapTagValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.editConf.tag"
+   ::= {er1646v2BgpMapTagEntry 2147483648}
+
+
+
+sr1646v2BgpMap OBJECT IDENTIFIER ::= {r1646v2BgpMap 14}
+
+
+sr1646v2BgpMapSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2BgpMap 269}
+
+sr1646v2BgpMapSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BgpMapSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2BgpMapSnmpIndex 1}
+
+sr1646v2BgpMapSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BgpMapSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BgpMapSnmpIndexGlobalIx }
+   ::= {sr1646v2BgpMapSnmpIndexTable 1}
+
+Sr1646v2BgpMapSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BgpMapSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2BgpMapSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2BgpMapSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BgpMapSnmpIndexEntry 10}
+
+sr1646v2BgpMapSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.status.snmpIndex"
+   ::= {sr1646v2BgpMapSnmpIndexEntry 2147483648}
+
+
+sr1646v2BgpMapUsers OBJECT IDENTIFIER ::= {sr1646v2BgpMap 30}
+
+sr1646v2BgpMapUsersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2BgpMapUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Filter User Status"
+   ::= {sr1646v2BgpMapUsers 1}
+
+sr1646v2BgpMapUsersEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2BgpMapUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2BgpMapUsersGlobalIx,
+                sr1646v2BgpMapUsersTableIx }
+   ::= {sr1646v2BgpMapUsersSSCTable 1}
+
+Sr1646v2BgpMapUsersEntry ::=
+   SEQUENCE
+      {
+      sr1646v2BgpMapUsersGlobalIx
+         GlobalIndex,
+      sr1646v2BgpMapUsersTableIx
+         TableIndex,
+      sr1646v2BgpMapUsersType
+         INTEGER,
+      sr1646v2BgpMapUsersName
+         DisplayString,
+      sr1646v2BgpMapUsersMode
+         INTEGER
+      }
+
+sr1646v2BgpMapUsersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2BgpMapUsersEntry 10}
+
+sr1646v2BgpMapUsersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2BgpMapUsersEntry 11}
+
+sr1646v2BgpMapUsersType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iPeer (1),
+               ePeer (2),
+               bgp (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.status.users.type
+
+       Possibilities:
+               iPeer   (1)
+               ePeer   (2)
+               bgp   (3)"
+   ::= {sr1646v2BgpMapUsersEntry 16777216}
+
+sr1646v2BgpMapUsersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.status.users.name"
+   ::= {sr1646v2BgpMapUsersEntry 33554432}
+
+sr1646v2BgpMapUsersMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ss (0),
+               inbound (1),
+               outbound (2),
+               originateDefault (3),
+               importFilter (4),
+               network (5),
+               aggregate (6)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.status.users.mode
+
+       Possibilities:
+                   (0)
+               inbound   (1)
+               outbound   (2)
+               originateDefault   (3)
+               importFilter   (4)
+               network   (5)
+               aggregate   (6)"
+   ::= {sr1646v2BgpMapUsersEntry 50331648}
+
+
+
+pr1646v2BgpMap OBJECT IDENTIFIER ::= {r1646v2BgpMap 12}
+
+
+pr1646v2BgpMapUses OBJECT IDENTIFIER ::= {pr1646v2BgpMap 50}
+
+pr1646v2BgpMapUsesTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2BgpMapUsesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "counter"
+   ::= {pr1646v2BgpMapUses 1}
+
+pr1646v2BgpMapUsesEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2BgpMapUsesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2BgpMapUsesGlobalIx }
+   ::= {pr1646v2BgpMapUsesTable 1}
+
+Pr1646v2BgpMapUsesEntry ::=
+   SEQUENCE
+      {
+      pr1646v2BgpMapUsesGlobalIx
+         GlobalIndex,
+      pr1646v2BgpMapUsesValue
+         Counter32
+      }
+
+pr1646v2BgpMapUsesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2BgpMapUsesEntry 10}
+
+pr1646v2BgpMapUsesValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.performance.uses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2BgpMapUsesEntry 2147483648}
+
+
+
+ar1646v2BgpMap OBJECT IDENTIFIER ::= {r1646v2BgpMap 16}
+
+
+ar1646v2BgpMapClearCounters OBJECT IDENTIFIER ::= {ar1646v2BgpMap 263}
+
+ar1646v2BgpMapClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2BgpMapClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1646v2BgpMapClearCounters 1}
+
+ar1646v2BgpMapClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2BgpMapClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2BgpMapClearCountersGlobalIx }
+   ::= {ar1646v2BgpMapClearCountersTable 1}
+
+Ar1646v2BgpMapClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1646v2BgpMapClearCountersGlobalIx
+         GlobalIndex,
+      ar1646v2BgpMapClearCountersValue
+         Integer32
+      }
+
+ar1646v2BgpMapClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2BgpMapClearCountersEntry 10}
+
+ar1646v2BgpMapClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routeMap.actions.clearCounters"
+   ::= {ar1646v2BgpMapClearCountersEntry 2147483648}
+
+
+
+END

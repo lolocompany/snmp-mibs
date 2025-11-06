@@ -1,0 +1,958 @@
+OneAccess-R1645v2-2171-VrrpRouter DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2VrrpRouter OBJECT IDENTIFIER ::= {r1645Rootv2 2171}
+
+r1645v2VrrpRouterMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2VrrpRouterMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2VrrpRouter 1}
+
+r1645v2VrrpRouterMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2VrrpRouterMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2VrrpRouterMOPropGlobalIx }
+   ::= {r1645v2VrrpRouterMOProp 1}
+
+R1645v2VrrpRouterMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2VrrpRouterMOPropPath
+         ContainmentPath,
+      r1645v2VrrpRouterMOPropRev
+         ObjectRevision,
+      r1645v2VrrpRouterMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2VrrpRouterMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2VrrpRouterMOPropEntry 3}
+
+r1645v2VrrpRouterMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2VrrpRouterMOPropEntry 4}
+
+r1645v2VrrpRouterMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2VrrpRouterMOPropEntry 10}
+
+
+
+er1645v2VrrpRouter OBJECT IDENTIFIER ::= {r1645v2VrrpRouter 11}
+
+
+er1645v2VrrpRouterSnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2VrrpRouter 268}
+
+er1645v2VrrpRouterSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2VrrpRouterSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2VrrpRouterSnmpIndexOffset 1}
+
+er1645v2VrrpRouterSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2VrrpRouterSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2VrrpRouterSnmpIndexOffsetGlobalIx }
+   ::= {er1645v2VrrpRouterSnmpIndexOffsetTable 1}
+
+Er1645v2VrrpRouterSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2VrrpRouterSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2VrrpRouterSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2VrrpRouterSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2VrrpRouterSnmpIndexOffsetEntry 10}
+
+er1645v2VrrpRouterSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.editConf.snmpIndexOffset"
+   ::= {er1645v2VrrpRouterSnmpIndexOffsetEntry 2147483648}
+
+
+er1645v2VrrpRouterVrId OBJECT IDENTIFIER ::= {er1645v2VrrpRouter 2}
+
+er1645v2VrrpRouterVrIdTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2VrrpRouterVrIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "virtual router indentifier"
+   ::= {er1645v2VrrpRouterVrId 1}
+
+er1645v2VrrpRouterVrIdEntry OBJECT-TYPE
+   SYNTAX      Er1645v2VrrpRouterVrIdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2VrrpRouterVrIdGlobalIx }
+   ::= {er1645v2VrrpRouterVrIdTable 1}
+
+Er1645v2VrrpRouterVrIdEntry ::=
+   SEQUENCE
+      {
+      er1645v2VrrpRouterVrIdGlobalIx
+         GlobalIndex,
+      er1645v2VrrpRouterVrIdValue
+         Integer32
+      }
+
+er1645v2VrrpRouterVrIdGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2VrrpRouterVrIdEntry 10}
+
+er1645v2VrrpRouterVrIdValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.editConf.vrId"
+   ::= {er1645v2VrrpRouterVrIdEntry 2147483648}
+
+
+er1645v2VrrpRouterAuthentication OBJECT IDENTIFIER ::= {er1645v2VrrpRouter 9}
+
+er1645v2VrrpRouterAuthenticationSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2VrrpRouterAuthenticationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "vrrp authentication"
+   ::= {er1645v2VrrpRouterAuthentication 1}
+
+er1645v2VrrpRouterAuthenticationEntry OBJECT-TYPE
+   SYNTAX      Er1645v2VrrpRouterAuthenticationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2VrrpRouterAuthenticationGlobalIx }
+   ::= {er1645v2VrrpRouterAuthenticationSSCTable 1}
+
+Er1645v2VrrpRouterAuthenticationEntry ::=
+   SEQUENCE
+      {
+      er1645v2VrrpRouterAuthenticationGlobalIx
+         GlobalIndex,
+      er1645v2VrrpRouterAuthenticationNone
+         OCTET STRING,
+      er1645v2VrrpRouterAuthenticationSimple
+         DisplayString
+      }
+
+er1645v2VrrpRouterAuthenticationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2VrrpRouterAuthenticationEntry 10}
+
+er1645v2VrrpRouterAuthenticationNone OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.editConf.authentication.none"
+   ::= {er1645v2VrrpRouterAuthenticationEntry 16777216}
+
+er1645v2VrrpRouterAuthenticationSimple OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.editConf.authentication.simple"
+   ::= {er1645v2VrrpRouterAuthenticationEntry 33554432}
+
+
+er1645v2VrrpRouterIpAddr OBJECT IDENTIFIER ::= {er1645v2VrrpRouter 3}
+
+er1645v2VrrpRouterIpAddrSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2VrrpRouterIpAddrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "vrrp address list"
+   ::= {er1645v2VrrpRouterIpAddr 1}
+
+er1645v2VrrpRouterIpAddrEntry OBJECT-TYPE
+   SYNTAX      Er1645v2VrrpRouterIpAddrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2VrrpRouterIpAddrGlobalIx,
+                er1645v2VrrpRouterIpAddrTableIx }
+   ::= {er1645v2VrrpRouterIpAddrSSCTable 1}
+
+Er1645v2VrrpRouterIpAddrEntry ::=
+   SEQUENCE
+      {
+      er1645v2VrrpRouterIpAddrActions
+         VariableLengthTableActions,
+      er1645v2VrrpRouterIpAddrGlobalIx
+         GlobalIndex,
+      er1645v2VrrpRouterIpAddrTableIx
+         TableIndex,
+      er1645v2VrrpRouterIpAddrAddress
+         IpAddress
+      }
+
+er1645v2VrrpRouterIpAddrActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2VrrpRouterIpAddrEntry 2}
+
+er1645v2VrrpRouterIpAddrGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2VrrpRouterIpAddrEntry 10}
+
+er1645v2VrrpRouterIpAddrTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2VrrpRouterIpAddrEntry 11}
+
+er1645v2VrrpRouterIpAddrAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.editConf.ipAddresses.address"
+   ::= {er1645v2VrrpRouterIpAddrEntry 16777216}
+
+
+er1645v2VrrpRouterIntfs OBJECT IDENTIFIER ::= {er1645v2VrrpRouter 4}
+
+er1645v2VrrpRouterIntfsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2VrrpRouterIntfsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "vrrp interface list"
+   ::= {er1645v2VrrpRouterIntfs 1}
+
+er1645v2VrrpRouterIntfsEntry OBJECT-TYPE
+   SYNTAX      Er1645v2VrrpRouterIntfsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2VrrpRouterIntfsGlobalIx,
+                er1645v2VrrpRouterIntfsTableIx }
+   ::= {er1645v2VrrpRouterIntfsSSCTable 1}
+
+Er1645v2VrrpRouterIntfsEntry ::=
+   SEQUENCE
+      {
+      er1645v2VrrpRouterIntfsActions
+         VariableLengthTableActions,
+      er1645v2VrrpRouterIntfsGlobalIx
+         GlobalIndex,
+      er1645v2VrrpRouterIntfsTableIx
+         TableIndex,
+      er1645v2VrrpRouterIntfsName
+         DisplayString,
+      er1645v2VrrpRouterIntfsPriority
+         Integer32
+      }
+
+er1645v2VrrpRouterIntfsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2VrrpRouterIntfsEntry 2}
+
+er1645v2VrrpRouterIntfsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2VrrpRouterIntfsEntry 10}
+
+er1645v2VrrpRouterIntfsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2VrrpRouterIntfsEntry 11}
+
+er1645v2VrrpRouterIntfsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.editConf.interfaces.name"
+   ::= {er1645v2VrrpRouterIntfsEntry 16777216}
+
+er1645v2VrrpRouterIntfsPriority OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.editConf.interfaces.priority"
+   ::= {er1645v2VrrpRouterIntfsEntry 33554432}
+
+
+er1645v2VrrpRouterCrits OBJECT IDENTIFIER ::= {er1645v2VrrpRouter 5}
+
+er1645v2VrrpRouterCritsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2VrrpRouterCritsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "critical interface list"
+   ::= {er1645v2VrrpRouterCrits 1}
+
+er1645v2VrrpRouterCritsEntry OBJECT-TYPE
+   SYNTAX      Er1645v2VrrpRouterCritsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2VrrpRouterCritsGlobalIx,
+                er1645v2VrrpRouterCritsTableIx }
+   ::= {er1645v2VrrpRouterCritsSSCTable 1}
+
+Er1645v2VrrpRouterCritsEntry ::=
+   SEQUENCE
+      {
+      er1645v2VrrpRouterCritsActions
+         VariableLengthTableActions,
+      er1645v2VrrpRouterCritsGlobalIx
+         GlobalIndex,
+      er1645v2VrrpRouterCritsTableIx
+         TableIndex,
+      er1645v2VrrpRouterCritsInterface
+         DisplayString,
+      er1645v2VrrpRouterCritsTrack
+         INTEGER,
+      er1645v2VrrpRouterCritsPenalty
+         INTEGER
+      }
+
+er1645v2VrrpRouterCritsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2VrrpRouterCritsEntry 2}
+
+er1645v2VrrpRouterCritsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2VrrpRouterCritsEntry 10}
+
+er1645v2VrrpRouterCritsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2VrrpRouterCritsEntry 11}
+
+er1645v2VrrpRouterCritsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.editConf.criticals.interface"
+   ::= {er1645v2VrrpRouterCritsEntry 16777216}
+
+er1645v2VrrpRouterCritsTrack OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.editConf.criticals.track
+
+       Possibilities:
+               disabled   (0)"
+   ::= {er1645v2VrrpRouterCritsEntry 50331648}
+
+er1645v2VrrpRouterCritsPenalty OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               fullPriority (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.editConf.criticals.penalty
+
+       Possibilities:
+               fullPriority   (255)"
+   ::= {er1645v2VrrpRouterCritsEntry 33554432}
+
+
+er1645v2VrrpRouterAdvInt OBJECT IDENTIFIER ::= {er1645v2VrrpRouter 6}
+
+er1645v2VrrpRouterAdvIntTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2VrrpRouterAdvIntEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "virtual router advertisement interval"
+   ::= {er1645v2VrrpRouterAdvInt 1}
+
+er1645v2VrrpRouterAdvIntEntry OBJECT-TYPE
+   SYNTAX      Er1645v2VrrpRouterAdvIntEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2VrrpRouterAdvIntGlobalIx }
+   ::= {er1645v2VrrpRouterAdvIntTable 1}
+
+Er1645v2VrrpRouterAdvIntEntry ::=
+   SEQUENCE
+      {
+      er1645v2VrrpRouterAdvIntGlobalIx
+         GlobalIndex,
+      er1645v2VrrpRouterAdvIntValue
+         TimeTicks
+      }
+
+er1645v2VrrpRouterAdvIntGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2VrrpRouterAdvIntEntry 10}
+
+er1645v2VrrpRouterAdvIntValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.editConf.advertiseInterval
+
+       Time in centi-second."
+   ::= {er1645v2VrrpRouterAdvIntEntry 2147483648}
+
+
+er1645v2VrrpRouterPreemptMode OBJECT IDENTIFIER ::= {er1645v2VrrpRouter 7}
+
+er1645v2VrrpRouterPreemptModeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2VrrpRouterPreemptModeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "virtual router preemptive mode"
+   ::= {er1645v2VrrpRouterPreemptMode 1}
+
+er1645v2VrrpRouterPreemptModeEntry OBJECT-TYPE
+   SYNTAX      Er1645v2VrrpRouterPreemptModeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2VrrpRouterPreemptModeGlobalIx }
+   ::= {er1645v2VrrpRouterPreemptModeTable 1}
+
+Er1645v2VrrpRouterPreemptModeEntry ::=
+   SEQUENCE
+      {
+      er1645v2VrrpRouterPreemptModeGlobalIx
+         GlobalIndex,
+      er1645v2VrrpRouterPreemptModeValue
+         INTEGER
+      }
+
+er1645v2VrrpRouterPreemptModeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2VrrpRouterPreemptModeEntry 10}
+
+er1645v2VrrpRouterPreemptModeValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.editConf.preemptMode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2VrrpRouterPreemptModeEntry 2147483648}
+
+
+er1645v2VrrpRouterPingReply OBJECT IDENTIFIER ::= {er1645v2VrrpRouter 8}
+
+er1645v2VrrpRouterPingReplyTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2VrrpRouterPingReplyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "virtual router answer pings when not address owner"
+   ::= {er1645v2VrrpRouterPingReply 1}
+
+er1645v2VrrpRouterPingReplyEntry OBJECT-TYPE
+   SYNTAX      Er1645v2VrrpRouterPingReplyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2VrrpRouterPingReplyGlobalIx }
+   ::= {er1645v2VrrpRouterPingReplyTable 1}
+
+Er1645v2VrrpRouterPingReplyEntry ::=
+   SEQUENCE
+      {
+      er1645v2VrrpRouterPingReplyGlobalIx
+         GlobalIndex,
+      er1645v2VrrpRouterPingReplyValue
+         INTEGER
+      }
+
+er1645v2VrrpRouterPingReplyGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2VrrpRouterPingReplyEntry 10}
+
+er1645v2VrrpRouterPingReplyValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ownerOnly (0),
+               master (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.editConf.pingReply
+
+       Possibilities:
+               ownerOnly   (0)
+               master   (1)"
+   ::= {er1645v2VrrpRouterPingReplyEntry 2147483648}
+
+
+
+sr1645v2VrrpRouter OBJECT IDENTIFIER ::= {r1645v2VrrpRouter 14}
+
+
+sr1645v2VrrpRouterSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2VrrpRouter 269}
+
+sr1645v2VrrpRouterSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2VrrpRouterSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2VrrpRouterSnmpIndex 1}
+
+sr1645v2VrrpRouterSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2VrrpRouterSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2VrrpRouterSnmpIndexGlobalIx }
+   ::= {sr1645v2VrrpRouterSnmpIndexTable 1}
+
+Sr1645v2VrrpRouterSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2VrrpRouterSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2VrrpRouterSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2VrrpRouterSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2VrrpRouterSnmpIndexEntry 10}
+
+sr1645v2VrrpRouterSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.status.snmpIndex"
+   ::= {sr1645v2VrrpRouterSnmpIndexEntry 2147483648}
+
+
+sr1645v2VrrpRouterMacAddress OBJECT IDENTIFIER ::= {sr1645v2VrrpRouter 21}
+
+sr1645v2VrrpRouterMacAddressTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2VrrpRouterMacAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifPhysAddress"
+   ::= {sr1645v2VrrpRouterMacAddress 1}
+
+sr1645v2VrrpRouterMacAddressEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2VrrpRouterMacAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2VrrpRouterMacAddressGlobalIx }
+   ::= {sr1645v2VrrpRouterMacAddressTable 1}
+
+Sr1645v2VrrpRouterMacAddressEntry ::=
+   SEQUENCE
+      {
+      sr1645v2VrrpRouterMacAddressGlobalIx
+         GlobalIndex,
+      sr1645v2VrrpRouterMacAddressValue
+         OCTET STRING
+      }
+
+sr1645v2VrrpRouterMacAddressGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2VrrpRouterMacAddressEntry 10}
+
+sr1645v2VrrpRouterMacAddressValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.status.macAddress
+
+       MAC address."
+   ::= {sr1645v2VrrpRouterMacAddressEntry 2147483648}
+
+
+sr1645v2VrrpRouterIntfs OBJECT IDENTIFIER ::= {sr1645v2VrrpRouter 22}
+
+sr1645v2VrrpRouterIntfsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2VrrpRouterIntfsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "vrrp interface status table"
+   ::= {sr1645v2VrrpRouterIntfs 1}
+
+sr1645v2VrrpRouterIntfsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2VrrpRouterIntfsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2VrrpRouterIntfsGlobalIx,
+                sr1645v2VrrpRouterIntfsTableIx }
+   ::= {sr1645v2VrrpRouterIntfsSSCTable 1}
+
+Sr1645v2VrrpRouterIntfsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2VrrpRouterIntfsGlobalIx
+         GlobalIndex,
+      sr1645v2VrrpRouterIntfsTableIx
+         TableIndex,
+      sr1645v2VrrpRouterIntfsName
+         DisplayString,
+      sr1645v2VrrpRouterIntfsPriority
+         Integer32,
+      sr1645v2VrrpRouterIntfsStatus
+         INTEGER
+      }
+
+sr1645v2VrrpRouterIntfsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2VrrpRouterIntfsEntry 10}
+
+sr1645v2VrrpRouterIntfsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2VrrpRouterIntfsEntry 11}
+
+sr1645v2VrrpRouterIntfsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.status.interfaces.name"
+   ::= {sr1645v2VrrpRouterIntfsEntry 16777216}
+
+sr1645v2VrrpRouterIntfsPriority OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.status.interfaces.priority"
+   ::= {sr1645v2VrrpRouterIntfsEntry 33554432}
+
+sr1645v2VrrpRouterIntfsStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               inactive (0),
+               initial (1),
+               backup (2),
+               master (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.status.interfaces.status
+
+       Possibilities:
+               inactive   (0)
+               initial   (1)
+               backup   (2)
+               master   (3)"
+   ::= {sr1645v2VrrpRouterIntfsEntry 50331648}
+
+
+sr1645v2VrrpRouterCrits OBJECT IDENTIFIER ::= {sr1645v2VrrpRouter 23}
+
+sr1645v2VrrpRouterCritsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2VrrpRouterCritsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "vrrp interface status table"
+   ::= {sr1645v2VrrpRouterCrits 1}
+
+sr1645v2VrrpRouterCritsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2VrrpRouterCritsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2VrrpRouterCritsGlobalIx,
+                sr1645v2VrrpRouterCritsTableIx }
+   ::= {sr1645v2VrrpRouterCritsSSCTable 1}
+
+Sr1645v2VrrpRouterCritsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2VrrpRouterCritsGlobalIx
+         GlobalIndex,
+      sr1645v2VrrpRouterCritsTableIx
+         TableIndex,
+      sr1645v2VrrpRouterCritsInterface
+         DisplayString,
+      sr1645v2VrrpRouterCritsTrack
+         INTEGER,
+      sr1645v2VrrpRouterCritsStatus
+         INTEGER
+      }
+
+sr1645v2VrrpRouterCritsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2VrrpRouterCritsEntry 10}
+
+sr1645v2VrrpRouterCritsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2VrrpRouterCritsEntry 11}
+
+sr1645v2VrrpRouterCritsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.status.criticals.interface"
+   ::= {sr1645v2VrrpRouterCritsEntry 16777216}
+
+sr1645v2VrrpRouterCritsTrack OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.status.criticals.track
+
+       Possibilities:
+               disabled   (0)"
+   ::= {sr1645v2VrrpRouterCritsEntry 50331648}
+
+sr1645v2VrrpRouterCritsStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unknown (0),
+               down (1),
+               up (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.status.criticals.status
+
+       Possibilities:
+               unknown   (0)
+               down   (1)
+               up   (2)"
+   ::= {sr1645v2VrrpRouterCritsEntry 33554432}
+
+
+sr1645v2VrrpRouterPriorityPenalty OBJECT IDENTIFIER ::= {sr1645v2VrrpRouter 24}
+
+sr1645v2VrrpRouterPriorityPenaltyTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2VrrpRouterPriorityPenaltyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "virtual router state"
+   ::= {sr1645v2VrrpRouterPriorityPenalty 1}
+
+sr1645v2VrrpRouterPriorityPenaltyEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2VrrpRouterPriorityPenaltyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2VrrpRouterPriorityPenaltyGlobalIx }
+   ::= {sr1645v2VrrpRouterPriorityPenaltyTable 1}
+
+Sr1645v2VrrpRouterPriorityPenaltyEntry ::=
+   SEQUENCE
+      {
+      sr1645v2VrrpRouterPriorityPenaltyGlobalIx
+         GlobalIndex,
+      sr1645v2VrrpRouterPriorityPenaltyValue
+         Integer32
+      }
+
+sr1645v2VrrpRouterPriorityPenaltyGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2VrrpRouterPriorityPenaltyEntry 10}
+
+sr1645v2VrrpRouterPriorityPenaltyValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: vrrp.status.priorityPenalty"
+   ::= {sr1645v2VrrpRouterPriorityPenaltyEntry 2147483648}
+
+
+
+END

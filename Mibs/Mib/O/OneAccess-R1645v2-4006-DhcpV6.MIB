@@ -1,0 +1,1998 @@
+OneAccess-R1645v2-4006-DhcpV6 DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2DhcpV6 OBJECT IDENTIFIER ::= {r1645Rootv2 4006}
+
+r1645v2DhcpV6MOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2DhcpV6MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2DhcpV6 1}
+
+r1645v2DhcpV6MOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2DhcpV6MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2DhcpV6MOPropGlobalIx }
+   ::= {r1645v2DhcpV6MOProp 1}
+
+R1645v2DhcpV6MOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2DhcpV6MOPropPath
+         ContainmentPath,
+      r1645v2DhcpV6MOPropRev
+         ObjectRevision,
+      r1645v2DhcpV6MOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2DhcpV6MOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2DhcpV6MOPropEntry 3}
+
+r1645v2DhcpV6MOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2DhcpV6MOPropEntry 4}
+
+r1645v2DhcpV6MOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2DhcpV6MOPropEntry 10}
+
+
+
+er1645v2DhcpV6 OBJECT IDENTIFIER ::= {r1645v2DhcpV6 11}
+
+
+er1645v2DhcpV6Pools OBJECT IDENTIFIER ::= {er1645v2DhcpV6 2}
+
+er1645v2DhcpV6PoolsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2DhcpV6PoolsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipV6 prefix pool configuration"
+   ::= {er1645v2DhcpV6Pools 1}
+
+er1645v2DhcpV6PoolsEntry OBJECT-TYPE
+   SYNTAX      Er1645v2DhcpV6PoolsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2DhcpV6PoolsGlobalIx,
+                er1645v2DhcpV6PoolsTableIx }
+   ::= {er1645v2DhcpV6PoolsSSCTable 1}
+
+Er1645v2DhcpV6PoolsEntry ::=
+   SEQUENCE
+      {
+      er1645v2DhcpV6PoolsActions
+         VariableLengthTableActions,
+      er1645v2DhcpV6PoolsGlobalIx
+         GlobalIndex,
+      er1645v2DhcpV6PoolsTableIx
+         TableIndex,
+      er1645v2DhcpV6PoolsName
+         DisplayString,
+      er1645v2DhcpV6PoolsAddressStart
+         Ipv6Address,
+      er1645v2DhcpV6PoolsAddressEnd
+         Ipv6Address,
+      er1645v2DhcpV6PoolsAddressValidLifeTime
+         TimeTicks,
+      er1645v2DhcpV6PoolsAddressPrefLifeTime
+         TimeTicks,
+      er1645v2DhcpV6PoolsPdPrefix
+         Ipv6Address,
+      er1645v2DhcpV6PoolsPdPrefixLength
+         Integer32,
+      er1645v2DhcpV6PoolsPdSubnetLength
+         Integer32,
+      er1645v2DhcpV6PoolsPdValidLifeTime
+         TimeTicks,
+      er1645v2DhcpV6PoolsPdPrefLifeTime
+         TimeTicks,
+      er1645v2DhcpV6PoolsDnsImportServers
+         INTEGER,
+      er1645v2DhcpV6PoolsDnsImportDomains
+         INTEGER
+      }
+
+er1645v2DhcpV6PoolsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2DhcpV6PoolsEntry 2}
+
+er1645v2DhcpV6PoolsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2DhcpV6PoolsEntry 10}
+
+er1645v2DhcpV6PoolsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2DhcpV6PoolsEntry 11}
+
+er1645v2DhcpV6PoolsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.name"
+   ::= {er1645v2DhcpV6PoolsEntry 16777216}
+
+er1645v2DhcpV6PoolsAddressStart OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.address.start
+
+       ipv6 address"
+   ::= {er1645v2DhcpV6PoolsEntry 33685504}
+
+er1645v2DhcpV6PoolsAddressEnd OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.address.end
+
+       ipv6 address"
+   ::= {er1645v2DhcpV6PoolsEntry 33751040}
+
+er1645v2DhcpV6PoolsAddressValidLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.address.validLifeTime
+
+       Time in centi-second."
+   ::= {er1645v2DhcpV6PoolsEntry 33882112}
+
+er1645v2DhcpV6PoolsAddressPrefLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.address.prefLifeTime
+
+       Time in centi-second."
+   ::= {er1645v2DhcpV6PoolsEntry 33947648}
+
+er1645v2DhcpV6PoolsPdPrefix OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.pd.prefix
+
+       ipv6 address"
+   ::= {er1645v2DhcpV6PoolsEntry 50462720}
+
+er1645v2DhcpV6PoolsPdPrefixLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.pd.prefixLength"
+   ::= {er1645v2DhcpV6PoolsEntry 50528256}
+
+er1645v2DhcpV6PoolsPdSubnetLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.pd.subnetLength"
+   ::= {er1645v2DhcpV6PoolsEntry 50790400}
+
+er1645v2DhcpV6PoolsPdValidLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.pd.validLifeTime
+
+       Time in centi-second."
+   ::= {er1645v2DhcpV6PoolsEntry 50659328}
+
+er1645v2DhcpV6PoolsPdPrefLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.pd.prefLifeTime
+
+       Time in centi-second."
+   ::= {er1645v2DhcpV6PoolsEntry 50724864}
+
+er1645v2DhcpV6PoolsDnsImportServers OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.dns.importServers
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2DhcpV6PoolsEntry 67239936}
+
+er1645v2DhcpV6PoolsDnsImportDomains OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.dns.importDomains
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2DhcpV6PoolsEntry 67371008}
+
+er1645v2DhcpV6PoolsDnsServers OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2DhcpV6PoolsDnsServersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2DhcpV6Pools 67174400}
+
+er1645v2DhcpV6PoolsDnsServersEntry OBJECT-TYPE
+   SYNTAX      Er1645v2DhcpV6PoolsDnsServersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2DhcpV6PoolsDnsServersGlobalIx,
+                er1645v2DhcpV6PoolsTableIx,
+                er1645v2DhcpV6PoolsDnsServersTableIx }
+   ::= {er1645v2DhcpV6PoolsDnsServers 1}
+
+Er1645v2DhcpV6PoolsDnsServersEntry ::=
+   SEQUENCE
+      {
+      er1645v2DhcpV6PoolsDnsServersActions
+         VariableLengthTableActions,
+      er1645v2DhcpV6PoolsDnsServersGlobalIx
+         GlobalIndex,
+      er1645v2DhcpV6PoolsDnsServersTableIx
+         TableIndex,
+      er1645v2DhcpV6PoolsDnsServersAddress
+         Ipv6Address
+      }
+
+er1645v2DhcpV6PoolsDnsServersActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2DhcpV6PoolsDnsServersEntry 2}
+
+er1645v2DhcpV6PoolsDnsServersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2DhcpV6PoolsDnsServersEntry 10}
+
+er1645v2DhcpV6PoolsDnsServersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2DhcpV6PoolsDnsServersEntry 11}
+
+er1645v2DhcpV6PoolsDnsServersAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.dns.servers.address
+
+       ipv6 address"
+   ::= {er1645v2DhcpV6PoolsDnsServersEntry 16777216}
+
+er1645v2DhcpV6PoolsDnsDomains OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2DhcpV6PoolsDnsDomainsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2DhcpV6Pools 67305472}
+
+er1645v2DhcpV6PoolsDnsDomainsEntry OBJECT-TYPE
+   SYNTAX      Er1645v2DhcpV6PoolsDnsDomainsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2DhcpV6PoolsDnsDomainsGlobalIx,
+                er1645v2DhcpV6PoolsTableIx,
+                er1645v2DhcpV6PoolsDnsDomainsTableIx }
+   ::= {er1645v2DhcpV6PoolsDnsDomains 1}
+
+Er1645v2DhcpV6PoolsDnsDomainsEntry ::=
+   SEQUENCE
+      {
+      er1645v2DhcpV6PoolsDnsDomainsActions
+         VariableLengthTableActions,
+      er1645v2DhcpV6PoolsDnsDomainsGlobalIx
+         GlobalIndex,
+      er1645v2DhcpV6PoolsDnsDomainsTableIx
+         TableIndex,
+      er1645v2DhcpV6PoolsDnsDomainsName
+         DisplayString
+      }
+
+er1645v2DhcpV6PoolsDnsDomainsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2DhcpV6PoolsDnsDomainsEntry 2}
+
+er1645v2DhcpV6PoolsDnsDomainsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2DhcpV6PoolsDnsDomainsEntry 10}
+
+er1645v2DhcpV6PoolsDnsDomainsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2DhcpV6PoolsDnsDomainsEntry 11}
+
+er1645v2DhcpV6PoolsDnsDomainsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.editConf.pools.dns.domains.name"
+   ::= {er1645v2DhcpV6PoolsDnsDomainsEntry 16777216}
+
+
+
+sr1645v2DhcpV6 OBJECT IDENTIFIER ::= {r1645v2DhcpV6 14}
+
+
+sr1645v2DhcpV6SnmpIndex OBJECT IDENTIFIER ::= {sr1645v2DhcpV6 269}
+
+sr1645v2DhcpV6SnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2DhcpV6SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2DhcpV6SnmpIndex 1}
+
+sr1645v2DhcpV6SnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2DhcpV6SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2DhcpV6SnmpIndexGlobalIx }
+   ::= {sr1645v2DhcpV6SnmpIndexTable 1}
+
+Sr1645v2DhcpV6SnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2DhcpV6SnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2DhcpV6SnmpIndexValue
+         Integer32
+      }
+
+sr1645v2DhcpV6SnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2DhcpV6SnmpIndexEntry 10}
+
+sr1645v2DhcpV6SnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.snmpIndex"
+   ::= {sr1645v2DhcpV6SnmpIndexEntry 2147483648}
+
+
+sr1645v2DhcpV6Pools OBJECT IDENTIFIER ::= {sr1645v2DhcpV6 20}
+
+sr1645v2DhcpV6PoolsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2DhcpV6PoolsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipV6 prefix pool status"
+   ::= {sr1645v2DhcpV6Pools 1}
+
+sr1645v2DhcpV6PoolsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2DhcpV6PoolsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2DhcpV6PoolsGlobalIx,
+                sr1645v2DhcpV6PoolsTableIx }
+   ::= {sr1645v2DhcpV6PoolsSSCTable 1}
+
+Sr1645v2DhcpV6PoolsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2DhcpV6PoolsGlobalIx
+         GlobalIndex,
+      sr1645v2DhcpV6PoolsTableIx
+         TableIndex,
+      sr1645v2DhcpV6PoolsName
+         DisplayString,
+      sr1645v2DhcpV6PoolsAddressStart
+         Ipv6Address,
+      sr1645v2DhcpV6PoolsAddressEnd
+         Ipv6Address,
+      sr1645v2DhcpV6PoolsAddressValidLifeTime
+         TimeTicks,
+      sr1645v2DhcpV6PoolsAddressPrefLifeTime
+         TimeTicks,
+      sr1645v2DhcpV6PoolsPdPrefix
+         Ipv6Address,
+      sr1645v2DhcpV6PoolsPdPrefixLength
+         Integer32,
+      sr1645v2DhcpV6PoolsPdSubnetLength
+         Integer32,
+      sr1645v2DhcpV6PoolsPdValidLifeTime
+         TimeTicks,
+      sr1645v2DhcpV6PoolsPdPrefLifeTime
+         TimeTicks,
+      sr1645v2DhcpV6PoolsPdAvailable
+         Counter32
+      }
+
+sr1645v2DhcpV6PoolsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2DhcpV6PoolsEntry 10}
+
+sr1645v2DhcpV6PoolsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6PoolsEntry 11}
+
+sr1645v2DhcpV6PoolsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.name"
+   ::= {sr1645v2DhcpV6PoolsEntry 16777216}
+
+sr1645v2DhcpV6PoolsAddressStart OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.address.start
+
+       ipv6 address"
+   ::= {sr1645v2DhcpV6PoolsEntry 33685504}
+
+sr1645v2DhcpV6PoolsAddressEnd OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.address.end
+
+       ipv6 address"
+   ::= {sr1645v2DhcpV6PoolsEntry 33751040}
+
+sr1645v2DhcpV6PoolsAddressValidLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.address.validLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6PoolsEntry 33882112}
+
+sr1645v2DhcpV6PoolsAddressPrefLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.address.prefLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6PoolsEntry 33947648}
+
+sr1645v2DhcpV6PoolsPdPrefix OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.pd.prefix
+
+       ipv6 address"
+   ::= {sr1645v2DhcpV6PoolsEntry 50397184}
+
+sr1645v2DhcpV6PoolsPdPrefixLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.pd.prefixLength"
+   ::= {sr1645v2DhcpV6PoolsEntry 50462720}
+
+sr1645v2DhcpV6PoolsPdSubnetLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.pd.subnetLength"
+   ::= {sr1645v2DhcpV6PoolsEntry 50528256}
+
+sr1645v2DhcpV6PoolsPdValidLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.pd.validLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6PoolsEntry 50593792}
+
+sr1645v2DhcpV6PoolsPdPrefLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.pd.prefLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6PoolsEntry 50659328}
+
+sr1645v2DhcpV6PoolsPdAvailable OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.pd.available
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2DhcpV6PoolsEntry 50724864}
+
+sr1645v2DhcpV6PoolsDnsServers OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2DhcpV6PoolsDnsServersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6Pools 67174400}
+
+sr1645v2DhcpV6PoolsDnsServersEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2DhcpV6PoolsDnsServersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2DhcpV6PoolsDnsServersGlobalIx,
+                sr1645v2DhcpV6PoolsTableIx,
+                sr1645v2DhcpV6PoolsDnsServersTableIx }
+   ::= {sr1645v2DhcpV6PoolsDnsServers 1}
+
+Sr1645v2DhcpV6PoolsDnsServersEntry ::=
+   SEQUENCE
+      {
+      sr1645v2DhcpV6PoolsDnsServersGlobalIx
+         GlobalIndex,
+      sr1645v2DhcpV6PoolsDnsServersTableIx
+         TableIndex,
+      sr1645v2DhcpV6PoolsDnsServersAddress
+         Ipv6Address,
+      sr1645v2DhcpV6PoolsDnsServersImported
+         INTEGER
+      }
+
+sr1645v2DhcpV6PoolsDnsServersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2DhcpV6PoolsDnsServersEntry 10}
+
+sr1645v2DhcpV6PoolsDnsServersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6PoolsDnsServersEntry 11}
+
+sr1645v2DhcpV6PoolsDnsServersAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.dns.servers.address
+
+       ipv6 address"
+   ::= {sr1645v2DhcpV6PoolsDnsServersEntry 16777216}
+
+sr1645v2DhcpV6PoolsDnsServersImported OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.dns.servers.imported
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1645v2DhcpV6PoolsDnsServersEntry 33554432}
+
+sr1645v2DhcpV6PoolsDnsDomains OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2DhcpV6PoolsDnsDomainsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6Pools 67239936}
+
+sr1645v2DhcpV6PoolsDnsDomainsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2DhcpV6PoolsDnsDomainsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2DhcpV6PoolsDnsDomainsGlobalIx,
+                sr1645v2DhcpV6PoolsTableIx,
+                sr1645v2DhcpV6PoolsDnsDomainsTableIx }
+   ::= {sr1645v2DhcpV6PoolsDnsDomains 1}
+
+Sr1645v2DhcpV6PoolsDnsDomainsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2DhcpV6PoolsDnsDomainsGlobalIx
+         GlobalIndex,
+      sr1645v2DhcpV6PoolsDnsDomainsTableIx
+         TableIndex,
+      sr1645v2DhcpV6PoolsDnsDomainsName
+         DisplayString,
+      sr1645v2DhcpV6PoolsDnsDomainsImported
+         INTEGER
+      }
+
+sr1645v2DhcpV6PoolsDnsDomainsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2DhcpV6PoolsDnsDomainsEntry 10}
+
+sr1645v2DhcpV6PoolsDnsDomainsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6PoolsDnsDomainsEntry 11}
+
+sr1645v2DhcpV6PoolsDnsDomainsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.dns.domains.name"
+   ::= {sr1645v2DhcpV6PoolsDnsDomainsEntry 16777216}
+
+sr1645v2DhcpV6PoolsDnsDomainsImported OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.pools.dns.domains.imported
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1645v2DhcpV6PoolsDnsDomainsEntry 33554432}
+
+
+sr1645v2DhcpV6ClientLeases OBJECT IDENTIFIER ::= {sr1645v2DhcpV6 21}
+
+sr1645v2DhcpV6ClientLeasesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2DhcpV6ClientLeasesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6ClientLeases 1}
+
+sr1645v2DhcpV6ClientLeasesEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2DhcpV6ClientLeasesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2DhcpV6ClientLeasesGlobalIx,
+                sr1645v2DhcpV6ClientLeasesTableIx }
+   ::= {sr1645v2DhcpV6ClientLeasesSSCTable 1}
+
+Sr1645v2DhcpV6ClientLeasesEntry ::=
+   SEQUENCE
+      {
+      sr1645v2DhcpV6ClientLeasesGlobalIx
+         GlobalIndex,
+      sr1645v2DhcpV6ClientLeasesTableIx
+         TableIndex,
+      sr1645v2DhcpV6ClientLeasesDuid
+         OCTET STRING,
+      sr1645v2DhcpV6ClientLeasesInterface
+         DisplayString,
+      sr1645v2DhcpV6ClientLeasesAddressIaid
+         Counter32,
+      sr1645v2DhcpV6ClientLeasesAddressAddress
+         Ipv6Address,
+      sr1645v2DhcpV6ClientLeasesAddressValidLifeTime
+         TimeTicks,
+      sr1645v2DhcpV6ClientLeasesAddressPrefLifeTime
+         TimeTicks,
+      sr1645v2DhcpV6ClientLeasesAddressT1
+         TimeTicks,
+      sr1645v2DhcpV6ClientLeasesAddressT2
+         TimeTicks,
+      sr1645v2DhcpV6ClientLeasesPdPoolName
+         DisplayString,
+      sr1645v2DhcpV6ClientLeasesPdIaid
+         Counter32,
+      sr1645v2DhcpV6ClientLeasesPdPrefix
+         Ipv6Address,
+      sr1645v2DhcpV6ClientLeasesPdPrefixLength
+         Integer32,
+      sr1645v2DhcpV6ClientLeasesPdValidLifeTime
+         TimeTicks,
+      sr1645v2DhcpV6ClientLeasesPdPrefLifeTime
+         TimeTicks,
+      sr1645v2DhcpV6ClientLeasesPdT1
+         TimeTicks,
+      sr1645v2DhcpV6ClientLeasesPdT2
+         TimeTicks,
+      sr1645v2DhcpV6ClientLeasesPdExclPrefix
+         Ipv6Address,
+      sr1645v2DhcpV6ClientLeasesPdExclPrefixLength
+         Integer32
+      }
+
+sr1645v2DhcpV6ClientLeasesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 10}
+
+sr1645v2DhcpV6ClientLeasesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 11}
+
+sr1645v2DhcpV6ClientLeasesDuid OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.duid"
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 16777216}
+
+sr1645v2DhcpV6ClientLeasesInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.interface"
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 33554432}
+
+sr1645v2DhcpV6ClientLeasesAddressIaid OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.address.iaid
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 50397184}
+
+sr1645v2DhcpV6ClientLeasesAddressAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.address.address
+
+       ipv6 address"
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 50462720}
+
+sr1645v2DhcpV6ClientLeasesAddressValidLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.address.validLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 50528256}
+
+sr1645v2DhcpV6ClientLeasesAddressPrefLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.address.prefLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 50593792}
+
+sr1645v2DhcpV6ClientLeasesAddressT1 OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.address.t1
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 50659328}
+
+sr1645v2DhcpV6ClientLeasesAddressT2 OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.address.t2
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 50724864}
+
+sr1645v2DhcpV6ClientLeasesPdPoolName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.pd.poolName"
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 67764224}
+
+sr1645v2DhcpV6ClientLeasesPdIaid OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.pd.iaid
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 67174400}
+
+sr1645v2DhcpV6ClientLeasesPdPrefix OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.pd.prefix
+
+       ipv6 address"
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 67239936}
+
+sr1645v2DhcpV6ClientLeasesPdPrefixLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.pd.prefixLength"
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 67305472}
+
+sr1645v2DhcpV6ClientLeasesPdValidLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.pd.validLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 67371008}
+
+sr1645v2DhcpV6ClientLeasesPdPrefLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.pd.prefLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 67436544}
+
+sr1645v2DhcpV6ClientLeasesPdT1 OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.pd.t1
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 67502080}
+
+sr1645v2DhcpV6ClientLeasesPdT2 OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.pd.t2
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 67567616}
+
+sr1645v2DhcpV6ClientLeasesPdExclPrefix OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.pd.exclPrefix
+
+       ipv6 address"
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 67633152}
+
+sr1645v2DhcpV6ClientLeasesPdExclPrefixLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.pd.exclPrefixLength"
+   ::= {sr1645v2DhcpV6ClientLeasesEntry 67698688}
+
+sr1645v2DhcpV6ClientLeasesDnsServers OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2DhcpV6ClientLeasesDnsServersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6ClientLeases 83951616}
+
+sr1645v2DhcpV6ClientLeasesDnsServersEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2DhcpV6ClientLeasesDnsServersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2DhcpV6ClientLeasesDnsServersGlobalIx,
+                sr1645v2DhcpV6ClientLeasesTableIx,
+                sr1645v2DhcpV6ClientLeasesDnsServersTableIx }
+   ::= {sr1645v2DhcpV6ClientLeasesDnsServers 1}
+
+Sr1645v2DhcpV6ClientLeasesDnsServersEntry ::=
+   SEQUENCE
+      {
+      sr1645v2DhcpV6ClientLeasesDnsServersGlobalIx
+         GlobalIndex,
+      sr1645v2DhcpV6ClientLeasesDnsServersTableIx
+         TableIndex,
+      sr1645v2DhcpV6ClientLeasesDnsServersAddress
+         Ipv6Address
+      }
+
+sr1645v2DhcpV6ClientLeasesDnsServersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2DhcpV6ClientLeasesDnsServersEntry 10}
+
+sr1645v2DhcpV6ClientLeasesDnsServersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6ClientLeasesDnsServersEntry 11}
+
+sr1645v2DhcpV6ClientLeasesDnsServersAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.dns.servers.address
+
+       ipv6 address"
+   ::= {sr1645v2DhcpV6ClientLeasesDnsServersEntry 16777216}
+
+sr1645v2DhcpV6ClientLeasesDnsDomains OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2DhcpV6ClientLeasesDnsDomainsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6ClientLeases 84017152}
+
+sr1645v2DhcpV6ClientLeasesDnsDomainsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2DhcpV6ClientLeasesDnsDomainsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2DhcpV6ClientLeasesDnsDomainsGlobalIx,
+                sr1645v2DhcpV6ClientLeasesTableIx,
+                sr1645v2DhcpV6ClientLeasesDnsDomainsTableIx }
+   ::= {sr1645v2DhcpV6ClientLeasesDnsDomains 1}
+
+Sr1645v2DhcpV6ClientLeasesDnsDomainsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2DhcpV6ClientLeasesDnsDomainsGlobalIx
+         GlobalIndex,
+      sr1645v2DhcpV6ClientLeasesDnsDomainsTableIx
+         TableIndex,
+      sr1645v2DhcpV6ClientLeasesDnsDomainsName
+         DisplayString
+      }
+
+sr1645v2DhcpV6ClientLeasesDnsDomainsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2DhcpV6ClientLeasesDnsDomainsEntry 10}
+
+sr1645v2DhcpV6ClientLeasesDnsDomainsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6ClientLeasesDnsDomainsEntry 11}
+
+sr1645v2DhcpV6ClientLeasesDnsDomainsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.clientLeases.dns.domains.name"
+   ::= {sr1645v2DhcpV6ClientLeasesDnsDomainsEntry 16777216}
+
+
+sr1645v2DhcpV6InterfaceBindings OBJECT IDENTIFIER ::= {sr1645v2DhcpV6 22}
+
+sr1645v2DhcpV6InterfaceBindingsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2DhcpV6InterfaceBindingsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6InterfaceBindings 1}
+
+sr1645v2DhcpV6InterfaceBindingsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2DhcpV6InterfaceBindingsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2DhcpV6InterfaceBindingsGlobalIx,
+                sr1645v2DhcpV6InterfaceBindingsTableIx }
+   ::= {sr1645v2DhcpV6InterfaceBindingsSSCTable 1}
+
+Sr1645v2DhcpV6InterfaceBindingsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2DhcpV6InterfaceBindingsGlobalIx
+         GlobalIndex,
+      sr1645v2DhcpV6InterfaceBindingsTableIx
+         TableIndex,
+      sr1645v2DhcpV6InterfaceBindingsName
+         DisplayString,
+      sr1645v2DhcpV6InterfaceBindingsStatus
+         INTEGER,
+      sr1645v2DhcpV6InterfaceBindingsServerDuid
+         OCTET STRING
+      }
+
+sr1645v2DhcpV6InterfaceBindingsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2DhcpV6InterfaceBindingsEntry 10}
+
+sr1645v2DhcpV6InterfaceBindingsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6InterfaceBindingsEntry 11}
+
+sr1645v2DhcpV6InterfaceBindingsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.name"
+   ::= {sr1645v2DhcpV6InterfaceBindingsEntry 16777216}
+
+sr1645v2DhcpV6InterfaceBindingsStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               idle (0),
+               init (1),
+               solicit (2),
+               request (3),
+               bound (4),
+               renew (5),
+               rebind (6),
+               decline (7),
+               release (8),
+               infoRequest (9),
+               infoRcvd (10)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.status
+
+       Possibilities:
+               idle   (0)
+               init   (1)
+               solicit   (2)
+               request   (3)
+               bound   (4)
+               renew   (5)
+               rebind   (6)
+               decline   (7)
+               release   (8)
+               infoRequest   (9)
+               infoRcvd   (10)"
+   ::= {sr1645v2DhcpV6InterfaceBindingsEntry 33554432}
+
+sr1645v2DhcpV6InterfaceBindingsServerDuid OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.serverDuid"
+   ::= {sr1645v2DhcpV6InterfaceBindingsEntry 50331648}
+
+sr1645v2DhcpV6InterfaceBindingsAddress OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2DhcpV6InterfaceBindingsAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6InterfaceBindings 67108864}
+
+sr1645v2DhcpV6InterfaceBindingsAddressEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2DhcpV6InterfaceBindingsAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2DhcpV6InterfaceBindingsAddressGlobalIx,
+                sr1645v2DhcpV6InterfaceBindingsTableIx,
+                sr1645v2DhcpV6InterfaceBindingsAddressTableIx }
+   ::= {sr1645v2DhcpV6InterfaceBindingsAddress 1}
+
+Sr1645v2DhcpV6InterfaceBindingsAddressEntry ::=
+   SEQUENCE
+      {
+      sr1645v2DhcpV6InterfaceBindingsAddressGlobalIx
+         GlobalIndex,
+      sr1645v2DhcpV6InterfaceBindingsAddressTableIx
+         TableIndex,
+      sr1645v2DhcpV6InterfaceBindingsAddressIaid
+         Counter32,
+      sr1645v2DhcpV6InterfaceBindingsAddressAddress
+         Ipv6Address,
+      sr1645v2DhcpV6InterfaceBindingsAddressValidLifeTime
+         TimeTicks,
+      sr1645v2DhcpV6InterfaceBindingsAddressPrefLifeTime
+         TimeTicks,
+      sr1645v2DhcpV6InterfaceBindingsAddressT1
+         TimeTicks,
+      sr1645v2DhcpV6InterfaceBindingsAddressT2
+         TimeTicks,
+      sr1645v2DhcpV6InterfaceBindingsAddressAge
+         TimeTicks
+      }
+
+sr1645v2DhcpV6InterfaceBindingsAddressGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2DhcpV6InterfaceBindingsAddressEntry 10}
+
+sr1645v2DhcpV6InterfaceBindingsAddressTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6InterfaceBindingsAddressEntry 11}
+
+sr1645v2DhcpV6InterfaceBindingsAddressIaid OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.address.iaid
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2DhcpV6InterfaceBindingsAddressEntry 16777216}
+
+sr1645v2DhcpV6InterfaceBindingsAddressAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.address.address
+
+       ipv6 address"
+   ::= {sr1645v2DhcpV6InterfaceBindingsAddressEntry 33554432}
+
+sr1645v2DhcpV6InterfaceBindingsAddressValidLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.address.validLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6InterfaceBindingsAddressEntry 50331648}
+
+sr1645v2DhcpV6InterfaceBindingsAddressPrefLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.address.prefLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6InterfaceBindingsAddressEntry 67108864}
+
+sr1645v2DhcpV6InterfaceBindingsAddressT1 OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.address.t1
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6InterfaceBindingsAddressEntry 83886080}
+
+sr1645v2DhcpV6InterfaceBindingsAddressT2 OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.address.t2
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6InterfaceBindingsAddressEntry 100663296}
+
+sr1645v2DhcpV6InterfaceBindingsAddressAge OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.address.age
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6InterfaceBindingsAddressEntry 117440512}
+
+sr1645v2DhcpV6InterfaceBindingsPd OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2DhcpV6InterfaceBindingsPdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6InterfaceBindings 83886080}
+
+sr1645v2DhcpV6InterfaceBindingsPdEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2DhcpV6InterfaceBindingsPdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2DhcpV6InterfaceBindingsPdGlobalIx,
+                sr1645v2DhcpV6InterfaceBindingsTableIx,
+                sr1645v2DhcpV6InterfaceBindingsPdTableIx }
+   ::= {sr1645v2DhcpV6InterfaceBindingsPd 1}
+
+Sr1645v2DhcpV6InterfaceBindingsPdEntry ::=
+   SEQUENCE
+      {
+      sr1645v2DhcpV6InterfaceBindingsPdGlobalIx
+         GlobalIndex,
+      sr1645v2DhcpV6InterfaceBindingsPdTableIx
+         TableIndex,
+      sr1645v2DhcpV6InterfaceBindingsPdPoolName
+         DisplayString,
+      sr1645v2DhcpV6InterfaceBindingsPdIaid
+         Counter32,
+      sr1645v2DhcpV6InterfaceBindingsPdPrefix
+         Ipv6Address,
+      sr1645v2DhcpV6InterfaceBindingsPdPrefixLength
+         Integer32,
+      sr1645v2DhcpV6InterfaceBindingsPdValidLifeTime
+         TimeTicks,
+      sr1645v2DhcpV6InterfaceBindingsPdPrefLifeTime
+         TimeTicks,
+      sr1645v2DhcpV6InterfaceBindingsPdT1
+         TimeTicks,
+      sr1645v2DhcpV6InterfaceBindingsPdT2
+         TimeTicks,
+      sr1645v2DhcpV6InterfaceBindingsPdAge
+         TimeTicks,
+      sr1645v2DhcpV6InterfaceBindingsPdExclPrefix
+         Ipv6Address,
+      sr1645v2DhcpV6InterfaceBindingsPdExclPrefixLength
+         Integer32
+      }
+
+sr1645v2DhcpV6InterfaceBindingsPdGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2DhcpV6InterfaceBindingsPdEntry 10}
+
+sr1645v2DhcpV6InterfaceBindingsPdTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6InterfaceBindingsPdEntry 11}
+
+sr1645v2DhcpV6InterfaceBindingsPdPoolName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.pd.poolName"
+   ::= {sr1645v2DhcpV6InterfaceBindingsPdEntry 184549376}
+
+sr1645v2DhcpV6InterfaceBindingsPdIaid OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.pd.iaid
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2DhcpV6InterfaceBindingsPdEntry 16777216}
+
+sr1645v2DhcpV6InterfaceBindingsPdPrefix OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.pd.prefix
+
+       ipv6 address"
+   ::= {sr1645v2DhcpV6InterfaceBindingsPdEntry 33554432}
+
+sr1645v2DhcpV6InterfaceBindingsPdPrefixLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.pd.prefixLength"
+   ::= {sr1645v2DhcpV6InterfaceBindingsPdEntry 50331648}
+
+sr1645v2DhcpV6InterfaceBindingsPdValidLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.pd.validLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6InterfaceBindingsPdEntry 67108864}
+
+sr1645v2DhcpV6InterfaceBindingsPdPrefLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.pd.prefLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6InterfaceBindingsPdEntry 83886080}
+
+sr1645v2DhcpV6InterfaceBindingsPdT1 OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.pd.t1
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6InterfaceBindingsPdEntry 100663296}
+
+sr1645v2DhcpV6InterfaceBindingsPdT2 OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.pd.t2
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6InterfaceBindingsPdEntry 117440512}
+
+sr1645v2DhcpV6InterfaceBindingsPdAge OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.pd.age
+
+       Time in centi-second."
+   ::= {sr1645v2DhcpV6InterfaceBindingsPdEntry 134217728}
+
+sr1645v2DhcpV6InterfaceBindingsPdExclPrefix OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.pd.exclPrefix
+
+       ipv6 address"
+   ::= {sr1645v2DhcpV6InterfaceBindingsPdEntry 150994944}
+
+sr1645v2DhcpV6InterfaceBindingsPdExclPrefixLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.pd.exclPrefixLength"
+   ::= {sr1645v2DhcpV6InterfaceBindingsPdEntry 167772160}
+
+sr1645v2DhcpV6InterfaceBindingsDnsServers OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2DhcpV6InterfaceBindingsDnsServersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6InterfaceBindings 100728832}
+
+sr1645v2DhcpV6InterfaceBindingsDnsServersEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2DhcpV6InterfaceBindingsDnsServersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2DhcpV6InterfaceBindingsDnsServersGlobalIx,
+                sr1645v2DhcpV6InterfaceBindingsTableIx,
+                sr1645v2DhcpV6InterfaceBindingsDnsServersTableIx }
+   ::= {sr1645v2DhcpV6InterfaceBindingsDnsServers 1}
+
+Sr1645v2DhcpV6InterfaceBindingsDnsServersEntry ::=
+   SEQUENCE
+      {
+      sr1645v2DhcpV6InterfaceBindingsDnsServersGlobalIx
+         GlobalIndex,
+      sr1645v2DhcpV6InterfaceBindingsDnsServersTableIx
+         TableIndex,
+      sr1645v2DhcpV6InterfaceBindingsDnsServersAddress
+         Ipv6Address
+      }
+
+sr1645v2DhcpV6InterfaceBindingsDnsServersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2DhcpV6InterfaceBindingsDnsServersEntry 10}
+
+sr1645v2DhcpV6InterfaceBindingsDnsServersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6InterfaceBindingsDnsServersEntry 11}
+
+sr1645v2DhcpV6InterfaceBindingsDnsServersAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.dns.servers.address
+
+       ipv6 address"
+   ::= {sr1645v2DhcpV6InterfaceBindingsDnsServersEntry 16777216}
+
+sr1645v2DhcpV6InterfaceBindingsDnsDomains OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2DhcpV6InterfaceBindingsDnsDomainsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6InterfaceBindings 100794368}
+
+sr1645v2DhcpV6InterfaceBindingsDnsDomainsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2DhcpV6InterfaceBindingsDnsDomainsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2DhcpV6InterfaceBindingsDnsDomainsGlobalIx,
+                sr1645v2DhcpV6InterfaceBindingsTableIx,
+                sr1645v2DhcpV6InterfaceBindingsDnsDomainsTableIx }
+   ::= {sr1645v2DhcpV6InterfaceBindingsDnsDomains 1}
+
+Sr1645v2DhcpV6InterfaceBindingsDnsDomainsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2DhcpV6InterfaceBindingsDnsDomainsGlobalIx
+         GlobalIndex,
+      sr1645v2DhcpV6InterfaceBindingsDnsDomainsTableIx
+         TableIndex,
+      sr1645v2DhcpV6InterfaceBindingsDnsDomainsName
+         DisplayString
+      }
+
+sr1645v2DhcpV6InterfaceBindingsDnsDomainsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2DhcpV6InterfaceBindingsDnsDomainsEntry 10}
+
+sr1645v2DhcpV6InterfaceBindingsDnsDomainsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2DhcpV6InterfaceBindingsDnsDomainsEntry 11}
+
+sr1645v2DhcpV6InterfaceBindingsDnsDomainsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.status.interfaceBindings.dns.domains.name"
+   ::= {sr1645v2DhcpV6InterfaceBindingsDnsDomainsEntry 16777216}
+
+
+
+pr1645v2DhcpV6 OBJECT IDENTIFIER ::= {r1645v2DhcpV6 12}
+
+
+pr1645v2DhcpV6Interfaces OBJECT IDENTIFIER ::= {pr1645v2DhcpV6 40}
+
+pr1645v2DhcpV6InterfacesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2DhcpV6InterfacesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2DhcpV6Interfaces 1}
+
+pr1645v2DhcpV6InterfacesEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2DhcpV6InterfacesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2DhcpV6InterfacesGlobalIx,
+                pr1645v2DhcpV6InterfacesTableIx }
+   ::= {pr1645v2DhcpV6InterfacesSSCTable 1}
+
+Pr1645v2DhcpV6InterfacesEntry ::=
+   SEQUENCE
+      {
+      pr1645v2DhcpV6InterfacesGlobalIx
+         GlobalIndex,
+      pr1645v2DhcpV6InterfacesTableIx
+         TableIndex,
+      pr1645v2DhcpV6InterfacesName
+         DisplayString,
+      pr1645v2DhcpV6InterfacesSentSolicit
+         Counter32,
+      pr1645v2DhcpV6InterfacesSentAdvertise
+         Counter32,
+      pr1645v2DhcpV6InterfacesSentRequest
+         Counter32,
+      pr1645v2DhcpV6InterfacesSentRenew
+         Counter32,
+      pr1645v2DhcpV6InterfacesSentRebind
+         Counter32,
+      pr1645v2DhcpV6InterfacesSentReply
+         Counter32,
+      pr1645v2DhcpV6InterfacesSentRelease
+         Counter32,
+      pr1645v2DhcpV6InterfacesSentDecline
+         Counter32,
+      pr1645v2DhcpV6InterfacesSentInfoRequest
+         Counter32,
+      pr1645v2DhcpV6InterfacesSentRelayForw
+         Counter32,
+      pr1645v2DhcpV6InterfacesSentRelayRepl
+         Counter32,
+      pr1645v2DhcpV6InterfacesRcvdSolicit
+         Counter32,
+      pr1645v2DhcpV6InterfacesRcvdAdvertise
+         Counter32,
+      pr1645v2DhcpV6InterfacesRcvdRequest
+         Counter32,
+      pr1645v2DhcpV6InterfacesRcvdRenew
+         Counter32,
+      pr1645v2DhcpV6InterfacesRcvdRebind
+         Counter32,
+      pr1645v2DhcpV6InterfacesRcvdReply
+         Counter32,
+      pr1645v2DhcpV6InterfacesRcvdRelease
+         Counter32,
+      pr1645v2DhcpV6InterfacesRcvdDecline
+         Counter32,
+      pr1645v2DhcpV6InterfacesRcvdInfoRequest
+         Counter32,
+      pr1645v2DhcpV6InterfacesRcvdRelayForw
+         Counter32,
+      pr1645v2DhcpV6InterfacesRcvdRelayRepl
+         Counter32
+      }
+
+pr1645v2DhcpV6InterfacesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2DhcpV6InterfacesEntry 10}
+
+pr1645v2DhcpV6InterfacesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2DhcpV6InterfacesEntry 11}
+
+pr1645v2DhcpV6InterfacesName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.name"
+   ::= {pr1645v2DhcpV6InterfacesEntry 16777216}
+
+pr1645v2DhcpV6InterfacesSentSolicit OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.sent.solicit
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 33619968}
+
+pr1645v2DhcpV6InterfacesSentAdvertise OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.sent.advertise
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 33685504}
+
+pr1645v2DhcpV6InterfacesSentRequest OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.sent.request
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 33751040}
+
+pr1645v2DhcpV6InterfacesSentRenew OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.sent.renew
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 33882112}
+
+pr1645v2DhcpV6InterfacesSentRebind OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.sent.rebind
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 33947648}
+
+pr1645v2DhcpV6InterfacesSentReply OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.sent.reply
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 34013184}
+
+pr1645v2DhcpV6InterfacesSentRelease OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.sent.release
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 34078720}
+
+pr1645v2DhcpV6InterfacesSentDecline OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.sent.decline
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 34144256}
+
+pr1645v2DhcpV6InterfacesSentInfoRequest OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.sent.infoRequest
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 34275328}
+
+pr1645v2DhcpV6InterfacesSentRelayForw OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.sent.relayForw
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 34340864}
+
+pr1645v2DhcpV6InterfacesSentRelayRepl OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.sent.relayRepl
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 34406400}
+
+pr1645v2DhcpV6InterfacesRcvdSolicit OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.rcvd.solicit
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 50397184}
+
+pr1645v2DhcpV6InterfacesRcvdAdvertise OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.rcvd.advertise
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 50462720}
+
+pr1645v2DhcpV6InterfacesRcvdRequest OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.rcvd.request
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 50528256}
+
+pr1645v2DhcpV6InterfacesRcvdRenew OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.rcvd.renew
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 50659328}
+
+pr1645v2DhcpV6InterfacesRcvdRebind OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.rcvd.rebind
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 50724864}
+
+pr1645v2DhcpV6InterfacesRcvdReply OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.rcvd.reply
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 50790400}
+
+pr1645v2DhcpV6InterfacesRcvdRelease OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.rcvd.release
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 50855936}
+
+pr1645v2DhcpV6InterfacesRcvdDecline OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.rcvd.decline
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 50921472}
+
+pr1645v2DhcpV6InterfacesRcvdInfoRequest OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.rcvd.infoRequest
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 51052544}
+
+pr1645v2DhcpV6InterfacesRcvdRelayForw OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.rcvd.relayForw
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 51118080}
+
+pr1645v2DhcpV6InterfacesRcvdRelayRepl OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dhcp.performance.interfaces.rcvd.relayRepl
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2DhcpV6InterfacesEntry 51183616}
+
+
+
+END

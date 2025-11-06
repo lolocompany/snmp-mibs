@@ -1,0 +1,782 @@
+OneAccess-R1646v2-3134-Zbn DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2Zbn OBJECT IDENTIFIER ::= {r1646Rootv2 3134}
+
+r1646v2ZbnMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2ZbnMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2Zbn 1}
+
+r1646v2ZbnMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2ZbnMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2ZbnMOPropGlobalIx }
+   ::= {r1646v2ZbnMOProp 1}
+
+R1646v2ZbnMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2ZbnMOPropPath
+         ContainmentPath,
+      r1646v2ZbnMOPropRev
+         ObjectRevision,
+      r1646v2ZbnMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2ZbnMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2ZbnMOPropEntry 3}
+
+r1646v2ZbnMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2ZbnMOPropEntry 4}
+
+r1646v2ZbnMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2ZbnMOPropEntry 10}
+
+
+
+er1646v2Zbn OBJECT IDENTIFIER ::= {r1646v2Zbn 11}
+
+
+er1646v2ZbnSnmpIndexOffset OBJECT IDENTIFIER ::= {er1646v2Zbn 268}
+
+er1646v2ZbnSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbnSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1646v2ZbnSnmpIndexOffset 1}
+
+er1646v2ZbnSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbnSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbnSnmpIndexOffsetGlobalIx }
+   ::= {er1646v2ZbnSnmpIndexOffsetTable 1}
+
+Er1646v2ZbnSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbnSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1646v2ZbnSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1646v2ZbnSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbnSnmpIndexOffsetEntry 10}
+
+er1646v2ZbnSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.snmpIndexOffset"
+   ::= {er1646v2ZbnSnmpIndexOffsetEntry 2147483648}
+
+
+er1646v2ZbnPatAddresses OBJECT IDENTIFIER ::= {er1646v2Zbn 2}
+
+er1646v2ZbnPatAddressesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbnPatAddressesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pat addresses"
+   ::= {er1646v2ZbnPatAddresses 1}
+
+er1646v2ZbnPatAddressesEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbnPatAddressesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbnPatAddressesGlobalIx,
+                er1646v2ZbnPatAddressesTableIx }
+   ::= {er1646v2ZbnPatAddressesSSCTable 1}
+
+Er1646v2ZbnPatAddressesEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbnPatAddressesActions
+         VariableLengthTableActions,
+      er1646v2ZbnPatAddressesGlobalIx
+         GlobalIndex,
+      er1646v2ZbnPatAddressesTableIx
+         TableIndex,
+      er1646v2ZbnPatAddressesAddressRange
+         DisplayString,
+      er1646v2ZbnPatAddressesFilter
+         DisplayString
+      }
+
+er1646v2ZbnPatAddressesActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2ZbnPatAddressesEntry 2}
+
+er1646v2ZbnPatAddressesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbnPatAddressesEntry 10}
+
+er1646v2ZbnPatAddressesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2ZbnPatAddressesEntry 11}
+
+er1646v2ZbnPatAddressesAddressRange OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.patAddresses.addressRange"
+   ::= {er1646v2ZbnPatAddressesEntry 16777216}
+
+er1646v2ZbnPatAddressesFilter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.patAddresses.filter"
+   ::= {er1646v2ZbnPatAddressesEntry 33554432}
+
+
+er1646v2ZbnStaticMappings OBJECT IDENTIFIER ::= {er1646v2Zbn 3}
+
+er1646v2ZbnStaticMappingsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbnStaticMappingsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "static mapping"
+   ::= {er1646v2ZbnStaticMappings 1}
+
+er1646v2ZbnStaticMappingsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbnStaticMappingsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbnStaticMappingsGlobalIx,
+                er1646v2ZbnStaticMappingsTableIx }
+   ::= {er1646v2ZbnStaticMappingsSSCTable 1}
+
+Er1646v2ZbnStaticMappingsEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbnStaticMappingsActions
+         VariableLengthTableActions,
+      er1646v2ZbnStaticMappingsGlobalIx
+         GlobalIndex,
+      er1646v2ZbnStaticMappingsTableIx
+         TableIndex,
+      er1646v2ZbnStaticMappingsName
+         DisplayString,
+      er1646v2ZbnStaticMappingsPublicAddress
+         IpAddress,
+      er1646v2ZbnStaticMappingsPublicPort
+         INTEGER,
+      er1646v2ZbnStaticMappingsProtocol
+         INTEGER,
+      er1646v2ZbnStaticMappingsPrivateAddress
+         IpAddress,
+      er1646v2ZbnStaticMappingsPrivatePort
+         INTEGER
+      }
+
+er1646v2ZbnStaticMappingsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2ZbnStaticMappingsEntry 2}
+
+er1646v2ZbnStaticMappingsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbnStaticMappingsEntry 10}
+
+er1646v2ZbnStaticMappingsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2ZbnStaticMappingsEntry 11}
+
+er1646v2ZbnStaticMappingsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.staticMappings.name"
+   ::= {er1646v2ZbnStaticMappingsEntry 100663296}
+
+er1646v2ZbnStaticMappingsPublicAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.staticMappings.publicAddress"
+   ::= {er1646v2ZbnStaticMappingsEntry 16777216}
+
+er1646v2ZbnStaticMappingsPublicPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               optional (0),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.staticMappings.publicPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               optional   (0)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1646v2ZbnStaticMappingsEntry 33554432}
+
+er1646v2ZbnStaticMappingsProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               ah (51),
+               egp (8),
+               esp (50),
+               gre (47),
+               icmp (1),
+               igp (9),
+               igmp (2),
+               igrp (88),
+               ipInIp (4),
+               ospf (89),
+               udp (17),
+               rsvp (46),
+               tcp (6),
+               icmpV6 (58),
+               l2tp (115)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.staticMappings.protocol
+
+       Possibilities:
+               any   (0)
+               ah   (51)
+               egp   (8)
+               esp   (50)
+               gre   (47)
+               icmp   (1)
+               igp   (9)
+               igmp   (2)
+               igrp   (88)
+               ipInIp   (4)
+               ospf   (89)
+               udp   (17)
+               rsvp   (46)
+               tcp   (6)
+               icmpV6   (58)
+               l2tp   (115)"
+   ::= {er1646v2ZbnStaticMappingsEntry 50331648}
+
+er1646v2ZbnStaticMappingsPrivateAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.staticMappings.privateAddress"
+   ::= {er1646v2ZbnStaticMappingsEntry 67108864}
+
+er1646v2ZbnStaticMappingsPrivatePort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               optional (0),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.staticMappings.privatePort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               optional   (0)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1646v2ZbnStaticMappingsEntry 83886080}
+
+
+er1646v2ZbnPreservedServices OBJECT IDENTIFIER ::= {er1646v2Zbn 4}
+
+er1646v2ZbnPreservedServicesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbnPreservedServicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "services to be preserved by nat"
+   ::= {er1646v2ZbnPreservedServices 1}
+
+er1646v2ZbnPreservedServicesEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbnPreservedServicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbnPreservedServicesGlobalIx,
+                er1646v2ZbnPreservedServicesTableIx }
+   ::= {er1646v2ZbnPreservedServicesSSCTable 1}
+
+Er1646v2ZbnPreservedServicesEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbnPreservedServicesActions
+         VariableLengthTableActions,
+      er1646v2ZbnPreservedServicesGlobalIx
+         GlobalIndex,
+      er1646v2ZbnPreservedServicesTableIx
+         TableIndex,
+      er1646v2ZbnPreservedServicesName
+         DisplayString,
+      er1646v2ZbnPreservedServicesProtocol
+         INTEGER,
+      er1646v2ZbnPreservedServicesStartPort
+         Integer32,
+      er1646v2ZbnPreservedServicesEndPort
+         Integer32
+      }
+
+er1646v2ZbnPreservedServicesActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2ZbnPreservedServicesEntry 2}
+
+er1646v2ZbnPreservedServicesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbnPreservedServicesEntry 10}
+
+er1646v2ZbnPreservedServicesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2ZbnPreservedServicesEntry 11}
+
+er1646v2ZbnPreservedServicesName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.preservedServices.name"
+   ::= {er1646v2ZbnPreservedServicesEntry 67108864}
+
+er1646v2ZbnPreservedServicesProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               tcp (6),
+               udp (17)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.preservedServices.protocol
+
+       Possibilities:
+               tcp   (6)
+               udp   (17)"
+   ::= {er1646v2ZbnPreservedServicesEntry 16777216}
+
+er1646v2ZbnPreservedServicesStartPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.preservedServices.startPort"
+   ::= {er1646v2ZbnPreservedServicesEntry 33554432}
+
+er1646v2ZbnPreservedServicesEndPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.preservedServices.endPort"
+   ::= {er1646v2ZbnPreservedServicesEntry 50331648}
+
+
+er1646v2ZbnGateway OBJECT IDENTIFIER ::= {er1646v2Zbn 5}
+
+er1646v2ZbnGatewayTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbnGatewayEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipAdEntAddr"
+   ::= {er1646v2ZbnGateway 1}
+
+er1646v2ZbnGatewayEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbnGatewayEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbnGatewayGlobalIx }
+   ::= {er1646v2ZbnGatewayTable 1}
+
+Er1646v2ZbnGatewayEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbnGatewayGlobalIx
+         GlobalIndex,
+      er1646v2ZbnGatewayValue
+         IpAddress
+      }
+
+er1646v2ZbnGatewayGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbnGatewayEntry 10}
+
+er1646v2ZbnGatewayValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.gateway"
+   ::= {er1646v2ZbnGatewayEntry 2147483648}
+
+
+
+sr1646v2Zbn OBJECT IDENTIFIER ::= {r1646v2Zbn 14}
+
+
+sr1646v2ZbnSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2Zbn 269}
+
+sr1646v2ZbnSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbnSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2ZbnSnmpIndex 1}
+
+sr1646v2ZbnSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbnSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbnSnmpIndexGlobalIx }
+   ::= {sr1646v2ZbnSnmpIndexTable 1}
+
+Sr1646v2ZbnSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbnSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2ZbnSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2ZbnSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbnSnmpIndexEntry 10}
+
+sr1646v2ZbnSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.snmpIndex"
+   ::= {sr1646v2ZbnSnmpIndexEntry 2147483648}
+
+
+
+END

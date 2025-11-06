@@ -1,0 +1,100 @@
+OneAccess-R1646v2-1455-BundleP DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2BundleP OBJECT IDENTIFIER ::= {r1646Rootv2 1455}
+
+r1646v2BundlePMOProp OBJECT IDENTIFIER ::= {r1646v2BundleP 1}
+
+r1646v2BundlePMOPropEntry OBJECT IDENTIFIER ::= {r1646v2BundlePMOProp 1}
+
+r1646v2BundlePMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2BundlePMOPropEntry 3}
+
+r1646v2BundlePMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2BundlePMOPropEntry 4}
+
+
+
+ar1646v2BundleP OBJECT IDENTIFIER ::= {r1646v2BundleP 16}
+
+
+ar1646v2BundlePApsCommand OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bundle.actions.apsCommand
+       Info: ETH-APS command action"
+   ::= {ar1646v2BundleP 250}
+
+
+ar1646v2BundlePType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               clear (13),
+               exercise (14),
+               lockOut (1),
+               forcedSwitch (2),
+               manualSwitchToWorking (12),
+               manualSwitchToProtection (11)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bundle.actions.type
+       Info: ETH-APS command type for the action
+
+       Possibilities:
+               clear   (13)
+               exercise   (14)
+               lockOut   (1)
+               forcedSwitch   (2)
+               manualSwitchToWorking   (12)
+               manualSwitchToProtection   (11)"
+   ::= {ar1646v2BundleP 251}
+
+
+
+END

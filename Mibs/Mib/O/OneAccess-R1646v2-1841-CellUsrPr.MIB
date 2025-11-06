@@ -1,0 +1,943 @@
+OneAccess-R1646v2-1841-CellUsrPr DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2CellUsrPr OBJECT IDENTIFIER ::= {r1646Rootv2 1841}
+
+r1646v2CellUsrPrMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2CellUsrPrMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2CellUsrPr 1}
+
+r1646v2CellUsrPrMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2CellUsrPrMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2CellUsrPrMOPropGlobalIx }
+   ::= {r1646v2CellUsrPrMOProp 1}
+
+R1646v2CellUsrPrMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2CellUsrPrMOPropPath
+         ContainmentPath,
+      r1646v2CellUsrPrMOPropRev
+         ObjectRevision,
+      r1646v2CellUsrPrMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2CellUsrPrMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2CellUsrPrMOPropEntry 3}
+
+r1646v2CellUsrPrMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2CellUsrPrMOPropEntry 4}
+
+r1646v2CellUsrPrMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2CellUsrPrMOPropEntry 10}
+
+
+
+er1646v2CellUsrPr OBJECT IDENTIFIER ::= {r1646v2CellUsrPr 11}
+
+
+er1646v2CellUsrPrDialPktBufSize OBJECT IDENTIFIER ::= {er1646v2CellUsrPr 4}
+
+er1646v2CellUsrPrDialPktBufSizeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2CellUsrPrDialPktBufSizeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "max number of outstanding packets"
+   ::= {er1646v2CellUsrPrDialPktBufSize 1}
+
+er1646v2CellUsrPrDialPktBufSizeEntry OBJECT-TYPE
+   SYNTAX      Er1646v2CellUsrPrDialPktBufSizeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2CellUsrPrDialPktBufSizeGlobalIx }
+   ::= {er1646v2CellUsrPrDialPktBufSizeTable 1}
+
+Er1646v2CellUsrPrDialPktBufSizeEntry ::=
+   SEQUENCE
+      {
+      er1646v2CellUsrPrDialPktBufSizeGlobalIx
+         GlobalIndex,
+      er1646v2CellUsrPrDialPktBufSizeValue
+         Integer32
+      }
+
+er1646v2CellUsrPrDialPktBufSizeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2CellUsrPrDialPktBufSizeEntry 10}
+
+er1646v2CellUsrPrDialPktBufSizeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.dialPktBufSize"
+   ::= {er1646v2CellUsrPrDialPktBufSizeEntry 2147483648}
+
+
+er1646v2CellUsrPrType OBJECT IDENTIFIER ::= {er1646v2CellUsrPr 50}
+
+er1646v2CellUsrPrTypeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2CellUsrPrTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "3G call type: OnDemand or LeasedLine"
+   ::= {er1646v2CellUsrPrType 1}
+
+er1646v2CellUsrPrTypeEntry OBJECT-TYPE
+   SYNTAX      Er1646v2CellUsrPrTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2CellUsrPrTypeGlobalIx }
+   ::= {er1646v2CellUsrPrTypeTable 1}
+
+Er1646v2CellUsrPrTypeEntry ::=
+   SEQUENCE
+      {
+      er1646v2CellUsrPrTypeGlobalIx
+         GlobalIndex,
+      er1646v2CellUsrPrTypeValue
+         INTEGER
+      }
+
+er1646v2CellUsrPrTypeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2CellUsrPrTypeEntry 10}
+
+er1646v2CellUsrPrTypeValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               outgoingDial (1),
+               outgoingLeasedLine (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.type
+
+       Possibilities:
+               outgoingDial   (1)
+               outgoingLeasedLine   (2)"
+   ::= {er1646v2CellUsrPrTypeEntry 2147483648}
+
+
+er1646v2CellUsrPrIdleTimeOut OBJECT IDENTIFIER ::= {er1646v2CellUsrPr 5}
+
+er1646v2CellUsrPrIdleTimeOutTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2CellUsrPrIdleTimeOutEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "idle timeout before disconnecting (only relevant when MobileCallType is OnDemand)"
+   ::= {er1646v2CellUsrPrIdleTimeOut 1}
+
+er1646v2CellUsrPrIdleTimeOutEntry OBJECT-TYPE
+   SYNTAX      Er1646v2CellUsrPrIdleTimeOutEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2CellUsrPrIdleTimeOutGlobalIx }
+   ::= {er1646v2CellUsrPrIdleTimeOutTable 1}
+
+Er1646v2CellUsrPrIdleTimeOutEntry ::=
+   SEQUENCE
+      {
+      er1646v2CellUsrPrIdleTimeOutGlobalIx
+         GlobalIndex,
+      er1646v2CellUsrPrIdleTimeOutValue
+         TimeTicks
+      }
+
+er1646v2CellUsrPrIdleTimeOutGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2CellUsrPrIdleTimeOutEntry 10}
+
+er1646v2CellUsrPrIdleTimeOutValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.idleTimeOut
+
+       Time in centi-second."
+   ::= {er1646v2CellUsrPrIdleTimeOutEntry 2147483648}
+
+
+er1646v2CellUsrPrCallInterval OBJECT IDENTIFIER ::= {er1646v2CellUsrPr 7}
+
+er1646v2CellUsrPrCallIntervalTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2CellUsrPrCallIntervalEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "minimum time between two calls"
+   ::= {er1646v2CellUsrPrCallInterval 1}
+
+er1646v2CellUsrPrCallIntervalEntry OBJECT-TYPE
+   SYNTAX      Er1646v2CellUsrPrCallIntervalEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2CellUsrPrCallIntervalGlobalIx }
+   ::= {er1646v2CellUsrPrCallIntervalTable 1}
+
+Er1646v2CellUsrPrCallIntervalEntry ::=
+   SEQUENCE
+      {
+      er1646v2CellUsrPrCallIntervalGlobalIx
+         GlobalIndex,
+      er1646v2CellUsrPrCallIntervalValue
+         TimeTicks
+      }
+
+er1646v2CellUsrPrCallIntervalGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2CellUsrPrCallIntervalEntry 10}
+
+er1646v2CellUsrPrCallIntervalValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.callInterval
+
+       Time in centi-second."
+   ::= {er1646v2CellUsrPrCallIntervalEntry 2147483648}
+
+
+er1646v2CellUsrPrStartDelay OBJECT IDENTIFIER ::= {er1646v2CellUsrPr 21}
+
+er1646v2CellUsrPrStartDelayTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2CellUsrPrStartDelayEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "delay before attempting connection setup"
+   ::= {er1646v2CellUsrPrStartDelay 1}
+
+er1646v2CellUsrPrStartDelayEntry OBJECT-TYPE
+   SYNTAX      Er1646v2CellUsrPrStartDelayEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2CellUsrPrStartDelayGlobalIx }
+   ::= {er1646v2CellUsrPrStartDelayTable 1}
+
+Er1646v2CellUsrPrStartDelayEntry ::=
+   SEQUENCE
+      {
+      er1646v2CellUsrPrStartDelayGlobalIx
+         GlobalIndex,
+      er1646v2CellUsrPrStartDelayValue
+         TimeTicks
+      }
+
+er1646v2CellUsrPrStartDelayGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2CellUsrPrStartDelayEntry 10}
+
+er1646v2CellUsrPrStartDelayValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.startDelay
+
+       Time in centi-second."
+   ::= {er1646v2CellUsrPrStartDelayEntry 2147483648}
+
+
+er1646v2CellUsrPr24hMaxCallTime OBJECT IDENTIFIER ::= {er1646v2CellUsrPr 9}
+
+er1646v2CellUsrPr24hMaxCallTimeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2CellUsrPr24hMaxCallTimeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "max time per 24 hours interval of dial-up connection"
+   ::= {er1646v2CellUsrPr24hMaxCallTime 1}
+
+er1646v2CellUsrPr24hMaxCallTimeEntry OBJECT-TYPE
+   SYNTAX      Er1646v2CellUsrPr24hMaxCallTimeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2CellUsrPr24hMaxCallTimeGlobalIx }
+   ::= {er1646v2CellUsrPr24hMaxCallTimeTable 1}
+
+Er1646v2CellUsrPr24hMaxCallTimeEntry ::=
+   SEQUENCE
+      {
+      er1646v2CellUsrPr24hMaxCallTimeGlobalIx
+         GlobalIndex,
+      er1646v2CellUsrPr24hMaxCallTimeValue
+         TimeTicks
+      }
+
+er1646v2CellUsrPr24hMaxCallTimeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2CellUsrPr24hMaxCallTimeEntry 10}
+
+er1646v2CellUsrPr24hMaxCallTimeValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.24hMaxCallTime
+
+       Time in centi-second."
+   ::= {er1646v2CellUsrPr24hMaxCallTimeEntry 2147483648}
+
+
+er1646v2CellUsrPrIdleDirection OBJECT IDENTIFIER ::= {er1646v2CellUsrPr 20}
+
+er1646v2CellUsrPrIdleDirectionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2CellUsrPrIdleDirectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "direction of idle traffic verification"
+   ::= {er1646v2CellUsrPrIdleDirection 1}
+
+er1646v2CellUsrPrIdleDirectionEntry OBJECT-TYPE
+   SYNTAX      Er1646v2CellUsrPrIdleDirectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2CellUsrPrIdleDirectionGlobalIx }
+   ::= {er1646v2CellUsrPrIdleDirectionTable 1}
+
+Er1646v2CellUsrPrIdleDirectionEntry ::=
+   SEQUENCE
+      {
+      er1646v2CellUsrPrIdleDirectionGlobalIx
+         GlobalIndex,
+      er1646v2CellUsrPrIdleDirectionValue
+         INTEGER
+      }
+
+er1646v2CellUsrPrIdleDirectionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2CellUsrPrIdleDirectionEntry 10}
+
+er1646v2CellUsrPrIdleDirectionValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               inbound (1),
+               outbound (2),
+               all (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.idleDirection
+
+       Possibilities:
+               inbound   (1)
+               outbound   (2)
+               all   (3)"
+   ::= {er1646v2CellUsrPrIdleDirectionEntry 2147483648}
+
+
+er1646v2CellUsrPrDialTm OBJECT IDENTIFIER ::= {er1646v2CellUsrPr 10}
+
+er1646v2CellUsrPrDialTmSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2CellUsrPrDialTmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Table with months, days, dotw, hour and minutes for dialouts"
+   ::= {er1646v2CellUsrPrDialTm 1}
+
+er1646v2CellUsrPrDialTmEntry OBJECT-TYPE
+   SYNTAX      Er1646v2CellUsrPrDialTmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2CellUsrPrDialTmGlobalIx,
+                er1646v2CellUsrPrDialTmTableIx }
+   ::= {er1646v2CellUsrPrDialTmSSCTable 1}
+
+Er1646v2CellUsrPrDialTmEntry ::=
+   SEQUENCE
+      {
+      er1646v2CellUsrPrDialTmActions
+         VariableLengthTableActions,
+      er1646v2CellUsrPrDialTmGlobalIx
+         GlobalIndex,
+      er1646v2CellUsrPrDialTmTableIx
+         TableIndex,
+      er1646v2CellUsrPrDialTmStartMon
+         INTEGER,
+      er1646v2CellUsrPrDialTmStartDom
+         INTEGER,
+      er1646v2CellUsrPrDialTmStartDof
+         INTEGER,
+      er1646v2CellUsrPrDialTmStartHr
+         INTEGER,
+      er1646v2CellUsrPrDialTmStartMin
+         INTEGER,
+      er1646v2CellUsrPrDialTmEndMon
+         INTEGER,
+      er1646v2CellUsrPrDialTmEndDom
+         INTEGER,
+      er1646v2CellUsrPrDialTmEndDof
+         INTEGER,
+      er1646v2CellUsrPrDialTmEndHr
+         INTEGER,
+      er1646v2CellUsrPrDialTmEndMin
+         INTEGER
+      }
+
+er1646v2CellUsrPrDialTmActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2CellUsrPrDialTmEntry 2}
+
+er1646v2CellUsrPrDialTmGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2CellUsrPrDialTmEntry 10}
+
+er1646v2CellUsrPrDialTmTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2CellUsrPrDialTmEntry 11}
+
+er1646v2CellUsrPrDialTmStartMon OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               jan (1),
+               feb (2),
+               mar (3),
+               apr (4),
+               may (5),
+               jun (6),
+               jul (7),
+               aug (8),
+               sep (9),
+               oct (10),
+               nov (11),
+               dec (12),
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.dialTimeTable.start.month
+
+       Possibilities:
+               jan   (1)
+               feb   (2)
+               mar   (3)
+               apr   (4)
+               may   (5)
+               jun   (6)
+               jul   (7)
+               aug   (8)
+               sep   (9)
+               oct   (10)
+               nov   (11)
+               dec   (12)
+               <OPT>   (255)"
+   ::= {er1646v2CellUsrPrDialTmEntry 16842752}
+
+er1646v2CellUsrPrDialTmStartDom OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.dialTimeTable.start.dayOfMonth
+
+       Possibilities:
+               <OPT>   (255)"
+   ::= {er1646v2CellUsrPrDialTmEntry 16908288}
+
+er1646v2CellUsrPrDialTmStartDof OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               sunday (1),
+               monday (2),
+               tuesday (3),
+               wednesday (4),
+               thursday (5),
+               friday (6),
+               saturday (7),
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.dialTimeTable.start.dayOfWeek
+
+       Possibilities:
+               sunday   (1)
+               monday   (2)
+               tuesday   (3)
+               wednesday   (4)
+               thursday   (5)
+               friday   (6)
+               saturday   (7)
+               <OPT>   (255)"
+   ::= {er1646v2CellUsrPrDialTmEntry 16973824}
+
+er1646v2CellUsrPrDialTmStartHr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.dialTimeTable.start.hour
+
+       Possibilities:
+               <OPT>   (255)"
+   ::= {er1646v2CellUsrPrDialTmEntry 17039360}
+
+er1646v2CellUsrPrDialTmStartMin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.dialTimeTable.start.minute
+
+       Possibilities:
+               <OPT>   (255)"
+   ::= {er1646v2CellUsrPrDialTmEntry 17104896}
+
+er1646v2CellUsrPrDialTmEndMon OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               jan (1),
+               feb (2),
+               mar (3),
+               apr (4),
+               may (5),
+               jun (6),
+               jul (7),
+               aug (8),
+               sep (9),
+               oct (10),
+               nov (11),
+               dec (12),
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.dialTimeTable.end.month
+
+       Possibilities:
+               jan   (1)
+               feb   (2)
+               mar   (3)
+               apr   (4)
+               may   (5)
+               jun   (6)
+               jul   (7)
+               aug   (8)
+               sep   (9)
+               oct   (10)
+               nov   (11)
+               dec   (12)
+               <OPT>   (255)"
+   ::= {er1646v2CellUsrPrDialTmEntry 33619968}
+
+er1646v2CellUsrPrDialTmEndDom OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.dialTimeTable.end.dayOfMonth
+
+       Possibilities:
+               <OPT>   (255)"
+   ::= {er1646v2CellUsrPrDialTmEntry 33685504}
+
+er1646v2CellUsrPrDialTmEndDof OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               sunday (1),
+               monday (2),
+               tuesday (3),
+               wednesday (4),
+               thursday (5),
+               friday (6),
+               saturday (7),
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.dialTimeTable.end.dayOfWeek
+
+       Possibilities:
+               sunday   (1)
+               monday   (2)
+               tuesday   (3)
+               wednesday   (4)
+               thursday   (5)
+               friday   (6)
+               saturday   (7)
+               <OPT>   (255)"
+   ::= {er1646v2CellUsrPrDialTmEntry 33751040}
+
+er1646v2CellUsrPrDialTmEndHr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.dialTimeTable.end.hour
+
+       Possibilities:
+               <OPT>   (255)"
+   ::= {er1646v2CellUsrPrDialTmEntry 33816576}
+
+er1646v2CellUsrPrDialTmEndMin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.dialTimeTable.end.minute
+
+       Possibilities:
+               <OPT>   (255)"
+   ::= {er1646v2CellUsrPrDialTmEntry 33882112}
+
+
+er1646v2CellUsrPrCallTimeOut OBJECT IDENTIFIER ::= {er1646v2CellUsrPr 8}
+
+er1646v2CellUsrPrCallTimeOutTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2CellUsrPrCallTimeOutEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "call set-up timeout"
+   ::= {er1646v2CellUsrPrCallTimeOut 1}
+
+er1646v2CellUsrPrCallTimeOutEntry OBJECT-TYPE
+   SYNTAX      Er1646v2CellUsrPrCallTimeOutEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2CellUsrPrCallTimeOutGlobalIx }
+   ::= {er1646v2CellUsrPrCallTimeOutTable 1}
+
+Er1646v2CellUsrPrCallTimeOutEntry ::=
+   SEQUENCE
+      {
+      er1646v2CellUsrPrCallTimeOutGlobalIx
+         GlobalIndex,
+      er1646v2CellUsrPrCallTimeOutValue
+         TimeTicks
+      }
+
+er1646v2CellUsrPrCallTimeOutGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2CellUsrPrCallTimeOutEntry 10}
+
+er1646v2CellUsrPrCallTimeOutValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.callTimeOut
+
+       Time in centi-second."
+   ::= {er1646v2CellUsrPrCallTimeOutEntry 2147483648}
+
+
+er1646v2CellUsrPrSnmpIndexOffset OBJECT IDENTIFIER ::= {er1646v2CellUsrPr 268}
+
+er1646v2CellUsrPrSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2CellUsrPrSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1646v2CellUsrPrSnmpIndexOffset 1}
+
+er1646v2CellUsrPrSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1646v2CellUsrPrSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2CellUsrPrSnmpIndexOffsetGlobalIx }
+   ::= {er1646v2CellUsrPrSnmpIndexOffsetTable 1}
+
+Er1646v2CellUsrPrSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1646v2CellUsrPrSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1646v2CellUsrPrSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1646v2CellUsrPrSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2CellUsrPrSnmpIndexOffsetEntry 10}
+
+er1646v2CellUsrPrSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.editConf.snmpIndexOffset"
+   ::= {er1646v2CellUsrPrSnmpIndexOffsetEntry 2147483648}
+
+
+
+sr1646v2CellUsrPr OBJECT IDENTIFIER ::= {r1646v2CellUsrPr 14}
+
+
+sr1646v2CellUsrPrProfUsers OBJECT IDENTIFIER ::= {sr1646v2CellUsrPr 40}
+
+sr1646v2CellUsrPrProfUsersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2CellUsrPrProfUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "users of the different profiles"
+   ::= {sr1646v2CellUsrPrProfUsers 1}
+
+sr1646v2CellUsrPrProfUsersEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2CellUsrPrProfUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2CellUsrPrProfUsersGlobalIx,
+                sr1646v2CellUsrPrProfUsersTableIx }
+   ::= {sr1646v2CellUsrPrProfUsersSSCTable 1}
+
+Sr1646v2CellUsrPrProfUsersEntry ::=
+   SEQUENCE
+      {
+      sr1646v2CellUsrPrProfUsersGlobalIx
+         GlobalIndex,
+      sr1646v2CellUsrPrProfUsersTableIx
+         TableIndex,
+      sr1646v2CellUsrPrProfUsersType
+         INTEGER,
+      sr1646v2CellUsrPrProfUsersName
+         DisplayString
+      }
+
+sr1646v2CellUsrPrProfUsersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2CellUsrPrProfUsersEntry 10}
+
+sr1646v2CellUsrPrProfUsersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2CellUsrPrProfUsersEntry 11}
+
+sr1646v2CellUsrPrProfUsersType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dialmap (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.status.profileUsers.type
+
+       Possibilities:
+               dialmap   (1)"
+   ::= {sr1646v2CellUsrPrProfUsersEntry 16777216}
+
+sr1646v2CellUsrPrProfUsersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.status.profileUsers.name"
+   ::= {sr1646v2CellUsrPrProfUsersEntry 33554432}
+
+
+sr1646v2CellUsrPrSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2CellUsrPr 269}
+
+sr1646v2CellUsrPrSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2CellUsrPrSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2CellUsrPrSnmpIndex 1}
+
+sr1646v2CellUsrPrSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2CellUsrPrSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2CellUsrPrSnmpIndexGlobalIx }
+   ::= {sr1646v2CellUsrPrSnmpIndexTable 1}
+
+Sr1646v2CellUsrPrSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2CellUsrPrSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2CellUsrPrSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2CellUsrPrSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2CellUsrPrSnmpIndexEntry 10}
+
+sr1646v2CellUsrPrSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pdp.status.snmpIndex"
+   ::= {sr1646v2CellUsrPrSnmpIndexEntry 2147483648}
+
+
+
+END

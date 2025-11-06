@@ -1,0 +1,5184 @@
+OneAccess-R1646v2-4649-EthP DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2EthP OBJECT IDENTIFIER ::= {r1646Rootv2 4649}
+
+r1646v2EthPMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2EthPMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2EthP 1}
+
+r1646v2EthPMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2EthPMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2EthPMOPropGlobalIx }
+   ::= {r1646v2EthPMOProp 1}
+
+R1646v2EthPMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2EthPMOPropPath
+         ContainmentPath,
+      r1646v2EthPMOPropRev
+         ObjectRevision,
+      r1646v2EthPMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2EthPMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2EthPMOPropEntry 3}
+
+r1646v2EthPMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2EthPMOPropEntry 4}
+
+r1646v2EthPMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2EthPMOPropEntry 10}
+
+
+
+er1646v2EthP OBJECT IDENTIFIER ::= {r1646v2EthP 11}
+
+
+er1646v2EthPQos OBJECT IDENTIFIER ::= {er1646v2EthP 31}
+
+er1646v2EthPQosSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPQosEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EthPQos 1}
+
+er1646v2EthPQosEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPQosEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPQosGlobalIx }
+   ::= {er1646v2EthPQosSSCTable 1}
+
+Er1646v2EthPQosEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPQosGlobalIx
+         GlobalIndex,
+      er1646v2EthPQosKeepCos
+         OCTET STRING,
+      er1646v2EthPQosMapCosToCosP0
+         INTEGER,
+      er1646v2EthPQosMapCosToCosP1
+         INTEGER,
+      er1646v2EthPQosMapCosToCosP2
+         INTEGER,
+      er1646v2EthPQosMapCosToCosP3
+         INTEGER,
+      er1646v2EthPQosMapCosToCosP4
+         INTEGER,
+      er1646v2EthPQosMapCosToCosP5
+         INTEGER,
+      er1646v2EthPQosMapCosToCosP6
+         INTEGER,
+      er1646v2EthPQosMapCosToCosP7
+         INTEGER,
+      er1646v2EthPQosSetCos
+         INTEGER,
+      er1646v2EthPQosUseDscp
+         OCTET STRING
+      }
+
+er1646v2EthPQosGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPQosEntry 10}
+
+er1646v2EthPQosKeepCos OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.qos.keepCos"
+   ::= {er1646v2EthPQosEntry 536870912}
+
+er1646v2EthPQosMapCosToCosP0 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               p0 (1),
+               p1 (2),
+               p2 (3),
+               p3 (4),
+               p4 (5),
+               p5 (6),
+               p6 (7),
+               p7 (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.qos.mapCosToCos.p0
+
+       Possibilities:
+               p0   (1)
+               p1   (2)
+               p2   (3)
+               p3   (4)
+               p4   (5)
+               p5   (6)
+               p6   (7)
+               p7   (8)"
+   ::= {er1646v2EthPQosEntry 1075838976}
+
+er1646v2EthPQosMapCosToCosP1 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               p0 (1),
+               p1 (2),
+               p2 (3),
+               p3 (4),
+               p4 (5),
+               p5 (6),
+               p6 (7),
+               p7 (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.qos.mapCosToCos.p1
+
+       Possibilities:
+               p0   (1)
+               p1   (2)
+               p2   (3)
+               p3   (4)
+               p4   (5)
+               p5   (6)
+               p6   (7)
+               p7   (8)"
+   ::= {er1646v2EthPQosEntry 1077936128}
+
+er1646v2EthPQosMapCosToCosP2 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               p0 (1),
+               p1 (2),
+               p2 (3),
+               p3 (4),
+               p4 (5),
+               p5 (6),
+               p6 (7),
+               p7 (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.qos.mapCosToCos.p2
+
+       Possibilities:
+               p0   (1)
+               p1   (2)
+               p2   (3)
+               p3   (4)
+               p4   (5)
+               p5   (6)
+               p6   (7)
+               p7   (8)"
+   ::= {er1646v2EthPQosEntry 1080033280}
+
+er1646v2EthPQosMapCosToCosP3 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               p0 (1),
+               p1 (2),
+               p2 (3),
+               p3 (4),
+               p4 (5),
+               p5 (6),
+               p6 (7),
+               p7 (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.qos.mapCosToCos.p3
+
+       Possibilities:
+               p0   (1)
+               p1   (2)
+               p2   (3)
+               p3   (4)
+               p4   (5)
+               p5   (6)
+               p6   (7)
+               p7   (8)"
+   ::= {er1646v2EthPQosEntry 1082130432}
+
+er1646v2EthPQosMapCosToCosP4 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               p0 (1),
+               p1 (2),
+               p2 (3),
+               p3 (4),
+               p4 (5),
+               p5 (6),
+               p6 (7),
+               p7 (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.qos.mapCosToCos.p4
+
+       Possibilities:
+               p0   (1)
+               p1   (2)
+               p2   (3)
+               p3   (4)
+               p4   (5)
+               p5   (6)
+               p6   (7)
+               p7   (8)"
+   ::= {er1646v2EthPQosEntry 1084227584}
+
+er1646v2EthPQosMapCosToCosP5 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               p0 (1),
+               p1 (2),
+               p2 (3),
+               p3 (4),
+               p4 (5),
+               p5 (6),
+               p6 (7),
+               p7 (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.qos.mapCosToCos.p5
+
+       Possibilities:
+               p0   (1)
+               p1   (2)
+               p2   (3)
+               p3   (4)
+               p4   (5)
+               p5   (6)
+               p6   (7)
+               p7   (8)"
+   ::= {er1646v2EthPQosEntry 1086324736}
+
+er1646v2EthPQosMapCosToCosP6 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               p0 (1),
+               p1 (2),
+               p2 (3),
+               p3 (4),
+               p4 (5),
+               p5 (6),
+               p6 (7),
+               p7 (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.qos.mapCosToCos.p6
+
+       Possibilities:
+               p0   (1)
+               p1   (2)
+               p2   (3)
+               p3   (4)
+               p4   (5)
+               p5   (6)
+               p6   (7)
+               p7   (8)"
+   ::= {er1646v2EthPQosEntry 1088421888}
+
+er1646v2EthPQosMapCosToCosP7 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               p0 (1),
+               p1 (2),
+               p2 (3),
+               p3 (4),
+               p4 (5),
+               p5 (6),
+               p6 (7),
+               p7 (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.qos.mapCosToCos.p7
+
+       Possibilities:
+               p0   (1)
+               p1   (2)
+               p2   (3)
+               p3   (4)
+               p4   (5)
+               p5   (6)
+               p6   (7)
+               p7   (8)"
+   ::= {er1646v2EthPQosEntry 1090519040}
+
+er1646v2EthPQosSetCos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               p0 (1),
+               p1 (2),
+               p2 (3),
+               p3 (4),
+               p4 (5),
+               p5 (6),
+               p6 (7),
+               p7 (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.qos.setCos
+
+       Possibilities:
+               p0   (1)
+               p1   (2)
+               p2   (3)
+               p3   (4)
+               p4   (5)
+               p5   (6)
+               p6   (7)
+               p7   (8)"
+   ::= {er1646v2EthPQosEntry 1610612736}
+
+er1646v2EthPQosUseDscp OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.qos.useDscp"
+   ::= {er1646v2EthPQosEntry 2147483648}
+
+
+er1646v2EthPPriorityAlgorithm OBJECT IDENTIFIER ::= {er1646v2EthP 33}
+
+er1646v2EthPPriorityAlgorithmTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPPriorityAlgorithmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EthPPriorityAlgorithm 1}
+
+er1646v2EthPPriorityAlgorithmEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPPriorityAlgorithmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPPriorityAlgorithmGlobalIx }
+   ::= {er1646v2EthPPriorityAlgorithmTable 1}
+
+Er1646v2EthPPriorityAlgorithmEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPPriorityAlgorithmGlobalIx
+         GlobalIndex,
+      er1646v2EthPPriorityAlgorithmValue
+         INTEGER
+      }
+
+er1646v2EthPPriorityAlgorithmGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPPriorityAlgorithmEntry 10}
+
+er1646v2EthPPriorityAlgorithmValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               absolutePriority (3),
+               weightedFairQueueing (0),
+               queue4WeightedFairQueueing (1),
+               queue3WeightedFairQueueing (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.priorityAlgorithm
+
+       Possibilities:
+               absolutePriority   (3)
+               weightedFairQueueing   (0)
+               queue4WeightedFairQueueing   (1)
+               queue3WeightedFairQueueing   (2)"
+   ::= {er1646v2EthPPriorityAlgorithmEntry 2147483648}
+
+
+er1646v2EthPBandwidth OBJECT IDENTIFIER ::= {er1646v2EthP 34}
+
+er1646v2EthPBandwidthSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EthPBandwidth 1}
+
+er1646v2EthPBandwidthEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPBandwidthGlobalIx }
+   ::= {er1646v2EthPBandwidthSSCTable 1}
+
+Er1646v2EthPBandwidthEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPBandwidthGlobalIx
+         GlobalIndex,
+      er1646v2EthPBandwidthCir
+         Integer32,
+      er1646v2EthPBandwidthCountMode
+         INTEGER
+      }
+
+er1646v2EthPBandwidthGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPBandwidthEntry 10}
+
+er1646v2EthPBandwidthCir OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.bandwidth.cir"
+   ::= {er1646v2EthPBandwidthEntry 16777216}
+
+er1646v2EthPBandwidthCountMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               layer1 (1),
+               layer2 (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.bandwidth.countMode
+
+       Possibilities:
+               layer1   (1)
+               layer2   (2)"
+   ::= {er1646v2EthPBandwidthEntry 33554432}
+
+
+er1646v2EthPSwPort OBJECT IDENTIFIER ::= {er1646v2EthP 4}
+
+er1646v2EthPSwPortSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPSwPortEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EthPSwPort 1}
+
+er1646v2EthPSwPortEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPSwPortEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPSwPortGlobalIx }
+   ::= {er1646v2EthPSwPortSSCTable 1}
+
+Er1646v2EthPSwPortEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPSwPortGlobalIx
+         GlobalIndex,
+      er1646v2EthPSwPortInstance
+         INTEGER
+      }
+
+er1646v2EthPSwPortGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPSwPortEntry 10}
+
+er1646v2EthPSwPortInstance OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               auto (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.swPort.instance
+
+       Possibilities:
+               auto   (0)"
+   ::= {er1646v2EthPSwPortEntry 16777216}
+
+
+er1646v2EthPDataHandling OBJECT IDENTIFIER ::= {er1646v2EthP 27}
+
+er1646v2EthPDataHandlingSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPDataHandlingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "vlan tagging config"
+   ::= {er1646v2EthPDataHandling 1}
+
+er1646v2EthPDataHandlingEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPDataHandlingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPDataHandlingGlobalIx }
+   ::= {er1646v2EthPDataHandlingSSCTable 1}
+
+Er1646v2EthPDataHandlingEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPDataHandlingGlobalIx
+         GlobalIndex,
+      er1646v2EthPDataHandlingAuto
+         OCTET STRING,
+      er1646v2EthPDataHandlingAssignAllVid
+         Integer32,
+      er1646v2EthPDataHandlingClassUntaggedAction
+         INTEGER,
+      er1646v2EthPDataHandlingClassUntaggedTagInfoVid
+         Integer32,
+      er1646v2EthPDataHandlingClassUnknownsAction
+         INTEGER
+      }
+
+er1646v2EthPDataHandlingGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPDataHandlingEntry 10}
+
+er1646v2EthPDataHandlingAuto OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.dataHandling.auto"
+   ::= {er1646v2EthPDataHandlingEntry 2147483648}
+
+er1646v2EthPDataHandlingAssignAllVid OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.dataHandling.assignAll.vid"
+   ::= {er1646v2EthPDataHandlingEntry 671088640}
+
+er1646v2EthPDataHandlingClassUntaggedAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (0),
+               tag (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.dataHandling.classified.untagged.action
+
+       Possibilities:
+               discard   (0)
+               tag   (2)"
+   ::= {er1646v2EthPDataHandlingEntry 1157627904}
+
+er1646v2EthPDataHandlingClassUntaggedTagInfoVid OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.dataHandling.classified.untagged.tagInfo.vid"
+   ::= {er1646v2EthPDataHandlingEntry 1168113664}
+
+er1646v2EthPDataHandlingClassUnknownsAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (0),
+               accept (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.dataHandling.classified.unknownVlans.action
+
+       Possibilities:
+               discard   (0)
+               accept   (1)"
+   ::= {er1646v2EthPDataHandlingEntry 1291845632}
+
+er1646v2EthPDataHandlingClassVlans OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPDataHandlingClassVlansEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EthPDataHandling 1207959552}
+
+er1646v2EthPDataHandlingClassVlansEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPDataHandlingClassVlansEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPDataHandlingClassVlansGlobalIx,
+                er1646v2EthPDataHandlingClassVlansTableIx }
+   ::= {er1646v2EthPDataHandlingClassVlans 1}
+
+Er1646v2EthPDataHandlingClassVlansEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPDataHandlingClassVlansActions
+         VariableLengthTableActions,
+      er1646v2EthPDataHandlingClassVlansGlobalIx
+         GlobalIndex,
+      er1646v2EthPDataHandlingClassVlansTableIx
+         TableIndex,
+      er1646v2EthPDataHandlingClassVlansVid
+         Integer32,
+      er1646v2EthPDataHandlingClassVlansEgressMode
+         INTEGER
+      }
+
+er1646v2EthPDataHandlingClassVlansActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2EthPDataHandlingClassVlansEntry 2}
+
+er1646v2EthPDataHandlingClassVlansGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPDataHandlingClassVlansEntry 10}
+
+er1646v2EthPDataHandlingClassVlansTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EthPDataHandlingClassVlansEntry 11}
+
+er1646v2EthPDataHandlingClassVlansVid OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.dataHandling.classified.vlans.vid"
+   ::= {er1646v2EthPDataHandlingClassVlansEntry 536870912}
+
+er1646v2EthPDataHandlingClassVlansEgressMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (1),
+               tagged (2),
+               untagged (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.dataHandling.classified.vlans.egressMode
+
+       Possibilities:
+               unchanged   (1)
+               tagged   (2)
+               untagged   (3)"
+   ::= {er1646v2EthPDataHandlingClassVlansEntry 1073741824}
+
+
+er1646v2EthPPrivateHwPorts OBJECT IDENTIFIER ::= {er1646v2EthP 29}
+
+er1646v2EthPPrivateHwPortsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPPrivateHwPortsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EthPPrivateHwPorts 1}
+
+er1646v2EthPPrivateHwPortsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPPrivateHwPortsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPPrivateHwPortsGlobalIx }
+   ::= {er1646v2EthPPrivateHwPortsTable 1}
+
+Er1646v2EthPPrivateHwPortsEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPPrivateHwPortsGlobalIx
+         GlobalIndex,
+      er1646v2EthPPrivateHwPortsValue
+         Integer32
+      }
+
+er1646v2EthPPrivateHwPortsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPPrivateHwPortsEntry 10}
+
+er1646v2EthPPrivateHwPortsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.privateHwPorts
+
+       Bit meanings:
+               bit 0 = hwPort1,
+               bit 1 = hwPort2,
+               bit 2 = hwPort3,
+               bit 3 = hwPort4"
+   ::= {er1646v2EthPPrivateHwPortsEntry 2147483648}
+
+
+er1646v2EthPRemark OBJECT IDENTIFIER ::= {er1646v2EthP 321}
+
+er1646v2EthPRemarkTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "intfRemark"
+   ::= {er1646v2EthPRemark 1}
+
+er1646v2EthPRemarkEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPRemarkGlobalIx }
+   ::= {er1646v2EthPRemarkTable 1}
+
+Er1646v2EthPRemarkEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPRemarkGlobalIx
+         GlobalIndex,
+      er1646v2EthPRemarkValue
+         DisplayString
+      }
+
+er1646v2EthPRemarkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPRemarkEntry 10}
+
+er1646v2EthPRemarkValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.remark"
+   ::= {er1646v2EthPRemarkEntry 2147483648}
+
+
+er1646v2EthPAdminStatus OBJECT IDENTIFIER ::= {er1646v2EthP 106}
+
+er1646v2EthPAdminStatusTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPAdminStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifAdminStatus"
+   ::= {er1646v2EthPAdminStatus 1}
+
+er1646v2EthPAdminStatusEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPAdminStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPAdminStatusGlobalIx }
+   ::= {er1646v2EthPAdminStatusTable 1}
+
+Er1646v2EthPAdminStatusEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPAdminStatusGlobalIx
+         GlobalIndex,
+      er1646v2EthPAdminStatusValue
+         INTEGER
+      }
+
+er1646v2EthPAdminStatusGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPAdminStatusEntry 10}
+
+er1646v2EthPAdminStatusValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               up (1),
+               down (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.adminStatus
+
+       Possibilities:
+               up   (1)
+               down   (2)"
+   ::= {er1646v2EthPAdminStatusEntry 2147483648}
+
+
+er1646v2EthPAdapter OBJECT IDENTIFIER ::= {er1646v2EthP 2}
+
+er1646v2EthPAdapterSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPAdapterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "switch port adapter config"
+   ::= {er1646v2EthPAdapter 1}
+
+er1646v2EthPAdapterEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPAdapterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPAdapterGlobalIx }
+   ::= {er1646v2EthPAdapterSSCTable 1}
+
+Er1646v2EthPAdapterEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPAdapterGlobalIx
+         GlobalIndex,
+      er1646v2EthPAdapterAN10HD
+         INTEGER,
+      er1646v2EthPAdapterAN10FD
+         INTEGER,
+      er1646v2EthPAdapterAN100HD
+         INTEGER,
+      er1646v2EthPAdapterAN100FD
+         INTEGER,
+      er1646v2EthPAdapterAN1000FD
+         INTEGER,
+      er1646v2EthPAdapterANFlCtrl
+         INTEGER,
+      er1646v2EthPAdapterFix
+         INTEGER
+      }
+
+er1646v2EthPAdapterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPAdapterEntry 10}
+
+er1646v2EthPAdapterAN10HD OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.adapter.autoNegotiate.10Mb/halfDuplex
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2EthPAdapterEntry 16842752}
+
+er1646v2EthPAdapterAN10FD OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.adapter.autoNegotiate.10Mb/fullDuplex
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2EthPAdapterEntry 16908288}
+
+er1646v2EthPAdapterAN100HD OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.adapter.autoNegotiate.100Mb/halfDuplex
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2EthPAdapterEntry 16973824}
+
+er1646v2EthPAdapterAN100FD OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.adapter.autoNegotiate.100Mb/fullDuplex
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2EthPAdapterEntry 17039360}
+
+er1646v2EthPAdapterAN1000FD OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.adapter.autoNegotiate.1000Mb/fullDuplex
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2EthPAdapterEntry 17170432}
+
+er1646v2EthPAdapterANFlCtrl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.adapter.autoNegotiate.flowControl
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2EthPAdapterEntry 17104896}
+
+er1646v2EthPAdapterFix OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s10MbhalfDuplex (1),
+               s10MbfullDuplex (2),
+               s100MbhalfDuplex (3),
+               s100MbfullDuplex (4),
+               s1000MbfullDuplex (5)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.adapter.fixed
+
+       Possibilities:
+               10Mb/halfDuplex   (1)
+               10Mb/fullDuplex   (2)
+               100Mb/halfDuplex   (3)
+               100Mb/fullDuplex   (4)
+               1000Mb/fullDuplex   (5)"
+   ::= {er1646v2EthPAdapterEntry 33554432}
+
+
+er1646v2EthPOperation OBJECT IDENTIFIER ::= {er1646v2EthP 8}
+
+er1646v2EthPOperationSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPOperationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Mirror port configuration for 88E6171 hw switch port"
+   ::= {er1646v2EthPOperation 1}
+
+er1646v2EthPOperationEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPOperationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPOperationGlobalIx }
+   ::= {er1646v2EthPOperationSSCTable 1}
+
+Er1646v2EthPOperationEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPOperationGlobalIx
+         GlobalIndex,
+      er1646v2EthPOperationNormal
+         DisplayString
+      }
+
+er1646v2EthPOperationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPOperationEntry 10}
+
+er1646v2EthPOperationNormal OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.operation.normal"
+   ::= {er1646v2EthPOperationEntry 16777216}
+
+er1646v2EthPOperationMirrorPorts OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPOperationMirrorPortsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EthPOperation 33685504}
+
+er1646v2EthPOperationMirrorPortsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPOperationMirrorPortsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPOperationMirrorPortsGlobalIx,
+                er1646v2EthPOperationMirrorPortsTableIx }
+   ::= {er1646v2EthPOperationMirrorPorts 1}
+
+Er1646v2EthPOperationMirrorPortsEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPOperationMirrorPortsActions
+         VariableLengthTableActions,
+      er1646v2EthPOperationMirrorPortsGlobalIx
+         GlobalIndex,
+      er1646v2EthPOperationMirrorPortsTableIx
+         TableIndex,
+      er1646v2EthPOperationMirrorPortsPort
+         INTEGER,
+      er1646v2EthPOperationMirrorPortsMode
+         INTEGER
+      }
+
+er1646v2EthPOperationMirrorPortsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2EthPOperationMirrorPortsEntry 2}
+
+er1646v2EthPOperationMirrorPortsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPOperationMirrorPortsEntry 10}
+
+er1646v2EthPOperationMirrorPortsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EthPOperationMirrorPortsEntry 11}
+
+er1646v2EthPOperationMirrorPortsPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               port1 (1),
+               port2 (2),
+               port3 (3),
+               port4 (4),
+               localPort (6)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.operation.mirror.ports.port
+
+       Possibilities:
+               port1   (1)
+               port2   (2)
+               port3   (3)
+               port4   (4)
+               localPort   (6)"
+   ::= {er1646v2EthPOperationMirrorPortsEntry 16777216}
+
+er1646v2EthPOperationMirrorPortsMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               egress (1),
+               ingress (2),
+               ingressAndEgress (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.operation.mirror.ports.mode
+
+       Possibilities:
+               egress   (1)
+               ingress   (2)
+               ingressAndEgress   (3)"
+   ::= {er1646v2EthPOperationMirrorPortsEntry 33554432}
+
+
+er1646v2EthPCrossover OBJECT IDENTIFIER ::= {er1646v2EthP 3}
+
+er1646v2EthPCrossoverTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPCrossoverEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "LAN crossover"
+   ::= {er1646v2EthPCrossover 1}
+
+er1646v2EthPCrossoverEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPCrossoverEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPCrossoverGlobalIx }
+   ::= {er1646v2EthPCrossoverTable 1}
+
+Er1646v2EthPCrossoverEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPCrossoverGlobalIx
+         GlobalIndex,
+      er1646v2EthPCrossoverValue
+         INTEGER
+      }
+
+er1646v2EthPCrossoverGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPCrossoverEntry 10}
+
+er1646v2EthPCrossoverValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               auto (1),
+               mdi (2),
+               mdix (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.crossover
+
+       Possibilities:
+               auto   (1)
+               mdi   (2)
+               mdix   (3)"
+   ::= {er1646v2EthPCrossoverEntry 2147483648}
+
+
+er1646v2EthPAlarmMask OBJECT IDENTIFIER ::= {er1646v2EthP 135}
+
+er1646v2EthPAlarmMaskTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPAlarmMaskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifAlarmMask"
+   ::= {er1646v2EthPAlarmMask 1}
+
+er1646v2EthPAlarmMaskEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPAlarmMaskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPAlarmMaskGlobalIx }
+   ::= {er1646v2EthPAlarmMaskTable 1}
+
+Er1646v2EthPAlarmMaskEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPAlarmMaskGlobalIx
+         GlobalIndex,
+      er1646v2EthPAlarmMaskValue
+         Integer32
+      }
+
+er1646v2EthPAlarmMaskGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPAlarmMaskEntry 10}
+
+er1646v2EthPAlarmMaskValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.alarmMask
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {er1646v2EthPAlarmMaskEntry 2147483648}
+
+
+er1646v2EthPAlarmLev OBJECT IDENTIFIER ::= {er1646v2EthP 170}
+
+er1646v2EthPAlarmLevSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPAlarmLevEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "IfAlarmLevels"
+   ::= {er1646v2EthPAlarmLev 1}
+
+er1646v2EthPAlarmLevEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPAlarmLevEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPAlarmLevGlobalIx }
+   ::= {er1646v2EthPAlarmLevSSCTable 1}
+
+Er1646v2EthPAlarmLevEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPAlarmLevGlobalIx
+         GlobalIndex,
+      er1646v2EthPAlarmLevLinkDown
+         Integer32
+      }
+
+er1646v2EthPAlarmLevGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPAlarmLevEntry 10}
+
+er1646v2EthPAlarmLevLinkDown OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.alarmLevel.linkDown"
+   ::= {er1646v2EthPAlarmLevEntry 16777216}
+
+
+er1646v2EthPIbw OBJECT IDENTIFIER ::= {er1646v2EthP 5}
+
+er1646v2EthPIbwSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EthPIbwEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EthPIbw 1}
+
+er1646v2EthPIbwEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EthPIbwEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EthPIbwGlobalIx }
+   ::= {er1646v2EthPIbwSSCTable 1}
+
+Er1646v2EthPIbwEntry ::=
+   SEQUENCE
+      {
+      er1646v2EthPIbwGlobalIx
+         GlobalIndex,
+      er1646v2EthPIbwCirRateLimit
+         Integer32,
+      er1646v2EthPIbwCirTrafficLimitQueue1Type
+         Integer32,
+      er1646v2EthPIbwCirTrafficLimitQueue1Cir
+         Integer32,
+      er1646v2EthPIbwCirTrafficLimitQueue2Type
+         Integer32,
+      er1646v2EthPIbwCirTrafficLimitQueue2Cir
+         Integer32,
+      er1646v2EthPIbwCirQueueLimitQueue1Queues
+         Integer32,
+      er1646v2EthPIbwCirQueueLimitQueue1Cir
+         Integer32,
+      er1646v2EthPIbwCirQueueLimitQueue2Queues
+         Integer32,
+      er1646v2EthPIbwCirQueueLimitQueue2Cir
+         Integer32,
+      er1646v2EthPIbwCountMode
+         INTEGER
+      }
+
+er1646v2EthPIbwGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EthPIbwEntry 10}
+
+er1646v2EthPIbwCirRateLimit OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.inboundBandwidth.cir.rateLimit"
+   ::= {er1646v2EthPIbwEntry 16842752}
+
+er1646v2EthPIbwCirTrafficLimitQueue1Type OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.inboundBandwidth.cir.trafficLimit.queue1.type
+
+       Bit meanings:
+               bit 0 = unknownUnicasts,
+               bit 1 = unknownMulticasts,
+               bit 2 = broadcasts,
+               bit 3 = multicasts,
+               bit 4 = unicasts,
+               bit 5 = mgmt,
+               bit 7 = arp,
+               bit 8 = tcpData,
+               bit 9 = tcpCtrl,
+               bit 10 = udp,
+               bit 11 = nonTcpUdp"
+   ::= {er1646v2EthPIbwEntry 16908545}
+
+er1646v2EthPIbwCirTrafficLimitQueue1Cir OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.inboundBandwidth.cir.trafficLimit.queue1.cir"
+   ::= {er1646v2EthPIbwEntry 16908546}
+
+er1646v2EthPIbwCirTrafficLimitQueue2Type OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.inboundBandwidth.cir.trafficLimit.queue2.type
+
+       Bit meanings:
+               bit 0 = unknownUnicasts,
+               bit 1 = unknownMulticasts,
+               bit 2 = broadcasts,
+               bit 3 = multicasts,
+               bit 4 = unicasts,
+               bit 5 = mgmt,
+               bit 7 = arp,
+               bit 8 = tcpData,
+               bit 9 = tcpCtrl,
+               bit 10 = udp,
+               bit 11 = nonTcpUdp"
+   ::= {er1646v2EthPIbwEntry 16908801}
+
+er1646v2EthPIbwCirTrafficLimitQueue2Cir OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.inboundBandwidth.cir.trafficLimit.queue2.cir"
+   ::= {er1646v2EthPIbwEntry 16908802}
+
+er1646v2EthPIbwCirQueueLimitQueue1Queues OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.inboundBandwidth.cir.queueLimit.queue1.queues
+
+       Bit meanings:
+               bit 0 = queue1,
+               bit 1 = queue2,
+               bit 2 = queue3,
+               bit 3 = queue4"
+   ::= {er1646v2EthPIbwEntry 16974081}
+
+er1646v2EthPIbwCirQueueLimitQueue1Cir OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.inboundBandwidth.cir.queueLimit.queue1.cir"
+   ::= {er1646v2EthPIbwEntry 16974082}
+
+er1646v2EthPIbwCirQueueLimitQueue2Queues OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.inboundBandwidth.cir.queueLimit.queue2.queues
+
+       Bit meanings:
+               bit 0 = queue1,
+               bit 1 = queue2,
+               bit 2 = queue3,
+               bit 3 = queue4"
+   ::= {er1646v2EthPIbwEntry 16974337}
+
+er1646v2EthPIbwCirQueueLimitQueue2Cir OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.inboundBandwidth.cir.queueLimit.queue2.cir"
+   ::= {er1646v2EthPIbwEntry 16974338}
+
+er1646v2EthPIbwCountMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               layer1 (1),
+               layer2 (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.editConf.inboundBandwidth.countMode
+
+       Possibilities:
+               layer1   (1)
+               layer2   (2)"
+   ::= {er1646v2EthPIbwEntry 33554432}
+
+
+
+sr1646v2EthP OBJECT IDENTIFIER ::= {r1646v2EthP 14}
+
+
+sr1646v2EthPAdapter OBJECT IDENTIFIER ::= {sr1646v2EthP 145}
+
+sr1646v2EthPAdapterSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EthPAdapterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2EthPAdapter 1}
+
+sr1646v2EthPAdapterEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EthPAdapterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EthPAdapterGlobalIx }
+   ::= {sr1646v2EthPAdapterSSCTable 1}
+
+Sr1646v2EthPAdapterEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EthPAdapterGlobalIx
+         GlobalIndex,
+      sr1646v2EthPAdapterSpeed
+         INTEGER,
+      sr1646v2EthPAdapterDuplex
+         INTEGER
+      }
+
+sr1646v2EthPAdapterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EthPAdapterEntry 10}
+
+sr1646v2EthPAdapterSpeed OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s10 (0),
+               s100 (1),
+               s1000 (2),
+               s200 (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.adapter.speed
+
+       Possibilities:
+               10   (0)
+               100   (1)
+               1000   (2)
+               200   (3)"
+   ::= {sr1646v2EthPAdapterEntry 16777216}
+
+sr1646v2EthPAdapterDuplex OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               halfDuplex (0),
+               fullDuplex (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.adapter.duplex
+
+       Possibilities:
+               halfDuplex   (0)
+               fullDuplex   (1)"
+   ::= {sr1646v2EthPAdapterEntry 33554432}
+
+
+sr1646v2EthPDescr OBJECT IDENTIFIER ::= {sr1646v2EthP 101}
+
+sr1646v2EthPDescrTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EthPDescrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifDescr"
+   ::= {sr1646v2EthPDescr 1}
+
+sr1646v2EthPDescrEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EthPDescrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EthPDescrGlobalIx }
+   ::= {sr1646v2EthPDescrTable 1}
+
+Sr1646v2EthPDescrEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EthPDescrGlobalIx
+         GlobalIndex,
+      sr1646v2EthPDescrValue
+         DisplayString
+      }
+
+sr1646v2EthPDescrGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EthPDescrEntry 10}
+
+sr1646v2EthPDescrValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.ifDescr"
+   ::= {sr1646v2EthPDescrEntry 2147483648}
+
+
+sr1646v2EthPType OBJECT IDENTIFIER ::= {sr1646v2EthP 102}
+
+sr1646v2EthPTypeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EthPTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifType"
+   ::= {sr1646v2EthPType 1}
+
+sr1646v2EthPTypeEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EthPTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EthPTypeGlobalIx }
+   ::= {sr1646v2EthPTypeTable 1}
+
+Sr1646v2EthPTypeEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EthPTypeGlobalIx
+         GlobalIndex,
+      sr1646v2EthPTypeValue
+         INTEGER
+      }
+
+sr1646v2EthPTypeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EthPTypeEntry 10}
+
+sr1646v2EthPTypeValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               other (1),
+               regular1822 (2),
+               hdh1822 (3),
+               ddnmx25 (4),
+               rfc877mx25 (5),
+               ethernetmcsmacd (6),
+               iso88023mcsmacd (7),
+               iso88024mtokenBus (8),
+               iso88025mtokenRing (9),
+               is088026mman (10),
+               starlan (11),
+               proteonm10Mbit (12),
+               proteonm80Mbit (13),
+               hyperChannel (14),
+               fddi (15),
+               lapb (16),
+               sdlc (17),
+               ds1 (18),
+               e1 (19),
+               basicISDN (20),
+               primaryISDN (21),
+               propPointToPointSerial (22),
+               ppp (23),
+               softwareLoopback (24),
+               eon (25),
+               ethernetm3Mbit (26),
+               nsip (27),
+               slip (28),
+               ultra (29),
+               ds3 (30),
+               sip (31),
+               framemrelay (32),
+               rs232 (33),
+               para (34),
+               arcnet (35),
+               arcnetPlus (36),
+               atm (37),
+               miox25 (38),
+               sonet (39),
+               x25ple (40),
+               iso88022llc (41),
+               localTalk (42),
+               smdsDxi (43),
+               frameRelayService (44),
+               v35 (45),
+               hssi (46),
+               hippi (47),
+               modem (48),
+               aal5 (49),
+               sonetPath (50),
+               sonetVT (51),
+               smdsIcip (52),
+               propVirtual (53),
+               propMultiplexor (54),
+               ieee80212 (55),
+               fibreChannel (56),
+               hippiInterface (57),
+               frameRelayInterconnect (58),
+               aflane8023 (59),
+               aflane8025 (60),
+               cctEmul (61),
+               fastEther (62),
+               isdn (63),
+               v11 (64),
+               v36 (65),
+               g703at64k (66),
+               g703at2mb (67),
+               qllc (68),
+               fastEtherFX (69),
+               channel (70),
+               ieee80211 (71),
+               ibm370parChan (72),
+               escon (73),
+               dlsw (74),
+               isdns (75),
+               isdnu (76),
+               lapd (77),
+               ipSwitch (78),
+               rsrb (79),
+               atmmlogical (80),
+               ds0 (81),
+               ds0Bundle (82),
+               bsc (83),
+               async (84),
+               cnr (85),
+               iso88025Dtr (86),
+               eplrs (87),
+               arap (88),
+               propCnls (89),
+               hostPad (90),
+               termPad (91),
+               frameRelayMPI (92),
+               x213 (93),
+               adsl (94),
+               radsl (95),
+               sdsl (96),
+               vdsl (97),
+               iso88025CRFPInt (98),
+               myrinet (99),
+               voiceEM (100),
+               voiceFXO (101),
+               voiceFXS (102),
+               voiceEncap (103),
+               voiceOverIp (104),
+               atmDxi (105),
+               atmFuni (106),
+               atmIma (107),
+               pppMultilinkBundle (108),
+               ipOverCdlc (109),
+               ipOverClaw (110),
+               stackToStack (111),
+               virtualIpAddress (112),
+               mpc (113),
+               ipOverAtm (114),
+               iso88025Fiber (115),
+               tdlc (116),
+               gigabitEthernet (117),
+               hdlc (118),
+               lapf (119),
+               v37 (120),
+               x25mlp (121),
+               x25huntGroup (122),
+               trasnpHdlc (123),
+               interleave (124),
+               fast (125),
+               ip (126),
+               docsCableMaclayer (127),
+               docsCableDownstream (128),
+               docsCableUpstream (129),
+               a12MppSwitch (130),
+               tunnel (131),
+               coffee (132),
+               ces (133),
+               atmSubInterface (134),
+               l2vlan (135),
+               l3ipvlan (136),
+               l3ipxvlan (137),
+               digitalPowerline (138),
+               mediaMailOverIp (139),
+               dtm (140),
+               dcn (141),
+               ipForward (142),
+               msdsl (143),
+               ieee1394 (144),
+               ifmgsn (145),
+               dvbRccMacLayer (146),
+               dvbRccDownstream (147),
+               dvbRccUpstream (148),
+               atmVirtual (149),
+               mplsTunnel (150),
+               srp (151),
+               voiceOverAtm (152),
+               voiceOverFrameRelay (153),
+               idsl (154),
+               compositeLink (155),
+               ss7SigLink (156),
+               propWirelessP2P (157),
+               frForward (158),
+               rfc1483 (159),
+               usb (160),
+               ieee8023adLag (161),
+               bgppolicyaccounting (162),
+               frf16MfrBundle (163),
+               h323Gatekeeper (164),
+               h323Proxy (165),
+               mpls (166),
+               mfSigLink (167),
+               hdsl2 (168),
+               shdsl (169),
+               ds1FDL (170),
+               pos (171),
+               dvbAsiIn (172),
+               dvbAsiOut (173),
+               plc (174),
+               nfas (175),
+               tr008 (176),
+               gr303RDT (177),
+               gr303IDT (178),
+               isup (179),
+               propDocsWirelessMaclayer (180),
+               propDocsWirelessDownstream (181),
+               propDocsWirelessUpstream (182),
+               hiperlan2 (183),
+               propBWAp2Mp (184),
+               sonetOverheadChannel (185),
+               digitalWrapperOverheadChannel (186),
+               aal2 (187),
+               radioMAC (188),
+               atmRadio (189),
+               imt (190),
+               mvl (191),
+               reachDSL (192),
+               frDlciEndPt (193),
+               atmVciEndPt (194),
+               opticalChannel (195),
+               opticalTransport (196),
+               propAtm (197),
+               voiceOverCable (198),
+               infiniband (199),
+               teLink (200),
+               q2931 (201),
+               virtualTg (202),
+               sipTg (203),
+               sipSig (204),
+               docsCableUpstreamChannel (205),
+               econet (206),
+               pon155 (207),
+               pon622 (208),
+               bridge (209),
+               linegroup (210),
+               voiceEMFGD (211),
+               voiceFGDEANA (212),
+               voiceDID (213),
+               mpegTransport (214),
+               sixToFour (215),
+               gtp (216),
+               pdnEtherLoop1 (217),
+               pdnEtherLoop2 (218),
+               opticalChannelGroup (219),
+               homepna (220),
+               gfp (221),
+               ciscoISLvlan (222),
+               actelisMetaLOOP (223),
+               fcipLink (224),
+               rpr (225),
+               qam (226),
+               lmp (227),
+               cblVectaStar (228),
+               docsCableMCmtsDownstream (229),
+               adsl2 (230),
+               macSecControlledIF (231),
+               macSecUncontrolledIF (232),
+               aviciOpticalEther (233),
+               atmbond (234),
+               voiceFGDOS (235),
+               mocaVersion1 (236),
+               ieee80216WMAN (237),
+               adsl2plus (238),
+               dvbRcsMacLayer (239),
+               dvbTdm (240),
+               dvbRcsTdma (241),
+               x86Laps (242),
+               wwanPP (243),
+               wwanPP2 (244),
+               voiceEBS (245),
+               ifPwType (246),
+               ilan (247),
+               pip (248),
+               aluELP (249),
+               gpon (250),
+               vdsl2 (251),
+               capwapDot11Profile (252),
+               capwapDot11Bss (253),
+               capwapWtpVirtualRadio (254),
+               bits (255),
+               docsCableUpstreamRfPort (256),
+               cableDownstreamRfPort (257),
+               gfast (279)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.ifType
+
+       Possibilities:
+               other   (1)
+               regular1822   (2)
+               hdh1822   (3)
+               ddn-x25   (4)
+               rfc877-x25   (5)
+               ethernet-csmacd   (6)
+               iso88023-csmacd   (7)
+               iso88024-tokenBus   (8)
+               iso88025-tokenRing   (9)
+               is088026-man   (10)
+               starlan   (11)
+               proteon-10Mbit   (12)
+               proteon-80Mbit   (13)
+               hyperChannel   (14)
+               fddi   (15)
+               lapb   (16)
+               sdlc   (17)
+               ds1   (18)
+               e1   (19)
+               basicISDN   (20)
+               primaryISDN   (21)
+               propPointToPointSerial   (22)
+               ppp   (23)
+               softwareLoopback   (24)
+               eon   (25)
+               ethernet-3Mbit   (26)
+               nsip   (27)
+               slip   (28)
+               ultra   (29)
+               ds3   (30)
+               sip   (31)
+               frame-relay   (32)
+               rs232   (33)
+               para   (34)
+               arcnet   (35)
+               arcnetPlus   (36)
+               atm   (37)
+               miox25   (38)
+               sonet   (39)
+               x25ple   (40)
+               iso88022llc   (41)
+               localTalk   (42)
+               smdsDxi   (43)
+               frameRelayService   (44)
+               v35   (45)
+               hssi   (46)
+               hippi   (47)
+               modem   (48)
+               aal5   (49)
+               sonetPath   (50)
+               sonetVT   (51)
+               smdsIcip   (52)
+               propVirtual   (53)
+               propMultiplexor   (54)
+               ieee80212   (55)
+               fibreChannel   (56)
+               hippiInterface   (57)
+               frameRelayInterconnect   (58)
+               aflane8023   (59)
+               aflane8025   (60)
+               cctEmul   (61)
+               fastEther   (62)
+               isdn   (63)
+               v11   (64)
+               v36   (65)
+               g703at64k   (66)
+               g703at2mb   (67)
+               qllc   (68)
+               fastEtherFX   (69)
+               channel   (70)
+               ieee80211   (71)
+               ibm370parChan   (72)
+               escon   (73)
+               dlsw   (74)
+               isdns   (75)
+               isdnu   (76)
+               lapd   (77)
+               ipSwitch   (78)
+               rsrb   (79)
+               atm-logical   (80)
+               ds0   (81)
+               ds0Bundle   (82)
+               bsc   (83)
+               async   (84)
+               cnr   (85)
+               iso88025Dtr   (86)
+               eplrs   (87)
+               arap   (88)
+               propCnls   (89)
+               hostPad   (90)
+               termPad   (91)
+               frameRelayMPI   (92)
+               x213   (93)
+               adsl   (94)
+               radsl   (95)
+               sdsl   (96)
+               vdsl   (97)
+               iso88025CRFPInt   (98)
+               myrinet   (99)
+               voiceEM   (100)
+               voiceFXO   (101)
+               voiceFXS   (102)
+               voiceEncap   (103)
+               voiceOverIp   (104)
+               atmDxi   (105)
+               atmFuni   (106)
+               atmIma   (107)
+               pppMultilinkBundle   (108)
+               ipOverCdlc   (109)
+               ipOverClaw   (110)
+               stackToStack   (111)
+               virtualIpAddress   (112)
+               mpc   (113)
+               ipOverAtm   (114)
+               iso88025Fiber   (115)
+               tdlc   (116)
+               gigabitEthernet   (117)
+               hdlc   (118)
+               lapf   (119)
+               v37   (120)
+               x25mlp   (121)
+               x25huntGroup   (122)
+               trasnpHdlc   (123)
+               interleave   (124)
+               fast   (125)
+               ip   (126)
+               docsCableMaclayer   (127)
+               docsCableDownstream   (128)
+               docsCableUpstream   (129)
+               a12MppSwitch   (130)
+               tunnel   (131)
+               coffee   (132)
+               ces   (133)
+               atmSubInterface   (134)
+               l2vlan   (135)
+               l3ipvlan   (136)
+               l3ipxvlan   (137)
+               digitalPowerline   (138)
+               mediaMailOverIp   (139)
+               dtm   (140)
+               dcn   (141)
+               ipForward   (142)
+               msdsl   (143)
+               ieee1394   (144)
+               if-gsn   (145)
+               dvbRccMacLayer   (146)
+               dvbRccDownstream   (147)
+               dvbRccUpstream   (148)
+               atmVirtual   (149)
+               mplsTunnel   (150)
+               srp   (151)
+               voiceOverAtm   (152)
+               voiceOverFrameRelay   (153)
+               idsl   (154)
+               compositeLink   (155)
+               ss7SigLink   (156)
+               propWirelessP2P   (157)
+               frForward   (158)
+               rfc1483   (159)
+               usb   (160)
+               ieee8023adLag   (161)
+               bgppolicyaccounting   (162)
+               frf16MfrBundle   (163)
+               h323Gatekeeper   (164)
+               h323Proxy   (165)
+               mpls   (166)
+               mfSigLink   (167)
+               hdsl2   (168)
+               shdsl   (169)
+               ds1FDL   (170)
+               pos   (171)
+               dvbAsiIn   (172)
+               dvbAsiOut   (173)
+               plc   (174)
+               nfas   (175)
+               tr008   (176)
+               gr303RDT   (177)
+               gr303IDT   (178)
+               isup   (179)
+               propDocsWirelessMaclayer   (180)
+               propDocsWirelessDownstream   (181)
+               propDocsWirelessUpstream   (182)
+               hiperlan2   (183)
+               propBWAp2Mp   (184)
+               sonetOverheadChannel   (185)
+               digitalWrapperOverheadChannel   (186)
+               aal2   (187)
+               radioMAC   (188)
+               atmRadio   (189)
+               imt   (190)
+               mvl   (191)
+               reachDSL   (192)
+               frDlciEndPt   (193)
+               atmVciEndPt   (194)
+               opticalChannel   (195)
+               opticalTransport   (196)
+               propAtm   (197)
+               voiceOverCable   (198)
+               infiniband   (199)
+               teLink   (200)
+               q2931   (201)
+               virtualTg   (202)
+               sipTg   (203)
+               sipSig   (204)
+               docsCableUpstreamChannel   (205)
+               econet   (206)
+               pon155   (207)
+               pon622   (208)
+               bridge   (209)
+               linegroup   (210)
+               voiceEMFGD   (211)
+               voiceFGDEANA   (212)
+               voiceDID   (213)
+               mpegTransport   (214)
+               sixToFour   (215)
+               gtp   (216)
+               pdnEtherLoop1   (217)
+               pdnEtherLoop2   (218)
+               opticalChannelGroup   (219)
+               homepna   (220)
+               gfp   (221)
+               ciscoISLvlan   (222)
+               actelisMetaLOOP   (223)
+               fcipLink   (224)
+               rpr   (225)
+               qam   (226)
+               lmp   (227)
+               cblVectaStar   (228)
+               docsCableMCmtsDownstream   (229)
+               adsl2   (230)
+               macSecControlledIF   (231)
+               macSecUncontrolledIF   (232)
+               aviciOpticalEther   (233)
+               atmbond   (234)
+               voiceFGDOS   (235)
+               mocaVersion1   (236)
+               ieee80216WMAN   (237)
+               adsl2plus   (238)
+               dvbRcsMacLayer   (239)
+               dvbTdm   (240)
+               dvbRcsTdma   (241)
+               x86Laps   (242)
+               wwanPP   (243)
+               wwanPP2   (244)
+               voiceEBS   (245)
+               ifPwType   (246)
+               ilan   (247)
+               pip   (248)
+               aluELP   (249)
+               gpon   (250)
+               vdsl2   (251)
+               capwapDot11Profile   (252)
+               capwapDot11Bss   (253)
+               capwapWtpVirtualRadio   (254)
+               bits   (255)
+               docsCableUpstreamRfPort   (256)
+               cableDownstreamRfPort   (257)
+               gfast   (279)"
+   ::= {sr1646v2EthPTypeEntry 2147483648}
+
+
+sr1646v2EthPMtu OBJECT IDENTIFIER ::= {sr1646v2EthP 103}
+
+sr1646v2EthPMtuTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EthPMtuEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifMtu"
+   ::= {sr1646v2EthPMtu 1}
+
+sr1646v2EthPMtuEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EthPMtuEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EthPMtuGlobalIx }
+   ::= {sr1646v2EthPMtuTable 1}
+
+Sr1646v2EthPMtuEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EthPMtuGlobalIx
+         GlobalIndex,
+      sr1646v2EthPMtuValue
+         Integer32
+      }
+
+sr1646v2EthPMtuGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EthPMtuEntry 10}
+
+sr1646v2EthPMtuValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.ifMtu"
+   ::= {sr1646v2EthPMtuEntry 2147483648}
+
+
+sr1646v2EthPOperStatus OBJECT IDENTIFIER ::= {sr1646v2EthP 107}
+
+sr1646v2EthPOperStatusTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EthPOperStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOperStatus"
+   ::= {sr1646v2EthPOperStatus 1}
+
+sr1646v2EthPOperStatusEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EthPOperStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EthPOperStatusGlobalIx }
+   ::= {sr1646v2EthPOperStatusTable 1}
+
+Sr1646v2EthPOperStatusEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EthPOperStatusGlobalIx
+         GlobalIndex,
+      sr1646v2EthPOperStatusValue
+         INTEGER
+      }
+
+sr1646v2EthPOperStatusGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EthPOperStatusEntry 10}
+
+sr1646v2EthPOperStatusValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               up (1),
+               down (2),
+               testing (3),
+               unknown (4),
+               dormant (5),
+               notPresent (6),
+               lowerLayerDown (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.ifOperStatus
+
+       Possibilities:
+               up   (1)
+               down   (2)
+               testing   (3)
+               unknown   (4)
+               dormant   (5)
+               notPresent   (6)
+               lowerLayerDown   (7)"
+   ::= {sr1646v2EthPOperStatusEntry 2147483648}
+
+
+sr1646v2EthPLastChange OBJECT IDENTIFIER ::= {sr1646v2EthP 108}
+
+sr1646v2EthPLastChangeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EthPLastChangeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifLastChange"
+   ::= {sr1646v2EthPLastChange 1}
+
+sr1646v2EthPLastChangeEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EthPLastChangeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EthPLastChangeGlobalIx }
+   ::= {sr1646v2EthPLastChangeTable 1}
+
+Sr1646v2EthPLastChangeEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EthPLastChangeGlobalIx
+         GlobalIndex,
+      sr1646v2EthPLastChangeValue
+         TimeTicks
+      }
+
+sr1646v2EthPLastChangeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EthPLastChangeEntry 10}
+
+sr1646v2EthPLastChangeValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.ifLastChange
+
+       Time in centi-second."
+   ::= {sr1646v2EthPLastChangeEntry 2147483648}
+
+
+sr1646v2EthPLastChangeD OBJECT IDENTIFIER ::= {sr1646v2EthP 183}
+
+sr1646v2EthPLastChangeDTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EthPLastChangeDEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifLastChangeDate"
+   ::= {sr1646v2EthPLastChangeD 1}
+
+sr1646v2EthPLastChangeDEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EthPLastChangeDEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EthPLastChangeDGlobalIx }
+   ::= {sr1646v2EthPLastChangeDTable 1}
+
+Sr1646v2EthPLastChangeDEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EthPLastChangeDGlobalIx
+         GlobalIndex,
+      sr1646v2EthPLastChangeDValue
+         DisplayString
+      }
+
+sr1646v2EthPLastChangeDGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EthPLastChangeDEntry 10}
+
+sr1646v2EthPLastChangeDValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.ifLastChangeDate"
+   ::= {sr1646v2EthPLastChangeDEntry 2147483648}
+
+
+sr1646v2EthPSpeed OBJECT IDENTIFIER ::= {sr1646v2EthP 104}
+
+sr1646v2EthPSpeedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EthPSpeedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifSpeed"
+   ::= {sr1646v2EthPSpeed 1}
+
+sr1646v2EthPSpeedEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EthPSpeedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EthPSpeedGlobalIx }
+   ::= {sr1646v2EthPSpeedTable 1}
+
+Sr1646v2EthPSpeedEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EthPSpeedGlobalIx
+         GlobalIndex,
+      sr1646v2EthPSpeedValue
+         Gauge32
+      }
+
+sr1646v2EthPSpeedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EthPSpeedEntry 10}
+
+sr1646v2EthPSpeedValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.ifSpeed
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2EthPSpeedEntry 2147483648}
+
+
+sr1646v2EthPFlowControl OBJECT IDENTIFIER ::= {sr1646v2EthP 850}
+
+sr1646v2EthPFlowControlSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EthPFlowControlEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2EthPFlowControl 1}
+
+sr1646v2EthPFlowControlEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EthPFlowControlEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EthPFlowControlGlobalIx }
+   ::= {sr1646v2EthPFlowControlSSCTable 1}
+
+Sr1646v2EthPFlowControlEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EthPFlowControlGlobalIx
+         GlobalIndex,
+      sr1646v2EthPFlowControlMode
+         INTEGER,
+      sr1646v2EthPFlowControlNegotiated
+         INTEGER
+      }
+
+sr1646v2EthPFlowControlGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EthPFlowControlEntry 10}
+
+sr1646v2EthPFlowControlMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.flowControl.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2EthPFlowControlEntry 16777216}
+
+sr1646v2EthPFlowControlNegotiated OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.flowControl.negotiated
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2EthPFlowControlEntry 33554432}
+
+
+sr1646v2EthPSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2EthP 269}
+
+sr1646v2EthPSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EthPSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2EthPSnmpIndex 1}
+
+sr1646v2EthPSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EthPSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EthPSnmpIndexGlobalIx }
+   ::= {sr1646v2EthPSnmpIndexTable 1}
+
+Sr1646v2EthPSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EthPSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2EthPSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2EthPSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EthPSnmpIndexEntry 10}
+
+sr1646v2EthPSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.snmpIndex"
+   ::= {sr1646v2EthPSnmpIndexEntry 2147483648}
+
+
+sr1646v2EthPAutoNegotiate OBJECT IDENTIFIER ::= {sr1646v2EthP 148}
+
+sr1646v2EthPAutoNegotiateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EthPAutoNegotiateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2EthPAutoNegotiate 1}
+
+sr1646v2EthPAutoNegotiateEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EthPAutoNegotiateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EthPAutoNegotiateGlobalIx }
+   ::= {sr1646v2EthPAutoNegotiateTable 1}
+
+Sr1646v2EthPAutoNegotiateEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EthPAutoNegotiateGlobalIx
+         GlobalIndex,
+      sr1646v2EthPAutoNegotiateValue
+         INTEGER
+      }
+
+sr1646v2EthPAutoNegotiateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EthPAutoNegotiateEntry 10}
+
+sr1646v2EthPAutoNegotiateValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               done (1),
+               notDone (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.autoNegotiate
+
+       Possibilities:
+               disabled   (0)
+               done   (1)
+               notDone   (2)"
+   ::= {sr1646v2EthPAutoNegotiateEntry 2147483648}
+
+
+sr1646v2EthPPartnerCaps OBJECT IDENTIFIER ::= {sr1646v2EthP 147}
+
+sr1646v2EthPPartnerCapsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EthPPartnerCapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2EthPPartnerCaps 1}
+
+sr1646v2EthPPartnerCapsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EthPPartnerCapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EthPPartnerCapsGlobalIx }
+   ::= {sr1646v2EthPPartnerCapsSSCTable 1}
+
+Sr1646v2EthPPartnerCapsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EthPPartnerCapsGlobalIx
+         GlobalIndex,
+      sr1646v2EthPPartnerCapsFlowCtrl
+         INTEGER,
+      sr1646v2EthPPartnerCapsHD10
+         INTEGER,
+      sr1646v2EthPPartnerCapsFD10
+         INTEGER,
+      sr1646v2EthPPartnerCapsHD100
+         INTEGER,
+      sr1646v2EthPPartnerCapsFD100
+         INTEGER,
+      sr1646v2EthPPartnerCapsFD1000
+         INTEGER
+      }
+
+sr1646v2EthPPartnerCapsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EthPPartnerCapsEntry 10}
+
+sr1646v2EthPPartnerCapsFlowCtrl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notCapable (0),
+               capable (1),
+               unknown (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.linkPartnerCaps.flowControl
+
+       Possibilities:
+               notCapable   (0)
+               capable   (1)
+               unknown   (2)"
+   ::= {sr1646v2EthPPartnerCapsEntry 16777216}
+
+sr1646v2EthPPartnerCapsHD10 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notCapable (0),
+               capable (1),
+               unknown (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.linkPartnerCaps.10Mb/halfDuplex
+
+       Possibilities:
+               notCapable   (0)
+               capable   (1)
+               unknown   (2)"
+   ::= {sr1646v2EthPPartnerCapsEntry 33554432}
+
+sr1646v2EthPPartnerCapsFD10 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notCapable (0),
+               capable (1),
+               unknown (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.linkPartnerCaps.10Mb/fullDuplex
+
+       Possibilities:
+               notCapable   (0)
+               capable   (1)
+               unknown   (2)"
+   ::= {sr1646v2EthPPartnerCapsEntry 50331648}
+
+sr1646v2EthPPartnerCapsHD100 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notCapable (0),
+               capable (1),
+               unknown (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.linkPartnerCaps.100Mb/halfDuplex
+
+       Possibilities:
+               notCapable   (0)
+               capable   (1)
+               unknown   (2)"
+   ::= {sr1646v2EthPPartnerCapsEntry 67108864}
+
+sr1646v2EthPPartnerCapsFD100 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notCapable (0),
+               capable (1),
+               unknown (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.linkPartnerCaps.100Mb/fullDuplex
+
+       Possibilities:
+               notCapable   (0)
+               capable   (1)
+               unknown   (2)"
+   ::= {sr1646v2EthPPartnerCapsEntry 83886080}
+
+sr1646v2EthPPartnerCapsFD1000 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notCapable (0),
+               capable (1),
+               unknown (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.status.linkPartnerCaps.1000Mb/fullDuplex
+
+       Possibilities:
+               notCapable   (0)
+               capable   (1)
+               unknown   (2)"
+   ::= {sr1646v2EthPPartnerCapsEntry 100663296}
+
+
+
+pr1646v2EthP OBJECT IDENTIFIER ::= {r1646v2EthP 12}
+
+
+pr1646v2EthPInOctets OBJECT IDENTIFIER ::= {pr1646v2EthP 109}
+
+pr1646v2EthPInOctetsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPInOctetsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInOctets"
+   ::= {pr1646v2EthPInOctets 1}
+
+pr1646v2EthPInOctetsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPInOctetsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPInOctetsGlobalIx }
+   ::= {pr1646v2EthPInOctetsTable 1}
+
+Pr1646v2EthPInOctetsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPInOctetsGlobalIx
+         GlobalIndex,
+      pr1646v2EthPInOctetsValue
+         Counter64
+      }
+
+pr1646v2EthPInOctetsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPInOctetsEntry 10}
+
+pr1646v2EthPInOctetsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInOctetsEntry 2147483648}
+
+
+pr1646v2EthPInUcast OBJECT IDENTIFIER ::= {pr1646v2EthP 110}
+
+pr1646v2EthPInUcastTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPInUcastEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInUcastPkts"
+   ::= {pr1646v2EthPInUcast 1}
+
+pr1646v2EthPInUcastEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPInUcastEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPInUcastGlobalIx }
+   ::= {pr1646v2EthPInUcastTable 1}
+
+Pr1646v2EthPInUcastEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPInUcastGlobalIx
+         GlobalIndex,
+      pr1646v2EthPInUcastValue
+         Counter64
+      }
+
+pr1646v2EthPInUcastGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPInUcastEntry 10}
+
+pr1646v2EthPInUcastValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInUcastEntry 2147483648}
+
+
+pr1646v2EthPInNUcastPkts OBJECT IDENTIFIER ::= {pr1646v2EthP 111}
+
+pr1646v2EthPInNUcastPktsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPInNUcastPktsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInNUcastPkts"
+   ::= {pr1646v2EthPInNUcastPkts 1}
+
+pr1646v2EthPInNUcastPktsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPInNUcastPktsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPInNUcastPktsGlobalIx }
+   ::= {pr1646v2EthPInNUcastPktsTable 1}
+
+Pr1646v2EthPInNUcastPktsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPInNUcastPktsGlobalIx
+         GlobalIndex,
+      pr1646v2EthPInNUcastPktsValue
+         Counter64
+      }
+
+pr1646v2EthPInNUcastPktsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPInNUcastPktsEntry 10}
+
+pr1646v2EthPInNUcastPktsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInNUcastPktsEntry 2147483648}
+
+
+pr1646v2EthPInDiscards OBJECT IDENTIFIER ::= {pr1646v2EthP 112}
+
+pr1646v2EthPInDiscardsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPInDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInDiscards"
+   ::= {pr1646v2EthPInDiscards 1}
+
+pr1646v2EthPInDiscardsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPInDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPInDiscardsGlobalIx }
+   ::= {pr1646v2EthPInDiscardsTable 1}
+
+Pr1646v2EthPInDiscardsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPInDiscardsGlobalIx
+         GlobalIndex,
+      pr1646v2EthPInDiscardsValue
+         Counter64
+      }
+
+pr1646v2EthPInDiscardsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPInDiscardsEntry 10}
+
+pr1646v2EthPInDiscardsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInDiscardsEntry 2147483648}
+
+
+pr1646v2EthPIfInPause OBJECT IDENTIFIER ::= {pr1646v2EthP 250}
+
+pr1646v2EthPIfInPauseTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPIfInPauseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "hwPortCounter"
+   ::= {pr1646v2EthPIfInPause 1}
+
+pr1646v2EthPIfInPauseEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPIfInPauseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPIfInPauseGlobalIx }
+   ::= {pr1646v2EthPIfInPauseTable 1}
+
+Pr1646v2EthPIfInPauseEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPIfInPauseGlobalIx
+         GlobalIndex,
+      pr1646v2EthPIfInPauseValue
+         Counter64
+      }
+
+pr1646v2EthPIfInPauseGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPIfInPauseEntry 10}
+
+pr1646v2EthPIfInPauseValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifInPause
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPIfInPauseEntry 2147483648}
+
+
+pr1646v2EthPIfInFiltered OBJECT IDENTIFIER ::= {pr1646v2EthP 834}
+
+pr1646v2EthPIfInFilteredTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPIfInFilteredEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "hwPortCounter"
+   ::= {pr1646v2EthPIfInFiltered 1}
+
+pr1646v2EthPIfInFilteredEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPIfInFilteredEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPIfInFilteredGlobalIx }
+   ::= {pr1646v2EthPIfInFilteredTable 1}
+
+Pr1646v2EthPIfInFilteredEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPIfInFilteredGlobalIx
+         GlobalIndex,
+      pr1646v2EthPIfInFilteredValue
+         Counter64
+      }
+
+pr1646v2EthPIfInFilteredGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPIfInFilteredEntry 10}
+
+pr1646v2EthPIfInFilteredValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifInFiltered
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPIfInFilteredEntry 2147483648}
+
+
+pr1646v2EthPInErrors OBJECT IDENTIFIER ::= {pr1646v2EthP 113}
+
+pr1646v2EthPInErrorsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPInErrorsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInErrors"
+   ::= {pr1646v2EthPInErrors 1}
+
+pr1646v2EthPInErrorsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPInErrorsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPInErrorsGlobalIx }
+   ::= {pr1646v2EthPInErrorsTable 1}
+
+Pr1646v2EthPInErrorsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPInErrorsGlobalIx
+         GlobalIndex,
+      pr1646v2EthPInErrorsValue
+         Counter64
+      }
+
+pr1646v2EthPInErrorsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPInErrorsEntry 10}
+
+pr1646v2EthPInErrorsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInErrorsEntry 2147483648}
+
+
+pr1646v2EthPInBandwidth OBJECT IDENTIFIER ::= {pr1646v2EthP 181}
+
+pr1646v2EthPInBandwidthSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPInBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bandwidth"
+   ::= {pr1646v2EthPInBandwidth 1}
+
+pr1646v2EthPInBandwidthEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPInBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPInBandwidthGlobalIx }
+   ::= {pr1646v2EthPInBandwidthSSCTable 1}
+
+Pr1646v2EthPInBandwidthEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPInBandwidthGlobalIx
+         GlobalIndex,
+      pr1646v2EthPInBandwidth15sec
+         Integer32,
+      pr1646v2EthPInBandwidth30sec
+         Integer32,
+      pr1646v2EthPInBandwidth1min
+         Integer32,
+      pr1646v2EthPInBandwidth2min
+         Integer32,
+      pr1646v2EthPInBandwidth5min
+         Integer32
+      }
+
+pr1646v2EthPInBandwidthGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPInBandwidthEntry 10}
+
+pr1646v2EthPInBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifInBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPInBandwidthEntry 83886080}
+
+pr1646v2EthPInBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifInBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPInBandwidthEntry 167772160}
+
+pr1646v2EthPInBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifInBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPInBandwidthEntry 335544320}
+
+pr1646v2EthPInBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifInBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPInBandwidthEntry 671088640}
+
+pr1646v2EthPInBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifInBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPInBandwidthEntry 1677721600}
+
+
+pr1646v2EthPOutOctets OBJECT IDENTIFIER ::= {pr1646v2EthP 115}
+
+pr1646v2EthPOutOctetsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPOutOctetsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutOctets"
+   ::= {pr1646v2EthPOutOctets 1}
+
+pr1646v2EthPOutOctetsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPOutOctetsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPOutOctetsGlobalIx }
+   ::= {pr1646v2EthPOutOctetsTable 1}
+
+Pr1646v2EthPOutOctetsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPOutOctetsGlobalIx
+         GlobalIndex,
+      pr1646v2EthPOutOctetsValue
+         Counter64
+      }
+
+pr1646v2EthPOutOctetsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPOutOctetsEntry 10}
+
+pr1646v2EthPOutOctetsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPOutOctetsEntry 2147483648}
+
+
+pr1646v2EthPOutUcastPkts OBJECT IDENTIFIER ::= {pr1646v2EthP 116}
+
+pr1646v2EthPOutUcastPktsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPOutUcastPktsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutUcastPkts"
+   ::= {pr1646v2EthPOutUcastPkts 1}
+
+pr1646v2EthPOutUcastPktsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPOutUcastPktsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPOutUcastPktsGlobalIx }
+   ::= {pr1646v2EthPOutUcastPktsTable 1}
+
+Pr1646v2EthPOutUcastPktsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPOutUcastPktsGlobalIx
+         GlobalIndex,
+      pr1646v2EthPOutUcastPktsValue
+         Counter64
+      }
+
+pr1646v2EthPOutUcastPktsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPOutUcastPktsEntry 10}
+
+pr1646v2EthPOutUcastPktsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPOutUcastPktsEntry 2147483648}
+
+
+pr1646v2EthPOutNUcastPkts OBJECT IDENTIFIER ::= {pr1646v2EthP 117}
+
+pr1646v2EthPOutNUcastPktsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPOutNUcastPktsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutNUcastPkts"
+   ::= {pr1646v2EthPOutNUcastPkts 1}
+
+pr1646v2EthPOutNUcastPktsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPOutNUcastPktsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPOutNUcastPktsGlobalIx }
+   ::= {pr1646v2EthPOutNUcastPktsTable 1}
+
+Pr1646v2EthPOutNUcastPktsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPOutNUcastPktsGlobalIx
+         GlobalIndex,
+      pr1646v2EthPOutNUcastPktsValue
+         Counter64
+      }
+
+pr1646v2EthPOutNUcastPktsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPOutNUcastPktsEntry 10}
+
+pr1646v2EthPOutNUcastPktsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPOutNUcastPktsEntry 2147483648}
+
+
+pr1646v2EthPOutDiscards OBJECT IDENTIFIER ::= {pr1646v2EthP 118}
+
+pr1646v2EthPOutDiscardsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPOutDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutDiscards"
+   ::= {pr1646v2EthPOutDiscards 1}
+
+pr1646v2EthPOutDiscardsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPOutDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPOutDiscardsGlobalIx }
+   ::= {pr1646v2EthPOutDiscardsTable 1}
+
+Pr1646v2EthPOutDiscardsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPOutDiscardsGlobalIx
+         GlobalIndex,
+      pr1646v2EthPOutDiscardsValue
+         Counter64
+      }
+
+pr1646v2EthPOutDiscardsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPOutDiscardsEntry 10}
+
+pr1646v2EthPOutDiscardsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPOutDiscardsEntry 2147483648}
+
+
+pr1646v2EthPIfOutPause OBJECT IDENTIFIER ::= {pr1646v2EthP 251}
+
+pr1646v2EthPIfOutPauseTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPIfOutPauseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "hwPortCounter"
+   ::= {pr1646v2EthPIfOutPause 1}
+
+pr1646v2EthPIfOutPauseEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPIfOutPauseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPIfOutPauseGlobalIx }
+   ::= {pr1646v2EthPIfOutPauseTable 1}
+
+Pr1646v2EthPIfOutPauseEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPIfOutPauseGlobalIx
+         GlobalIndex,
+      pr1646v2EthPIfOutPauseValue
+         Counter64
+      }
+
+pr1646v2EthPIfOutPauseGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPIfOutPauseEntry 10}
+
+pr1646v2EthPIfOutPauseValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifOutPause
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPIfOutPauseEntry 2147483648}
+
+
+pr1646v2EthPOutErrors OBJECT IDENTIFIER ::= {pr1646v2EthP 119}
+
+pr1646v2EthPOutErrorsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPOutErrorsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutErrors"
+   ::= {pr1646v2EthPOutErrors 1}
+
+pr1646v2EthPOutErrorsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPOutErrorsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPOutErrorsGlobalIx }
+   ::= {pr1646v2EthPOutErrorsTable 1}
+
+Pr1646v2EthPOutErrorsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPOutErrorsGlobalIx
+         GlobalIndex,
+      pr1646v2EthPOutErrorsValue
+         Counter64
+      }
+
+pr1646v2EthPOutErrorsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPOutErrorsEntry 10}
+
+pr1646v2EthPOutErrorsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPOutErrorsEntry 2147483648}
+
+
+pr1646v2EthPOutBandwidth OBJECT IDENTIFIER ::= {pr1646v2EthP 182}
+
+pr1646v2EthPOutBandwidthSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPOutBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bandwidth"
+   ::= {pr1646v2EthPOutBandwidth 1}
+
+pr1646v2EthPOutBandwidthEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPOutBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPOutBandwidthGlobalIx }
+   ::= {pr1646v2EthPOutBandwidthSSCTable 1}
+
+Pr1646v2EthPOutBandwidthEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPOutBandwidthGlobalIx
+         GlobalIndex,
+      pr1646v2EthPOutBandwidth15sec
+         Integer32,
+      pr1646v2EthPOutBandwidth30sec
+         Integer32,
+      pr1646v2EthPOutBandwidth1min
+         Integer32,
+      pr1646v2EthPOutBandwidth2min
+         Integer32,
+      pr1646v2EthPOutBandwidth5min
+         Integer32
+      }
+
+pr1646v2EthPOutBandwidthGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPOutBandwidthEntry 10}
+
+pr1646v2EthPOutBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifOutBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPOutBandwidthEntry 83886080}
+
+pr1646v2EthPOutBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifOutBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPOutBandwidthEntry 167772160}
+
+pr1646v2EthPOutBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifOutBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPOutBandwidthEntry 335544320}
+
+pr1646v2EthPOutBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifOutBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPOutBandwidthEntry 671088640}
+
+pr1646v2EthPOutBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.ifOutBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPOutBandwidthEntry 1677721600}
+
+
+pr1646v2EthPInP OBJECT IDENTIFIER ::= {pr1646v2EthP 307}
+
+pr1646v2EthPInPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPInPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h2IfInPerformance"
+   ::= {pr1646v2EthPInP 1}
+
+pr1646v2EthPInPEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPInPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPInPGlobalIx,
+                pr1646v2EthPInPTableIx }
+   ::= {pr1646v2EthPInPSSCTable 1}
+
+Pr1646v2EthPInPEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPInPGlobalIx
+         GlobalIndex,
+      pr1646v2EthPInPTableIx
+         TableIndex,
+      pr1646v2EthPInPSysUpTime
+         TimeTicks,
+      pr1646v2EthPInPIfUpTime
+         TimeTicks,
+      pr1646v2EthPInPIfStatChanges
+         Counter32,
+      pr1646v2EthPInPIfInOctets
+         Counter64,
+      pr1646v2EthPInPIfInUCPkts
+         Counter64,
+      pr1646v2EthPInPIfInNUCPkts
+         Counter64,
+      pr1646v2EthPInPIfInBCPkts
+         Counter64,
+      pr1646v2EthPInPIfInMCPkts
+         Counter64,
+      pr1646v2EthPInPIfInDiscards
+         Counter64,
+      pr1646v2EthPInPIfInErrors
+         Counter64,
+      pr1646v2EthPInPIfInUnkwn
+         Counter64,
+      pr1646v2EthPInPInDropEx
+         Counter64,
+      pr1646v2EthPInPInDropNoMac
+         Counter64,
+      pr1646v2EthPInPInDropNUCast
+         Counter64,
+      pr1646v2EthPInPInDropFilter
+         Counter64,
+      pr1646v2EthPInPIfInBandwidth
+         Integer32,
+      pr1646v2EthPInPIfOutOctets
+         Counter64,
+      pr1646v2EthPInPIfOutUCPkts
+         Counter64,
+      pr1646v2EthPInPIfOutNUCPkts
+         Counter64,
+      pr1646v2EthPInPIfOutBCPkts
+         Counter64,
+      pr1646v2EthPInPIfOutMCPkts
+         Counter64,
+      pr1646v2EthPInPIfOutDiscards
+         Counter64,
+      pr1646v2EthPInPIfOutErrors
+         Counter64,
+      pr1646v2EthPInPOutDropEx
+         Counter64,
+      pr1646v2EthPInPOutDropNoArp
+         Counter64,
+      pr1646v2EthPInPOutDropFilter
+         Counter64,
+      pr1646v2EthPInPIfOutBandwidth
+         Integer32,
+      pr1646v2EthPInPIfErrSec
+         Counter32
+      }
+
+pr1646v2EthPInPGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPInPEntry 10}
+
+pr1646v2EthPInPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2EthPInPEntry 11}
+
+pr1646v2EthPInPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2EthPInPEntry 16777216}
+
+pr1646v2EthPInPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2EthPInPEntry 33554432}
+
+pr1646v2EthPInPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 50331648}
+
+pr1646v2EthPInPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 67108864}
+
+pr1646v2EthPInPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 83886080}
+
+pr1646v2EthPInPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 100663296}
+
+pr1646v2EthPInPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 419430400}
+
+pr1646v2EthPInPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 436207616}
+
+pr1646v2EthPInPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 117440512}
+
+pr1646v2EthPInPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 134217728}
+
+pr1646v2EthPInPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 150994944}
+
+pr1646v2EthPInPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 335544320}
+
+pr1646v2EthPInPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 301989888}
+
+pr1646v2EthPInPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 318767104}
+
+pr1646v2EthPInPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 385875968}
+
+pr1646v2EthPInPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPInPEntry 268435456}
+
+pr1646v2EthPInPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 167772160}
+
+pr1646v2EthPInPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 184549376}
+
+pr1646v2EthPInPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 201326592}
+
+pr1646v2EthPInPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 452984832}
+
+pr1646v2EthPInPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 469762048}
+
+pr1646v2EthPInPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 218103808}
+
+pr1646v2EthPInPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 234881024}
+
+pr1646v2EthPInPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 352321536}
+
+pr1646v2EthPInPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 369098752}
+
+pr1646v2EthPInPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 402653184}
+
+pr1646v2EthPInPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPInPEntry 285212672}
+
+pr1646v2EthPInPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h2Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPInPEntry 251658240}
+
+
+pr1646v2EthPH24InP OBJECT IDENTIFIER ::= {pr1646v2EthP 308}
+
+pr1646v2EthPH24InPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPH24InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h24IfInPerformance"
+   ::= {pr1646v2EthPH24InP 1}
+
+pr1646v2EthPH24InPEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPH24InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPH24InPGlobalIx,
+                pr1646v2EthPH24InPTableIx }
+   ::= {pr1646v2EthPH24InPSSCTable 1}
+
+Pr1646v2EthPH24InPEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPH24InPGlobalIx
+         GlobalIndex,
+      pr1646v2EthPH24InPTableIx
+         TableIndex,
+      pr1646v2EthPH24InPSysUpTime
+         TimeTicks,
+      pr1646v2EthPH24InPIfUpTime
+         TimeTicks,
+      pr1646v2EthPH24InPIfStatChanges
+         Counter32,
+      pr1646v2EthPH24InPIfInOctets
+         Counter64,
+      pr1646v2EthPH24InPIfInUCPkts
+         Counter64,
+      pr1646v2EthPH24InPIfInNUCPkts
+         Counter64,
+      pr1646v2EthPH24InPIfInBCPkts
+         Counter64,
+      pr1646v2EthPH24InPIfInMCPkts
+         Counter64,
+      pr1646v2EthPH24InPIfInDiscards
+         Counter64,
+      pr1646v2EthPH24InPIfInErrors
+         Counter64,
+      pr1646v2EthPH24InPIfInUnkwn
+         Counter64,
+      pr1646v2EthPH24InPInDropEx
+         Counter64,
+      pr1646v2EthPH24InPInDropNoMac
+         Counter64,
+      pr1646v2EthPH24InPInDropNUCast
+         Counter64,
+      pr1646v2EthPH24InPInDropFilter
+         Counter64,
+      pr1646v2EthPH24InPIfInBandwidth
+         Integer32,
+      pr1646v2EthPH24InPIfOutOctets
+         Counter64,
+      pr1646v2EthPH24InPIfOutUCPkts
+         Counter64,
+      pr1646v2EthPH24InPIfOutNUCPkts
+         Counter64,
+      pr1646v2EthPH24InPIfOutBCPkts
+         Counter64,
+      pr1646v2EthPH24InPIfOutMCPkts
+         Counter64,
+      pr1646v2EthPH24InPIfOutDiscards
+         Counter64,
+      pr1646v2EthPH24InPIfOutErrors
+         Counter64,
+      pr1646v2EthPH24InPOutDropEx
+         Counter64,
+      pr1646v2EthPH24InPOutDropNoArp
+         Counter64,
+      pr1646v2EthPH24InPOutDropFilter
+         Counter64,
+      pr1646v2EthPH24InPIfOutBandwidth
+         Integer32,
+      pr1646v2EthPH24InPIfErrSec
+         Counter32
+      }
+
+pr1646v2EthPH24InPGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPH24InPEntry 10}
+
+pr1646v2EthPH24InPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2EthPH24InPEntry 11}
+
+pr1646v2EthPH24InPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2EthPH24InPEntry 16777216}
+
+pr1646v2EthPH24InPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2EthPH24InPEntry 33554432}
+
+pr1646v2EthPH24InPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 50331648}
+
+pr1646v2EthPH24InPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 67108864}
+
+pr1646v2EthPH24InPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 83886080}
+
+pr1646v2EthPH24InPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 100663296}
+
+pr1646v2EthPH24InPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 419430400}
+
+pr1646v2EthPH24InPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 436207616}
+
+pr1646v2EthPH24InPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 117440512}
+
+pr1646v2EthPH24InPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 134217728}
+
+pr1646v2EthPH24InPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 150994944}
+
+pr1646v2EthPH24InPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 335544320}
+
+pr1646v2EthPH24InPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 301989888}
+
+pr1646v2EthPH24InPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 318767104}
+
+pr1646v2EthPH24InPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 385875968}
+
+pr1646v2EthPH24InPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPH24InPEntry 268435456}
+
+pr1646v2EthPH24InPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 167772160}
+
+pr1646v2EthPH24InPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 184549376}
+
+pr1646v2EthPH24InPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 201326592}
+
+pr1646v2EthPH24InPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 452984832}
+
+pr1646v2EthPH24InPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 469762048}
+
+pr1646v2EthPH24InPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 218103808}
+
+pr1646v2EthPH24InPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 234881024}
+
+pr1646v2EthPH24InPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 352321536}
+
+pr1646v2EthPH24InPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 369098752}
+
+pr1646v2EthPH24InPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 402653184}
+
+pr1646v2EthPH24InPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPH24InPEntry 285212672}
+
+pr1646v2EthPH24InPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.h24Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPH24InPEntry 251658240}
+
+
+pr1646v2EthPD7InP OBJECT IDENTIFIER ::= {pr1646v2EthP 309}
+
+pr1646v2EthPD7InPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EthPD7InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "d7IfInPerformance"
+   ::= {pr1646v2EthPD7InP 1}
+
+pr1646v2EthPD7InPEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EthPD7InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EthPD7InPGlobalIx,
+                pr1646v2EthPD7InPTableIx }
+   ::= {pr1646v2EthPD7InPSSCTable 1}
+
+Pr1646v2EthPD7InPEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EthPD7InPGlobalIx
+         GlobalIndex,
+      pr1646v2EthPD7InPTableIx
+         TableIndex,
+      pr1646v2EthPD7InPSysUpTime
+         TimeTicks,
+      pr1646v2EthPD7InPIfUpTime
+         TimeTicks,
+      pr1646v2EthPD7InPIfStatChanges
+         Counter32,
+      pr1646v2EthPD7InPIfInOctets
+         Counter64,
+      pr1646v2EthPD7InPIfInUCPkts
+         Counter64,
+      pr1646v2EthPD7InPIfInNUCPkts
+         Counter64,
+      pr1646v2EthPD7InPIfInBCPkts
+         Counter64,
+      pr1646v2EthPD7InPIfInMCPkts
+         Counter64,
+      pr1646v2EthPD7InPIfInDiscards
+         Counter64,
+      pr1646v2EthPD7InPIfInErrors
+         Counter64,
+      pr1646v2EthPD7InPIfInUnkwn
+         Counter64,
+      pr1646v2EthPD7InPInDropEx
+         Counter64,
+      pr1646v2EthPD7InPInDropNoMac
+         Counter64,
+      pr1646v2EthPD7InPInDropNUCast
+         Counter64,
+      pr1646v2EthPD7InPInDropFilter
+         Counter64,
+      pr1646v2EthPD7InPIfInBandwidth
+         Integer32,
+      pr1646v2EthPD7InPIfOutOctets
+         Counter64,
+      pr1646v2EthPD7InPIfOutUCPkts
+         Counter64,
+      pr1646v2EthPD7InPIfOutNUCPkts
+         Counter64,
+      pr1646v2EthPD7InPIfOutBCPkts
+         Counter64,
+      pr1646v2EthPD7InPIfOutMCPkts
+         Counter64,
+      pr1646v2EthPD7InPIfOutDiscards
+         Counter64,
+      pr1646v2EthPD7InPIfOutErrors
+         Counter64,
+      pr1646v2EthPD7InPOutDropEx
+         Counter64,
+      pr1646v2EthPD7InPOutDropNoArp
+         Counter64,
+      pr1646v2EthPD7InPOutDropFilter
+         Counter64,
+      pr1646v2EthPD7InPIfOutBandwidth
+         Integer32,
+      pr1646v2EthPD7InPIfErrSec
+         Counter32
+      }
+
+pr1646v2EthPD7InPGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EthPD7InPEntry 10}
+
+pr1646v2EthPD7InPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2EthPD7InPEntry 11}
+
+pr1646v2EthPD7InPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2EthPD7InPEntry 16777216}
+
+pr1646v2EthPD7InPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2EthPD7InPEntry 33554432}
+
+pr1646v2EthPD7InPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 50331648}
+
+pr1646v2EthPD7InPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 67108864}
+
+pr1646v2EthPD7InPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 83886080}
+
+pr1646v2EthPD7InPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 100663296}
+
+pr1646v2EthPD7InPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 419430400}
+
+pr1646v2EthPD7InPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 436207616}
+
+pr1646v2EthPD7InPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 117440512}
+
+pr1646v2EthPD7InPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 134217728}
+
+pr1646v2EthPD7InPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 150994944}
+
+pr1646v2EthPD7InPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 335544320}
+
+pr1646v2EthPD7InPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 301989888}
+
+pr1646v2EthPD7InPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 318767104}
+
+pr1646v2EthPD7InPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 385875968}
+
+pr1646v2EthPD7InPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPD7InPEntry 268435456}
+
+pr1646v2EthPD7InPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 167772160}
+
+pr1646v2EthPD7InPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 184549376}
+
+pr1646v2EthPD7InPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 201326592}
+
+pr1646v2EthPD7InPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 452984832}
+
+pr1646v2EthPD7InPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 469762048}
+
+pr1646v2EthPD7InPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 218103808}
+
+pr1646v2EthPD7InPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 234881024}
+
+pr1646v2EthPD7InPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 352321536}
+
+pr1646v2EthPD7InPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 369098752}
+
+pr1646v2EthPD7InPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 402653184}
+
+pr1646v2EthPD7InPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2EthPD7InPEntry 285212672}
+
+pr1646v2EthPD7InPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.performance.d7Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EthPD7InPEntry 251658240}
+
+
+
+ar1646v2EthP OBJECT IDENTIFIER ::= {r1646v2EthP 16}
+
+
+ar1646v2EthPClearCounters OBJECT IDENTIFIER ::= {ar1646v2EthP 263}
+
+ar1646v2EthPClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EthPClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1646v2EthPClearCounters 1}
+
+ar1646v2EthPClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EthPClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EthPClearCountersGlobalIx }
+   ::= {ar1646v2EthPClearCountersTable 1}
+
+Ar1646v2EthPClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EthPClearCountersGlobalIx
+         GlobalIndex,
+      ar1646v2EthPClearCountersValue
+         Integer32
+      }
+
+ar1646v2EthPClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EthPClearCountersEntry 10}
+
+ar1646v2EthPClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.actions.clearCounters"
+   ::= {ar1646v2EthPClearCountersEntry 2147483648}
+
+
+ar1646v2EthPForceLink OBJECT IDENTIFIER ::= {ar1646v2EthP 904}
+
+ar1646v2EthPForceLinkTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EthPForceLinkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "action in the debug group"
+   ::= {ar1646v2EthPForceLink 1}
+
+ar1646v2EthPForceLinkEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EthPForceLinkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EthPForceLinkGlobalIx }
+   ::= {ar1646v2EthPForceLinkTable 1}
+
+Ar1646v2EthPForceLinkEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EthPForceLinkGlobalIx
+         GlobalIndex,
+      ar1646v2EthPForceLinkValue
+         Integer32
+      }
+
+ar1646v2EthPForceLinkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EthPForceLinkEntry 10}
+
+ar1646v2EthPForceLinkValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.actions.forceLink"
+   ::= {ar1646v2EthPForceLinkEntry 2147483648}
+
+
+ar1646v2EthPForceLinkType OBJECT IDENTIFIER ::= {ar1646v2EthP 905}
+
+ar1646v2EthPForceLinkTypeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EthPForceLinkTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "force link type"
+   ::= {ar1646v2EthPForceLinkType 1}
+
+ar1646v2EthPForceLinkTypeEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EthPForceLinkTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EthPForceLinkTypeGlobalIx }
+   ::= {ar1646v2EthPForceLinkTypeTable 1}
+
+Ar1646v2EthPForceLinkTypeEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EthPForceLinkTypeGlobalIx
+         GlobalIndex,
+      ar1646v2EthPForceLinkTypeValue
+         INTEGER
+      }
+
+ar1646v2EthPForceLinkTypeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EthPForceLinkTypeEntry 10}
+
+ar1646v2EthPForceLinkTypeValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               up (1),
+               down (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.actions.forceLinkType
+
+       Possibilities:
+               no   (0)
+               up   (1)
+               down   (2)"
+   ::= {ar1646v2EthPForceLinkTypeEntry 2147483648}
+
+
+ar1646v2EthPTestMode OBJECT IDENTIFIER ::= {ar1646v2EthP 902}
+
+ar1646v2EthPTestModeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EthPTestModeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "action in the debug group"
+   ::= {ar1646v2EthPTestMode 1}
+
+ar1646v2EthPTestModeEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EthPTestModeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EthPTestModeGlobalIx }
+   ::= {ar1646v2EthPTestModeTable 1}
+
+Ar1646v2EthPTestModeEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EthPTestModeGlobalIx
+         GlobalIndex,
+      ar1646v2EthPTestModeValue
+         Integer32
+      }
+
+ar1646v2EthPTestModeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EthPTestModeEntry 10}
+
+ar1646v2EthPTestModeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.actions.testMode"
+   ::= {ar1646v2EthPTestModeEntry 2147483648}
+
+
+ar1646v2EthPTestType OBJECT IDENTIFIER ::= {ar1646v2EthP 903}
+
+ar1646v2EthPTestTypeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EthPTestTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ethernet test type"
+   ::= {ar1646v2EthPTestType 1}
+
+ar1646v2EthPTestTypeEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EthPTestTypeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EthPTestTypeGlobalIx }
+   ::= {ar1646v2EthPTestTypeTable 1}
+
+Ar1646v2EthPTestTypeEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EthPTestTypeGlobalIx
+         GlobalIndex,
+      ar1646v2EthPTestTypeValue
+         INTEGER
+      }
+
+ar1646v2EthPTestTypeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EthPTestTypeEntry 10}
+
+ar1646v2EthPTestTypeValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (0),
+               testMode1TxWaveform (1),
+               testMode2TxJitterMaster (2),
+               testMode3TxJitterSlave (3),
+               testMode4TxDistortion (4),
+               loopback10100 (5)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.actions.testType
+
+       Possibilities:
+               none   (0)
+               testMode1TxWaveform   (1)
+               testMode2TxJitterMaster   (2)
+               testMode3TxJitterSlave   (3)
+               testMode4TxDistortion   (4)
+               loopback10/100   (5)"
+   ::= {ar1646v2EthPTestTypeEntry 2147483648}
+
+
+
+fr1646v2EthP OBJECT IDENTIFIER ::= {r1646v2EthP 13}
+
+
+fr1646v2EthPAlarm OBJECT IDENTIFIER ::= {fr1646v2EthP 207}
+
+fr1646v2EthPAlarmSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Fr1646v2EthPAlarmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "IfAlarmInfo"
+   ::= {fr1646v2EthPAlarm 1}
+
+fr1646v2EthPAlarmEntry OBJECT-TYPE
+   SYNTAX      Fr1646v2EthPAlarmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { fr1646v2EthPAlarmGlobalIx }
+   ::= {fr1646v2EthPAlarmSSCTable 1}
+
+Fr1646v2EthPAlarmEntry ::=
+   SEQUENCE
+      {
+      fr1646v2EthPAlarmGlobalIx
+         GlobalIndex,
+      fr1646v2EthPAlarmDiscriminator
+         Integer32,
+      fr1646v2EthPAlarmCurrent
+         Integer32,
+      fr1646v2EthPAlarmPrevious
+         Integer32,
+      fr1646v2EthPAlarmMask
+         Integer32,
+      fr1646v2EthPAlarmLevLinkDown
+         Integer32
+      }
+
+fr1646v2EthPAlarmGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {fr1646v2EthPAlarmEntry 10}
+
+fr1646v2EthPAlarmDiscriminator OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.alarms.alarmInfo.discriminator"
+   ::= {fr1646v2EthPAlarmEntry 16777216}
+
+fr1646v2EthPAlarmCurrent OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.alarms.alarmInfo.currentAlarms
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {fr1646v2EthPAlarmEntry 33554432}
+
+fr1646v2EthPAlarmPrevious OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.alarms.alarmInfo.previousAlarms
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {fr1646v2EthPAlarmEntry 50331648}
+
+fr1646v2EthPAlarmMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.alarms.alarmInfo.alarmMask
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {fr1646v2EthPAlarmEntry 67108864}
+
+fr1646v2EthPAlarmLevLinkDown OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: hwPort.alarms.alarmInfo.alarmLevel.linkDown"
+   ::= {fr1646v2EthPAlarmEntry 83951616}
+
+
+fr1646v2EthPAlarmE2 OBJECT IDENTIFIER ::= {fr1646v2EthPAlarm 2}
+
+fr1646v2EthPAlarmE2Entry OBJECT IDENTIFIER ::= {fr1646v2EthPAlarmE2 1}
+
+fr1646v2EthPAlarmE2LinkDown OBJECT IDENTIFIER ::= {fr1646v2EthPAlarmE2Entry 10}
+
+fr1646v2EthPAlarmE2LinkDownPfx OBJECT IDENTIFIER ::= {fr1646v2EthPAlarmE2LinkDown 0}
+
+fr1646v2EthPAlarmE2LinkDownOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'ethPortHw'
+                (root='router1646') has changed from the ON to the OFF state."
+   ::= {fr1646v2EthPAlarmE2LinkDownPfx 1}
+
+fr1646v2EthPAlarmE2LinkDownOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'ethPortHw'
+                (root='router1646') has changed from the OFF to the ON state."
+   ::= {fr1646v2EthPAlarmE2LinkDownPfx 2}
+
+
+
+END

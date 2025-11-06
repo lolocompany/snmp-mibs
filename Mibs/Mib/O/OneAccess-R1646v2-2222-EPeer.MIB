@@ -1,0 +1,4169 @@
+OneAccess-R1646v2-2222-EPeer DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2EPeer OBJECT IDENTIFIER ::= {r1646Rootv2 2222}
+
+r1646v2EPeerMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2EPeerMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2EPeer 1}
+
+r1646v2EPeerMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2EPeerMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2EPeerMOPropGlobalIx }
+   ::= {r1646v2EPeerMOProp 1}
+
+R1646v2EPeerMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2EPeerMOPropPath
+         ContainmentPath,
+      r1646v2EPeerMOPropRev
+         ObjectRevision,
+      r1646v2EPeerMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2EPeerMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2EPeerMOPropEntry 3}
+
+r1646v2EPeerMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2EPeerMOPropEntry 4}
+
+r1646v2EPeerMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2EPeerMOPropEntry 10}
+
+
+
+er1646v2EPeer OBJECT IDENTIFIER ::= {r1646v2EPeer 11}
+
+
+er1646v2EPeerSnmpIndexOffset OBJECT IDENTIFIER ::= {er1646v2EPeer 268}
+
+er1646v2EPeerSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1646v2EPeerSnmpIndexOffset 1}
+
+er1646v2EPeerSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerSnmpIndexOffsetGlobalIx }
+   ::= {er1646v2EPeerSnmpIndexOffsetTable 1}
+
+Er1646v2EPeerSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1646v2EPeerSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1646v2EPeerSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerSnmpIndexOffsetEntry 10}
+
+er1646v2EPeerSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.snmpIndexOffset"
+   ::= {er1646v2EPeerSnmpIndexOffsetEntry 2147483648}
+
+
+er1646v2EPeerRemark OBJECT IDENTIFIER ::= {er1646v2EPeer 321}
+
+er1646v2EPeerRemarkTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "intfRemark"
+   ::= {er1646v2EPeerRemark 1}
+
+er1646v2EPeerRemarkEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerRemarkGlobalIx }
+   ::= {er1646v2EPeerRemarkTable 1}
+
+Er1646v2EPeerRemarkEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerRemarkGlobalIx
+         GlobalIndex,
+      er1646v2EPeerRemarkValue
+         DisplayString
+      }
+
+er1646v2EPeerRemarkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerRemarkEntry 10}
+
+er1646v2EPeerRemarkValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.remark"
+   ::= {er1646v2EPeerRemarkEntry 2147483648}
+
+
+er1646v2EPeerLocalIp OBJECT IDENTIFIER ::= {er1646v2EPeer 2}
+
+er1646v2EPeerLocalIpTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerLocalIpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Local or Remote IP address of a BGP connection"
+   ::= {er1646v2EPeerLocalIp 1}
+
+er1646v2EPeerLocalIpEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerLocalIpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerLocalIpGlobalIx }
+   ::= {er1646v2EPeerLocalIpTable 1}
+
+Er1646v2EPeerLocalIpEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerLocalIpGlobalIx
+         GlobalIndex,
+      er1646v2EPeerLocalIpValue
+         IpAddress
+      }
+
+er1646v2EPeerLocalIpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerLocalIpEntry 10}
+
+er1646v2EPeerLocalIpValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.localIp"
+   ::= {er1646v2EPeerLocalIpEntry 2147483648}
+
+
+er1646v2EPeerRemoteIp OBJECT IDENTIFIER ::= {er1646v2EPeer 3}
+
+er1646v2EPeerRemoteIpTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerRemoteIpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Local or Remote IP address of a BGP connection"
+   ::= {er1646v2EPeerRemoteIp 1}
+
+er1646v2EPeerRemoteIpEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerRemoteIpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerRemoteIpGlobalIx }
+   ::= {er1646v2EPeerRemoteIpTable 1}
+
+Er1646v2EPeerRemoteIpEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerRemoteIpGlobalIx
+         GlobalIndex,
+      er1646v2EPeerRemoteIpValue
+         IpAddress
+      }
+
+er1646v2EPeerRemoteIpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerRemoteIpEntry 10}
+
+er1646v2EPeerRemoteIpValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.remoteIp"
+   ::= {er1646v2EPeerRemoteIpEntry 2147483648}
+
+
+er1646v2EPeerTimers OBJECT IDENTIFIER ::= {er1646v2EPeer 4}
+
+er1646v2EPeerTimersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerTimersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "peer timer values"
+   ::= {er1646v2EPeerTimers 1}
+
+er1646v2EPeerTimersEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerTimersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerTimersGlobalIx }
+   ::= {er1646v2EPeerTimersSSCTable 1}
+
+Er1646v2EPeerTimersEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerTimersGlobalIx
+         GlobalIndex,
+      er1646v2EPeerTimersKeepAlive
+         TimeTicks,
+      er1646v2EPeerTimersHoldTime
+         TimeTicks
+      }
+
+er1646v2EPeerTimersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerTimersEntry 10}
+
+er1646v2EPeerTimersKeepAlive OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.timers.keepAlive
+
+       Time in centi-second."
+   ::= {er1646v2EPeerTimersEntry 16777216}
+
+er1646v2EPeerTimersHoldTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.timers.holdTime
+
+       Time in centi-second."
+   ::= {er1646v2EPeerTimersEntry 33554432}
+
+
+er1646v2EPeerWeight OBJECT IDENTIFIER ::= {er1646v2EPeer 6}
+
+er1646v2EPeerWeightTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerWeightEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "default peer weight value"
+   ::= {er1646v2EPeerWeight 1}
+
+er1646v2EPeerWeightEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerWeightEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerWeightGlobalIx }
+   ::= {er1646v2EPeerWeightTable 1}
+
+Er1646v2EPeerWeightEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerWeightGlobalIx
+         GlobalIndex,
+      er1646v2EPeerWeightValue
+         Gauge32
+      }
+
+er1646v2EPeerWeightGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerWeightEntry 10}
+
+er1646v2EPeerWeightValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.weight
+
+       32 bit unsigned gauge value."
+   ::= {er1646v2EPeerWeightEntry 2147483648}
+
+
+er1646v2EPeerSendCommunity OBJECT IDENTIFIER ::= {er1646v2EPeer 15}
+
+er1646v2EPeerSendCommunityTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerSendCommunityEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "community attribute is sent out on this peer"
+   ::= {er1646v2EPeerSendCommunity 1}
+
+er1646v2EPeerSendCommunityEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerSendCommunityEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerSendCommunityGlobalIx }
+   ::= {er1646v2EPeerSendCommunityTable 1}
+
+Er1646v2EPeerSendCommunityEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerSendCommunityGlobalIx
+         GlobalIndex,
+      er1646v2EPeerSendCommunityValue
+         INTEGER
+      }
+
+er1646v2EPeerSendCommunityGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerSendCommunityEntry 10}
+
+er1646v2EPeerSendCommunityValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.sendCommunity
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2EPeerSendCommunityEntry 2147483648}
+
+
+er1646v2EPeerOrigDef OBJECT IDENTIFIER ::= {er1646v2EPeer 7}
+
+er1646v2EPeerOrigDefSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerOrigDefEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "originate default route on peer"
+   ::= {er1646v2EPeerOrigDef 1}
+
+er1646v2EPeerOrigDefEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerOrigDefEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerOrigDefGlobalIx }
+   ::= {er1646v2EPeerOrigDefSSCTable 1}
+
+Er1646v2EPeerOrigDefEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerOrigDefGlobalIx
+         GlobalIndex,
+      er1646v2EPeerOrigDefMode
+         INTEGER,
+      er1646v2EPeerOrigDefRouteMap
+         DisplayString
+      }
+
+er1646v2EPeerOrigDefGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerOrigDefEntry 10}
+
+er1646v2EPeerOrigDefMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.originateDefault.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2EPeerOrigDefEntry 16777216}
+
+er1646v2EPeerOrigDefRouteMap OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.originateDefault.routeMap"
+   ::= {er1646v2EPeerOrigDefEntry 33554432}
+
+
+er1646v2EPeerSoftRcfg OBJECT IDENTIFIER ::= {er1646v2EPeer 8}
+
+er1646v2EPeerSoftRcfgTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerSoftRcfgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "activate softreconfig on the peer or not"
+   ::= {er1646v2EPeerSoftRcfg 1}
+
+er1646v2EPeerSoftRcfgEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerSoftRcfgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerSoftRcfgGlobalIx }
+   ::= {er1646v2EPeerSoftRcfgTable 1}
+
+Er1646v2EPeerSoftRcfgEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerSoftRcfgGlobalIx
+         GlobalIndex,
+      er1646v2EPeerSoftRcfgValue
+         INTEGER
+      }
+
+er1646v2EPeerSoftRcfgGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerSoftRcfgEntry 10}
+
+er1646v2EPeerSoftRcfgValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.softReconfig
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2EPeerSoftRcfgEntry 2147483648}
+
+
+er1646v2EPeerInFilters OBJECT IDENTIFIER ::= {er1646v2EPeer 9}
+
+er1646v2EPeerInFiltersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerInFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "tables of referred names"
+   ::= {er1646v2EPeerInFilters 1}
+
+er1646v2EPeerInFiltersEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerInFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerInFiltersGlobalIx,
+                er1646v2EPeerInFiltersTableIx }
+   ::= {er1646v2EPeerInFiltersSSCTable 1}
+
+Er1646v2EPeerInFiltersEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerInFiltersActions
+         VariableLengthTableActions,
+      er1646v2EPeerInFiltersGlobalIx
+         GlobalIndex,
+      er1646v2EPeerInFiltersTableIx
+         TableIndex,
+      er1646v2EPeerInFiltersName
+         DisplayString
+      }
+
+er1646v2EPeerInFiltersActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2EPeerInFiltersEntry 2}
+
+er1646v2EPeerInFiltersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerInFiltersEntry 10}
+
+er1646v2EPeerInFiltersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EPeerInFiltersEntry 11}
+
+er1646v2EPeerInFiltersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.inboundFilters.name"
+   ::= {er1646v2EPeerInFiltersEntry 16777216}
+
+
+er1646v2EPeerOutFilters OBJECT IDENTIFIER ::= {er1646v2EPeer 10}
+
+er1646v2EPeerOutFiltersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerOutFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "tables of referred names"
+   ::= {er1646v2EPeerOutFilters 1}
+
+er1646v2EPeerOutFiltersEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerOutFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerOutFiltersGlobalIx,
+                er1646v2EPeerOutFiltersTableIx }
+   ::= {er1646v2EPeerOutFiltersSSCTable 1}
+
+Er1646v2EPeerOutFiltersEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerOutFiltersActions
+         VariableLengthTableActions,
+      er1646v2EPeerOutFiltersGlobalIx
+         GlobalIndex,
+      er1646v2EPeerOutFiltersTableIx
+         TableIndex,
+      er1646v2EPeerOutFiltersName
+         DisplayString
+      }
+
+er1646v2EPeerOutFiltersActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2EPeerOutFiltersEntry 2}
+
+er1646v2EPeerOutFiltersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerOutFiltersEntry 10}
+
+er1646v2EPeerOutFiltersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EPeerOutFiltersEntry 11}
+
+er1646v2EPeerOutFiltersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.outboundFilters.name"
+   ::= {er1646v2EPeerOutFiltersEntry 16777216}
+
+
+er1646v2EPeerInboundMaps OBJECT IDENTIFIER ::= {er1646v2EPeer 11}
+
+er1646v2EPeerInboundMapsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerInboundMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "tables of referred names"
+   ::= {er1646v2EPeerInboundMaps 1}
+
+er1646v2EPeerInboundMapsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerInboundMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerInboundMapsGlobalIx,
+                er1646v2EPeerInboundMapsTableIx }
+   ::= {er1646v2EPeerInboundMapsSSCTable 1}
+
+Er1646v2EPeerInboundMapsEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerInboundMapsActions
+         VariableLengthTableActions,
+      er1646v2EPeerInboundMapsGlobalIx
+         GlobalIndex,
+      er1646v2EPeerInboundMapsTableIx
+         TableIndex,
+      er1646v2EPeerInboundMapsName
+         DisplayString
+      }
+
+er1646v2EPeerInboundMapsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2EPeerInboundMapsEntry 2}
+
+er1646v2EPeerInboundMapsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerInboundMapsEntry 10}
+
+er1646v2EPeerInboundMapsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EPeerInboundMapsEntry 11}
+
+er1646v2EPeerInboundMapsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.inboundMaps.name"
+   ::= {er1646v2EPeerInboundMapsEntry 16777216}
+
+
+er1646v2EPeerOutboundMaps OBJECT IDENTIFIER ::= {er1646v2EPeer 12}
+
+er1646v2EPeerOutboundMapsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerOutboundMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "tables of referred names"
+   ::= {er1646v2EPeerOutboundMaps 1}
+
+er1646v2EPeerOutboundMapsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerOutboundMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerOutboundMapsGlobalIx,
+                er1646v2EPeerOutboundMapsTableIx }
+   ::= {er1646v2EPeerOutboundMapsSSCTable 1}
+
+Er1646v2EPeerOutboundMapsEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerOutboundMapsActions
+         VariableLengthTableActions,
+      er1646v2EPeerOutboundMapsGlobalIx
+         GlobalIndex,
+      er1646v2EPeerOutboundMapsTableIx
+         TableIndex,
+      er1646v2EPeerOutboundMapsName
+         DisplayString
+      }
+
+er1646v2EPeerOutboundMapsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2EPeerOutboundMapsEntry 2}
+
+er1646v2EPeerOutboundMapsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerOutboundMapsEntry 10}
+
+er1646v2EPeerOutboundMapsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2EPeerOutboundMapsEntry 11}
+
+er1646v2EPeerOutboundMapsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.outboundMaps.name"
+   ::= {er1646v2EPeerOutboundMapsEntry 16777216}
+
+
+er1646v2EPeerPassword OBJECT IDENTIFIER ::= {er1646v2EPeer 16}
+
+er1646v2EPeerPasswordTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerPasswordEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "md5 p"
+   ::= {er1646v2EPeerPassword 1}
+
+er1646v2EPeerPasswordEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerPasswordEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerPasswordGlobalIx }
+   ::= {er1646v2EPeerPasswordTable 1}
+
+Er1646v2EPeerPasswordEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerPasswordGlobalIx
+         GlobalIndex,
+      er1646v2EPeerPasswordValue
+         DisplayString
+      }
+
+er1646v2EPeerPasswordGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerPasswordEntry 10}
+
+er1646v2EPeerPasswordValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.password"
+   ::= {er1646v2EPeerPasswordEntry 2147483648}
+
+
+er1646v2EPeerTracking OBJECT IDENTIFIER ::= {er1646v2EPeer 17}
+
+er1646v2EPeerTrackingTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerTrackingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bgp tracking"
+   ::= {er1646v2EPeerTracking 1}
+
+er1646v2EPeerTrackingEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerTrackingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerTrackingGlobalIx }
+   ::= {er1646v2EPeerTrackingTable 1}
+
+Er1646v2EPeerTrackingEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerTrackingGlobalIx
+         GlobalIndex,
+      er1646v2EPeerTrackingValue
+         INTEGER
+      }
+
+er1646v2EPeerTrackingGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerTrackingEntry 10}
+
+er1646v2EPeerTrackingValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.tracking
+
+       Possibilities:
+               disabled   (0)"
+   ::= {er1646v2EPeerTrackingEntry 2147483648}
+
+
+er1646v2EPeerAlarmMask OBJECT IDENTIFIER ::= {er1646v2EPeer 13}
+
+er1646v2EPeerAlarmMaskTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerAlarmMaskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bgp peer alarmMask"
+   ::= {er1646v2EPeerAlarmMask 1}
+
+er1646v2EPeerAlarmMaskEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerAlarmMaskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerAlarmMaskGlobalIx }
+   ::= {er1646v2EPeerAlarmMaskTable 1}
+
+Er1646v2EPeerAlarmMaskEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerAlarmMaskGlobalIx
+         GlobalIndex,
+      er1646v2EPeerAlarmMaskValue
+         Integer32
+      }
+
+er1646v2EPeerAlarmMaskGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerAlarmMaskEntry 10}
+
+er1646v2EPeerAlarmMaskValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.alarmMask
+
+       Bit meanings:
+               bit 0 = sessionDown"
+   ::= {er1646v2EPeerAlarmMaskEntry 2147483648}
+
+
+er1646v2EPeerAlarmLev OBJECT IDENTIFIER ::= {er1646v2EPeer 14}
+
+er1646v2EPeerAlarmLevSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerAlarmLevEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bgp peer alarmLevels"
+   ::= {er1646v2EPeerAlarmLev 1}
+
+er1646v2EPeerAlarmLevEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerAlarmLevEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerAlarmLevGlobalIx }
+   ::= {er1646v2EPeerAlarmLevSSCTable 1}
+
+Er1646v2EPeerAlarmLevEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerAlarmLevGlobalIx
+         GlobalIndex,
+      er1646v2EPeerAlarmLevSessionDown
+         Integer32
+      }
+
+er1646v2EPeerAlarmLevGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerAlarmLevEntry 10}
+
+er1646v2EPeerAlarmLevSessionDown OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.alarmLevel.sessionDown"
+   ::= {er1646v2EPeerAlarmLevEntry 16777216}
+
+
+er1646v2EPeerAsTranslation OBJECT IDENTIFIER ::= {er1646v2EPeer 20}
+
+er1646v2EPeerAsTranslationSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerAsTranslationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "setting of local as on external peers"
+   ::= {er1646v2EPeerAsTranslation 1}
+
+er1646v2EPeerAsTranslationEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerAsTranslationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerAsTranslationGlobalIx }
+   ::= {er1646v2EPeerAsTranslationSSCTable 1}
+
+Er1646v2EPeerAsTranslationEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerAsTranslationGlobalIx
+         GlobalIndex,
+      er1646v2EPeerAsTranslationLocalAsNr
+         Integer32,
+      er1646v2EPeerAsTranslationPrepend
+         INTEGER
+      }
+
+er1646v2EPeerAsTranslationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerAsTranslationEntry 10}
+
+er1646v2EPeerAsTranslationLocalAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.asTranslation.localAsNr"
+   ::= {er1646v2EPeerAsTranslationEntry 16777216}
+
+er1646v2EPeerAsTranslationPrepend OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.asTranslation.prepend
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2EPeerAsTranslationEntry 33554432}
+
+
+er1646v2EPeerRemoteAs OBJECT IDENTIFIER ::= {er1646v2EPeer 21}
+
+er1646v2EPeerRemoteAsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerRemoteAsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "remote as on peer"
+   ::= {er1646v2EPeerRemoteAs 1}
+
+er1646v2EPeerRemoteAsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerRemoteAsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerRemoteAsGlobalIx }
+   ::= {er1646v2EPeerRemoteAsTable 1}
+
+Er1646v2EPeerRemoteAsEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerRemoteAsGlobalIx
+         GlobalIndex,
+      er1646v2EPeerRemoteAsValue
+         Integer32
+      }
+
+er1646v2EPeerRemoteAsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerRemoteAsEntry 10}
+
+er1646v2EPeerRemoteAsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.remoteAs"
+   ::= {er1646v2EPeerRemoteAsEntry 2147483648}
+
+
+er1646v2EPeerMultiHop OBJECT IDENTIFIER ::= {er1646v2EPeer 22}
+
+er1646v2EPeerMultiHopSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerMultiHopEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "maximum nr of hops between the local and remote EBGP peers"
+   ::= {er1646v2EPeerMultiHop 1}
+
+er1646v2EPeerMultiHopEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerMultiHopEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerMultiHopGlobalIx }
+   ::= {er1646v2EPeerMultiHopSSCTable 1}
+
+Er1646v2EPeerMultiHopEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerMultiHopGlobalIx
+         GlobalIndex,
+      er1646v2EPeerMultiHopNrHops
+         Integer32,
+      er1646v2EPeerMultiHopSecurityCheck
+         INTEGER
+      }
+
+er1646v2EPeerMultiHopGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerMultiHopEntry 10}
+
+er1646v2EPeerMultiHopNrHops OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.multiHop.nrHops"
+   ::= {er1646v2EPeerMultiHopEntry 16777216}
+
+er1646v2EPeerMultiHopSecurityCheck OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.multiHop.securityCheck
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2EPeerMultiHopEntry 33554432}
+
+
+er1646v2EPeerPrefixLimit OBJECT IDENTIFIER ::= {er1646v2EPeer 23}
+
+er1646v2EPeerPrefixLimitTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerPrefixLimitEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "remote as on peer"
+   ::= {er1646v2EPeerPrefixLimit 1}
+
+er1646v2EPeerPrefixLimitEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerPrefixLimitEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerPrefixLimitGlobalIx }
+   ::= {er1646v2EPeerPrefixLimitTable 1}
+
+Er1646v2EPeerPrefixLimitEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerPrefixLimitGlobalIx
+         GlobalIndex,
+      er1646v2EPeerPrefixLimitValue
+         INTEGER
+      }
+
+er1646v2EPeerPrefixLimitGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerPrefixLimitEntry 10}
+
+er1646v2EPeerPrefixLimitValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unlimited (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.prefixLimit
+
+       Possibilities:
+               unlimited   (0)"
+   ::= {er1646v2EPeerPrefixLimitEntry 2147483648}
+
+
+er1646v2EPeerAllowAsIn OBJECT IDENTIFIER ::= {er1646v2EPeer 24}
+
+er1646v2EPeerAllowAsInTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2EPeerAllowAsInEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "setting of local as on external peers"
+   ::= {er1646v2EPeerAllowAsIn 1}
+
+er1646v2EPeerAllowAsInEntry OBJECT-TYPE
+   SYNTAX      Er1646v2EPeerAllowAsInEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2EPeerAllowAsInGlobalIx }
+   ::= {er1646v2EPeerAllowAsInTable 1}
+
+Er1646v2EPeerAllowAsInEntry ::=
+   SEQUENCE
+      {
+      er1646v2EPeerAllowAsInGlobalIx
+         GlobalIndex,
+      er1646v2EPeerAllowAsInValue
+         INTEGER
+      }
+
+er1646v2EPeerAllowAsInGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2EPeerAllowAsInEntry 10}
+
+er1646v2EPeerAllowAsInValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.editConf.allowAsIn
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2EPeerAllowAsInEntry 2147483648}
+
+
+
+sr1646v2EPeer OBJECT IDENTIFIER ::= {r1646v2EPeer 14}
+
+
+sr1646v2EPeerSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2EPeer 269}
+
+sr1646v2EPeerSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2EPeerSnmpIndex 1}
+
+sr1646v2EPeerSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerSnmpIndexGlobalIx }
+   ::= {sr1646v2EPeerSnmpIndexTable 1}
+
+Sr1646v2EPeerSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2EPeerSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerSnmpIndexEntry 10}
+
+sr1646v2EPeerSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.snmpIndex"
+   ::= {sr1646v2EPeerSnmpIndexEntry 2147483648}
+
+
+sr1646v2EPeerStatus OBJECT IDENTIFIER ::= {sr1646v2EPeer 30}
+
+sr1646v2EPeerStatusTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Peer status"
+   ::= {sr1646v2EPeerStatus 1}
+
+sr1646v2EPeerStatusEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerStatusGlobalIx }
+   ::= {sr1646v2EPeerStatusTable 1}
+
+Sr1646v2EPeerStatusEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerStatusGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerStatusValue
+         INTEGER
+      }
+
+sr1646v2EPeerStatusGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerStatusEntry 10}
+
+sr1646v2EPeerStatusValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               shutDown (0),
+               idle (1),
+               connect (2),
+               active (3),
+               openSent (4),
+               openConfirm (5),
+               established (6)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.status
+
+       Possibilities:
+               shutDown   (0)
+               idle   (1)
+               connect   (2)
+               active   (3)
+               openSent   (4)
+               openConfirm   (5)
+               established   (6)"
+   ::= {sr1646v2EPeerStatusEntry 2147483648}
+
+
+sr1646v2EPeerUpTime OBJECT IDENTIFIER ::= {sr1646v2EPeer 31}
+
+sr1646v2EPeerUpTimeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerUpTimeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "time attribute"
+   ::= {sr1646v2EPeerUpTime 1}
+
+sr1646v2EPeerUpTimeEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerUpTimeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerUpTimeGlobalIx }
+   ::= {sr1646v2EPeerUpTimeTable 1}
+
+Sr1646v2EPeerUpTimeEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerUpTimeGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerUpTimeValue
+         TimeTicks
+      }
+
+sr1646v2EPeerUpTimeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerUpTimeEntry 10}
+
+sr1646v2EPeerUpTimeValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.upTime
+
+       Time in centi-second."
+   ::= {sr1646v2EPeerUpTimeEntry 2147483648}
+
+
+sr1646v2EPeerRemote OBJECT IDENTIFIER ::= {sr1646v2EPeer 32}
+
+sr1646v2EPeerRemoteSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerRemoteEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "remote info on peer"
+   ::= {sr1646v2EPeerRemote 1}
+
+sr1646v2EPeerRemoteEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerRemoteEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerRemoteGlobalIx }
+   ::= {sr1646v2EPeerRemoteSSCTable 1}
+
+Sr1646v2EPeerRemoteEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerRemoteGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerRemoteAsNr
+         Integer32,
+      sr1646v2EPeerRemoteId
+         IpAddress
+      }
+
+sr1646v2EPeerRemoteGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerRemoteEntry 10}
+
+sr1646v2EPeerRemoteAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.remote.asNr"
+   ::= {sr1646v2EPeerRemoteEntry 16777216}
+
+sr1646v2EPeerRemoteId OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.remote.id"
+   ::= {sr1646v2EPeerRemoteEntry 33554432}
+
+
+sr1646v2EPeerTimers OBJECT IDENTIFIER ::= {sr1646v2EPeer 36}
+
+sr1646v2EPeerTimersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerTimersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "peer timer values"
+   ::= {sr1646v2EPeerTimers 1}
+
+sr1646v2EPeerTimersEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerTimersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerTimersGlobalIx }
+   ::= {sr1646v2EPeerTimersSSCTable 1}
+
+Sr1646v2EPeerTimersEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerTimersGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerTimersKeepAlive
+         TimeTicks,
+      sr1646v2EPeerTimersHoldTime
+         TimeTicks
+      }
+
+sr1646v2EPeerTimersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerTimersEntry 10}
+
+sr1646v2EPeerTimersKeepAlive OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.timers.keepAlive
+
+       Time in centi-second."
+   ::= {sr1646v2EPeerTimersEntry 16777216}
+
+sr1646v2EPeerTimersHoldTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.timers.holdTime
+
+       Time in centi-second."
+   ::= {sr1646v2EPeerTimersEntry 33554432}
+
+
+sr1646v2EPeerPrefixesSent OBJECT IDENTIFIER ::= {sr1646v2EPeer 42}
+
+sr1646v2EPeerPrefixesSentSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerPrefixesSentEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nr of prefixes/withdrawals processed"
+   ::= {sr1646v2EPeerPrefixesSent 1}
+
+sr1646v2EPeerPrefixesSentEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerPrefixesSentEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerPrefixesSentGlobalIx }
+   ::= {sr1646v2EPeerPrefixesSentSSCTable 1}
+
+Sr1646v2EPeerPrefixesSentEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerPrefixesSentGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerPrefixesSentAnnounced
+         Counter32,
+      sr1646v2EPeerPrefixesSentWithdrawn
+         Counter32
+      }
+
+sr1646v2EPeerPrefixesSentGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerPrefixesSentEntry 10}
+
+sr1646v2EPeerPrefixesSentAnnounced OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.prefixesSent.announced
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2EPeerPrefixesSentEntry 16777216}
+
+sr1646v2EPeerPrefixesSentWithdrawn OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.prefixesSent.withdrawn
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2EPeerPrefixesSentEntry 33554432}
+
+
+sr1646v2EPeerPrefixesRcvd OBJECT IDENTIFIER ::= {sr1646v2EPeer 43}
+
+sr1646v2EPeerPrefixesRcvdSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerPrefixesRcvdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nr of prefixes/withdrawals processed"
+   ::= {sr1646v2EPeerPrefixesRcvd 1}
+
+sr1646v2EPeerPrefixesRcvdEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerPrefixesRcvdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerPrefixesRcvdGlobalIx }
+   ::= {sr1646v2EPeerPrefixesRcvdSSCTable 1}
+
+Sr1646v2EPeerPrefixesRcvdEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerPrefixesRcvdGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerPrefixesRcvdAnnounced
+         Counter32,
+      sr1646v2EPeerPrefixesRcvdWithdrawn
+         Counter32
+      }
+
+sr1646v2EPeerPrefixesRcvdGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerPrefixesRcvdEntry 10}
+
+sr1646v2EPeerPrefixesRcvdAnnounced OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.prefixesRcvd.announced
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2EPeerPrefixesRcvdEntry 16777216}
+
+sr1646v2EPeerPrefixesRcvdWithdrawn OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.prefixesRcvd.withdrawn
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2EPeerPrefixesRcvdEntry 33554432}
+
+
+sr1646v2EPeerAdjSoftIn OBJECT IDENTIFIER ::= {sr1646v2EPeer 38}
+
+sr1646v2EPeerAdjSoftInSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerAdjSoftInEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Peer adjacency list"
+   ::= {sr1646v2EPeerAdjSoftIn 1}
+
+sr1646v2EPeerAdjSoftInEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerAdjSoftInEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerAdjSoftInGlobalIx,
+                sr1646v2EPeerAdjSoftInTableIx }
+   ::= {sr1646v2EPeerAdjSoftInSSCTable 1}
+
+Sr1646v2EPeerAdjSoftInEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerAdjSoftInGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerAdjSoftInTableIx
+         TableIndex,
+      sr1646v2EPeerAdjSoftInPrefix
+         IpAddress,
+      sr1646v2EPeerAdjSoftInLength
+         Integer32,
+      sr1646v2EPeerAdjSoftInAttrNextHop
+         IpAddress,
+      sr1646v2EPeerAdjSoftInAttrWeight
+         Gauge32,
+      sr1646v2EPeerAdjSoftInAttrLocPref
+         Gauge32,
+      sr1646v2EPeerAdjSoftInAttrAsPath
+         DisplayString,
+      sr1646v2EPeerAdjSoftInAttrOrigin
+         INTEGER,
+      sr1646v2EPeerAdjSoftInAttrMed
+         Gauge32,
+      sr1646v2EPeerAdjSoftInAttrCommunityEmpty
+         DisplayString,
+      sr1646v2EPeerAdjSoftInAttrCommunityWellKnown
+         INTEGER,
+      sr1646v2EPeerAdjSoftInAttrCommunityManualAsNr
+         Integer32,
+      sr1646v2EPeerAdjSoftInAttrCommunityManualCommNr
+         Integer32,
+      sr1646v2EPeerAdjSoftInAttrTag
+         DisplayString,
+      sr1646v2EPeerAdjSoftInAttrAtom
+         INTEGER,
+      sr1646v2EPeerAdjSoftInAttrAggrAs
+         Integer32,
+      sr1646v2EPeerAdjSoftInAttrAggrAddr
+         IpAddress,
+      sr1646v2EPeerAdjSoftInAttrUnknTrans
+         OCTET STRING
+      }
+
+sr1646v2EPeerAdjSoftInGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerAdjSoftInEntry 10}
+
+sr1646v2EPeerAdjSoftInTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2EPeerAdjSoftInEntry 11}
+
+sr1646v2EPeerAdjSoftInPrefix OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.prefix"
+   ::= {sr1646v2EPeerAdjSoftInEntry 16777216}
+
+sr1646v2EPeerAdjSoftInLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.length"
+   ::= {sr1646v2EPeerAdjSoftInEntry 33554432}
+
+sr1646v2EPeerAdjSoftInAttrNextHop OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.nextHop"
+   ::= {sr1646v2EPeerAdjSoftInEntry 50397184}
+
+sr1646v2EPeerAdjSoftInAttrWeight OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.weight
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2EPeerAdjSoftInEntry 50462720}
+
+sr1646v2EPeerAdjSoftInAttrLocPref OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.localPref
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2EPeerAdjSoftInEntry 50528256}
+
+sr1646v2EPeerAdjSoftInAttrAsPath OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.asPath"
+   ::= {sr1646v2EPeerAdjSoftInEntry 50593792}
+
+sr1646v2EPeerAdjSoftInAttrOrigin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               igp (0),
+               egp (1),
+               incomplete (2),
+               any (65535)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.origin
+
+       Possibilities:
+               igp   (0)
+               egp   (1)
+               incomplete   (2)
+               any   (65535)"
+   ::= {sr1646v2EPeerAdjSoftInEntry 50659328}
+
+sr1646v2EPeerAdjSoftInAttrMed OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.med
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2EPeerAdjSoftInEntry 50724864}
+
+sr1646v2EPeerAdjSoftInAttrCommunityEmpty OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.community.empty"
+   ::= {sr1646v2EPeerAdjSoftInEntry 50987264}
+
+sr1646v2EPeerAdjSoftInAttrCommunityWellKnown OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.community.wellKnown
+
+       Possibilities:
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {sr1646v2EPeerAdjSoftInEntry 50987520}
+
+sr1646v2EPeerAdjSoftInAttrCommunityManualAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.community.manual.asNr"
+   ::= {sr1646v2EPeerAdjSoftInEntry 50987777}
+
+sr1646v2EPeerAdjSoftInAttrCommunityManualCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.community.manual.communityNr"
+   ::= {sr1646v2EPeerAdjSoftInEntry 50987778}
+
+sr1646v2EPeerAdjSoftInAttrTag OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.tag"
+   ::= {sr1646v2EPeerAdjSoftInEntry 51052544}
+
+sr1646v2EPeerAdjSoftInAttrAtom OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.atomicAggr
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2EPeerAdjSoftInEntry 50790400}
+
+sr1646v2EPeerAdjSoftInAttrAggrAs OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.aggregator.as"
+   ::= {sr1646v2EPeerAdjSoftInEntry 50856192}
+
+sr1646v2EPeerAdjSoftInAttrAggrAddr OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.aggregator.address"
+   ::= {sr1646v2EPeerAdjSoftInEntry 50856448}
+
+sr1646v2EPeerAdjSoftInAttrUnknTrans OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.unknownTrans"
+   ::= {sr1646v2EPeerAdjSoftInEntry 50921472}
+
+sr1646v2EPeerAdjSoftInAttrCommunityList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerAdjSoftInAttrCommunityListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2EPeerAdjSoftIn 50988032}
+
+sr1646v2EPeerAdjSoftInAttrCommunityListEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerAdjSoftInAttrCommunityListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerAdjSoftInAttrCommunityListGlobalIx,
+                sr1646v2EPeerAdjSoftInTableIx,
+                sr1646v2EPeerAdjSoftInAttrCommunityListTableIx }
+   ::= {sr1646v2EPeerAdjSoftInAttrCommunityList 1}
+
+Sr1646v2EPeerAdjSoftInAttrCommunityListEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerAdjSoftInAttrCommunityListGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerAdjSoftInAttrCommunityListTableIx
+         TableIndex,
+      sr1646v2EPeerAdjSoftInAttrCommunityListWellKnown
+         INTEGER,
+      sr1646v2EPeerAdjSoftInAttrCommunityListManualAsNr
+         Integer32,
+      sr1646v2EPeerAdjSoftInAttrCommunityListManualCommNr
+         Integer32
+      }
+
+sr1646v2EPeerAdjSoftInAttrCommunityListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerAdjSoftInAttrCommunityListEntry 10}
+
+sr1646v2EPeerAdjSoftInAttrCommunityListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2EPeerAdjSoftInAttrCommunityListEntry 11}
+
+sr1646v2EPeerAdjSoftInAttrCommunityListWellKnown OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.community.list.wellKnown
+
+       Possibilities:
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {sr1646v2EPeerAdjSoftInAttrCommunityListEntry 16777216}
+
+sr1646v2EPeerAdjSoftInAttrCommunityListManualAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.community.list.manual.asNr"
+   ::= {sr1646v2EPeerAdjSoftInAttrCommunityListEntry 33619968}
+
+sr1646v2EPeerAdjSoftInAttrCommunityListManualCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjSoftIn.attributes.community.list.manual.communityNr"
+   ::= {sr1646v2EPeerAdjSoftInAttrCommunityListEntry 33685504}
+
+
+sr1646v2EPeerAdjRibIn OBJECT IDENTIFIER ::= {sr1646v2EPeer 39}
+
+sr1646v2EPeerAdjRibInSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerAdjRibInEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Routing Information Base"
+   ::= {sr1646v2EPeerAdjRibIn 1}
+
+sr1646v2EPeerAdjRibInEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerAdjRibInEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerAdjRibInGlobalIx,
+                sr1646v2EPeerAdjRibInTableIx }
+   ::= {sr1646v2EPeerAdjRibInSSCTable 1}
+
+Sr1646v2EPeerAdjRibInEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerAdjRibInGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerAdjRibInTableIx
+         TableIndex,
+      sr1646v2EPeerAdjRibInPrefix
+         IpAddress,
+      sr1646v2EPeerAdjRibInLength
+         Integer32,
+      sr1646v2EPeerAdjRibInStatus
+         INTEGER,
+      sr1646v2EPeerAdjRibInType
+         INTEGER,
+      sr1646v2EPeerAdjRibInAttrNextHop
+         IpAddress,
+      sr1646v2EPeerAdjRibInAttrWeight
+         Gauge32,
+      sr1646v2EPeerAdjRibInAttrLocPref
+         Gauge32,
+      sr1646v2EPeerAdjRibInAttrAsPath
+         DisplayString,
+      sr1646v2EPeerAdjRibInAttrOrigin
+         INTEGER,
+      sr1646v2EPeerAdjRibInAttrMed
+         Gauge32,
+      sr1646v2EPeerAdjRibInAttrCommunityEmpty
+         DisplayString,
+      sr1646v2EPeerAdjRibInAttrCommunityWellKnown
+         INTEGER,
+      sr1646v2EPeerAdjRibInAttrCommunityManualAsNr
+         Integer32,
+      sr1646v2EPeerAdjRibInAttrCommunityManualCommNr
+         Integer32,
+      sr1646v2EPeerAdjRibInAttrTag
+         DisplayString,
+      sr1646v2EPeerAdjRibInAttrAtom
+         INTEGER,
+      sr1646v2EPeerAdjRibInAttrAggrAs
+         Integer32,
+      sr1646v2EPeerAdjRibInAttrAggrAddr
+         IpAddress,
+      sr1646v2EPeerAdjRibInAttrUnknTrans
+         OCTET STRING
+      }
+
+sr1646v2EPeerAdjRibInGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerAdjRibInEntry 10}
+
+sr1646v2EPeerAdjRibInTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2EPeerAdjRibInEntry 11}
+
+sr1646v2EPeerAdjRibInPrefix OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.prefix"
+   ::= {sr1646v2EPeerAdjRibInEntry 16777216}
+
+sr1646v2EPeerAdjRibInLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.length"
+   ::= {sr1646v2EPeerAdjRibInEntry 33554432}
+
+sr1646v2EPeerAdjRibInStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               invalid (0),
+               valid (1),
+               selected (2),
+               suppressed (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.status
+
+       Possibilities:
+               invalid   (0)
+               valid   (1)
+               selected   (2)
+               suppressed   (3)"
+   ::= {sr1646v2EPeerAdjRibInEntry 50331648}
+
+sr1646v2EPeerAdjRibInType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ibgp (1),
+               ebgp (2),
+               network (3),
+               aggregate (4),
+               local (5),
+               static (6),
+               rip (7),
+               ospf (8),
+               radius (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.type
+
+       Possibilities:
+               ibgp   (1)
+               ebgp   (2)
+               network   (3)
+               aggregate   (4)
+               local   (5)
+               static   (6)
+               rip   (7)
+               ospf   (8)
+               radius   (9)"
+   ::= {sr1646v2EPeerAdjRibInEntry 67108864}
+
+sr1646v2EPeerAdjRibInAttrNextHop OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.nextHop"
+   ::= {sr1646v2EPeerAdjRibInEntry 83951616}
+
+sr1646v2EPeerAdjRibInAttrWeight OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.weight
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2EPeerAdjRibInEntry 84017152}
+
+sr1646v2EPeerAdjRibInAttrLocPref OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.localPref
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2EPeerAdjRibInEntry 84082688}
+
+sr1646v2EPeerAdjRibInAttrAsPath OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.asPath"
+   ::= {sr1646v2EPeerAdjRibInEntry 84148224}
+
+sr1646v2EPeerAdjRibInAttrOrigin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               igp (0),
+               egp (1),
+               incomplete (2),
+               any (65535)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.origin
+
+       Possibilities:
+               igp   (0)
+               egp   (1)
+               incomplete   (2)
+               any   (65535)"
+   ::= {sr1646v2EPeerAdjRibInEntry 84213760}
+
+sr1646v2EPeerAdjRibInAttrMed OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.med
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2EPeerAdjRibInEntry 84279296}
+
+sr1646v2EPeerAdjRibInAttrCommunityEmpty OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.community.empty"
+   ::= {sr1646v2EPeerAdjRibInEntry 84541696}
+
+sr1646v2EPeerAdjRibInAttrCommunityWellKnown OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.community.wellKnown
+
+       Possibilities:
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {sr1646v2EPeerAdjRibInEntry 84541952}
+
+sr1646v2EPeerAdjRibInAttrCommunityManualAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.community.manual.asNr"
+   ::= {sr1646v2EPeerAdjRibInEntry 84542209}
+
+sr1646v2EPeerAdjRibInAttrCommunityManualCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.community.manual.communityNr"
+   ::= {sr1646v2EPeerAdjRibInEntry 84542210}
+
+sr1646v2EPeerAdjRibInAttrTag OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.tag"
+   ::= {sr1646v2EPeerAdjRibInEntry 84606976}
+
+sr1646v2EPeerAdjRibInAttrAtom OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.atomicAggr
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2EPeerAdjRibInEntry 84344832}
+
+sr1646v2EPeerAdjRibInAttrAggrAs OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.aggregator.as"
+   ::= {sr1646v2EPeerAdjRibInEntry 84410624}
+
+sr1646v2EPeerAdjRibInAttrAggrAddr OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.aggregator.address"
+   ::= {sr1646v2EPeerAdjRibInEntry 84410880}
+
+sr1646v2EPeerAdjRibInAttrUnknTrans OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.unknownTrans"
+   ::= {sr1646v2EPeerAdjRibInEntry 84475904}
+
+sr1646v2EPeerAdjRibInAttrCommunityList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerAdjRibInAttrCommunityListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2EPeerAdjRibIn 84542464}
+
+sr1646v2EPeerAdjRibInAttrCommunityListEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerAdjRibInAttrCommunityListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerAdjRibInAttrCommunityListGlobalIx,
+                sr1646v2EPeerAdjRibInTableIx,
+                sr1646v2EPeerAdjRibInAttrCommunityListTableIx }
+   ::= {sr1646v2EPeerAdjRibInAttrCommunityList 1}
+
+Sr1646v2EPeerAdjRibInAttrCommunityListEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerAdjRibInAttrCommunityListGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerAdjRibInAttrCommunityListTableIx
+         TableIndex,
+      sr1646v2EPeerAdjRibInAttrCommunityListWellKnown
+         INTEGER,
+      sr1646v2EPeerAdjRibInAttrCommunityListManualAsNr
+         Integer32,
+      sr1646v2EPeerAdjRibInAttrCommunityListManualCommNr
+         Integer32
+      }
+
+sr1646v2EPeerAdjRibInAttrCommunityListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerAdjRibInAttrCommunityListEntry 10}
+
+sr1646v2EPeerAdjRibInAttrCommunityListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2EPeerAdjRibInAttrCommunityListEntry 11}
+
+sr1646v2EPeerAdjRibInAttrCommunityListWellKnown OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.community.list.wellKnown
+
+       Possibilities:
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {sr1646v2EPeerAdjRibInAttrCommunityListEntry 16777216}
+
+sr1646v2EPeerAdjRibInAttrCommunityListManualAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.community.list.manual.asNr"
+   ::= {sr1646v2EPeerAdjRibInAttrCommunityListEntry 33619968}
+
+sr1646v2EPeerAdjRibInAttrCommunityListManualCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibIn.attributes.community.list.manual.communityNr"
+   ::= {sr1646v2EPeerAdjRibInAttrCommunityListEntry 33685504}
+
+
+sr1646v2EPeerAdjRibOut OBJECT IDENTIFIER ::= {sr1646v2EPeer 40}
+
+sr1646v2EPeerAdjRibOutSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerAdjRibOutEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Peer adjacency list"
+   ::= {sr1646v2EPeerAdjRibOut 1}
+
+sr1646v2EPeerAdjRibOutEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerAdjRibOutEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerAdjRibOutGlobalIx,
+                sr1646v2EPeerAdjRibOutTableIx }
+   ::= {sr1646v2EPeerAdjRibOutSSCTable 1}
+
+Sr1646v2EPeerAdjRibOutEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerAdjRibOutGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerAdjRibOutTableIx
+         TableIndex,
+      sr1646v2EPeerAdjRibOutPrefix
+         IpAddress,
+      sr1646v2EPeerAdjRibOutLength
+         Integer32,
+      sr1646v2EPeerAdjRibOutAttrNextHop
+         IpAddress,
+      sr1646v2EPeerAdjRibOutAttrWeight
+         Gauge32,
+      sr1646v2EPeerAdjRibOutAttrLocPref
+         Gauge32,
+      sr1646v2EPeerAdjRibOutAttrAsPath
+         DisplayString,
+      sr1646v2EPeerAdjRibOutAttrOrigin
+         INTEGER,
+      sr1646v2EPeerAdjRibOutAttrMed
+         Gauge32,
+      sr1646v2EPeerAdjRibOutAttrCommunityEmpty
+         DisplayString,
+      sr1646v2EPeerAdjRibOutAttrCommunityWellKnown
+         INTEGER,
+      sr1646v2EPeerAdjRibOutAttrCommunityManualAsNr
+         Integer32,
+      sr1646v2EPeerAdjRibOutAttrCommunityManualCommNr
+         Integer32,
+      sr1646v2EPeerAdjRibOutAttrTag
+         DisplayString,
+      sr1646v2EPeerAdjRibOutAttrAtom
+         INTEGER,
+      sr1646v2EPeerAdjRibOutAttrAggrAs
+         Integer32,
+      sr1646v2EPeerAdjRibOutAttrAggrAddr
+         IpAddress,
+      sr1646v2EPeerAdjRibOutAttrUnknTrans
+         OCTET STRING
+      }
+
+sr1646v2EPeerAdjRibOutGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerAdjRibOutEntry 10}
+
+sr1646v2EPeerAdjRibOutTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2EPeerAdjRibOutEntry 11}
+
+sr1646v2EPeerAdjRibOutPrefix OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.prefix"
+   ::= {sr1646v2EPeerAdjRibOutEntry 16777216}
+
+sr1646v2EPeerAdjRibOutLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.length"
+   ::= {sr1646v2EPeerAdjRibOutEntry 33554432}
+
+sr1646v2EPeerAdjRibOutAttrNextHop OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.nextHop"
+   ::= {sr1646v2EPeerAdjRibOutEntry 50397184}
+
+sr1646v2EPeerAdjRibOutAttrWeight OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.weight
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2EPeerAdjRibOutEntry 50462720}
+
+sr1646v2EPeerAdjRibOutAttrLocPref OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.localPref
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2EPeerAdjRibOutEntry 50528256}
+
+sr1646v2EPeerAdjRibOutAttrAsPath OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.asPath"
+   ::= {sr1646v2EPeerAdjRibOutEntry 50593792}
+
+sr1646v2EPeerAdjRibOutAttrOrigin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               igp (0),
+               egp (1),
+               incomplete (2),
+               any (65535)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.origin
+
+       Possibilities:
+               igp   (0)
+               egp   (1)
+               incomplete   (2)
+               any   (65535)"
+   ::= {sr1646v2EPeerAdjRibOutEntry 50659328}
+
+sr1646v2EPeerAdjRibOutAttrMed OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.med
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2EPeerAdjRibOutEntry 50724864}
+
+sr1646v2EPeerAdjRibOutAttrCommunityEmpty OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.community.empty"
+   ::= {sr1646v2EPeerAdjRibOutEntry 50987264}
+
+sr1646v2EPeerAdjRibOutAttrCommunityWellKnown OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.community.wellKnown
+
+       Possibilities:
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {sr1646v2EPeerAdjRibOutEntry 50987520}
+
+sr1646v2EPeerAdjRibOutAttrCommunityManualAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.community.manual.asNr"
+   ::= {sr1646v2EPeerAdjRibOutEntry 50987777}
+
+sr1646v2EPeerAdjRibOutAttrCommunityManualCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.community.manual.communityNr"
+   ::= {sr1646v2EPeerAdjRibOutEntry 50987778}
+
+sr1646v2EPeerAdjRibOutAttrTag OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.tag"
+   ::= {sr1646v2EPeerAdjRibOutEntry 51052544}
+
+sr1646v2EPeerAdjRibOutAttrAtom OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.atomicAggr
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2EPeerAdjRibOutEntry 50790400}
+
+sr1646v2EPeerAdjRibOutAttrAggrAs OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.aggregator.as"
+   ::= {sr1646v2EPeerAdjRibOutEntry 50856192}
+
+sr1646v2EPeerAdjRibOutAttrAggrAddr OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.aggregator.address"
+   ::= {sr1646v2EPeerAdjRibOutEntry 50856448}
+
+sr1646v2EPeerAdjRibOutAttrUnknTrans OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.unknownTrans"
+   ::= {sr1646v2EPeerAdjRibOutEntry 50921472}
+
+sr1646v2EPeerAdjRibOutAttrCommunityList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerAdjRibOutAttrCommunityListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2EPeerAdjRibOut 50988032}
+
+sr1646v2EPeerAdjRibOutAttrCommunityListEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerAdjRibOutAttrCommunityListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerAdjRibOutAttrCommunityListGlobalIx,
+                sr1646v2EPeerAdjRibOutTableIx,
+                sr1646v2EPeerAdjRibOutAttrCommunityListTableIx }
+   ::= {sr1646v2EPeerAdjRibOutAttrCommunityList 1}
+
+Sr1646v2EPeerAdjRibOutAttrCommunityListEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerAdjRibOutAttrCommunityListGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerAdjRibOutAttrCommunityListTableIx
+         TableIndex,
+      sr1646v2EPeerAdjRibOutAttrCommunityListWellKnown
+         INTEGER,
+      sr1646v2EPeerAdjRibOutAttrCommunityListManualAsNr
+         Integer32,
+      sr1646v2EPeerAdjRibOutAttrCommunityListManualCommNr
+         Integer32
+      }
+
+sr1646v2EPeerAdjRibOutAttrCommunityListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerAdjRibOutAttrCommunityListEntry 10}
+
+sr1646v2EPeerAdjRibOutAttrCommunityListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2EPeerAdjRibOutAttrCommunityListEntry 11}
+
+sr1646v2EPeerAdjRibOutAttrCommunityListWellKnown OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noExport (1),
+               noAdvertise (2),
+               localAs (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.community.list.wellKnown
+
+       Possibilities:
+               noExport   (1)
+               noAdvertise   (2)
+               localAs   (3)"
+   ::= {sr1646v2EPeerAdjRibOutAttrCommunityListEntry 16777216}
+
+sr1646v2EPeerAdjRibOutAttrCommunityListManualAsNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.community.list.manual.asNr"
+   ::= {sr1646v2EPeerAdjRibOutAttrCommunityListEntry 33619968}
+
+sr1646v2EPeerAdjRibOutAttrCommunityListManualCommNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.adjRibOut.attributes.community.list.manual.communityNr"
+   ::= {sr1646v2EPeerAdjRibOutAttrCommunityListEntry 33685504}
+
+
+sr1646v2EPeerWarning OBJECT IDENTIFIER ::= {sr1646v2EPeer 41}
+
+sr1646v2EPeerWarningTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2EPeerWarningEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "a string attribute"
+   ::= {sr1646v2EPeerWarning 1}
+
+sr1646v2EPeerWarningEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2EPeerWarningEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2EPeerWarningGlobalIx }
+   ::= {sr1646v2EPeerWarningTable 1}
+
+Sr1646v2EPeerWarningEntry ::=
+   SEQUENCE
+      {
+      sr1646v2EPeerWarningGlobalIx
+         GlobalIndex,
+      sr1646v2EPeerWarningValue
+         DisplayString
+      }
+
+sr1646v2EPeerWarningGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2EPeerWarningEntry 10}
+
+sr1646v2EPeerWarningValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.status.warning"
+   ::= {sr1646v2EPeerWarningEntry 2147483648}
+
+
+
+pr1646v2EPeer OBJECT IDENTIFIER ::= {r1646v2EPeer 12}
+
+
+pr1646v2EPeerSessions OBJECT IDENTIFIER ::= {pr1646v2EPeer 52}
+
+pr1646v2EPeerSessionsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EPeerSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nr of times session went up/down"
+   ::= {pr1646v2EPeerSessions 1}
+
+pr1646v2EPeerSessionsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EPeerSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EPeerSessionsGlobalIx }
+   ::= {pr1646v2EPeerSessionsSSCTable 1}
+
+Pr1646v2EPeerSessionsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EPeerSessionsGlobalIx
+         GlobalIndex,
+      pr1646v2EPeerSessionsEstablished
+         Counter32,
+      pr1646v2EPeerSessionsDropped
+         Counter32
+      }
+
+pr1646v2EPeerSessionsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EPeerSessionsEntry 10}
+
+pr1646v2EPeerSessionsEstablished OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.sessions.established
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerSessionsEntry 16777216}
+
+pr1646v2EPeerSessionsDropped OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.sessions.dropped
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerSessionsEntry 33554432}
+
+
+pr1646v2EPeerMessagesSent OBJECT IDENTIFIER ::= {pr1646v2EPeer 50}
+
+pr1646v2EPeerMessagesSentSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EPeerMessagesSentEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "the nr of different messages"
+   ::= {pr1646v2EPeerMessagesSent 1}
+
+pr1646v2EPeerMessagesSentEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EPeerMessagesSentEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EPeerMessagesSentGlobalIx }
+   ::= {pr1646v2EPeerMessagesSentSSCTable 1}
+
+Pr1646v2EPeerMessagesSentEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EPeerMessagesSentGlobalIx
+         GlobalIndex,
+      pr1646v2EPeerMessagesSentOpen
+         Counter32,
+      pr1646v2EPeerMessagesSentKeepAlive
+         Counter32,
+      pr1646v2EPeerMessagesSentUpdate
+         Counter32,
+      pr1646v2EPeerMessagesSentNotify
+         Counter32
+      }
+
+pr1646v2EPeerMessagesSentGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EPeerMessagesSentEntry 10}
+
+pr1646v2EPeerMessagesSentOpen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.messagesSent.open
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerMessagesSentEntry 16777216}
+
+pr1646v2EPeerMessagesSentKeepAlive OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.messagesSent.keepAlive
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerMessagesSentEntry 33554432}
+
+pr1646v2EPeerMessagesSentUpdate OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.messagesSent.update
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerMessagesSentEntry 50331648}
+
+pr1646v2EPeerMessagesSentNotify OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.messagesSent.notify
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerMessagesSentEntry 67108864}
+
+
+pr1646v2EPeerMessagesRcvd OBJECT IDENTIFIER ::= {pr1646v2EPeer 51}
+
+pr1646v2EPeerMessagesRcvdSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EPeerMessagesRcvdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "the nr of different messages"
+   ::= {pr1646v2EPeerMessagesRcvd 1}
+
+pr1646v2EPeerMessagesRcvdEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EPeerMessagesRcvdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EPeerMessagesRcvdGlobalIx }
+   ::= {pr1646v2EPeerMessagesRcvdSSCTable 1}
+
+Pr1646v2EPeerMessagesRcvdEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EPeerMessagesRcvdGlobalIx
+         GlobalIndex,
+      pr1646v2EPeerMessagesRcvdOpen
+         Counter32,
+      pr1646v2EPeerMessagesRcvdKeepAlive
+         Counter32,
+      pr1646v2EPeerMessagesRcvdUpdate
+         Counter32,
+      pr1646v2EPeerMessagesRcvdNotify
+         Counter32
+      }
+
+pr1646v2EPeerMessagesRcvdGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EPeerMessagesRcvdEntry 10}
+
+pr1646v2EPeerMessagesRcvdOpen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.messagesRcvd.open
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerMessagesRcvdEntry 16777216}
+
+pr1646v2EPeerMessagesRcvdKeepAlive OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.messagesRcvd.keepAlive
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerMessagesRcvdEntry 33554432}
+
+pr1646v2EPeerMessagesRcvdUpdate OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.messagesRcvd.update
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerMessagesRcvdEntry 50331648}
+
+pr1646v2EPeerMessagesRcvdNotify OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.messagesRcvd.notify
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerMessagesRcvdEntry 67108864}
+
+
+pr1646v2EPeerPrefixesSent OBJECT IDENTIFIER ::= {pr1646v2EPeer 53}
+
+pr1646v2EPeerPrefixesSentSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EPeerPrefixesSentEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nr of prefixes/withdrawals processed"
+   ::= {pr1646v2EPeerPrefixesSent 1}
+
+pr1646v2EPeerPrefixesSentEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EPeerPrefixesSentEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EPeerPrefixesSentGlobalIx }
+   ::= {pr1646v2EPeerPrefixesSentSSCTable 1}
+
+Pr1646v2EPeerPrefixesSentEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EPeerPrefixesSentGlobalIx
+         GlobalIndex,
+      pr1646v2EPeerPrefixesSentAnnounced
+         Counter32,
+      pr1646v2EPeerPrefixesSentWithdrawn
+         Counter32
+      }
+
+pr1646v2EPeerPrefixesSentGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EPeerPrefixesSentEntry 10}
+
+pr1646v2EPeerPrefixesSentAnnounced OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.prefixesSent.announced
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerPrefixesSentEntry 16777216}
+
+pr1646v2EPeerPrefixesSentWithdrawn OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.prefixesSent.withdrawn
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerPrefixesSentEntry 33554432}
+
+
+pr1646v2EPeerPrefixesRcvd OBJECT IDENTIFIER ::= {pr1646v2EPeer 54}
+
+pr1646v2EPeerPrefixesRcvdSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EPeerPrefixesRcvdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nr of prefixes/withdrawals processed"
+   ::= {pr1646v2EPeerPrefixesRcvd 1}
+
+pr1646v2EPeerPrefixesRcvdEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EPeerPrefixesRcvdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EPeerPrefixesRcvdGlobalIx }
+   ::= {pr1646v2EPeerPrefixesRcvdSSCTable 1}
+
+Pr1646v2EPeerPrefixesRcvdEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EPeerPrefixesRcvdGlobalIx
+         GlobalIndex,
+      pr1646v2EPeerPrefixesRcvdAnnounced
+         Counter32,
+      pr1646v2EPeerPrefixesRcvdWithdrawn
+         Counter32
+      }
+
+pr1646v2EPeerPrefixesRcvdGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EPeerPrefixesRcvdEntry 10}
+
+pr1646v2EPeerPrefixesRcvdAnnounced OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.prefixesRcvd.announced
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerPrefixesRcvdEntry 16777216}
+
+pr1646v2EPeerPrefixesRcvdWithdrawn OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.prefixesRcvd.withdrawn
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerPrefixesRcvdEntry 33554432}
+
+
+pr1646v2EPeerInboundFilters OBJECT IDENTIFIER ::= {pr1646v2EPeer 55}
+
+pr1646v2EPeerInboundFiltersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EPeerInboundFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "name list with counter"
+   ::= {pr1646v2EPeerInboundFilters 1}
+
+pr1646v2EPeerInboundFiltersEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EPeerInboundFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EPeerInboundFiltersGlobalIx,
+                pr1646v2EPeerInboundFiltersTableIx }
+   ::= {pr1646v2EPeerInboundFiltersSSCTable 1}
+
+Pr1646v2EPeerInboundFiltersEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EPeerInboundFiltersGlobalIx
+         GlobalIndex,
+      pr1646v2EPeerInboundFiltersTableIx
+         TableIndex,
+      pr1646v2EPeerInboundFiltersName
+         DisplayString,
+      pr1646v2EPeerInboundFiltersUses
+         Counter32
+      }
+
+pr1646v2EPeerInboundFiltersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EPeerInboundFiltersEntry 10}
+
+pr1646v2EPeerInboundFiltersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2EPeerInboundFiltersEntry 11}
+
+pr1646v2EPeerInboundFiltersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.inboundFilters.name"
+   ::= {pr1646v2EPeerInboundFiltersEntry 16777216}
+
+pr1646v2EPeerInboundFiltersUses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.inboundFilters.uses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerInboundFiltersEntry 33554432}
+
+
+pr1646v2EPeerOutboundFilters OBJECT IDENTIFIER ::= {pr1646v2EPeer 56}
+
+pr1646v2EPeerOutboundFiltersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EPeerOutboundFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "name list with counter"
+   ::= {pr1646v2EPeerOutboundFilters 1}
+
+pr1646v2EPeerOutboundFiltersEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EPeerOutboundFiltersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EPeerOutboundFiltersGlobalIx,
+                pr1646v2EPeerOutboundFiltersTableIx }
+   ::= {pr1646v2EPeerOutboundFiltersSSCTable 1}
+
+Pr1646v2EPeerOutboundFiltersEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EPeerOutboundFiltersGlobalIx
+         GlobalIndex,
+      pr1646v2EPeerOutboundFiltersTableIx
+         TableIndex,
+      pr1646v2EPeerOutboundFiltersName
+         DisplayString,
+      pr1646v2EPeerOutboundFiltersUses
+         Counter32
+      }
+
+pr1646v2EPeerOutboundFiltersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EPeerOutboundFiltersEntry 10}
+
+pr1646v2EPeerOutboundFiltersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2EPeerOutboundFiltersEntry 11}
+
+pr1646v2EPeerOutboundFiltersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.outboundFilters.name"
+   ::= {pr1646v2EPeerOutboundFiltersEntry 16777216}
+
+pr1646v2EPeerOutboundFiltersUses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.outboundFilters.uses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerOutboundFiltersEntry 33554432}
+
+
+pr1646v2EPeerInboundMaps OBJECT IDENTIFIER ::= {pr1646v2EPeer 57}
+
+pr1646v2EPeerInboundMapsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EPeerInboundMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "name list with counter"
+   ::= {pr1646v2EPeerInboundMaps 1}
+
+pr1646v2EPeerInboundMapsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EPeerInboundMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EPeerInboundMapsGlobalIx,
+                pr1646v2EPeerInboundMapsTableIx }
+   ::= {pr1646v2EPeerInboundMapsSSCTable 1}
+
+Pr1646v2EPeerInboundMapsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EPeerInboundMapsGlobalIx
+         GlobalIndex,
+      pr1646v2EPeerInboundMapsTableIx
+         TableIndex,
+      pr1646v2EPeerInboundMapsName
+         DisplayString,
+      pr1646v2EPeerInboundMapsUses
+         Counter32
+      }
+
+pr1646v2EPeerInboundMapsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EPeerInboundMapsEntry 10}
+
+pr1646v2EPeerInboundMapsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2EPeerInboundMapsEntry 11}
+
+pr1646v2EPeerInboundMapsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.inboundMaps.name"
+   ::= {pr1646v2EPeerInboundMapsEntry 16777216}
+
+pr1646v2EPeerInboundMapsUses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.inboundMaps.uses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerInboundMapsEntry 33554432}
+
+
+pr1646v2EPeerOutboundMaps OBJECT IDENTIFIER ::= {pr1646v2EPeer 58}
+
+pr1646v2EPeerOutboundMapsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2EPeerOutboundMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "name list with counter"
+   ::= {pr1646v2EPeerOutboundMaps 1}
+
+pr1646v2EPeerOutboundMapsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2EPeerOutboundMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2EPeerOutboundMapsGlobalIx,
+                pr1646v2EPeerOutboundMapsTableIx }
+   ::= {pr1646v2EPeerOutboundMapsSSCTable 1}
+
+Pr1646v2EPeerOutboundMapsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2EPeerOutboundMapsGlobalIx
+         GlobalIndex,
+      pr1646v2EPeerOutboundMapsTableIx
+         TableIndex,
+      pr1646v2EPeerOutboundMapsName
+         DisplayString,
+      pr1646v2EPeerOutboundMapsUses
+         Counter32
+      }
+
+pr1646v2EPeerOutboundMapsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2EPeerOutboundMapsEntry 10}
+
+pr1646v2EPeerOutboundMapsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2EPeerOutboundMapsEntry 11}
+
+pr1646v2EPeerOutboundMapsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.outboundMaps.name"
+   ::= {pr1646v2EPeerOutboundMapsEntry 16777216}
+
+pr1646v2EPeerOutboundMapsUses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.performance.outboundMaps.uses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2EPeerOutboundMapsEntry 33554432}
+
+
+
+fr1646v2EPeer OBJECT IDENTIFIER ::= {r1646v2EPeer 13}
+
+
+fr1646v2EPeerAlarm OBJECT IDENTIFIER ::= {fr1646v2EPeer 202}
+
+fr1646v2EPeerAlarmSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Fr1646v2EPeerAlarmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bgp peer alarmInfo"
+   ::= {fr1646v2EPeerAlarm 1}
+
+fr1646v2EPeerAlarmEntry OBJECT-TYPE
+   SYNTAX      Fr1646v2EPeerAlarmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { fr1646v2EPeerAlarmGlobalIx }
+   ::= {fr1646v2EPeerAlarmSSCTable 1}
+
+Fr1646v2EPeerAlarmEntry ::=
+   SEQUENCE
+      {
+      fr1646v2EPeerAlarmGlobalIx
+         GlobalIndex,
+      fr1646v2EPeerAlarmDiscriminator
+         Integer32,
+      fr1646v2EPeerAlarmCurrent
+         Integer32,
+      fr1646v2EPeerAlarmPrevious
+         Integer32,
+      fr1646v2EPeerAlarmMask
+         Integer32,
+      fr1646v2EPeerAlarmLevelSessionDown
+         Integer32
+      }
+
+fr1646v2EPeerAlarmGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {fr1646v2EPeerAlarmEntry 10}
+
+fr1646v2EPeerAlarmDiscriminator OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.alarms.alarmInfo.discriminator"
+   ::= {fr1646v2EPeerAlarmEntry 16777216}
+
+fr1646v2EPeerAlarmCurrent OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.alarms.alarmInfo.currentAlarms
+
+       Bit meanings:
+               bit 0 = sessionDown"
+   ::= {fr1646v2EPeerAlarmEntry 33554432}
+
+fr1646v2EPeerAlarmPrevious OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.alarms.alarmInfo.previousAlarms
+
+       Bit meanings:
+               bit 0 = sessionDown"
+   ::= {fr1646v2EPeerAlarmEntry 50331648}
+
+fr1646v2EPeerAlarmMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.alarms.alarmInfo.alarmMask
+
+       Bit meanings:
+               bit 0 = sessionDown"
+   ::= {fr1646v2EPeerAlarmEntry 67108864}
+
+fr1646v2EPeerAlarmLevelSessionDown OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.alarms.alarmInfo.alarmLevel.sessionDown"
+   ::= {fr1646v2EPeerAlarmEntry 83951616}
+
+
+fr1646v2EPeerAlarmE2 OBJECT IDENTIFIER ::= {fr1646v2EPeerAlarm 2}
+
+fr1646v2EPeerAlarmE2Entry OBJECT IDENTIFIER ::= {fr1646v2EPeerAlarmE2 1}
+
+fr1646v2EPeerAlarmE2SessionDown OBJECT IDENTIFIER ::= {fr1646v2EPeerAlarmE2Entry 10}
+
+fr1646v2EPeerAlarmE2SessionDownPfx OBJECT IDENTIFIER ::= {fr1646v2EPeerAlarmE2SessionDown 0}
+
+fr1646v2EPeerAlarmE2SessionDownOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'sessionDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'externalPeer'
+                (root='router1646') has changed from the ON to the OFF state."
+   ::= {fr1646v2EPeerAlarmE2SessionDownPfx 1}
+
+fr1646v2EPeerAlarmE2SessionDownOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'sessionDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'externalPeer'
+                (root='router1646') has changed from the OFF to the ON state."
+   ::= {fr1646v2EPeerAlarmE2SessionDownPfx 2}
+
+
+
+ar1646v2EPeer OBJECT IDENTIFIER ::= {r1646v2EPeer 16}
+
+
+ar1646v2EPeerGenerateEvent OBJECT IDENTIFIER ::= {ar1646v2EPeer 109}
+
+ar1646v2EPeerGenerateEventTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EPeerGenerateEventEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "force a specific event on a peer"
+   ::= {ar1646v2EPeerGenerateEvent 1}
+
+ar1646v2EPeerGenerateEventEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EPeerGenerateEventEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EPeerGenerateEventGlobalIx }
+   ::= {ar1646v2EPeerGenerateEventTable 1}
+
+Ar1646v2EPeerGenerateEventEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EPeerGenerateEventGlobalIx
+         GlobalIndex,
+      ar1646v2EPeerGenerateEventValue
+         Integer32
+      }
+
+ar1646v2EPeerGenerateEventGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EPeerGenerateEventEntry 10}
+
+ar1646v2EPeerGenerateEventValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.generateEvent"
+   ::= {ar1646v2EPeerGenerateEventEntry 2147483648}
+
+
+ar1646v2EPeerPeerEvent OBJECT IDENTIFIER ::= {ar1646v2EPeer 110}
+
+ar1646v2EPeerPeerEventTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EPeerPeerEventEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "possible events to generate"
+   ::= {ar1646v2EPeerPeerEvent 1}
+
+ar1646v2EPeerPeerEventEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EPeerPeerEventEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EPeerPeerEventGlobalIx }
+   ::= {ar1646v2EPeerPeerEventTable 1}
+
+Ar1646v2EPeerPeerEventEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EPeerPeerEventGlobalIx
+         GlobalIndex,
+      ar1646v2EPeerPeerEventValue
+         INTEGER
+      }
+
+ar1646v2EPeerPeerEventGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EPeerPeerEventEntry 10}
+
+ar1646v2EPeerPeerEventValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               start (1),
+               stop (2),
+               tcpOpen (3),
+               tcpClosed (4),
+               tcpOpenFail (5),
+               tcpFatal (6),
+               tmrConnectRetry (7),
+               tmrHold (8),
+               tmrKeepAlive (9),
+               mesgOpen (10),
+               mesgKeepAlive (11),
+               mesgUpdate (12),
+               mesgNotify (13),
+               pcktError (14)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.peerEvent
+
+       Possibilities:
+               start   (1)
+               stop   (2)
+               tcpOpen   (3)
+               tcpClosed   (4)
+               tcpOpenFail   (5)
+               tcpFatal   (6)
+               tmrConnectRetry   (7)
+               tmrHold   (8)
+               tmrKeepAlive   (9)
+               mesgOpen   (10)
+               mesgKeepAlive   (11)
+               mesgUpdate   (12)
+               mesgNotify   (13)
+               pcktError   (14)"
+   ::= {ar1646v2EPeerPeerEventEntry 2147483648}
+
+
+ar1646v2EPeerSendUpdate OBJECT IDENTIFIER ::= {ar1646v2EPeer 107}
+
+ar1646v2EPeerSendUpdateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EPeerSendUpdateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "force sending a BGP message"
+   ::= {ar1646v2EPeerSendUpdate 1}
+
+ar1646v2EPeerSendUpdateEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EPeerSendUpdateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EPeerSendUpdateGlobalIx }
+   ::= {ar1646v2EPeerSendUpdateTable 1}
+
+Ar1646v2EPeerSendUpdateEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EPeerSendUpdateGlobalIx
+         GlobalIndex,
+      ar1646v2EPeerSendUpdateValue
+         Integer32
+      }
+
+ar1646v2EPeerSendUpdateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EPeerSendUpdateEntry 10}
+
+ar1646v2EPeerSendUpdateValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.sendUpdate"
+   ::= {ar1646v2EPeerSendUpdateEntry 2147483648}
+
+
+ar1646v2EPeerUpdateInfo OBJECT IDENTIFIER ::= {ar1646v2EPeer 108}
+
+ar1646v2EPeerUpdateInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EPeerUpdateInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "attribute type to create an error for"
+   ::= {ar1646v2EPeerUpdateInfo 1}
+
+ar1646v2EPeerUpdateInfoEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EPeerUpdateInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EPeerUpdateInfoGlobalIx }
+   ::= {ar1646v2EPeerUpdateInfoSSCTable 1}
+
+Ar1646v2EPeerUpdateInfoEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EPeerUpdateInfoGlobalIx
+         GlobalIndex,
+      ar1646v2EPeerUpdateInfoPrefix
+         IpAddress,
+      ar1646v2EPeerUpdateInfoLength
+         Integer32,
+      ar1646v2EPeerUpdateInfoWithdraw
+         INTEGER,
+      ar1646v2EPeerUpdateInfoUpdateError
+         INTEGER
+      }
+
+ar1646v2EPeerUpdateInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EPeerUpdateInfoEntry 10}
+
+ar1646v2EPeerUpdateInfoPrefix OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.updateInfo.prefix"
+   ::= {ar1646v2EPeerUpdateInfoEntry 16777216}
+
+ar1646v2EPeerUpdateInfoLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.updateInfo.length"
+   ::= {ar1646v2EPeerUpdateInfoEntry 33554432}
+
+ar1646v2EPeerUpdateInfoWithdraw OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.updateInfo.withdraw
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {ar1646v2EPeerUpdateInfoEntry 50331648}
+
+ar1646v2EPeerUpdateInfoUpdateError OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (0),
+               invalidOrigin (6),
+               invalidNetwork (10)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.updateInfo.updateError
+
+       Possibilities:
+               none   (0)
+               invalidOrigin   (6)
+               invalidNetwork   (10)"
+   ::= {ar1646v2EPeerUpdateInfoEntry 67108864}
+
+
+ar1646v2EPeerSendOpen OBJECT IDENTIFIER ::= {ar1646v2EPeer 106}
+
+ar1646v2EPeerSendOpenTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EPeerSendOpenEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "force sending a BGP message"
+   ::= {ar1646v2EPeerSendOpen 1}
+
+ar1646v2EPeerSendOpenEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EPeerSendOpenEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EPeerSendOpenGlobalIx }
+   ::= {ar1646v2EPeerSendOpenTable 1}
+
+Ar1646v2EPeerSendOpenEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EPeerSendOpenGlobalIx
+         GlobalIndex,
+      ar1646v2EPeerSendOpenValue
+         Integer32
+      }
+
+ar1646v2EPeerSendOpenGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EPeerSendOpenEntry 10}
+
+ar1646v2EPeerSendOpenValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.sendOpen"
+   ::= {ar1646v2EPeerSendOpenEntry 2147483648}
+
+
+ar1646v2EPeerSendKeepAlive OBJECT IDENTIFIER ::= {ar1646v2EPeer 104}
+
+ar1646v2EPeerSendKeepAliveTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EPeerSendKeepAliveEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "force sending a BGP message"
+   ::= {ar1646v2EPeerSendKeepAlive 1}
+
+ar1646v2EPeerSendKeepAliveEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EPeerSendKeepAliveEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EPeerSendKeepAliveGlobalIx }
+   ::= {ar1646v2EPeerSendKeepAliveTable 1}
+
+Ar1646v2EPeerSendKeepAliveEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EPeerSendKeepAliveGlobalIx
+         GlobalIndex,
+      ar1646v2EPeerSendKeepAliveValue
+         Integer32
+      }
+
+ar1646v2EPeerSendKeepAliveGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EPeerSendKeepAliveEntry 10}
+
+ar1646v2EPeerSendKeepAliveValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.sendKeepAlive"
+   ::= {ar1646v2EPeerSendKeepAliveEntry 2147483648}
+
+
+ar1646v2EPeerLength OBJECT IDENTIFIER ::= {ar1646v2EPeer 105}
+
+ar1646v2EPeerLengthTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EPeerLengthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "length of message to generate"
+   ::= {ar1646v2EPeerLength 1}
+
+ar1646v2EPeerLengthEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EPeerLengthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EPeerLengthGlobalIx }
+   ::= {ar1646v2EPeerLengthTable 1}
+
+Ar1646v2EPeerLengthEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EPeerLengthGlobalIx
+         GlobalIndex,
+      ar1646v2EPeerLengthValue
+         Integer32
+      }
+
+ar1646v2EPeerLengthGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EPeerLengthEntry 10}
+
+ar1646v2EPeerLengthValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.length"
+   ::= {ar1646v2EPeerLengthEntry 2147483648}
+
+
+ar1646v2EPeerClearCounters OBJECT IDENTIFIER ::= {ar1646v2EPeer 263}
+
+ar1646v2EPeerClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EPeerClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1646v2EPeerClearCounters 1}
+
+ar1646v2EPeerClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EPeerClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EPeerClearCountersGlobalIx }
+   ::= {ar1646v2EPeerClearCountersTable 1}
+
+Ar1646v2EPeerClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EPeerClearCountersGlobalIx
+         GlobalIndex,
+      ar1646v2EPeerClearCountersValue
+         Integer32
+      }
+
+ar1646v2EPeerClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EPeerClearCountersEntry 10}
+
+ar1646v2EPeerClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.clearCounters"
+   ::= {ar1646v2EPeerClearCountersEntry 2147483648}
+
+
+ar1646v2EPeerSoftResetPeer OBJECT IDENTIFIER ::= {ar1646v2EPeer 102}
+
+ar1646v2EPeerSoftResetPeerTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EPeerSoftResetPeerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset adjacency database of a peer"
+   ::= {ar1646v2EPeerSoftResetPeer 1}
+
+ar1646v2EPeerSoftResetPeerEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EPeerSoftResetPeerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EPeerSoftResetPeerGlobalIx }
+   ::= {ar1646v2EPeerSoftResetPeerTable 1}
+
+Ar1646v2EPeerSoftResetPeerEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EPeerSoftResetPeerGlobalIx
+         GlobalIndex,
+      ar1646v2EPeerSoftResetPeerValue
+         Integer32
+      }
+
+ar1646v2EPeerSoftResetPeerGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EPeerSoftResetPeerEntry 10}
+
+ar1646v2EPeerSoftResetPeerValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.softResetPeer"
+   ::= {ar1646v2EPeerSoftResetPeerEntry 2147483648}
+
+
+ar1646v2EPeerDirection OBJECT IDENTIFIER ::= {ar1646v2EPeer 103}
+
+ar1646v2EPeerDirectionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EPeerDirectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "which adjacencies will be cleared"
+   ::= {ar1646v2EPeerDirection 1}
+
+ar1646v2EPeerDirectionEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EPeerDirectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EPeerDirectionGlobalIx }
+   ::= {ar1646v2EPeerDirectionTable 1}
+
+Ar1646v2EPeerDirectionEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EPeerDirectionGlobalIx
+         GlobalIndex,
+      ar1646v2EPeerDirectionValue
+         INTEGER
+      }
+
+ar1646v2EPeerDirectionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EPeerDirectionEntry 10}
+
+ar1646v2EPeerDirectionValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               inBound (1),
+               outBound (2),
+               both (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.direction
+
+       Possibilities:
+               inBound   (1)
+               outBound   (2)
+               both   (3)"
+   ::= {ar1646v2EPeerDirectionEntry 2147483648}
+
+
+ar1646v2EPeerRestartPeer OBJECT IDENTIFIER ::= {ar1646v2EPeer 101}
+
+ar1646v2EPeerRestartPeerTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EPeerRestartPeerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "force restart of peer"
+   ::= {ar1646v2EPeerRestartPeer 1}
+
+ar1646v2EPeerRestartPeerEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EPeerRestartPeerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EPeerRestartPeerGlobalIx }
+   ::= {ar1646v2EPeerRestartPeerTable 1}
+
+Ar1646v2EPeerRestartPeerEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EPeerRestartPeerGlobalIx
+         GlobalIndex,
+      ar1646v2EPeerRestartPeerValue
+         Integer32
+      }
+
+ar1646v2EPeerRestartPeerGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EPeerRestartPeerEntry 10}
+
+ar1646v2EPeerRestartPeerValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.restartPeer"
+   ::= {ar1646v2EPeerRestartPeerEntry 2147483648}
+
+
+ar1646v2EPeerShutDownPeer OBJECT IDENTIFIER ::= {ar1646v2EPeer 100}
+
+ar1646v2EPeerShutDownPeerTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2EPeerShutDownPeerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "force shutdown of peer"
+   ::= {ar1646v2EPeerShutDownPeer 1}
+
+ar1646v2EPeerShutDownPeerEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2EPeerShutDownPeerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2EPeerShutDownPeerGlobalIx }
+   ::= {ar1646v2EPeerShutDownPeerTable 1}
+
+Ar1646v2EPeerShutDownPeerEntry ::=
+   SEQUENCE
+      {
+      ar1646v2EPeerShutDownPeerGlobalIx
+         GlobalIndex,
+      ar1646v2EPeerShutDownPeerValue
+         Integer32
+      }
+
+ar1646v2EPeerShutDownPeerGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2EPeerShutDownPeerEntry 10}
+
+ar1646v2EPeerShutDownPeerValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ePeer.actions.shutDownPeer"
+   ::= {ar1646v2EPeerShutDownPeerEntry 2147483648}
+
+
+
+END

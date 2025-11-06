@@ -1,0 +1,3347 @@
+OneAccess-R1645v2-4646-STest DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2STest OBJECT IDENTIFIER ::= {r1645Rootv2 4646}
+
+r1645v2STestMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2STestMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2STest 1}
+
+r1645v2STestMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2STestMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2STestMOPropGlobalIx }
+   ::= {r1645v2STestMOProp 1}
+
+R1645v2STestMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2STestMOPropPath
+         ContainmentPath,
+      r1645v2STestMOPropRev
+         ObjectRevision,
+      r1645v2STestMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2STestMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2STestMOPropEntry 3}
+
+r1645v2STestMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2STestMOPropEntry 4}
+
+r1645v2STestMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2STestMOPropEntry 10}
+
+
+
+er1645v2STest OBJECT IDENTIFIER ::= {r1645v2STest 11}
+
+
+er1645v2STestSnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2STest 268}
+
+er1645v2STestSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2STestSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2STestSnmpIndexOffset 1}
+
+er1645v2STestSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2STestSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2STestSnmpIndexOffsetGlobalIx }
+   ::= {er1645v2STestSnmpIndexOffsetTable 1}
+
+Er1645v2STestSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2STestSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2STestSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2STestSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2STestSnmpIndexOffsetEntry 10}
+
+er1645v2STestSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.snmpIndexOffset"
+   ::= {er1645v2STestSnmpIndexOffsetEntry 2147483648}
+
+
+er1645v2Sess OBJECT IDENTIFIER ::= {er1645v2STest 5000}
+
+er1645v2SessSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2SessEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2Sess 1}
+
+er1645v2SessEntry OBJECT-TYPE
+   SYNTAX      Er1645v2SessEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2SessGlobalIx,
+                er1645v2SessTableIx }
+   ::= {er1645v2SessSSCTable 1}
+
+Er1645v2SessEntry ::=
+   SEQUENCE
+      {
+      er1645v2SessActions
+         FixedLengthTableActions,
+      er1645v2SessGlobalIx
+         GlobalIndex,
+      er1645v2SessTableIx
+         TableIndex,
+      er1645v2SessName
+         DisplayString,
+      er1645v2SessStreamType
+         INTEGER,
+      er1645v2SessGroup
+         INTEGER,
+      er1645v2SessNextGroup
+         INTEGER,
+      er1645v2SessEncapsIpV4Destination
+         DisplayString,
+      er1645v2SessEncapsIpV4Source
+         DisplayString,
+      er1645v2SessEncapsIpV4VrfRouter
+         DisplayString,
+      er1645v2SessEncapsIpV4EncapsIcmp
+         OCTET STRING,
+      er1645v2SessEncapsIpV4EncapsUdpEcho
+         OCTET STRING,
+      er1645v2SessEncapsIpV4EncapsUdpServerPort
+         Integer32,
+      er1645v2SessEncapsIpV4EncapsUdpHdServerPort
+         Integer32,
+      er1645v2SessEncapsIpV4UdpSourcePortAuto
+         OCTET STRING,
+      er1645v2SessEncapsIpV4UdpSourcePortPortStart
+         Integer32,
+      er1645v2SessEncapsIpV4UdpSourcePortPortEnd
+         Integer32,
+      er1645v2SessEncapsIpV4Tos
+         INTEGER,
+      er1645v2SessEncapsIpV4Fragment
+         INTEGER,
+      er1645v2SessEncapsIpV4Ttl
+         Integer32,
+      er1645v2SessEncapsIpV4Mtu
+         Integer32,
+      er1645v2SessEncapsIpV4If
+         DisplayString,
+      er1645v2SessEncapsIpV6Destination
+         DisplayString,
+      er1645v2SessEncapsIpV6Source
+         DisplayString,
+      er1645v2SessEncapsIpV6VrfRouter
+         DisplayString,
+      er1645v2SessEncapsIpV6EncapsIcmpV6
+         OCTET STRING,
+      er1645v2SessEncapsIpV6EncapsUdpEcho
+         OCTET STRING,
+      er1645v2SessEncapsIpV6EncapsUdpServerPort
+         Integer32,
+      er1645v2SessEncapsIpV6UdpSourcePortAuto
+         OCTET STRING,
+      er1645v2SessEncapsIpV6UdpSourcePortPortStart
+         Integer32,
+      er1645v2SessEncapsIpV6UdpSourcePortPortEnd
+         Integer32,
+      er1645v2SessEncapsIpV6TrafficClass
+         Integer32,
+      er1645v2SessEncapsIpV6Fragment
+         INTEGER,
+      er1645v2SessEncapsIpV6Ttl
+         Integer32,
+      er1645v2SessEncapsIpV6If
+         DisplayString,
+      er1645v2SessEncapsEthDm
+         OCTET STRING,
+      er1645v2SessEncapsEthSm
+         OCTET STRING,
+      er1645v2SessEncapsEthIf
+         DisplayString,
+      er1645v2SessEncapsEthProtocolNone
+         INTEGER,
+      er1645v2SessEncapsEthProtocolIpV4Destination
+         DisplayString,
+      er1645v2SessEncapsEthProtocolIpV4Source
+         DisplayString,
+      er1645v2SessEncapsEthProtocolIpV4EncapsIcmp
+         OCTET STRING,
+      er1645v2SessEncapsEthProtocolIpV4EncapsUdpEcho
+         OCTET STRING,
+      er1645v2SessEncapsEthProtocolIpV4EncapsUdpServerPort
+         Integer32,
+      er1645v2SessEncapsEthProtocolIpV4EncapsUdpHdServerPort
+         Integer32,
+      er1645v2SessEncapsEthProtocolIpV4Tos
+         INTEGER,
+      er1645v2SessEncapsEthProtocolIpV4Fragment
+         INTEGER,
+      er1645v2SessEncapsEthProtocolIpV4Ttl
+         Integer32,
+      er1645v2SessEncapsEthOamBridgeGroup
+         DisplayString,
+      er1645v2SessEncapsEthOamMepName
+         DisplayString,
+      er1645v2SessEncapsEthOamDestinationMepId
+         Integer32,
+      er1645v2SessEncapsEthOamDestinationMacAddress
+         OCTET STRING,
+      er1645v2SessEncapsEthOamPriority
+         Integer32,
+      er1645v2SessFrameSizeSingleFromSize
+         Integer32,
+      er1645v2SessFrameSizeSingleToSize
+         Integer32,
+      er1645v2SessFrameSizeSingleSizeType
+         INTEGER,
+      er1645v2SessFrameDataProgrammableInitial
+         OCTET STRING,
+      er1645v2SessFrameDataProgrammableIncrement
+         OCTET STRING,
+      er1645v2SessFrameDataPattern
+         INTEGER,
+      er1645v2SessFrameDropLevel
+         Integer32,
+      er1645v2SessFramePriority
+         INTEGER,
+      er1645v2SessFrameDeFlag
+         INTEGER,
+      er1645v2SessFrameTimeOut
+         Integer32,
+      er1645v2SessFrameCrc
+         INTEGER,
+      er1645v2SessFrameTc
+         Integer32,
+      er1645v2SessTypeTimeBetween
+         Integer32,
+      er1645v2SessTypeBandwidth
+         Integer32,
+      er1645v2SessTypeBandwidthMin
+         Integer32,
+      er1645v2SessTypePacketsASec
+         Integer32,
+      er1645v2SessTypePacketsASecMin
+         Integer32,
+      er1645v2SessTypeTxTc
+         Integer32,
+      er1645v2SessTypeTxTcUnit
+         INTEGER,
+      er1645v2SessTypeOutStanding
+         Integer32,
+      er1645v2SessTypeBurstBeforeRx
+         Integer32,
+      er1645v2SessTypeSameSequence
+         Integer32,
+      er1645v2SessTypePacketLossLimit
+         INTEGER,
+      er1645v2SessTypeLossLimitType
+         INTEGER,
+      er1645v2SessTypeFrameLoss
+         INTEGER,
+      er1645v2SessTypeHdInfoUpdateTime
+         TimeTicks,
+      er1645v2SessTypeHdFloodAck
+         INTEGER,
+      er1645v2SessNrPackets
+         Integer32,
+      er1645v2SessDurationSec
+         Integer32,
+      er1645v2SessOverheadBytes
+         Integer32,
+      er1645v2SessOverheadBandwidthUse
+         INTEGER,
+      er1645v2SessLogResultLogDepth
+         Integer32,
+      er1645v2SessLogResultLogFile
+         DisplayString,
+      er1645v2SessLogErrorLogDepth
+         Integer32,
+      er1645v2SessLogError
+         INTEGER,
+      er1645v2SessLogStatisticsLogDepth
+         Integer32,
+      er1645v2SessLogStatisticsLogTime
+         TimeTicks,
+      er1645v2SessLogStatisticsLogFile
+         DisplayString,
+      er1645v2SessLogResultStatSeparator
+         INTEGER,
+      er1645v2SessLogRfc2544FileName
+         DisplayString,
+      er1645v2SessLogRfc2544Type
+         Integer32,
+      er1645v2SessLogRfc2544CsvSeparator
+         INTEGER,
+      er1645v2SessStopOnError
+         INTEGER,
+      er1645v2SessIncrementerTimes
+         Integer32,
+      er1645v2SessIncrementerFrameFromSize
+         Integer32,
+      er1645v2SessIncrementerFrameToSize
+         Integer32,
+      er1645v2SessIncrementerTypeTimeBetween
+         Integer32,
+      er1645v2SessIncrementerTypeBandwidth
+         Integer32,
+      er1645v2SessIncrementerTypePacketsASec
+         Integer32,
+      er1645v2SessIncrementerTypeTxTc
+         Integer32,
+      er1645v2SessIncrementerTypeOutStanding
+         Integer32,
+      er1645v2SessIncrementerTypeSameSequence
+         Integer32,
+      er1645v2SessIncrementerDurationSec
+         Integer32,
+      er1645v2SessIncrementerNrPackets
+         Integer32
+      }
+
+er1645v2SessActions OBJECT-TYPE
+   SYNTAX      FixedLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2SessEntry 2}
+
+er1645v2SessGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2SessEntry 10}
+
+er1645v2SessTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2SessEntry 11}
+
+er1645v2SessName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.name"
+   ::= {er1645v2SessEntry 184549376}
+
+er1645v2SessStreamType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notRunning (1),
+               normal (2),
+               flood (3),
+               bandwidth (5),
+               packetsASec (6)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.streamType
+
+       Possibilities:
+               notRunning   (1)
+               normal   (2)
+               flood   (3)
+               bandwidth   (5)
+               packetsASec   (6)"
+   ::= {er1645v2SessEntry 16777216}
+
+er1645v2SessGroup OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (-1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.group
+
+       Possibilities:
+               none   (-1)"
+   ::= {er1645v2SessEntry 218103808}
+
+er1645v2SessNextGroup OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (-1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.nextGroup
+
+       Possibilities:
+               none   (-1)"
+   ::= {er1645v2SessEntry 234881024}
+
+er1645v2SessEncapsIpV4Destination OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.destination"
+   ::= {er1645v2SessEntry 203489280}
+
+er1645v2SessEncapsIpV4Source OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.source"
+   ::= {er1645v2SessEntry 203948032}
+
+er1645v2SessEncapsIpV4VrfRouter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.vrfRouter"
+   ::= {er1645v2SessEntry 203554816}
+
+er1645v2SessEncapsIpV4EncapsIcmp OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.encaps.icmp"
+   ::= {er1645v2SessEntry 203620608}
+
+er1645v2SessEncapsIpV4EncapsUdpEcho OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.encaps.udpEcho"
+   ::= {er1645v2SessEntry 203620864}
+
+er1645v2SessEncapsIpV4EncapsUdpServerPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.encaps.udpServerPort"
+   ::= {er1645v2SessEntry 203621120}
+
+er1645v2SessEncapsIpV4EncapsUdpHdServerPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.encaps.udpHdServerPort"
+   ::= {er1645v2SessEntry 203621376}
+
+er1645v2SessEncapsIpV4UdpSourcePortAuto OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.udpSourcePort.auto"
+   ::= {er1645v2SessEntry 204013824}
+
+er1645v2SessEncapsIpV4UdpSourcePortPortStart OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.udpSourcePort.port.start"
+   ::= {er1645v2SessEntry 204014081}
+
+er1645v2SessEncapsIpV4UdpSourcePortPortEnd OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.udpSourcePort.port.end"
+   ::= {er1645v2SessEntry 204014082}
+
+er1645v2SessEncapsIpV4Tos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)"
+   ::= {er1645v2SessEntry 203685888}
+
+er1645v2SessEncapsIpV4Fragment OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               yes (1),
+               no (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.fragment
+
+       Possibilities:
+               yes   (1)
+               no   (2)"
+   ::= {er1645v2SessEntry 203751424}
+
+er1645v2SessEncapsIpV4Ttl OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.ttl"
+   ::= {er1645v2SessEntry 203816960}
+
+er1645v2SessEncapsIpV4Mtu OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.mtu"
+   ::= {er1645v2SessEntry 203882496}
+
+er1645v2SessEncapsIpV4If OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV4.interface"
+   ::= {er1645v2SessEntry 204079104}
+
+er1645v2SessEncapsIpV6Destination OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV6.destination"
+   ::= {er1645v2SessEntry 209780736}
+
+er1645v2SessEncapsIpV6Source OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV6.source"
+   ::= {er1645v2SessEntry 210239488}
+
+er1645v2SessEncapsIpV6VrfRouter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV6.vrfRouter"
+   ::= {er1645v2SessEntry 209846272}
+
+er1645v2SessEncapsIpV6EncapsIcmpV6 OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV6.encaps.icmpV6"
+   ::= {er1645v2SessEntry 209912064}
+
+er1645v2SessEncapsIpV6EncapsUdpEcho OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV6.encaps.udpEcho"
+   ::= {er1645v2SessEntry 209912320}
+
+er1645v2SessEncapsIpV6EncapsUdpServerPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV6.encaps.udpServerPort"
+   ::= {er1645v2SessEntry 209912576}
+
+er1645v2SessEncapsIpV6UdpSourcePortAuto OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV6.udpSourcePort.auto"
+   ::= {er1645v2SessEntry 210305280}
+
+er1645v2SessEncapsIpV6UdpSourcePortPortStart OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV6.udpSourcePort.port.start"
+   ::= {er1645v2SessEntry 210305537}
+
+er1645v2SessEncapsIpV6UdpSourcePortPortEnd OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV6.udpSourcePort.port.end"
+   ::= {er1645v2SessEntry 210305538}
+
+er1645v2SessEncapsIpV6TrafficClass OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV6.trafficClass"
+   ::= {er1645v2SessEntry 209977344}
+
+er1645v2SessEncapsIpV6Fragment OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               yes (1),
+               no (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV6.fragment
+
+       Possibilities:
+               yes   (1)
+               no   (2)"
+   ::= {er1645v2SessEntry 210042880}
+
+er1645v2SessEncapsIpV6Ttl OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV6.ttl"
+   ::= {er1645v2SessEntry 210108416}
+
+er1645v2SessEncapsIpV6If OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ipV6.interface"
+   ::= {er1645v2SessEntry 210370560}
+
+er1645v2SessEncapsEthDm OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.destination
+
+       MAC address."
+   ::= {er1645v2SessEntry 205914112}
+
+er1645v2SessEncapsEthSm OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.source
+
+       MAC address."
+   ::= {er1645v2SessEntry 205651968}
+
+er1645v2SessEncapsEthIf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.interface"
+   ::= {er1645v2SessEntry 206045184}
+
+er1645v2SessEncapsEthProtocolNone OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (65536),
+               ip (2048),
+               arp (2054),
+               rarp (32821),
+               vlanTagged (33024),
+               ipV6 (34525),
+               slowProtocols (34825),
+               mplsUnicast (34887),
+               mplsMulticast (34888),
+               pppoeControl (34915),
+               pppoeData (34916),
+               svlan802d1ad (34984),
+               llcSnap (65537)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.protocol.none
+
+       Possibilities:
+               any   (65536)
+               ip   (2048)
+               arp   (2054)
+               rarp   (32821)
+               vlanTagged   (33024)
+               ipV6   (34525)
+               slowProtocols   (34825)
+               mplsUnicast   (34887)
+               mplsMulticast   (34888)
+               pppoeControl   (34915)
+               pppoeData   (34916)
+               svlan802.1ad   (34984)
+               llcSnap   (65537)"
+   ::= {er1645v2SessEntry 206184448}
+
+er1645v2SessEncapsEthProtocolIpV4Destination OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.protocol.ipV4.destination"
+   ::= {er1645v2SessEntry 206192896}
+
+er1645v2SessEncapsEthProtocolIpV4Source OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.protocol.ipV4.source"
+   ::= {er1645v2SessEntry 206194688}
+
+er1645v2SessEncapsEthProtocolIpV4EncapsIcmp OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.protocol.ipV4.encaps.icmp"
+   ::= {er1645v2SessEntry 206193409}
+
+er1645v2SessEncapsEthProtocolIpV4EncapsUdpEcho OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.protocol.ipV4.encaps.udpEcho"
+   ::= {er1645v2SessEntry 206193410}
+
+er1645v2SessEncapsEthProtocolIpV4EncapsUdpServerPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.protocol.ipV4.encaps.udpServerPort"
+   ::= {er1645v2SessEntry 206193411}
+
+er1645v2SessEncapsEthProtocolIpV4EncapsUdpHdServerPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.protocol.ipV4.encaps.udpHdServerPort"
+   ::= {er1645v2SessEntry 206193412}
+
+er1645v2SessEncapsEthProtocolIpV4Tos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.protocol.ipV4.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)"
+   ::= {er1645v2SessEntry 206193664}
+
+er1645v2SessEncapsEthProtocolIpV4Fragment OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               yes (1),
+               no (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.protocol.ipV4.fragment
+
+       Possibilities:
+               yes   (1)
+               no   (2)"
+   ::= {er1645v2SessEntry 206193920}
+
+er1645v2SessEncapsEthProtocolIpV4Ttl OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.protocol.ipV4.ttl"
+   ::= {er1645v2SessEntry 206194176}
+
+er1645v2SessEncapsEthOamBridgeGroup OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethOam.bridgeGroup"
+   ::= {er1645v2SessEntry 207626240}
+
+er1645v2SessEncapsEthOamMepName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethOam.mepName"
+   ::= {er1645v2SessEntry 207634432}
+
+er1645v2SessEncapsEthOamDestinationMepId OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethOam.destination.mepId"
+   ::= {er1645v2SessEntry 207642656}
+
+er1645v2SessEncapsEthOamDestinationMacAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethOam.destination.macAddress
+
+       MAC address."
+   ::= {er1645v2SessEntry 207642688}
+
+er1645v2SessEncapsEthOamPriority OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethOam.priority"
+   ::= {er1645v2SessEntry 207650816}
+
+er1645v2SessFrameSizeSingleFromSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.size.single.fromSize"
+   ::= {er1645v2SessEntry 51314945}
+
+er1645v2SessFrameSizeSingleToSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.size.single.toSize"
+   ::= {er1645v2SessEntry 51314946}
+
+er1645v2SessFrameSizeSingleSizeType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               single (1),
+               range (2),
+               toggle (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.size.single.sizeType
+
+       Possibilities:
+               single   (1)
+               range   (2)
+               toggle   (3)"
+   ::= {er1645v2SessEntry 51314947}
+
+er1645v2SessFrameDataProgrammableInitial OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.data.programmable.initial"
+   ::= {er1645v2SessEntry 51446017}
+
+er1645v2SessFrameDataProgrammableIncrement OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.data.programmable.increment"
+   ::= {er1645v2SessEntry 51446018}
+
+er1645v2SessFrameDataPattern OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               itu51129 (1),
+               ituInv51129 (0),
+               tls1023210 (2),
+               tlsInv1023210 (3),
+               itu2047211 (5),
+               ituInv2047211 (4),
+               itu32767215 (6),
+               ituInv32767215 (7),
+               itu1048575220 (9),
+               ituInv1048575220 (8),
+               itu8388607223 (10),
+               ituInv8388607223 (11),
+               space (112),
+               mark (113),
+               dot (114)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.data.pattern
+
+       Possibilities:
+               itu511(2^9)   (1)
+               ituInv511(2^9)   (0)
+               tls1023(2^10)   (2)
+               tlsInv1023(2^10)   (3)
+               itu2047(2^11)   (5)
+               ituInv2047(2^11)   (4)
+               itu32767(2^15)   (6)
+               ituInv32767(2^15)   (7)
+               itu1048575(2^20)   (9)
+               ituInv1048575(2^20)   (8)
+               itu8388607(2^23)   (10)
+               ituInv8388607(2^23)   (11)
+               space   (112)
+               mark   (113)
+               dot   (114)"
+   ::= {er1645v2SessEntry 51446272}
+
+er1645v2SessFrameDropLevel OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.dropLevel"
+   ::= {er1645v2SessEntry 51249152}
+
+er1645v2SessFramePriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.priority
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2SessEntry 51183616}
+
+er1645v2SessFrameDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cleared (1),
+               set (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.deFlag
+
+       Possibilities:
+               cleared   (1)
+               set   (2)"
+   ::= {er1645v2SessEntry 51118080}
+
+er1645v2SessFrameTimeOut OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "ms"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.timeOut
+
+       unit name = ms"
+   ::= {er1645v2SessEntry 50593792}
+
+er1645v2SessFrameCrc OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               txRx (1),
+               tx (2),
+               no (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.crc
+
+       Possibilities:
+               txRx   (1)
+               tx   (2)
+               no   (3)"
+   ::= {er1645v2SessEntry 50921472}
+
+er1645v2SessFrameTc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.tc"
+   ::= {er1645v2SessEntry 51380224}
+
+er1645v2SessTypeTimeBetween OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "ms"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.timeBetween
+
+       unit name = ms"
+   ::= {er1645v2SessEntry 67174400}
+
+er1645v2SessTypeBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.bandwidth"
+   ::= {er1645v2SessEntry 67239936}
+
+er1645v2SessTypeBandwidthMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.bandwidthMin"
+   ::= {er1645v2SessEntry 67698688}
+
+er1645v2SessTypePacketsASec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.packetsASec"
+   ::= {er1645v2SessEntry 67436544}
+
+er1645v2SessTypePacketsASecMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.packetsASecMin"
+   ::= {er1645v2SessEntry 67764224}
+
+er1645v2SessTypeTxTc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.txTc"
+   ::= {er1645v2SessEntry 67895296}
+
+er1645v2SessTypeTxTcUnit OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s1ms (1),
+               s0d1ms (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.txTcUnit
+
+       Possibilities:
+               1ms   (1)
+               0.1ms   (2)"
+   ::= {er1645v2SessEntry 67960832}
+
+er1645v2SessTypeOutStanding OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.outStanding"
+   ::= {er1645v2SessEntry 67305472}
+
+er1645v2SessTypeBurstBeforeRx OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.burstBeforeRx"
+   ::= {er1645v2SessEntry 67502080}
+
+er1645v2SessTypeSameSequence OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.sameSequence"
+   ::= {er1645v2SessEntry 67371008}
+
+er1645v2SessTypePacketLossLimit OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (-1),
+               flood (-2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.packetLossLimit
+
+       Possibilities:
+               no   (-1)
+               flood   (-2)"
+   ::= {er1645v2SessEntry 67567616}
+
+er1645v2SessTypeLossLimitType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               packets (1),
+               perMil (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.lossLimitType
+
+       Possibilities:
+               packets   (1)
+               perMil   (2)"
+   ::= {er1645v2SessEntry 67829760}
+
+er1645v2SessTypeFrameLoss OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (1),
+               oneLossLimit (2),
+               twoLossLimit (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.frameLoss
+
+       Possibilities:
+               no   (1)
+               oneLossLimit   (2)
+               twoLossLimit   (3)"
+   ::= {er1645v2SessEntry 67633152}
+
+er1645v2SessTypeHdInfoUpdateTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+               {
+               nosupdate (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.hd.infoUpdateTime
+
+       Time in centi-second.
+
+       Possibilities:
+               no update   (0)"
+   ::= {er1645v2SessEntry 68026624}
+
+er1645v2SessTypeHdFloodAck OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               auto (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.type.hd.floodAck
+
+       Possibilities:
+               auto   (0)"
+   ::= {er1645v2SessEntry 68026880}
+
+er1645v2SessNrPackets OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.nrPackets"
+   ::= {er1645v2SessEntry 83886080}
+
+er1645v2SessDurationSec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.durationSec"
+   ::= {er1645v2SessEntry 100663296}
+
+er1645v2SessOverheadBytes OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.overhead.bytes"
+   ::= {er1645v2SessEntry 117571584}
+
+er1645v2SessOverheadBandwidthUse OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               yes (1),
+               no (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.overhead.bandwidthUse
+
+       Possibilities:
+               yes   (1)
+               no   (2)"
+   ::= {er1645v2SessEntry 117637120}
+
+er1645v2SessLogResultLogDepth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.log.resultLogDepth"
+   ::= {er1645v2SessEntry 134610944}
+
+er1645v2SessLogResultLogFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.log.resultLogFile"
+   ::= {er1645v2SessEntry 134348800}
+
+er1645v2SessLogErrorLogDepth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.log.errorLogDepth"
+   ::= {er1645v2SessEntry 134676480}
+
+er1645v2SessLogError OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               yes (1),
+               no (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.log.error
+
+       Possibilities:
+               yes   (1)
+               no   (2)"
+   ::= {er1645v2SessEntry 134414336}
+
+er1645v2SessLogStatisticsLogDepth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.log.statisticsLogDepth"
+   ::= {er1645v2SessEntry 134742016}
+
+er1645v2SessLogStatisticsLogTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.log.statisticsLogTime
+
+       Time in centi-second."
+   ::= {er1645v2SessEntry 134479872}
+
+er1645v2SessLogStatisticsLogFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.log.statisticsLogFile"
+   ::= {er1645v2SessEntry 134283264}
+
+er1645v2SessLogResultStatSeparator OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               tab (9),
+               semicolon (59),
+               comma (44)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.log.resultStatSeparator
+
+       Possibilities:
+               tab   (9)
+               semicolon   (59)
+               comma   (44)"
+   ::= {er1645v2SessEntry 134545408}
+
+er1645v2SessLogRfc2544FileName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.log.rfc2544.fileName"
+   ::= {er1645v2SessEntry 134807808}
+
+er1645v2SessLogRfc2544Type OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.log.rfc2544.type
+
+       Bit meanings:
+               bit 0 = txt,
+               bit 1 = csv"
+   ::= {er1645v2SessEntry 134808064}
+
+er1645v2SessLogRfc2544CsvSeparator OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               tab (9),
+               semicolon (59),
+               comma (44)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.log.rfc2544.csvSeparator
+
+       Possibilities:
+               tab   (9)
+               semicolon   (59)
+               comma   (44)"
+   ::= {er1645v2SessEntry 134808320}
+
+er1645v2SessStopOnError OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               yes (1),
+               no (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.stopOnError
+
+       Possibilities:
+               yes   (1)
+               no   (2)"
+   ::= {er1645v2SessEntry 150994944}
+
+er1645v2SessIncrementerTimes OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.incrementer.times"
+   ::= {er1645v2SessEntry 174325760}
+
+er1645v2SessIncrementerFrameFromSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.incrementer.frame.fromSize"
+   ::= {er1645v2SessEntry 174391552}
+
+er1645v2SessIncrementerFrameToSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.incrementer.frame.toSize"
+   ::= {er1645v2SessEntry 174391808}
+
+er1645v2SessIncrementerTypeTimeBetween OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "ms"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.incrementer.type.timeBetween
+
+       unit name = ms"
+   ::= {er1645v2SessEntry 174457088}
+
+er1645v2SessIncrementerTypeBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.incrementer.type.bandwidth"
+   ::= {er1645v2SessEntry 174457344}
+
+er1645v2SessIncrementerTypePacketsASec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.incrementer.type.packetsASec"
+   ::= {er1645v2SessEntry 174458112}
+
+er1645v2SessIncrementerTypeTxTc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.incrementer.type.txTc"
+   ::= {er1645v2SessEntry 174459904}
+
+er1645v2SessIncrementerTypeOutStanding OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.incrementer.type.outStanding"
+   ::= {er1645v2SessEntry 174457600}
+
+er1645v2SessIncrementerTypeSameSequence OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.incrementer.type.sameSequence"
+   ::= {er1645v2SessEntry 174457856}
+
+er1645v2SessIncrementerDurationSec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.incrementer.durationSec"
+   ::= {er1645v2SessEntry 174522368}
+
+er1645v2SessIncrementerNrPackets OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.incrementer.nrPackets"
+   ::= {er1645v2SessEntry 174587904}
+
+er1645v2SessEncapsEthVlan OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2SessEncapsEthVlanEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2Sess 205783040}
+
+er1645v2SessEncapsEthVlanEntry OBJECT-TYPE
+   SYNTAX      Er1645v2SessEncapsEthVlanEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2SessEncapsEthVlanGlobalIx,
+                er1645v2SessTableIx,
+                er1645v2SessEncapsEthVlanTableIx }
+   ::= {er1645v2SessEncapsEthVlan 1}
+
+Er1645v2SessEncapsEthVlanEntry ::=
+   SEQUENCE
+      {
+      er1645v2SessEncapsEthVlanActions
+         VariableLengthTableActions,
+      er1645v2SessEncapsEthVlanGlobalIx
+         GlobalIndex,
+      er1645v2SessEncapsEthVlanTableIx
+         TableIndex,
+      er1645v2SessEncapsEthVlanVid
+         Integer32,
+      er1645v2SessEncapsEthVlanTpid
+         INTEGER,
+      er1645v2SessEncapsEthVlanPriority
+         Integer32,
+      er1645v2SessEncapsEthVlanDei
+         INTEGER
+      }
+
+er1645v2SessEncapsEthVlanActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2SessEncapsEthVlanEntry 2}
+
+er1645v2SessEncapsEthVlanGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2SessEncapsEthVlanEntry 10}
+
+er1645v2SessEncapsEthVlanTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2SessEncapsEthVlanEntry 11}
+
+er1645v2SessEncapsEthVlanVid OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.vlan.vid"
+   ::= {er1645v2SessEncapsEthVlanEntry 268435456}
+
+er1645v2SessEncapsEthVlanTpid OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dot1Q (33024),
+               dot1ad (34984),
+               s0x9100 (37120),
+               s0x9200 (37376),
+               s0x9300 (37632)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.vlan.tpid
+
+       Possibilities:
+               dot1Q   (33024)
+               dot1ad   (34984)
+               0x9100   (37120)
+               0x9200   (37376)
+               0x9300   (37632)"
+   ::= {er1645v2SessEncapsEthVlanEntry 536870912}
+
+er1645v2SessEncapsEthVlanPriority OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.vlan.priority"
+   ::= {er1645v2SessEncapsEthVlanEntry 805306368}
+
+er1645v2SessEncapsEthVlanDei OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.encapsulation.ethernet.vlan.dei
+
+       Possibilities:
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2SessEncapsEthVlanEntry 1073741824}
+
+er1645v2SessFrameSizeMultiple OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2SessFrameSizeMultipleEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2Sess 51315200}
+
+er1645v2SessFrameSizeMultipleEntry OBJECT-TYPE
+   SYNTAX      Er1645v2SessFrameSizeMultipleEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2SessFrameSizeMultipleGlobalIx,
+                er1645v2SessTableIx,
+                er1645v2SessFrameSizeMultipleTableIx }
+   ::= {er1645v2SessFrameSizeMultiple 1}
+
+Er1645v2SessFrameSizeMultipleEntry ::=
+   SEQUENCE
+      {
+      er1645v2SessFrameSizeMultipleActions
+         VariableLengthTableActions,
+      er1645v2SessFrameSizeMultipleGlobalIx
+         GlobalIndex,
+      er1645v2SessFrameSizeMultipleTableIx
+         TableIndex,
+      er1645v2SessFrameSizeMultipleFromSize
+         Integer32,
+      er1645v2SessFrameSizeMultipleToSize
+         Integer32,
+      er1645v2SessFrameSizeMultipleSizeType
+         INTEGER
+      }
+
+er1645v2SessFrameSizeMultipleActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2SessFrameSizeMultipleEntry 2}
+
+er1645v2SessFrameSizeMultipleGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2SessFrameSizeMultipleEntry 10}
+
+er1645v2SessFrameSizeMultipleTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2SessFrameSizeMultipleEntry 11}
+
+er1645v2SessFrameSizeMultipleFromSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.size.multiple.fromSize"
+   ::= {er1645v2SessFrameSizeMultipleEntry 16777216}
+
+er1645v2SessFrameSizeMultipleToSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.size.multiple.toSize"
+   ::= {er1645v2SessFrameSizeMultipleEntry 33554432}
+
+er1645v2SessFrameSizeMultipleSizeType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               single (1),
+               range (2),
+               toggle (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.sessions.frame.size.multiple.sizeType
+
+       Possibilities:
+               single   (1)
+               range   (2)
+               toggle   (3)"
+   ::= {er1645v2SessFrameSizeMultipleEntry 50331648}
+
+
+er1645v2STestEthernetServer OBJECT IDENTIFIER ::= {er1645v2STest 5002}
+
+er1645v2STestEthernetServerSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2STestEthernetServerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2STestEthernetServer 1}
+
+er1645v2STestEthernetServerEntry OBJECT-TYPE
+   SYNTAX      Er1645v2STestEthernetServerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2STestEthernetServerGlobalIx,
+                er1645v2STestEthernetServerTableIx }
+   ::= {er1645v2STestEthernetServerSSCTable 1}
+
+Er1645v2STestEthernetServerEntry ::=
+   SEQUENCE
+      {
+      er1645v2STestEthernetServerActions
+         VariableLengthTableActions,
+      er1645v2STestEthernetServerGlobalIx
+         GlobalIndex,
+      er1645v2STestEthernetServerTableIx
+         TableIndex,
+      er1645v2STestEthernetServerServerMacAddress
+         OCTET STRING,
+      er1645v2STestEthernetServerIf
+         DisplayString,
+      er1645v2STestEthernetServerDropLevel
+         INTEGER,
+      er1645v2STestEthernetServerPriority
+         INTEGER
+      }
+
+er1645v2STestEthernetServerActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2STestEthernetServerEntry 2}
+
+er1645v2STestEthernetServerGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2STestEthernetServerEntry 10}
+
+er1645v2STestEthernetServerTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2STestEthernetServerEntry 11}
+
+er1645v2STestEthernetServerServerMacAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.ethernetServer.serverMacAddress
+
+       MAC address."
+   ::= {er1645v2STestEthernetServerEntry 16777216}
+
+er1645v2STestEthernetServerIf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.ethernetServer.interface"
+   ::= {er1645v2STestEthernetServerEntry 33554432}
+
+er1645v2STestEthernetServerDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               keepDropLevel (-1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.ethernetServer.dropLevel
+
+       Possibilities:
+               keepDropLevel   (-1)"
+   ::= {er1645v2STestEthernetServerEntry 67108864}
+
+er1645v2STestEthernetServerPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               keepPriority (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.editConf.ethernetServer.priority
+
+       Possibilities:
+               keepPriority   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2STestEthernetServerEntry 50331648}
+
+
+
+sr1645v2STest OBJECT IDENTIFIER ::= {r1645v2STest 14}
+
+
+sr1645v2STestSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2STest 269}
+
+sr1645v2STestSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2STestSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2STestSnmpIndex 1}
+
+sr1645v2STestSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2STestSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2STestSnmpIndexGlobalIx }
+   ::= {sr1645v2STestSnmpIndexTable 1}
+
+Sr1645v2STestSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2STestSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2STestSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2STestSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2STestSnmpIndexEntry 10}
+
+sr1645v2STestSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.status.snmpIndex"
+   ::= {sr1645v2STestSnmpIndexEntry 2147483648}
+
+
+sr1645v2STestStatus OBJECT IDENTIFIER ::= {sr1645v2STest 5004}
+
+sr1645v2STestStatusTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2STestStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2STestStatus 1}
+
+sr1645v2STestStatusEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2STestStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2STestStatusGlobalIx }
+   ::= {sr1645v2STestStatusTable 1}
+
+Sr1645v2STestStatusEntry ::=
+   SEQUENCE
+      {
+      sr1645v2STestStatusGlobalIx
+         GlobalIndex,
+      sr1645v2STestStatusValue
+         INTEGER
+      }
+
+sr1645v2STestStatusGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2STestStatusEntry 10}
+
+sr1645v2STestStatusValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notsrunning (1),
+               starting (2),
+               nosrunningssessions (3),
+               sessionssrunnings1mssTc (4),
+               sessionssrunnings0d1mssTc (5),
+               waitsforsending (11),
+               interruptsended (12),
+               processsended (13)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.status.status
+
+       Possibilities:
+               not running   (1)
+               starting   (2)
+               no running sessions   (3)
+               sessions running 1ms Tc   (4)
+               sessions running 0.1ms Tc   (5)
+               wait for ending   (11)
+               interrupt ended   (12)
+               process ended   (13)"
+   ::= {sr1645v2STestStatusEntry 2147483648}
+
+
+
+pr1645v2STest OBJECT IDENTIFIER ::= {r1645v2STest 12}
+
+
+pr1645v2STestSessions OBJECT IDENTIFIER ::= {pr1645v2STest 5001}
+
+pr1645v2STestSessionsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2STestSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2STestSessions 1}
+
+pr1645v2STestSessionsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2STestSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2STestSessionsGlobalIx,
+                pr1645v2STestSessionsTableIx }
+   ::= {pr1645v2STestSessionsSSCTable 1}
+
+Pr1645v2STestSessionsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2STestSessionsGlobalIx
+         GlobalIndex,
+      pr1645v2STestSessionsTableIx
+         TableIndex,
+      pr1645v2STestSessionsName
+         DisplayString,
+      pr1645v2STestSessionsStatus
+         INTEGER,
+      pr1645v2STestSessionsStartDate
+         DisplayString,
+      pr1645v2STestSessionsEndDate
+         DisplayString,
+      pr1645v2STestSessionsTestTime
+         TimeTicks,
+      pr1645v2STestSessionsSent
+         Counter64,
+      pr1645v2STestSessionsReceived
+         Counter64,
+      pr1645v2STestSessionsPacketLoss
+         Counter64,
+      pr1645v2STestSessionsPacketLossPer
+         INTEGER,
+      pr1645v2STestSessionsTxTarget
+         INTEGER,
+      pr1645v2STestSessionsRxTarget
+         INTEGER,
+      pr1645v2STestSessionsSyncLoss
+         INTEGER,
+      pr1645v2STestSessionsOutOfSequence
+         Integer32,
+      pr1645v2STestSessionsRecAfterTim
+         Counter64,
+      pr1645v2STestSessionsCrcErrors
+         INTEGER,
+      pr1645v2STestSessionsLengthErrors
+         Counter64,
+      pr1645v2STestSessionsDelayMin
+         INTEGER,
+      pr1645v2STestSessionsDelayAvrg
+         INTEGER,
+      pr1645v2STestSessionsDelayMax
+         INTEGER,
+      pr1645v2STestSessionsJitterAvrg
+         INTEGER,
+      pr1645v2STestSessionsJitterMax
+         INTEGER,
+      pr1645v2STestSessionsTxPacketSec
+         Integer32,
+      pr1645v2STestSessionsRxPacketSec
+         Integer32,
+      pr1645v2STestSessionsBytesStatEncapsTx
+         Counter64,
+      pr1645v2STestSessionsBytesStatOverheadTx
+         Counter64,
+      pr1645v2STestSessionsBytesStatEncapsRx
+         Counter64,
+      pr1645v2STestSessionsBytesStatOverheadRx
+         Counter64,
+      pr1645v2STestSessionsBitsSecEncapsTx
+         Integer32,
+      pr1645v2STestSessionsBitsSecOverheadTx
+         Integer32,
+      pr1645v2STestSessionsBitsSecEncapsRx
+         Integer32,
+      pr1645v2STestSessionsBitsSecOverheadRx
+         Integer32,
+      pr1645v2STestSessionsBitsSecEncapsRxMin
+         Integer32,
+      pr1645v2STestSessionsBitsSecEncapsRxMax
+         Integer32,
+      pr1645v2STestSessionsAttributesDestination
+         DisplayString,
+      pr1645v2STestSessionsAttributesFrameFromSize
+         Integer32,
+      pr1645v2STestSessionsAttributesFrameToSize
+         INTEGER,
+      pr1645v2STestSessionsAttributesFrameSizeType
+         INTEGER,
+      pr1645v2STestSessionsAttributesFrameTimeOut
+         Integer32,
+      pr1645v2STestSessionsAttributesFrameCrc
+         INTEGER,
+      pr1645v2STestSessionsAttributesFrameTc
+         Integer32,
+      pr1645v2STestSessionsAttributesTypeTimeBetween
+         INTEGER,
+      pr1645v2STestSessionsAttributesTypeBandwidth
+         INTEGER,
+      pr1645v2STestSessionsAttributesTypePacketsASec
+         INTEGER,
+      pr1645v2STestSessionsAttributesTypeTxTc
+         INTEGER,
+      pr1645v2STestSessionsAttributesTypeOutStanding
+         INTEGER,
+      pr1645v2STestSessionsAttributesTypeBurstBeforeRx
+         INTEGER,
+      pr1645v2STestSessionsAttributesTypeSameSequence
+         INTEGER,
+      pr1645v2STestSessionsAttributesDuration
+         INTEGER,
+      pr1645v2STestSessionsAttributesNrPackets
+         INTEGER
+      }
+
+pr1645v2STestSessionsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2STestSessionsEntry 10}
+
+pr1645v2STestSessionsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2STestSessionsEntry 11}
+
+pr1645v2STestSessionsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.name"
+   ::= {pr1645v2STestSessionsEntry 100663296}
+
+pr1645v2STestSessionsStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               idle (128),
+               destinationProblem (40),
+               openSocketProblem (41),
+               logProblem (42),
+               waitHalfDuplexSetup (2),
+               waitGroup (3),
+               waitDns (4),
+               waitDnsStart (5),
+               releaseSocket (6),
+               waitForRepeat (7),
+               runFlood (11),
+               runAsymFlood (12),
+               runNormal (13),
+               runBandwidth (14),
+               runPacketsASec (15),
+               haltedFlood (21),
+               haltedAsymFlood (22),
+               haltedNormal (23),
+               haltedBandwidth (24),
+               haltedPacketsASec (25),
+               optimumFlood (31),
+               optimumAsymFlood (32),
+               optimumNormal (33),
+               optimumBandwidth (34),
+               optimumPacketsASec (35),
+               problemHaltedFlood (26),
+               problemHaltedAsymFlood (27),
+               problemHaltedNormal (28),
+               problemHaltedBandwidth (29),
+               problemHaltedPacketsASec (30),
+               testRunFlood (51),
+               testRunAsymFlood (52),
+               testRunNormal (53),
+               testRunBandwidth (54),
+               testRunPacketsASec (55),
+               testReleaseSocket (56),
+               testWaitForRepeat (57),
+               testHaltedFlood (61),
+               testHaltedAsymFlood (62),
+               testHaltedNormal (63),
+               testHaltedBandwidth (64),
+               testHaltedPacketsASec (65)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.status
+
+       Possibilities:
+               idle   (128)
+               destinationProblem   (40)
+               openSocketProblem   (41)
+               logProblem   (42)
+               waitHalfDuplexSetup   (2)
+               waitGroup   (3)
+               waitDns   (4)
+               waitDnsStart   (5)
+               releaseSocket   (6)
+               waitForRepeat   (7)
+               runFlood   (11)
+               runAsymFlood   (12)
+               runNormal   (13)
+               runBandwidth   (14)
+               runPacketsASec   (15)
+               haltedFlood   (21)
+               haltedAsymFlood   (22)
+               haltedNormal   (23)
+               haltedBandwidth   (24)
+               haltedPacketsASec   (25)
+               optimumFlood   (31)
+               optimumAsymFlood   (32)
+               optimumNormal   (33)
+               optimumBandwidth   (34)
+               optimumPacketsASec   (35)
+               problemHaltedFlood   (26)
+               problemHaltedAsymFlood   (27)
+               problemHaltedNormal   (28)
+               problemHaltedBandwidth   (29)
+               problemHaltedPacketsASec   (30)
+               testRunFlood   (51)
+               testRunAsymFlood   (52)
+               testRunNormal   (53)
+               testRunBandwidth   (54)
+               testRunPacketsASec   (55)
+               testReleaseSocket   (56)
+               testWaitForRepeat   (57)
+               testHaltedFlood   (61)
+               testHaltedAsymFlood   (62)
+               testHaltedNormal   (63)
+               testHaltedBandwidth   (64)
+               testHaltedPacketsASec   (65)"
+   ::= {pr1645v2STestSessionsEntry 16777216}
+
+pr1645v2STestSessionsStartDate OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.startDate"
+   ::= {pr1645v2STestSessionsEntry 2382364672}
+
+pr1645v2STestSessionsEndDate OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.endDate"
+   ::= {pr1645v2STestSessionsEntry 2399141888}
+
+pr1645v2STestSessionsTestTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.testTime
+
+       Time in centi-second."
+   ::= {pr1645v2STestSessionsEntry 2365587456}
+
+pr1645v2STestSessionsSent OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.sent
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2STestSessionsEntry 2415919104}
+
+pr1645v2STestSessionsReceived OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.received
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2STestSessionsEntry 2432696320}
+
+pr1645v2STestSessionsPacketLoss OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.packetLoss
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2STestSessionsEntry 2449473536}
+
+pr1645v2STestSessionsPacketLossPer OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (2147483647)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.packetLossPer
+
+       unit name = %
+       formula = 100 / ; 100 *
+
+       Possibilities:
+               <not in use>   (2147483647)"
+   ::= {pr1645v2STestSessionsEntry 2466250752}
+
+pr1645v2STestSessionsTxTarget OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (2147483647)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.txTarget
+
+       unit name = %
+       formula = 100 / ; 100 *
+
+       Possibilities:
+               <not in use>   (2147483647)"
+   ::= {pr1645v2STestSessionsEntry 2684354560}
+
+pr1645v2STestSessionsRxTarget OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (2147483647)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.rxTarget
+
+       unit name = %
+       formula = 100 / ; 100 *
+
+       Possibilities:
+               <not in use>   (2147483647)"
+   ::= {pr1645v2STestSessionsEntry 2701131776}
+
+pr1645v2STestSessionsSyncLoss OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (-1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.syncLoss
+
+       Possibilities:
+               <not in use>   (-1)"
+   ::= {pr1645v2STestSessionsEntry 2499805184}
+
+pr1645v2STestSessionsOutOfSequence OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.outOfSequence"
+   ::= {pr1645v2STestSessionsEntry 2483027968}
+
+pr1645v2STestSessionsRecAfterTim OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.recAfterTim
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2STestSessionsEntry 2550136832}
+
+pr1645v2STestSessionsCrcErrors OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (-1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.crcErrors
+
+       Possibilities:
+               <not in use>   (-1)"
+   ::= {pr1645v2STestSessionsEntry 2516582400}
+
+pr1645v2STestSessionsLengthErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.lengthErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2STestSessionsEntry 2533359616}
+
+pr1645v2STestSessionsDelayMin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (2147483647)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.delayMin
+
+       unit name = ms
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               <not in use>   (2147483647)"
+   ::= {pr1645v2STestSessionsEntry 2566914048}
+
+pr1645v2STestSessionsDelayAvrg OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (2147483647)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.delayAvrg
+
+       unit name = ms
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               <not in use>   (2147483647)"
+   ::= {pr1645v2STestSessionsEntry 2583691264}
+
+pr1645v2STestSessionsDelayMax OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (2147483647)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.delayMax
+
+       unit name = ms
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               <not in use>   (2147483647)"
+   ::= {pr1645v2STestSessionsEntry 2600468480}
+
+pr1645v2STestSessionsJitterAvrg OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (2147483647)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.jitterAvrg
+
+       unit name = ms
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               <not in use>   (2147483647)"
+   ::= {pr1645v2STestSessionsEntry 2734686208}
+
+pr1645v2STestSessionsJitterMax OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (2147483647)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.jitterMax
+
+       unit name = ms
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               <not in use>   (2147483647)"
+   ::= {pr1645v2STestSessionsEntry 2751463424}
+
+pr1645v2STestSessionsTxPacketSec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.txPacketSec
+
+       formula = 100 / ; 100 *"
+   ::= {pr1645v2STestSessionsEntry 2617245696}
+
+pr1645v2STestSessionsRxPacketSec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.rxPacketSec
+
+       formula = 100 / ; 100 *"
+   ::= {pr1645v2STestSessionsEntry 2717908992}
+
+pr1645v2STestSessionsBytesStatEncapsTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.bytesStat.encapsTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2STestSessionsEntry 2634088448}
+
+pr1645v2STestSessionsBytesStatOverheadTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.bytesStat.overheadTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2STestSessionsEntry 2634285056}
+
+pr1645v2STestSessionsBytesStatEncapsRx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.bytesStat.encapsRx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2STestSessionsEntry 2634350592}
+
+pr1645v2STestSessionsBytesStatOverheadRx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.bytesStat.overheadRx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2STestSessionsEntry 2634547200}
+
+pr1645v2STestSessionsBitsSecEncapsTx OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.bitsSec.encapsTx"
+   ::= {pr1645v2STestSessionsEntry 2667642880}
+
+pr1645v2STestSessionsBitsSecOverheadTx OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.bitsSec.overheadTx"
+   ::= {pr1645v2STestSessionsEntry 2667839488}
+
+pr1645v2STestSessionsBitsSecEncapsRx OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.bitsSec.encapsRx"
+   ::= {pr1645v2STestSessionsEntry 2667905024}
+
+pr1645v2STestSessionsBitsSecOverheadRx OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.bitsSec.overheadRx"
+   ::= {pr1645v2STestSessionsEntry 2668101632}
+
+pr1645v2STestSessionsBitsSecEncapsRxMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.bitsSec.encapsRxMin"
+   ::= {pr1645v2STestSessionsEntry 2668232704}
+
+pr1645v2STestSessionsBitsSecEncapsRxMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.bitsSec.encapsRxMax"
+   ::= {pr1645v2STestSessionsEntry 2668298240}
+
+pr1645v2STestSessionsAttributesDestination OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.destination"
+   ::= {pr1645v2STestSessionsEntry 96993280}
+
+pr1645v2STestSessionsAttributesFrameFromSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.frame.fromSize"
+   ::= {pr1645v2STestSessionsEntry 97124608}
+
+pr1645v2STestSessionsAttributesFrameToSize OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (-1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.frame.toSize
+
+       Possibilities:
+               <not in use>   (-1)"
+   ::= {pr1645v2STestSessionsEntry 97124864}
+
+pr1645v2STestSessionsAttributesFrameSizeType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               single (1),
+               range (2),
+               toggle (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.frame.sizeType
+
+       Possibilities:
+               single   (1)
+               range   (2)
+               toggle   (3)"
+   ::= {pr1645v2STestSessionsEntry 97125120}
+
+pr1645v2STestSessionsAttributesFrameTimeOut OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.frame.timeOut"
+   ::= {pr1645v2STestSessionsEntry 97125376}
+
+pr1645v2STestSessionsAttributesFrameCrc OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               txRx (1),
+               tx (2),
+               no (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.frame.crc
+
+       Possibilities:
+               txRx   (1)
+               tx   (2)
+               no   (3)"
+   ::= {pr1645v2STestSessionsEntry 97126656}
+
+pr1645v2STestSessionsAttributesFrameTc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.frame.tc"
+   ::= {pr1645v2STestSessionsEntry 97128448}
+
+pr1645v2STestSessionsAttributesTypeTimeBetween OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (-1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.type.timeBetween
+
+       Possibilities:
+               <not in use>   (-1)"
+   ::= {pr1645v2STestSessionsEntry 97190144}
+
+pr1645v2STestSessionsAttributesTypeBandwidth OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (-1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.type.bandwidth
+
+       Possibilities:
+               <not in use>   (-1)"
+   ::= {pr1645v2STestSessionsEntry 97190400}
+
+pr1645v2STestSessionsAttributesTypePacketsASec OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (-1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.type.packetsASec
+
+       Possibilities:
+               <not in use>   (-1)"
+   ::= {pr1645v2STestSessionsEntry 97191168}
+
+pr1645v2STestSessionsAttributesTypeTxTc OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (-1)
+               }
+   UNITS       "us"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.type.txTc
+
+       unit name = us
+
+       Possibilities:
+               <not in use>   (-1)"
+   ::= {pr1645v2STestSessionsEntry 97192960}
+
+pr1645v2STestSessionsAttributesTypeOutStanding OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (-1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.type.outStanding
+
+       Possibilities:
+               <not in use>   (-1)"
+   ::= {pr1645v2STestSessionsEntry 97190656}
+
+pr1645v2STestSessionsAttributesTypeBurstBeforeRx OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (-1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.type.burstBeforeRx
+
+       Possibilities:
+               <not in use>   (-1)"
+   ::= {pr1645v2STestSessionsEntry 97191424}
+
+pr1645v2STestSessionsAttributesTypeSameSequence OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (-1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.type.sameSequence
+
+       Possibilities:
+               <not in use>   (-1)"
+   ::= {pr1645v2STestSessionsEntry 97190912}
+
+pr1645v2STestSessionsAttributesDuration OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (-1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.duration
+
+       Possibilities:
+               <not in use>   (-1)"
+   ::= {pr1645v2STestSessionsEntry 97255424}
+
+pr1645v2STestSessionsAttributesNrPackets OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slnotsinsuseg (-1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.sessions.attributes.nrPackets
+
+       Possibilities:
+               <not in use>   (-1)"
+   ::= {pr1645v2STestSessionsEntry 97320960}
+
+
+pr1645v2STestEthernetServer OBJECT IDENTIFIER ::= {pr1645v2STest 5005}
+
+pr1645v2STestEthernetServerSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2STestEthernetServerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2STestEthernetServer 1}
+
+pr1645v2STestEthernetServerEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2STestEthernetServerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2STestEthernetServerGlobalIx,
+                pr1645v2STestEthernetServerTableIx }
+   ::= {pr1645v2STestEthernetServerSSCTable 1}
+
+Pr1645v2STestEthernetServerEntry ::=
+   SEQUENCE
+      {
+      pr1645v2STestEthernetServerGlobalIx
+         GlobalIndex,
+      pr1645v2STestEthernetServerTableIx
+         TableIndex,
+      pr1645v2STestEthernetServerServerMacAddress
+         OCTET STRING,
+      pr1645v2STestEthernetServerIf
+         DisplayString,
+      pr1645v2STestEthernetServerStatus
+         INTEGER,
+      pr1645v2STestEthernetServerNbrPckt
+         Counter64,
+      pr1645v2STestEthernetServerLastActivityTime
+         TimeTicks
+      }
+
+pr1645v2STestEthernetServerGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2STestEthernetServerEntry 10}
+
+pr1645v2STestEthernetServerTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2STestEthernetServerEntry 11}
+
+pr1645v2STestEthernetServerServerMacAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.ethernetServer.serverMacAddress
+
+       MAC address."
+   ::= {pr1645v2STestEthernetServerEntry 16777216}
+
+pr1645v2STestEthernetServerIf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.ethernetServer.interface"
+   ::= {pr1645v2STestEthernetServerEntry 33554432}
+
+pr1645v2STestEthernetServerStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notConnected (1),
+               operational (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.ethernetServer.status
+
+       Possibilities:
+               notConnected   (1)
+               operational   (2)"
+   ::= {pr1645v2STestEthernetServerEntry 117440512}
+
+pr1645v2STestEthernetServerNbrPckt OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.ethernetServer.nbrOfPackets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2STestEthernetServerEntry 100663296}
+
+pr1645v2STestEthernetServerLastActivityTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.performance.ethernetServer.lastActivityTime
+
+       Time in centi-second."
+   ::= {pr1645v2STestEthernetServerEntry 83886080}
+
+
+
+ar1645v2STest OBJECT IDENTIFIER ::= {r1645v2STest 16}
+
+
+ar1645v2STestClearCounters OBJECT IDENTIFIER ::= {ar1645v2STest 263}
+
+ar1645v2STestClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2STestClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1645v2STestClearCounters 1}
+
+ar1645v2STestClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2STestClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2STestClearCountersGlobalIx }
+   ::= {ar1645v2STestClearCountersTable 1}
+
+Ar1645v2STestClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1645v2STestClearCountersGlobalIx
+         GlobalIndex,
+      ar1645v2STestClearCountersValue
+         Integer32
+      }
+
+ar1645v2STestClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2STestClearCountersEntry 10}
+
+ar1645v2STestClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.actions.clearCounters"
+   ::= {ar1645v2STestClearCountersEntry 2147483648}
+
+
+ar1645v2STestClearAllStatLog OBJECT IDENTIFIER ::= {ar1645v2STest 5605}
+
+ar1645v2STestClearAllStatLogTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2STestClearAllStatLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "restart all sessions"
+   ::= {ar1645v2STestClearAllStatLog 1}
+
+ar1645v2STestClearAllStatLogEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2STestClearAllStatLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2STestClearAllStatLogGlobalIx }
+   ::= {ar1645v2STestClearAllStatLogTable 1}
+
+Ar1645v2STestClearAllStatLogEntry ::=
+   SEQUENCE
+      {
+      ar1645v2STestClearAllStatLogGlobalIx
+         GlobalIndex,
+      ar1645v2STestClearAllStatLogValue
+         Integer32
+      }
+
+ar1645v2STestClearAllStatLogGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2STestClearAllStatLogEntry 10}
+
+ar1645v2STestClearAllStatLogValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.actions.clearAllStatLog"
+   ::= {ar1645v2STestClearAllStatLogEntry 2147483648}
+
+
+ar1645v2STestClearAllErrorLog OBJECT IDENTIFIER ::= {ar1645v2STest 5604}
+
+ar1645v2STestClearAllErrorLogTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2STestClearAllErrorLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "restart all sessions"
+   ::= {ar1645v2STestClearAllErrorLog 1}
+
+ar1645v2STestClearAllErrorLogEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2STestClearAllErrorLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2STestClearAllErrorLogGlobalIx }
+   ::= {ar1645v2STestClearAllErrorLogTable 1}
+
+Ar1645v2STestClearAllErrorLogEntry ::=
+   SEQUENCE
+      {
+      ar1645v2STestClearAllErrorLogGlobalIx
+         GlobalIndex,
+      ar1645v2STestClearAllErrorLogValue
+         Integer32
+      }
+
+ar1645v2STestClearAllErrorLogGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2STestClearAllErrorLogEntry 10}
+
+ar1645v2STestClearAllErrorLogValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.actions.clearAllErrorLog"
+   ::= {ar1645v2STestClearAllErrorLogEntry 2147483648}
+
+
+ar1645v2STestClearAllResultLog OBJECT IDENTIFIER ::= {ar1645v2STest 5602}
+
+ar1645v2STestClearAllResultLogTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2STestClearAllResultLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "restart all sessions"
+   ::= {ar1645v2STestClearAllResultLog 1}
+
+ar1645v2STestClearAllResultLogEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2STestClearAllResultLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2STestClearAllResultLogGlobalIx }
+   ::= {ar1645v2STestClearAllResultLogTable 1}
+
+Ar1645v2STestClearAllResultLogEntry ::=
+   SEQUENCE
+      {
+      ar1645v2STestClearAllResultLogGlobalIx
+         GlobalIndex,
+      ar1645v2STestClearAllResultLogValue
+         Integer32
+      }
+
+ar1645v2STestClearAllResultLogGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2STestClearAllResultLogEntry 10}
+
+ar1645v2STestClearAllResultLogValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.actions.clearAllResultLog"
+   ::= {ar1645v2STestClearAllResultLogEntry 2147483648}
+
+
+ar1645v2STestClearAllLog OBJECT IDENTIFIER ::= {ar1645v2STest 5606}
+
+ar1645v2STestClearAllLogTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2STestClearAllLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "restart all sessions"
+   ::= {ar1645v2STestClearAllLog 1}
+
+ar1645v2STestClearAllLogEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2STestClearAllLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2STestClearAllLogGlobalIx }
+   ::= {ar1645v2STestClearAllLogTable 1}
+
+Ar1645v2STestClearAllLogEntry ::=
+   SEQUENCE
+      {
+      ar1645v2STestClearAllLogGlobalIx
+         GlobalIndex,
+      ar1645v2STestClearAllLogValue
+         Integer32
+      }
+
+ar1645v2STestClearAllLogGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2STestClearAllLogEntry 10}
+
+ar1645v2STestClearAllLogValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.actions.clearAllLog"
+   ::= {ar1645v2STestClearAllLogEntry 2147483648}
+
+
+ar1645v2STestInitAllSessions OBJECT IDENTIFIER ::= {ar1645v2STest 5603}
+
+ar1645v2STestInitAllSessionsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2STestInitAllSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "restart all sessions"
+   ::= {ar1645v2STestInitAllSessions 1}
+
+ar1645v2STestInitAllSessionsEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2STestInitAllSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2STestInitAllSessionsGlobalIx }
+   ::= {ar1645v2STestInitAllSessionsTable 1}
+
+Ar1645v2STestInitAllSessionsEntry ::=
+   SEQUENCE
+      {
+      ar1645v2STestInitAllSessionsGlobalIx
+         GlobalIndex,
+      ar1645v2STestInitAllSessionsValue
+         Integer32
+      }
+
+ar1645v2STestInitAllSessionsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2STestInitAllSessionsEntry 10}
+
+ar1645v2STestInitAllSessionsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.actions.initAllSessions"
+   ::= {ar1645v2STestInitAllSessionsEntry 2147483648}
+
+
+ar1645v2STestRestartAllSessions OBJECT IDENTIFIER ::= {ar1645v2STest 5601}
+
+ar1645v2STestRestartAllSessionsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2STestRestartAllSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "restart all sessions"
+   ::= {ar1645v2STestRestartAllSessions 1}
+
+ar1645v2STestRestartAllSessionsEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2STestRestartAllSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2STestRestartAllSessionsGlobalIx }
+   ::= {ar1645v2STestRestartAllSessionsTable 1}
+
+Ar1645v2STestRestartAllSessionsEntry ::=
+   SEQUENCE
+      {
+      ar1645v2STestRestartAllSessionsGlobalIx
+         GlobalIndex,
+      ar1645v2STestRestartAllSessionsValue
+         Integer32
+      }
+
+ar1645v2STestRestartAllSessionsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2STestRestartAllSessionsEntry 10}
+
+ar1645v2STestRestartAllSessionsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.actions.restartAllSessions"
+   ::= {ar1645v2STestRestartAllSessionsEntry 2147483648}
+
+
+ar1645v2STestStopAllSessions OBJECT IDENTIFIER ::= {ar1645v2STest 5600}
+
+ar1645v2STestStopAllSessionsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2STestStopAllSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "stop all sessions"
+   ::= {ar1645v2STestStopAllSessions 1}
+
+ar1645v2STestStopAllSessionsEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2STestStopAllSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2STestStopAllSessionsGlobalIx }
+   ::= {ar1645v2STestStopAllSessionsTable 1}
+
+Ar1645v2STestStopAllSessionsEntry ::=
+   SEQUENCE
+      {
+      ar1645v2STestStopAllSessionsGlobalIx
+         GlobalIndex,
+      ar1645v2STestStopAllSessionsValue
+         Integer32
+      }
+
+ar1645v2STestStopAllSessionsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2STestStopAllSessionsEntry 10}
+
+ar1645v2STestStopAllSessionsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: smartTester.actions.stopAllSessions"
+   ::= {ar1645v2STestStopAllSessionsEntry 2147483648}
+
+
+
+END

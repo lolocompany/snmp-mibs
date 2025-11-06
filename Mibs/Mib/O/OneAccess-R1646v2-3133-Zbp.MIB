@@ -1,0 +1,432 @@
+OneAccess-R1646v2-3133-Zbp DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2Zbp OBJECT IDENTIFIER ::= {r1646Rootv2 3133}
+
+r1646v2ZbpMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2ZbpMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2Zbp 1}
+
+r1646v2ZbpMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2ZbpMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2ZbpMOPropGlobalIx }
+   ::= {r1646v2ZbpMOProp 1}
+
+R1646v2ZbpMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2ZbpMOPropPath
+         ContainmentPath,
+      r1646v2ZbpMOPropRev
+         ObjectRevision,
+      r1646v2ZbpMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2ZbpMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2ZbpMOPropEntry 3}
+
+r1646v2ZbpMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2ZbpMOPropEntry 4}
+
+r1646v2ZbpMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2ZbpMOPropEntry 10}
+
+
+
+er1646v2Zbp OBJECT IDENTIFIER ::= {r1646v2Zbp 11}
+
+
+er1646v2ZbpSnmpIndexOffset OBJECT IDENTIFIER ::= {er1646v2Zbp 268}
+
+er1646v2ZbpSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbpSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1646v2ZbpSnmpIndexOffset 1}
+
+er1646v2ZbpSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbpSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbpSnmpIndexOffsetGlobalIx }
+   ::= {er1646v2ZbpSnmpIndexOffsetTable 1}
+
+Er1646v2ZbpSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbpSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1646v2ZbpSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1646v2ZbpSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbpSnmpIndexOffsetEntry 10}
+
+er1646v2ZbpSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.snmpIndexOffset"
+   ::= {er1646v2ZbpSnmpIndexOffsetEntry 2147483648}
+
+
+er1646v2ZbpParameters OBJECT IDENTIFIER ::= {er1646v2Zbp 2}
+
+er1646v2ZbpParametersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbpParametersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Policy parameters"
+   ::= {er1646v2ZbpParameters 1}
+
+er1646v2ZbpParametersEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbpParametersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbpParametersGlobalIx }
+   ::= {er1646v2ZbpParametersTable 1}
+
+Er1646v2ZbpParametersEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbpParametersGlobalIx
+         GlobalIndex,
+      er1646v2ZbpParametersValue
+         DisplayString
+      }
+
+er1646v2ZbpParametersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbpParametersEntry 10}
+
+er1646v2ZbpParametersValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.parameters"
+   ::= {er1646v2ZbpParametersEntry 2147483648}
+
+
+er1646v2ZbpPolicyRules OBJECT IDENTIFIER ::= {er1646v2Zbp 3}
+
+er1646v2ZbpPolicyRulesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2ZbpPolicyRulesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "policyRules"
+   ::= {er1646v2ZbpPolicyRules 1}
+
+er1646v2ZbpPolicyRulesEntry OBJECT-TYPE
+   SYNTAX      Er1646v2ZbpPolicyRulesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2ZbpPolicyRulesGlobalIx,
+                er1646v2ZbpPolicyRulesTableIx }
+   ::= {er1646v2ZbpPolicyRulesSSCTable 1}
+
+Er1646v2ZbpPolicyRulesEntry ::=
+   SEQUENCE
+      {
+      er1646v2ZbpPolicyRulesActions
+         VariableLengthTableActions,
+      er1646v2ZbpPolicyRulesGlobalIx
+         GlobalIndex,
+      er1646v2ZbpPolicyRulesTableIx
+         TableIndex,
+      er1646v2ZbpPolicyRulesName
+         DisplayString,
+      er1646v2ZbpPolicyRulesFilter
+         DisplayString,
+      er1646v2ZbpPolicyRulesActionMode
+         INTEGER,
+      er1646v2ZbpPolicyRulesComplexAction
+         DisplayString,
+      er1646v2ZbpPolicyRulesAlgFtp
+         DisplayString,
+      er1646v2ZbpPolicyRulesAlgTftp
+         DisplayString,
+      er1646v2ZbpPolicyRulesBandwidthCir
+         Integer32,
+      er1646v2ZbpPolicyRulesBandwidthTc
+         Integer32,
+      er1646v2ZbpPolicyRulesBandwidthMode
+         INTEGER,
+      er1646v2ZbpPolicyRulesParameters
+         DisplayString,
+      er1646v2ZbpPolicyRulesLogging
+         INTEGER
+      }
+
+er1646v2ZbpPolicyRulesActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2ZbpPolicyRulesEntry 2}
+
+er1646v2ZbpPolicyRulesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2ZbpPolicyRulesEntry 10}
+
+er1646v2ZbpPolicyRulesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2ZbpPolicyRulesEntry 11}
+
+er1646v2ZbpPolicyRulesName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.name"
+   ::= {er1646v2ZbpPolicyRulesEntry 16777216}
+
+er1646v2ZbpPolicyRulesFilter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.filter"
+   ::= {er1646v2ZbpPolicyRulesEntry 33554432}
+
+er1646v2ZbpPolicyRulesActionMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               pass (0),
+               drop (1),
+               inspect (2),
+               complex (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.actionMode
+
+       Possibilities:
+               pass   (0)
+               drop   (1)
+               inspect   (2)
+               complex   (3)"
+   ::= {er1646v2ZbpPolicyRulesEntry 50331648}
+
+er1646v2ZbpPolicyRulesComplexAction OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.complexAction"
+   ::= {er1646v2ZbpPolicyRulesEntry 67108864}
+
+er1646v2ZbpPolicyRulesAlgFtp OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.alg.ftp"
+   ::= {er1646v2ZbpPolicyRulesEntry 83951616}
+
+er1646v2ZbpPolicyRulesAlgTftp OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.alg.tftp"
+   ::= {er1646v2ZbpPolicyRulesEntry 84017152}
+
+er1646v2ZbpPolicyRulesBandwidthCir OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.bandwidth.cir"
+   ::= {er1646v2ZbpPolicyRulesEntry 100728832}
+
+er1646v2ZbpPolicyRulesBandwidthTc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.bandwidth.tc"
+   ::= {er1646v2ZbpPolicyRulesEntry 100794368}
+
+er1646v2ZbpPolicyRulesBandwidthMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               flow (0),
+               connection (1),
+               rule (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.bandwidth.mode
+
+       Possibilities:
+               flow   (0)
+               connection   (1)
+               rule   (2)"
+   ::= {er1646v2ZbpPolicyRulesEntry 100859904}
+
+er1646v2ZbpPolicyRulesParameters OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.parameters"
+   ::= {er1646v2ZbpPolicyRulesEntry 117440512}
+
+er1646v2ZbpPolicyRulesLogging OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.logging
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2ZbpPolicyRulesEntry 134217728}
+
+
+
+sr1646v2Zbp OBJECT IDENTIFIER ::= {r1646v2Zbp 14}
+
+
+sr1646v2ZbpSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2Zbp 269}
+
+sr1646v2ZbpSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ZbpSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2ZbpSnmpIndex 1}
+
+sr1646v2ZbpSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ZbpSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ZbpSnmpIndexGlobalIx }
+   ::= {sr1646v2ZbpSnmpIndexTable 1}
+
+Sr1646v2ZbpSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ZbpSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2ZbpSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2ZbpSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2ZbpSnmpIndexEntry 10}
+
+sr1646v2ZbpSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.status.snmpIndex"
+   ::= {sr1646v2ZbpSnmpIndexEntry 2147483648}
+
+
+
+END

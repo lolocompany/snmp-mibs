@@ -1,0 +1,1721 @@
+OneAccess-R1646v2-961-OsScheduler DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2OsScheduler OBJECT IDENTIFIER ::= {r1646Rootv2 961}
+
+r1646v2OsSchedulerMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2OsSchedulerMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2OsScheduler 1}
+
+r1646v2OsSchedulerMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2OsSchedulerMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2OsSchedulerMOPropGlobalIx }
+   ::= {r1646v2OsSchedulerMOProp 1}
+
+R1646v2OsSchedulerMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2OsSchedulerMOPropPath
+         ContainmentPath,
+      r1646v2OsSchedulerMOPropRev
+         ObjectRevision,
+      r1646v2OsSchedulerMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2OsSchedulerMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2OsSchedulerMOPropEntry 3}
+
+r1646v2OsSchedulerMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2OsSchedulerMOPropEntry 4}
+
+r1646v2OsSchedulerMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2OsSchedulerMOPropEntry 10}
+
+
+
+sr1646v2OsScheduler OBJECT IDENTIFIER ::= {r1646v2OsScheduler 14}
+
+
+sr1646v2OsSchedulerSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2OsScheduler 269}
+
+sr1646v2OsSchedulerSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OsSchedulerSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2OsSchedulerSnmpIndex 1}
+
+sr1646v2OsSchedulerSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OsSchedulerSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OsSchedulerSnmpIndexGlobalIx }
+   ::= {sr1646v2OsSchedulerSnmpIndexTable 1}
+
+Sr1646v2OsSchedulerSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OsSchedulerSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2OsSchedulerSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2OsSchedulerSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OsSchedulerSnmpIndexEntry 10}
+
+sr1646v2OsSchedulerSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.snmpIndex"
+   ::= {sr1646v2OsSchedulerSnmpIndexEntry 2147483648}
+
+
+sr1646v2OsSchedulerThreadInfo OBJECT IDENTIFIER ::= {sr1646v2OsScheduler 2}
+
+sr1646v2OsSchedulerThreadInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OsSchedulerThreadInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "thread-related status information"
+   ::= {sr1646v2OsSchedulerThreadInfo 1}
+
+sr1646v2OsSchedulerThreadInfoEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OsSchedulerThreadInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OsSchedulerThreadInfoGlobalIx,
+                sr1646v2OsSchedulerThreadInfoTableIx }
+   ::= {sr1646v2OsSchedulerThreadInfoSSCTable 1}
+
+Sr1646v2OsSchedulerThreadInfoEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OsSchedulerThreadInfoGlobalIx
+         GlobalIndex,
+      sr1646v2OsSchedulerThreadInfoTableIx
+         TableIndex,
+      sr1646v2OsSchedulerThreadInfoThreadName
+         DisplayString,
+      sr1646v2OsSchedulerThreadInfoThreadStatus
+         INTEGER,
+      sr1646v2OsSchedulerThreadInfoSlotNr
+         Integer32,
+      sr1646v2OsSchedulerThreadInfoSlotNrMask
+         OCTET STRING,
+      sr1646v2OsSchedulerThreadInfoProgramCounter
+         OCTET STRING,
+      sr1646v2OsSchedulerThreadInfoMsr
+         OCTET STRING,
+      sr1646v2OsSchedulerThreadInfoPriority
+         INTEGER
+      }
+
+sr1646v2OsSchedulerThreadInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OsSchedulerThreadInfoEntry 10}
+
+sr1646v2OsSchedulerThreadInfoTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OsSchedulerThreadInfoEntry 11}
+
+sr1646v2OsSchedulerThreadInfoThreadName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.threadInfo.threadName"
+   ::= {sr1646v2OsSchedulerThreadInfoEntry 16777216}
+
+sr1646v2OsSchedulerThreadInfoThreadStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               asleep (0),
+               awake (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.threadInfo.threadStatus
+
+       Possibilities:
+               asleep   (0)
+               awake   (1)"
+   ::= {sr1646v2OsSchedulerThreadInfoEntry 33554432}
+
+sr1646v2OsSchedulerThreadInfoSlotNr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.threadInfo.slotNr"
+   ::= {sr1646v2OsSchedulerThreadInfoEntry 50331648}
+
+sr1646v2OsSchedulerThreadInfoSlotNrMask OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.threadInfo.slotNrMask"
+   ::= {sr1646v2OsSchedulerThreadInfoEntry 67108864}
+
+sr1646v2OsSchedulerThreadInfoProgramCounter OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.threadInfo.programCounter"
+   ::= {sr1646v2OsSchedulerThreadInfoEntry 83886080}
+
+sr1646v2OsSchedulerThreadInfoMsr OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.threadInfo.msr"
+   ::= {sr1646v2OsSchedulerThreadInfoEntry 100663296}
+
+sr1646v2OsSchedulerThreadInfoPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               low (0),
+               high (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.threadInfo.priority
+
+       Possibilities:
+               low   (0)
+               high   (1)"
+   ::= {sr1646v2OsSchedulerThreadInfoEntry 117440512}
+
+
+sr1646v2OsSchedulerCoreDump OBJECT IDENTIFIER ::= {sr1646v2OsScheduler 15}
+
+sr1646v2OsSchedulerCoreDumpSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OsSchedulerCoreDumpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "coreDump"
+   ::= {sr1646v2OsSchedulerCoreDump 1}
+
+sr1646v2OsSchedulerCoreDumpEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OsSchedulerCoreDumpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OsSchedulerCoreDumpGlobalIx,
+                sr1646v2OsSchedulerCoreDumpTableIx }
+   ::= {sr1646v2OsSchedulerCoreDumpSSCTable 1}
+
+Sr1646v2OsSchedulerCoreDumpEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OsSchedulerCoreDumpGlobalIx
+         GlobalIndex,
+      sr1646v2OsSchedulerCoreDumpTableIx
+         TableIndex,
+      sr1646v2OsSchedulerCoreDumpType
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpLength
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpVersionType
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpVersionLength
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpVersionMajor
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpVersionMinor
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpIdentificationType
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpIdentificationLength
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpIdentificationCoreID
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpIdentificationSystemVersion
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpIdentificationSystemUpTime
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionType
+         INTEGER,
+      sr1646v2OsSchedulerCoreDumpExceptionLength
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpExceptionThreadType
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionThreadLength
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpExceptionThreadId
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionThreadName
+         DisplayString,
+      sr1646v2OsSchedulerCoreDumpExceptionStackType
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionStackLength
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpExceptionRegistersType
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionRegistersLength
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpExceptionInstructionType
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionInstructionLength
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpExceptionThreadlistType
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionThreadlistLength
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpExceptionThreadlistNrOfThreads
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpExceptionWatchdogType
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionWatchdogLength
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogTriggered1
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogEnabled1
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogTriggered2
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogEnabled2
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogTriggered3
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogEnabled3
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogTriggered4
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogEnabled4
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionWatchdogThreadID
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionWatchdogThreadName
+         DisplayString,
+      sr1646v2OsSchedulerCoreDumpSoftwareType
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpSoftwareLength
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpSoftwareOsmajorversion
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpSoftwareOsminorversion
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpChecksumType
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpChecksumLength
+         Integer32,
+      sr1646v2OsSchedulerCoreDumpChecksumCrc
+         OCTET STRING
+      }
+
+sr1646v2OsSchedulerCoreDumpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 10}
+
+sr1646v2OsSchedulerCoreDumpTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 11}
+
+sr1646v2OsSchedulerCoreDumpType OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.type"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 16777216}
+
+sr1646v2OsSchedulerCoreDumpLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.length"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 33554432}
+
+sr1646v2OsSchedulerCoreDumpVersionType OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.version.type"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 50397184}
+
+sr1646v2OsSchedulerCoreDumpVersionLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.version.length"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 50462720}
+
+sr1646v2OsSchedulerCoreDumpVersionMajor OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.version.major"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 50528256}
+
+sr1646v2OsSchedulerCoreDumpVersionMinor OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.version.minor"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 50593792}
+
+sr1646v2OsSchedulerCoreDumpIdentificationType OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.identification.type"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 67174400}
+
+sr1646v2OsSchedulerCoreDumpIdentificationLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.identification.length"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 67239936}
+
+sr1646v2OsSchedulerCoreDumpIdentificationCoreID OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.identification.coreID"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 67305472}
+
+sr1646v2OsSchedulerCoreDumpIdentificationSystemVersion OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.identification.systemVersion"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 67371008}
+
+sr1646v2OsSchedulerCoreDumpIdentificationSystemUpTime OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.identification.systemUpTime"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 67436544}
+
+sr1646v2OsSchedulerCoreDumpExceptionType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s0x0000snone (0),
+               s0x0100scritical (1),
+               s0x0200smachinescheck (2),
+               s0x0300sdatasstorage (3),
+               s0x0400sinstructionsstorage (4),
+               s0x0500sexternalsinput (5),
+               s0x0600salignment (6),
+               s0x0700sprogram (7),
+               s0x0800sfloatingspoint (8),
+               s0x0900ssystemscall (9),
+               s0x0A00sauxdsprocessor (10),
+               s0x0B00sdecrementer (11),
+               s0x0C00sfixedsintervalstimer (12),
+               s0x0D00ssystemswatchdog (13),
+               s0x0E00sdatasTLB (14),
+               s0x0F00sinstructionsTLB (15),
+               s0x1000sdebug (16),
+               s0x1100sSPEsunavailable (17),
+               s0x1200sfloatingspointsdata (18),
+               s0x1300sfloatingspointsround (19),
+               s0x1400sperformancesmonitor (20),
+               s0x1500sdoorbell (21),
+               s0x1600scriticalsdoorbell (22),
+               s0x1700sguestsdoorbell (23),
+               s0x1800sguestscriticalsdoorbell (24),
+               s0x1900shypervisorssystemscall (25),
+               s0x2000shypervisorsprivilege (32),
+               s0x2100sOSswatchdog (33)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.type
+
+       Possibilities:
+               0x0000: none   (0)
+               0x0100: critical   (1)
+               0x0200: machine check   (2)
+               0x0300: data storage   (3)
+               0x0400: instruction storage   (4)
+               0x0500: external input   (5)
+               0x0600: alignment   (6)
+               0x0700: program   (7)
+               0x0800: floating point   (8)
+               0x0900: system call   (9)
+               0x0A00: aux. processor   (10)
+               0x0B00: decrementer   (11)
+               0x0C00: fixed interval timer   (12)
+               0x0D00: system watchdog   (13)
+               0x0E00: data TLB   (14)
+               0x0F00: instruction TLB   (15)
+               0x1000: debug   (16)
+               0x1100: SPE unavailable   (17)
+               0x1200: floating point data   (18)
+               0x1300: floating point round   (19)
+               0x1400: performance monitor   (20)
+               0x1500: doorbell   (21)
+               0x1600: critical doorbell   (22)
+               0x1700: guest doorbell   (23)
+               0x1800: guest critical doorbell   (24)
+               0x1900: hypervisor system call   (25)
+               0x2000: hypervisor privilege   (32)
+               0x2100: OS watchdog   (33)"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 251723776}
+
+sr1646v2OsSchedulerCoreDumpExceptionLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.length"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 251789312}
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadType OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.thread.type"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 251855104}
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.thread.length"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 251855360}
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadId OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.thread.id"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 251855616}
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.thread.name"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 251855872}
+
+sr1646v2OsSchedulerCoreDumpExceptionStackType OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.stack.type"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 251920640}
+
+sr1646v2OsSchedulerCoreDumpExceptionStackLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.stack.length"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 251920896}
+
+sr1646v2OsSchedulerCoreDumpExceptionRegistersType OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.registers.type"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 251986176}
+
+sr1646v2OsSchedulerCoreDumpExceptionRegistersLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.registers.length"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 251986432}
+
+sr1646v2OsSchedulerCoreDumpExceptionInstructionType OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.instruction.type"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252051712}
+
+sr1646v2OsSchedulerCoreDumpExceptionInstructionLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.instruction.length"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252051968}
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadlistType OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.threadlist.type"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252117248}
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadlistLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.threadlist.length"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252117504}
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadlistNrOfThreads OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.threadlist.nrOfThreads"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252117760}
+
+sr1646v2OsSchedulerCoreDumpExceptionWatchdogType OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.watchdog.type"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252182784}
+
+sr1646v2OsSchedulerCoreDumpExceptionWatchdogLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.watchdog.length"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252183040}
+
+sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogTriggered1 OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.watchdog.watchDogTriggered1"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252183296}
+
+sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogEnabled1 OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.watchdog.watchDogEnabled1"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252183552}
+
+sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogTriggered2 OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.watchdog.watchDogTriggered2"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252183808}
+
+sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogEnabled2 OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.watchdog.watchDogEnabled2"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252184064}
+
+sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogTriggered3 OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.watchdog.watchDogTriggered3"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252184320}
+
+sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogEnabled3 OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.watchdog.watchDogEnabled3"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252184576}
+
+sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogTriggered4 OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.watchdog.watchDogTriggered4"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252184832}
+
+sr1646v2OsSchedulerCoreDumpExceptionWatchdogWatchDogEnabled4 OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.watchdog.watchDogEnabled4"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252185088}
+
+sr1646v2OsSchedulerCoreDumpExceptionWatchdogThreadID OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.watchdog.threadID"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252185344}
+
+sr1646v2OsSchedulerCoreDumpExceptionWatchdogThreadName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.watchdog.threadName"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 252185600}
+
+sr1646v2OsSchedulerCoreDumpSoftwareType OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.software.type"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 100728832}
+
+sr1646v2OsSchedulerCoreDumpSoftwareLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.software.length"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 100794368}
+
+sr1646v2OsSchedulerCoreDumpSoftwareOsmajorversion OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.software.osmajorversion"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 100859904}
+
+sr1646v2OsSchedulerCoreDumpSoftwareOsminorversion OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.software.osminorversion"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 100925440}
+
+sr1646v2OsSchedulerCoreDumpChecksumType OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.checksum.type"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 117506048}
+
+sr1646v2OsSchedulerCoreDumpChecksumLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.checksum.length"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 117571584}
+
+sr1646v2OsSchedulerCoreDumpChecksumCrc OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.checksum.crc"
+   ::= {sr1646v2OsSchedulerCoreDumpEntry 117637120}
+
+sr1646v2OsSchedulerCoreDumpExceptionStackList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OsSchedulerCoreDumpExceptionStackListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OsSchedulerCoreDump 251921152}
+
+sr1646v2OsSchedulerCoreDumpExceptionStackListEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OsSchedulerCoreDumpExceptionStackListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OsSchedulerCoreDumpExceptionStackListGlobalIx,
+                sr1646v2OsSchedulerCoreDumpTableIx,
+                sr1646v2OsSchedulerCoreDumpExceptionStackListTableIx }
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionStackList 1}
+
+Sr1646v2OsSchedulerCoreDumpExceptionStackListEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OsSchedulerCoreDumpExceptionStackListGlobalIx
+         GlobalIndex,
+      sr1646v2OsSchedulerCoreDumpExceptionStackListTableIx
+         TableIndex,
+      sr1646v2OsSchedulerCoreDumpExceptionStackListName
+         DisplayString,
+      sr1646v2OsSchedulerCoreDumpExceptionStackListValue
+         OCTET STRING
+      }
+
+sr1646v2OsSchedulerCoreDumpExceptionStackListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionStackListEntry 10}
+
+sr1646v2OsSchedulerCoreDumpExceptionStackListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionStackListEntry 11}
+
+sr1646v2OsSchedulerCoreDumpExceptionStackListName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.stack.list.name"
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionStackListEntry 16777216}
+
+sr1646v2OsSchedulerCoreDumpExceptionStackListValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.stack.list.value"
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionStackListEntry 33554432}
+
+sr1646v2OsSchedulerCoreDumpExceptionRegistersList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OsSchedulerCoreDumpExceptionRegistersListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OsSchedulerCoreDump 251986688}
+
+sr1646v2OsSchedulerCoreDumpExceptionRegistersListEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OsSchedulerCoreDumpExceptionRegistersListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OsSchedulerCoreDumpExceptionRegistersListGlobalIx,
+                sr1646v2OsSchedulerCoreDumpTableIx,
+                sr1646v2OsSchedulerCoreDumpExceptionRegistersListTableIx }
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionRegistersList 1}
+
+Sr1646v2OsSchedulerCoreDumpExceptionRegistersListEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OsSchedulerCoreDumpExceptionRegistersListGlobalIx
+         GlobalIndex,
+      sr1646v2OsSchedulerCoreDumpExceptionRegistersListTableIx
+         TableIndex,
+      sr1646v2OsSchedulerCoreDumpExceptionRegistersListName
+         DisplayString,
+      sr1646v2OsSchedulerCoreDumpExceptionRegistersListValue
+         OCTET STRING
+      }
+
+sr1646v2OsSchedulerCoreDumpExceptionRegistersListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionRegistersListEntry 10}
+
+sr1646v2OsSchedulerCoreDumpExceptionRegistersListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionRegistersListEntry 11}
+
+sr1646v2OsSchedulerCoreDumpExceptionRegistersListName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.registers.list.name"
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionRegistersListEntry 16777216}
+
+sr1646v2OsSchedulerCoreDumpExceptionRegistersListValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.registers.list.value"
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionRegistersListEntry 33554432}
+
+sr1646v2OsSchedulerCoreDumpExceptionInstructionList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OsSchedulerCoreDumpExceptionInstructionListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OsSchedulerCoreDump 252052224}
+
+sr1646v2OsSchedulerCoreDumpExceptionInstructionListEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OsSchedulerCoreDumpExceptionInstructionListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OsSchedulerCoreDumpExceptionInstructionListGlobalIx,
+                sr1646v2OsSchedulerCoreDumpTableIx,
+                sr1646v2OsSchedulerCoreDumpExceptionInstructionListTableIx }
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionInstructionList 1}
+
+Sr1646v2OsSchedulerCoreDumpExceptionInstructionListEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OsSchedulerCoreDumpExceptionInstructionListGlobalIx
+         GlobalIndex,
+      sr1646v2OsSchedulerCoreDumpExceptionInstructionListTableIx
+         TableIndex,
+      sr1646v2OsSchedulerCoreDumpExceptionInstructionListHvAddress
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionInstructionListHvInstruction
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionInstructionListSvAddress
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionInstructionListSvInstruction
+         OCTET STRING
+      }
+
+sr1646v2OsSchedulerCoreDumpExceptionInstructionListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionInstructionListEntry 10}
+
+sr1646v2OsSchedulerCoreDumpExceptionInstructionListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionInstructionListEntry 11}
+
+sr1646v2OsSchedulerCoreDumpExceptionInstructionListHvAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.instruction.list.hvAddress"
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionInstructionListEntry 16777216}
+
+sr1646v2OsSchedulerCoreDumpExceptionInstructionListHvInstruction OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.instruction.list.hvInstruction"
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionInstructionListEntry 33554432}
+
+sr1646v2OsSchedulerCoreDumpExceptionInstructionListSvAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.instruction.list.svAddress"
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionInstructionListEntry 50331648}
+
+sr1646v2OsSchedulerCoreDumpExceptionInstructionListSvInstruction OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.instruction.list.svInstruction"
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionInstructionListEntry 67108864}
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadlistList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2OsSchedulerCoreDumpExceptionThreadlistListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OsSchedulerCoreDump 252118016}
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadlistListEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2OsSchedulerCoreDumpExceptionThreadlistListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2OsSchedulerCoreDumpExceptionThreadlistListGlobalIx,
+                sr1646v2OsSchedulerCoreDumpTableIx,
+                sr1646v2OsSchedulerCoreDumpExceptionThreadlistListTableIx }
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionThreadlistList 1}
+
+Sr1646v2OsSchedulerCoreDumpExceptionThreadlistListEntry ::=
+   SEQUENCE
+      {
+      sr1646v2OsSchedulerCoreDumpExceptionThreadlistListGlobalIx
+         GlobalIndex,
+      sr1646v2OsSchedulerCoreDumpExceptionThreadlistListTableIx
+         TableIndex,
+      sr1646v2OsSchedulerCoreDumpExceptionThreadlistListId
+         OCTET STRING,
+      sr1646v2OsSchedulerCoreDumpExceptionThreadlistListName
+         DisplayString,
+      sr1646v2OsSchedulerCoreDumpExceptionThreadlistListStatus
+         INTEGER
+      }
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadlistListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionThreadlistListEntry 10}
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadlistListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionThreadlistListEntry 11}
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadlistListId OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.threadlist.list.id"
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionThreadlistListEntry 16777216}
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadlistListName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.threadlist.list.name"
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionThreadlistListEntry 33554432}
+
+sr1646v2OsSchedulerCoreDumpExceptionThreadlistListStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               asleep (0),
+               awake (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.status.coreDump.exception.threadlist.list.status
+
+       Possibilities:
+               asleep   (0)
+               awake   (1)"
+   ::= {sr1646v2OsSchedulerCoreDumpExceptionThreadlistListEntry 50331648}
+
+
+
+pr1646v2OsScheduler OBJECT IDENTIFIER ::= {r1646v2OsScheduler 12}
+
+
+pr1646v2OsSchedulerThreadInfo OBJECT IDENTIFIER ::= {pr1646v2OsScheduler 3}
+
+pr1646v2OsSchedulerThreadInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2OsSchedulerThreadInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "thread-related performance information"
+   ::= {pr1646v2OsSchedulerThreadInfo 1}
+
+pr1646v2OsSchedulerThreadInfoEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2OsSchedulerThreadInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2OsSchedulerThreadInfoGlobalIx,
+                pr1646v2OsSchedulerThreadInfoTableIx }
+   ::= {pr1646v2OsSchedulerThreadInfoSSCTable 1}
+
+Pr1646v2OsSchedulerThreadInfoEntry ::=
+   SEQUENCE
+      {
+      pr1646v2OsSchedulerThreadInfoGlobalIx
+         GlobalIndex,
+      pr1646v2OsSchedulerThreadInfoTableIx
+         TableIndex,
+      pr1646v2OsSchedulerThreadInfoThreadName
+         DisplayString,
+      pr1646v2OsSchedulerThreadInfoThreadStatus
+         INTEGER,
+      pr1646v2OsSchedulerThreadInfoLoad30s
+         Integer32,
+      pr1646v2OsSchedulerThreadInfoLoad5m
+         Integer32,
+      pr1646v2OsSchedulerThreadInfoRunningInLow
+         Integer32,
+      pr1646v2OsSchedulerThreadInfoRunningInMedium
+         Integer32,
+      pr1646v2OsSchedulerThreadInfoRunningInHigh
+         Integer32,
+      pr1646v2OsSchedulerThreadInfoSlicingReqInLL
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoSlicingReqInML
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoSlicingReqInHL
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoSleepingReqInLL
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoSleepingReqInML
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoSleepingReqInHL
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoSwitchingReqInLL
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoSwitchingReqInML
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoSwitchingReqInHL
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoHLtoLLtransition
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoHLtoMLtransition
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoMLtoHLtransition
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoMLtoMLtransition
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoLLtoMLtransition
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoTotalLLTicks
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoTotalMLTicks
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoTotalHLTicks
+         Gauge32,
+      pr1646v2OsSchedulerThreadInfoMaxTickCount
+         Gauge32
+      }
+
+pr1646v2OsSchedulerThreadInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 10}
+
+pr1646v2OsSchedulerThreadInfoTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 11}
+
+pr1646v2OsSchedulerThreadInfoThreadName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.threadName"
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 16777216}
+
+pr1646v2OsSchedulerThreadInfoThreadStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               asleep (0),
+               awake (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.threadStatus
+
+       Possibilities:
+               asleep   (0)
+               awake   (1)"
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 33554432}
+
+pr1646v2OsSchedulerThreadInfoLoad30s OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.load30s
+
+       unit name = %
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 50331648}
+
+pr1646v2OsSchedulerThreadInfoLoad5m OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.load5m
+
+       unit name = %
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 67108864}
+
+pr1646v2OsSchedulerThreadInfoRunningInLow OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.runningInLow
+
+       unit name = %
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 83886080}
+
+pr1646v2OsSchedulerThreadInfoRunningInMedium OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.runningInMedium
+
+       unit name = %
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 100663296}
+
+pr1646v2OsSchedulerThreadInfoRunningInHigh OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.runningInHigh
+
+       unit name = %
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 117440512}
+
+pr1646v2OsSchedulerThreadInfoSlicingReqInLL OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.slicingReqInLL
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 134217728}
+
+pr1646v2OsSchedulerThreadInfoSlicingReqInML OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.slicingReqInML
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 150994944}
+
+pr1646v2OsSchedulerThreadInfoSlicingReqInHL OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.slicingReqInHL
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 167772160}
+
+pr1646v2OsSchedulerThreadInfoSleepingReqInLL OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.sleepingReqInLL
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 184549376}
+
+pr1646v2OsSchedulerThreadInfoSleepingReqInML OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.sleepingReqInML
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 201326592}
+
+pr1646v2OsSchedulerThreadInfoSleepingReqInHL OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.sleepingReqInHL
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 218103808}
+
+pr1646v2OsSchedulerThreadInfoSwitchingReqInLL OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.switchingReqInLL
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 234881024}
+
+pr1646v2OsSchedulerThreadInfoSwitchingReqInML OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.switchingReqInML
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 251658240}
+
+pr1646v2OsSchedulerThreadInfoSwitchingReqInHL OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.switchingReqInHL
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 268435456}
+
+pr1646v2OsSchedulerThreadInfoHLtoLLtransition OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.hLtoLLtransition
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 285212672}
+
+pr1646v2OsSchedulerThreadInfoHLtoMLtransition OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.hLtoMLtransition
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 301989888}
+
+pr1646v2OsSchedulerThreadInfoMLtoHLtransition OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.mLtoHLtransition
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 318767104}
+
+pr1646v2OsSchedulerThreadInfoMLtoMLtransition OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.mLtoMLtransition
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 335544320}
+
+pr1646v2OsSchedulerThreadInfoLLtoMLtransition OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.lLtoMLtransition
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 352321536}
+
+pr1646v2OsSchedulerThreadInfoTotalLLTicks OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.totalLLTicks
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 369098752}
+
+pr1646v2OsSchedulerThreadInfoTotalMLTicks OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.totalMLTicks
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 385875968}
+
+pr1646v2OsSchedulerThreadInfoTotalHLTicks OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.totalHLTicks
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 402653184}
+
+pr1646v2OsSchedulerThreadInfoMaxTickCount OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.threadInfo.maxTickCount
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2OsSchedulerThreadInfoEntry 419430400}
+
+
+pr1646v2OsSchedulerCurrentLoad OBJECT IDENTIFIER ::= {pr1646v2OsScheduler 4}
+
+pr1646v2OsSchedulerCurrentLoadTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2OsSchedulerCurrentLoadEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "currently used processing power in the system"
+   ::= {pr1646v2OsSchedulerCurrentLoad 1}
+
+pr1646v2OsSchedulerCurrentLoadEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2OsSchedulerCurrentLoadEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2OsSchedulerCurrentLoadGlobalIx }
+   ::= {pr1646v2OsSchedulerCurrentLoadTable 1}
+
+Pr1646v2OsSchedulerCurrentLoadEntry ::=
+   SEQUENCE
+      {
+      pr1646v2OsSchedulerCurrentLoadGlobalIx
+         GlobalIndex,
+      pr1646v2OsSchedulerCurrentLoadValue
+         Integer32
+      }
+
+pr1646v2OsSchedulerCurrentLoadGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2OsSchedulerCurrentLoadEntry 10}
+
+pr1646v2OsSchedulerCurrentLoadValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.currentLoad
+
+       unit name = %
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2OsSchedulerCurrentLoadEntry 2147483648}
+
+
+pr1646v2OsSchedulerLoadHistory OBJECT IDENTIFIER ::= {pr1646v2OsScheduler 5}
+
+pr1646v2OsSchedulerLoadHistorySSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2OsSchedulerLoadHistoryEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "used processing power 5-minute history"
+   ::= {pr1646v2OsSchedulerLoadHistory 1}
+
+pr1646v2OsSchedulerLoadHistoryEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2OsSchedulerLoadHistoryEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2OsSchedulerLoadHistoryGlobalIx,
+                pr1646v2OsSchedulerLoadHistoryTableIx }
+   ::= {pr1646v2OsSchedulerLoadHistorySSCTable 1}
+
+Pr1646v2OsSchedulerLoadHistoryEntry ::=
+   SEQUENCE
+      {
+      pr1646v2OsSchedulerLoadHistoryGlobalIx
+         GlobalIndex,
+      pr1646v2OsSchedulerLoadHistoryTableIx
+         TableIndex,
+      pr1646v2OsSchedulerLoadHistorySysUpTime
+         TimeTicks,
+      pr1646v2OsSchedulerLoadHistoryMin
+         Integer32,
+      pr1646v2OsSchedulerLoadHistoryAverage
+         Integer32,
+      pr1646v2OsSchedulerLoadHistoryMax
+         Integer32
+      }
+
+pr1646v2OsSchedulerLoadHistoryGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2OsSchedulerLoadHistoryEntry 10}
+
+pr1646v2OsSchedulerLoadHistoryTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2OsSchedulerLoadHistoryEntry 11}
+
+pr1646v2OsSchedulerLoadHistorySysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.loadHistory.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2OsSchedulerLoadHistoryEntry 16777216}
+
+pr1646v2OsSchedulerLoadHistoryMin OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.loadHistory.min
+
+       unit name = %"
+   ::= {pr1646v2OsSchedulerLoadHistoryEntry 33554432}
+
+pr1646v2OsSchedulerLoadHistoryAverage OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.loadHistory.average
+
+       unit name = %"
+   ::= {pr1646v2OsSchedulerLoadHistoryEntry 50331648}
+
+pr1646v2OsSchedulerLoadHistoryMax OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.performance.loadHistory.max
+
+       unit name = %"
+   ::= {pr1646v2OsSchedulerLoadHistoryEntry 67108864}
+
+
+
+ar1646v2OsScheduler OBJECT IDENTIFIER ::= {r1646v2OsScheduler 16}
+
+
+ar1646v2OsSchedulerExecuteTestCase OBJECT IDENTIFIER ::= {ar1646v2OsScheduler 12}
+
+ar1646v2OsSchedulerExecuteTestCaseTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2OsSchedulerExecuteTestCaseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "generic action attribute"
+   ::= {ar1646v2OsSchedulerExecuteTestCase 1}
+
+ar1646v2OsSchedulerExecuteTestCaseEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2OsSchedulerExecuteTestCaseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2OsSchedulerExecuteTestCaseGlobalIx }
+   ::= {ar1646v2OsSchedulerExecuteTestCaseTable 1}
+
+Ar1646v2OsSchedulerExecuteTestCaseEntry ::=
+   SEQUENCE
+      {
+      ar1646v2OsSchedulerExecuteTestCaseGlobalIx
+         GlobalIndex,
+      ar1646v2OsSchedulerExecuteTestCaseValue
+         Integer32
+      }
+
+ar1646v2OsSchedulerExecuteTestCaseGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2OsSchedulerExecuteTestCaseEntry 10}
+
+ar1646v2OsSchedulerExecuteTestCaseValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.actions.executeTestCase"
+   ::= {ar1646v2OsSchedulerExecuteTestCaseEntry 2147483648}
+
+
+ar1646v2OsSchedulerTestcase OBJECT IDENTIFIER ::= {ar1646v2OsScheduler 13}
+
+ar1646v2OsSchedulerTestcaseTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2OsSchedulerTestcaseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "test case"
+   ::= {ar1646v2OsSchedulerTestcase 1}
+
+ar1646v2OsSchedulerTestcaseEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2OsSchedulerTestcaseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2OsSchedulerTestcaseGlobalIx }
+   ::= {ar1646v2OsSchedulerTestcaseTable 1}
+
+Ar1646v2OsSchedulerTestcaseEntry ::=
+   SEQUENCE
+      {
+      ar1646v2OsSchedulerTestcaseGlobalIx
+         GlobalIndex,
+      ar1646v2OsSchedulerTestcaseValue
+         Integer32
+      }
+
+ar1646v2OsSchedulerTestcaseGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2OsSchedulerTestcaseEntry 10}
+
+ar1646v2OsSchedulerTestcaseValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: scheduler.actions.testcase"
+   ::= {ar1646v2OsSchedulerTestcaseEntry 2147483648}
+
+
+
+END

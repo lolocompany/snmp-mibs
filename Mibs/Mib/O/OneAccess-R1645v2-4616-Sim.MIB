@@ -1,0 +1,531 @@
+OneAccess-R1645v2-4616-Sim DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Sim OBJECT IDENTIFIER ::= {r1645Rootv2 4616}
+
+r1645v2SimMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2SimMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2Sim 1}
+
+r1645v2SimMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2SimMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2SimMOPropGlobalIx }
+   ::= {r1645v2SimMOProp 1}
+
+R1645v2SimMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2SimMOPropPath
+         ContainmentPath,
+      r1645v2SimMOPropRev
+         ObjectRevision,
+      r1645v2SimMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2SimMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2SimMOPropEntry 3}
+
+r1645v2SimMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2SimMOPropEntry 4}
+
+r1645v2SimMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2SimMOPropEntry 10}
+
+
+
+er1645v2Sim OBJECT IDENTIFIER ::= {r1645v2Sim 11}
+
+
+er1645v2SimRemark OBJECT IDENTIFIER ::= {er1645v2Sim 321}
+
+er1645v2SimRemarkTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2SimRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "intfRemark"
+   ::= {er1645v2SimRemark 1}
+
+er1645v2SimRemarkEntry OBJECT-TYPE
+   SYNTAX      Er1645v2SimRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2SimRemarkGlobalIx }
+   ::= {er1645v2SimRemarkTable 1}
+
+Er1645v2SimRemarkEntry ::=
+   SEQUENCE
+      {
+      er1645v2SimRemarkGlobalIx
+         GlobalIndex,
+      er1645v2SimRemarkValue
+         DisplayString
+      }
+
+er1645v2SimRemarkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2SimRemarkEntry 10}
+
+er1645v2SimRemarkValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.editConf.remark"
+   ::= {er1645v2SimRemarkEntry 2147483648}
+
+
+er1645v2SimPinCode OBJECT IDENTIFIER ::= {er1645v2Sim 10}
+
+er1645v2SimPinCodeSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2SimPinCodeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "PIN code for SIM card (encrypted)"
+   ::= {er1645v2SimPinCode 1}
+
+er1645v2SimPinCodeEntry OBJECT-TYPE
+   SYNTAX      Er1645v2SimPinCodeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2SimPinCodeGlobalIx }
+   ::= {er1645v2SimPinCodeSSCTable 1}
+
+Er1645v2SimPinCodeEntry ::=
+   SEQUENCE
+      {
+      er1645v2SimPinCodeGlobalIx
+         GlobalIndex,
+      er1645v2SimPinCodePinCode
+         DisplayString,
+      er1645v2SimPinCodeEncModePinCode
+         INTEGER,
+      er1645v2SimPinCodeEncPinCode
+         DisplayString
+      }
+
+er1645v2SimPinCodeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2SimPinCodeEntry 10}
+
+er1645v2SimPinCodePinCode OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.editConf.pinCode.pinCode"
+   ::= {er1645v2SimPinCodeEntry 16777216}
+
+er1645v2SimPinCodeEncModePinCode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (1),
+               encrypt (2),
+               encType1 (3),
+               invalid (128)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.editConf.pinCode.encModePinCode
+
+       Possibilities:
+               none   (1)
+               encrypt   (2)
+               encType1   (3)
+               invalid   (128)"
+   ::= {er1645v2SimPinCodeEntry 33554432}
+
+er1645v2SimPinCodeEncPinCode OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.editConf.pinCode.encPinCode"
+   ::= {er1645v2SimPinCodeEntry 50331648}
+
+
+
+sr1645v2Sim OBJECT IDENTIFIER ::= {r1645v2Sim 14}
+
+
+sr1645v2SimPin OBJECT IDENTIFIER ::= {sr1645v2Sim 44}
+
+sr1645v2SimPinSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2SimPinEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pin information"
+   ::= {sr1645v2SimPin 1}
+
+sr1645v2SimPinEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2SimPinEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2SimPinGlobalIx }
+   ::= {sr1645v2SimPinSSCTable 1}
+
+Sr1645v2SimPinEntry ::=
+   SEQUENCE
+      {
+      sr1645v2SimPinGlobalIx
+         GlobalIndex,
+      sr1645v2SimPinStatus
+         INTEGER,
+      sr1645v2SimPinVerifyLeft
+         Integer32,
+      sr1645v2SimPinUnblockLeft
+         Integer32
+      }
+
+sr1645v2SimPinGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2SimPinEntry 10}
+
+sr1645v2SimPinStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unknown (0),
+               notEntered (1),
+               entered (2),
+               notRequired (3),
+               blocked (4),
+               permanentlyBlocked (5),
+               invalid (6)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.status.pin.status
+
+       Possibilities:
+               unknown   (0)
+               notEntered   (1)
+               entered   (2)
+               notRequired   (3)
+               blocked   (4)
+               permanentlyBlocked   (5)
+               invalid   (6)"
+   ::= {sr1645v2SimPinEntry 16777216}
+
+sr1645v2SimPinVerifyLeft OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.status.pin.verifyLeft"
+   ::= {sr1645v2SimPinEntry 33554432}
+
+sr1645v2SimPinUnblockLeft OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.status.pin.unblockLeft"
+   ::= {sr1645v2SimPinEntry 50331648}
+
+
+sr1645v2SimSim OBJECT IDENTIFIER ::= {sr1645v2Sim 45}
+
+sr1645v2SimSimSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2SimSimEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "sim card information"
+   ::= {sr1645v2SimSim 1}
+
+sr1645v2SimSimEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2SimSimEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2SimSimGlobalIx }
+   ::= {sr1645v2SimSimSSCTable 1}
+
+Sr1645v2SimSimEntry ::=
+   SEQUENCE
+      {
+      sr1645v2SimSimGlobalIx
+         GlobalIndex,
+      sr1645v2SimSimCardStatus
+         INTEGER,
+      sr1645v2SimSimImsi
+         DisplayString,
+      sr1645v2SimSimIccId
+         DisplayString
+      }
+
+sr1645v2SimSimGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2SimSimEntry 10}
+
+sr1645v2SimSimCardStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notPresent (0),
+               present (1),
+               failure (2),
+               invalid (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.status.sim.cardStatus
+
+       Possibilities:
+               notPresent   (0)
+               present   (1)
+               failure   (2)
+               invalid   (3)"
+   ::= {sr1645v2SimSimEntry 16777216}
+
+sr1645v2SimSimImsi OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.status.sim.imsi"
+   ::= {sr1645v2SimSimEntry 33554432}
+
+sr1645v2SimSimIccId OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.status.sim.iccId"
+   ::= {sr1645v2SimSimEntry 50331648}
+
+
+sr1645v2SimSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2Sim 269}
+
+sr1645v2SimSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2SimSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2SimSnmpIndex 1}
+
+sr1645v2SimSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2SimSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2SimSnmpIndexGlobalIx }
+   ::= {sr1645v2SimSnmpIndexTable 1}
+
+Sr1645v2SimSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2SimSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2SimSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2SimSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2SimSnmpIndexEntry 10}
+
+sr1645v2SimSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.status.snmpIndex"
+   ::= {sr1645v2SimSnmpIndexEntry 2147483648}
+
+
+
+ar1645v2Sim OBJECT IDENTIFIER ::= {r1645v2Sim 16}
+
+
+ar1645v2SimUnblockPinCode OBJECT IDENTIFIER ::= {ar1645v2Sim 70}
+
+ar1645v2SimUnblockPinCodeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2SimUnblockPinCodeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "unblock SIM card"
+   ::= {ar1645v2SimUnblockPinCode 1}
+
+ar1645v2SimUnblockPinCodeEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2SimUnblockPinCodeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2SimUnblockPinCodeGlobalIx }
+   ::= {ar1645v2SimUnblockPinCodeTable 1}
+
+Ar1645v2SimUnblockPinCodeEntry ::=
+   SEQUENCE
+      {
+      ar1645v2SimUnblockPinCodeGlobalIx
+         GlobalIndex,
+      ar1645v2SimUnblockPinCodeValue
+         Integer32
+      }
+
+ar1645v2SimUnblockPinCodeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2SimUnblockPinCodeEntry 10}
+
+ar1645v2SimUnblockPinCodeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.actions.unblockPinCode"
+   ::= {ar1645v2SimUnblockPinCodeEntry 2147483648}
+
+
+ar1645v2SimUnblockPinCodeData OBJECT IDENTIFIER ::= {ar1645v2Sim 71}
+
+ar1645v2SimUnblockPinCodeDataSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2SimUnblockPinCodeDataEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "PUK/PIN code to unblock SIM card"
+   ::= {ar1645v2SimUnblockPinCodeData 1}
+
+ar1645v2SimUnblockPinCodeDataEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2SimUnblockPinCodeDataEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2SimUnblockPinCodeDataGlobalIx }
+   ::= {ar1645v2SimUnblockPinCodeDataSSCTable 1}
+
+Ar1645v2SimUnblockPinCodeDataEntry ::=
+   SEQUENCE
+      {
+      ar1645v2SimUnblockPinCodeDataGlobalIx
+         GlobalIndex,
+      ar1645v2SimUnblockPinCodeDataPukCode
+         DisplayString,
+      ar1645v2SimUnblockPinCodeDataNewPinCode
+         DisplayString
+      }
+
+ar1645v2SimUnblockPinCodeDataGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2SimUnblockPinCodeDataEntry 10}
+
+ar1645v2SimUnblockPinCodeDataPukCode OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.actions.unblockPinCodeData.pukCode"
+   ::= {ar1645v2SimUnblockPinCodeDataEntry 16777216}
+
+ar1645v2SimUnblockPinCodeDataNewPinCode OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: sim.actions.unblockPinCodeData.newPinCode"
+   ::= {ar1645v2SimUnblockPinCodeDataEntry 33554432}
+
+
+
+END

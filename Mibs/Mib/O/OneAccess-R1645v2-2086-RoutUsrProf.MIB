@@ -1,0 +1,993 @@
+OneAccess-R1645v2-2086-RoutUsrProf DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2RoutUsrProf OBJECT IDENTIFIER ::= {r1645Rootv2 2086}
+
+r1645v2RoutUsrProfMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2RoutUsrProfMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2RoutUsrProf 1}
+
+r1645v2RoutUsrProfMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2RoutUsrProfMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2RoutUsrProfMOPropGlobalIx }
+   ::= {r1645v2RoutUsrProfMOProp 1}
+
+R1645v2RoutUsrProfMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2RoutUsrProfMOPropPath
+         ContainmentPath,
+      r1645v2RoutUsrProfMOPropRev
+         ObjectRevision,
+      r1645v2RoutUsrProfMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2RoutUsrProfMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2RoutUsrProfMOPropEntry 3}
+
+r1645v2RoutUsrProfMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2RoutUsrProfMOPropEntry 4}
+
+r1645v2RoutUsrProfMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2RoutUsrProfMOPropEntry 10}
+
+
+
+er1645v2RoutUsrProf OBJECT IDENTIFIER ::= {r1645v2RoutUsrProf 11}
+
+
+er1645v2RoutUsrProfPriorityPolicy OBJECT IDENTIFIER ::= {er1645v2RoutUsrProf 4}
+
+er1645v2RoutUsrProfPriorityPolicyTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2RoutUsrProfPriorityPolicyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred Policy"
+   ::= {er1645v2RoutUsrProfPriorityPolicy 1}
+
+er1645v2RoutUsrProfPriorityPolicyEntry OBJECT-TYPE
+   SYNTAX      Er1645v2RoutUsrProfPriorityPolicyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2RoutUsrProfPriorityPolicyGlobalIx }
+   ::= {er1645v2RoutUsrProfPriorityPolicyTable 1}
+
+Er1645v2RoutUsrProfPriorityPolicyEntry ::=
+   SEQUENCE
+      {
+      er1645v2RoutUsrProfPriorityPolicyGlobalIx
+         GlobalIndex,
+      er1645v2RoutUsrProfPriorityPolicyValue
+         DisplayString
+      }
+
+er1645v2RoutUsrProfPriorityPolicyGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2RoutUsrProfPriorityPolicyEntry 10}
+
+er1645v2RoutUsrProfPriorityPolicyValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.priorityPolicy"
+   ::= {er1645v2RoutUsrProfPriorityPolicyEntry 2147483648}
+
+
+er1645v2RoutUsrProfMaxFifoQLen OBJECT IDENTIFIER ::= {er1645v2RoutUsrProf 5}
+
+er1645v2RoutUsrProfMaxFifoQLenTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2RoutUsrProfMaxFifoQLenEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "maximun queue length for fifo"
+   ::= {er1645v2RoutUsrProfMaxFifoQLen 1}
+
+er1645v2RoutUsrProfMaxFifoQLenEntry OBJECT-TYPE
+   SYNTAX      Er1645v2RoutUsrProfMaxFifoQLenEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2RoutUsrProfMaxFifoQLenGlobalIx }
+   ::= {er1645v2RoutUsrProfMaxFifoQLenTable 1}
+
+Er1645v2RoutUsrProfMaxFifoQLenEntry ::=
+   SEQUENCE
+      {
+      er1645v2RoutUsrProfMaxFifoQLenGlobalIx
+         GlobalIndex,
+      er1645v2RoutUsrProfMaxFifoQLenValue
+         Integer32
+      }
+
+er1645v2RoutUsrProfMaxFifoQLenGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2RoutUsrProfMaxFifoQLenEntry 10}
+
+er1645v2RoutUsrProfMaxFifoQLenValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.maxFifoQLen"
+   ::= {er1645v2RoutUsrProfMaxFifoQLenEntry 2147483648}
+
+
+er1645v2RoutUsrProfIp OBJECT IDENTIFIER ::= {er1645v2RoutUsrProf 2}
+
+er1645v2RoutUsrProfIpSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2RoutUsrProfIpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ip routing configuration"
+   ::= {er1645v2RoutUsrProfIp 1}
+
+er1645v2RoutUsrProfIpEntry OBJECT-TYPE
+   SYNTAX      Er1645v2RoutUsrProfIpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2RoutUsrProfIpGlobalIx }
+   ::= {er1645v2RoutUsrProfIpSSCTable 1}
+
+Er1645v2RoutUsrProfIpEntry ::=
+   SEQUENCE
+      {
+      er1645v2RoutUsrProfIpGlobalIx
+         GlobalIndex,
+      er1645v2RoutUsrProfIpVrfRouter
+         DisplayString,
+      er1645v2RoutUsrProfIpUnnumb
+         DisplayString,
+      er1645v2RoutUsrProfIpAddPlList
+         DisplayString,
+      er1645v2RoutUsrProfIpAddPlInt
+         DisplayString,
+      er1645v2RoutUsrProfIpSNetName
+         INTEGER,
+      er1645v2RoutUsrProfIpSNetCust
+         DisplayString,
+      er1645v2RoutUsrProfIpAcceptLocAddr
+         INTEGER,
+      er1645v2RoutUsrProfIpAcceptRemAddr
+         INTEGER,
+      er1645v2RoutUsrProfIpGatewayPref
+         Integer32,
+      er1645v2RoutUsrProfIpMtu
+         Integer32,
+      er1645v2RoutUsrProfIpMssAdjust
+         INTEGER,
+      er1645v2RoutUsrProfIpRipMetric
+         Integer32,
+      er1645v2RoutUsrProfIpRipMetricOut
+         Integer32,
+      er1645v2RoutUsrProfIpRipMode
+         INTEGER,
+      er1645v2RoutUsrProfIpRipTxVersion
+         INTEGER,
+      er1645v2RoutUsrProfIpRipRxVersion
+         INTEGER,
+      er1645v2RoutUsrProfIpRipSplitHorizon
+         INTEGER,
+      er1645v2RoutUsrProfIpRipAuth
+         INTEGER,
+      er1645v2RoutUsrProfIpRipFilter
+         DisplayString,
+      er1645v2RoutUsrProfIpRipFilterIn
+         DisplayString,
+      er1645v2RoutUsrProfIpRipSnapshot
+         INTEGER,
+      er1645v2RoutUsrProfIpRipClearNextHop
+         INTEGER,
+      er1645v2RoutUsrProfIpDialPolicy
+         DisplayString,
+      er1645v2RoutUsrProfIpAccPol
+         DisplayString,
+      er1645v2RoutUsrProfIpTrafPol
+         DisplayString,
+      er1645v2RoutUsrProfIpDB
+         INTEGER,
+      er1645v2RoutUsrProfIpIR
+         INTEGER,
+      er1645v2RoutUsrProfIpIgmp
+         INTEGER,
+      er1645v2RoutUsrProfIpNN
+         DisplayString,
+      er1645v2RoutUsrProfIpPrimaryDNS
+         IpAddress,
+      er1645v2RoutUsrProfIpSecondaryDNS
+         IpAddress,
+      er1645v2RoutUsrProfIpPrimaryWINS
+         IpAddress,
+      er1645v2RoutUsrProfIpSecondaryWINS
+         IpAddress,
+      er1645v2RoutUsrProfIpIMNetworkUnreachable
+         INTEGER,
+      er1645v2RoutUsrProfIpIMHostUnreachable
+         INTEGER,
+      er1645v2RoutUsrProfIpIMProtocolUnreachable
+         INTEGER,
+      er1645v2RoutUsrProfIpIMPortUnreachable
+         INTEGER,
+      er1645v2RoutUsrProfIpIMMtuExceeded
+         INTEGER,
+      er1645v2RoutUsrProfIpIMAdminProhibited
+         INTEGER,
+      er1645v2RoutUsrProfIpIMTtlExceeded
+         INTEGER,
+      er1645v2RoutUsrProfIpIMRedirect
+         INTEGER
+      }
+
+er1645v2RoutUsrProfIpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2RoutUsrProfIpEntry 10}
+
+er1645v2RoutUsrProfIpVrfRouter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.vrfRouter"
+   ::= {er1645v2RoutUsrProfIpEntry 738197504}
+
+er1645v2RoutUsrProfIpUnnumb OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.unnumbered"
+   ::= {er1645v2RoutUsrProfIpEntry 33554432}
+
+er1645v2RoutUsrProfIpAddPlList OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.addrPool.list"
+   ::= {er1645v2RoutUsrProfIpEntry 50397184}
+
+er1645v2RoutUsrProfIpAddPlInt OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.addrPool.interval"
+   ::= {er1645v2RoutUsrProfIpEntry 50462720}
+
+er1645v2RoutUsrProfIpSNetName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (0),
+               corp (2),
+               dmz (3),
+               internet (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.sNet.name
+
+       Possibilities:
+               <OPT>   (0)
+               corp   (2)
+               dmz   (3)
+               internet   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 855703552}
+
+er1645v2RoutUsrProfIpSNetCust OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.sNet.custom"
+   ::= {er1645v2RoutUsrProfIpEntry 855769088}
+
+er1645v2RoutUsrProfIpAcceptLocAddr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.acceptLocAddr
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 67108864}
+
+er1645v2RoutUsrProfIpAcceptRemAddr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.acceptRemAddr
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 100663296}
+
+er1645v2RoutUsrProfIpGatewayPref OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.gatewayPreference"
+   ::= {er1645v2RoutUsrProfIpEntry 603979776}
+
+er1645v2RoutUsrProfIpMtu OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.mtu"
+   ::= {er1645v2RoutUsrProfIpEntry 671088640}
+
+er1645v2RoutUsrProfIpMssAdjust OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               auto (65536)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.mssAdjust
+
+       Possibilities:
+               disabled   (0)
+               auto   (65536)"
+   ::= {er1645v2RoutUsrProfIpEntry 754974720}
+
+er1645v2RoutUsrProfIpRipMetric OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.rip.metric"
+   ::= {er1645v2RoutUsrProfIpEntry 353566720}
+
+er1645v2RoutUsrProfIpRipMetricOut OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.rip.metricOut"
+   ::= {er1645v2RoutUsrProfIpEntry 353632256}
+
+er1645v2RoutUsrProfIpRipMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               passive (1),
+               active (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.rip.mode
+
+       Possibilities:
+               disabled   (0)
+               passive   (1)
+               active   (2)"
+   ::= {er1645v2RoutUsrProfIpEntry 353697792}
+
+er1645v2RoutUsrProfIpRipTxVersion OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               rip1 (0),
+               rip2 (1),
+               rip1mcompatible (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.rip.txVersion
+
+       Possibilities:
+               rip1   (0)
+               rip2   (1)
+               rip1-compatible   (2)"
+   ::= {er1645v2RoutUsrProfIpEntry 354615296}
+
+er1645v2RoutUsrProfIpRipRxVersion OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               rip1only (0),
+               rip2only (1),
+               rip12 (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.rip.rxVersion
+
+       Possibilities:
+               rip1only   (0)
+               rip2only   (1)
+               rip1&2   (2)"
+   ::= {er1645v2RoutUsrProfIpEntry 354680832}
+
+er1645v2RoutUsrProfIpRipSplitHorizon OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1),
+               poisonedReverse (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.rip.splitHorizon
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)
+               poisonedReverse   (2)"
+   ::= {er1645v2RoutUsrProfIpEntry 353828864}
+
+er1645v2RoutUsrProfIpRipAuth OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               texts (1),
+               md5 (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.rip.authentication
+
+       Possibilities:
+               disabled   (0)
+               text    (1)
+               md5   (2)"
+   ::= {er1645v2RoutUsrProfIpEntry 353501184}
+
+er1645v2RoutUsrProfIpRipFilter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.rip.filter"
+   ::= {er1645v2RoutUsrProfIpEntry 354418688}
+
+er1645v2RoutUsrProfIpRipFilterIn OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.rip.filterIn"
+   ::= {er1645v2RoutUsrProfIpEntry 354484224}
+
+er1645v2RoutUsrProfIpRipSnapshot OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.rip.snapshot
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 352387072}
+
+er1645v2RoutUsrProfIpRipClearNextHop OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.rip.clearNextHop
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 352452608}
+
+er1645v2RoutUsrProfIpDialPolicy OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.dialPolicy"
+   ::= {er1645v2RoutUsrProfIpEntry 687865856}
+
+er1645v2RoutUsrProfIpAccPol OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.accessPolicy"
+   ::= {er1645v2RoutUsrProfIpEntry 704643072}
+
+er1645v2RoutUsrProfIpTrafPol OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.trafficPolicy"
+   ::= {er1645v2RoutUsrProfIpEntry 234881024}
+
+er1645v2RoutUsrProfIpDB OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.directedBroadcasts
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 369098752}
+
+er1645v2RoutUsrProfIpIR OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.icmpRedirects
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 436207616}
+
+er1645v2RoutUsrProfIpIgmp OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               proxy (1),
+               router (2),
+               v3Router (5)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.igmp
+
+       Possibilities:
+               disabled   (0)
+               proxy   (1)
+               router   (2)
+               v3Router   (5)"
+   ::= {er1645v2RoutUsrProfIpEntry 536870912}
+
+er1645v2RoutUsrProfIpNN OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.nat"
+   ::= {er1645v2RoutUsrProfIpEntry 452984832}
+
+er1645v2RoutUsrProfIpPrimaryDNS OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.primaryDNS"
+   ::= {er1645v2RoutUsrProfIpEntry 469762048}
+
+er1645v2RoutUsrProfIpSecondaryDNS OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.secondaryDNS"
+   ::= {er1645v2RoutUsrProfIpEntry 486539264}
+
+er1645v2RoutUsrProfIpPrimaryWINS OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.primaryWINS"
+   ::= {er1645v2RoutUsrProfIpEntry 503316480}
+
+er1645v2RoutUsrProfIpSecondaryWINS OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.secondaryWINS"
+   ::= {er1645v2RoutUsrProfIpEntry 520093696}
+
+er1645v2RoutUsrProfIpIMNetworkUnreachable OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.icmpMessages.networkUnreachable
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 788594688}
+
+er1645v2RoutUsrProfIpIMHostUnreachable OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.icmpMessages.hostUnreachable
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 788660224}
+
+er1645v2RoutUsrProfIpIMProtocolUnreachable OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.icmpMessages.protocolUnreachable
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 788725760}
+
+er1645v2RoutUsrProfIpIMPortUnreachable OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.icmpMessages.portUnreachable
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 788791296}
+
+er1645v2RoutUsrProfIpIMMtuExceeded OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.icmpMessages.mtuExceeded
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 788856832}
+
+er1645v2RoutUsrProfIpIMAdminProhibited OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.icmpMessages.adminProhibited
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 788922368}
+
+er1645v2RoutUsrProfIpIMTtlExceeded OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.icmpMessages.ttlExceeded
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 788987904}
+
+er1645v2RoutUsrProfIpIMRedirect OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.ip.icmpMessages.redirect
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RoutUsrProfIpEntry 789053440}
+
+
+er1645v2RoutUsrProfSnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2RoutUsrProf 268}
+
+er1645v2RoutUsrProfSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2RoutUsrProfSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2RoutUsrProfSnmpIndexOffset 1}
+
+er1645v2RoutUsrProfSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2RoutUsrProfSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2RoutUsrProfSnmpIndexOffsetGlobalIx }
+   ::= {er1645v2RoutUsrProfSnmpIndexOffsetTable 1}
+
+Er1645v2RoutUsrProfSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2RoutUsrProfSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2RoutUsrProfSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2RoutUsrProfSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2RoutUsrProfSnmpIndexOffsetEntry 10}
+
+er1645v2RoutUsrProfSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.editConf.snmpIndexOffset"
+   ::= {er1645v2RoutUsrProfSnmpIndexOffsetEntry 2147483648}
+
+
+
+sr1645v2RoutUsrProf OBJECT IDENTIFIER ::= {r1645v2RoutUsrProf 14}
+
+
+sr1645v2RoutUsrProfProfUsers OBJECT IDENTIFIER ::= {sr1645v2RoutUsrProf 40}
+
+sr1645v2RoutUsrProfProfUsersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RoutUsrProfProfUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "users of the different profiles"
+   ::= {sr1645v2RoutUsrProfProfUsers 1}
+
+sr1645v2RoutUsrProfProfUsersEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RoutUsrProfProfUsersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RoutUsrProfProfUsersGlobalIx,
+                sr1645v2RoutUsrProfProfUsersTableIx }
+   ::= {sr1645v2RoutUsrProfProfUsersSSCTable 1}
+
+Sr1645v2RoutUsrProfProfUsersEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RoutUsrProfProfUsersGlobalIx
+         GlobalIndex,
+      sr1645v2RoutUsrProfProfUsersTableIx
+         TableIndex,
+      sr1645v2RoutUsrProfProfUsersType
+         INTEGER,
+      sr1645v2RoutUsrProfProfUsersName
+         DisplayString
+      }
+
+sr1645v2RoutUsrProfProfUsersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RoutUsrProfProfUsersEntry 10}
+
+sr1645v2RoutUsrProfProfUsersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2RoutUsrProfProfUsersEntry 11}
+
+sr1645v2RoutUsrProfProfUsersType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dialmap (1),
+               pppoE (104)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.status.profileUsers.type
+
+       Possibilities:
+               dialmap   (1)
+               pppoE   (104)"
+   ::= {sr1645v2RoutUsrProfProfUsersEntry 16777216}
+
+sr1645v2RoutUsrProfProfUsersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.status.profileUsers.name"
+   ::= {sr1645v2RoutUsrProfProfUsersEntry 33554432}
+
+
+sr1645v2RoutUsrProfSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2RoutUsrProf 269}
+
+sr1645v2RoutUsrProfSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RoutUsrProfSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2RoutUsrProfSnmpIndex 1}
+
+sr1645v2RoutUsrProfSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RoutUsrProfSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RoutUsrProfSnmpIndexGlobalIx }
+   ::= {sr1645v2RoutUsrProfSnmpIndexTable 1}
+
+Sr1645v2RoutUsrProfSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RoutUsrProfSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2RoutUsrProfSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2RoutUsrProfSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RoutUsrProfSnmpIndexEntry 10}
+
+sr1645v2RoutUsrProfSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: routing.status.snmpIndex"
+   ::= {sr1645v2RoutUsrProfSnmpIndexEntry 2147483648}
+
+
+
+END

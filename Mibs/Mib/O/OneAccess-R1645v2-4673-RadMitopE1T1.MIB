@@ -1,0 +1,895 @@
+OneAccess-R1645v2-4673-RadMitopE1T1 DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2RadMitopE1T1 OBJECT IDENTIFIER ::= {r1645Rootv2 4673}
+
+r1645v2RadMitopE1T1MOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2RadMitopE1T1MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2RadMitopE1T1 1}
+
+r1645v2RadMitopE1T1MOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2RadMitopE1T1MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2RadMitopE1T1MOPropGlobalIx }
+   ::= {r1645v2RadMitopE1T1MOProp 1}
+
+R1645v2RadMitopE1T1MOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2RadMitopE1T1MOPropPath
+         ContainmentPath,
+      r1645v2RadMitopE1T1MOPropRev
+         ObjectRevision,
+      r1645v2RadMitopE1T1MOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2RadMitopE1T1MOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2RadMitopE1T1MOPropEntry 3}
+
+r1645v2RadMitopE1T1MOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2RadMitopE1T1MOPropEntry 4}
+
+r1645v2RadMitopE1T1MOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2RadMitopE1T1MOPropEntry 10}
+
+
+
+er1645v2RadMitopE1T1 OBJECT IDENTIFIER ::= {r1645v2RadMitopE1T1 11}
+
+
+er1645v2RadMitopE1T1SnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2RadMitopE1T1 268}
+
+er1645v2RadMitopE1T1SnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2RadMitopE1T1SnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2RadMitopE1T1SnmpIndexOffset 1}
+
+er1645v2RadMitopE1T1SnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2RadMitopE1T1SnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2RadMitopE1T1SnmpIndexOffsetGlobalIx }
+   ::= {er1645v2RadMitopE1T1SnmpIndexOffsetTable 1}
+
+Er1645v2RadMitopE1T1SnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2RadMitopE1T1SnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2RadMitopE1T1SnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2RadMitopE1T1SnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2RadMitopE1T1SnmpIndexOffsetEntry 10}
+
+er1645v2RadMitopE1T1SnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.editConf.snmpIndexOffset"
+   ::= {er1645v2RadMitopE1T1SnmpIndexOffsetEntry 2147483648}
+
+
+er1645v2RadMitopE1T1FaultPropagation OBJECT IDENTIFIER ::= {er1645v2RadMitopE1T1 60}
+
+er1645v2RadMitopE1T1FaultPropagationSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2RadMitopE1T1FaultPropagationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP fault propagation parameters"
+   ::= {er1645v2RadMitopE1T1FaultPropagation 1}
+
+er1645v2RadMitopE1T1FaultPropagationEntry OBJECT-TYPE
+   SYNTAX      Er1645v2RadMitopE1T1FaultPropagationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2RadMitopE1T1FaultPropagationGlobalIx }
+   ::= {er1645v2RadMitopE1T1FaultPropagationSSCTable 1}
+
+Er1645v2RadMitopE1T1FaultPropagationEntry ::=
+   SEQUENCE
+      {
+      er1645v2RadMitopE1T1FaultPropagationGlobalIx
+         GlobalIndex,
+      er1645v2RadMitopE1T1FaultPropagationLos
+         INTEGER,
+      er1645v2RadMitopE1T1FaultPropagationAis
+         INTEGER,
+      er1645v2RadMitopE1T1FaultPropagationRdi
+         INTEGER,
+      er1645v2RadMitopE1T1FaultPropagationRestoreTime
+         Integer32
+      }
+
+er1645v2RadMitopE1T1FaultPropagationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2RadMitopE1T1FaultPropagationEntry 10}
+
+er1645v2RadMitopE1T1FaultPropagationLos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.editConf.faultPropagation.los
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RadMitopE1T1FaultPropagationEntry 16777216}
+
+er1645v2RadMitopE1T1FaultPropagationAis OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.editConf.faultPropagation.ais
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RadMitopE1T1FaultPropagationEntry 33554432}
+
+er1645v2RadMitopE1T1FaultPropagationRdi OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.editConf.faultPropagation.rdi
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2RadMitopE1T1FaultPropagationEntry 50331648}
+
+er1645v2RadMitopE1T1FaultPropagationRestoreTime OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.editConf.faultPropagation.restoreTime"
+   ::= {er1645v2RadMitopE1T1FaultPropagationEntry 67108864}
+
+
+
+sr1645v2RadMitopE1T1 OBJECT IDENTIFIER ::= {r1645v2RadMitopE1T1 14}
+
+
+sr1645v2RadMitopE1T1SnmpIndex OBJECT IDENTIFIER ::= {sr1645v2RadMitopE1T1 269}
+
+sr1645v2RadMitopE1T1SnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RadMitopE1T1SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2RadMitopE1T1SnmpIndex 1}
+
+sr1645v2RadMitopE1T1SnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RadMitopE1T1SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RadMitopE1T1SnmpIndexGlobalIx }
+   ::= {sr1645v2RadMitopE1T1SnmpIndexTable 1}
+
+Sr1645v2RadMitopE1T1SnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RadMitopE1T1SnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2RadMitopE1T1SnmpIndexValue
+         Integer32
+      }
+
+sr1645v2RadMitopE1T1SnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RadMitopE1T1SnmpIndexEntry 10}
+
+sr1645v2RadMitopE1T1SnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.status.snmpIndex"
+   ::= {sr1645v2RadMitopE1T1SnmpIndexEntry 2147483648}
+
+
+sr1645v2RadMitopE1T1Presence OBJECT IDENTIFIER ::= {sr1645v2RadMitopE1T1 10}
+
+sr1645v2RadMitopE1T1PresenceTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RadMitopE1T1PresenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP module presence"
+   ::= {sr1645v2RadMitopE1T1Presence 1}
+
+sr1645v2RadMitopE1T1PresenceEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RadMitopE1T1PresenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RadMitopE1T1PresenceGlobalIx }
+   ::= {sr1645v2RadMitopE1T1PresenceTable 1}
+
+Sr1645v2RadMitopE1T1PresenceEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RadMitopE1T1PresenceGlobalIx
+         GlobalIndex,
+      sr1645v2RadMitopE1T1PresenceValue
+         INTEGER
+      }
+
+sr1645v2RadMitopE1T1PresenceGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RadMitopE1T1PresenceEntry 10}
+
+sr1645v2RadMitopE1T1PresenceValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.status.presence
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1645v2RadMitopE1T1PresenceEntry 2147483648}
+
+
+sr1645v2RadMitopE1T1SoftwareVersion OBJECT IDENTIFIER ::= {sr1645v2RadMitopE1T1 11}
+
+sr1645v2RadMitopE1T1SoftwareVersionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RadMitopE1T1SoftwareVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP version string"
+   ::= {sr1645v2RadMitopE1T1SoftwareVersion 1}
+
+sr1645v2RadMitopE1T1SoftwareVersionEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RadMitopE1T1SoftwareVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RadMitopE1T1SoftwareVersionGlobalIx }
+   ::= {sr1645v2RadMitopE1T1SoftwareVersionTable 1}
+
+Sr1645v2RadMitopE1T1SoftwareVersionEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RadMitopE1T1SoftwareVersionGlobalIx
+         GlobalIndex,
+      sr1645v2RadMitopE1T1SoftwareVersionValue
+         DisplayString
+      }
+
+sr1645v2RadMitopE1T1SoftwareVersionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RadMitopE1T1SoftwareVersionEntry 10}
+
+sr1645v2RadMitopE1T1SoftwareVersionValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.status.softwareVersion"
+   ::= {sr1645v2RadMitopE1T1SoftwareVersionEntry 2147483648}
+
+
+sr1645v2RadMitopE1T1HardwareVersion OBJECT IDENTIFIER ::= {sr1645v2RadMitopE1T1 12}
+
+sr1645v2RadMitopE1T1HardwareVersionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RadMitopE1T1HardwareVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP version string"
+   ::= {sr1645v2RadMitopE1T1HardwareVersion 1}
+
+sr1645v2RadMitopE1T1HardwareVersionEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RadMitopE1T1HardwareVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RadMitopE1T1HardwareVersionGlobalIx }
+   ::= {sr1645v2RadMitopE1T1HardwareVersionTable 1}
+
+Sr1645v2RadMitopE1T1HardwareVersionEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RadMitopE1T1HardwareVersionGlobalIx
+         GlobalIndex,
+      sr1645v2RadMitopE1T1HardwareVersionValue
+         DisplayString
+      }
+
+sr1645v2RadMitopE1T1HardwareVersionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RadMitopE1T1HardwareVersionEntry 10}
+
+sr1645v2RadMitopE1T1HardwareVersionValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.status.hardwareVersion"
+   ::= {sr1645v2RadMitopE1T1HardwareVersionEntry 2147483648}
+
+
+sr1645v2RadMitopE1T1BootVersion OBJECT IDENTIFIER ::= {sr1645v2RadMitopE1T1 13}
+
+sr1645v2RadMitopE1T1BootVersionTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RadMitopE1T1BootVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP version string"
+   ::= {sr1645v2RadMitopE1T1BootVersion 1}
+
+sr1645v2RadMitopE1T1BootVersionEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RadMitopE1T1BootVersionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RadMitopE1T1BootVersionGlobalIx }
+   ::= {sr1645v2RadMitopE1T1BootVersionTable 1}
+
+Sr1645v2RadMitopE1T1BootVersionEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RadMitopE1T1BootVersionGlobalIx
+         GlobalIndex,
+      sr1645v2RadMitopE1T1BootVersionValue
+         DisplayString
+      }
+
+sr1645v2RadMitopE1T1BootVersionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RadMitopE1T1BootVersionEntry 10}
+
+sr1645v2RadMitopE1T1BootVersionValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.status.bootVersion"
+   ::= {sr1645v2RadMitopE1T1BootVersionEntry 2147483648}
+
+
+sr1645v2RadMitopE1T1UpTime OBJECT IDENTIFIER ::= {sr1645v2RadMitopE1T1 14}
+
+sr1645v2RadMitopE1T1UpTimeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RadMitopE1T1UpTimeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP system uptime"
+   ::= {sr1645v2RadMitopE1T1UpTime 1}
+
+sr1645v2RadMitopE1T1UpTimeEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RadMitopE1T1UpTimeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RadMitopE1T1UpTimeGlobalIx }
+   ::= {sr1645v2RadMitopE1T1UpTimeTable 1}
+
+Sr1645v2RadMitopE1T1UpTimeEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RadMitopE1T1UpTimeGlobalIx
+         GlobalIndex,
+      sr1645v2RadMitopE1T1UpTimeValue
+         TimeTicks
+      }
+
+sr1645v2RadMitopE1T1UpTimeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RadMitopE1T1UpTimeEntry 10}
+
+sr1645v2RadMitopE1T1UpTimeValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.status.upTime
+
+       Time in centi-second."
+   ::= {sr1645v2RadMitopE1T1UpTimeEntry 2147483648}
+
+
+sr1645v2RadMitopE1T1MacAddress OBJECT IDENTIFIER ::= {sr1645v2RadMitopE1T1 15}
+
+sr1645v2RadMitopE1T1MacAddressTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2RadMitopE1T1MacAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "MiTOP mac address"
+   ::= {sr1645v2RadMitopE1T1MacAddress 1}
+
+sr1645v2RadMitopE1T1MacAddressEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2RadMitopE1T1MacAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2RadMitopE1T1MacAddressGlobalIx }
+   ::= {sr1645v2RadMitopE1T1MacAddressTable 1}
+
+Sr1645v2RadMitopE1T1MacAddressEntry ::=
+   SEQUENCE
+      {
+      sr1645v2RadMitopE1T1MacAddressGlobalIx
+         GlobalIndex,
+      sr1645v2RadMitopE1T1MacAddressValue
+         OCTET STRING
+      }
+
+sr1645v2RadMitopE1T1MacAddressGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2RadMitopE1T1MacAddressEntry 10}
+
+sr1645v2RadMitopE1T1MacAddressValue OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.status.macAddress
+
+       MAC address."
+   ::= {sr1645v2RadMitopE1T1MacAddressEntry 2147483648}
+
+
+
+ar1645v2RadMitopE1T1 OBJECT IDENTIFIER ::= {r1645v2RadMitopE1T1 16}
+
+
+ar1645v2RadMitopE1T1ReadRegValue OBJECT IDENTIFIER ::= {ar1645v2RadMitopE1T1 84}
+
+ar1645v2RadMitopE1T1ReadRegValueTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2RadMitopE1T1ReadRegValueEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "read some bytes from a MiTOP register"
+   ::= {ar1645v2RadMitopE1T1ReadRegValue 1}
+
+ar1645v2RadMitopE1T1ReadRegValueEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2RadMitopE1T1ReadRegValueEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2RadMitopE1T1ReadRegValueGlobalIx }
+   ::= {ar1645v2RadMitopE1T1ReadRegValueTable 1}
+
+Ar1645v2RadMitopE1T1ReadRegValueEntry ::=
+   SEQUENCE
+      {
+      ar1645v2RadMitopE1T1ReadRegValueGlobalIx
+         GlobalIndex,
+      ar1645v2RadMitopE1T1ReadRegValueValue
+         Integer32
+      }
+
+ar1645v2RadMitopE1T1ReadRegValueGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2RadMitopE1T1ReadRegValueEntry 10}
+
+ar1645v2RadMitopE1T1ReadRegValueValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.actions.readRegValue"
+   ::= {ar1645v2RadMitopE1T1ReadRegValueEntry 2147483648}
+
+
+ar1645v2RadMitopE1T1ReadRegInfo OBJECT IDENTIFIER ::= {ar1645v2RadMitopE1T1 85}
+
+ar1645v2RadMitopE1T1ReadRegInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2RadMitopE1T1ReadRegInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Information needed for readMitopReg command"
+   ::= {ar1645v2RadMitopE1T1ReadRegInfo 1}
+
+ar1645v2RadMitopE1T1ReadRegInfoEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2RadMitopE1T1ReadRegInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2RadMitopE1T1ReadRegInfoGlobalIx }
+   ::= {ar1645v2RadMitopE1T1ReadRegInfoSSCTable 1}
+
+Ar1645v2RadMitopE1T1ReadRegInfoEntry ::=
+   SEQUENCE
+      {
+      ar1645v2RadMitopE1T1ReadRegInfoGlobalIx
+         GlobalIndex,
+      ar1645v2RadMitopE1T1ReadRegInfoRegAddress
+         OCTET STRING,
+      ar1645v2RadMitopE1T1ReadRegInfoLength
+         INTEGER
+      }
+
+ar1645v2RadMitopE1T1ReadRegInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2RadMitopE1T1ReadRegInfoEntry 10}
+
+ar1645v2RadMitopE1T1ReadRegInfoRegAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.actions.readRegInfo.regAddress"
+   ::= {ar1645v2RadMitopE1T1ReadRegInfoEntry 16777216}
+
+ar1645v2RadMitopE1T1ReadRegInfoLength OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s1 (1),
+               s2 (2),
+               s4 (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.actions.readRegInfo.length
+
+       Possibilities:
+               1   (1)
+               2   (2)
+               4   (4)"
+   ::= {ar1645v2RadMitopE1T1ReadRegInfoEntry 33554432}
+
+
+ar1645v2RadMitopE1T1WriteRegValue OBJECT IDENTIFIER ::= {ar1645v2RadMitopE1T1 82}
+
+ar1645v2RadMitopE1T1WriteRegValueTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2RadMitopE1T1WriteRegValueEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "write some bytes into a MiTOP register"
+   ::= {ar1645v2RadMitopE1T1WriteRegValue 1}
+
+ar1645v2RadMitopE1T1WriteRegValueEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2RadMitopE1T1WriteRegValueEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2RadMitopE1T1WriteRegValueGlobalIx }
+   ::= {ar1645v2RadMitopE1T1WriteRegValueTable 1}
+
+Ar1645v2RadMitopE1T1WriteRegValueEntry ::=
+   SEQUENCE
+      {
+      ar1645v2RadMitopE1T1WriteRegValueGlobalIx
+         GlobalIndex,
+      ar1645v2RadMitopE1T1WriteRegValueValue
+         Integer32
+      }
+
+ar1645v2RadMitopE1T1WriteRegValueGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2RadMitopE1T1WriteRegValueEntry 10}
+
+ar1645v2RadMitopE1T1WriteRegValueValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.actions.writeRegValue"
+   ::= {ar1645v2RadMitopE1T1WriteRegValueEntry 2147483648}
+
+
+ar1645v2RadMitopE1T1WriteRegInfo OBJECT IDENTIFIER ::= {ar1645v2RadMitopE1T1 83}
+
+ar1645v2RadMitopE1T1WriteRegInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2RadMitopE1T1WriteRegInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Information needed for writeMitopReg command"
+   ::= {ar1645v2RadMitopE1T1WriteRegInfo 1}
+
+ar1645v2RadMitopE1T1WriteRegInfoEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2RadMitopE1T1WriteRegInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2RadMitopE1T1WriteRegInfoGlobalIx }
+   ::= {ar1645v2RadMitopE1T1WriteRegInfoSSCTable 1}
+
+Ar1645v2RadMitopE1T1WriteRegInfoEntry ::=
+   SEQUENCE
+      {
+      ar1645v2RadMitopE1T1WriteRegInfoGlobalIx
+         GlobalIndex,
+      ar1645v2RadMitopE1T1WriteRegInfoRegAddress
+         OCTET STRING,
+      ar1645v2RadMitopE1T1WriteRegInfoLength
+         INTEGER,
+      ar1645v2RadMitopE1T1WriteRegInfoData
+         OCTET STRING
+      }
+
+ar1645v2RadMitopE1T1WriteRegInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2RadMitopE1T1WriteRegInfoEntry 10}
+
+ar1645v2RadMitopE1T1WriteRegInfoRegAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.actions.writeRegInfo.regAddress"
+   ::= {ar1645v2RadMitopE1T1WriteRegInfoEntry 16777216}
+
+ar1645v2RadMitopE1T1WriteRegInfoLength OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s1 (1),
+               s2 (2),
+               s4 (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.actions.writeRegInfo.length
+
+       Possibilities:
+               1   (1)
+               2   (2)
+               4   (4)"
+   ::= {ar1645v2RadMitopE1T1WriteRegInfoEntry 33554432}
+
+ar1645v2RadMitopE1T1WriteRegInfoData OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.actions.writeRegInfo.data"
+   ::= {ar1645v2RadMitopE1T1WriteRegInfoEntry 50331648}
+
+
+ar1645v2RadMitopE1T1FactoryDefaults OBJECT IDENTIFIER ::= {ar1645v2RadMitopE1T1 81}
+
+ar1645v2RadMitopE1T1FactoryDefaultsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2RadMitopE1T1FactoryDefaultsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "action in the debug group"
+   ::= {ar1645v2RadMitopE1T1FactoryDefaults 1}
+
+ar1645v2RadMitopE1T1FactoryDefaultsEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2RadMitopE1T1FactoryDefaultsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2RadMitopE1T1FactoryDefaultsGlobalIx }
+   ::= {ar1645v2RadMitopE1T1FactoryDefaultsTable 1}
+
+Ar1645v2RadMitopE1T1FactoryDefaultsEntry ::=
+   SEQUENCE
+      {
+      ar1645v2RadMitopE1T1FactoryDefaultsGlobalIx
+         GlobalIndex,
+      ar1645v2RadMitopE1T1FactoryDefaultsValue
+         Integer32
+      }
+
+ar1645v2RadMitopE1T1FactoryDefaultsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2RadMitopE1T1FactoryDefaultsEntry 10}
+
+ar1645v2RadMitopE1T1FactoryDefaultsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.actions.factoryDefaults"
+   ::= {ar1645v2RadMitopE1T1FactoryDefaultsEntry 2147483648}
+
+
+ar1645v2RadMitopE1T1SoftwareReset OBJECT IDENTIFIER ::= {ar1645v2RadMitopE1T1 80}
+
+ar1645v2RadMitopE1T1SoftwareResetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2RadMitopE1T1SoftwareResetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "action in the debug group"
+   ::= {ar1645v2RadMitopE1T1SoftwareReset 1}
+
+ar1645v2RadMitopE1T1SoftwareResetEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2RadMitopE1T1SoftwareResetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2RadMitopE1T1SoftwareResetGlobalIx }
+   ::= {ar1645v2RadMitopE1T1SoftwareResetTable 1}
+
+Ar1645v2RadMitopE1T1SoftwareResetEntry ::=
+   SEQUENCE
+      {
+      ar1645v2RadMitopE1T1SoftwareResetGlobalIx
+         GlobalIndex,
+      ar1645v2RadMitopE1T1SoftwareResetValue
+         Integer32
+      }
+
+ar1645v2RadMitopE1T1SoftwareResetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2RadMitopE1T1SoftwareResetEntry 10}
+
+ar1645v2RadMitopE1T1SoftwareResetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: radMitopE1T1.actions.softwareReset"
+   ::= {ar1645v2RadMitopE1T1SoftwareResetEntry 2147483648}
+
+
+
+END

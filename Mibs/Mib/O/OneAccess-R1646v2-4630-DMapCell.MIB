@@ -1,0 +1,4138 @@
+OneAccess-R1646v2-4630-DMapCell DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2DMapCell OBJECT IDENTIFIER ::= {r1646Rootv2 4630}
+
+r1646v2DMapCellMOProp OBJECT IDENTIFIER ::= {r1646v2DMapCell 1}
+
+r1646v2DMapCellMOPropEntry OBJECT IDENTIFIER ::= {r1646v2DMapCellMOProp 1}
+
+r1646v2DMapCellMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2DMapCellMOPropEntry 3}
+
+r1646v2DMapCellMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2DMapCellMOPropEntry 4}
+
+
+
+er1646v2DMapCell OBJECT IDENTIFIER ::= {r1646v2DMapCell 11}
+
+
+er1646v2DMapCellMaps OBJECT IDENTIFIER ::= {er1646v2DMapCell 5}
+
+er1646v2DMapCellMapsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2DMapCellMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "cellular dialmaps configuration table"
+   ::= {er1646v2DMapCellMaps 1}
+
+er1646v2DMapCellMapsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2DMapCellMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2DMapCellMapsTableIx }
+   ::= {er1646v2DMapCellMapsSSCTable 1}
+
+Er1646v2DMapCellMapsEntry ::=
+   SEQUENCE
+      {
+      er1646v2DMapCellMapsActions
+         VariableLengthTableActions,
+      er1646v2DMapCellMapsTableIx
+         TableIndex,
+      er1646v2DMapCellMapsName
+         DisplayString,
+      er1646v2DMapCellMapsRemark
+         DisplayString,
+      er1646v2DMapCellMapsAdminStatus
+         INTEGER,
+      er1646v2DMapCellMapsSessionAuthMethod
+         INTEGER,
+      er1646v2DMapCellMapsSessionName
+         DisplayString,
+      er1646v2DMapCellMapsSessionSecret
+         DisplayString,
+      er1646v2DMapCellMapsEncModeSessionSecret
+         INTEGER,
+      er1646v2DMapCellMapsEncSessionSecret
+         DisplayString,
+      er1646v2DMapCellMapsDialPdp
+         DisplayString,
+      er1646v2DMapCellMapsEncapsPpp
+         DisplayString,
+      er1646v2DMapCellMapsFwmodeRouting
+         DisplayString
+      }
+
+er1646v2DMapCellMapsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2DMapCellMapsEntry 2}
+
+er1646v2DMapCellMapsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2DMapCellMapsEntry 11}
+
+er1646v2DMapCellMapsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.editConf.mapping.name"
+   ::= {er1646v2DMapCellMapsEntry 16777216}
+
+er1646v2DMapCellMapsRemark OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.editConf.mapping.remark"
+   ::= {er1646v2DMapCellMapsEntry 1157627904}
+
+er1646v2DMapCellMapsAdminStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               up (1),
+               down (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.editConf.mapping.adminStatus
+
+       Possibilities:
+               up   (1)
+               down   (2)"
+   ::= {er1646v2DMapCellMapsEntry 167772160}
+
+er1646v2DMapCellMapsSessionAuthMethod OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               pap (49187),
+               chap (49699)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.editConf.mapping.sessionAuthMethod
+
+       Possibilities:
+               any   (0)
+               pap   (49187)
+               chap   (49699)"
+   ::= {er1646v2DMapCellMapsEntry 218103808}
+
+er1646v2DMapCellMapsSessionName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.editConf.mapping.sessionName"
+   ::= {er1646v2DMapCellMapsEntry 83886080}
+
+er1646v2DMapCellMapsSessionSecret OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.editConf.mapping.sessionSecret"
+   ::= {er1646v2DMapCellMapsEntry 100663296}
+
+er1646v2DMapCellMapsEncModeSessionSecret OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (1),
+               encrypt (2),
+               encType1 (3),
+               invalid (128)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.editConf.mapping.encModeSessionSecret
+
+       Possibilities:
+               none   (1)
+               encrypt   (2)
+               encType1   (3)
+               invalid   (128)"
+   ::= {er1646v2DMapCellMapsEntry 184549376}
+
+er1646v2DMapCellMapsEncSessionSecret OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.editConf.mapping.encSessionSecret"
+   ::= {er1646v2DMapCellMapsEntry 201326592}
+
+er1646v2DMapCellMapsDialPdp OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.editConf.mapping.dial.pdp"
+   ::= {er1646v2DMapCellMapsEntry 117702656}
+
+er1646v2DMapCellMapsEncapsPpp OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.editConf.mapping.encapsulation.ppp"
+   ::= {er1646v2DMapCellMapsEntry 134283264}
+
+er1646v2DMapCellMapsFwmodeRouting OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.editConf.mapping.forwardingMode.routing"
+   ::= {er1646v2DMapCellMapsEntry 151060480}
+
+
+
+sr1646v2DMapCell OBJECT IDENTIFIER ::= {r1646v2DMapCell 14}
+
+
+sr1646v2DMapCellMaps OBJECT IDENTIFIER ::= {sr1646v2DMapCell 4}
+
+sr1646v2DMapCellMapsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DMapCellMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "dialmap status table"
+   ::= {sr1646v2DMapCellMaps 1}
+
+sr1646v2DMapCellMapsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DMapCellMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DMapCellMapsTableIx }
+   ::= {sr1646v2DMapCellMapsSSCTable 1}
+
+Sr1646v2DMapCellMapsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DMapCellMapsTableIx
+         TableIndex,
+      sr1646v2DMapCellMapsName
+         DisplayString,
+      sr1646v2DMapCellMapsStatus
+         INTEGER
+      }
+
+sr1646v2DMapCellMapsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2DMapCellMapsEntry 11}
+
+sr1646v2DMapCellMapsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.mapping.name"
+   ::= {sr1646v2DMapCellMapsEntry 16777216}
+
+sr1646v2DMapCellMapsStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unknown (0),
+               invalidProfile (1),
+               standBy (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.mapping.status
+
+       Possibilities:
+               unknown   (0)
+               invalidProfile   (1)
+               standBy   (2)"
+   ::= {sr1646v2DMapCellMapsEntry 33554432}
+
+sr1646v2DMapCellMapsConnections OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DMapCellMapsConnectionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2DMapCellMaps 50331648}
+
+sr1646v2DMapCellMapsConnectionsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DMapCellMapsConnectionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DMapCellMapsTableIx,
+                sr1646v2DMapCellMapsConnectionsTableIx }
+   ::= {sr1646v2DMapCellMapsConnections 1}
+
+Sr1646v2DMapCellMapsConnectionsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DMapCellMapsConnectionsTableIx
+         TableIndex,
+      sr1646v2DMapCellMapsConnectionsInterface
+         DisplayString,
+      sr1646v2DMapCellMapsConnectionsLTelno
+         DisplayString,
+      sr1646v2DMapCellMapsConnectionsRTelno
+         DisplayString,
+      sr1646v2DMapCellMapsConnectionsCallDirection
+         INTEGER,
+      sr1646v2DMapCellMapsConnectionsConnectState
+         INTEGER
+      }
+
+sr1646v2DMapCellMapsConnectionsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2DMapCellMapsConnectionsEntry 11}
+
+sr1646v2DMapCellMapsConnectionsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.mapping.connections.interface"
+   ::= {sr1646v2DMapCellMapsConnectionsEntry 16777216}
+
+sr1646v2DMapCellMapsConnectionsLTelno OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.mapping.connections.localTelNr"
+   ::= {sr1646v2DMapCellMapsConnectionsEntry 33554432}
+
+sr1646v2DMapCellMapsConnectionsRTelno OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.mapping.connections.remoteTelNr"
+   ::= {sr1646v2DMapCellMapsConnectionsEntry 50331648}
+
+sr1646v2DMapCellMapsConnectionsCallDirection OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               incall (0),
+               outcall (1),
+               undefined (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.mapping.connections.callDirection
+
+       Possibilities:
+               incall   (0)
+               outcall   (1)
+               undefined   (2)"
+   ::= {sr1646v2DMapCellMapsConnectionsEntry 67108864}
+
+sr1646v2DMapCellMapsConnectionsConnectState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notConnected (0),
+               callSetup (1),
+               callClear (2),
+               connected (3),
+               encapsUp (4)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.mapping.connections.connectState
+
+       Possibilities:
+               notConnected   (0)
+               callSetup   (1)
+               callClear   (2)
+               connected   (3)
+               encapsUp   (4)"
+   ::= {sr1646v2DMapCellMapsConnectionsEntry 83886080}
+
+
+sr1646v2DMapCellSessions OBJECT IDENTIFIER ::= {sr1646v2DMapCell 100}
+
+sr1646v2DMapCellSessionsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DMapCellSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2DMapCellSessions 1}
+
+sr1646v2DMapCellSessionsEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DMapCellSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DMapCellSessionsTableIx }
+   ::= {sr1646v2DMapCellSessionsSSCTable 1}
+
+Sr1646v2DMapCellSessionsEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DMapCellSessionsTableIx
+         TableIndex,
+      sr1646v2DMapCellSessionsName
+         DisplayString,
+      sr1646v2DMapCellSessionsMode
+         INTEGER,
+      sr1646v2DMapCellSessionsIfOperStatus
+         INTEGER,
+      sr1646v2DMapCellSessionsIfLastChange
+         TimeTicks,
+      sr1646v2DMapCellSessionsIfLastChangeDate
+         DisplayString,
+      sr1646v2DMapCellSessionsIpAddress
+         IpAddress,
+      sr1646v2DMapCellSessionsIpNetMask
+         IpAddress,
+      sr1646v2DMapCellSessionsIpRemote
+         IpAddress,
+      sr1646v2DMapCellSessionsPppLcpState
+         INTEGER,
+      sr1646v2DMapCellSessionsPppIpcpState
+         INTEGER,
+      sr1646v2DMapCellSessionsPppIp6cpState
+         INTEGER,
+      sr1646v2DMapCellSessionsPppMyAutSt
+         INTEGER,
+      sr1646v2DMapCellSessionsPppHisAutSt
+         INTEGER,
+      sr1646v2DMapCellSessionsPppMru
+         Integer32,
+      sr1646v2DMapCellSessionsIpV6State
+         INTEGER,
+      sr1646v2DMapCellSessionsIpV6InterfaceId
+         OCTET STRING,
+      sr1646v2DMapCellSessionsIpV6LinkMtu
+         Integer32,
+      sr1646v2DMapCellSessionsIpV6HopLimit
+         Integer32,
+      sr1646v2DMapCellSessionsIpV6DhcpIaid
+         Counter32,
+      sr1646v2DMapCellSessionsIpV6RaRcvOption
+         Integer32
+      }
+
+sr1646v2DMapCellSessionsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2DMapCellSessionsEntry 11}
+
+sr1646v2DMapCellSessionsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.name"
+   ::= {sr1646v2DMapCellSessionsEntry 16777216}
+
+sr1646v2DMapCellSessionsMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ces (0),
+               routing (1),
+               bridging (2),
+               routingAndBridging (3),
+               switching (4),
+               frf5 (5),
+               frf8 (6),
+               multilink (8),
+               ipV6 (16),
+               ipV6ipV4 (17),
+               virtEthernet (32)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.mode
+
+       Possibilities:
+               ces   (0)
+               routing   (1)
+               bridging   (2)
+               routingAndBridging   (3)
+               switching   (4)
+               frf5   (5)
+               frf8   (6)
+               multilink   (8)
+               ipV6   (16)
+               ipV6/ipV4   (17)
+               virtEthernet   (32)"
+   ::= {sr1646v2DMapCellSessionsEntry 335544320}
+
+sr1646v2DMapCellSessionsIfOperStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               up (1),
+               down (2),
+               testing (3),
+               unknown (4),
+               dormant (5),
+               notPresent (6),
+               lowerLayerDown (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ifOperStatus
+
+       Possibilities:
+               up   (1)
+               down   (2)
+               testing   (3)
+               unknown   (4)
+               dormant   (5)
+               notPresent   (6)
+               lowerLayerDown   (7)"
+   ::= {sr1646v2DMapCellSessionsEntry 1795162112}
+
+sr1646v2DMapCellSessionsIfLastChange OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ifLastChange
+
+       Time in centi-second."
+   ::= {sr1646v2DMapCellSessionsEntry 1811939328}
+
+sr1646v2DMapCellSessionsIfLastChangeDate OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ifLastChangeDate"
+   ::= {sr1646v2DMapCellSessionsEntry 3070230528}
+
+sr1646v2DMapCellSessionsIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ip.address"
+   ::= {sr1646v2DMapCellSessionsEntry 51380224}
+
+sr1646v2DMapCellSessionsIpNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ip.netMask"
+   ::= {sr1646v2DMapCellSessionsEntry 51445760}
+
+sr1646v2DMapCellSessionsIpRemote OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ip.remote"
+   ::= {sr1646v2DMapCellSessionsEntry 51511296}
+
+sr1646v2DMapCellSessionsPppLcpState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               initial (0),
+               starting (1),
+               closed (2),
+               stopped (3),
+               closing (4),
+               stopping (5),
+               reqmSent (6),
+               ackmRcvd (7),
+               ackmSent (8),
+               opened (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ppp.lcpState
+
+       Possibilities:
+               Initial   (0)
+               Starting   (1)
+               Closed   (2)
+               Stopped   (3)
+               Closing   (4)
+               Stopping   (5)
+               Req-Sent   (6)
+               Ack-Rcvd   (7)
+               Ack-Sent   (8)
+               Opened   (9)"
+   ::= {sr1646v2DMapCellSessionsEntry 83951616}
+
+sr1646v2DMapCellSessionsPppIpcpState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               initial (0),
+               starting (1),
+               closed (2),
+               stopped (3),
+               closing (4),
+               stopping (5),
+               reqmSent (6),
+               ackmRcvd (7),
+               ackmSent (8),
+               opened (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ppp.ipcpState
+
+       Possibilities:
+               Initial   (0)
+               Starting   (1)
+               Closed   (2)
+               Stopped   (3)
+               Closing   (4)
+               Stopping   (5)
+               Req-Sent   (6)
+               Ack-Rcvd   (7)
+               Ack-Sent   (8)
+               Opened   (9)"
+   ::= {sr1646v2DMapCellSessionsEntry 84017152}
+
+sr1646v2DMapCellSessionsPppIp6cpState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               initial (0),
+               starting (1),
+               closed (2),
+               stopped (3),
+               closing (4),
+               stopping (5),
+               reqmSent (6),
+               ackmRcvd (7),
+               ackmSent (8),
+               opened (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ppp.ip6cpState
+
+       Possibilities:
+               Initial   (0)
+               Starting   (1)
+               Closed   (2)
+               Stopped   (3)
+               Closing   (4)
+               Stopping   (5)
+               Req-Sent   (6)
+               Ack-Rcvd   (7)
+               Ack-Sent   (8)
+               Opened   (9)"
+   ::= {sr1646v2DMapCellSessionsEntry 84869120}
+
+sr1646v2DMapCellSessionsPppMyAutSt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               nomAuthentication (0),
+               waitmOnmResponse (1),
+               authenmPapmSuccessful (2),
+               authenmChapmSuccessful (3),
+               authenmFailure (4),
+               waitmOnmResponsemRadius (5),
+               authenmNotmAllowed (6),
+               waitmOnmRequest (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ppp.myAuthenState
+
+       Possibilities:
+               No-Authentication   (0)
+               Wait-On-Response   (1)
+               Authen-Pap-Successful   (2)
+               Authen-Chap-Successful   (3)
+               Authen-Failure   (4)
+               Wait-On-Response-Radius   (5)
+               Authen-Not-Allowed   (6)
+               Wait-On-Request   (7)"
+   ::= {sr1646v2DMapCellSessionsEntry 84541440}
+
+sr1646v2DMapCellSessionsPppHisAutSt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               nomAuthentication (0),
+               waitmOnmChallenge (1),
+               waitmOnmSuccess (2),
+               authenmPapmSuccessful (3),
+               authenmChapmSuccessful (4),
+               authenmFailure (5),
+               authenmNotmAllowed (6),
+               waitmOnmRequest (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ppp.hisAuthenState
+
+       Possibilities:
+               No-Authentication   (0)
+               Wait-On-Challenge   (1)
+               Wait-On-Success   (2)
+               Authen-Pap-Successful   (3)
+               Authen-Chap-Successful   (4)
+               Authen-Failure   (5)
+               Authen-Not-Allowed   (6)
+               Wait-On-Request   (7)"
+   ::= {sr1646v2DMapCellSessionsEntry 84606976}
+
+sr1646v2DMapCellSessionsPppMru OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ppp.mru"
+   ::= {sr1646v2DMapCellSessionsEntry 84934656}
+
+sr1646v2DMapCellSessionsIpV6State OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.state
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2DMapCellSessionsEntry 100728832}
+
+sr1646v2DMapCellSessionsIpV6InterfaceId OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.interfaceId"
+   ::= {sr1646v2DMapCellSessionsEntry 100794368}
+
+sr1646v2DMapCellSessionsIpV6LinkMtu OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.linkMtu"
+   ::= {sr1646v2DMapCellSessionsEntry 100925440}
+
+sr1646v2DMapCellSessionsIpV6HopLimit OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.hopLimit"
+   ::= {sr1646v2DMapCellSessionsEntry 100990976}
+
+sr1646v2DMapCellSessionsIpV6DhcpIaid OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.dhcp.iaid
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2DMapCellSessionsEntry 101056768}
+
+sr1646v2DMapCellSessionsIpV6RaRcvOption OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.raRcvOption
+
+       Bit meanings:
+               bit 0 = linkMtu,
+               bit 1 = srcLinkLayer,
+               bit 2 = prefixInfo,
+               bit 3 = rdnss,
+               bit 4 = dnssl"
+   ::= {sr1646v2DMapCellSessionsEntry 101122048}
+
+sr1646v2DMapCellSessionsIpV6Addresses OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2DMapCellSessionsIpV6AddressesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2DMapCellSessions 100859904}
+
+sr1646v2DMapCellSessionsIpV6AddressesEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2DMapCellSessionsIpV6AddressesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2DMapCellSessionsTableIx,
+                sr1646v2DMapCellSessionsIpV6AddressesTableIx }
+   ::= {sr1646v2DMapCellSessionsIpV6Addresses 1}
+
+Sr1646v2DMapCellSessionsIpV6AddressesEntry ::=
+   SEQUENCE
+      {
+      sr1646v2DMapCellSessionsIpV6AddressesTableIx
+         TableIndex,
+      sr1646v2DMapCellSessionsIpV6AddressesAddress
+         Ipv6Address,
+      sr1646v2DMapCellSessionsIpV6AddressesPrefixLength
+         Integer32,
+      sr1646v2DMapCellSessionsIpV6AddressesStatus
+         INTEGER,
+      sr1646v2DMapCellSessionsIpV6AddressesOrigin
+         INTEGER,
+      sr1646v2DMapCellSessionsIpV6AddressesFlagsInterfaceId
+         INTEGER,
+      sr1646v2DMapCellSessionsIpV6AddressesFlagsAnycast
+         INTEGER,
+      sr1646v2DMapCellSessionsIpV6AddressesTimersValidLifeTime
+         TimeTicks,
+      sr1646v2DMapCellSessionsIpV6AddressesTimersPrefLifeTime
+         TimeTicks
+      }
+
+sr1646v2DMapCellSessionsIpV6AddressesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2DMapCellSessionsIpV6AddressesEntry 11}
+
+sr1646v2DMapCellSessionsIpV6AddressesAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.addresses.address
+
+       ipv6 address"
+   ::= {sr1646v2DMapCellSessionsIpV6AddressesEntry 16777216}
+
+sr1646v2DMapCellSessionsIpV6AddressesPrefixLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.addresses.prefixLength"
+   ::= {sr1646v2DMapCellSessionsIpV6AddressesEntry 33554432}
+
+sr1646v2DMapCellSessionsIpV6AddressesStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               invalid (0),
+               tentative (1),
+               deprecated (2),
+               preferred (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.addresses.status
+
+       Possibilities:
+               invalid   (0)
+               tentative   (1)
+               deprecated   (2)
+               preferred   (3)"
+   ::= {sr1646v2DMapCellSessionsIpV6AddressesEntry 50331648}
+
+sr1646v2DMapCellSessionsIpV6AddressesOrigin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unknown (0),
+               manual (1),
+               generalPrefix (2),
+               statelessAuto (3),
+               statefullAuto (4)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.addresses.origin
+
+       Possibilities:
+               unknown   (0)
+               manual   (1)
+               generalPrefix   (2)
+               statelessAuto   (3)
+               statefullAuto   (4)"
+   ::= {sr1646v2DMapCellSessionsIpV6AddressesEntry 67108864}
+
+sr1646v2DMapCellSessionsIpV6AddressesFlagsInterfaceId OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.addresses.flags.interfaceId
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2DMapCellSessionsIpV6AddressesEntry 83951616}
+
+sr1646v2DMapCellSessionsIpV6AddressesFlagsAnycast OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.addresses.flags.anycast
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2DMapCellSessionsIpV6AddressesEntry 84017152}
+
+sr1646v2DMapCellSessionsIpV6AddressesTimersValidLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.addresses.timers.validLifeTime
+
+       Time in centi-second."
+   ::= {sr1646v2DMapCellSessionsIpV6AddressesEntry 100794368}
+
+sr1646v2DMapCellSessionsIpV6AddressesTimersPrefLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.status.sessions.ipV6.addresses.timers.prefLifeTime
+
+       Time in centi-second."
+   ::= {sr1646v2DMapCellSessionsIpV6AddressesEntry 100728832}
+
+
+
+pr1646v2DMapCell OBJECT IDENTIFIER ::= {r1646v2DMapCell 12}
+
+
+pr1646v2DMapCellMaps OBJECT IDENTIFIER ::= {pr1646v2DMapCell 6}
+
+pr1646v2DMapCellMapsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2DMapCellMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "dialmap performance table"
+   ::= {pr1646v2DMapCellMaps 1}
+
+pr1646v2DMapCellMapsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2DMapCellMapsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2DMapCellMapsTableIx }
+   ::= {pr1646v2DMapCellMapsSSCTable 1}
+
+Pr1646v2DMapCellMapsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2DMapCellMapsTableIx
+         TableIndex,
+      pr1646v2DMapCellMapsName
+         DisplayString
+      }
+
+pr1646v2DMapCellMapsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellMapsEntry 11}
+
+pr1646v2DMapCellMapsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.name"
+   ::= {pr1646v2DMapCellMapsEntry 16777216}
+
+pr1646v2DMapCellMapsH2DialupStats OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2DMapCellMapsH2DialupStatsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellMaps 33554432}
+
+pr1646v2DMapCellMapsH2DialupStatsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2DMapCellMapsH2DialupStatsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2DMapCellMapsTableIx,
+                pr1646v2DMapCellMapsH2DialupStatsTableIx }
+   ::= {pr1646v2DMapCellMapsH2DialupStats 1}
+
+Pr1646v2DMapCellMapsH2DialupStatsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2DMapCellMapsH2DialupStatsTableIx
+         TableIndex,
+      pr1646v2DMapCellMapsH2DialupStatsSysUP
+         TimeTicks,
+      pr1646v2DMapCellMapsH2DialupStatsSucDO
+         Integer32,
+      pr1646v2DMapCellMapsH2DialupStatsSucDI
+         Integer32,
+      pr1646v2DMapCellMapsH2DialupStatsFailDO
+         Integer32,
+      pr1646v2DMapCellMapsH2DialupStatsFailDI
+         Integer32,
+      pr1646v2DMapCellMapsH2DialupStatsOnlSec
+         TimeTicks,
+      pr1646v2DMapCellMapsH2DialupStatsOutSec
+         TimeTicks
+      }
+
+pr1646v2DMapCellMapsH2DialupStatsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellMapsH2DialupStatsEntry 11}
+
+pr1646v2DMapCellMapsH2DialupStatsSysUP OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h2DialupStats.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellMapsH2DialupStatsEntry 16777216}
+
+pr1646v2DMapCellMapsH2DialupStatsSucDO OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h2DialupStats.sucDialOuts"
+   ::= {pr1646v2DMapCellMapsH2DialupStatsEntry 33554432}
+
+pr1646v2DMapCellMapsH2DialupStatsSucDI OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h2DialupStats.sucDialIns"
+   ::= {pr1646v2DMapCellMapsH2DialupStatsEntry 50331648}
+
+pr1646v2DMapCellMapsH2DialupStatsFailDO OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h2DialupStats.failDialOuts"
+   ::= {pr1646v2DMapCellMapsH2DialupStatsEntry 67108864}
+
+pr1646v2DMapCellMapsH2DialupStatsFailDI OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h2DialupStats.failDialIns"
+   ::= {pr1646v2DMapCellMapsH2DialupStatsEntry 83886080}
+
+pr1646v2DMapCellMapsH2DialupStatsOnlSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h2DialupStats.onlineSec
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellMapsH2DialupStatsEntry 100663296}
+
+pr1646v2DMapCellMapsH2DialupStatsOutSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h2DialupStats.outOnlineSec
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellMapsH2DialupStatsEntry 117440512}
+
+pr1646v2DMapCellMapsH24DialupStats OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2DMapCellMapsH24DialupStatsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellMaps 50331648}
+
+pr1646v2DMapCellMapsH24DialupStatsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2DMapCellMapsH24DialupStatsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2DMapCellMapsTableIx,
+                pr1646v2DMapCellMapsH24DialupStatsTableIx }
+   ::= {pr1646v2DMapCellMapsH24DialupStats 1}
+
+Pr1646v2DMapCellMapsH24DialupStatsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2DMapCellMapsH24DialupStatsTableIx
+         TableIndex,
+      pr1646v2DMapCellMapsH24DialupStatsSysUP
+         TimeTicks,
+      pr1646v2DMapCellMapsH24DialupStatsSucDO
+         Integer32,
+      pr1646v2DMapCellMapsH24DialupStatsSucDI
+         Integer32,
+      pr1646v2DMapCellMapsH24DialupStatsFailDO
+         Integer32,
+      pr1646v2DMapCellMapsH24DialupStatsFailDI
+         Integer32,
+      pr1646v2DMapCellMapsH24DialupStatsOnlSec
+         TimeTicks,
+      pr1646v2DMapCellMapsH24DialupStatsOutSec
+         TimeTicks
+      }
+
+pr1646v2DMapCellMapsH24DialupStatsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellMapsH24DialupStatsEntry 11}
+
+pr1646v2DMapCellMapsH24DialupStatsSysUP OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h24DialupStats.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellMapsH24DialupStatsEntry 16777216}
+
+pr1646v2DMapCellMapsH24DialupStatsSucDO OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h24DialupStats.sucDialOuts"
+   ::= {pr1646v2DMapCellMapsH24DialupStatsEntry 33554432}
+
+pr1646v2DMapCellMapsH24DialupStatsSucDI OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h24DialupStats.sucDialIns"
+   ::= {pr1646v2DMapCellMapsH24DialupStatsEntry 50331648}
+
+pr1646v2DMapCellMapsH24DialupStatsFailDO OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h24DialupStats.failDialOuts"
+   ::= {pr1646v2DMapCellMapsH24DialupStatsEntry 67108864}
+
+pr1646v2DMapCellMapsH24DialupStatsFailDI OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h24DialupStats.failDialIns"
+   ::= {pr1646v2DMapCellMapsH24DialupStatsEntry 83886080}
+
+pr1646v2DMapCellMapsH24DialupStatsOnlSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h24DialupStats.onlineSec
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellMapsH24DialupStatsEntry 100663296}
+
+pr1646v2DMapCellMapsH24DialupStatsOutSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.h24DialupStats.outOnlineSec
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellMapsH24DialupStatsEntry 117440512}
+
+pr1646v2DMapCellMapsD7DialupStats OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2DMapCellMapsD7DialupStatsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellMaps 67108864}
+
+pr1646v2DMapCellMapsD7DialupStatsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2DMapCellMapsD7DialupStatsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2DMapCellMapsTableIx,
+                pr1646v2DMapCellMapsD7DialupStatsTableIx }
+   ::= {pr1646v2DMapCellMapsD7DialupStats 1}
+
+Pr1646v2DMapCellMapsD7DialupStatsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2DMapCellMapsD7DialupStatsTableIx
+         TableIndex,
+      pr1646v2DMapCellMapsD7DialupStatsSysUP
+         TimeTicks,
+      pr1646v2DMapCellMapsD7DialupStatsSucDO
+         Integer32,
+      pr1646v2DMapCellMapsD7DialupStatsSucDI
+         Integer32,
+      pr1646v2DMapCellMapsD7DialupStatsFailDO
+         Integer32,
+      pr1646v2DMapCellMapsD7DialupStatsFailDI
+         Integer32,
+      pr1646v2DMapCellMapsD7DialupStatsOnlSec
+         TimeTicks,
+      pr1646v2DMapCellMapsD7DialupStatsOutSec
+         TimeTicks
+      }
+
+pr1646v2DMapCellMapsD7DialupStatsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellMapsD7DialupStatsEntry 11}
+
+pr1646v2DMapCellMapsD7DialupStatsSysUP OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.d7DialupStats.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellMapsD7DialupStatsEntry 16777216}
+
+pr1646v2DMapCellMapsD7DialupStatsSucDO OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.d7DialupStats.sucDialOuts"
+   ::= {pr1646v2DMapCellMapsD7DialupStatsEntry 33554432}
+
+pr1646v2DMapCellMapsD7DialupStatsSucDI OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.d7DialupStats.sucDialIns"
+   ::= {pr1646v2DMapCellMapsD7DialupStatsEntry 50331648}
+
+pr1646v2DMapCellMapsD7DialupStatsFailDO OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.d7DialupStats.failDialOuts"
+   ::= {pr1646v2DMapCellMapsD7DialupStatsEntry 67108864}
+
+pr1646v2DMapCellMapsD7DialupStatsFailDI OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.d7DialupStats.failDialIns"
+   ::= {pr1646v2DMapCellMapsD7DialupStatsEntry 83886080}
+
+pr1646v2DMapCellMapsD7DialupStatsOnlSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.d7DialupStats.onlineSec
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellMapsD7DialupStatsEntry 100663296}
+
+pr1646v2DMapCellMapsD7DialupStatsOutSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.mapping.d7DialupStats.outOnlineSec
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellMapsD7DialupStatsEntry 117440512}
+
+
+pr1646v2DMapCellSessions OBJECT IDENTIFIER ::= {pr1646v2DMapCell 101}
+
+pr1646v2DMapCellSessionsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2DMapCellSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessions 1}
+
+pr1646v2DMapCellSessionsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2DMapCellSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2DMapCellSessionsTableIx }
+   ::= {pr1646v2DMapCellSessionsSSCTable 1}
+
+Pr1646v2DMapCellSessionsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2DMapCellSessionsTableIx
+         TableIndex,
+      pr1646v2DMapCellSessionsName
+         DisplayString,
+      pr1646v2DMapCellSessionsMCInOctets
+         Counter64,
+      pr1646v2DMapCellSessionsMCInUcast
+         Counter64,
+      pr1646v2DMapCellSessionsMCInNUcastPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCInBcastPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCInMcastPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCInDiscards
+         Counter64,
+      pr1646v2DMapCellSessionsMCInErrors
+         Counter64,
+      pr1646v2DMapCellSessionsMCInUnknownProtos
+         Counter64,
+      pr1646v2DMapCellSessionsMCInDropEx
+         Counter64,
+      pr1646v2DMapCellSessionsMCInDropNoMac
+         Counter64,
+      pr1646v2DMapCellSessionsMCInDropNUCast
+         Counter64,
+      pr1646v2DMapCellSessionsMCInDropFilter
+         Counter64,
+      pr1646v2DMapCellSessionsMCInBandwidth15sec
+         Integer32,
+      pr1646v2DMapCellSessionsMCInBandwidth30sec
+         Integer32,
+      pr1646v2DMapCellSessionsMCInBandwidth1min
+         Integer32,
+      pr1646v2DMapCellSessionsMCInBandwidth2min
+         Integer32,
+      pr1646v2DMapCellSessionsMCInBandwidth5min
+         Integer32,
+      pr1646v2DMapCellSessionsMCOutOctets
+         Counter64,
+      pr1646v2DMapCellSessionsMCOutUcastPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCOutNUcastPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCOutBcastPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCOutMcastPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCOutDiscards
+         Counter64,
+      pr1646v2DMapCellSessionsMCOutErrors
+         Counter64,
+      pr1646v2DMapCellSessionsMCOutQLen
+         Counter32,
+      pr1646v2DMapCellSessionsMCOutDropEx
+         Counter64,
+      pr1646v2DMapCellSessionsMCOutDropNoArp
+         Counter64,
+      pr1646v2DMapCellSessionsMCOutDropFilter
+         Counter64,
+      pr1646v2DMapCellSessionsMCOutBandwidth15sec
+         Integer32,
+      pr1646v2DMapCellSessionsMCOutBandwidth30sec
+         Integer32,
+      pr1646v2DMapCellSessionsMCOutBandwidth1min
+         Integer32,
+      pr1646v2DMapCellSessionsMCOutBandwidth2min
+         Integer32,
+      pr1646v2DMapCellSessionsMCOutBandwidth5min
+         Integer32,
+      pr1646v2DMapCellSessionsLinkMonitoringRequestsSent
+         Gauge32,
+      pr1646v2DMapCellSessionsLinkMonitoringRepliesRcvd
+         Gauge32,
+      pr1646v2DMapCellSessionsLinkMonitoringRequestsRcvd
+         Gauge32,
+      pr1646v2DMapCellSessionsLinkMonitoringRepliesSent
+         Gauge32
+      }
+
+pr1646v2DMapCellSessionsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessionsEntry 11}
+
+pr1646v2DMapCellSessionsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.name"
+   ::= {pr1646v2DMapCellSessionsEntry 16777216}
+
+pr1646v2DMapCellSessionsMCInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 40697856}
+
+pr1646v2DMapCellSessionsMCInUcast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 40763392}
+
+pr1646v2DMapCellSessionsMCInNUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 40828928}
+
+pr1646v2DMapCellSessionsMCInBcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 47382528}
+
+pr1646v2DMapCellSessionsMCInMcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 48037888}
+
+pr1646v2DMapCellSessionsMCInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 40894464}
+
+pr1646v2DMapCellSessionsMCInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 40960000}
+
+pr1646v2DMapCellSessionsMCInUnknownProtos OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 41025536}
+
+pr1646v2DMapCellSessionsMCInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 42074112}
+
+pr1646v2DMapCellSessionsMCInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 42270720}
+
+pr1646v2DMapCellSessionsMCInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 42467328}
+
+pr1646v2DMapCellSessionsMCInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 42532864}
+
+pr1646v2DMapCellSessionsMCInBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsEntry 45417728}
+
+pr1646v2DMapCellSessionsMCInBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsEntry 45419008}
+
+pr1646v2DMapCellSessionsMCInBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsEntry 45421568}
+
+pr1646v2DMapCellSessionsMCInBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsEntry 45426688}
+
+pr1646v2DMapCellSessionsMCInBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifInBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsEntry 45442048}
+
+pr1646v2DMapCellSessionsMCOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 41091072}
+
+pr1646v2DMapCellSessionsMCOutUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 41156608}
+
+pr1646v2DMapCellSessionsMCOutNUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 41222144}
+
+pr1646v2DMapCellSessionsMCOutBcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 47775744}
+
+pr1646v2DMapCellSessionsMCOutMcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 48431104}
+
+pr1646v2DMapCellSessionsMCOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 41287680}
+
+pr1646v2DMapCellSessionsMCOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 41353216}
+
+pr1646v2DMapCellSessionsMCOutQLen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutQLen
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 41418752}
+
+pr1646v2DMapCellSessionsMCOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 41484288}
+
+pr1646v2DMapCellSessionsMCOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 42336256}
+
+pr1646v2DMapCellSessionsMCOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsEntry 42598400}
+
+pr1646v2DMapCellSessionsMCOutBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsEntry 45483264}
+
+pr1646v2DMapCellSessionsMCOutBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsEntry 45484544}
+
+pr1646v2DMapCellSessionsMCOutBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsEntry 45487104}
+
+pr1646v2DMapCellSessionsMCOutBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsEntry 45492224}
+
+pr1646v2DMapCellSessionsMCOutBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.ifOutBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsEntry 45507584}
+
+pr1646v2DMapCellSessionsLinkMonitoringRequestsSent OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.linkMonitoring.requestsSent
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2DMapCellSessionsEntry 50397184}
+
+pr1646v2DMapCellSessionsLinkMonitoringRepliesRcvd OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.linkMonitoring.repliesRcvd
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2DMapCellSessionsEntry 50462720}
+
+pr1646v2DMapCellSessionsLinkMonitoringRequestsRcvd OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.linkMonitoring.requestsRcvd
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2DMapCellSessionsEntry 50528256}
+
+pr1646v2DMapCellSessionsLinkMonitoringRepliesSent OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.linkMonitoring.repliesSent
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2DMapCellSessionsEntry 50593792}
+
+pr1646v2DMapCellSessionsMCH2P OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2DMapCellSessionsMCH2PEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessions 41549824}
+
+pr1646v2DMapCellSessionsMCH2PEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2DMapCellSessionsMCH2PEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2DMapCellSessionsTableIx,
+                pr1646v2DMapCellSessionsMCH2PTableIx }
+   ::= {pr1646v2DMapCellSessionsMCH2P 1}
+
+Pr1646v2DMapCellSessionsMCH2PEntry ::=
+   SEQUENCE
+      {
+      pr1646v2DMapCellSessionsMCH2PTableIx
+         TableIndex,
+      pr1646v2DMapCellSessionsMCH2PSysUpTime
+         TimeTicks,
+      pr1646v2DMapCellSessionsMCH2PIfUpTime
+         TimeTicks,
+      pr1646v2DMapCellSessionsMCH2PIfStatChanges
+         Counter32,
+      pr1646v2DMapCellSessionsMCH2PIfInOctets
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfInUCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfInNUCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfInBCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfInMCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfInDiscards
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfInErrors
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfInUnkwn
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PInDropEx
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PInDropNoMac
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PInDropNUCast
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PInDropFilter
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfInBandwidth
+         Integer32,
+      pr1646v2DMapCellSessionsMCH2PIfOutOctets
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfOutUCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfOutNUCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfOutBCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfOutMCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfOutDiscards
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfOutErrors
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2POutDropEx
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2POutDropNoArp
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2POutDropFilter
+         Counter64,
+      pr1646v2DMapCellSessionsMCH2PIfOutBandwidth
+         Integer32,
+      pr1646v2DMapCellSessionsMCH2PIfErrSec
+         Counter32
+      }
+
+pr1646v2DMapCellSessionsMCH2PTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 11}
+
+pr1646v2DMapCellSessionsMCH2PSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 16777216}
+
+pr1646v2DMapCellSessionsMCH2PIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 33554432}
+
+pr1646v2DMapCellSessionsMCH2PIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 50331648}
+
+pr1646v2DMapCellSessionsMCH2PIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 67108864}
+
+pr1646v2DMapCellSessionsMCH2PIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 83886080}
+
+pr1646v2DMapCellSessionsMCH2PIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 100663296}
+
+pr1646v2DMapCellSessionsMCH2PIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 419430400}
+
+pr1646v2DMapCellSessionsMCH2PIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 436207616}
+
+pr1646v2DMapCellSessionsMCH2PIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 117440512}
+
+pr1646v2DMapCellSessionsMCH2PIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 134217728}
+
+pr1646v2DMapCellSessionsMCH2PIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 150994944}
+
+pr1646v2DMapCellSessionsMCH2PInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 335544320}
+
+pr1646v2DMapCellSessionsMCH2PInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 301989888}
+
+pr1646v2DMapCellSessionsMCH2PInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 318767104}
+
+pr1646v2DMapCellSessionsMCH2PInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 385875968}
+
+pr1646v2DMapCellSessionsMCH2PIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 268435456}
+
+pr1646v2DMapCellSessionsMCH2PIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 167772160}
+
+pr1646v2DMapCellSessionsMCH2PIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 184549376}
+
+pr1646v2DMapCellSessionsMCH2PIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 201326592}
+
+pr1646v2DMapCellSessionsMCH2PIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 452984832}
+
+pr1646v2DMapCellSessionsMCH2PIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 469762048}
+
+pr1646v2DMapCellSessionsMCH2PIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 218103808}
+
+pr1646v2DMapCellSessionsMCH2PIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 234881024}
+
+pr1646v2DMapCellSessionsMCH2POutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 352321536}
+
+pr1646v2DMapCellSessionsMCH2POutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 369098752}
+
+pr1646v2DMapCellSessionsMCH2POutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 402653184}
+
+pr1646v2DMapCellSessionsMCH2PIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 285212672}
+
+pr1646v2DMapCellSessionsMCH2PIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h2Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH2PEntry 251658240}
+
+pr1646v2DMapCellSessionsMCH24P OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2DMapCellSessionsMCH24PEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessions 41615360}
+
+pr1646v2DMapCellSessionsMCH24PEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2DMapCellSessionsMCH24PEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2DMapCellSessionsTableIx,
+                pr1646v2DMapCellSessionsMCH24PTableIx }
+   ::= {pr1646v2DMapCellSessionsMCH24P 1}
+
+Pr1646v2DMapCellSessionsMCH24PEntry ::=
+   SEQUENCE
+      {
+      pr1646v2DMapCellSessionsMCH24PTableIx
+         TableIndex,
+      pr1646v2DMapCellSessionsMCH24PSysUpTime
+         TimeTicks,
+      pr1646v2DMapCellSessionsMCH24PIfUpTime
+         TimeTicks,
+      pr1646v2DMapCellSessionsMCH24PIfStatChanges
+         Counter32,
+      pr1646v2DMapCellSessionsMCH24PIfInOctets
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfInUCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfInNUCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfInBCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfInMCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfInDiscards
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfInErrors
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfInUnkwn
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PInDropEx
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PInDropNoMac
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PInDropNUCast
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PInDropFilter
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfInBandwidth
+         Integer32,
+      pr1646v2DMapCellSessionsMCH24PIfOutOctets
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfOutUCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfOutNUCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfOutBCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfOutMCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfOutDiscards
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfOutErrors
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24POutDropEx
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24POutDropNoArp
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24POutDropFilter
+         Counter64,
+      pr1646v2DMapCellSessionsMCH24PIfOutBandwidth
+         Integer32,
+      pr1646v2DMapCellSessionsMCH24PIfErrSec
+         Counter32
+      }
+
+pr1646v2DMapCellSessionsMCH24PTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 11}
+
+pr1646v2DMapCellSessionsMCH24PSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 16777216}
+
+pr1646v2DMapCellSessionsMCH24PIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 33554432}
+
+pr1646v2DMapCellSessionsMCH24PIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 50331648}
+
+pr1646v2DMapCellSessionsMCH24PIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 67108864}
+
+pr1646v2DMapCellSessionsMCH24PIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 83886080}
+
+pr1646v2DMapCellSessionsMCH24PIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 100663296}
+
+pr1646v2DMapCellSessionsMCH24PIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 419430400}
+
+pr1646v2DMapCellSessionsMCH24PIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 436207616}
+
+pr1646v2DMapCellSessionsMCH24PIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 117440512}
+
+pr1646v2DMapCellSessionsMCH24PIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 134217728}
+
+pr1646v2DMapCellSessionsMCH24PIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 150994944}
+
+pr1646v2DMapCellSessionsMCH24PInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 335544320}
+
+pr1646v2DMapCellSessionsMCH24PInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 301989888}
+
+pr1646v2DMapCellSessionsMCH24PInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 318767104}
+
+pr1646v2DMapCellSessionsMCH24PInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 385875968}
+
+pr1646v2DMapCellSessionsMCH24PIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 268435456}
+
+pr1646v2DMapCellSessionsMCH24PIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 167772160}
+
+pr1646v2DMapCellSessionsMCH24PIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 184549376}
+
+pr1646v2DMapCellSessionsMCH24PIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 201326592}
+
+pr1646v2DMapCellSessionsMCH24PIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 452984832}
+
+pr1646v2DMapCellSessionsMCH24PIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 469762048}
+
+pr1646v2DMapCellSessionsMCH24PIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 218103808}
+
+pr1646v2DMapCellSessionsMCH24PIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 234881024}
+
+pr1646v2DMapCellSessionsMCH24POutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 352321536}
+
+pr1646v2DMapCellSessionsMCH24POutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 369098752}
+
+pr1646v2DMapCellSessionsMCH24POutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 402653184}
+
+pr1646v2DMapCellSessionsMCH24PIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 285212672}
+
+pr1646v2DMapCellSessionsMCH24PIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.h24Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCH24PEntry 251658240}
+
+pr1646v2DMapCellSessionsMCD7P OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2DMapCellSessionsMCD7PEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessions 41680896}
+
+pr1646v2DMapCellSessionsMCD7PEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2DMapCellSessionsMCD7PEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2DMapCellSessionsTableIx,
+                pr1646v2DMapCellSessionsMCD7PTableIx }
+   ::= {pr1646v2DMapCellSessionsMCD7P 1}
+
+Pr1646v2DMapCellSessionsMCD7PEntry ::=
+   SEQUENCE
+      {
+      pr1646v2DMapCellSessionsMCD7PTableIx
+         TableIndex,
+      pr1646v2DMapCellSessionsMCD7PSysUpTime
+         TimeTicks,
+      pr1646v2DMapCellSessionsMCD7PIfUpTime
+         TimeTicks,
+      pr1646v2DMapCellSessionsMCD7PIfStatChanges
+         Counter32,
+      pr1646v2DMapCellSessionsMCD7PIfInOctets
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfInUCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfInNUCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfInBCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfInMCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfInDiscards
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfInErrors
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfInUnkwn
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PInDropEx
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PInDropNoMac
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PInDropNUCast
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PInDropFilter
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfInBandwidth
+         Integer32,
+      pr1646v2DMapCellSessionsMCD7PIfOutOctets
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfOutUCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfOutNUCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfOutBCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfOutMCPkts
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfOutDiscards
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfOutErrors
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7POutDropEx
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7POutDropNoArp
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7POutDropFilter
+         Counter64,
+      pr1646v2DMapCellSessionsMCD7PIfOutBandwidth
+         Integer32,
+      pr1646v2DMapCellSessionsMCD7PIfErrSec
+         Counter32
+      }
+
+pr1646v2DMapCellSessionsMCD7PTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 11}
+
+pr1646v2DMapCellSessionsMCD7PSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 16777216}
+
+pr1646v2DMapCellSessionsMCD7PIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 33554432}
+
+pr1646v2DMapCellSessionsMCD7PIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 50331648}
+
+pr1646v2DMapCellSessionsMCD7PIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 67108864}
+
+pr1646v2DMapCellSessionsMCD7PIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 83886080}
+
+pr1646v2DMapCellSessionsMCD7PIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 100663296}
+
+pr1646v2DMapCellSessionsMCD7PIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 419430400}
+
+pr1646v2DMapCellSessionsMCD7PIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 436207616}
+
+pr1646v2DMapCellSessionsMCD7PIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 117440512}
+
+pr1646v2DMapCellSessionsMCD7PIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 134217728}
+
+pr1646v2DMapCellSessionsMCD7PIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 150994944}
+
+pr1646v2DMapCellSessionsMCD7PInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 335544320}
+
+pr1646v2DMapCellSessionsMCD7PInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 301989888}
+
+pr1646v2DMapCellSessionsMCD7PInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 318767104}
+
+pr1646v2DMapCellSessionsMCD7PInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 385875968}
+
+pr1646v2DMapCellSessionsMCD7PIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 268435456}
+
+pr1646v2DMapCellSessionsMCD7PIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 167772160}
+
+pr1646v2DMapCellSessionsMCD7PIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 184549376}
+
+pr1646v2DMapCellSessionsMCD7PIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 201326592}
+
+pr1646v2DMapCellSessionsMCD7PIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 452984832}
+
+pr1646v2DMapCellSessionsMCD7PIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 469762048}
+
+pr1646v2DMapCellSessionsMCD7PIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 218103808}
+
+pr1646v2DMapCellSessionsMCD7PIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 234881024}
+
+pr1646v2DMapCellSessionsMCD7POutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 352321536}
+
+pr1646v2DMapCellSessionsMCD7POutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 369098752}
+
+pr1646v2DMapCellSessionsMCD7POutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 402653184}
+
+pr1646v2DMapCellSessionsMCD7PIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 285212672}
+
+pr1646v2DMapCellSessionsMCD7PIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.mibCounters.d7Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsMCD7PEntry 251658240}
+
+pr1646v2DMapCellSessionsOutPQs OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2DMapCellSessionsOutPQsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessions 83886080}
+
+pr1646v2DMapCellSessionsOutPQsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2DMapCellSessionsOutPQsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2DMapCellSessionsTableIx,
+                pr1646v2DMapCellSessionsOutPQsTableIx }
+   ::= {pr1646v2DMapCellSessionsOutPQs 1}
+
+Pr1646v2DMapCellSessionsOutPQsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2DMapCellSessionsOutPQsTableIx
+         TableIndex,
+      pr1646v2DMapCellSessionsOutPQsName
+         INTEGER,
+      pr1646v2DMapCellSessionsOutPQsLength
+         Integer32,
+      pr1646v2DMapCellSessionsOutPQsOctetLength
+         Integer32,
+      pr1646v2DMapCellSessionsOutPQsRedLength
+         Integer32,
+      pr1646v2DMapCellSessionsOutPQsPacketsTotal
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsPacketsDirectTx
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsPacketsQueued
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsPacketsDropped
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsPacketsRedDropped
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsPacketsCirTx
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsPacketsEirTx
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsPacketsViolateTx
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsOctetsTotal
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsOctetsDirectTx
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsOctetsQueued
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsOctetsDropped
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsOctetsRedDropped
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsOctetsCirTx
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsOctetsEirTx
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsOctetsViolateTx
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsOctetsBandwidth15sec
+         Integer32,
+      pr1646v2DMapCellSessionsOutPQsOctetsBandwidth30sec
+         Integer32,
+      pr1646v2DMapCellSessionsOutPQsOctetsBandwidth1min
+         Integer32,
+      pr1646v2DMapCellSessionsOutPQsOctetsBandwidth2min
+         Integer32,
+      pr1646v2DMapCellSessionsOutPQsOctetsBandwidth5min
+         Integer32
+      }
+
+pr1646v2DMapCellSessionsOutPQsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 11}
+
+pr1646v2DMapCellSessionsOutPQsName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               queue (8),
+               queue1Sum (9),
+               queue2Sum (10),
+               queue3Sum (11),
+               queue4Sum (12),
+               queue5Sum (13),
+               lowDelayQueueSum (14),
+               lowDelay2QueueSum (15),
+               systemQueueSum (16),
+               queueSum (17),
+               queue1Driver (18),
+               queue2Driver (19),
+               queue3Driver (20),
+               queue4Driver (21),
+               queue5Driver (22),
+               lowDelayQueueDriver (23),
+               lowDelay2QueueDriver (24),
+               systemQueueDriver (25)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.name
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               queue   (8)
+               queue1Sum   (9)
+               queue2Sum   (10)
+               queue3Sum   (11)
+               queue4Sum   (12)
+               queue5Sum   (13)
+               lowDelayQueueSum   (14)
+               lowDelay2QueueSum   (15)
+               systemQueueSum   (16)
+               queueSum   (17)
+               queue1Driver   (18)
+               queue2Driver   (19)
+               queue3Driver   (20)
+               queue4Driver   (21)
+               queue5Driver   (22)
+               lowDelayQueueDriver   (23)
+               lowDelay2QueueDriver   (24)
+               systemQueueDriver   (25)"
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 16777216}
+
+pr1646v2DMapCellSessionsOutPQsLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.length"
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 33554432}
+
+pr1646v2DMapCellSessionsOutPQsOctetLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octetLength"
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 150994944}
+
+pr1646v2DMapCellSessionsOutPQsRedLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.redLength"
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 134217728}
+
+pr1646v2DMapCellSessionsOutPQsPacketsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.packets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 50790400}
+
+pr1646v2DMapCellSessionsOutPQsPacketsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.packets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 50397184}
+
+pr1646v2DMapCellSessionsOutPQsPacketsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.packets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 50462720}
+
+pr1646v2DMapCellSessionsOutPQsPacketsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.packets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 50528256}
+
+pr1646v2DMapCellSessionsOutPQsPacketsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.packets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 50724864}
+
+pr1646v2DMapCellSessionsOutPQsPacketsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.packets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 50593792}
+
+pr1646v2DMapCellSessionsOutPQsPacketsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.packets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 50659328}
+
+pr1646v2DMapCellSessionsOutPQsPacketsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.packets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 50855936}
+
+pr1646v2DMapCellSessionsOutPQsOctetsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 67567616}
+
+pr1646v2DMapCellSessionsOutPQsOctetsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 67174400}
+
+pr1646v2DMapCellSessionsOutPQsOctetsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 67239936}
+
+pr1646v2DMapCellSessionsOutPQsOctetsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 67305472}
+
+pr1646v2DMapCellSessionsOutPQsOctetsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 67502080}
+
+pr1646v2DMapCellSessionsOutPQsOctetsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 67371008}
+
+pr1646v2DMapCellSessionsOutPQsOctetsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 67436544}
+
+pr1646v2DMapCellSessionsOutPQsOctetsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 67633152}
+
+pr1646v2DMapCellSessionsOutPQsOctetsBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octets.bandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 70386944}
+
+pr1646v2DMapCellSessionsOutPQsOctetsBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octets.bandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 70388224}
+
+pr1646v2DMapCellSessionsOutPQsOctetsBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octets.bandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 70390784}
+
+pr1646v2DMapCellSessionsOutPQsOctetsBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octets.bandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 70395904}
+
+pr1646v2DMapCellSessionsOutPQsOctetsBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.octets.bandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsOutPQsEntry 70411264}
+
+pr1646v2DMapCellSessionsOutPQsH2Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessions 84213760}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2DMapCellSessionsTableIx,
+                pr1646v2DMapCellSessionsOutPQsTableIx,
+                pr1646v2DMapCellSessionsOutPQsH2PerformanceTableIx }
+   ::= {pr1646v2DMapCellSessionsOutPQsH2Performance 1}
+
+Pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceTableIx
+         TableIndex,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceTotPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceDirTxPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceQdPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceDropPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceRDropPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceCirTxPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceEirTxPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceViolTxPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceTotOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceDirTxOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceQdOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceDropOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceRDropOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceCirTxOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceEirTxOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceViolTxOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH2PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 11}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 16777216}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 234881024}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 33554432}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 50331648}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 67108864}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 201326592}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 83886080}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 100663296}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 301989888}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 251658240}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 117440512}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 134217728}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 150994944}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 218103808}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 167772160}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 184549376}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 318767104}
+
+pr1646v2DMapCellSessionsOutPQsH2PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h2Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsOutPQsH2PerformanceEntry 268435456}
+
+pr1646v2DMapCellSessionsOutPQsH24Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessions 84279296}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2DMapCellSessionsTableIx,
+                pr1646v2DMapCellSessionsOutPQsTableIx,
+                pr1646v2DMapCellSessionsOutPQsH24PerformanceTableIx }
+   ::= {pr1646v2DMapCellSessionsOutPQsH24Performance 1}
+
+Pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceTableIx
+         TableIndex,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceTotPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceDirTxPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceQdPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceDropPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceRDropPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceCirTxPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceEirTxPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceViolTxPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceTotOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceDirTxOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceQdOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceDropOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceRDropOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceCirTxOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceEirTxOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceViolTxOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsH24PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 11}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 16777216}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 234881024}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 33554432}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 50331648}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 67108864}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 201326592}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 83886080}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 100663296}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 301989888}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 251658240}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 117440512}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 134217728}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 150994944}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 218103808}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 167772160}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 184549376}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 318767104}
+
+pr1646v2DMapCellSessionsOutPQsH24PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.h24Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsOutPQsH24PerformanceEntry 268435456}
+
+pr1646v2DMapCellSessionsOutPQsD7Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessions 84344832}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2DMapCellSessionsTableIx,
+                pr1646v2DMapCellSessionsOutPQsTableIx,
+                pr1646v2DMapCellSessionsOutPQsD7PerformanceTableIx }
+   ::= {pr1646v2DMapCellSessionsOutPQsD7Performance 1}
+
+Pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceTableIx
+         TableIndex,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceTotPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceDirTxPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceQdPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceDropPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceRDropPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceCirTxPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceEirTxPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceViolTxPkts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceTotOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceDirTxOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceQdOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceDropOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceRDropOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceCirTxOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceEirTxOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceViolTxOcts
+         Counter64,
+      pr1646v2DMapCellSessionsOutPQsD7PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 11}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 16777216}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 234881024}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 33554432}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 50331648}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 67108864}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 201326592}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 83886080}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 100663296}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 301989888}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 251658240}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 117440512}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 134217728}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 150994944}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 218103808}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 167772160}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 184549376}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 318767104}
+
+pr1646v2DMapCellSessionsOutPQsD7PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.performance.sessions.outPriorityQueues.d7Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2DMapCellSessionsOutPQsD7PerformanceEntry 268435456}
+
+
+
+ar1646v2DMapCell OBJECT IDENTIFIER ::= {r1646v2DMapCell 16}
+
+
+ar1646v2DMapCellClearCounters OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dialMaps.actions.clearCounters
+       Info: reset counters"
+   ::= {ar1646v2DMapCell 263}
+
+
+
+END

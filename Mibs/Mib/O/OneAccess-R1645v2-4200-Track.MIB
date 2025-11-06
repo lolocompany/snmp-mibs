@@ -1,0 +1,372 @@
+OneAccess-R1645v2-4200-Track DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Track OBJECT IDENTIFIER ::= {r1645Rootv2 4200}
+
+r1645v2TrackMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2TrackMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2Track 1}
+
+r1645v2TrackMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2TrackMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2TrackMOPropGlobalIx }
+   ::= {r1645v2TrackMOProp 1}
+
+R1645v2TrackMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2TrackMOPropPath
+         ContainmentPath,
+      r1645v2TrackMOPropRev
+         ObjectRevision,
+      r1645v2TrackMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2TrackMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2TrackMOPropEntry 3}
+
+r1645v2TrackMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2TrackMOPropEntry 4}
+
+r1645v2TrackMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2TrackMOPropEntry 10}
+
+
+
+er1645v2Track OBJECT IDENTIFIER ::= {r1645v2Track 11}
+
+
+er1645v2TrackSnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2Track 268}
+
+er1645v2TrackSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2TrackSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2TrackSnmpIndexOffset 1}
+
+er1645v2TrackSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2TrackSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2TrackSnmpIndexOffsetGlobalIx }
+   ::= {er1645v2TrackSnmpIndexOffsetTable 1}
+
+Er1645v2TrackSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2TrackSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2TrackSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2TrackSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2TrackSnmpIndexOffsetEntry 10}
+
+er1645v2TrackSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: tracking.editConf.snmpIndexOffset"
+   ::= {er1645v2TrackSnmpIndexOffsetEntry 2147483648}
+
+
+
+sr1645v2Track OBJECT IDENTIFIER ::= {r1645v2Track 14}
+
+
+sr1645v2TrackSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2Track 269}
+
+sr1645v2TrackSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2TrackSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2TrackSnmpIndex 1}
+
+sr1645v2TrackSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2TrackSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2TrackSnmpIndexGlobalIx }
+   ::= {sr1645v2TrackSnmpIndexTable 1}
+
+Sr1645v2TrackSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2TrackSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2TrackSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2TrackSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2TrackSnmpIndexEntry 10}
+
+sr1645v2TrackSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: tracking.status.snmpIndex"
+   ::= {sr1645v2TrackSnmpIndexEntry 2147483648}
+
+
+sr1645v2TrackQualityMonitorEvents OBJECT IDENTIFIER ::= {sr1645v2Track 4002}
+
+sr1645v2TrackQualityMonitorEventsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2TrackQualityMonitorEventsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "which are the sources of events"
+   ::= {sr1645v2TrackQualityMonitorEvents 1}
+
+sr1645v2TrackQualityMonitorEventsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2TrackQualityMonitorEventsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2TrackQualityMonitorEventsGlobalIx,
+                sr1645v2TrackQualityMonitorEventsTableIx }
+   ::= {sr1645v2TrackQualityMonitorEventsSSCTable 1}
+
+Sr1645v2TrackQualityMonitorEventsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2TrackQualityMonitorEventsGlobalIx
+         GlobalIndex,
+      sr1645v2TrackQualityMonitorEventsTableIx
+         TableIndex,
+      sr1645v2TrackQualityMonitorEventsDescription
+         DisplayString,
+      sr1645v2TrackQualityMonitorEventsLastChange
+         TimeTicks,
+      sr1645v2TrackQualityMonitorEventsAlarms
+         Integer32
+      }
+
+sr1645v2TrackQualityMonitorEventsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2TrackQualityMonitorEventsEntry 10}
+
+sr1645v2TrackQualityMonitorEventsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2TrackQualityMonitorEventsEntry 11}
+
+sr1645v2TrackQualityMonitorEventsDescription OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: tracking.status.qualityMonitorEvents.description"
+   ::= {sr1645v2TrackQualityMonitorEventsEntry 16777216}
+
+sr1645v2TrackQualityMonitorEventsLastChange OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: tracking.status.qualityMonitorEvents.lastChange
+
+       Time in centi-second."
+   ::= {sr1645v2TrackQualityMonitorEventsEntry 33554432}
+
+sr1645v2TrackQualityMonitorEventsAlarms OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: tracking.status.qualityMonitorEvents.alarms
+
+       Bit meanings:
+               bit 0 = loss,
+               bit 1 = delayAvrg,
+               bit 2 = delayMax,
+               bit 3 = delayMinMax,
+               bit 4 = jitterAvrg,
+               bit 5 = jitterPosMax,
+               bit 6 = jitterNegMax,
+               bit 7 = lossUp,
+               bit 8 = jitterUpAvrg,
+               bit 9 = jitterUpPosMax,
+               bit 10 = jitterUpNegMax,
+               bit 11 = lossDown,
+               bit 12 = jitterDownAvrg,
+               bit 13 = jitterDownPosMax,
+               bit 14 = jitterDownNegMax,
+               bit 15 = delayUpAvrg,
+               bit 16 = delayUpMax,
+               bit 17 = delayDownAvrg,
+               bit 18 = delayDownMax,
+               bit 19 = bfdCtrl"
+   ::= {sr1645v2TrackQualityMonitorEventsEntry 50331648}
+
+
+sr1645v2TrackInterfaceEvents OBJECT IDENTIFIER ::= {sr1645v2Track 4003}
+
+sr1645v2TrackInterfaceEventsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2TrackInterfaceEventsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "registered interface events"
+   ::= {sr1645v2TrackInterfaceEvents 1}
+
+sr1645v2TrackInterfaceEventsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2TrackInterfaceEventsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2TrackInterfaceEventsGlobalIx,
+                sr1645v2TrackInterfaceEventsTableIx }
+   ::= {sr1645v2TrackInterfaceEventsSSCTable 1}
+
+Sr1645v2TrackInterfaceEventsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2TrackInterfaceEventsGlobalIx
+         GlobalIndex,
+      sr1645v2TrackInterfaceEventsTableIx
+         TableIndex,
+      sr1645v2TrackInterfaceEventsInterface
+         DisplayString,
+      sr1645v2TrackInterfaceEventsLastChange
+         TimeTicks,
+      sr1645v2TrackInterfaceEventsActiveModes
+         Integer32
+      }
+
+sr1645v2TrackInterfaceEventsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2TrackInterfaceEventsEntry 10}
+
+sr1645v2TrackInterfaceEventsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2TrackInterfaceEventsEntry 11}
+
+sr1645v2TrackInterfaceEventsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: tracking.status.interfaceEvents.interface"
+   ::= {sr1645v2TrackInterfaceEventsEntry 16777216}
+
+sr1645v2TrackInterfaceEventsLastChange OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: tracking.status.interfaceEvents.lastChange
+
+       Time in centi-second."
+   ::= {sr1645v2TrackInterfaceEventsEntry 33554432}
+
+sr1645v2TrackInterfaceEventsActiveModes OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: tracking.status.interfaceEvents.activeModes
+
+       Bit meanings:
+               bit 0 = routing,
+               bit 1 = ipV6"
+   ::= {sr1645v2TrackInterfaceEventsEntry 50331648}
+
+
+
+END

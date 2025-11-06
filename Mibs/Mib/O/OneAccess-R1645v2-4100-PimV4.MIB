@@ -1,0 +1,3117 @@
+OneAccess-R1645v2-4100-PimV4 DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2PimV4 OBJECT IDENTIFIER ::= {r1645Rootv2 4100}
+
+r1645v2PimV4MOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2PimV4MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2PimV4 1}
+
+r1645v2PimV4MOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2PimV4MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2PimV4MOPropGlobalIx }
+   ::= {r1645v2PimV4MOProp 1}
+
+R1645v2PimV4MOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2PimV4MOPropPath
+         ContainmentPath,
+      r1645v2PimV4MOPropRev
+         ObjectRevision,
+      r1645v2PimV4MOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2PimV4MOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2PimV4MOPropEntry 3}
+
+r1645v2PimV4MOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2PimV4MOPropEntry 4}
+
+r1645v2PimV4MOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2PimV4MOPropEntry 10}
+
+
+
+er1645v2PimV4 OBJECT IDENTIFIER ::= {r1645v2PimV4 11}
+
+
+er1645v2PimV4RdvzPoints OBJECT IDENTIFIER ::= {er1645v2PimV4 4}
+
+er1645v2PimV4RdvzPointsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PimV4RdvzPointsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "rendez-vous points"
+   ::= {er1645v2PimV4RdvzPoints 1}
+
+er1645v2PimV4RdvzPointsEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PimV4RdvzPointsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PimV4RdvzPointsGlobalIx,
+                er1645v2PimV4RdvzPointsTableIx }
+   ::= {er1645v2PimV4RdvzPointsSSCTable 1}
+
+Er1645v2PimV4RdvzPointsEntry ::=
+   SEQUENCE
+      {
+      er1645v2PimV4RdvzPointsActions
+         VariableLengthTableActions,
+      er1645v2PimV4RdvzPointsGlobalIx
+         GlobalIndex,
+      er1645v2PimV4RdvzPointsTableIx
+         TableIndex,
+      er1645v2PimV4RdvzPointsRpAddress
+         IpAddress,
+      er1645v2PimV4RdvzPointsGroupMaskGroup
+         IpAddress,
+      er1645v2PimV4RdvzPointsGroupMaskMask
+         IpAddress,
+      er1645v2PimV4RdvzPointsOverride
+         INTEGER
+      }
+
+er1645v2PimV4RdvzPointsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2PimV4RdvzPointsEntry 2}
+
+er1645v2PimV4RdvzPointsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PimV4RdvzPointsEntry 10}
+
+er1645v2PimV4RdvzPointsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2PimV4RdvzPointsEntry 11}
+
+er1645v2PimV4RdvzPointsRpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.rdvzPoints.rpAddress"
+   ::= {er1645v2PimV4RdvzPointsEntry 16777216}
+
+er1645v2PimV4RdvzPointsGroupMaskGroup OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.rdvzPoints.groupMask.group"
+   ::= {er1645v2PimV4RdvzPointsEntry 33619968}
+
+er1645v2PimV4RdvzPointsGroupMaskMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.rdvzPoints.groupMask.mask"
+   ::= {er1645v2PimV4RdvzPointsEntry 33685504}
+
+er1645v2PimV4RdvzPointsOverride OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.rdvzPoints.override
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2PimV4RdvzPointsEntry 67108864}
+
+
+er1645v2PimV4BsrCandidate OBJECT IDENTIFIER ::= {er1645v2PimV4 5}
+
+er1645v2PimV4BsrCandidateSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PimV4BsrCandidateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bsr candidate config"
+   ::= {er1645v2PimV4BsrCandidate 1}
+
+er1645v2PimV4BsrCandidateEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PimV4BsrCandidateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PimV4BsrCandidateGlobalIx }
+   ::= {er1645v2PimV4BsrCandidateSSCTable 1}
+
+Er1645v2PimV4BsrCandidateEntry ::=
+   SEQUENCE
+      {
+      er1645v2PimV4BsrCandidateGlobalIx
+         GlobalIndex,
+      er1645v2PimV4BsrCandidateMode
+         INTEGER,
+      er1645v2PimV4BsrCandidateInterface
+         DisplayString,
+      er1645v2PimV4BsrCandidatePriority
+         Integer32,
+      er1645v2PimV4BsrCandidateHashMaskLength
+         Integer32
+      }
+
+er1645v2PimV4BsrCandidateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PimV4BsrCandidateEntry 10}
+
+er1645v2PimV4BsrCandidateMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.bsrCandidate.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2PimV4BsrCandidateEntry 16777216}
+
+er1645v2PimV4BsrCandidateInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.bsrCandidate.interface"
+   ::= {er1645v2PimV4BsrCandidateEntry 33554432}
+
+er1645v2PimV4BsrCandidatePriority OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.bsrCandidate.priority"
+   ::= {er1645v2PimV4BsrCandidateEntry 50331648}
+
+er1645v2PimV4BsrCandidateHashMaskLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.bsrCandidate.hashMaskLength"
+   ::= {er1645v2PimV4BsrCandidateEntry 67108864}
+
+
+er1645v2PimV4BsrCandidateRp OBJECT IDENTIFIER ::= {er1645v2PimV4 6}
+
+er1645v2PimV4BsrCandidateRpSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PimV4BsrCandidateRpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bsr rp candidate"
+   ::= {er1645v2PimV4BsrCandidateRp 1}
+
+er1645v2PimV4BsrCandidateRpEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PimV4BsrCandidateRpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PimV4BsrCandidateRpGlobalIx }
+   ::= {er1645v2PimV4BsrCandidateRpSSCTable 1}
+
+Er1645v2PimV4BsrCandidateRpEntry ::=
+   SEQUENCE
+      {
+      er1645v2PimV4BsrCandidateRpGlobalIx
+         GlobalIndex,
+      er1645v2PimV4BsrCandidateRpMode
+         INTEGER,
+      er1645v2PimV4BsrCandidateRpInterface
+         DisplayString,
+      er1645v2PimV4BsrCandidateRpPriority
+         Integer32,
+      er1645v2PimV4BsrCandidateRpInterval
+         TimeTicks
+      }
+
+er1645v2PimV4BsrCandidateRpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PimV4BsrCandidateRpEntry 10}
+
+er1645v2PimV4BsrCandidateRpMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.bsrCandidateRp.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2PimV4BsrCandidateRpEntry 16777216}
+
+er1645v2PimV4BsrCandidateRpInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.bsrCandidateRp.interface"
+   ::= {er1645v2PimV4BsrCandidateRpEntry 50331648}
+
+er1645v2PimV4BsrCandidateRpPriority OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.bsrCandidateRp.priority"
+   ::= {er1645v2PimV4BsrCandidateRpEntry 83886080}
+
+er1645v2PimV4BsrCandidateRpInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.bsrCandidateRp.interval
+
+       Time in centi-second."
+   ::= {er1645v2PimV4BsrCandidateRpEntry 100663296}
+
+er1645v2PimV4BsrCandidateRpGroupMasks OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PimV4BsrCandidateRpGroupMasksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2PimV4BsrCandidateRp 33554432}
+
+er1645v2PimV4BsrCandidateRpGroupMasksEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PimV4BsrCandidateRpGroupMasksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PimV4BsrCandidateRpGroupMasksGlobalIx,
+                er1645v2PimV4BsrCandidateRpGroupMasksTableIx }
+   ::= {er1645v2PimV4BsrCandidateRpGroupMasks 1}
+
+Er1645v2PimV4BsrCandidateRpGroupMasksEntry ::=
+   SEQUENCE
+      {
+      er1645v2PimV4BsrCandidateRpGroupMasksActions
+         VariableLengthTableActions,
+      er1645v2PimV4BsrCandidateRpGroupMasksGlobalIx
+         GlobalIndex,
+      er1645v2PimV4BsrCandidateRpGroupMasksTableIx
+         TableIndex,
+      er1645v2PimV4BsrCandidateRpGroupMasksGroup
+         IpAddress,
+      er1645v2PimV4BsrCandidateRpGroupMasksMask
+         IpAddress
+      }
+
+er1645v2PimV4BsrCandidateRpGroupMasksActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2PimV4BsrCandidateRpGroupMasksEntry 2}
+
+er1645v2PimV4BsrCandidateRpGroupMasksGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PimV4BsrCandidateRpGroupMasksEntry 10}
+
+er1645v2PimV4BsrCandidateRpGroupMasksTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2PimV4BsrCandidateRpGroupMasksEntry 11}
+
+er1645v2PimV4BsrCandidateRpGroupMasksGroup OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.bsrCandidateRp.groupMasks.group"
+   ::= {er1645v2PimV4BsrCandidateRpGroupMasksEntry 16777216}
+
+er1645v2PimV4BsrCandidateRpGroupMasksMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.bsrCandidateRp.groupMasks.mask"
+   ::= {er1645v2PimV4BsrCandidateRpGroupMasksEntry 33554432}
+
+
+er1645v2PimV4SptThreshold OBJECT IDENTIFIER ::= {er1645v2PimV4 3}
+
+er1645v2PimV4SptThresholdTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PimV4SptThresholdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "kbps threshold"
+   ::= {er1645v2PimV4SptThreshold 1}
+
+er1645v2PimV4SptThresholdEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PimV4SptThresholdEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PimV4SptThresholdGlobalIx }
+   ::= {er1645v2PimV4SptThresholdTable 1}
+
+Er1645v2PimV4SptThresholdEntry ::=
+   SEQUENCE
+      {
+      er1645v2PimV4SptThresholdGlobalIx
+         GlobalIndex,
+      er1645v2PimV4SptThresholdValue
+         INTEGER
+      }
+
+er1645v2PimV4SptThresholdGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PimV4SptThresholdEntry 10}
+
+er1645v2PimV4SptThresholdValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               infinite (-1),
+               none (0)
+               }
+   UNITS       "kbps"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.sptThreshold
+
+       unit name = kbps
+
+       Possibilities:
+               infinite   (-1)
+               none   (0)"
+   ::= {er1645v2PimV4SptThresholdEntry 2147483648}
+
+
+er1645v2PimV4StaticGroups OBJECT IDENTIFIER ::= {er1645v2PimV4 7}
+
+er1645v2PimV4StaticGroupsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PimV4StaticGroupsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "rendez-vous points"
+   ::= {er1645v2PimV4StaticGroups 1}
+
+er1645v2PimV4StaticGroupsEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PimV4StaticGroupsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PimV4StaticGroupsGlobalIx,
+                er1645v2PimV4StaticGroupsTableIx }
+   ::= {er1645v2PimV4StaticGroupsSSCTable 1}
+
+Er1645v2PimV4StaticGroupsEntry ::=
+   SEQUENCE
+      {
+      er1645v2PimV4StaticGroupsActions
+         VariableLengthTableActions,
+      er1645v2PimV4StaticGroupsGlobalIx
+         GlobalIndex,
+      er1645v2PimV4StaticGroupsTableIx
+         TableIndex,
+      er1645v2PimV4StaticGroupsInterface
+         DisplayString,
+      er1645v2PimV4StaticGroupsGroup
+         IpAddress,
+      er1645v2PimV4StaticGroupsSource
+         IpAddress
+      }
+
+er1645v2PimV4StaticGroupsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2PimV4StaticGroupsEntry 2}
+
+er1645v2PimV4StaticGroupsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PimV4StaticGroupsEntry 10}
+
+er1645v2PimV4StaticGroupsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2PimV4StaticGroupsEntry 11}
+
+er1645v2PimV4StaticGroupsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.staticGroups.interface"
+   ::= {er1645v2PimV4StaticGroupsEntry 16777216}
+
+er1645v2PimV4StaticGroupsGroup OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.staticGroups.group"
+   ::= {er1645v2PimV4StaticGroupsEntry 33554432}
+
+er1645v2PimV4StaticGroupsSource OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.staticGroups.source"
+   ::= {er1645v2PimV4StaticGroupsEntry 50331648}
+
+
+er1645v2PimV4Ssm OBJECT IDENTIFIER ::= {er1645v2PimV4 8}
+
+er1645v2PimV4SsmSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PimV4SsmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "source specific multicast"
+   ::= {er1645v2PimV4Ssm 1}
+
+er1645v2PimV4SsmEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PimV4SsmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PimV4SsmGlobalIx }
+   ::= {er1645v2PimV4SsmSSCTable 1}
+
+Er1645v2PimV4SsmEntry ::=
+   SEQUENCE
+      {
+      er1645v2PimV4SsmGlobalIx
+         GlobalIndex,
+      er1645v2PimV4SsmMode
+         INTEGER
+      }
+
+er1645v2PimV4SsmGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PimV4SsmEntry 10}
+
+er1645v2PimV4SsmMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.ssm.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2PimV4SsmEntry 16777216}
+
+er1645v2PimV4SsmAccessList OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PimV4SsmAccessListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2PimV4Ssm 33554432}
+
+er1645v2PimV4SsmAccessListEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PimV4SsmAccessListEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PimV4SsmAccessListGlobalIx,
+                er1645v2PimV4SsmAccessListTableIx }
+   ::= {er1645v2PimV4SsmAccessList 1}
+
+Er1645v2PimV4SsmAccessListEntry ::=
+   SEQUENCE
+      {
+      er1645v2PimV4SsmAccessListActions
+         VariableLengthTableActions,
+      er1645v2PimV4SsmAccessListGlobalIx
+         GlobalIndex,
+      er1645v2PimV4SsmAccessListTableIx
+         TableIndex,
+      er1645v2PimV4SsmAccessListGroup
+         IpAddress,
+      er1645v2PimV4SsmAccessListMask
+         IpAddress,
+      er1645v2PimV4SsmAccessListAction
+         INTEGER
+      }
+
+er1645v2PimV4SsmAccessListActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2PimV4SsmAccessListEntry 2}
+
+er1645v2PimV4SsmAccessListGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PimV4SsmAccessListEntry 10}
+
+er1645v2PimV4SsmAccessListTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2PimV4SsmAccessListEntry 11}
+
+er1645v2PimV4SsmAccessListGroup OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.ssm.accessList.group"
+   ::= {er1645v2PimV4SsmAccessListEntry 16777216}
+
+er1645v2PimV4SsmAccessListMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.ssm.accessList.mask"
+   ::= {er1645v2PimV4SsmAccessListEntry 33554432}
+
+er1645v2PimV4SsmAccessListAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               allow (1),
+               deny (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.editConf.ssm.accessList.action
+
+       Possibilities:
+               allow   (1)
+               deny   (0)"
+   ::= {er1645v2PimV4SsmAccessListEntry 50331648}
+
+
+
+sr1645v2PimV4 OBJECT IDENTIFIER ::= {r1645v2PimV4 14}
+
+
+sr1645v2PimV4Interfaces OBJECT IDENTIFIER ::= {sr1645v2PimV4 21}
+
+sr1645v2PimV4InterfacesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4InterfacesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pim interface status table"
+   ::= {sr1645v2PimV4Interfaces 1}
+
+sr1645v2PimV4InterfacesEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4InterfacesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4InterfacesGlobalIx,
+                sr1645v2PimV4InterfacesTableIx }
+   ::= {sr1645v2PimV4InterfacesSSCTable 1}
+
+Sr1645v2PimV4InterfacesEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4InterfacesGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4InterfacesTableIx
+         TableIndex,
+      sr1645v2PimV4InterfacesName
+         DisplayString,
+      sr1645v2PimV4InterfacesAddress
+         IpAddress,
+      sr1645v2PimV4InterfacesGenerationId
+         Counter32,
+      sr1645v2PimV4InterfacesDr
+         IpAddress
+      }
+
+sr1645v2PimV4InterfacesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4InterfacesEntry 10}
+
+sr1645v2PimV4InterfacesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4InterfacesEntry 11}
+
+sr1645v2PimV4InterfacesName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.interfaces.name"
+   ::= {sr1645v2PimV4InterfacesEntry 16777216}
+
+sr1645v2PimV4InterfacesAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.interfaces.address"
+   ::= {sr1645v2PimV4InterfacesEntry 33554432}
+
+sr1645v2PimV4InterfacesGenerationId OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.interfaces.generationId
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2PimV4InterfacesEntry 50331648}
+
+sr1645v2PimV4InterfacesDr OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.interfaces.dr"
+   ::= {sr1645v2PimV4InterfacesEntry 67108864}
+
+
+sr1645v2PimV4Neighbors OBJECT IDENTIFIER ::= {sr1645v2PimV4 22}
+
+sr1645v2PimV4NeighborsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4NeighborsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pim neighbor status table"
+   ::= {sr1645v2PimV4Neighbors 1}
+
+sr1645v2PimV4NeighborsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4NeighborsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4NeighborsGlobalIx,
+                sr1645v2PimV4NeighborsTableIx }
+   ::= {sr1645v2PimV4NeighborsSSCTable 1}
+
+Sr1645v2PimV4NeighborsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4NeighborsGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4NeighborsTableIx
+         TableIndex,
+      sr1645v2PimV4NeighborsInterface
+         DisplayString,
+      sr1645v2PimV4NeighborsPrimaryAddress
+         IpAddress,
+      sr1645v2PimV4NeighborsGenerationId
+         Counter32,
+      sr1645v2PimV4NeighborsDrPriority
+         Counter32,
+      sr1645v2PimV4NeighborsLiveness
+         TimeTicks
+      }
+
+sr1645v2PimV4NeighborsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4NeighborsEntry 10}
+
+sr1645v2PimV4NeighborsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4NeighborsEntry 11}
+
+sr1645v2PimV4NeighborsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.neighbors.interface"
+   ::= {sr1645v2PimV4NeighborsEntry 16777216}
+
+sr1645v2PimV4NeighborsPrimaryAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.neighbors.primaryAddress"
+   ::= {sr1645v2PimV4NeighborsEntry 33554432}
+
+sr1645v2PimV4NeighborsGenerationId OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.neighbors.generationId
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2PimV4NeighborsEntry 50331648}
+
+sr1645v2PimV4NeighborsDrPriority OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.neighbors.drPriority
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2PimV4NeighborsEntry 67108864}
+
+sr1645v2PimV4NeighborsLiveness OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.neighbors.liveness
+
+       Time in centi-second."
+   ::= {sr1645v2PimV4NeighborsEntry 83886080}
+
+
+sr1645v2PimV4Bsr OBJECT IDENTIFIER ::= {sr1645v2PimV4 23}
+
+sr1645v2PimV4BsrSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4BsrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pim bsr status"
+   ::= {sr1645v2PimV4Bsr 1}
+
+sr1645v2PimV4BsrEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4BsrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4BsrGlobalIx }
+   ::= {sr1645v2PimV4BsrSSCTable 1}
+
+Sr1645v2PimV4BsrEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4BsrGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4BsrMyAddress
+         IpAddress,
+      sr1645v2PimV4BsrBsrAddress
+         IpAddress,
+      sr1645v2PimV4BsrBsrPriority
+         Integer32,
+      sr1645v2PimV4BsrBsrHashMaskLength
+         Integer32
+      }
+
+sr1645v2PimV4BsrGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4BsrEntry 10}
+
+sr1645v2PimV4BsrMyAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.bsr.myAddress"
+   ::= {sr1645v2PimV4BsrEntry 16777216}
+
+sr1645v2PimV4BsrBsrAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.bsr.bsrAddress"
+   ::= {sr1645v2PimV4BsrEntry 33554432}
+
+sr1645v2PimV4BsrBsrPriority OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.bsr.bsrPriority"
+   ::= {sr1645v2PimV4BsrEntry 50331648}
+
+sr1645v2PimV4BsrBsrHashMaskLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.bsr.bsrHashMaskLength"
+   ::= {sr1645v2PimV4BsrEntry 67108864}
+
+
+sr1645v2PimV4CandidateRps OBJECT IDENTIFIER ::= {sr1645v2PimV4 24}
+
+sr1645v2PimV4CandidateRpsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4CandidateRpsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pim candidate rp status table"
+   ::= {sr1645v2PimV4CandidateRps 1}
+
+sr1645v2PimV4CandidateRpsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4CandidateRpsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4CandidateRpsGlobalIx,
+                sr1645v2PimV4CandidateRpsTableIx }
+   ::= {sr1645v2PimV4CandidateRpsSSCTable 1}
+
+Sr1645v2PimV4CandidateRpsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4CandidateRpsGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4CandidateRpsTableIx
+         TableIndex,
+      sr1645v2PimV4CandidateRpsAddress
+         IpAddress,
+      sr1645v2PimV4CandidateRpsInterface
+         DisplayString,
+      sr1645v2PimV4CandidateRpsUpstreamNbr
+         IpAddress,
+      sr1645v2PimV4CandidateRpsMetric
+         Counter32,
+      sr1645v2PimV4CandidateRpsPreference
+         Counter32
+      }
+
+sr1645v2PimV4CandidateRpsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4CandidateRpsEntry 10}
+
+sr1645v2PimV4CandidateRpsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4CandidateRpsEntry 11}
+
+sr1645v2PimV4CandidateRpsAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.candidateRps.address"
+   ::= {sr1645v2PimV4CandidateRpsEntry 16777216}
+
+sr1645v2PimV4CandidateRpsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.candidateRps.interface"
+   ::= {sr1645v2PimV4CandidateRpsEntry 33554432}
+
+sr1645v2PimV4CandidateRpsUpstreamNbr OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.candidateRps.upstreamNbr"
+   ::= {sr1645v2PimV4CandidateRpsEntry 50331648}
+
+sr1645v2PimV4CandidateRpsMetric OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.candidateRps.metric
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2PimV4CandidateRpsEntry 67108864}
+
+sr1645v2PimV4CandidateRpsPreference OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.candidateRps.preference
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2PimV4CandidateRpsEntry 83886080}
+
+
+sr1645v2PimV4Groups OBJECT IDENTIFIER ::= {sr1645v2PimV4 25}
+
+sr1645v2PimV4GroupsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4GroupsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pim group status table"
+   ::= {sr1645v2PimV4Groups 1}
+
+sr1645v2PimV4GroupsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4GroupsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4GroupsGlobalIx,
+                sr1645v2PimV4GroupsTableIx }
+   ::= {sr1645v2PimV4GroupsSSCTable 1}
+
+Sr1645v2PimV4GroupsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4GroupsGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4GroupsTableIx
+         TableIndex,
+      sr1645v2PimV4GroupsAddress
+         IpAddress,
+      sr1645v2PimV4GroupsRdvzPoint
+         IpAddress
+      }
+
+sr1645v2PimV4GroupsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4GroupsEntry 10}
+
+sr1645v2PimV4GroupsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4GroupsEntry 11}
+
+sr1645v2PimV4GroupsAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.groups.address"
+   ::= {sr1645v2PimV4GroupsEntry 16777216}
+
+sr1645v2PimV4GroupsRdvzPoint OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.groups.rdvzPoint"
+   ::= {sr1645v2PimV4GroupsEntry 33554432}
+
+sr1645v2PimV4GroupsOutgoing OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4GroupsOutgoingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4Groups 50331648}
+
+sr1645v2PimV4GroupsOutgoingEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4GroupsOutgoingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4GroupsOutgoingGlobalIx,
+                sr1645v2PimV4GroupsTableIx,
+                sr1645v2PimV4GroupsOutgoingTableIx }
+   ::= {sr1645v2PimV4GroupsOutgoing 1}
+
+Sr1645v2PimV4GroupsOutgoingEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4GroupsOutgoingGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4GroupsOutgoingTableIx
+         TableIndex,
+      sr1645v2PimV4GroupsOutgoingName
+         DisplayString
+      }
+
+sr1645v2PimV4GroupsOutgoingGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4GroupsOutgoingEntry 10}
+
+sr1645v2PimV4GroupsOutgoingTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4GroupsOutgoingEntry 11}
+
+sr1645v2PimV4GroupsOutgoingName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.groups.outgoing.name"
+   ::= {sr1645v2PimV4GroupsOutgoingEntry 16777216}
+
+sr1645v2PimV4GroupsJoined OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4GroupsJoinedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4Groups 67108864}
+
+sr1645v2PimV4GroupsJoinedEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4GroupsJoinedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4GroupsJoinedGlobalIx,
+                sr1645v2PimV4GroupsTableIx,
+                sr1645v2PimV4GroupsJoinedTableIx }
+   ::= {sr1645v2PimV4GroupsJoined 1}
+
+Sr1645v2PimV4GroupsJoinedEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4GroupsJoinedGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4GroupsJoinedTableIx
+         TableIndex,
+      sr1645v2PimV4GroupsJoinedName
+         DisplayString
+      }
+
+sr1645v2PimV4GroupsJoinedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4GroupsJoinedEntry 10}
+
+sr1645v2PimV4GroupsJoinedTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4GroupsJoinedEntry 11}
+
+sr1645v2PimV4GroupsJoinedName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.groups.joined.name"
+   ::= {sr1645v2PimV4GroupsJoinedEntry 16777216}
+
+sr1645v2PimV4GroupsPruned OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4GroupsPrunedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4Groups 83886080}
+
+sr1645v2PimV4GroupsPrunedEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4GroupsPrunedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4GroupsPrunedGlobalIx,
+                sr1645v2PimV4GroupsTableIx,
+                sr1645v2PimV4GroupsPrunedTableIx }
+   ::= {sr1645v2PimV4GroupsPruned 1}
+
+Sr1645v2PimV4GroupsPrunedEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4GroupsPrunedGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4GroupsPrunedTableIx
+         TableIndex,
+      sr1645v2PimV4GroupsPrunedName
+         DisplayString
+      }
+
+sr1645v2PimV4GroupsPrunedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4GroupsPrunedEntry 10}
+
+sr1645v2PimV4GroupsPrunedTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4GroupsPrunedEntry 11}
+
+sr1645v2PimV4GroupsPrunedName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.groups.pruned.name"
+   ::= {sr1645v2PimV4GroupsPrunedEntry 16777216}
+
+sr1645v2PimV4GroupsAsserted OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4GroupsAssertedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4Groups 100663296}
+
+sr1645v2PimV4GroupsAssertedEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4GroupsAssertedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4GroupsAssertedGlobalIx,
+                sr1645v2PimV4GroupsTableIx,
+                sr1645v2PimV4GroupsAssertedTableIx }
+   ::= {sr1645v2PimV4GroupsAsserted 1}
+
+Sr1645v2PimV4GroupsAssertedEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4GroupsAssertedGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4GroupsAssertedTableIx
+         TableIndex,
+      sr1645v2PimV4GroupsAssertedName
+         DisplayString
+      }
+
+sr1645v2PimV4GroupsAssertedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4GroupsAssertedEntry 10}
+
+sr1645v2PimV4GroupsAssertedTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4GroupsAssertedEntry 11}
+
+sr1645v2PimV4GroupsAssertedName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.groups.asserted.name"
+   ::= {sr1645v2PimV4GroupsAssertedEntry 16777216}
+
+sr1645v2PimV4GroupsLeaves OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4GroupsLeavesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4Groups 117440512}
+
+sr1645v2PimV4GroupsLeavesEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4GroupsLeavesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4GroupsLeavesGlobalIx,
+                sr1645v2PimV4GroupsTableIx,
+                sr1645v2PimV4GroupsLeavesTableIx }
+   ::= {sr1645v2PimV4GroupsLeaves 1}
+
+Sr1645v2PimV4GroupsLeavesEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4GroupsLeavesGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4GroupsLeavesTableIx
+         TableIndex,
+      sr1645v2PimV4GroupsLeavesName
+         DisplayString
+      }
+
+sr1645v2PimV4GroupsLeavesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4GroupsLeavesEntry 10}
+
+sr1645v2PimV4GroupsLeavesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4GroupsLeavesEntry 11}
+
+sr1645v2PimV4GroupsLeavesName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.groups.leaves.name"
+   ::= {sr1645v2PimV4GroupsLeavesEntry 16777216}
+
+
+sr1645v2PimV4Routes OBJECT IDENTIFIER ::= {sr1645v2PimV4 27}
+
+sr1645v2PimV4RoutesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4RoutesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pim route status table"
+   ::= {sr1645v2PimV4Routes 1}
+
+sr1645v2PimV4RoutesEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4RoutesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4RoutesGlobalIx,
+                sr1645v2PimV4RoutesTableIx }
+   ::= {sr1645v2PimV4RoutesSSCTable 1}
+
+Sr1645v2PimV4RoutesEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4RoutesGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4RoutesTableIx
+         TableIndex,
+      sr1645v2PimV4RoutesGroup
+         IpAddress,
+      sr1645v2PimV4RoutesSource
+         IpAddress
+      }
+
+sr1645v2PimV4RoutesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4RoutesEntry 10}
+
+sr1645v2PimV4RoutesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4RoutesEntry 11}
+
+sr1645v2PimV4RoutesGroup OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.routes.group"
+   ::= {sr1645v2PimV4RoutesEntry 33554432}
+
+sr1645v2PimV4RoutesSource OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.routes.source"
+   ::= {sr1645v2PimV4RoutesEntry 16777216}
+
+sr1645v2PimV4RoutesOutgoing OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4RoutesOutgoingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4Routes 50331648}
+
+sr1645v2PimV4RoutesOutgoingEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4RoutesOutgoingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4RoutesOutgoingGlobalIx,
+                sr1645v2PimV4RoutesTableIx,
+                sr1645v2PimV4RoutesOutgoingTableIx }
+   ::= {sr1645v2PimV4RoutesOutgoing 1}
+
+Sr1645v2PimV4RoutesOutgoingEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4RoutesOutgoingGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4RoutesOutgoingTableIx
+         TableIndex,
+      sr1645v2PimV4RoutesOutgoingName
+         DisplayString
+      }
+
+sr1645v2PimV4RoutesOutgoingGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4RoutesOutgoingEntry 10}
+
+sr1645v2PimV4RoutesOutgoingTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4RoutesOutgoingEntry 11}
+
+sr1645v2PimV4RoutesOutgoingName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.routes.outgoing.name"
+   ::= {sr1645v2PimV4RoutesOutgoingEntry 16777216}
+
+
+sr1645v2PimV4SnmpIndex OBJECT IDENTIFIER ::= {sr1645v2PimV4 269}
+
+sr1645v2PimV4SnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2PimV4SnmpIndex 1}
+
+sr1645v2PimV4SnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4SnmpIndexGlobalIx }
+   ::= {sr1645v2PimV4SnmpIndexTable 1}
+
+Sr1645v2PimV4SnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4SnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4SnmpIndexValue
+         Integer32
+      }
+
+sr1645v2PimV4SnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4SnmpIndexEntry 10}
+
+sr1645v2PimV4SnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.snmpIndex"
+   ::= {sr1645v2PimV4SnmpIndexEntry 2147483648}
+
+
+sr1645v2PimV4GroupMasks OBJECT IDENTIFIER ::= {sr1645v2PimV4 80}
+
+sr1645v2PimV4GroupMasksSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4GroupMasksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pim group mask status table"
+   ::= {sr1645v2PimV4GroupMasks 1}
+
+sr1645v2PimV4GroupMasksEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4GroupMasksEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4GroupMasksGlobalIx,
+                sr1645v2PimV4GroupMasksTableIx }
+   ::= {sr1645v2PimV4GroupMasksSSCTable 1}
+
+Sr1645v2PimV4GroupMasksEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4GroupMasksGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4GroupMasksTableIx
+         TableIndex,
+      sr1645v2PimV4GroupMasksAddress
+         IpAddress,
+      sr1645v2PimV4GroupMasksMask
+         IpAddress
+      }
+
+sr1645v2PimV4GroupMasksGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4GroupMasksEntry 10}
+
+sr1645v2PimV4GroupMasksTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4GroupMasksEntry 11}
+
+sr1645v2PimV4GroupMasksAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.groupMasks.address"
+   ::= {sr1645v2PimV4GroupMasksEntry 16777216}
+
+sr1645v2PimV4GroupMasksMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.groupMasks.mask"
+   ::= {sr1645v2PimV4GroupMasksEntry 33554432}
+
+
+sr1645v2PimV4InternalRoutes OBJECT IDENTIFIER ::= {sr1645v2PimV4 83}
+
+sr1645v2PimV4InternalRoutesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4InternalRoutesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pim route status table"
+   ::= {sr1645v2PimV4InternalRoutes 1}
+
+sr1645v2PimV4InternalRoutesEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4InternalRoutesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4InternalRoutesGlobalIx,
+                sr1645v2PimV4InternalRoutesTableIx }
+   ::= {sr1645v2PimV4InternalRoutesSSCTable 1}
+
+Sr1645v2PimV4InternalRoutesEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4InternalRoutesGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4InternalRoutesTableIx
+         TableIndex,
+      sr1645v2PimV4InternalRoutesGroup
+         IpAddress,
+      sr1645v2PimV4InternalRoutesSource
+         IpAddress,
+      sr1645v2PimV4InternalRoutesFlags
+         Integer32,
+      sr1645v2PimV4InternalRoutesIncomingIntf
+         DisplayString,
+      sr1645v2PimV4InternalRoutesUpstreamRtr
+         IpAddress,
+      sr1645v2PimV4InternalRoutesExpiry
+         TimeTicks,
+      sr1645v2PimV4InternalRoutesRegisterStop
+         TimeTicks,
+      sr1645v2PimV4InternalRoutesJoinPrune
+         TimeTicks,
+      sr1645v2PimV4InternalRoutesTables
+         DisplayString
+      }
+
+sr1645v2PimV4InternalRoutesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4InternalRoutesEntry 10}
+
+sr1645v2PimV4InternalRoutesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4InternalRoutesEntry 11}
+
+sr1645v2PimV4InternalRoutesGroup OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.group"
+   ::= {sr1645v2PimV4InternalRoutesEntry 33554432}
+
+sr1645v2PimV4InternalRoutesSource OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.source"
+   ::= {sr1645v2PimV4InternalRoutesEntry 16777216}
+
+sr1645v2PimV4InternalRoutesFlags OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.flags
+
+       Bit meanings:
+               bit 0 = spt,
+               bit 1 = wc,
+               bit 2 = rp,
+               bit 3 = new,
+               bit 6 = registered,
+               bit 9 = kernelCache,
+               bit 12 = asserted,
+               bit 13 = sg,
+               bit 14 = pmbr,
+               bit 15 = cloneSg"
+   ::= {sr1645v2PimV4InternalRoutesEntry 50331648}
+
+sr1645v2PimV4InternalRoutesIncomingIntf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.incomingIntf"
+   ::= {sr1645v2PimV4InternalRoutesEntry 67108864}
+
+sr1645v2PimV4InternalRoutesUpstreamRtr OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.upstreamRtr"
+   ::= {sr1645v2PimV4InternalRoutesEntry 83886080}
+
+sr1645v2PimV4InternalRoutesExpiry OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.expiry
+
+       Time in centi-second."
+   ::= {sr1645v2PimV4InternalRoutesEntry 184549376}
+
+sr1645v2PimV4InternalRoutesRegisterStop OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.registerStop
+
+       Time in centi-second."
+   ::= {sr1645v2PimV4InternalRoutesEntry 234881024}
+
+sr1645v2PimV4InternalRoutesJoinPrune OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.joinPrune
+
+       Time in centi-second."
+   ::= {sr1645v2PimV4InternalRoutesEntry 251658240}
+
+sr1645v2PimV4InternalRoutesTables OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.tables"
+   ::= {sr1645v2PimV4InternalRoutesEntry 201326592}
+
+sr1645v2PimV4InternalRoutesOutgoing OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4InternalRoutesOutgoingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4InternalRoutes 100663296}
+
+sr1645v2PimV4InternalRoutesOutgoingEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4InternalRoutesOutgoingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4InternalRoutesOutgoingGlobalIx,
+                sr1645v2PimV4InternalRoutesTableIx,
+                sr1645v2PimV4InternalRoutesOutgoingTableIx }
+   ::= {sr1645v2PimV4InternalRoutesOutgoing 1}
+
+Sr1645v2PimV4InternalRoutesOutgoingEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4InternalRoutesOutgoingGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4InternalRoutesOutgoingTableIx
+         TableIndex,
+      sr1645v2PimV4InternalRoutesOutgoingName
+         DisplayString
+      }
+
+sr1645v2PimV4InternalRoutesOutgoingGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4InternalRoutesOutgoingEntry 10}
+
+sr1645v2PimV4InternalRoutesOutgoingTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4InternalRoutesOutgoingEntry 11}
+
+sr1645v2PimV4InternalRoutesOutgoingName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.outgoing.name"
+   ::= {sr1645v2PimV4InternalRoutesOutgoingEntry 16777216}
+
+sr1645v2PimV4InternalRoutesJoined OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4InternalRoutesJoinedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4InternalRoutes 117440512}
+
+sr1645v2PimV4InternalRoutesJoinedEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4InternalRoutesJoinedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4InternalRoutesJoinedGlobalIx,
+                sr1645v2PimV4InternalRoutesTableIx,
+                sr1645v2PimV4InternalRoutesJoinedTableIx }
+   ::= {sr1645v2PimV4InternalRoutesJoined 1}
+
+Sr1645v2PimV4InternalRoutesJoinedEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4InternalRoutesJoinedGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4InternalRoutesJoinedTableIx
+         TableIndex,
+      sr1645v2PimV4InternalRoutesJoinedName
+         DisplayString
+      }
+
+sr1645v2PimV4InternalRoutesJoinedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4InternalRoutesJoinedEntry 10}
+
+sr1645v2PimV4InternalRoutesJoinedTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4InternalRoutesJoinedEntry 11}
+
+sr1645v2PimV4InternalRoutesJoinedName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.joined.name"
+   ::= {sr1645v2PimV4InternalRoutesJoinedEntry 16777216}
+
+sr1645v2PimV4InternalRoutesPruned OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4InternalRoutesPrunedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4InternalRoutes 134217728}
+
+sr1645v2PimV4InternalRoutesPrunedEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4InternalRoutesPrunedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4InternalRoutesPrunedGlobalIx,
+                sr1645v2PimV4InternalRoutesTableIx,
+                sr1645v2PimV4InternalRoutesPrunedTableIx }
+   ::= {sr1645v2PimV4InternalRoutesPruned 1}
+
+Sr1645v2PimV4InternalRoutesPrunedEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4InternalRoutesPrunedGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4InternalRoutesPrunedTableIx
+         TableIndex,
+      sr1645v2PimV4InternalRoutesPrunedName
+         DisplayString
+      }
+
+sr1645v2PimV4InternalRoutesPrunedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4InternalRoutesPrunedEntry 10}
+
+sr1645v2PimV4InternalRoutesPrunedTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4InternalRoutesPrunedEntry 11}
+
+sr1645v2PimV4InternalRoutesPrunedName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.pruned.name"
+   ::= {sr1645v2PimV4InternalRoutesPrunedEntry 16777216}
+
+sr1645v2PimV4InternalRoutesAsserted OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4InternalRoutesAssertedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4InternalRoutes 150994944}
+
+sr1645v2PimV4InternalRoutesAssertedEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4InternalRoutesAssertedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4InternalRoutesAssertedGlobalIx,
+                sr1645v2PimV4InternalRoutesTableIx,
+                sr1645v2PimV4InternalRoutesAssertedTableIx }
+   ::= {sr1645v2PimV4InternalRoutesAsserted 1}
+
+Sr1645v2PimV4InternalRoutesAssertedEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4InternalRoutesAssertedGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4InternalRoutesAssertedTableIx
+         TableIndex,
+      sr1645v2PimV4InternalRoutesAssertedName
+         DisplayString
+      }
+
+sr1645v2PimV4InternalRoutesAssertedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4InternalRoutesAssertedEntry 10}
+
+sr1645v2PimV4InternalRoutesAssertedTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4InternalRoutesAssertedEntry 11}
+
+sr1645v2PimV4InternalRoutesAssertedName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.asserted.name"
+   ::= {sr1645v2PimV4InternalRoutesAssertedEntry 16777216}
+
+sr1645v2PimV4InternalRoutesLeaves OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PimV4InternalRoutesLeavesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4InternalRoutes 167772160}
+
+sr1645v2PimV4InternalRoutesLeavesEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PimV4InternalRoutesLeavesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PimV4InternalRoutesLeavesGlobalIx,
+                sr1645v2PimV4InternalRoutesTableIx,
+                sr1645v2PimV4InternalRoutesLeavesTableIx }
+   ::= {sr1645v2PimV4InternalRoutesLeaves 1}
+
+Sr1645v2PimV4InternalRoutesLeavesEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PimV4InternalRoutesLeavesGlobalIx
+         GlobalIndex,
+      sr1645v2PimV4InternalRoutesLeavesTableIx
+         TableIndex,
+      sr1645v2PimV4InternalRoutesLeavesName
+         DisplayString
+      }
+
+sr1645v2PimV4InternalRoutesLeavesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PimV4InternalRoutesLeavesEntry 10}
+
+sr1645v2PimV4InternalRoutesLeavesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2PimV4InternalRoutesLeavesEntry 11}
+
+sr1645v2PimV4InternalRoutesLeavesName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.status.internalRoutes.leaves.name"
+   ::= {sr1645v2PimV4InternalRoutesLeavesEntry 16777216}
+
+
+
+pr1645v2PimV4 OBJECT IDENTIFIER ::= {r1645v2PimV4 12}
+
+
+pr1645v2PimV4Packets OBJECT IDENTIFIER ::= {pr1645v2PimV4 50}
+
+pr1645v2PimV4PacketsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PimV4PacketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "single counter attrib"
+   ::= {pr1645v2PimV4Packets 1}
+
+pr1645v2PimV4PacketsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PimV4PacketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PimV4PacketsGlobalIx }
+   ::= {pr1645v2PimV4PacketsSSCTable 1}
+
+Pr1645v2PimV4PacketsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PimV4PacketsGlobalIx
+         GlobalIndex,
+      pr1645v2PimV4PacketsRegisterRcvd
+         Counter32,
+      pr1645v2PimV4PacketsRegisterSent
+         Counter32,
+      pr1645v2PimV4PacketsRegisterStopRcvd
+         Counter32,
+      pr1645v2PimV4PacketsRegisterStopSent
+         Counter32,
+      pr1645v2PimV4PacketsNullRegisterRcvd
+         Counter32,
+      pr1645v2PimV4PacketsNullRegisterSent
+         Counter32
+      }
+
+pr1645v2PimV4PacketsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PimV4PacketsEntry 10}
+
+pr1645v2PimV4PacketsRegisterRcvd OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.packets.registerRcvd
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4PacketsEntry 16777216}
+
+pr1645v2PimV4PacketsRegisterSent OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.packets.registerSent
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4PacketsEntry 33554432}
+
+pr1645v2PimV4PacketsRegisterStopRcvd OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.packets.registerStopRcvd
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4PacketsEntry 50331648}
+
+pr1645v2PimV4PacketsRegisterStopSent OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.packets.registerStopSent
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4PacketsEntry 67108864}
+
+pr1645v2PimV4PacketsNullRegisterRcvd OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.packets.nullRegisterRcvd
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4PacketsEntry 83886080}
+
+pr1645v2PimV4PacketsNullRegisterSent OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.packets.nullRegisterSent
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4PacketsEntry 100663296}
+
+
+pr1645v2PimV4Routes OBJECT IDENTIFIER ::= {pr1645v2PimV4 52}
+
+pr1645v2PimV4RoutesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PimV4RoutesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pim route performance table"
+   ::= {pr1645v2PimV4Routes 1}
+
+pr1645v2PimV4RoutesEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PimV4RoutesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PimV4RoutesGlobalIx,
+                pr1645v2PimV4RoutesTableIx }
+   ::= {pr1645v2PimV4RoutesSSCTable 1}
+
+Pr1645v2PimV4RoutesEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PimV4RoutesGlobalIx
+         GlobalIndex,
+      pr1645v2PimV4RoutesTableIx
+         TableIndex,
+      pr1645v2PimV4RoutesGroup
+         IpAddress,
+      pr1645v2PimV4RoutesSource
+         IpAddress,
+      pr1645v2PimV4RoutesPackets
+         Counter32,
+      pr1645v2PimV4RoutesBytes
+         Counter32
+      }
+
+pr1645v2PimV4RoutesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PimV4RoutesEntry 10}
+
+pr1645v2PimV4RoutesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PimV4RoutesEntry 11}
+
+pr1645v2PimV4RoutesGroup OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.routes.group"
+   ::= {pr1645v2PimV4RoutesEntry 33554432}
+
+pr1645v2PimV4RoutesSource OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.routes.source"
+   ::= {pr1645v2PimV4RoutesEntry 16777216}
+
+pr1645v2PimV4RoutesPackets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.routes.packets
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4RoutesEntry 67108864}
+
+pr1645v2PimV4RoutesBytes OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.routes.bytes
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4RoutesEntry 83886080}
+
+pr1645v2PimV4RoutesOutgoing OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PimV4RoutesOutgoingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PimV4Routes 50331648}
+
+pr1645v2PimV4RoutesOutgoingEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PimV4RoutesOutgoingEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PimV4RoutesOutgoingGlobalIx,
+                pr1645v2PimV4RoutesTableIx,
+                pr1645v2PimV4RoutesOutgoingTableIx }
+   ::= {pr1645v2PimV4RoutesOutgoing 1}
+
+Pr1645v2PimV4RoutesOutgoingEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PimV4RoutesOutgoingGlobalIx
+         GlobalIndex,
+      pr1645v2PimV4RoutesOutgoingTableIx
+         TableIndex,
+      pr1645v2PimV4RoutesOutgoingName
+         DisplayString
+      }
+
+pr1645v2PimV4RoutesOutgoingGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PimV4RoutesOutgoingEntry 10}
+
+pr1645v2PimV4RoutesOutgoingTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PimV4RoutesOutgoingEntry 11}
+
+pr1645v2PimV4RoutesOutgoingName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.routes.outgoing.name"
+   ::= {pr1645v2PimV4RoutesOutgoingEntry 16777216}
+
+
+pr1645v2PimV4Interfaces OBJECT IDENTIFIER ::= {pr1645v2PimV4 53}
+
+pr1645v2PimV4InterfacesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PimV4InterfacesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pim interface performance table"
+   ::= {pr1645v2PimV4Interfaces 1}
+
+pr1645v2PimV4InterfacesEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PimV4InterfacesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PimV4InterfacesGlobalIx,
+                pr1645v2PimV4InterfacesTableIx }
+   ::= {pr1645v2PimV4InterfacesSSCTable 1}
+
+Pr1645v2PimV4InterfacesEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PimV4InterfacesGlobalIx
+         GlobalIndex,
+      pr1645v2PimV4InterfacesTableIx
+         TableIndex,
+      pr1645v2PimV4InterfacesName
+         DisplayString,
+      pr1645v2PimV4InterfacesAddress
+         IpAddress,
+      pr1645v2PimV4InterfacesGenerationId
+         Counter32,
+      pr1645v2PimV4InterfacesDr
+         IpAddress,
+      pr1645v2PimV4InterfacesRcvdPkts
+         Counter32,
+      pr1645v2PimV4InterfacesSentJpPkts
+         Counter32
+      }
+
+pr1645v2PimV4InterfacesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PimV4InterfacesEntry 10}
+
+pr1645v2PimV4InterfacesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PimV4InterfacesEntry 11}
+
+pr1645v2PimV4InterfacesName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.interfaces.name"
+   ::= {pr1645v2PimV4InterfacesEntry 16777216}
+
+pr1645v2PimV4InterfacesAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.interfaces.address"
+   ::= {pr1645v2PimV4InterfacesEntry 33554432}
+
+pr1645v2PimV4InterfacesGenerationId OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.interfaces.generationId
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4InterfacesEntry 50331648}
+
+pr1645v2PimV4InterfacesDr OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.interfaces.dr"
+   ::= {pr1645v2PimV4InterfacesEntry 67108864}
+
+pr1645v2PimV4InterfacesRcvdPkts OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.interfaces.rcvdPkts
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4InterfacesEntry 83886080}
+
+pr1645v2PimV4InterfacesSentJpPkts OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.interfaces.sentJpPkts
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4InterfacesEntry 100663296}
+
+
+pr1645v2PimV4Neighbors OBJECT IDENTIFIER ::= {pr1645v2PimV4 54}
+
+pr1645v2PimV4NeighborsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PimV4NeighborsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pim neighbor performance table"
+   ::= {pr1645v2PimV4Neighbors 1}
+
+pr1645v2PimV4NeighborsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PimV4NeighborsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PimV4NeighborsGlobalIx,
+                pr1645v2PimV4NeighborsTableIx }
+   ::= {pr1645v2PimV4NeighborsSSCTable 1}
+
+Pr1645v2PimV4NeighborsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PimV4NeighborsGlobalIx
+         GlobalIndex,
+      pr1645v2PimV4NeighborsTableIx
+         TableIndex,
+      pr1645v2PimV4NeighborsInterface
+         DisplayString,
+      pr1645v2PimV4NeighborsPrimaryAddress
+         IpAddress,
+      pr1645v2PimV4NeighborsGenerationId
+         Counter32,
+      pr1645v2PimV4NeighborsDrPriority
+         Counter32,
+      pr1645v2PimV4NeighborsLiveness
+         TimeTicks,
+      pr1645v2PimV4NeighborsRcvdHelloPkts
+         Counter32,
+      pr1645v2PimV4NeighborsRcvdJpPkts
+         Counter32
+      }
+
+pr1645v2PimV4NeighborsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PimV4NeighborsEntry 10}
+
+pr1645v2PimV4NeighborsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PimV4NeighborsEntry 11}
+
+pr1645v2PimV4NeighborsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.neighbors.interface"
+   ::= {pr1645v2PimV4NeighborsEntry 16777216}
+
+pr1645v2PimV4NeighborsPrimaryAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.neighbors.primaryAddress"
+   ::= {pr1645v2PimV4NeighborsEntry 33554432}
+
+pr1645v2PimV4NeighborsGenerationId OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.neighbors.generationId
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4NeighborsEntry 50331648}
+
+pr1645v2PimV4NeighborsDrPriority OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.neighbors.drPriority
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4NeighborsEntry 67108864}
+
+pr1645v2PimV4NeighborsLiveness OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.neighbors.liveness
+
+       Time in centi-second."
+   ::= {pr1645v2PimV4NeighborsEntry 83886080}
+
+pr1645v2PimV4NeighborsRcvdHelloPkts OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.neighbors.rcvdHelloPkts
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4NeighborsEntry 100663296}
+
+pr1645v2PimV4NeighborsRcvdJpPkts OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.neighbors.rcvdJpPkts
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4NeighborsEntry 117440512}
+
+
+pr1645v2PimV4Events OBJECT IDENTIFIER ::= {pr1645v2PimV4 84}
+
+pr1645v2PimV4EventsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PimV4EventsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "single counter attrib"
+   ::= {pr1645v2PimV4Events 1}
+
+pr1645v2PimV4EventsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PimV4EventsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PimV4EventsGlobalIx }
+   ::= {pr1645v2PimV4EventsSSCTable 1}
+
+Pr1645v2PimV4EventsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PimV4EventsGlobalIx
+         GlobalIndex,
+      pr1645v2PimV4EventsCacheLookups
+         Counter32,
+      pr1645v2PimV4EventsCacheMisses
+         Counter32,
+      pr1645v2PimV4EventsWrongInterface
+         Counter32,
+      pr1645v2PimV4EventsDiscardSsm
+         Counter32,
+      pr1645v2PimV4EventsDiscardRcvdSg
+         Counter32
+      }
+
+pr1645v2PimV4EventsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PimV4EventsEntry 10}
+
+pr1645v2PimV4EventsCacheLookups OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.events.cacheLookups
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4EventsEntry 16777216}
+
+pr1645v2PimV4EventsCacheMisses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.events.cacheMisses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4EventsEntry 33554432}
+
+pr1645v2PimV4EventsWrongInterface OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.events.wrongInterface
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4EventsEntry 50331648}
+
+pr1645v2PimV4EventsDiscardSsm OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.events.discardSsm
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4EventsEntry 67108864}
+
+pr1645v2PimV4EventsDiscardRcvdSg OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.performance.events.discardRcvdSg
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PimV4EventsEntry 83886080}
+
+
+
+ar1645v2PimV4 OBJECT IDENTIFIER ::= {r1645v2PimV4 16}
+
+
+ar1645v2PimV4DisableTimeOut OBJECT IDENTIFIER ::= {ar1645v2PimV4 106}
+
+ar1645v2PimV4DisableTimeOutTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2PimV4DisableTimeOutEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "disable timing out of routes"
+   ::= {ar1645v2PimV4DisableTimeOut 1}
+
+ar1645v2PimV4DisableTimeOutEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2PimV4DisableTimeOutEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2PimV4DisableTimeOutGlobalIx }
+   ::= {ar1645v2PimV4DisableTimeOutTable 1}
+
+Ar1645v2PimV4DisableTimeOutEntry ::=
+   SEQUENCE
+      {
+      ar1645v2PimV4DisableTimeOutGlobalIx
+         GlobalIndex,
+      ar1645v2PimV4DisableTimeOutValue
+         Integer32
+      }
+
+ar1645v2PimV4DisableTimeOutGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2PimV4DisableTimeOutEntry 10}
+
+ar1645v2PimV4DisableTimeOutValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.disableTimeOut"
+   ::= {ar1645v2PimV4DisableTimeOutEntry 2147483648}
+
+
+ar1645v2PimV4RcvMulticast OBJECT IDENTIFIER ::= {ar1645v2PimV4 104}
+
+ar1645v2PimV4RcvMulticastTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2PimV4RcvMulticastEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "receive multicast stream"
+   ::= {ar1645v2PimV4RcvMulticast 1}
+
+ar1645v2PimV4RcvMulticastEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2PimV4RcvMulticastEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2PimV4RcvMulticastGlobalIx }
+   ::= {ar1645v2PimV4RcvMulticastTable 1}
+
+Ar1645v2PimV4RcvMulticastEntry ::=
+   SEQUENCE
+      {
+      ar1645v2PimV4RcvMulticastGlobalIx
+         GlobalIndex,
+      ar1645v2PimV4RcvMulticastValue
+         Integer32
+      }
+
+ar1645v2PimV4RcvMulticastGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2PimV4RcvMulticastEntry 10}
+
+ar1645v2PimV4RcvMulticastValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.rcvMulticast"
+   ::= {ar1645v2PimV4RcvMulticastEntry 2147483648}
+
+
+ar1645v2PimV4RcvInfo OBJECT IDENTIFIER ::= {ar1645v2PimV4 105}
+
+ar1645v2PimV4RcvInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2PimV4RcvInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {ar1645v2PimV4RcvInfo 1}
+
+ar1645v2PimV4RcvInfoEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2PimV4RcvInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2PimV4RcvInfoGlobalIx }
+   ::= {ar1645v2PimV4RcvInfoSSCTable 1}
+
+Ar1645v2PimV4RcvInfoEntry ::=
+   SEQUENCE
+      {
+      ar1645v2PimV4RcvInfoGlobalIx
+         GlobalIndex,
+      ar1645v2PimV4RcvInfoGroup
+         IpAddress
+      }
+
+ar1645v2PimV4RcvInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2PimV4RcvInfoEntry 10}
+
+ar1645v2PimV4RcvInfoGroup OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.rcvInfo.group"
+   ::= {ar1645v2PimV4RcvInfoEntry 16777216}
+
+
+ar1645v2PimV4SendMulticast OBJECT IDENTIFIER ::= {ar1645v2PimV4 102}
+
+ar1645v2PimV4SendMulticastTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2PimV4SendMulticastEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "send multicast stream"
+   ::= {ar1645v2PimV4SendMulticast 1}
+
+ar1645v2PimV4SendMulticastEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2PimV4SendMulticastEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2PimV4SendMulticastGlobalIx }
+   ::= {ar1645v2PimV4SendMulticastTable 1}
+
+Ar1645v2PimV4SendMulticastEntry ::=
+   SEQUENCE
+      {
+      ar1645v2PimV4SendMulticastGlobalIx
+         GlobalIndex,
+      ar1645v2PimV4SendMulticastValue
+         Integer32
+      }
+
+ar1645v2PimV4SendMulticastGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2PimV4SendMulticastEntry 10}
+
+ar1645v2PimV4SendMulticastValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.sendMulticast"
+   ::= {ar1645v2PimV4SendMulticastEntry 2147483648}
+
+
+ar1645v2PimV4SendInfo OBJECT IDENTIFIER ::= {ar1645v2PimV4 103}
+
+ar1645v2PimV4SendInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2PimV4SendInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {ar1645v2PimV4SendInfo 1}
+
+ar1645v2PimV4SendInfoEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2PimV4SendInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2PimV4SendInfoGlobalIx }
+   ::= {ar1645v2PimV4SendInfoSSCTable 1}
+
+Ar1645v2PimV4SendInfoEntry ::=
+   SEQUENCE
+      {
+      ar1645v2PimV4SendInfoGlobalIx
+         GlobalIndex,
+      ar1645v2PimV4SendInfoGroup
+         IpAddress,
+      ar1645v2PimV4SendInfoInterface
+         DisplayString,
+      ar1645v2PimV4SendInfoSource
+         IpAddress,
+      ar1645v2PimV4SendInfoProtocol
+         Integer32,
+      ar1645v2PimV4SendInfoNrPackets
+         Counter32,
+      ar1645v2PimV4SendInfoInterval
+         TimeTicks
+      }
+
+ar1645v2PimV4SendInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2PimV4SendInfoEntry 10}
+
+ar1645v2PimV4SendInfoGroup OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.sendInfo.group"
+   ::= {ar1645v2PimV4SendInfoEntry 16777216}
+
+ar1645v2PimV4SendInfoInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.sendInfo.interface"
+   ::= {ar1645v2PimV4SendInfoEntry 33554432}
+
+ar1645v2PimV4SendInfoSource OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.sendInfo.source"
+   ::= {ar1645v2PimV4SendInfoEntry 50331648}
+
+ar1645v2PimV4SendInfoProtocol OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.sendInfo.protocol"
+   ::= {ar1645v2PimV4SendInfoEntry 67108864}
+
+ar1645v2PimV4SendInfoNrPackets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.sendInfo.nrPackets
+
+       32 bit unsigned wrappable counter."
+   ::= {ar1645v2PimV4SendInfoEntry 83886080}
+
+ar1645v2PimV4SendInfoInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.sendInfo.interval
+
+       Time in centi-second."
+   ::= {ar1645v2PimV4SendInfoEntry 100663296}
+
+
+ar1645v2PimV4AddLeaf OBJECT IDENTIFIER ::= {ar1645v2PimV4 100}
+
+ar1645v2PimV4AddLeafTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2PimV4AddLeafEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "force a leaf entry"
+   ::= {ar1645v2PimV4AddLeaf 1}
+
+ar1645v2PimV4AddLeafEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2PimV4AddLeafEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2PimV4AddLeafGlobalIx }
+   ::= {ar1645v2PimV4AddLeafTable 1}
+
+Ar1645v2PimV4AddLeafEntry ::=
+   SEQUENCE
+      {
+      ar1645v2PimV4AddLeafGlobalIx
+         GlobalIndex,
+      ar1645v2PimV4AddLeafValue
+         Integer32
+      }
+
+ar1645v2PimV4AddLeafGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2PimV4AddLeafEntry 10}
+
+ar1645v2PimV4AddLeafValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.addLeaf"
+   ::= {ar1645v2PimV4AddLeafEntry 2147483648}
+
+
+ar1645v2PimV4LeafInfo OBJECT IDENTIFIER ::= {ar1645v2PimV4 101}
+
+ar1645v2PimV4LeafInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2PimV4LeafInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "attribute type to create a multicast group request"
+   ::= {ar1645v2PimV4LeafInfo 1}
+
+ar1645v2PimV4LeafInfoEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2PimV4LeafInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2PimV4LeafInfoGlobalIx }
+   ::= {ar1645v2PimV4LeafInfoSSCTable 1}
+
+Ar1645v2PimV4LeafInfoEntry ::=
+   SEQUENCE
+      {
+      ar1645v2PimV4LeafInfoGlobalIx
+         GlobalIndex,
+      ar1645v2PimV4LeafInfoInterface
+         DisplayString,
+      ar1645v2PimV4LeafInfoSource
+         IpAddress,
+      ar1645v2PimV4LeafInfoGroup
+         IpAddress
+      }
+
+ar1645v2PimV4LeafInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2PimV4LeafInfoEntry 10}
+
+ar1645v2PimV4LeafInfoInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.leafInfo.interface"
+   ::= {ar1645v2PimV4LeafInfoEntry 16777216}
+
+ar1645v2PimV4LeafInfoSource OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.leafInfo.source"
+   ::= {ar1645v2PimV4LeafInfoEntry 33554432}
+
+ar1645v2PimV4LeafInfoGroup OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.leafInfo.group"
+   ::= {ar1645v2PimV4LeafInfoEntry 50331648}
+
+
+ar1645v2PimV4ClearCounters OBJECT IDENTIFIER ::= {ar1645v2PimV4 263}
+
+ar1645v2PimV4ClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2PimV4ClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1645v2PimV4ClearCounters 1}
+
+ar1645v2PimV4ClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2PimV4ClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2PimV4ClearCountersGlobalIx }
+   ::= {ar1645v2PimV4ClearCountersTable 1}
+
+Ar1645v2PimV4ClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1645v2PimV4ClearCountersGlobalIx
+         GlobalIndex,
+      ar1645v2PimV4ClearCountersValue
+         Integer32
+      }
+
+ar1645v2PimV4ClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2PimV4ClearCountersEntry 10}
+
+ar1645v2PimV4ClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: pim.actions.clearCounters"
+   ::= {ar1645v2PimV4ClearCountersEntry 2147483648}
+
+
+
+END

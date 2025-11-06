@@ -1,0 +1,902 @@
+OneAccess-R1645v2-2126-Policies DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Policies OBJECT IDENTIFIER ::= {r1645Rootv2 2126}
+
+r1645v2PoliciesMOProp OBJECT IDENTIFIER ::= {r1645v2Policies 1}
+
+r1645v2PoliciesMOPropEntry OBJECT IDENTIFIER ::= {r1645v2PoliciesMOProp 1}
+
+r1645v2PoliciesMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2PoliciesMOPropEntry 3}
+
+r1645v2PoliciesMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2PoliciesMOPropEntry 4}
+
+
+
+er1645v2Policies OBJECT IDENTIFIER ::= {r1645v2Policies 11}
+
+
+er1645v2PoliciesLimiters OBJECT IDENTIFIER ::= {er1645v2Policies 6}
+
+er1645v2PoliciesLimitersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PoliciesLimitersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "table of bandwidth limiters"
+   ::= {er1645v2PoliciesLimiters 1}
+
+er1645v2PoliciesLimitersEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PoliciesLimitersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PoliciesLimitersTableIx }
+   ::= {er1645v2PoliciesLimitersSSCTable 1}
+
+Er1645v2PoliciesLimitersEntry ::=
+   SEQUENCE
+      {
+      er1645v2PoliciesLimitersActions
+         VariableLengthTableActions,
+      er1645v2PoliciesLimitersTableIx
+         TableIndex,
+      er1645v2PoliciesLimitersName
+         DisplayString,
+      er1645v2PoliciesLimitersCir
+         Integer32,
+      er1645v2PoliciesLimitersCbs
+         Integer32,
+      er1645v2PoliciesLimitersEir
+         Integer32,
+      er1645v2PoliciesLimitersEbs
+         Integer32,
+      er1645v2PoliciesLimitersDeFlagCir
+         INTEGER,
+      er1645v2PoliciesLimitersDeFlagEir
+         INTEGER,
+      er1645v2PoliciesLimitersCorrectionOverhead
+         Integer32,
+      er1645v2PoliciesLimitersLimiter
+         DisplayString
+      }
+
+er1645v2PoliciesLimitersActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2PoliciesLimitersEntry 2}
+
+er1645v2PoliciesLimitersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2PoliciesLimitersEntry 11}
+
+er1645v2PoliciesLimitersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.limiters.name"
+   ::= {er1645v2PoliciesLimitersEntry 16777216}
+
+er1645v2PoliciesLimitersCir OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.limiters.cir"
+   ::= {er1645v2PoliciesLimitersEntry 33554432}
+
+er1645v2PoliciesLimitersCbs OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.limiters.cbs"
+   ::= {er1645v2PoliciesLimitersEntry 50331648}
+
+er1645v2PoliciesLimitersEir OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.limiters.eir"
+   ::= {er1645v2PoliciesLimitersEntry 67108864}
+
+er1645v2PoliciesLimitersEbs OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.limiters.ebs"
+   ::= {er1645v2PoliciesLimitersEntry 83886080}
+
+er1645v2PoliciesLimitersDeFlagCir OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               allowed (1),
+               notAllowed (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.limiters.deFlag.cir
+
+       Possibilities:
+               allowed   (1)
+               notAllowed   (2)"
+   ::= {er1645v2PoliciesLimitersEntry 134283264}
+
+er1645v2PoliciesLimitersDeFlagEir OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               allowed (1),
+               notAllowed (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.limiters.deFlag.eir
+
+       Possibilities:
+               allowed   (1)
+               notAllowed   (2)"
+   ::= {er1645v2PoliciesLimitersEntry 134348800}
+
+er1645v2PoliciesLimitersCorrectionOverhead OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.limiters.correction.overhead"
+   ::= {er1645v2PoliciesLimitersEntry 100728832}
+
+er1645v2PoliciesLimitersLimiter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.limiters.limiter"
+   ::= {er1645v2PoliciesLimitersEntry 117440512}
+
+
+
+pr1645v2Policies OBJECT IDENTIFIER ::= {r1645v2Policies 12}
+
+
+pr1645v2PoliciesLimiters OBJECT IDENTIFIER ::= {pr1645v2Policies 7}
+
+pr1645v2PoliciesLimitersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PoliciesLimitersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "table of bandwidth limiters"
+   ::= {pr1645v2PoliciesLimiters 1}
+
+pr1645v2PoliciesLimitersEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PoliciesLimitersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PoliciesLimitersTableIx }
+   ::= {pr1645v2PoliciesLimitersSSCTable 1}
+
+Pr1645v2PoliciesLimitersEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PoliciesLimitersTableIx
+         TableIndex,
+      pr1645v2PoliciesLimitersName
+         DisplayString,
+      pr1645v2PoliciesLimitersPacketsTotal
+         Counter64,
+      pr1645v2PoliciesLimitersPacketsDropped
+         Counter64,
+      pr1645v2PoliciesLimitersPacketsCirTx
+         Counter64,
+      pr1645v2PoliciesLimitersPacketsEirTx
+         Counter64,
+      pr1645v2PoliciesLimitersOctetsTotal
+         Counter64,
+      pr1645v2PoliciesLimitersOctetsDropped
+         Counter64,
+      pr1645v2PoliciesLimitersOctetsCirTx
+         Counter64,
+      pr1645v2PoliciesLimitersOctetsEirTx
+         Counter64,
+      pr1645v2PoliciesLimitersOctetsBandwidth15sec
+         Integer32,
+      pr1645v2PoliciesLimitersOctetsBandwidth30sec
+         Integer32,
+      pr1645v2PoliciesLimitersOctetsBandwidth1min
+         Integer32,
+      pr1645v2PoliciesLimitersOctetsBandwidth2min
+         Integer32,
+      pr1645v2PoliciesLimitersOctetsBandwidth5min
+         Integer32
+      }
+
+pr1645v2PoliciesLimitersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PoliciesLimitersEntry 11}
+
+pr1645v2PoliciesLimitersName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.name"
+   ::= {pr1645v2PoliciesLimitersEntry 16777216}
+
+pr1645v2PoliciesLimitersPacketsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.packets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersEntry 50790400}
+
+pr1645v2PoliciesLimitersPacketsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.packets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersEntry 50528256}
+
+pr1645v2PoliciesLimitersPacketsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.packets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersEntry 50593792}
+
+pr1645v2PoliciesLimitersPacketsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.packets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersEntry 50659328}
+
+pr1645v2PoliciesLimitersOctetsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.octets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersEntry 67567616}
+
+pr1645v2PoliciesLimitersOctetsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.octets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersEntry 67305472}
+
+pr1645v2PoliciesLimitersOctetsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.octets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersEntry 67371008}
+
+pr1645v2PoliciesLimitersOctetsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.octets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersEntry 67436544}
+
+pr1645v2PoliciesLimitersOctetsBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.octets.bandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PoliciesLimitersEntry 70386944}
+
+pr1645v2PoliciesLimitersOctetsBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.octets.bandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PoliciesLimitersEntry 70388224}
+
+pr1645v2PoliciesLimitersOctetsBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.octets.bandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PoliciesLimitersEntry 70390784}
+
+pr1645v2PoliciesLimitersOctetsBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.octets.bandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PoliciesLimitersEntry 70395904}
+
+pr1645v2PoliciesLimitersOctetsBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.octets.bandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PoliciesLimitersEntry 70411264}
+
+pr1645v2PoliciesLimitersH2Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PoliciesLimitersH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PoliciesLimiters 83886080}
+
+pr1645v2PoliciesLimitersH2PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PoliciesLimitersH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PoliciesLimitersTableIx,
+                pr1645v2PoliciesLimitersH2PerformanceTableIx }
+   ::= {pr1645v2PoliciesLimitersH2Performance 1}
+
+Pr1645v2PoliciesLimitersH2PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PoliciesLimitersH2PerformanceTableIx
+         TableIndex,
+      pr1645v2PoliciesLimitersH2PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2PoliciesLimitersH2PerformanceTotPkts
+         Counter64,
+      pr1645v2PoliciesLimitersH2PerformanceDropPkts
+         Counter64,
+      pr1645v2PoliciesLimitersH2PerformanceCirTxPkts
+         Counter64,
+      pr1645v2PoliciesLimitersH2PerformanceEirTxPkts
+         Counter64,
+      pr1645v2PoliciesLimitersH2PerformanceTotOcts
+         Counter64,
+      pr1645v2PoliciesLimitersH2PerformanceDropOcts
+         Counter64,
+      pr1645v2PoliciesLimitersH2PerformanceCirTxOcts
+         Counter64,
+      pr1645v2PoliciesLimitersH2PerformanceEirTxOcts
+         Counter64,
+      pr1645v2PoliciesLimitersH2PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2PoliciesLimitersH2PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PoliciesLimitersH2PerformanceEntry 11}
+
+pr1645v2PoliciesLimitersH2PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PoliciesLimitersH2PerformanceEntry 16777216}
+
+pr1645v2PoliciesLimitersH2PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h2Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH2PerformanceEntry 234881024}
+
+pr1645v2PoliciesLimitersH2PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h2Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH2PerformanceEntry 67108864}
+
+pr1645v2PoliciesLimitersH2PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h2Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH2PerformanceEntry 83886080}
+
+pr1645v2PoliciesLimitersH2PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h2Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH2PerformanceEntry 100663296}
+
+pr1645v2PoliciesLimitersH2PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h2Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH2PerformanceEntry 251658240}
+
+pr1645v2PoliciesLimitersH2PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h2Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH2PerformanceEntry 150994944}
+
+pr1645v2PoliciesLimitersH2PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h2Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH2PerformanceEntry 167772160}
+
+pr1645v2PoliciesLimitersH2PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h2Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH2PerformanceEntry 184549376}
+
+pr1645v2PoliciesLimitersH2PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h2Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PoliciesLimitersH2PerformanceEntry 268435456}
+
+pr1645v2PoliciesLimitersH24Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PoliciesLimitersH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PoliciesLimiters 100663296}
+
+pr1645v2PoliciesLimitersH24PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PoliciesLimitersH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PoliciesLimitersTableIx,
+                pr1645v2PoliciesLimitersH24PerformanceTableIx }
+   ::= {pr1645v2PoliciesLimitersH24Performance 1}
+
+Pr1645v2PoliciesLimitersH24PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PoliciesLimitersH24PerformanceTableIx
+         TableIndex,
+      pr1645v2PoliciesLimitersH24PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2PoliciesLimitersH24PerformanceTotPkts
+         Counter64,
+      pr1645v2PoliciesLimitersH24PerformanceDropPkts
+         Counter64,
+      pr1645v2PoliciesLimitersH24PerformanceCirTxPkts
+         Counter64,
+      pr1645v2PoliciesLimitersH24PerformanceEirTxPkts
+         Counter64,
+      pr1645v2PoliciesLimitersH24PerformanceTotOcts
+         Counter64,
+      pr1645v2PoliciesLimitersH24PerformanceDropOcts
+         Counter64,
+      pr1645v2PoliciesLimitersH24PerformanceCirTxOcts
+         Counter64,
+      pr1645v2PoliciesLimitersH24PerformanceEirTxOcts
+         Counter64,
+      pr1645v2PoliciesLimitersH24PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2PoliciesLimitersH24PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PoliciesLimitersH24PerformanceEntry 11}
+
+pr1645v2PoliciesLimitersH24PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PoliciesLimitersH24PerformanceEntry 16777216}
+
+pr1645v2PoliciesLimitersH24PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h24Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH24PerformanceEntry 234881024}
+
+pr1645v2PoliciesLimitersH24PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h24Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH24PerformanceEntry 67108864}
+
+pr1645v2PoliciesLimitersH24PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h24Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH24PerformanceEntry 83886080}
+
+pr1645v2PoliciesLimitersH24PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h24Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH24PerformanceEntry 100663296}
+
+pr1645v2PoliciesLimitersH24PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h24Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH24PerformanceEntry 251658240}
+
+pr1645v2PoliciesLimitersH24PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h24Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH24PerformanceEntry 150994944}
+
+pr1645v2PoliciesLimitersH24PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h24Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH24PerformanceEntry 167772160}
+
+pr1645v2PoliciesLimitersH24PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h24Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersH24PerformanceEntry 184549376}
+
+pr1645v2PoliciesLimitersH24PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.h24Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PoliciesLimitersH24PerformanceEntry 268435456}
+
+pr1645v2PoliciesLimitersD7Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PoliciesLimitersD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PoliciesLimiters 117440512}
+
+pr1645v2PoliciesLimitersD7PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PoliciesLimitersD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PoliciesLimitersTableIx,
+                pr1645v2PoliciesLimitersD7PerformanceTableIx }
+   ::= {pr1645v2PoliciesLimitersD7Performance 1}
+
+Pr1645v2PoliciesLimitersD7PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PoliciesLimitersD7PerformanceTableIx
+         TableIndex,
+      pr1645v2PoliciesLimitersD7PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2PoliciesLimitersD7PerformanceTotPkts
+         Counter64,
+      pr1645v2PoliciesLimitersD7PerformanceDropPkts
+         Counter64,
+      pr1645v2PoliciesLimitersD7PerformanceCirTxPkts
+         Counter64,
+      pr1645v2PoliciesLimitersD7PerformanceEirTxPkts
+         Counter64,
+      pr1645v2PoliciesLimitersD7PerformanceTotOcts
+         Counter64,
+      pr1645v2PoliciesLimitersD7PerformanceDropOcts
+         Counter64,
+      pr1645v2PoliciesLimitersD7PerformanceCirTxOcts
+         Counter64,
+      pr1645v2PoliciesLimitersD7PerformanceEirTxOcts
+         Counter64,
+      pr1645v2PoliciesLimitersD7PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2PoliciesLimitersD7PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PoliciesLimitersD7PerformanceEntry 11}
+
+pr1645v2PoliciesLimitersD7PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PoliciesLimitersD7PerformanceEntry 16777216}
+
+pr1645v2PoliciesLimitersD7PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.d7Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersD7PerformanceEntry 234881024}
+
+pr1645v2PoliciesLimitersD7PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.d7Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersD7PerformanceEntry 67108864}
+
+pr1645v2PoliciesLimitersD7PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.d7Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersD7PerformanceEntry 83886080}
+
+pr1645v2PoliciesLimitersD7PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.d7Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersD7PerformanceEntry 100663296}
+
+pr1645v2PoliciesLimitersD7PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.d7Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersD7PerformanceEntry 251658240}
+
+pr1645v2PoliciesLimitersD7PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.d7Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersD7PerformanceEntry 150994944}
+
+pr1645v2PoliciesLimitersD7PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.d7Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersD7PerformanceEntry 167772160}
+
+pr1645v2PoliciesLimitersD7PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.d7Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PoliciesLimitersD7PerformanceEntry 184549376}
+
+pr1645v2PoliciesLimitersD7PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.performance.limiters.d7Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PoliciesLimitersD7PerformanceEntry 268435456}
+
+
+
+ar1645v2Policies OBJECT IDENTIFIER ::= {r1645v2Policies 16}
+
+
+ar1645v2PoliciesClearCounters OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.actions.clearCounters
+       Info: reset counters"
+   ::= {ar1645v2Policies 263}
+
+
+
+END

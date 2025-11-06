@@ -1,0 +1,529 @@
+OneAccess-R1646v2-4482-Ima DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2Ima OBJECT IDENTIFIER ::= {r1646Rootv2 4482}
+
+r1646v2ImaMOProp OBJECT IDENTIFIER ::= {r1646v2Ima 1}
+
+r1646v2ImaMOPropEntry OBJECT IDENTIFIER ::= {r1646v2ImaMOProp 1}
+
+r1646v2ImaMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2ImaMOPropEntry 3}
+
+r1646v2ImaMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2ImaMOPropEntry 4}
+
+
+
+er1646v2Ima OBJECT IDENTIFIER ::= {r1646v2Ima 11}
+
+
+er1646v2ImaImaDifferentialDelay OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s50ms (6),
+               s75ms (9),
+               s100ms (12),
+               s125ms (15),
+               s150ms (18)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.editConf.imaDifferentialDelay
+       Info: The maximum number of milliseconds of differential delay among the links that will be tolerated on this interface.
+
+       Possibilities:
+               50ms   (6)
+               75ms   (9)
+               100ms   (12)
+               125ms   (15)
+               150ms   (18)"
+   ::= {er1646v2Ima 82}
+
+
+er1646v2ImaImaVersion OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s1d1 (3),
+               s1d0 (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.editConf.imaVersion
+       Info: IMA version
+
+       Possibilities:
+               1.1   (3)
+               1.0   (1)"
+   ::= {er1646v2Ima 83}
+
+
+er1646v2ImaTxClockMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               common (0),
+               independent (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.editConf.txClockMode
+       Info: IMA clock mode
+
+       Possibilities:
+               common   (0)
+               independent   (1)"
+   ::= {er1646v2Ima 101}
+
+
+er1646v2ImaTxFrameLength OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s32 (32),
+               s64 (64),
+               s128 (128),
+               s256 (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.editConf.txFrameLength
+       Info: IMA tx frame length
+
+       Possibilities:
+               32   (32)
+               64   (64)
+               128   (128)
+               256   (256)"
+   ::= {er1646v2Ima 102}
+
+
+er1646v2ImaMinActiveLinks OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.editConf.minActiveLinks
+       Info: IMA minimum active links"
+   ::= {er1646v2Ima 104}
+
+
+
+sr1646v2Ima OBJECT IDENTIFIER ::= {r1646v2Ima 14}
+
+
+sr1646v2ImaNeState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notConfigured (11),
+               startUp (0),
+               startUpAck (1),
+               configAbortUnsupportedM (2),
+               configAbortIncompatibleSymmetry (3),
+               configAbortUnsupportedImaVersion (4),
+               configAbortUndefined1 (5),
+               configAbortUndefined2 (6),
+               configAbortOther (7),
+               insufficientLinks (8),
+               blocked (9),
+               operational (10)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.neState
+       Info: State of the IMA group.
+
+       Possibilities:
+               notConfigured   (11)
+               startUp   (0)
+               startUpAck   (1)
+               configAbortUnsupportedM   (2)
+               configAbortIncompatibleSymmetry   (3)
+               configAbortUnsupportedImaVersion   (4)
+               configAbortUndefined1   (5)
+               configAbortUndefined2   (6)
+               configAbortOther   (7)
+               insufficientLinks   (8)
+               blocked   (9)
+               operational   (10)"
+   ::= {sr1646v2Ima 120}
+
+
+sr1646v2ImaFeState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notConfigured (11),
+               startUp (0),
+               startUpAck (1),
+               configAbortUnsupportedM (2),
+               configAbortIncompatibleSymmetry (3),
+               configAbortUnsupportedImaVersion (4),
+               configAbortUndefined1 (5),
+               configAbortUndefined2 (6),
+               configAbortOther (7),
+               insufficientLinks (8),
+               blocked (9),
+               operational (10)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.feState
+       Info: State of the IMA group.
+
+       Possibilities:
+               notConfigured   (11)
+               startUp   (0)
+               startUpAck   (1)
+               configAbortUnsupportedM   (2)
+               configAbortIncompatibleSymmetry   (3)
+               configAbortUnsupportedImaVersion   (4)
+               configAbortUndefined1   (5)
+               configAbortUndefined2   (6)
+               configAbortOther   (7)
+               insufficientLinks   (8)
+               blocked   (9)
+               operational   (10)"
+   ::= {sr1646v2Ima 121}
+
+
+sr1646v2ImaNeTxClockMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unknown (0),
+               common (1),
+               independent (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.neTxClockMode
+       Info: IMA clock mode
+
+       Possibilities:
+               unknown   (0)
+               common   (1)
+               independent   (2)"
+   ::= {sr1646v2Ima 122}
+
+
+sr1646v2ImaFeTxClockMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unknown (0),
+               common (1),
+               independent (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.feTxClockMode
+       Info: IMA clock mode
+
+       Possibilities:
+               unknown   (0)
+               common   (1)
+               independent   (2)"
+   ::= {sr1646v2Ima 123}
+
+
+sr1646v2ImaNrActRxLinks OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.nrActRxLinks
+       Info: number of active links"
+   ::= {sr1646v2Ima 142}
+
+
+sr1646v2ImaNrActTxLinks OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.nrActTxLinks
+       Info: number of active links"
+   ::= {sr1646v2Ima 140}
+
+
+sr1646v2ImaMembers OBJECT IDENTIFIER ::= {sr1646v2Ima 141}
+
+sr1646v2ImaMembersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2ImaMembersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2ImaMembers 1}
+
+sr1646v2ImaMembersEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2ImaMembersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2ImaMembersTableIx }
+   ::= {sr1646v2ImaMembersSSCTable 1}
+
+Sr1646v2ImaMembersEntry ::=
+   SEQUENCE
+      {
+      sr1646v2ImaMembersTableIx
+         TableIndex,
+      sr1646v2ImaMembersInterface
+         DisplayString,
+      sr1646v2ImaMembersId
+         Integer32,
+      sr1646v2ImaMembersNeRxState
+         INTEGER,
+      sr1646v2ImaMembersNeTxState
+         INTEGER,
+      sr1646v2ImaMembersFeRxState
+         INTEGER,
+      sr1646v2ImaMembersFeTxState
+         INTEGER,
+      sr1646v2ImaMembersNeRxFailure
+         INTEGER,
+      sr1646v2ImaMembersTrl
+         INTEGER
+      }
+
+sr1646v2ImaMembersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2ImaMembersEntry 11}
+
+sr1646v2ImaMembersInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.members.interface"
+   ::= {sr1646v2ImaMembersEntry 16777216}
+
+sr1646v2ImaMembersId OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.members.id"
+   ::= {sr1646v2ImaMembersEntry 167772160}
+
+sr1646v2ImaMembersNeRxState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notInGroup (1),
+               unusableNoGivenReason (2),
+               unusableFault (3),
+               unusableMisconnected (4),
+               unusableInhibited (5),
+               unusableFailed (6),
+               usable (7),
+               active (8),
+               deleted (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.members.neRxState
+
+       Possibilities:
+               notInGroup   (1)
+               unusableNoGivenReason   (2)
+               unusableFault   (3)
+               unusableMisconnected   (4)
+               unusableInhibited   (5)
+               unusableFailed   (6)
+               usable   (7)
+               active   (8)
+               deleted   (9)"
+   ::= {sr1646v2ImaMembersEntry 33554432}
+
+sr1646v2ImaMembersNeTxState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notInGroup (1),
+               unusableNoGivenReason (2),
+               unusableFault (3),
+               unusableMisconnected (4),
+               unusableInhibited (5),
+               unusableFailed (6),
+               usable (7),
+               active (8),
+               deleted (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.members.neTxState
+
+       Possibilities:
+               notInGroup   (1)
+               unusableNoGivenReason   (2)
+               unusableFault   (3)
+               unusableMisconnected   (4)
+               unusableInhibited   (5)
+               unusableFailed   (6)
+               usable   (7)
+               active   (8)
+               deleted   (9)"
+   ::= {sr1646v2ImaMembersEntry 50331648}
+
+sr1646v2ImaMembersFeRxState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notInGroup (1),
+               unusableNoGivenReason (2),
+               unusableFault (3),
+               unusableMisconnected (4),
+               unusableInhibited (5),
+               unusableFailed (6),
+               usable (7),
+               active (8),
+               deleted (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.members.feRxState
+
+       Possibilities:
+               notInGroup   (1)
+               unusableNoGivenReason   (2)
+               unusableFault   (3)
+               unusableMisconnected   (4)
+               unusableInhibited   (5)
+               unusableFailed   (6)
+               usable   (7)
+               active   (8)
+               deleted   (9)"
+   ::= {sr1646v2ImaMembersEntry 67108864}
+
+sr1646v2ImaMembersFeTxState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notInGroup (1),
+               unusableNoGivenReason (2),
+               unusableFault (3),
+               unusableMisconnected (4),
+               unusableInhibited (5),
+               unusableFailed (6),
+               usable (7),
+               active (8),
+               deleted (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.members.feTxState
+
+       Possibilities:
+               notInGroup   (1)
+               unusableNoGivenReason   (2)
+               unusableFault   (3)
+               unusableMisconnected   (4)
+               unusableInhibited   (5)
+               unusableFailed   (6)
+               usable   (7)
+               active   (8)
+               deleted   (9)"
+   ::= {sr1646v2ImaMembersEntry 83886080}
+
+sr1646v2ImaMembersNeRxFailure OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noFailure (1),
+               imaLinkFailure (2),
+               lifFailure (3),
+               lodsFailure (4),
+               misConnected (5),
+               blocked (6),
+               fault (7),
+               farEndTxLinkUnusable (8),
+               farEndRxLinkUnusable (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.members.neRxFailure
+
+       Possibilities:
+               noFailure   (1)
+               imaLinkFailure   (2)
+               lifFailure   (3)
+               lodsFailure   (4)
+               misConnected   (5)
+               blocked   (6)
+               fault   (7)
+               farEndTxLinkUnusable   (8)
+               farEndRxLinkUnusable   (9)"
+   ::= {sr1646v2ImaMembersEntry 100663296}
+
+sr1646v2ImaMembersTrl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ima.status.members.trl
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2ImaMembersEntry 134217728}
+
+
+
+END

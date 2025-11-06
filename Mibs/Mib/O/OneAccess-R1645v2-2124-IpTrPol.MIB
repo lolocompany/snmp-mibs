@@ -1,0 +1,5569 @@
+OneAccess-R1645v2-2124-IpTrPol DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2IpTrPol OBJECT IDENTIFIER ::= {r1645Rootv2 2124}
+
+r1645v2IpTrPolMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2IpTrPolMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2IpTrPol 1}
+
+r1645v2IpTrPolMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2IpTrPolMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2IpTrPolMOPropGlobalIx }
+   ::= {r1645v2IpTrPolMOProp 1}
+
+R1645v2IpTrPolMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2IpTrPolMOPropPath
+         ContainmentPath,
+      r1645v2IpTrPolMOPropRev
+         ObjectRevision,
+      r1645v2IpTrPolMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2IpTrPolMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2IpTrPolMOPropEntry 3}
+
+r1645v2IpTrPolMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2IpTrPolMOPropEntry 4}
+
+r1645v2IpTrPolMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2IpTrPolMOPropEntry 10}
+
+
+
+er1645v2IpTrPol OBJECT IDENTIFIER ::= {r1645v2IpTrPol 11}
+
+
+er1645v2IpTrPolSnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2IpTrPol 268}
+
+er1645v2IpTrPolSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IpTrPolSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2IpTrPolSnmpIndexOffset 1}
+
+er1645v2IpTrPolSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IpTrPolSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IpTrPolSnmpIndexOffsetGlobalIx }
+   ::= {er1645v2IpTrPolSnmpIndexOffsetTable 1}
+
+Er1645v2IpTrPolSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2IpTrPolSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2IpTrPolSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2IpTrPolSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IpTrPolSnmpIndexOffsetEntry 10}
+
+er1645v2IpTrPolSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.snmpIndexOffset"
+   ::= {er1645v2IpTrPolSnmpIndexOffsetEntry 2147483648}
+
+
+er1645v2IpTrPolRemark OBJECT IDENTIFIER ::= {er1645v2IpTrPol 69}
+
+er1645v2IpTrPolRemarkTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IpTrPolRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2IpTrPolRemark 1}
+
+er1645v2IpTrPolRemarkEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IpTrPolRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IpTrPolRemarkGlobalIx }
+   ::= {er1645v2IpTrPolRemarkTable 1}
+
+Er1645v2IpTrPolRemarkEntry ::=
+   SEQUENCE
+      {
+      er1645v2IpTrPolRemarkGlobalIx
+         GlobalIndex,
+      er1645v2IpTrPolRemarkValue
+         DisplayString
+      }
+
+er1645v2IpTrPolRemarkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IpTrPolRemarkEntry 10}
+
+er1645v2IpTrPolRemarkValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.remark"
+   ::= {er1645v2IpTrPolRemarkEntry 2147483648}
+
+
+er1645v2IpTrPolMethod OBJECT IDENTIFIER ::= {er1645v2IpTrPol 3}
+
+er1645v2IpTrPolMethodTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IpTrPolMethodEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "indicates how TOS byte is used"
+   ::= {er1645v2IpTrPolMethod 1}
+
+er1645v2IpTrPolMethodEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IpTrPolMethodEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IpTrPolMethodGlobalIx }
+   ::= {er1645v2IpTrPolMethodTable 1}
+
+Er1645v2IpTrPolMethodEntry ::=
+   SEQUENCE
+      {
+      er1645v2IpTrPolMethodGlobalIx
+         GlobalIndex,
+      er1645v2IpTrPolMethodValue
+         INTEGER
+      }
+
+er1645v2IpTrPolMethodGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IpTrPolMethodEntry 10}
+
+er1645v2IpTrPolMethodValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               trafficShaping (0),
+               tosDiffServ (1),
+               tosMapped (2),
+               queueMapped (3),
+               advancedFilter (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.method
+
+       Possibilities:
+               trafficShaping   (0)
+               tosDiffServ   (1)
+               tosMapped   (2)
+               queueMapped   (3)
+               advancedFilter   (4)"
+   ::= {er1645v2IpTrPolMethodEntry 2147483648}
+
+
+er1645v2IpTrPolTrfcShpng OBJECT IDENTIFIER ::= {er1645v2IpTrPol 14}
+
+er1645v2IpTrPolTrfcShpngSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IpTrPolTrfcShpngEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "extended access list"
+   ::= {er1645v2IpTrPolTrfcShpng 1}
+
+er1645v2IpTrPolTrfcShpngEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IpTrPolTrfcShpngEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IpTrPolTrfcShpngGlobalIx,
+                er1645v2IpTrPolTrfcShpngTableIx }
+   ::= {er1645v2IpTrPolTrfcShpngSSCTable 1}
+
+Er1645v2IpTrPolTrfcShpngEntry ::=
+   SEQUENCE
+      {
+      er1645v2IpTrPolTrfcShpngActions
+         VariableLengthTableActions,
+      er1645v2IpTrPolTrfcShpngGlobalIx
+         GlobalIndex,
+      er1645v2IpTrPolTrfcShpngTableIx
+         TableIndex,
+      er1645v2IpTrPolTrfcShpngName
+         DisplayString,
+      er1645v2IpTrPolTrfcShpngTimeWindow
+         DisplayString,
+      er1645v2IpTrPolTrfcShpngSrcIntf
+         DisplayString,
+      er1645v2IpTrPolTrfcShpngSrcIpStart
+         IpAddress,
+      er1645v2IpTrPolTrfcShpngSrcIpEnd
+         IpAddress,
+      er1645v2IpTrPolTrfcShpngDestIpStart
+         IpAddress,
+      er1645v2IpTrPolTrfcShpngDestIpEnd
+         IpAddress,
+      er1645v2IpTrPolTrfcShpngTosStart
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngTosEnd
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngIpPrtcl
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngSrcPortStart
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngSrcPortEnd
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngDstPortStart
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngDstPortEnd
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngOldPriority
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngNewTosValue
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngPriority
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngCalcHash
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngInterface
+         DisplayString,
+      er1645v2IpTrPolTrfcShpngGateway
+         IpAddress,
+      er1645v2IpTrPolTrfcShpngRpfMode
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngRpfAllowDefault
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngTrackingMode
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngCapture
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngLimitDestinationIp
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngLimiterNone
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngLimiterName
+         DisplayString,
+      er1645v2IpTrPolTrfcShpngLimiterQueueQueue1
+         DisplayString,
+      er1645v2IpTrPolTrfcShpngLimiterQueueQueue2
+         DisplayString,
+      er1645v2IpTrPolTrfcShpngLimiterQueueQueue3
+         DisplayString,
+      er1645v2IpTrPolTrfcShpngLimiterQueueQueue4
+         DisplayString,
+      er1645v2IpTrPolTrfcShpngLimiterQueueQueue5
+         DisplayString,
+      er1645v2IpTrPolTrfcShpngLimiterQueueLowDelayQueue
+         DisplayString,
+      er1645v2IpTrPolTrfcShpngLimiterQueueLowDelay2Queue
+         DisplayString,
+      er1645v2IpTrPolTrfcShpngLimiterQueueSystemQueue
+         DisplayString,
+      er1645v2IpTrPolTrfcShpngReverseMarkQueue
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngReverseMarkTos
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngReverseMarkDropLevel
+         INTEGER,
+      er1645v2IpTrPolTrfcShpngReverseMarkCalcHash
+         INTEGER
+      }
+
+er1645v2IpTrPolTrfcShpngActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2IpTrPolTrfcShpngEntry 2}
+
+er1645v2IpTrPolTrfcShpngGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IpTrPolTrfcShpngEntry 10}
+
+er1645v2IpTrPolTrfcShpngTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2IpTrPolTrfcShpngEntry 11}
+
+er1645v2IpTrPolTrfcShpngName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.name"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 268435456}
+
+er1645v2IpTrPolTrfcShpngTimeWindow OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.timeWindow"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 352321536}
+
+er1645v2IpTrPolTrfcShpngSrcIntf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.sourceInterface"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 318767104}
+
+er1645v2IpTrPolTrfcShpngSrcIpStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.sourceIpStartAddress"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 16777216}
+
+er1645v2IpTrPolTrfcShpngSrcIpEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.sourceIpEndAddress"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 33554432}
+
+er1645v2IpTrPolTrfcShpngDestIpStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.destinationIpStartAddress"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 50331648}
+
+er1645v2IpTrPolTrfcShpngDestIpEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.destinationIpEndAddress"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 67108864}
+
+er1645v2IpTrPolTrfcShpngTosStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               any (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.tosStartValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               any   (256)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 201326592}
+
+er1645v2IpTrPolTrfcShpngTosEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               optional (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.tosEndValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               optional   (256)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 218103808}
+
+er1645v2IpTrPolTrfcShpngIpPrtcl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               aH (51),
+               eGP (8),
+               eSP (50),
+               gRE (47),
+               iCMP (1),
+               iGP (9),
+               iGMP (2),
+               iGRP (88),
+               iPinIP (4),
+               oSPF (89),
+               uDP (17),
+               rSVP (46),
+               tCP (6),
+               tCPestablished (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.ipProtocol
+
+       Possibilities:
+               any   (0)
+               AH   (51)
+               EGP   (8)
+               ESP   (50)
+               GRE   (47)
+               ICMP   (1)
+               IGP   (9)
+               IGMP   (2)
+               IGRP   (88)
+               IPinIP   (4)
+               OSPF   (89)
+               UDP   (17)
+               RSVP   (46)
+               TCP   (6)
+               TCPestablished   (255)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 83886080}
+
+er1645v2IpTrPolTrfcShpngSrcPortStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.sourcePortStart
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 100663296}
+
+er1645v2IpTrPolTrfcShpngSrcPortEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               optional (0),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.sourcePortEnd
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               optional   (0)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 117440512}
+
+er1645v2IpTrPolTrfcShpngDstPortStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.destinationPortStart
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 134217728}
+
+er1645v2IpTrPolTrfcShpngDstPortEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               optional (0),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.destinationPortEnd
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               optional   (0)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 150994944}
+
+er1645v2IpTrPolTrfcShpngOldPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               any (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.oldPriority
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               any   (255)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 285212672}
+
+er1645v2IpTrPolTrfcShpngNewTosValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.newTosValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 167772160}
+
+er1645v2IpTrPolTrfcShpngPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.priority
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 184549376}
+
+er1645v2IpTrPolTrfcShpngCalcHash OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (1),
+               ipAndPorts (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.calcHash
+
+       Possibilities:
+               no   (1)
+               ipAndPorts   (3)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 671088640}
+
+er1645v2IpTrPolTrfcShpngInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.interface"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 234881024}
+
+er1645v2IpTrPolTrfcShpngGateway OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.gateway"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 251658240}
+
+er1645v2IpTrPolTrfcShpngRpfMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (1),
+               strict (2),
+               loose (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.rpf.mode
+
+       Possibilities:
+               disabled   (1)
+               strict   (2)
+               loose   (4)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 503382016}
+
+er1645v2IpTrPolTrfcShpngRpfAllowDefault OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (1),
+               enabled (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.rpf.allowDefault
+
+       Possibilities:
+               disabled   (1)
+               enabled   (2)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 503447552}
+
+er1645v2IpTrPolTrfcShpngTrackingMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               interface (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.tracking.mode
+
+       Possibilities:
+               disabled   (0)
+               interface   (1)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 335609856}
+
+er1645v2IpTrPolTrfcShpngCapture OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.capture
+
+       Possibilities:
+               disabled   (8)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 301989888}
+
+er1645v2IpTrPolTrfcShpngLimitDestinationIp OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (1),
+               interfaceIp (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.limitDestinationIp
+
+       Possibilities:
+               disabled   (1)
+               interfaceIp   (2)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 536870912}
+
+er1645v2IpTrPolTrfcShpngLimiterNone OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.limiter.none
+
+       Possibilities:
+               none   (0)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 520159232}
+
+er1645v2IpTrPolTrfcShpngLimiterName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.limiter.name"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 520224768}
+
+er1645v2IpTrPolTrfcShpngLimiterQueueQueue1 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.limiter.queue.queue1"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 520290560}
+
+er1645v2IpTrPolTrfcShpngLimiterQueueQueue2 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.limiter.queue.queue2"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 520290816}
+
+er1645v2IpTrPolTrfcShpngLimiterQueueQueue3 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.limiter.queue.queue3"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 520291072}
+
+er1645v2IpTrPolTrfcShpngLimiterQueueQueue4 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.limiter.queue.queue4"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 520291328}
+
+er1645v2IpTrPolTrfcShpngLimiterQueueQueue5 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.limiter.queue.queue5"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 520291584}
+
+er1645v2IpTrPolTrfcShpngLimiterQueueLowDelayQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.limiter.queue.lowDelayQueue"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 520291840}
+
+er1645v2IpTrPolTrfcShpngLimiterQueueLowDelay2Queue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.limiter.queue.lowDelay2Queue"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 520292096}
+
+er1645v2IpTrPolTrfcShpngLimiterQueueSystemQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.limiter.queue.systemQueue"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 520292352}
+
+er1645v2IpTrPolTrfcShpngReverseMarkQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               diffServ (-2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.reverse.mark.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               diffServ   (-2)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 553713920}
+
+er1645v2IpTrPolTrfcShpngReverseMarkTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.reverse.mark.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 553714176}
+
+er1645v2IpTrPolTrfcShpngReverseMarkDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               dropOnQueue (0),
+               diffServ (-2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.reverse.mark.dropLevel
+
+       Possibilities:
+               unchanged   (-1)
+               dropOnQueue   (0)
+               diffServ   (-2)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 553714432}
+
+er1645v2IpTrPolTrfcShpngReverseMarkCalcHash OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (1),
+               ipAndPorts (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.trafficShaping.reverse.mark.calcHash
+
+       Possibilities:
+               no   (1)
+               ipAndPorts   (3)"
+   ::= {er1645v2IpTrPolTrfcShpngEntry 553714688}
+
+
+er1645v2IpTrPolAdvancedFilter OBJECT IDENTIFIER ::= {er1645v2IpTrPol 15}
+
+er1645v2IpTrPolAdvancedFilterSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IpTrPolAdvancedFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "extended access list"
+   ::= {er1645v2IpTrPolAdvancedFilter 1}
+
+er1645v2IpTrPolAdvancedFilterEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IpTrPolAdvancedFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IpTrPolAdvancedFilterGlobalIx,
+                er1645v2IpTrPolAdvancedFilterTableIx }
+   ::= {er1645v2IpTrPolAdvancedFilterSSCTable 1}
+
+Er1645v2IpTrPolAdvancedFilterEntry ::=
+   SEQUENCE
+      {
+      er1645v2IpTrPolAdvancedFilterActions
+         VariableLengthTableActions,
+      er1645v2IpTrPolAdvancedFilterGlobalIx
+         GlobalIndex,
+      er1645v2IpTrPolAdvancedFilterTableIx
+         TableIndex,
+      er1645v2IpTrPolAdvancedFilterName
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterSrcIntf
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterSrcIpStart
+         IpAddress,
+      er1645v2IpTrPolAdvancedFilterSrcIpEnd
+         IpAddress,
+      er1645v2IpTrPolAdvancedFilterDestIpStart
+         IpAddress,
+      er1645v2IpTrPolAdvancedFilterDestIpEnd
+         IpAddress,
+      er1645v2IpTrPolAdvancedFilterTosStart
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterTosEnd
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterIpPrtcl
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterSrcPortStart
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterSrcPortEnd
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterDstPortStart
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterDstPortEnd
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterOldPriority
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterTimeWindow
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterAction
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterMarkQueue
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterMarkTos
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterMarkDropLevel
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterMarkCalcHash
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterPolicyInterface
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterPolicyGateway
+         IpAddress,
+      er1645v2IpTrPolAdvancedFilterPolicyTrackingMode
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterRpfMode
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterRpfAllowDefault
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterJumpTo
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterCapture
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterLimitDestinationIp
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterLimiterNone
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterLimiterName
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterLimiterQueueQueue1
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterLimiterQueueQueue2
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterLimiterQueueQueue3
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterLimiterQueueQueue4
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterLimiterQueueQueue5
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterLimiterQueueLowDelayQueue
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterLimiterQueueLowDelay2Queue
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterLimiterQueueSystemQueue
+         DisplayString,
+      er1645v2IpTrPolAdvancedFilterReverseMarkQueue
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterReverseMarkTos
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterReverseMarkDropLevel
+         INTEGER,
+      er1645v2IpTrPolAdvancedFilterReverseMarkCalcHash
+         INTEGER
+      }
+
+er1645v2IpTrPolAdvancedFilterActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 2}
+
+er1645v2IpTrPolAdvancedFilterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 10}
+
+er1645v2IpTrPolAdvancedFilterTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 11}
+
+er1645v2IpTrPolAdvancedFilterName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.name"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 268435456}
+
+er1645v2IpTrPolAdvancedFilterSrcIntf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.sourceInterface"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 318767104}
+
+er1645v2IpTrPolAdvancedFilterSrcIpStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.sourceIpStartAddress"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 16777216}
+
+er1645v2IpTrPolAdvancedFilterSrcIpEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.sourceIpEndAddress"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 33554432}
+
+er1645v2IpTrPolAdvancedFilterDestIpStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.destinationIpStartAddress"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 50331648}
+
+er1645v2IpTrPolAdvancedFilterDestIpEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.destinationIpEndAddress"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 67108864}
+
+er1645v2IpTrPolAdvancedFilterTosStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               any (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.tosStartValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               any   (256)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 201326592}
+
+er1645v2IpTrPolAdvancedFilterTosEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               optional (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.tosEndValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               optional   (256)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 218103808}
+
+er1645v2IpTrPolAdvancedFilterIpPrtcl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               aH (51),
+               eGP (8),
+               eSP (50),
+               gRE (47),
+               iCMP (1),
+               iGP (9),
+               iGMP (2),
+               iGRP (88),
+               iPinIP (4),
+               oSPF (89),
+               uDP (17),
+               rSVP (46),
+               tCP (6),
+               tCPestablished (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.ipProtocol
+
+       Possibilities:
+               any   (0)
+               AH   (51)
+               EGP   (8)
+               ESP   (50)
+               GRE   (47)
+               ICMP   (1)
+               IGP   (9)
+               IGMP   (2)
+               IGRP   (88)
+               IPinIP   (4)
+               OSPF   (89)
+               UDP   (17)
+               RSVP   (46)
+               TCP   (6)
+               TCPestablished   (255)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 83886080}
+
+er1645v2IpTrPolAdvancedFilterSrcPortStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.sourcePortStart
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 100663296}
+
+er1645v2IpTrPolAdvancedFilterSrcPortEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               optional (0),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.sourcePortEnd
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               optional   (0)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 117440512}
+
+er1645v2IpTrPolAdvancedFilterDstPortStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.destinationPortStart
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 134217728}
+
+er1645v2IpTrPolAdvancedFilterDstPortEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               optional (0),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.destinationPortEnd
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               optional   (0)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 150994944}
+
+er1645v2IpTrPolAdvancedFilterOldPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               any (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.oldPriority
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               any   (255)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 285212672}
+
+er1645v2IpTrPolAdvancedFilterTimeWindow OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.timeWindow"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 352321536}
+
+er1645v2IpTrPolAdvancedFilterAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               deny (0),
+               permit (1),
+               continue (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.action
+
+       Possibilities:
+               deny   (0)
+               permit   (1)
+               continue   (2)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 419430400}
+
+er1645v2IpTrPolAdvancedFilterMarkQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               diffServ (-2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.mark.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               diffServ   (-2)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 369164288}
+
+er1645v2IpTrPolAdvancedFilterMarkTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.mark.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 369229824}
+
+er1645v2IpTrPolAdvancedFilterMarkDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               dropOnQueue (0),
+               diffServ (-2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.mark.dropLevel
+
+       Possibilities:
+               unchanged   (-1)
+               dropOnQueue   (0)
+               diffServ   (-2)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 369295360}
+
+er1645v2IpTrPolAdvancedFilterMarkCalcHash OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (1),
+               ipAndPorts (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.mark.calcHash
+
+       Possibilities:
+               no   (1)
+               ipAndPorts   (3)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 369360896}
+
+er1645v2IpTrPolAdvancedFilterPolicyInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.policy.interface"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 385941504}
+
+er1645v2IpTrPolAdvancedFilterPolicyGateway OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.policy.gateway"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 386007040}
+
+er1645v2IpTrPolAdvancedFilterPolicyTrackingMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               interface (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.policy.tracking.mode
+
+       Possibilities:
+               disabled   (0)
+               interface   (1)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 386072832}
+
+er1645v2IpTrPolAdvancedFilterRpfMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (1),
+               strict (2),
+               loose (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.rpf.mode
+
+       Possibilities:
+               disabled   (1)
+               strict   (2)
+               loose   (4)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 503382016}
+
+er1645v2IpTrPolAdvancedFilterRpfAllowDefault OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (1),
+               enabled (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.rpf.allowDefault
+
+       Possibilities:
+               disabled   (1)
+               enabled   (2)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 503447552}
+
+er1645v2IpTrPolAdvancedFilterJumpTo OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.jumpTo"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 402653184}
+
+er1645v2IpTrPolAdvancedFilterCapture OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.capture
+
+       Possibilities:
+               disabled   (8)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 301989888}
+
+er1645v2IpTrPolAdvancedFilterLimitDestinationIp OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (1),
+               interfaceIp (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.limitDestinationIp
+
+       Possibilities:
+               disabled   (1)
+               interfaceIp   (2)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 536870912}
+
+er1645v2IpTrPolAdvancedFilterLimiterNone OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.limiter.none
+
+       Possibilities:
+               none   (0)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 520159232}
+
+er1645v2IpTrPolAdvancedFilterLimiterName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.limiter.name"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 520224768}
+
+er1645v2IpTrPolAdvancedFilterLimiterQueueQueue1 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.limiter.queue.queue1"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 520290560}
+
+er1645v2IpTrPolAdvancedFilterLimiterQueueQueue2 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.limiter.queue.queue2"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 520290816}
+
+er1645v2IpTrPolAdvancedFilterLimiterQueueQueue3 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.limiter.queue.queue3"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 520291072}
+
+er1645v2IpTrPolAdvancedFilterLimiterQueueQueue4 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.limiter.queue.queue4"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 520291328}
+
+er1645v2IpTrPolAdvancedFilterLimiterQueueQueue5 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.limiter.queue.queue5"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 520291584}
+
+er1645v2IpTrPolAdvancedFilterLimiterQueueLowDelayQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.limiter.queue.lowDelayQueue"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 520291840}
+
+er1645v2IpTrPolAdvancedFilterLimiterQueueLowDelay2Queue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.limiter.queue.lowDelay2Queue"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 520292096}
+
+er1645v2IpTrPolAdvancedFilterLimiterQueueSystemQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.limiter.queue.systemQueue"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 520292352}
+
+er1645v2IpTrPolAdvancedFilterReverseMarkQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               diffServ (-2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.reverse.mark.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               diffServ   (-2)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 553713920}
+
+er1645v2IpTrPolAdvancedFilterReverseMarkTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.reverse.mark.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 553714176}
+
+er1645v2IpTrPolAdvancedFilterReverseMarkDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               dropOnQueue (0),
+               diffServ (-2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.reverse.mark.dropLevel
+
+       Possibilities:
+               unchanged   (-1)
+               dropOnQueue   (0)
+               diffServ   (-2)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 553714432}
+
+er1645v2IpTrPolAdvancedFilterReverseMarkCalcHash OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (1),
+               ipAndPorts (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.advancedFilter.reverse.mark.calcHash
+
+       Possibilities:
+               no   (1)
+               ipAndPorts   (3)"
+   ::= {er1645v2IpTrPolAdvancedFilterEntry 553714688}
+
+
+er1645v2IpTrPolTos2Q OBJECT IDENTIFIER ::= {er1645v2IpTrPol 4}
+
+er1645v2IpTrPolTos2QSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IpTrPolTos2QEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Type Of Service to Queue Mapping"
+   ::= {er1645v2IpTrPolTos2Q 1}
+
+er1645v2IpTrPolTos2QEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IpTrPolTos2QEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IpTrPolTos2QGlobalIx,
+                er1645v2IpTrPolTos2QTableIx }
+   ::= {er1645v2IpTrPolTos2QSSCTable 1}
+
+Er1645v2IpTrPolTos2QEntry ::=
+   SEQUENCE
+      {
+      er1645v2IpTrPolTos2QActions
+         VariableLengthTableActions,
+      er1645v2IpTrPolTos2QGlobalIx
+         GlobalIndex,
+      er1645v2IpTrPolTos2QTableIx
+         TableIndex,
+      er1645v2IpTrPolTos2QStartTos
+         INTEGER,
+      er1645v2IpTrPolTos2QEndTos
+         INTEGER,
+      er1645v2IpTrPolTos2QTargetQueue
+         INTEGER,
+      er1645v2IpTrPolTos2QInterface
+         DisplayString,
+      er1645v2IpTrPolTos2QGateway
+         IpAddress
+      }
+
+er1645v2IpTrPolTos2QActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2IpTrPolTos2QEntry 2}
+
+er1645v2IpTrPolTos2QGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IpTrPolTos2QEntry 10}
+
+er1645v2IpTrPolTos2QTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2IpTrPolTos2QEntry 11}
+
+er1645v2IpTrPolTos2QStartTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.tos2QueueMapping.startTos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)"
+   ::= {er1645v2IpTrPolTos2QEntry 16777216}
+
+er1645v2IpTrPolTos2QEndTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.tos2QueueMapping.endTos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)"
+   ::= {er1645v2IpTrPolTos2QEntry 33554432}
+
+er1645v2IpTrPolTos2QTargetQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.tos2QueueMapping.targetQueue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2IpTrPolTos2QEntry 50331648}
+
+er1645v2IpTrPolTos2QInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.tos2QueueMapping.interface"
+   ::= {er1645v2IpTrPolTos2QEntry 67108864}
+
+er1645v2IpTrPolTos2QGateway OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.tos2QueueMapping.gateway"
+   ::= {er1645v2IpTrPolTos2QEntry 83886080}
+
+
+er1645v2IpTrPolQ2Q OBJECT IDENTIFIER ::= {er1645v2IpTrPol 7}
+
+er1645v2IpTrPolQ2QSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IpTrPolQ2QEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Queue to Queue Mapping"
+   ::= {er1645v2IpTrPolQ2Q 1}
+
+er1645v2IpTrPolQ2QEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IpTrPolQ2QEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IpTrPolQ2QGlobalIx,
+                er1645v2IpTrPolQ2QTableIx }
+   ::= {er1645v2IpTrPolQ2QSSCTable 1}
+
+Er1645v2IpTrPolQ2QEntry ::=
+   SEQUENCE
+      {
+      er1645v2IpTrPolQ2QActions
+         VariableLengthTableActions,
+      er1645v2IpTrPolQ2QGlobalIx
+         GlobalIndex,
+      er1645v2IpTrPolQ2QTableIx
+         TableIndex,
+      er1645v2IpTrPolQ2QQueue
+         INTEGER,
+      er1645v2IpTrPolQ2QTargetQueue
+         INTEGER,
+      er1645v2IpTrPolQ2QInterface
+         DisplayString,
+      er1645v2IpTrPolQ2QGateway
+         IpAddress
+      }
+
+er1645v2IpTrPolQ2QActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2IpTrPolQ2QEntry 2}
+
+er1645v2IpTrPolQ2QGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IpTrPolQ2QEntry 10}
+
+er1645v2IpTrPolQ2QTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2IpTrPolQ2QEntry 11}
+
+er1645v2IpTrPolQ2QQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               any (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.queue2QueueMapping.queue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               any   (255)"
+   ::= {er1645v2IpTrPolQ2QEntry 16777216}
+
+er1645v2IpTrPolQ2QTargetQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.queue2QueueMapping.targetQueue
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2IpTrPolQ2QEntry 33554432}
+
+er1645v2IpTrPolQ2QInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.queue2QueueMapping.interface"
+   ::= {er1645v2IpTrPolQ2QEntry 50331648}
+
+er1645v2IpTrPolQ2QGateway OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.queue2QueueMapping.gateway"
+   ::= {er1645v2IpTrPolQ2QEntry 67108864}
+
+
+er1645v2IpTrPolDropLevels OBJECT IDENTIFIER ::= {er1645v2IpTrPol 5}
+
+er1645v2IpTrPolDropLevelsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IpTrPolDropLevelsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "matrix containing info about the queue lengths - drop precedence"
+   ::= {er1645v2IpTrPolDropLevels 1}
+
+er1645v2IpTrPolDropLevelsEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IpTrPolDropLevelsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IpTrPolDropLevelsGlobalIx,
+                er1645v2IpTrPolDropLevelsTableIx }
+   ::= {er1645v2IpTrPolDropLevelsSSCTable 1}
+
+Er1645v2IpTrPolDropLevelsEntry ::=
+   SEQUENCE
+      {
+      er1645v2IpTrPolDropLevelsActions
+         FixedLengthTableActions,
+      er1645v2IpTrPolDropLevelsGlobalIx
+         GlobalIndex,
+      er1645v2IpTrPolDropLevelsTableIx
+         TableIndex,
+      er1645v2IpTrPolDropLevelsDropLevel1
+         Integer32,
+      er1645v2IpTrPolDropLevelsDropLevel2
+         Integer32,
+      er1645v2IpTrPolDropLevelsDropLevel3
+         Integer32
+      }
+
+er1645v2IpTrPolDropLevelsActions OBJECT-TYPE
+   SYNTAX      FixedLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2IpTrPolDropLevelsEntry 2}
+
+er1645v2IpTrPolDropLevelsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IpTrPolDropLevelsEntry 10}
+
+er1645v2IpTrPolDropLevelsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2IpTrPolDropLevelsEntry 11}
+
+er1645v2IpTrPolDropLevelsDropLevel1 OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.dropLevels.dropLevel1"
+   ::= {er1645v2IpTrPolDropLevelsEntry 16777216}
+
+er1645v2IpTrPolDropLevelsDropLevel2 OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.dropLevels.dropLevel2"
+   ::= {er1645v2IpTrPolDropLevelsEntry 33554432}
+
+er1645v2IpTrPolDropLevelsDropLevel3 OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.dropLevels.dropLevel3"
+   ::= {er1645v2IpTrPolDropLevelsEntry 50331648}
+
+
+er1645v2IpTrPolVrfRouter OBJECT IDENTIFIER ::= {er1645v2IpTrPol 6}
+
+er1645v2IpTrPolVrfRouterTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IpTrPolVrfRouterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "vrf router name used to reference to a vrf router on other objects"
+   ::= {er1645v2IpTrPolVrfRouter 1}
+
+er1645v2IpTrPolVrfRouterEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IpTrPolVrfRouterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IpTrPolVrfRouterGlobalIx }
+   ::= {er1645v2IpTrPolVrfRouterTable 1}
+
+Er1645v2IpTrPolVrfRouterEntry ::=
+   SEQUENCE
+      {
+      er1645v2IpTrPolVrfRouterGlobalIx
+         GlobalIndex,
+      er1645v2IpTrPolVrfRouterValue
+         DisplayString
+      }
+
+er1645v2IpTrPolVrfRouterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IpTrPolVrfRouterEntry 10}
+
+er1645v2IpTrPolVrfRouterValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.editConf.vrfRouter"
+   ::= {er1645v2IpTrPolVrfRouterEntry 2147483648}
+
+
+
+sr1645v2IpTrPol OBJECT IDENTIFIER ::= {r1645v2IpTrPol 14}
+
+
+sr1645v2IpTrPolSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2IpTrPol 269}
+
+sr1645v2IpTrPolSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2IpTrPolSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2IpTrPolSnmpIndex 1}
+
+sr1645v2IpTrPolSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2IpTrPolSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2IpTrPolSnmpIndexGlobalIx }
+   ::= {sr1645v2IpTrPolSnmpIndexTable 1}
+
+Sr1645v2IpTrPolSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2IpTrPolSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2IpTrPolSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2IpTrPolSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2IpTrPolSnmpIndexEntry 10}
+
+sr1645v2IpTrPolSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.status.snmpIndex"
+   ::= {sr1645v2IpTrPolSnmpIndexEntry 2147483648}
+
+
+
+pr1645v2IpTrPol OBJECT IDENTIFIER ::= {r1645v2IpTrPol 12}
+
+
+pr1645v2IpTrPolTraffUse OBJECT IDENTIFIER ::= {pr1645v2IpTrPol 30}
+
+pr1645v2IpTrPolTraffUseSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2IpTrPolTraffUseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "traffic shaping status table"
+   ::= {pr1645v2IpTrPolTraffUse 1}
+
+pr1645v2IpTrPolTraffUseEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2IpTrPolTraffUseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2IpTrPolTraffUseGlobalIx,
+                pr1645v2IpTrPolTraffUseTableIx }
+   ::= {pr1645v2IpTrPolTraffUseSSCTable 1}
+
+Pr1645v2IpTrPolTraffUseEntry ::=
+   SEQUENCE
+      {
+      pr1645v2IpTrPolTraffUseGlobalIx
+         GlobalIndex,
+      pr1645v2IpTrPolTraffUseTableIx
+         TableIndex,
+      pr1645v2IpTrPolTraffUseName
+         DisplayString,
+      pr1645v2IpTrPolTraffUseUses
+         Gauge32,
+      pr1645v2IpTrPolTraffUseOctets
+         Gauge32,
+      pr1645v2IpTrPolTraffUseDestination
+         DisplayString,
+      pr1645v2IpTrPolTraffUseSourceInterface
+         DisplayString,
+      pr1645v2IpTrPolTraffUseSrcIpStart
+         IpAddress,
+      pr1645v2IpTrPolTraffUseSrcIpEnd
+         IpAddress,
+      pr1645v2IpTrPolTraffUseDestIpStart
+         IpAddress,
+      pr1645v2IpTrPolTraffUseDestIpEnd
+         IpAddress,
+      pr1645v2IpTrPolTraffUseTosStart
+         INTEGER,
+      pr1645v2IpTrPolTraffUseTosEnd
+         INTEGER,
+      pr1645v2IpTrPolTraffUseIpPclStart
+         INTEGER,
+      pr1645v2IpTrPolTraffUseIpPclEnd
+         INTEGER,
+      pr1645v2IpTrPolTraffUseSrcPortStart
+         INTEGER,
+      pr1645v2IpTrPolTraffUseSrcPortEnd
+         INTEGER,
+      pr1645v2IpTrPolTraffUseDstPortStart
+         INTEGER,
+      pr1645v2IpTrPolTraffUseDstPortEnd
+         INTEGER,
+      pr1645v2IpTrPolTraffUseOldPrio
+         INTEGER,
+      pr1645v2IpTrPolTraffUseNewTosValue
+         INTEGER,
+      pr1645v2IpTrPolTraffUsePriority
+         INTEGER
+      }
+
+pr1645v2IpTrPolTraffUseGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2IpTrPolTraffUseEntry 10}
+
+pr1645v2IpTrPolTraffUseTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2IpTrPolTraffUseEntry 11}
+
+pr1645v2IpTrPolTraffUseName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.name"
+   ::= {pr1645v2IpTrPolTraffUseEntry 301989888}
+
+pr1645v2IpTrPolTraffUseUses OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.uses
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2IpTrPolTraffUseEntry 268435456}
+
+pr1645v2IpTrPolTraffUseOctets OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.octets
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2IpTrPolTraffUseEntry 318767104}
+
+pr1645v2IpTrPolTraffUseDestination OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.destination"
+   ::= {pr1645v2IpTrPolTraffUseEntry 234881024}
+
+pr1645v2IpTrPolTraffUseSourceInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.sourceInterface"
+   ::= {pr1645v2IpTrPolTraffUseEntry 369098752}
+
+pr1645v2IpTrPolTraffUseSrcIpStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.sourceIpStartAddress"
+   ::= {pr1645v2IpTrPolTraffUseEntry 16777216}
+
+pr1645v2IpTrPolTraffUseSrcIpEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.sourceIpEndAddress"
+   ::= {pr1645v2IpTrPolTraffUseEntry 33554432}
+
+pr1645v2IpTrPolTraffUseDestIpStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.destinationIpStartAddress"
+   ::= {pr1645v2IpTrPolTraffUseEntry 50331648}
+
+pr1645v2IpTrPolTraffUseDestIpEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.destinationIpEndAddress"
+   ::= {pr1645v2IpTrPolTraffUseEntry 67108864}
+
+pr1645v2IpTrPolTraffUseTosStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               any (256)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.tosStartValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               any   (256)"
+   ::= {pr1645v2IpTrPolTraffUseEntry 201326592}
+
+pr1645v2IpTrPolTraffUseTosEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               optional (256)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.tosEndValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               optional   (256)"
+   ::= {pr1645v2IpTrPolTraffUseEntry 218103808}
+
+pr1645v2IpTrPolTraffUseIpPclStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iCMP (1),
+               iGMP (2),
+               iPinIP (4),
+               tCP (6),
+               eGP (8),
+               iGP (9),
+               uDP (17),
+               rSVP (46),
+               iGRP (88),
+               oSPF (89)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.ipProtocolStart
+
+       Possibilities:
+               ICMP   (1)
+               IGMP   (2)
+               IPinIP   (4)
+               TCP   (6)
+               EGP   (8)
+               IGP   (9)
+               UDP   (17)
+               RSVP   (46)
+               IGRP   (88)
+               OSPF   (89)"
+   ::= {pr1645v2IpTrPolTraffUseEntry 83886080}
+
+pr1645v2IpTrPolTraffUseIpPclEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iCMP (1),
+               iGMP (2),
+               iPinIP (4),
+               tCP (6),
+               eGP (8),
+               iGP (9),
+               uDP (17),
+               rSVP (46),
+               iGRP (88),
+               oSPF (89)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.ipProtocolEnd
+
+       Possibilities:
+               ICMP   (1)
+               IGMP   (2)
+               IPinIP   (4)
+               TCP   (6)
+               EGP   (8)
+               IGP   (9)
+               UDP   (17)
+               RSVP   (46)
+               IGRP   (88)
+               OSPF   (89)"
+   ::= {pr1645v2IpTrPolTraffUseEntry 285212672}
+
+pr1645v2IpTrPolTraffUseSrcPortStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.sourcePortStart
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1645v2IpTrPolTraffUseEntry 100663296}
+
+pr1645v2IpTrPolTraffUseSrcPortEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.sourcePortEnd
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1645v2IpTrPolTraffUseEntry 117440512}
+
+pr1645v2IpTrPolTraffUseDstPortStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.destinationPortStart
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1645v2IpTrPolTraffUseEntry 134217728}
+
+pr1645v2IpTrPolTraffUseDstPortEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.destinationPortEnd
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1645v2IpTrPolTraffUseEntry 150994944}
+
+pr1645v2IpTrPolTraffUseOldPrio OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               any (255)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.oldPriority
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               any   (255)"
+   ::= {pr1645v2IpTrPolTraffUseEntry 352321536}
+
+pr1645v2IpTrPolTraffUseNewTosValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.newTosValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {pr1645v2IpTrPolTraffUseEntry 167772160}
+
+pr1645v2IpTrPolTraffUsePriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.trafficShaping.priority
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {pr1645v2IpTrPolTraffUseEntry 184549376}
+
+
+pr1645v2IpTrPolAclUse OBJECT IDENTIFIER ::= {pr1645v2IpTrPol 33}
+
+pr1645v2IpTrPolAclUseSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2IpTrPolAclUseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "access list status table"
+   ::= {pr1645v2IpTrPolAclUse 1}
+
+pr1645v2IpTrPolAclUseEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2IpTrPolAclUseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2IpTrPolAclUseGlobalIx,
+                pr1645v2IpTrPolAclUseTableIx }
+   ::= {pr1645v2IpTrPolAclUseSSCTable 1}
+
+Pr1645v2IpTrPolAclUseEntry ::=
+   SEQUENCE
+      {
+      pr1645v2IpTrPolAclUseGlobalIx
+         GlobalIndex,
+      pr1645v2IpTrPolAclUseTableIx
+         TableIndex,
+      pr1645v2IpTrPolAclUseName
+         DisplayString,
+      pr1645v2IpTrPolAclUseUses
+         Gauge32,
+      pr1645v2IpTrPolAclUseOctets
+         Gauge32,
+      pr1645v2IpTrPolAclUseMatched
+         Gauge32,
+      pr1645v2IpTrPolAclUseChecked
+         Gauge32,
+      pr1645v2IpTrPolAclUseDestination
+         DisplayString,
+      pr1645v2IpTrPolAclUseSourceInterface
+         DisplayString,
+      pr1645v2IpTrPolAclUseSrcIpStart
+         IpAddress,
+      pr1645v2IpTrPolAclUseSrcIpEnd
+         IpAddress,
+      pr1645v2IpTrPolAclUseDestIpStart
+         IpAddress,
+      pr1645v2IpTrPolAclUseDestIpEnd
+         IpAddress,
+      pr1645v2IpTrPolAclUseTosStart
+         INTEGER,
+      pr1645v2IpTrPolAclUseTosEnd
+         INTEGER,
+      pr1645v2IpTrPolAclUseIpPclStart
+         INTEGER,
+      pr1645v2IpTrPolAclUseIpPclEnd
+         INTEGER,
+      pr1645v2IpTrPolAclUseSrcPortStart
+         INTEGER,
+      pr1645v2IpTrPolAclUseSrcPortEnd
+         INTEGER,
+      pr1645v2IpTrPolAclUseDstPortStart
+         INTEGER,
+      pr1645v2IpTrPolAclUseDstPortEnd
+         INTEGER,
+      pr1645v2IpTrPolAclUseOldPrio
+         INTEGER,
+      pr1645v2IpTrPolAclUseTimeWindow
+         DisplayString,
+      pr1645v2IpTrPolAclUseTimeWindowStatus
+         INTEGER,
+      pr1645v2IpTrPolAclUseAction
+         INTEGER,
+      pr1645v2IpTrPolAclUseMarkQueue
+         INTEGER,
+      pr1645v2IpTrPolAclUseMarkTos
+         INTEGER,
+      pr1645v2IpTrPolAclUseMarkDropLevel
+         INTEGER,
+      pr1645v2IpTrPolAclUseMarkCalcHash
+         INTEGER,
+      pr1645v2IpTrPolAclUseJumpTo
+         DisplayString,
+      pr1645v2IpTrPolAclUseCapture
+         INTEGER
+      }
+
+pr1645v2IpTrPolAclUseGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2IpTrPolAclUseEntry 10}
+
+pr1645v2IpTrPolAclUseTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2IpTrPolAclUseEntry 11}
+
+pr1645v2IpTrPolAclUseName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.name"
+   ::= {pr1645v2IpTrPolAclUseEntry 301989888}
+
+pr1645v2IpTrPolAclUseUses OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.uses
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2IpTrPolAclUseEntry 268435456}
+
+pr1645v2IpTrPolAclUseOctets OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.octets
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2IpTrPolAclUseEntry 318767104}
+
+pr1645v2IpTrPolAclUseMatched OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.matched
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2IpTrPolAclUseEntry 419430400}
+
+pr1645v2IpTrPolAclUseChecked OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.checked
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2IpTrPolAclUseEntry 436207616}
+
+pr1645v2IpTrPolAclUseDestination OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.destination"
+   ::= {pr1645v2IpTrPolAclUseEntry 234881024}
+
+pr1645v2IpTrPolAclUseSourceInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.sourceInterface"
+   ::= {pr1645v2IpTrPolAclUseEntry 369098752}
+
+pr1645v2IpTrPolAclUseSrcIpStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.sourceIpStartAddress"
+   ::= {pr1645v2IpTrPolAclUseEntry 16777216}
+
+pr1645v2IpTrPolAclUseSrcIpEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.sourceIpEndAddress"
+   ::= {pr1645v2IpTrPolAclUseEntry 33554432}
+
+pr1645v2IpTrPolAclUseDestIpStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.destinationIpStartAddress"
+   ::= {pr1645v2IpTrPolAclUseEntry 50331648}
+
+pr1645v2IpTrPolAclUseDestIpEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.destinationIpEndAddress"
+   ::= {pr1645v2IpTrPolAclUseEntry 67108864}
+
+pr1645v2IpTrPolAclUseTosStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               any (256)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.tosStartValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               any   (256)"
+   ::= {pr1645v2IpTrPolAclUseEntry 201326592}
+
+pr1645v2IpTrPolAclUseTosEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               optional (256)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.tosEndValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               optional   (256)"
+   ::= {pr1645v2IpTrPolAclUseEntry 218103808}
+
+pr1645v2IpTrPolAclUseIpPclStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iCMP (1),
+               iGMP (2),
+               iPinIP (4),
+               tCP (6),
+               eGP (8),
+               iGP (9),
+               uDP (17),
+               rSVP (46),
+               iGRP (88),
+               oSPF (89)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.ipProtocolStart
+
+       Possibilities:
+               ICMP   (1)
+               IGMP   (2)
+               IPinIP   (4)
+               TCP   (6)
+               EGP   (8)
+               IGP   (9)
+               UDP   (17)
+               RSVP   (46)
+               IGRP   (88)
+               OSPF   (89)"
+   ::= {pr1645v2IpTrPolAclUseEntry 83886080}
+
+pr1645v2IpTrPolAclUseIpPclEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iCMP (1),
+               iGMP (2),
+               iPinIP (4),
+               tCP (6),
+               eGP (8),
+               iGP (9),
+               uDP (17),
+               rSVP (46),
+               iGRP (88),
+               oSPF (89)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.ipProtocolEnd
+
+       Possibilities:
+               ICMP   (1)
+               IGMP   (2)
+               IPinIP   (4)
+               TCP   (6)
+               EGP   (8)
+               IGP   (9)
+               UDP   (17)
+               RSVP   (46)
+               IGRP   (88)
+               OSPF   (89)"
+   ::= {pr1645v2IpTrPolAclUseEntry 285212672}
+
+pr1645v2IpTrPolAclUseSrcPortStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.sourcePortStart
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1645v2IpTrPolAclUseEntry 100663296}
+
+pr1645v2IpTrPolAclUseSrcPortEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.sourcePortEnd
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1645v2IpTrPolAclUseEntry 117440512}
+
+pr1645v2IpTrPolAclUseDstPortStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.destinationPortStart
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1645v2IpTrPolAclUseEntry 134217728}
+
+pr1645v2IpTrPolAclUseDstPortEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.destinationPortEnd
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1645v2IpTrPolAclUseEntry 150994944}
+
+pr1645v2IpTrPolAclUseOldPrio OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               any (255)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.oldPriority
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               any   (255)"
+   ::= {pr1645v2IpTrPolAclUseEntry 352321536}
+
+pr1645v2IpTrPolAclUseTimeWindow OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.timeWindow"
+   ::= {pr1645v2IpTrPolAclUseEntry 503316480}
+
+pr1645v2IpTrPolAclUseTimeWindowStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notApplicable (0),
+               active (1),
+               inactive (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.timeWindowStatus
+
+       Possibilities:
+               notApplicable   (0)
+               active   (1)
+               inactive   (2)"
+   ::= {pr1645v2IpTrPolAclUseEntry 520093696}
+
+pr1645v2IpTrPolAclUseAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               deny (0),
+               permit (1),
+               continue (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.action
+
+       Possibilities:
+               deny   (0)
+               permit   (1)
+               continue   (2)"
+   ::= {pr1645v2IpTrPolAclUseEntry 385875968}
+
+pr1645v2IpTrPolAclUseMarkQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               diffServ (-2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.mark.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               diffServ   (-2)"
+   ::= {pr1645v2IpTrPolAclUseEntry 453050368}
+
+pr1645v2IpTrPolAclUseMarkTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.mark.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {pr1645v2IpTrPolAclUseEntry 453115904}
+
+pr1645v2IpTrPolAclUseMarkDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               dropOnQueue (0),
+               diffServ (-2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.mark.dropLevel
+
+       Possibilities:
+               unchanged   (-1)
+               dropOnQueue   (0)
+               diffServ   (-2)"
+   ::= {pr1645v2IpTrPolAclUseEntry 453181440}
+
+pr1645v2IpTrPolAclUseMarkCalcHash OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (1),
+               ipAndPorts (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.mark.calcHash
+
+       Possibilities:
+               no   (1)
+               ipAndPorts   (3)"
+   ::= {pr1645v2IpTrPolAclUseEntry 453246976}
+
+pr1645v2IpTrPolAclUseJumpTo OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.jumpTo"
+   ::= {pr1645v2IpTrPolAclUseEntry 469762048}
+
+pr1645v2IpTrPolAclUseCapture OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (8)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.advancedFilter.capture
+
+       Possibilities:
+               disabled   (8)"
+   ::= {pr1645v2IpTrPolAclUseEntry 486539264}
+
+
+pr1645v2IpTrPolDiscards OBJECT IDENTIFIER ::= {pr1645v2IpTrPol 31}
+
+pr1645v2IpTrPolDiscardsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2IpTrPolDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "traffic policy packet discards"
+   ::= {pr1645v2IpTrPolDiscards 1}
+
+pr1645v2IpTrPolDiscardsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2IpTrPolDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2IpTrPolDiscardsGlobalIx }
+   ::= {pr1645v2IpTrPolDiscardsTable 1}
+
+Pr1645v2IpTrPolDiscardsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2IpTrPolDiscardsGlobalIx
+         GlobalIndex,
+      pr1645v2IpTrPolDiscardsValue
+         Integer32
+      }
+
+pr1645v2IpTrPolDiscardsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2IpTrPolDiscardsEntry 10}
+
+pr1645v2IpTrPolDiscardsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.discards"
+   ::= {pr1645v2IpTrPolDiscardsEntry 2147483648}
+
+
+pr1645v2IpTrPolFragmentsProcessed OBJECT IDENTIFIER ::= {pr1645v2IpTrPol 57}
+
+pr1645v2IpTrPolFragmentsProcessedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2IpTrPolFragmentsProcessedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "will this access list process fragments"
+   ::= {pr1645v2IpTrPolFragmentsProcessed 1}
+
+pr1645v2IpTrPolFragmentsProcessedEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2IpTrPolFragmentsProcessedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2IpTrPolFragmentsProcessedGlobalIx }
+   ::= {pr1645v2IpTrPolFragmentsProcessedTable 1}
+
+Pr1645v2IpTrPolFragmentsProcessedEntry ::=
+   SEQUENCE
+      {
+      pr1645v2IpTrPolFragmentsProcessedGlobalIx
+         GlobalIndex,
+      pr1645v2IpTrPolFragmentsProcessedValue
+         INTEGER
+      }
+
+pr1645v2IpTrPolFragmentsProcessedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2IpTrPolFragmentsProcessedEntry 10}
+
+pr1645v2IpTrPolFragmentsProcessedValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (1),
+               yes (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.fragmentsProcessed
+
+       Possibilities:
+               no   (1)
+               yes   (2)"
+   ::= {pr1645v2IpTrPolFragmentsProcessedEntry 2147483648}
+
+
+pr1645v2IpTrPolFragmentedPackets OBJECT IDENTIFIER ::= {pr1645v2IpTrPol 54}
+
+pr1645v2IpTrPolFragmentedPacketsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2IpTrPolFragmentedPacketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "counter for ip fragment caching"
+   ::= {pr1645v2IpTrPolFragmentedPackets 1}
+
+pr1645v2IpTrPolFragmentedPacketsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2IpTrPolFragmentedPacketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2IpTrPolFragmentedPacketsGlobalIx }
+   ::= {pr1645v2IpTrPolFragmentedPacketsTable 1}
+
+Pr1645v2IpTrPolFragmentedPacketsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2IpTrPolFragmentedPacketsGlobalIx
+         GlobalIndex,
+      pr1645v2IpTrPolFragmentedPacketsValue
+         Integer32
+      }
+
+pr1645v2IpTrPolFragmentedPacketsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2IpTrPolFragmentedPacketsEntry 10}
+
+pr1645v2IpTrPolFragmentedPacketsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.fragmentedPackets"
+   ::= {pr1645v2IpTrPolFragmentedPacketsEntry 2147483648}
+
+
+pr1645v2IpTrPolFragments OBJECT IDENTIFIER ::= {pr1645v2IpTrPol 55}
+
+pr1645v2IpTrPolFragmentsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2IpTrPolFragmentsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "counter for ip fragment caching"
+   ::= {pr1645v2IpTrPolFragments 1}
+
+pr1645v2IpTrPolFragmentsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2IpTrPolFragmentsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2IpTrPolFragmentsGlobalIx }
+   ::= {pr1645v2IpTrPolFragmentsTable 1}
+
+Pr1645v2IpTrPolFragmentsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2IpTrPolFragmentsGlobalIx
+         GlobalIndex,
+      pr1645v2IpTrPolFragmentsValue
+         Integer32
+      }
+
+pr1645v2IpTrPolFragmentsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2IpTrPolFragmentsEntry 10}
+
+pr1645v2IpTrPolFragmentsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.fragments"
+   ::= {pr1645v2IpTrPolFragmentsEntry 2147483648}
+
+
+pr1645v2IpTrPolDroppedFragments OBJECT IDENTIFIER ::= {pr1645v2IpTrPol 32}
+
+pr1645v2IpTrPolDroppedFragmentsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2IpTrPolDroppedFragmentsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "counter for ip fragment caching"
+   ::= {pr1645v2IpTrPolDroppedFragments 1}
+
+pr1645v2IpTrPolDroppedFragmentsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2IpTrPolDroppedFragmentsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2IpTrPolDroppedFragmentsGlobalIx }
+   ::= {pr1645v2IpTrPolDroppedFragmentsTable 1}
+
+Pr1645v2IpTrPolDroppedFragmentsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2IpTrPolDroppedFragmentsGlobalIx
+         GlobalIndex,
+      pr1645v2IpTrPolDroppedFragmentsValue
+         Integer32
+      }
+
+pr1645v2IpTrPolDroppedFragmentsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2IpTrPolDroppedFragmentsEntry 10}
+
+pr1645v2IpTrPolDroppedFragmentsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.droppedFragments"
+   ::= {pr1645v2IpTrPolDroppedFragmentsEntry 2147483648}
+
+
+pr1645v2IpTrPolFragmentsOutOfSequence OBJECT IDENTIFIER ::= {pr1645v2IpTrPol 59}
+
+pr1645v2IpTrPolFragmentsOutOfSequenceTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2IpTrPolFragmentsOutOfSequenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "counter for ip fragment caching"
+   ::= {pr1645v2IpTrPolFragmentsOutOfSequence 1}
+
+pr1645v2IpTrPolFragmentsOutOfSequenceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2IpTrPolFragmentsOutOfSequenceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2IpTrPolFragmentsOutOfSequenceGlobalIx }
+   ::= {pr1645v2IpTrPolFragmentsOutOfSequenceTable 1}
+
+Pr1645v2IpTrPolFragmentsOutOfSequenceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2IpTrPolFragmentsOutOfSequenceGlobalIx
+         GlobalIndex,
+      pr1645v2IpTrPolFragmentsOutOfSequenceValue
+         Integer32
+      }
+
+pr1645v2IpTrPolFragmentsOutOfSequenceGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2IpTrPolFragmentsOutOfSequenceEntry 10}
+
+pr1645v2IpTrPolFragmentsOutOfSequenceValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.performance.fragmentsOutOfSequence"
+   ::= {pr1645v2IpTrPolFragmentsOutOfSequenceEntry 2147483648}
+
+
+
+ar1645v2IpTrPol OBJECT IDENTIFIER ::= {r1645v2IpTrPol 16}
+
+
+ar1645v2IpTrPolClearCounters OBJECT IDENTIFIER ::= {ar1645v2IpTrPol 263}
+
+ar1645v2IpTrPolClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2IpTrPolClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1645v2IpTrPolClearCounters 1}
+
+ar1645v2IpTrPolClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2IpTrPolClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2IpTrPolClearCountersGlobalIx }
+   ::= {ar1645v2IpTrPolClearCountersTable 1}
+
+Ar1645v2IpTrPolClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1645v2IpTrPolClearCountersGlobalIx
+         GlobalIndex,
+      ar1645v2IpTrPolClearCountersValue
+         Integer32
+      }
+
+ar1645v2IpTrPolClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2IpTrPolClearCountersEntry 10}
+
+ar1645v2IpTrPolClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipTrafficPolicy.actions.clearCounters"
+   ::= {ar1645v2IpTrPolClearCountersEntry 2147483648}
+
+
+
+END

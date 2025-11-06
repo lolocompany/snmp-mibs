@@ -1,0 +1,466 @@
+OneAccess-R1646v2-1425-RF DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2RF OBJECT IDENTIFIER ::= {r1646Rootv2 1425}
+
+r1646v2RFMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2RFMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2RF 1}
+
+r1646v2RFMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2RFMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2RFMOPropGlobalIx }
+   ::= {r1646v2RFMOProp 1}
+
+R1646v2RFMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2RFMOPropPath
+         ContainmentPath,
+      r1646v2RFMOPropRev
+         ObjectRevision,
+      r1646v2RFMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2RFMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2RFMOPropEntry 3}
+
+r1646v2RFMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2RFMOPropEntry 4}
+
+r1646v2RFMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2RFMOPropEntry 10}
+
+
+
+er1646v2RF OBJECT IDENTIFIER ::= {r1646v2RF 11}
+
+
+er1646v2RFSnmpIndexOffset OBJECT IDENTIFIER ::= {er1646v2RF 268}
+
+er1646v2RFSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RFSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1646v2RFSnmpIndexOffset 1}
+
+er1646v2RFSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RFSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RFSnmpIndexOffsetGlobalIx }
+   ::= {er1646v2RFSnmpIndexOffsetTable 1}
+
+Er1646v2RFSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1646v2RFSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1646v2RFSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1646v2RFSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RFSnmpIndexOffsetEntry 10}
+
+er1646v2RFSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routingFilter.editConf.snmpIndexOffset"
+   ::= {er1646v2RFSnmpIndexOffsetEntry 2147483648}
+
+
+er1646v2RFFilter OBJECT IDENTIFIER ::= {er1646v2RF 2}
+
+er1646v2RFFilterSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2RFFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "routeFilter"
+   ::= {er1646v2RFFilter 1}
+
+er1646v2RFFilterEntry OBJECT-TYPE
+   SYNTAX      Er1646v2RFFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2RFFilterGlobalIx,
+                er1646v2RFFilterTableIx }
+   ::= {er1646v2RFFilterSSCTable 1}
+
+Er1646v2RFFilterEntry ::=
+   SEQUENCE
+      {
+      er1646v2RFFilterActions
+         VariableLengthTableActions,
+      er1646v2RFFilterGlobalIx
+         GlobalIndex,
+      er1646v2RFFilterTableIx
+         TableIndex,
+      er1646v2RFFilterType
+         INTEGER,
+      er1646v2RFFilterNetwork
+         IpAddress,
+      er1646v2RFFilterMask
+         IpAddress,
+      er1646v2RFFilterMode
+         INTEGER,
+      er1646v2RFFilterTag
+         DisplayString,
+      er1646v2RFFilterMetric
+         INTEGER
+      }
+
+er1646v2RFFilterActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2RFFilterEntry 2}
+
+er1646v2RFFilterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2RFFilterEntry 10}
+
+er1646v2RFFilterTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2RFFilterEntry 11}
+
+er1646v2RFFilterType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               local (2),
+               static (3),
+               bgp (4),
+               ospf (5),
+               radius (6),
+               all (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routingFilter.editConf.filter.type
+
+       Possibilities:
+               local   (2)
+               static   (3)
+               bgp   (4)
+               ospf   (5)
+               radius   (6)
+               all   (1)"
+   ::= {er1646v2RFFilterEntry 134217728}
+
+er1646v2RFFilterNetwork OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routingFilter.editConf.filter.network"
+   ::= {er1646v2RFFilterEntry 16777216}
+
+er1646v2RFFilterMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routingFilter.editConf.filter.mask"
+   ::= {er1646v2RFFilterEntry 33554432}
+
+er1646v2RFFilterMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               deny (0),
+               allow (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routingFilter.editConf.filter.mode
+
+       Possibilities:
+               deny   (0)
+               allow   (1)"
+   ::= {er1646v2RFFilterEntry 50331648}
+
+er1646v2RFFilterTag OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routingFilter.editConf.filter.tag"
+   ::= {er1646v2RFFilterEntry 67108864}
+
+er1646v2RFFilterMetric OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               default (-1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routingFilter.editConf.filter.metric
+
+       Possibilities:
+               default   (-1)"
+   ::= {er1646v2RFFilterEntry 83886080}
+
+
+
+sr1646v2RF OBJECT IDENTIFIER ::= {r1646v2RF 14}
+
+
+sr1646v2RFSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2RF 269}
+
+sr1646v2RFSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2RFSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2RFSnmpIndex 1}
+
+sr1646v2RFSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2RFSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2RFSnmpIndexGlobalIx }
+   ::= {sr1646v2RFSnmpIndexTable 1}
+
+Sr1646v2RFSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2RFSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2RFSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2RFSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2RFSnmpIndexEntry 10}
+
+sr1646v2RFSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: routingFilter.status.snmpIndex"
+   ::= {sr1646v2RFSnmpIndexEntry 2147483648}
+
+
+
+pr1646v2RF OBJECT IDENTIFIER ::= {r1646v2RF 12}
+
+
+pr1646v2RFFilter OBJECT IDENTIFIER ::= {pr1646v2RF 3}
+
+pr1646v2RFFilterSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2RFFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "routeFilterUses"
+   ::= {pr1646v2RFFilter 1}
+
+pr1646v2RFFilterEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2RFFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2RFFilterGlobalIx,
+                pr1646v2RFFilterTableIx }
+   ::= {pr1646v2RFFilterSSCTable 1}
+
+Pr1646v2RFFilterEntry ::=
+   SEQUENCE
+      {
+      pr1646v2RFFilterGlobalIx
+         GlobalIndex,
+      pr1646v2RFFilterTableIx
+         TableIndex,
+      pr1646v2RFFilterNetwork
+         IpAddress,
+      pr1646v2RFFilterMask
+         IpAddress,
+      pr1646v2RFFilterUses
+         Integer32
+      }
+
+pr1646v2RFFilterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2RFFilterEntry 10}
+
+pr1646v2RFFilterTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2RFFilterEntry 11}
+
+pr1646v2RFFilterNetwork OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: routingFilter.performance.filter.network"
+   ::= {pr1646v2RFFilterEntry 16777216}
+
+pr1646v2RFFilterMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: routingFilter.performance.filter.mask"
+   ::= {pr1646v2RFFilterEntry 33554432}
+
+pr1646v2RFFilterUses OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: routingFilter.performance.filter.uses"
+   ::= {pr1646v2RFFilterEntry 50331648}
+
+
+
+ar1646v2RF OBJECT IDENTIFIER ::= {r1646v2RF 16}
+
+
+ar1646v2RFClearCounters OBJECT IDENTIFIER ::= {ar1646v2RF 263}
+
+ar1646v2RFClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2RFClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1646v2RFClearCounters 1}
+
+ar1646v2RFClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2RFClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2RFClearCountersGlobalIx }
+   ::= {ar1646v2RFClearCountersTable 1}
+
+Ar1646v2RFClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1646v2RFClearCountersGlobalIx
+         GlobalIndex,
+      ar1646v2RFClearCountersValue
+         Integer32
+      }
+
+ar1646v2RFClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2RFClearCountersEntry 10}
+
+ar1646v2RFClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: routingFilter.actions.clearCounters"
+   ::= {ar1646v2RFClearCountersEntry 2147483648}
+
+
+
+END

@@ -1,0 +1,4662 @@
+OneAccess-R1646v2-4478-WanIf DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2WanIf OBJECT IDENTIFIER ::= {r1646Rootv2 4478}
+
+r1646v2WanIfMOProp OBJECT IDENTIFIER ::= {r1646v2WanIf 1}
+
+r1646v2WanIfMOPropEntry OBJECT IDENTIFIER ::= {r1646v2WanIfMOProp 1}
+
+r1646v2WanIfMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2WanIfMOPropEntry 3}
+
+r1646v2WanIfMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2WanIfMOPropEntry 4}
+
+
+
+sr1646v2WanIf OBJECT IDENTIFIER ::= {r1646v2WanIf 14}
+
+
+sr1646v2WanIfDescr OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.status.ifDescr
+       Info: ifDescr"
+   ::= {sr1646v2WanIf 101}
+
+
+sr1646v2WanIfType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               other (1),
+               regular1822 (2),
+               hdh1822 (3),
+               ddnmx25 (4),
+               rfc877mx25 (5),
+               ethernetmcsmacd (6),
+               iso88023mcsmacd (7),
+               iso88024mtokenBus (8),
+               iso88025mtokenRing (9),
+               is088026mman (10),
+               starlan (11),
+               proteonm10Mbit (12),
+               proteonm80Mbit (13),
+               hyperChannel (14),
+               fddi (15),
+               lapb (16),
+               sdlc (17),
+               ds1 (18),
+               e1 (19),
+               basicISDN (20),
+               primaryISDN (21),
+               propPointToPointSerial (22),
+               ppp (23),
+               softwareLoopback (24),
+               eon (25),
+               ethernetm3Mbit (26),
+               nsip (27),
+               slip (28),
+               ultra (29),
+               ds3 (30),
+               sip (31),
+               framemrelay (32),
+               rs232 (33),
+               para (34),
+               arcnet (35),
+               arcnetPlus (36),
+               atm (37),
+               miox25 (38),
+               sonet (39),
+               x25ple (40),
+               iso88022llc (41),
+               localTalk (42),
+               smdsDxi (43),
+               frameRelayService (44),
+               v35 (45),
+               hssi (46),
+               hippi (47),
+               modem (48),
+               aal5 (49),
+               sonetPath (50),
+               sonetVT (51),
+               smdsIcip (52),
+               propVirtual (53),
+               propMultiplexor (54),
+               ieee80212 (55),
+               fibreChannel (56),
+               hippiInterface (57),
+               frameRelayInterconnect (58),
+               aflane8023 (59),
+               aflane8025 (60),
+               cctEmul (61),
+               fastEther (62),
+               isdn (63),
+               v11 (64),
+               v36 (65),
+               g703at64k (66),
+               g703at2mb (67),
+               qllc (68),
+               fastEtherFX (69),
+               channel (70),
+               ieee80211 (71),
+               ibm370parChan (72),
+               escon (73),
+               dlsw (74),
+               isdns (75),
+               isdnu (76),
+               lapd (77),
+               ipSwitch (78),
+               rsrb (79),
+               atmmlogical (80),
+               ds0 (81),
+               ds0Bundle (82),
+               bsc (83),
+               async (84),
+               cnr (85),
+               iso88025Dtr (86),
+               eplrs (87),
+               arap (88),
+               propCnls (89),
+               hostPad (90),
+               termPad (91),
+               frameRelayMPI (92),
+               x213 (93),
+               adsl (94),
+               radsl (95),
+               sdsl (96),
+               vdsl (97),
+               iso88025CRFPInt (98),
+               myrinet (99),
+               voiceEM (100),
+               voiceFXO (101),
+               voiceFXS (102),
+               voiceEncap (103),
+               voiceOverIp (104),
+               atmDxi (105),
+               atmFuni (106),
+               atmIma (107),
+               pppMultilinkBundle (108),
+               ipOverCdlc (109),
+               ipOverClaw (110),
+               stackToStack (111),
+               virtualIpAddress (112),
+               mpc (113),
+               ipOverAtm (114),
+               iso88025Fiber (115),
+               tdlc (116),
+               gigabitEthernet (117),
+               hdlc (118),
+               lapf (119),
+               v37 (120),
+               x25mlp (121),
+               x25huntGroup (122),
+               trasnpHdlc (123),
+               interleave (124),
+               fast (125),
+               ip (126),
+               docsCableMaclayer (127),
+               docsCableDownstream (128),
+               docsCableUpstream (129),
+               a12MppSwitch (130),
+               tunnel (131),
+               coffee (132),
+               ces (133),
+               atmSubInterface (134),
+               l2vlan (135),
+               l3ipvlan (136),
+               l3ipxvlan (137),
+               digitalPowerline (138),
+               mediaMailOverIp (139),
+               dtm (140),
+               dcn (141),
+               ipForward (142),
+               msdsl (143),
+               ieee1394 (144),
+               ifmgsn (145),
+               dvbRccMacLayer (146),
+               dvbRccDownstream (147),
+               dvbRccUpstream (148),
+               atmVirtual (149),
+               mplsTunnel (150),
+               srp (151),
+               voiceOverAtm (152),
+               voiceOverFrameRelay (153),
+               idsl (154),
+               compositeLink (155),
+               ss7SigLink (156),
+               propWirelessP2P (157),
+               frForward (158),
+               rfc1483 (159),
+               usb (160),
+               ieee8023adLag (161),
+               bgppolicyaccounting (162),
+               frf16MfrBundle (163),
+               h323Gatekeeper (164),
+               h323Proxy (165),
+               mpls (166),
+               mfSigLink (167),
+               hdsl2 (168),
+               shdsl (169),
+               ds1FDL (170),
+               pos (171),
+               dvbAsiIn (172),
+               dvbAsiOut (173),
+               plc (174),
+               nfas (175),
+               tr008 (176),
+               gr303RDT (177),
+               gr303IDT (178),
+               isup (179),
+               propDocsWirelessMaclayer (180),
+               propDocsWirelessDownstream (181),
+               propDocsWirelessUpstream (182),
+               hiperlan2 (183),
+               propBWAp2Mp (184),
+               sonetOverheadChannel (185),
+               digitalWrapperOverheadChannel (186),
+               aal2 (187),
+               radioMAC (188),
+               atmRadio (189),
+               imt (190),
+               mvl (191),
+               reachDSL (192),
+               frDlciEndPt (193),
+               atmVciEndPt (194),
+               opticalChannel (195),
+               opticalTransport (196),
+               propAtm (197),
+               voiceOverCable (198),
+               infiniband (199),
+               teLink (200),
+               q2931 (201),
+               virtualTg (202),
+               sipTg (203),
+               sipSig (204),
+               docsCableUpstreamChannel (205),
+               econet (206),
+               pon155 (207),
+               pon622 (208),
+               bridge (209),
+               linegroup (210),
+               voiceEMFGD (211),
+               voiceFGDEANA (212),
+               voiceDID (213),
+               mpegTransport (214),
+               sixToFour (215),
+               gtp (216),
+               pdnEtherLoop1 (217),
+               pdnEtherLoop2 (218),
+               opticalChannelGroup (219),
+               homepna (220),
+               gfp (221),
+               ciscoISLvlan (222),
+               actelisMetaLOOP (223),
+               fcipLink (224),
+               rpr (225),
+               qam (226),
+               lmp (227),
+               cblVectaStar (228),
+               docsCableMCmtsDownstream (229),
+               adsl2 (230),
+               macSecControlledIF (231),
+               macSecUncontrolledIF (232),
+               aviciOpticalEther (233),
+               atmbond (234),
+               voiceFGDOS (235),
+               mocaVersion1 (236),
+               ieee80216WMAN (237),
+               adsl2plus (238),
+               dvbRcsMacLayer (239),
+               dvbTdm (240),
+               dvbRcsTdma (241),
+               x86Laps (242),
+               wwanPP (243),
+               wwanPP2 (244),
+               voiceEBS (245),
+               ifPwType (246),
+               ilan (247),
+               pip (248),
+               aluELP (249),
+               gpon (250),
+               vdsl2 (251),
+               capwapDot11Profile (252),
+               capwapDot11Bss (253),
+               capwapWtpVirtualRadio (254),
+               bits (255),
+               docsCableUpstreamRfPort (256),
+               cableDownstreamRfPort (257),
+               gfast (279)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.status.ifType
+       Info: ifType
+
+       Possibilities:
+               other   (1)
+               regular1822   (2)
+               hdh1822   (3)
+               ddn-x25   (4)
+               rfc877-x25   (5)
+               ethernet-csmacd   (6)
+               iso88023-csmacd   (7)
+               iso88024-tokenBus   (8)
+               iso88025-tokenRing   (9)
+               is088026-man   (10)
+               starlan   (11)
+               proteon-10Mbit   (12)
+               proteon-80Mbit   (13)
+               hyperChannel   (14)
+               fddi   (15)
+               lapb   (16)
+               sdlc   (17)
+               ds1   (18)
+               e1   (19)
+               basicISDN   (20)
+               primaryISDN   (21)
+               propPointToPointSerial   (22)
+               ppp   (23)
+               softwareLoopback   (24)
+               eon   (25)
+               ethernet-3Mbit   (26)
+               nsip   (27)
+               slip   (28)
+               ultra   (29)
+               ds3   (30)
+               sip   (31)
+               frame-relay   (32)
+               rs232   (33)
+               para   (34)
+               arcnet   (35)
+               arcnetPlus   (36)
+               atm   (37)
+               miox25   (38)
+               sonet   (39)
+               x25ple   (40)
+               iso88022llc   (41)
+               localTalk   (42)
+               smdsDxi   (43)
+               frameRelayService   (44)
+               v35   (45)
+               hssi   (46)
+               hippi   (47)
+               modem   (48)
+               aal5   (49)
+               sonetPath   (50)
+               sonetVT   (51)
+               smdsIcip   (52)
+               propVirtual   (53)
+               propMultiplexor   (54)
+               ieee80212   (55)
+               fibreChannel   (56)
+               hippiInterface   (57)
+               frameRelayInterconnect   (58)
+               aflane8023   (59)
+               aflane8025   (60)
+               cctEmul   (61)
+               fastEther   (62)
+               isdn   (63)
+               v11   (64)
+               v36   (65)
+               g703at64k   (66)
+               g703at2mb   (67)
+               qllc   (68)
+               fastEtherFX   (69)
+               channel   (70)
+               ieee80211   (71)
+               ibm370parChan   (72)
+               escon   (73)
+               dlsw   (74)
+               isdns   (75)
+               isdnu   (76)
+               lapd   (77)
+               ipSwitch   (78)
+               rsrb   (79)
+               atm-logical   (80)
+               ds0   (81)
+               ds0Bundle   (82)
+               bsc   (83)
+               async   (84)
+               cnr   (85)
+               iso88025Dtr   (86)
+               eplrs   (87)
+               arap   (88)
+               propCnls   (89)
+               hostPad   (90)
+               termPad   (91)
+               frameRelayMPI   (92)
+               x213   (93)
+               adsl   (94)
+               radsl   (95)
+               sdsl   (96)
+               vdsl   (97)
+               iso88025CRFPInt   (98)
+               myrinet   (99)
+               voiceEM   (100)
+               voiceFXO   (101)
+               voiceFXS   (102)
+               voiceEncap   (103)
+               voiceOverIp   (104)
+               atmDxi   (105)
+               atmFuni   (106)
+               atmIma   (107)
+               pppMultilinkBundle   (108)
+               ipOverCdlc   (109)
+               ipOverClaw   (110)
+               stackToStack   (111)
+               virtualIpAddress   (112)
+               mpc   (113)
+               ipOverAtm   (114)
+               iso88025Fiber   (115)
+               tdlc   (116)
+               gigabitEthernet   (117)
+               hdlc   (118)
+               lapf   (119)
+               v37   (120)
+               x25mlp   (121)
+               x25huntGroup   (122)
+               trasnpHdlc   (123)
+               interleave   (124)
+               fast   (125)
+               ip   (126)
+               docsCableMaclayer   (127)
+               docsCableDownstream   (128)
+               docsCableUpstream   (129)
+               a12MppSwitch   (130)
+               tunnel   (131)
+               coffee   (132)
+               ces   (133)
+               atmSubInterface   (134)
+               l2vlan   (135)
+               l3ipvlan   (136)
+               l3ipxvlan   (137)
+               digitalPowerline   (138)
+               mediaMailOverIp   (139)
+               dtm   (140)
+               dcn   (141)
+               ipForward   (142)
+               msdsl   (143)
+               ieee1394   (144)
+               if-gsn   (145)
+               dvbRccMacLayer   (146)
+               dvbRccDownstream   (147)
+               dvbRccUpstream   (148)
+               atmVirtual   (149)
+               mplsTunnel   (150)
+               srp   (151)
+               voiceOverAtm   (152)
+               voiceOverFrameRelay   (153)
+               idsl   (154)
+               compositeLink   (155)
+               ss7SigLink   (156)
+               propWirelessP2P   (157)
+               frForward   (158)
+               rfc1483   (159)
+               usb   (160)
+               ieee8023adLag   (161)
+               bgppolicyaccounting   (162)
+               frf16MfrBundle   (163)
+               h323Gatekeeper   (164)
+               h323Proxy   (165)
+               mpls   (166)
+               mfSigLink   (167)
+               hdsl2   (168)
+               shdsl   (169)
+               ds1FDL   (170)
+               pos   (171)
+               dvbAsiIn   (172)
+               dvbAsiOut   (173)
+               plc   (174)
+               nfas   (175)
+               tr008   (176)
+               gr303RDT   (177)
+               gr303IDT   (178)
+               isup   (179)
+               propDocsWirelessMaclayer   (180)
+               propDocsWirelessDownstream   (181)
+               propDocsWirelessUpstream   (182)
+               hiperlan2   (183)
+               propBWAp2Mp   (184)
+               sonetOverheadChannel   (185)
+               digitalWrapperOverheadChannel   (186)
+               aal2   (187)
+               radioMAC   (188)
+               atmRadio   (189)
+               imt   (190)
+               mvl   (191)
+               reachDSL   (192)
+               frDlciEndPt   (193)
+               atmVciEndPt   (194)
+               opticalChannel   (195)
+               opticalTransport   (196)
+               propAtm   (197)
+               voiceOverCable   (198)
+               infiniband   (199)
+               teLink   (200)
+               q2931   (201)
+               virtualTg   (202)
+               sipTg   (203)
+               sipSig   (204)
+               docsCableUpstreamChannel   (205)
+               econet   (206)
+               pon155   (207)
+               pon622   (208)
+               bridge   (209)
+               linegroup   (210)
+               voiceEMFGD   (211)
+               voiceFGDEANA   (212)
+               voiceDID   (213)
+               mpegTransport   (214)
+               sixToFour   (215)
+               gtp   (216)
+               pdnEtherLoop1   (217)
+               pdnEtherLoop2   (218)
+               opticalChannelGroup   (219)
+               homepna   (220)
+               gfp   (221)
+               ciscoISLvlan   (222)
+               actelisMetaLOOP   (223)
+               fcipLink   (224)
+               rpr   (225)
+               qam   (226)
+               lmp   (227)
+               cblVectaStar   (228)
+               docsCableMCmtsDownstream   (229)
+               adsl2   (230)
+               macSecControlledIF   (231)
+               macSecUncontrolledIF   (232)
+               aviciOpticalEther   (233)
+               atmbond   (234)
+               voiceFGDOS   (235)
+               mocaVersion1   (236)
+               ieee80216WMAN   (237)
+               adsl2plus   (238)
+               dvbRcsMacLayer   (239)
+               dvbTdm   (240)
+               dvbRcsTdma   (241)
+               x86Laps   (242)
+               wwanPP   (243)
+               wwanPP2   (244)
+               voiceEBS   (245)
+               ifPwType   (246)
+               ilan   (247)
+               pip   (248)
+               aluELP   (249)
+               gpon   (250)
+               vdsl2   (251)
+               capwapDot11Profile   (252)
+               capwapDot11Bss   (253)
+               capwapWtpVirtualRadio   (254)
+               bits   (255)
+               docsCableUpstreamRfPort   (256)
+               cableDownstreamRfPort   (257)
+               gfast   (279)"
+   ::= {sr1646v2WanIf 102}
+
+
+sr1646v2WanIfOperStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               up (1),
+               down (2),
+               testing (3),
+               unknown (4),
+               dormant (5),
+               notPresent (6),
+               lowerLayerDown (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.status.ifOperStatus
+       Info: ifOperStatus
+
+       Possibilities:
+               up   (1)
+               down   (2)
+               testing   (3)
+               unknown   (4)
+               dormant   (5)
+               notPresent   (6)
+               lowerLayerDown   (7)"
+   ::= {sr1646v2WanIf 107}
+
+
+sr1646v2WanIfLastChange OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.status.ifLastChange
+       Info: ifLastChange
+
+       Time in centi-second."
+   ::= {sr1646v2WanIf 108}
+
+
+sr1646v2WanIfLastChangeD OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.status.ifLastChangeDate
+       Info: ifLastChangeDate"
+   ::= {sr1646v2WanIf 183}
+
+
+sr1646v2WanIfSnmpIndex OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.status.snmpIndex
+       Info: SNMP index assigned to this object"
+   ::= {sr1646v2WanIf 269}
+
+
+sr1646v2WanIfIfSpeed OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.status.ifSpeed
+       Info: ifSpeed
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2WanIf 104}
+
+
+sr1646v2WanIfMacAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.status.macAddress
+       Info: ifPhysAddress
+
+       MAC address."
+   ::= {sr1646v2WanIf 105}
+
+
+
+er1646v2WanIf OBJECT IDENTIFIER ::= {r1646v2WanIf 11}
+
+
+er1646v2WanIfRemark OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.editConf.remark
+       Info: intfRemark"
+   ::= {er1646v2WanIf 321}
+
+
+er1646v2WanIfName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.editConf.name
+       Info: config interface name"
+   ::= {er1646v2WanIf 2}
+
+
+er1646v2WanIfAlarmMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.editConf.alarmMask
+       Info: ifAlarmMask
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {er1646v2WanIf 135}
+
+
+er1646v2WanIfAlarmLev OBJECT IDENTIFIER ::= {er1646v2WanIf 170}
+
+er1646v2WanIfAlarmLevSSC OBJECT IDENTIFIER ::= {er1646v2WanIfAlarmLev 1}
+
+er1646v2WanIfAlarmLevEntry OBJECT IDENTIFIER ::= {er1646v2WanIfAlarmLevSSC 1}
+
+er1646v2WanIfAlarmLevLinkDown OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.editConf.alarmLevel.linkDown"
+   ::= {er1646v2WanIfAlarmLevEntry 16777216}
+
+
+
+pr1646v2WanIf OBJECT IDENTIFIER ::= {r1646v2WanIf 12}
+
+
+pr1646v2WanIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInOctets
+       Info: ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 109}
+
+
+pr1646v2WanIfInUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInUcastPkts
+       Info: ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 110}
+
+
+pr1646v2WanIfInNUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInNUcastPkts
+       Info: ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 111}
+
+
+pr1646v2WanIfInBcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInBcastPkts
+       Info: ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 211}
+
+
+pr1646v2WanIfInMcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInMcastPkts
+       Info: ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 221}
+
+
+pr1646v2WanIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInDiscards
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 112}
+
+
+pr1646v2WanIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInErrors
+       Info: ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 113}
+
+
+pr1646v2WanIfInUnknownProtos OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInUnknownProtos
+       Info: ifInUnknownprotos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 114}
+
+
+pr1646v2WanIfInQLen OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInQLen
+       Info: ifInQLen
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2WanIf 128}
+
+
+pr1646v2WanIfInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInDropLevelExceeded
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 130}
+
+
+pr1646v2WanIfInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInDiscardsNoMacFit
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 133}
+
+
+pr1646v2WanIfInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInDiscardsNUCast
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 136}
+
+
+pr1646v2WanIfInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInDiscardsFilter
+       Info: ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 137}
+
+
+pr1646v2WanIfInQueues OBJECT IDENTIFIER ::= {pr1646v2WanIf 131}
+
+pr1646v2WanIfInQueuesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2WanIfInQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Queue Lengths"
+   ::= {pr1646v2WanIfInQueues 1}
+
+pr1646v2WanIfInQueuesEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2WanIfInQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2WanIfInQueuesTableIx }
+   ::= {pr1646v2WanIfInQueuesSSCTable 1}
+
+Pr1646v2WanIfInQueuesEntry ::=
+   SEQUENCE
+      {
+      pr1646v2WanIfInQueuesTableIx
+         TableIndex,
+      pr1646v2WanIfInQueuesName
+         INTEGER,
+      pr1646v2WanIfInQueuesLength
+         Integer32,
+      pr1646v2WanIfInQueuesOctetLength
+         Integer32,
+      pr1646v2WanIfInQueuesRedLength
+         Integer32,
+      pr1646v2WanIfInQueuesPacketsTotal
+         Counter64,
+      pr1646v2WanIfInQueuesPacketsDirectTx
+         Counter64,
+      pr1646v2WanIfInQueuesPacketsQueued
+         Counter64,
+      pr1646v2WanIfInQueuesPacketsDropped
+         Counter64,
+      pr1646v2WanIfInQueuesPacketsRedDropped
+         Counter64,
+      pr1646v2WanIfInQueuesPacketsCirTx
+         Counter64,
+      pr1646v2WanIfInQueuesPacketsEirTx
+         Counter64,
+      pr1646v2WanIfInQueuesPacketsViolateTx
+         Counter64,
+      pr1646v2WanIfInQueuesOctetsTotal
+         Counter64,
+      pr1646v2WanIfInQueuesOctetsDirectTx
+         Counter64,
+      pr1646v2WanIfInQueuesOctetsQueued
+         Counter64,
+      pr1646v2WanIfInQueuesOctetsDropped
+         Counter64,
+      pr1646v2WanIfInQueuesOctetsRedDropped
+         Counter64,
+      pr1646v2WanIfInQueuesOctetsCirTx
+         Counter64,
+      pr1646v2WanIfInQueuesOctetsEirTx
+         Counter64,
+      pr1646v2WanIfInQueuesOctetsViolateTx
+         Counter64,
+      pr1646v2WanIfInQueuesOctetsBandwidth15sec
+         Integer32,
+      pr1646v2WanIfInQueuesOctetsBandwidth30sec
+         Integer32,
+      pr1646v2WanIfInQueuesOctetsBandwidth1min
+         Integer32,
+      pr1646v2WanIfInQueuesOctetsBandwidth2min
+         Integer32,
+      pr1646v2WanIfInQueuesOctetsBandwidth5min
+         Integer32
+      }
+
+pr1646v2WanIfInQueuesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfInQueuesEntry 11}
+
+pr1646v2WanIfInQueuesName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               queue (8),
+               queue1Sum (9),
+               queue2Sum (10),
+               queue3Sum (11),
+               queue4Sum (12),
+               queue5Sum (13),
+               lowDelayQueueSum (14),
+               lowDelay2QueueSum (15),
+               systemQueueSum (16),
+               queueSum (17),
+               queue1Driver (18),
+               queue2Driver (19),
+               queue3Driver (20),
+               queue4Driver (21),
+               queue5Driver (22),
+               lowDelayQueueDriver (23),
+               lowDelay2QueueDriver (24),
+               systemQueueDriver (25)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.name
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               queue   (8)
+               queue1Sum   (9)
+               queue2Sum   (10)
+               queue3Sum   (11)
+               queue4Sum   (12)
+               queue5Sum   (13)
+               lowDelayQueueSum   (14)
+               lowDelay2QueueSum   (15)
+               systemQueueSum   (16)
+               queueSum   (17)
+               queue1Driver   (18)
+               queue2Driver   (19)
+               queue3Driver   (20)
+               queue4Driver   (21)
+               queue5Driver   (22)
+               lowDelayQueueDriver   (23)
+               lowDelay2QueueDriver   (24)
+               systemQueueDriver   (25)"
+   ::= {pr1646v2WanIfInQueuesEntry 16777216}
+
+pr1646v2WanIfInQueuesLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.length"
+   ::= {pr1646v2WanIfInQueuesEntry 33554432}
+
+pr1646v2WanIfInQueuesOctetLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octetLength"
+   ::= {pr1646v2WanIfInQueuesEntry 150994944}
+
+pr1646v2WanIfInQueuesRedLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.redLength"
+   ::= {pr1646v2WanIfInQueuesEntry 134217728}
+
+pr1646v2WanIfInQueuesPacketsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.packets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 50790400}
+
+pr1646v2WanIfInQueuesPacketsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.packets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 50397184}
+
+pr1646v2WanIfInQueuesPacketsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.packets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 50462720}
+
+pr1646v2WanIfInQueuesPacketsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.packets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 50528256}
+
+pr1646v2WanIfInQueuesPacketsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.packets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 50724864}
+
+pr1646v2WanIfInQueuesPacketsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.packets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 50593792}
+
+pr1646v2WanIfInQueuesPacketsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.packets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 50659328}
+
+pr1646v2WanIfInQueuesPacketsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.packets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 50855936}
+
+pr1646v2WanIfInQueuesOctetsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 67567616}
+
+pr1646v2WanIfInQueuesOctetsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 67174400}
+
+pr1646v2WanIfInQueuesOctetsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 67239936}
+
+pr1646v2WanIfInQueuesOctetsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 67305472}
+
+pr1646v2WanIfInQueuesOctetsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 67502080}
+
+pr1646v2WanIfInQueuesOctetsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 67371008}
+
+pr1646v2WanIfInQueuesOctetsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 67436544}
+
+pr1646v2WanIfInQueuesOctetsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesEntry 67633152}
+
+pr1646v2WanIfInQueuesOctetsBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octets.bandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInQueuesEntry 70386944}
+
+pr1646v2WanIfInQueuesOctetsBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octets.bandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInQueuesEntry 70388224}
+
+pr1646v2WanIfInQueuesOctetsBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octets.bandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInQueuesEntry 70390784}
+
+pr1646v2WanIfInQueuesOctetsBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octets.bandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInQueuesEntry 70395904}
+
+pr1646v2WanIfInQueuesOctetsBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.octets.bandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInQueuesEntry 70411264}
+
+pr1646v2WanIfInQueuesH2Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2WanIfInQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfInQueues 83886080}
+
+pr1646v2WanIfInQueuesH2PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2WanIfInQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2WanIfInQueuesTableIx,
+                pr1646v2WanIfInQueuesH2PerformanceTableIx }
+   ::= {pr1646v2WanIfInQueuesH2Performance 1}
+
+Pr1646v2WanIfInQueuesH2PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2WanIfInQueuesH2PerformanceTableIx
+         TableIndex,
+      pr1646v2WanIfInQueuesH2PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2WanIfInQueuesH2PerformanceTotPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceDirTxPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceQdPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceDropPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceRDropPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceCirTxPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceEirTxPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceViolTxPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceTotOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceDirTxOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceQdOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceDropOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceRDropOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceCirTxOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceEirTxOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceViolTxOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH2PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2WanIfInQueuesH2PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 11}
+
+pr1646v2WanIfInQueuesH2PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 16777216}
+
+pr1646v2WanIfInQueuesH2PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 234881024}
+
+pr1646v2WanIfInQueuesH2PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 33554432}
+
+pr1646v2WanIfInQueuesH2PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 50331648}
+
+pr1646v2WanIfInQueuesH2PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 67108864}
+
+pr1646v2WanIfInQueuesH2PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 201326592}
+
+pr1646v2WanIfInQueuesH2PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 83886080}
+
+pr1646v2WanIfInQueuesH2PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 100663296}
+
+pr1646v2WanIfInQueuesH2PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 301989888}
+
+pr1646v2WanIfInQueuesH2PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 251658240}
+
+pr1646v2WanIfInQueuesH2PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 117440512}
+
+pr1646v2WanIfInQueuesH2PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 134217728}
+
+pr1646v2WanIfInQueuesH2PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 150994944}
+
+pr1646v2WanIfInQueuesH2PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 218103808}
+
+pr1646v2WanIfInQueuesH2PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 167772160}
+
+pr1646v2WanIfInQueuesH2PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 184549376}
+
+pr1646v2WanIfInQueuesH2PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 318767104}
+
+pr1646v2WanIfInQueuesH2PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h2Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInQueuesH2PerformanceEntry 268435456}
+
+pr1646v2WanIfInQueuesH24Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2WanIfInQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfInQueues 100663296}
+
+pr1646v2WanIfInQueuesH24PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2WanIfInQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2WanIfInQueuesTableIx,
+                pr1646v2WanIfInQueuesH24PerformanceTableIx }
+   ::= {pr1646v2WanIfInQueuesH24Performance 1}
+
+Pr1646v2WanIfInQueuesH24PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2WanIfInQueuesH24PerformanceTableIx
+         TableIndex,
+      pr1646v2WanIfInQueuesH24PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2WanIfInQueuesH24PerformanceTotPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceDirTxPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceQdPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceDropPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceRDropPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceCirTxPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceEirTxPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceViolTxPkts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceTotOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceDirTxOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceQdOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceDropOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceRDropOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceCirTxOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceEirTxOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceViolTxOcts
+         Counter64,
+      pr1646v2WanIfInQueuesH24PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2WanIfInQueuesH24PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 11}
+
+pr1646v2WanIfInQueuesH24PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 16777216}
+
+pr1646v2WanIfInQueuesH24PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 234881024}
+
+pr1646v2WanIfInQueuesH24PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 33554432}
+
+pr1646v2WanIfInQueuesH24PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 50331648}
+
+pr1646v2WanIfInQueuesH24PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 67108864}
+
+pr1646v2WanIfInQueuesH24PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 201326592}
+
+pr1646v2WanIfInQueuesH24PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 83886080}
+
+pr1646v2WanIfInQueuesH24PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 100663296}
+
+pr1646v2WanIfInQueuesH24PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 301989888}
+
+pr1646v2WanIfInQueuesH24PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 251658240}
+
+pr1646v2WanIfInQueuesH24PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 117440512}
+
+pr1646v2WanIfInQueuesH24PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 134217728}
+
+pr1646v2WanIfInQueuesH24PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 150994944}
+
+pr1646v2WanIfInQueuesH24PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 218103808}
+
+pr1646v2WanIfInQueuesH24PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 167772160}
+
+pr1646v2WanIfInQueuesH24PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 184549376}
+
+pr1646v2WanIfInQueuesH24PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 318767104}
+
+pr1646v2WanIfInQueuesH24PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.h24Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInQueuesH24PerformanceEntry 268435456}
+
+pr1646v2WanIfInQueuesD7Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2WanIfInQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfInQueues 117440512}
+
+pr1646v2WanIfInQueuesD7PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2WanIfInQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2WanIfInQueuesTableIx,
+                pr1646v2WanIfInQueuesD7PerformanceTableIx }
+   ::= {pr1646v2WanIfInQueuesD7Performance 1}
+
+Pr1646v2WanIfInQueuesD7PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2WanIfInQueuesD7PerformanceTableIx
+         TableIndex,
+      pr1646v2WanIfInQueuesD7PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2WanIfInQueuesD7PerformanceTotPkts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceDirTxPkts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceQdPkts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceDropPkts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceRDropPkts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceCirTxPkts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceEirTxPkts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceViolTxPkts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceTotOcts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceDirTxOcts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceQdOcts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceDropOcts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceRDropOcts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceCirTxOcts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceEirTxOcts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceViolTxOcts
+         Counter64,
+      pr1646v2WanIfInQueuesD7PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2WanIfInQueuesD7PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 11}
+
+pr1646v2WanIfInQueuesD7PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 16777216}
+
+pr1646v2WanIfInQueuesD7PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 234881024}
+
+pr1646v2WanIfInQueuesD7PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 33554432}
+
+pr1646v2WanIfInQueuesD7PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 50331648}
+
+pr1646v2WanIfInQueuesD7PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 67108864}
+
+pr1646v2WanIfInQueuesD7PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 201326592}
+
+pr1646v2WanIfInQueuesD7PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 83886080}
+
+pr1646v2WanIfInQueuesD7PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 100663296}
+
+pr1646v2WanIfInQueuesD7PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 301989888}
+
+pr1646v2WanIfInQueuesD7PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 251658240}
+
+pr1646v2WanIfInQueuesD7PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 117440512}
+
+pr1646v2WanIfInQueuesD7PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 134217728}
+
+pr1646v2WanIfInQueuesD7PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 150994944}
+
+pr1646v2WanIfInQueuesD7PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 218103808}
+
+pr1646v2WanIfInQueuesD7PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 167772160}
+
+pr1646v2WanIfInQueuesD7PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 184549376}
+
+pr1646v2WanIfInQueuesD7PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 318767104}
+
+pr1646v2WanIfInQueuesD7PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInPriorityQueues.d7Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInQueuesD7PerformanceEntry 268435456}
+
+
+pr1646v2WanIfInBandwidth OBJECT IDENTIFIER ::= {pr1646v2WanIf 181}
+
+pr1646v2WanIfInBandwidthSSC OBJECT IDENTIFIER ::= {pr1646v2WanIfInBandwidth 1}
+
+pr1646v2WanIfInBandwidthEntry OBJECT IDENTIFIER ::= {pr1646v2WanIfInBandwidthSSC 1}
+
+pr1646v2WanIfInBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInBandwidthEntry 83886080}
+
+pr1646v2WanIfInBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInBandwidthEntry 167772160}
+
+pr1646v2WanIfInBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInBandwidthEntry 335544320}
+
+pr1646v2WanIfInBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInBandwidthEntry 671088640}
+
+pr1646v2WanIfInBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifInBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInBandwidthEntry 1677721600}
+
+
+pr1646v2WanIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutOctets
+       Info: ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 115}
+
+
+pr1646v2WanIfOutUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutUcastPkts
+       Info: ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 116}
+
+
+pr1646v2WanIfOutNUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutNUcastPkts
+       Info: ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 117}
+
+
+pr1646v2WanIfOutBcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutBcastPkts
+       Info: ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 217}
+
+
+pr1646v2WanIfOutMcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutMcastPkts
+       Info: ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 227}
+
+
+pr1646v2WanIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutDiscards
+       Info: ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 118}
+
+
+pr1646v2WanIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutErrors
+       Info: ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 119}
+
+
+pr1646v2WanIfOutQLen OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutQLen
+       Info: ifOutQLen
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2WanIf 120}
+
+
+pr1646v2WanIfOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutDropLevelExceeded
+       Info: ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 127}
+
+
+pr1646v2WanIfOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutDiscardsNoArp
+       Info: ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 134}
+
+
+pr1646v2WanIfOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutDiscardsFilter
+       Info: ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIf 138}
+
+
+pr1646v2WanIfIfOutPriorityQueues OBJECT IDENTIFIER ::= {pr1646v2WanIf 129}
+
+pr1646v2WanIfIfOutPriorityQueuesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2WanIfIfOutPriorityQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Queue Lengths"
+   ::= {pr1646v2WanIfIfOutPriorityQueues 1}
+
+pr1646v2WanIfIfOutPriorityQueuesEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2WanIfIfOutPriorityQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2WanIfIfOutPriorityQueuesTableIx }
+   ::= {pr1646v2WanIfIfOutPriorityQueuesSSCTable 1}
+
+Pr1646v2WanIfIfOutPriorityQueuesEntry ::=
+   SEQUENCE
+      {
+      pr1646v2WanIfIfOutPriorityQueuesTableIx
+         TableIndex,
+      pr1646v2WanIfIfOutPriorityQueuesName
+         INTEGER,
+      pr1646v2WanIfIfOutPriorityQueuesLength
+         Integer32,
+      pr1646v2WanIfIfOutPriorityQueuesOctetLength
+         Integer32,
+      pr1646v2WanIfIfOutPriorityQueuesRedLength
+         Integer32,
+      pr1646v2WanIfIfOutPriorityQueuesPacketsTotal
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesPacketsDirectTx
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesPacketsQueued
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesPacketsDropped
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesPacketsRedDropped
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesPacketsCirTx
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesPacketsEirTx
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesPacketsViolateTx
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesOctetsTotal
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesOctetsDirectTx
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesOctetsQueued
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesOctetsDropped
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesOctetsRedDropped
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesOctetsCirTx
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesOctetsEirTx
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesOctetsViolateTx
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesOctetsBandwidth15sec
+         Integer32,
+      pr1646v2WanIfIfOutPriorityQueuesOctetsBandwidth30sec
+         Integer32,
+      pr1646v2WanIfIfOutPriorityQueuesOctetsBandwidth1min
+         Integer32,
+      pr1646v2WanIfIfOutPriorityQueuesOctetsBandwidth2min
+         Integer32,
+      pr1646v2WanIfIfOutPriorityQueuesOctetsBandwidth5min
+         Integer32
+      }
+
+pr1646v2WanIfIfOutPriorityQueuesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 11}
+
+pr1646v2WanIfIfOutPriorityQueuesName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               queue (8),
+               queue1Sum (9),
+               queue2Sum (10),
+               queue3Sum (11),
+               queue4Sum (12),
+               queue5Sum (13),
+               lowDelayQueueSum (14),
+               lowDelay2QueueSum (15),
+               systemQueueSum (16),
+               queueSum (17),
+               queue1Driver (18),
+               queue2Driver (19),
+               queue3Driver (20),
+               queue4Driver (21),
+               queue5Driver (22),
+               lowDelayQueueDriver (23),
+               lowDelay2QueueDriver (24),
+               systemQueueDriver (25)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.name
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               queue   (8)
+               queue1Sum   (9)
+               queue2Sum   (10)
+               queue3Sum   (11)
+               queue4Sum   (12)
+               queue5Sum   (13)
+               lowDelayQueueSum   (14)
+               lowDelay2QueueSum   (15)
+               systemQueueSum   (16)
+               queueSum   (17)
+               queue1Driver   (18)
+               queue2Driver   (19)
+               queue3Driver   (20)
+               queue4Driver   (21)
+               queue5Driver   (22)
+               lowDelayQueueDriver   (23)
+               lowDelay2QueueDriver   (24)
+               systemQueueDriver   (25)"
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 16777216}
+
+pr1646v2WanIfIfOutPriorityQueuesLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.length"
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 33554432}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octetLength"
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 150994944}
+
+pr1646v2WanIfIfOutPriorityQueuesRedLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.redLength"
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 134217728}
+
+pr1646v2WanIfIfOutPriorityQueuesPacketsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.packets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 50790400}
+
+pr1646v2WanIfIfOutPriorityQueuesPacketsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.packets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 50397184}
+
+pr1646v2WanIfIfOutPriorityQueuesPacketsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.packets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 50462720}
+
+pr1646v2WanIfIfOutPriorityQueuesPacketsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.packets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 50528256}
+
+pr1646v2WanIfIfOutPriorityQueuesPacketsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.packets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 50724864}
+
+pr1646v2WanIfIfOutPriorityQueuesPacketsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.packets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 50593792}
+
+pr1646v2WanIfIfOutPriorityQueuesPacketsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.packets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 50659328}
+
+pr1646v2WanIfIfOutPriorityQueuesPacketsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.packets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 50855936}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 67567616}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 67174400}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 67239936}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 67305472}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 67502080}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 67371008}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 67436544}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 67633152}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetsBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octets.bandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 70386944}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetsBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octets.bandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 70388224}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetsBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octets.bandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 70390784}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetsBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octets.bandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 70395904}
+
+pr1646v2WanIfIfOutPriorityQueuesOctetsBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.octets.bandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfIfOutPriorityQueuesEntry 70411264}
+
+pr1646v2WanIfIfOutPriorityQueuesH2Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfIfOutPriorityQueues 83886080}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2WanIfIfOutPriorityQueuesTableIx,
+                pr1646v2WanIfIfOutPriorityQueuesH2PerformanceTableIx }
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2Performance 1}
+
+Pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceTableIx
+         TableIndex,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceTotPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceDirTxPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceQdPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceDropPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceRDropPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceCirTxPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEirTxPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceViolTxPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceTotOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceDirTxOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceQdOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceDropOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceRDropOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceCirTxOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEirTxOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceViolTxOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH2PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 11}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 16777216}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 234881024}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 33554432}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 50331648}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 67108864}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 201326592}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 83886080}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 100663296}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 301989888}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 251658240}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 117440512}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 134217728}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 150994944}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 218103808}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 167772160}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 184549376}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 318767104}
+
+pr1646v2WanIfIfOutPriorityQueuesH2PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h2Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH2PerformanceEntry 268435456}
+
+pr1646v2WanIfIfOutPriorityQueuesH24Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfIfOutPriorityQueues 100663296}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2WanIfIfOutPriorityQueuesTableIx,
+                pr1646v2WanIfIfOutPriorityQueuesH24PerformanceTableIx }
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24Performance 1}
+
+Pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceTableIx
+         TableIndex,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceTotPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceDirTxPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceQdPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceDropPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceRDropPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceCirTxPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEirTxPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceViolTxPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceTotOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceDirTxOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceQdOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceDropOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceRDropOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceCirTxOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEirTxOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceViolTxOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesH24PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 11}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 16777216}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 234881024}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 33554432}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 50331648}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 67108864}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 201326592}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 83886080}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 100663296}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 301989888}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 251658240}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 117440512}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 134217728}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 150994944}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 218103808}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 167772160}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 184549376}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 318767104}
+
+pr1646v2WanIfIfOutPriorityQueuesH24PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.h24Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfIfOutPriorityQueuesH24PerformanceEntry 268435456}
+
+pr1646v2WanIfIfOutPriorityQueuesD7Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfIfOutPriorityQueues 117440512}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2WanIfIfOutPriorityQueuesTableIx,
+                pr1646v2WanIfIfOutPriorityQueuesD7PerformanceTableIx }
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7Performance 1}
+
+Pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceTableIx
+         TableIndex,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceSysUpTime
+         TimeTicks,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceTotPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceDirTxPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceQdPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceDropPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceRDropPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceCirTxPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEirTxPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceViolTxPkts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceTotOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceDirTxOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceQdOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceDropOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceRDropOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceCirTxOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEirTxOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceViolTxOcts
+         Counter64,
+      pr1646v2WanIfIfOutPriorityQueuesD7PerformanceBandwidth
+         Integer32
+      }
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 11}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 16777216}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 234881024}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 33554432}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 50331648}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 67108864}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 201326592}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 83886080}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 100663296}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 301989888}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 251658240}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 117440512}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 134217728}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 150994944}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 218103808}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 167772160}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 184549376}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 318767104}
+
+pr1646v2WanIfIfOutPriorityQueuesD7PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutPriorityQueues.d7Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfIfOutPriorityQueuesD7PerformanceEntry 268435456}
+
+
+pr1646v2WanIfOutBandwidth OBJECT IDENTIFIER ::= {pr1646v2WanIf 182}
+
+pr1646v2WanIfOutBandwidthSSC OBJECT IDENTIFIER ::= {pr1646v2WanIfOutBandwidth 1}
+
+pr1646v2WanIfOutBandwidthEntry OBJECT IDENTIFIER ::= {pr1646v2WanIfOutBandwidthSSC 1}
+
+pr1646v2WanIfOutBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfOutBandwidthEntry 83886080}
+
+pr1646v2WanIfOutBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfOutBandwidthEntry 167772160}
+
+pr1646v2WanIfOutBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfOutBandwidthEntry 335544320}
+
+pr1646v2WanIfOutBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfOutBandwidthEntry 671088640}
+
+pr1646v2WanIfOutBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.ifOutBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfOutBandwidthEntry 1677721600}
+
+
+pr1646v2WanIfInP OBJECT IDENTIFIER ::= {pr1646v2WanIf 307}
+
+pr1646v2WanIfInPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2WanIfInPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h2IfInPerformance"
+   ::= {pr1646v2WanIfInP 1}
+
+pr1646v2WanIfInPEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2WanIfInPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2WanIfInPTableIx }
+   ::= {pr1646v2WanIfInPSSCTable 1}
+
+Pr1646v2WanIfInPEntry ::=
+   SEQUENCE
+      {
+      pr1646v2WanIfInPTableIx
+         TableIndex,
+      pr1646v2WanIfInPSysUpTime
+         TimeTicks,
+      pr1646v2WanIfInPIfUpTime
+         TimeTicks,
+      pr1646v2WanIfInPIfStatChanges
+         Counter32,
+      pr1646v2WanIfInPIfInOctets
+         Counter64,
+      pr1646v2WanIfInPIfInUCPkts
+         Counter64,
+      pr1646v2WanIfInPIfInNUCPkts
+         Counter64,
+      pr1646v2WanIfInPIfInBCPkts
+         Counter64,
+      pr1646v2WanIfInPIfInMCPkts
+         Counter64,
+      pr1646v2WanIfInPIfInDiscards
+         Counter64,
+      pr1646v2WanIfInPIfInErrors
+         Counter64,
+      pr1646v2WanIfInPIfInUnkwn
+         Counter64,
+      pr1646v2WanIfInPInDropEx
+         Counter64,
+      pr1646v2WanIfInPInDropNoMac
+         Counter64,
+      pr1646v2WanIfInPInDropNUCast
+         Counter64,
+      pr1646v2WanIfInPInDropFilter
+         Counter64,
+      pr1646v2WanIfInPIfInBandwidth
+         Integer32,
+      pr1646v2WanIfInPIfOutOctets
+         Counter64,
+      pr1646v2WanIfInPIfOutUCPkts
+         Counter64,
+      pr1646v2WanIfInPIfOutNUCPkts
+         Counter64,
+      pr1646v2WanIfInPIfOutBCPkts
+         Counter64,
+      pr1646v2WanIfInPIfOutMCPkts
+         Counter64,
+      pr1646v2WanIfInPIfOutDiscards
+         Counter64,
+      pr1646v2WanIfInPIfOutErrors
+         Counter64,
+      pr1646v2WanIfInPOutDropEx
+         Counter64,
+      pr1646v2WanIfInPOutDropNoArp
+         Counter64,
+      pr1646v2WanIfInPOutDropFilter
+         Counter64,
+      pr1646v2WanIfInPIfOutBandwidth
+         Integer32,
+      pr1646v2WanIfInPIfErrSec
+         Counter32
+      }
+
+pr1646v2WanIfInPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfInPEntry 11}
+
+pr1646v2WanIfInPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2WanIfInPEntry 16777216}
+
+pr1646v2WanIfInPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2WanIfInPEntry 33554432}
+
+pr1646v2WanIfInPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 50331648}
+
+pr1646v2WanIfInPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 67108864}
+
+pr1646v2WanIfInPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 83886080}
+
+pr1646v2WanIfInPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 100663296}
+
+pr1646v2WanIfInPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 419430400}
+
+pr1646v2WanIfInPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 436207616}
+
+pr1646v2WanIfInPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 117440512}
+
+pr1646v2WanIfInPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 134217728}
+
+pr1646v2WanIfInPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 150994944}
+
+pr1646v2WanIfInPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 335544320}
+
+pr1646v2WanIfInPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 301989888}
+
+pr1646v2WanIfInPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 318767104}
+
+pr1646v2WanIfInPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 385875968}
+
+pr1646v2WanIfInPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInPEntry 268435456}
+
+pr1646v2WanIfInPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 167772160}
+
+pr1646v2WanIfInPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 184549376}
+
+pr1646v2WanIfInPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 201326592}
+
+pr1646v2WanIfInPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 452984832}
+
+pr1646v2WanIfInPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 469762048}
+
+pr1646v2WanIfInPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 218103808}
+
+pr1646v2WanIfInPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 234881024}
+
+pr1646v2WanIfInPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 352321536}
+
+pr1646v2WanIfInPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 369098752}
+
+pr1646v2WanIfInPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 402653184}
+
+pr1646v2WanIfInPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfInPEntry 285212672}
+
+pr1646v2WanIfInPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h2Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfInPEntry 251658240}
+
+
+pr1646v2WanIfH24InP OBJECT IDENTIFIER ::= {pr1646v2WanIf 308}
+
+pr1646v2WanIfH24InPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2WanIfH24InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h24IfInPerformance"
+   ::= {pr1646v2WanIfH24InP 1}
+
+pr1646v2WanIfH24InPEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2WanIfH24InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2WanIfH24InPTableIx }
+   ::= {pr1646v2WanIfH24InPSSCTable 1}
+
+Pr1646v2WanIfH24InPEntry ::=
+   SEQUENCE
+      {
+      pr1646v2WanIfH24InPTableIx
+         TableIndex,
+      pr1646v2WanIfH24InPSysUpTime
+         TimeTicks,
+      pr1646v2WanIfH24InPIfUpTime
+         TimeTicks,
+      pr1646v2WanIfH24InPIfStatChanges
+         Counter32,
+      pr1646v2WanIfH24InPIfInOctets
+         Counter64,
+      pr1646v2WanIfH24InPIfInUCPkts
+         Counter64,
+      pr1646v2WanIfH24InPIfInNUCPkts
+         Counter64,
+      pr1646v2WanIfH24InPIfInBCPkts
+         Counter64,
+      pr1646v2WanIfH24InPIfInMCPkts
+         Counter64,
+      pr1646v2WanIfH24InPIfInDiscards
+         Counter64,
+      pr1646v2WanIfH24InPIfInErrors
+         Counter64,
+      pr1646v2WanIfH24InPIfInUnkwn
+         Counter64,
+      pr1646v2WanIfH24InPInDropEx
+         Counter64,
+      pr1646v2WanIfH24InPInDropNoMac
+         Counter64,
+      pr1646v2WanIfH24InPInDropNUCast
+         Counter64,
+      pr1646v2WanIfH24InPInDropFilter
+         Counter64,
+      pr1646v2WanIfH24InPIfInBandwidth
+         Integer32,
+      pr1646v2WanIfH24InPIfOutOctets
+         Counter64,
+      pr1646v2WanIfH24InPIfOutUCPkts
+         Counter64,
+      pr1646v2WanIfH24InPIfOutNUCPkts
+         Counter64,
+      pr1646v2WanIfH24InPIfOutBCPkts
+         Counter64,
+      pr1646v2WanIfH24InPIfOutMCPkts
+         Counter64,
+      pr1646v2WanIfH24InPIfOutDiscards
+         Counter64,
+      pr1646v2WanIfH24InPIfOutErrors
+         Counter64,
+      pr1646v2WanIfH24InPOutDropEx
+         Counter64,
+      pr1646v2WanIfH24InPOutDropNoArp
+         Counter64,
+      pr1646v2WanIfH24InPOutDropFilter
+         Counter64,
+      pr1646v2WanIfH24InPIfOutBandwidth
+         Integer32,
+      pr1646v2WanIfH24InPIfErrSec
+         Counter32
+      }
+
+pr1646v2WanIfH24InPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfH24InPEntry 11}
+
+pr1646v2WanIfH24InPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2WanIfH24InPEntry 16777216}
+
+pr1646v2WanIfH24InPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2WanIfH24InPEntry 33554432}
+
+pr1646v2WanIfH24InPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 50331648}
+
+pr1646v2WanIfH24InPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 67108864}
+
+pr1646v2WanIfH24InPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 83886080}
+
+pr1646v2WanIfH24InPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 100663296}
+
+pr1646v2WanIfH24InPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 419430400}
+
+pr1646v2WanIfH24InPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 436207616}
+
+pr1646v2WanIfH24InPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 117440512}
+
+pr1646v2WanIfH24InPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 134217728}
+
+pr1646v2WanIfH24InPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 150994944}
+
+pr1646v2WanIfH24InPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 335544320}
+
+pr1646v2WanIfH24InPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 301989888}
+
+pr1646v2WanIfH24InPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 318767104}
+
+pr1646v2WanIfH24InPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 385875968}
+
+pr1646v2WanIfH24InPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfH24InPEntry 268435456}
+
+pr1646v2WanIfH24InPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 167772160}
+
+pr1646v2WanIfH24InPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 184549376}
+
+pr1646v2WanIfH24InPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 201326592}
+
+pr1646v2WanIfH24InPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 452984832}
+
+pr1646v2WanIfH24InPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 469762048}
+
+pr1646v2WanIfH24InPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 218103808}
+
+pr1646v2WanIfH24InPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 234881024}
+
+pr1646v2WanIfH24InPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 352321536}
+
+pr1646v2WanIfH24InPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 369098752}
+
+pr1646v2WanIfH24InPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 402653184}
+
+pr1646v2WanIfH24InPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfH24InPEntry 285212672}
+
+pr1646v2WanIfH24InPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.h24Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfH24InPEntry 251658240}
+
+
+pr1646v2WanIfD7InP OBJECT IDENTIFIER ::= {pr1646v2WanIf 309}
+
+pr1646v2WanIfD7InPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2WanIfD7InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "d7IfInPerformance"
+   ::= {pr1646v2WanIfD7InP 1}
+
+pr1646v2WanIfD7InPEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2WanIfD7InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2WanIfD7InPTableIx }
+   ::= {pr1646v2WanIfD7InPSSCTable 1}
+
+Pr1646v2WanIfD7InPEntry ::=
+   SEQUENCE
+      {
+      pr1646v2WanIfD7InPTableIx
+         TableIndex,
+      pr1646v2WanIfD7InPSysUpTime
+         TimeTicks,
+      pr1646v2WanIfD7InPIfUpTime
+         TimeTicks,
+      pr1646v2WanIfD7InPIfStatChanges
+         Counter32,
+      pr1646v2WanIfD7InPIfInOctets
+         Counter64,
+      pr1646v2WanIfD7InPIfInUCPkts
+         Counter64,
+      pr1646v2WanIfD7InPIfInNUCPkts
+         Counter64,
+      pr1646v2WanIfD7InPIfInBCPkts
+         Counter64,
+      pr1646v2WanIfD7InPIfInMCPkts
+         Counter64,
+      pr1646v2WanIfD7InPIfInDiscards
+         Counter64,
+      pr1646v2WanIfD7InPIfInErrors
+         Counter64,
+      pr1646v2WanIfD7InPIfInUnkwn
+         Counter64,
+      pr1646v2WanIfD7InPInDropEx
+         Counter64,
+      pr1646v2WanIfD7InPInDropNoMac
+         Counter64,
+      pr1646v2WanIfD7InPInDropNUCast
+         Counter64,
+      pr1646v2WanIfD7InPInDropFilter
+         Counter64,
+      pr1646v2WanIfD7InPIfInBandwidth
+         Integer32,
+      pr1646v2WanIfD7InPIfOutOctets
+         Counter64,
+      pr1646v2WanIfD7InPIfOutUCPkts
+         Counter64,
+      pr1646v2WanIfD7InPIfOutNUCPkts
+         Counter64,
+      pr1646v2WanIfD7InPIfOutBCPkts
+         Counter64,
+      pr1646v2WanIfD7InPIfOutMCPkts
+         Counter64,
+      pr1646v2WanIfD7InPIfOutDiscards
+         Counter64,
+      pr1646v2WanIfD7InPIfOutErrors
+         Counter64,
+      pr1646v2WanIfD7InPOutDropEx
+         Counter64,
+      pr1646v2WanIfD7InPOutDropNoArp
+         Counter64,
+      pr1646v2WanIfD7InPOutDropFilter
+         Counter64,
+      pr1646v2WanIfD7InPIfOutBandwidth
+         Integer32,
+      pr1646v2WanIfD7InPIfErrSec
+         Counter32
+      }
+
+pr1646v2WanIfD7InPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2WanIfD7InPEntry 11}
+
+pr1646v2WanIfD7InPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2WanIfD7InPEntry 16777216}
+
+pr1646v2WanIfD7InPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2WanIfD7InPEntry 33554432}
+
+pr1646v2WanIfD7InPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 50331648}
+
+pr1646v2WanIfD7InPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 67108864}
+
+pr1646v2WanIfD7InPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 83886080}
+
+pr1646v2WanIfD7InPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 100663296}
+
+pr1646v2WanIfD7InPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 419430400}
+
+pr1646v2WanIfD7InPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 436207616}
+
+pr1646v2WanIfD7InPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 117440512}
+
+pr1646v2WanIfD7InPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 134217728}
+
+pr1646v2WanIfD7InPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 150994944}
+
+pr1646v2WanIfD7InPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 335544320}
+
+pr1646v2WanIfD7InPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 301989888}
+
+pr1646v2WanIfD7InPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 318767104}
+
+pr1646v2WanIfD7InPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 385875968}
+
+pr1646v2WanIfD7InPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfD7InPEntry 268435456}
+
+pr1646v2WanIfD7InPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 167772160}
+
+pr1646v2WanIfD7InPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 184549376}
+
+pr1646v2WanIfD7InPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 201326592}
+
+pr1646v2WanIfD7InPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 452984832}
+
+pr1646v2WanIfD7InPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 469762048}
+
+pr1646v2WanIfD7InPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 218103808}
+
+pr1646v2WanIfD7InPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 234881024}
+
+pr1646v2WanIfD7InPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 352321536}
+
+pr1646v2WanIfD7InPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 369098752}
+
+pr1646v2WanIfD7InPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 402653184}
+
+pr1646v2WanIfD7InPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2WanIfD7InPEntry 285212672}
+
+pr1646v2WanIfD7InPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.performance.d7Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2WanIfD7InPEntry 251658240}
+
+
+
+ar1646v2WanIf OBJECT IDENTIFIER ::= {r1646v2WanIf 16}
+
+
+ar1646v2WanIfClearCounters OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.actions.clearCounters
+       Info: reset counters"
+   ::= {ar1646v2WanIf 263}
+
+
+
+fr1646v2WanIf OBJECT IDENTIFIER ::= {r1646v2WanIf 13}
+
+
+fr1646v2WanIfAlarm OBJECT IDENTIFIER ::= {fr1646v2WanIf 207}
+
+fr1646v2WanIfAlarmSSC OBJECT IDENTIFIER ::= {fr1646v2WanIfAlarm 1}
+
+fr1646v2WanIfAlarmEntry OBJECT IDENTIFIER ::= {fr1646v2WanIfAlarmSSC 1}
+
+fr1646v2WanIfAlarmDiscriminator OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.alarms.alarmInfo.discriminator"
+   ::= {fr1646v2WanIfAlarmEntry 16777216}
+
+fr1646v2WanIfAlarmCurrent OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.alarms.alarmInfo.currentAlarms
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {fr1646v2WanIfAlarmEntry 33554432}
+
+fr1646v2WanIfAlarmPrevious OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.alarms.alarmInfo.previousAlarms
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {fr1646v2WanIfAlarmEntry 50331648}
+
+fr1646v2WanIfAlarmMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.alarms.alarmInfo.alarmMask
+
+       Bit meanings:
+               bit 0 = linkDown"
+   ::= {fr1646v2WanIfAlarmEntry 67108864}
+
+fr1646v2WanIfAlarmLevLinkDown OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: dslInterface.alarms.alarmInfo.alarmLevel.linkDown"
+   ::= {fr1646v2WanIfAlarmEntry 83951616}
+
+
+fr1646v2WanIfAlarmE2 OBJECT IDENTIFIER ::= {fr1646v2WanIfAlarm 2}
+
+fr1646v2WanIfAlarmE2Entry OBJECT IDENTIFIER ::= {fr1646v2WanIfAlarmE2 1}
+
+fr1646v2WanIfAlarmE2LinkDown OBJECT IDENTIFIER ::= {fr1646v2WanIfAlarmE2Entry 10}
+
+fr1646v2WanIfAlarmE2LinkDownPfx OBJECT IDENTIFIER ::= {fr1646v2WanIfAlarmE2LinkDown 0}
+
+fr1646v2WanIfAlarmE2LinkDownOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'wanInterface1424'
+                (root='router1646') has changed from the ON to the OFF state."
+   ::= {fr1646v2WanIfAlarmE2LinkDownPfx 1}
+
+fr1646v2WanIfAlarmE2LinkDownOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'wanInterface1424'
+                (root='router1646') has changed from the OFF to the ON state."
+   ::= {fr1646v2WanIfAlarmE2LinkDownPfx 2}
+
+
+
+END

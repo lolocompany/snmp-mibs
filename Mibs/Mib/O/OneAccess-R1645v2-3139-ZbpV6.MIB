@@ -1,0 +1,412 @@
+OneAccess-R1645v2-3139-ZbpV6 DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2ZbpV6 OBJECT IDENTIFIER ::= {r1645Rootv2 3139}
+
+r1645v2ZbpV6MOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2ZbpV6MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2ZbpV6 1}
+
+r1645v2ZbpV6MOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2ZbpV6MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2ZbpV6MOPropGlobalIx }
+   ::= {r1645v2ZbpV6MOProp 1}
+
+R1645v2ZbpV6MOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2ZbpV6MOPropPath
+         ContainmentPath,
+      r1645v2ZbpV6MOPropRev
+         ObjectRevision,
+      r1645v2ZbpV6MOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2ZbpV6MOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2ZbpV6MOPropEntry 3}
+
+r1645v2ZbpV6MOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2ZbpV6MOPropEntry 4}
+
+r1645v2ZbpV6MOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2ZbpV6MOPropEntry 10}
+
+
+
+er1645v2ZbpV6 OBJECT IDENTIFIER ::= {r1645v2ZbpV6 11}
+
+
+er1645v2ZbpV6SnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2ZbpV6 268}
+
+er1645v2ZbpV6SnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2ZbpV6SnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2ZbpV6SnmpIndexOffset 1}
+
+er1645v2ZbpV6SnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2ZbpV6SnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2ZbpV6SnmpIndexOffsetGlobalIx }
+   ::= {er1645v2ZbpV6SnmpIndexOffsetTable 1}
+
+Er1645v2ZbpV6SnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2ZbpV6SnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2ZbpV6SnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2ZbpV6SnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2ZbpV6SnmpIndexOffsetEntry 10}
+
+er1645v2ZbpV6SnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.snmpIndexOffset"
+   ::= {er1645v2ZbpV6SnmpIndexOffsetEntry 2147483648}
+
+
+er1645v2ZbpV6Parameters OBJECT IDENTIFIER ::= {er1645v2ZbpV6 2}
+
+er1645v2ZbpV6ParametersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2ZbpV6ParametersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Policy parameters"
+   ::= {er1645v2ZbpV6Parameters 1}
+
+er1645v2ZbpV6ParametersEntry OBJECT-TYPE
+   SYNTAX      Er1645v2ZbpV6ParametersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2ZbpV6ParametersGlobalIx }
+   ::= {er1645v2ZbpV6ParametersTable 1}
+
+Er1645v2ZbpV6ParametersEntry ::=
+   SEQUENCE
+      {
+      er1645v2ZbpV6ParametersGlobalIx
+         GlobalIndex,
+      er1645v2ZbpV6ParametersValue
+         DisplayString
+      }
+
+er1645v2ZbpV6ParametersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2ZbpV6ParametersEntry 10}
+
+er1645v2ZbpV6ParametersValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.parameters"
+   ::= {er1645v2ZbpV6ParametersEntry 2147483648}
+
+
+er1645v2ZbpV6PolicyRules OBJECT IDENTIFIER ::= {er1645v2ZbpV6 3}
+
+er1645v2ZbpV6PolicyRulesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2ZbpV6PolicyRulesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "policyRules"
+   ::= {er1645v2ZbpV6PolicyRules 1}
+
+er1645v2ZbpV6PolicyRulesEntry OBJECT-TYPE
+   SYNTAX      Er1645v2ZbpV6PolicyRulesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2ZbpV6PolicyRulesGlobalIx,
+                er1645v2ZbpV6PolicyRulesTableIx }
+   ::= {er1645v2ZbpV6PolicyRulesSSCTable 1}
+
+Er1645v2ZbpV6PolicyRulesEntry ::=
+   SEQUENCE
+      {
+      er1645v2ZbpV6PolicyRulesActions
+         VariableLengthTableActions,
+      er1645v2ZbpV6PolicyRulesGlobalIx
+         GlobalIndex,
+      er1645v2ZbpV6PolicyRulesTableIx
+         TableIndex,
+      er1645v2ZbpV6PolicyRulesName
+         DisplayString,
+      er1645v2ZbpV6PolicyRulesFilter
+         DisplayString,
+      er1645v2ZbpV6PolicyRulesActionMode
+         INTEGER,
+      er1645v2ZbpV6PolicyRulesComplexAction
+         DisplayString,
+      er1645v2ZbpV6PolicyRulesBandwidthCir
+         Integer32,
+      er1645v2ZbpV6PolicyRulesBandwidthTc
+         Integer32,
+      er1645v2ZbpV6PolicyRulesBandwidthMode
+         INTEGER,
+      er1645v2ZbpV6PolicyRulesParameters
+         DisplayString,
+      er1645v2ZbpV6PolicyRulesLogging
+         INTEGER
+      }
+
+er1645v2ZbpV6PolicyRulesActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2ZbpV6PolicyRulesEntry 2}
+
+er1645v2ZbpV6PolicyRulesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2ZbpV6PolicyRulesEntry 10}
+
+er1645v2ZbpV6PolicyRulesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2ZbpV6PolicyRulesEntry 11}
+
+er1645v2ZbpV6PolicyRulesName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.name"
+   ::= {er1645v2ZbpV6PolicyRulesEntry 16777216}
+
+er1645v2ZbpV6PolicyRulesFilter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.filter"
+   ::= {er1645v2ZbpV6PolicyRulesEntry 33554432}
+
+er1645v2ZbpV6PolicyRulesActionMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               pass (0),
+               drop (1),
+               inspect (2),
+               complex (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.actionMode
+
+       Possibilities:
+               pass   (0)
+               drop   (1)
+               inspect   (2)
+               complex   (3)"
+   ::= {er1645v2ZbpV6PolicyRulesEntry 50331648}
+
+er1645v2ZbpV6PolicyRulesComplexAction OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.complexAction"
+   ::= {er1645v2ZbpV6PolicyRulesEntry 67108864}
+
+er1645v2ZbpV6PolicyRulesBandwidthCir OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.bandwidth.cir"
+   ::= {er1645v2ZbpV6PolicyRulesEntry 100728832}
+
+er1645v2ZbpV6PolicyRulesBandwidthTc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.bandwidth.tc"
+   ::= {er1645v2ZbpV6PolicyRulesEntry 100794368}
+
+er1645v2ZbpV6PolicyRulesBandwidthMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               flow (0),
+               connection (1),
+               rule (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.bandwidth.mode
+
+       Possibilities:
+               flow   (0)
+               connection   (1)
+               rule   (2)"
+   ::= {er1645v2ZbpV6PolicyRulesEntry 100859904}
+
+er1645v2ZbpV6PolicyRulesParameters OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.parameters"
+   ::= {er1645v2ZbpV6PolicyRulesEntry 117440512}
+
+er1645v2ZbpV6PolicyRulesLogging OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.editConf.policyRules.logging
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2ZbpV6PolicyRulesEntry 134217728}
+
+
+
+sr1645v2ZbpV6 OBJECT IDENTIFIER ::= {r1645v2ZbpV6 14}
+
+
+sr1645v2ZbpV6SnmpIndex OBJECT IDENTIFIER ::= {sr1645v2ZbpV6 269}
+
+sr1645v2ZbpV6SnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2ZbpV6SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2ZbpV6SnmpIndex 1}
+
+sr1645v2ZbpV6SnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2ZbpV6SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2ZbpV6SnmpIndexGlobalIx }
+   ::= {sr1645v2ZbpV6SnmpIndexTable 1}
+
+Sr1645v2ZbpV6SnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2ZbpV6SnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2ZbpV6SnmpIndexValue
+         Integer32
+      }
+
+sr1645v2ZbpV6SnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2ZbpV6SnmpIndexEntry 10}
+
+sr1645v2ZbpV6SnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: policy.status.snmpIndex"
+   ::= {sr1645v2ZbpV6SnmpIndexEntry 2147483648}
+
+
+
+END

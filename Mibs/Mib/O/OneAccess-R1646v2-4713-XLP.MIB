@@ -1,0 +1,2619 @@
+OneAccess-R1646v2-4713-XLP DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2XLP OBJECT IDENTIFIER ::= {r1646Rootv2 4713}
+
+r1646v2XLPMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2XLPMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2XLP 1}
+
+r1646v2XLPMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2XLPMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2XLPMOPropGlobalIx }
+   ::= {r1646v2XLPMOProp 1}
+
+R1646v2XLPMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2XLPMOPropPath
+         ContainmentPath,
+      r1646v2XLPMOPropRev
+         ObjectRevision,
+      r1646v2XLPMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2XLPMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2XLPMOPropEntry 3}
+
+r1646v2XLPMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2XLPMOPropEntry 4}
+
+r1646v2XLPMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2XLPMOPropEntry 10}
+
+
+
+sr1646v2XLP OBJECT IDENTIFIER ::= {r1646v2XLP 14}
+
+
+sr1646v2XLPTimeLastRetrain OBJECT IDENTIFIER ::= {sr1646v2XLP 5}
+
+sr1646v2XLPTimeLastRetrainTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPTimeLastRetrainEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "timeSinceLastRetrain"
+   ::= {sr1646v2XLPTimeLastRetrain 1}
+
+sr1646v2XLPTimeLastRetrainEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPTimeLastRetrainEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPTimeLastRetrainGlobalIx }
+   ::= {sr1646v2XLPTimeLastRetrainTable 1}
+
+Sr1646v2XLPTimeLastRetrainEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPTimeLastRetrainGlobalIx
+         GlobalIndex,
+      sr1646v2XLPTimeLastRetrainValue
+         TimeTicks
+      }
+
+sr1646v2XLPTimeLastRetrainGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPTimeLastRetrainEntry 10}
+
+sr1646v2XLPTimeLastRetrainValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.timeSinceLastRetrain
+
+       Time in centi-second."
+   ::= {sr1646v2XLPTimeLastRetrainEntry 2147483648}
+
+
+sr1646v2XLPStatus OBJECT IDENTIFIER ::= {sr1646v2XLP 6}
+
+sr1646v2XLPStatusTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Modem status"
+   ::= {sr1646v2XLPStatus 1}
+
+sr1646v2XLPStatusEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPStatusGlobalIx }
+   ::= {sr1646v2XLPStatusTable 1}
+
+Sr1646v2XLPStatusEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPStatusGlobalIx
+         GlobalIndex,
+      sr1646v2XLPStatusValue
+         INTEGER
+      }
+
+sr1646v2XLPStatusGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPStatusEntry 10}
+
+sr1646v2XLPStatusValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notInitialised (0),
+               exception (1),
+               notUpdated (16),
+               idleRequest (255),
+               idle (256),
+               silentRequest (511),
+               silent (512),
+               handshake (768),
+               fullInit (896),
+               discovery (1024),
+               training (1280),
+               analysis (1536),
+               exchange (1792),
+               dataStateNoSync (2048),
+               dataState (2049),
+               fastRetrain (2304),
+               lowPower12 (2560),
+               loopDiagnosticActive (2816),
+               loopDiagnosticDataExchange (2832),
+               loopDiagnosticDataRequest (2848),
+               loopDiagnosticComplete (3072),
+               resync (3328),
+               test (16777216),
+               testLoop (16777217),
+               testReverb (16777232),
+               testMedley (16777248),
+               testDataStateLock (16777264),
+               testQuiet (16777280),
+               lowPowerl3 (33554432),
+               unknown (50331648)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.status
+
+       Possibilities:
+               notInitialised   (0)
+               exception   (1)
+               notUpdated   (16)
+               idleRequest   (255)
+               idle   (256)
+               silentRequest   (511)
+               silent   (512)
+               handshake   (768)
+               fullInit   (896)
+               discovery   (1024)
+               training   (1280)
+               analysis   (1536)
+               exchange   (1792)
+               dataStateNoSync   (2048)
+               dataState   (2049)
+               fastRetrain   (2304)
+               lowPower12   (2560)
+               loopDiagnosticActive   (2816)
+               loopDiagnosticDataExchange   (2832)
+               loopDiagnosticDataRequest   (2848)
+               loopDiagnosticComplete   (3072)
+               resync   (3328)
+               test   (16777216)
+               testLoop   (16777217)
+               testReverb   (16777232)
+               testMedley   (16777248)
+               testDataStateLock   (16777264)
+               testQuiet   (16777280)
+               lowPowerl3   (33554432)
+               unknown   (50331648)"
+   ::= {sr1646v2XLPStatusEntry 2147483648}
+
+
+sr1646v2XLPLineAttenuation OBJECT IDENTIFIER ::= {sr1646v2XLP 8}
+
+sr1646v2XLPLineAttenuationTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPLineAttenuationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "lineAttenuation"
+   ::= {sr1646v2XLPLineAttenuation 1}
+
+sr1646v2XLPLineAttenuationEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPLineAttenuationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPLineAttenuationGlobalIx }
+   ::= {sr1646v2XLPLineAttenuationTable 1}
+
+Sr1646v2XLPLineAttenuationEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPLineAttenuationGlobalIx
+         GlobalIndex,
+      sr1646v2XLPLineAttenuationValue
+         INTEGER
+      }
+
+sr1646v2XLPLineAttenuationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPLineAttenuationEntry 10}
+
+sr1646v2XLPLineAttenuationValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unusedBand (-32768),
+               outOfRange (1271)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.lineAttenuation
+
+       unit name = dB
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               unusedBand   (-32768)
+               outOfRange   (1271)"
+   ::= {sr1646v2XLPLineAttenuationEntry 2147483648}
+
+
+sr1646v2XLPSignalAttenuation OBJECT IDENTIFIER ::= {sr1646v2XLP 11}
+
+sr1646v2XLPSignalAttenuationTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPSignalAttenuationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "lineAttenuation"
+   ::= {sr1646v2XLPSignalAttenuation 1}
+
+sr1646v2XLPSignalAttenuationEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPSignalAttenuationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPSignalAttenuationGlobalIx }
+   ::= {sr1646v2XLPSignalAttenuationTable 1}
+
+Sr1646v2XLPSignalAttenuationEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPSignalAttenuationGlobalIx
+         GlobalIndex,
+      sr1646v2XLPSignalAttenuationValue
+         INTEGER
+      }
+
+sr1646v2XLPSignalAttenuationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPSignalAttenuationEntry 10}
+
+sr1646v2XLPSignalAttenuationValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unusedBand (-32768),
+               outOfRange (1271)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.signalAttenuation
+
+       unit name = dB
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               unusedBand   (-32768)
+               outOfRange   (1271)"
+   ::= {sr1646v2XLPSignalAttenuationEntry 2147483648}
+
+
+sr1646v2XLPNoiseMargin OBJECT IDENTIFIER ::= {sr1646v2XLP 9}
+
+sr1646v2XLPNoiseMarginTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPNoiseMarginEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "noiseMargin"
+   ::= {sr1646v2XLPNoiseMargin 1}
+
+sr1646v2XLPNoiseMarginEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPNoiseMarginEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPNoiseMarginGlobalIx }
+   ::= {sr1646v2XLPNoiseMarginTable 1}
+
+Sr1646v2XLPNoiseMarginEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPNoiseMarginGlobalIx
+         GlobalIndex,
+      sr1646v2XLPNoiseMarginValue
+         INTEGER
+      }
+
+sr1646v2XLPNoiseMarginGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPNoiseMarginEntry 10}
+
+sr1646v2XLPNoiseMarginValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               outOfRange (-641)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.noiseMargin
+
+       unit name = dB
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               outOfRange   (-641)"
+   ::= {sr1646v2XLPNoiseMarginEntry 2147483648}
+
+
+sr1646v2XLPUsTxPower OBJECT IDENTIFIER ::= {sr1646v2XLP 10}
+
+sr1646v2XLPUsTxPowerTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPUsTxPowerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "transmit power"
+   ::= {sr1646v2XLPUsTxPower 1}
+
+sr1646v2XLPUsTxPowerEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPUsTxPowerEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPUsTxPowerGlobalIx }
+   ::= {sr1646v2XLPUsTxPowerTable 1}
+
+Sr1646v2XLPUsTxPowerEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPUsTxPowerGlobalIx
+         GlobalIndex,
+      sr1646v2XLPUsTxPowerValue
+         INTEGER
+      }
+
+sr1646v2XLPUsTxPowerGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPUsTxPowerEntry 10}
+
+sr1646v2XLPUsTxPowerValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               outOfRange (-512)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.usTransmitPower
+
+       unit name = dBm
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               outOfRange   (-512)"
+   ::= {sr1646v2XLPUsTxPowerEntry 2147483648}
+
+
+sr1646v2XLPUsPwSpDen OBJECT IDENTIFIER ::= {sr1646v2XLP 14}
+
+sr1646v2XLPUsPwSpDenTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPUsPwSpDenEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Power Spectrum Density"
+   ::= {sr1646v2XLPUsPwSpDen 1}
+
+sr1646v2XLPUsPwSpDenEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPUsPwSpDenEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPUsPwSpDenGlobalIx }
+   ::= {sr1646v2XLPUsPwSpDenTable 1}
+
+Sr1646v2XLPUsPwSpDenEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPUsPwSpDenGlobalIx
+         GlobalIndex,
+      sr1646v2XLPUsPwSpDenValue
+         INTEGER
+      }
+
+sr1646v2XLPUsPwSpDenGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPUsPwSpDenEntry 10}
+
+sr1646v2XLPUsPwSpDenValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               outOfRange (-901)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.usPowerSpectrumDensity
+
+       unit name = dBm/Hz
+       formula = 10 / ; 10 *
+
+       Possibilities:
+               outOfRange   (-901)"
+   ::= {sr1646v2XLPUsPwSpDenEntry 2147483648}
+
+
+sr1646v2XLPDsIntDelay OBJECT IDENTIFIER ::= {sr1646v2XLP 30}
+
+sr1646v2XLPDsIntDelayTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPDsIntDelayEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "interleaveDelay in ms"
+   ::= {sr1646v2XLPDsIntDelay 1}
+
+sr1646v2XLPDsIntDelayEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPDsIntDelayEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPDsIntDelayGlobalIx }
+   ::= {sr1646v2XLPDsIntDelayTable 1}
+
+Sr1646v2XLPDsIntDelayEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPDsIntDelayGlobalIx
+         GlobalIndex,
+      sr1646v2XLPDsIntDelayValue
+         Integer32
+      }
+
+sr1646v2XLPDsIntDelayGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPDsIntDelayEntry 10}
+
+sr1646v2XLPDsIntDelayValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.dsInterleaveDelay
+
+       unit name = ms
+       formula =  100 / ; 100 *"
+   ::= {sr1646v2XLPDsIntDelayEntry 2147483648}
+
+
+sr1646v2XLPDsImpNoiseProt OBJECT IDENTIFIER ::= {sr1646v2XLP 31}
+
+sr1646v2XLPDsImpNoiseProtTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPDsImpNoiseProtEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Impulse Noise Protection in fractions of DMT symbols with a granularity of 0.1 symbols. The range is from 0 to 204.7"
+   ::= {sr1646v2XLPDsImpNoiseProt 1}
+
+sr1646v2XLPDsImpNoiseProtEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPDsImpNoiseProtEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPDsImpNoiseProtGlobalIx }
+   ::= {sr1646v2XLPDsImpNoiseProtTable 1}
+
+Sr1646v2XLPDsImpNoiseProtEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPDsImpNoiseProtGlobalIx
+         GlobalIndex,
+      sr1646v2XLPDsImpNoiseProtValue
+         Integer32
+      }
+
+sr1646v2XLPDsImpNoiseProtGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPDsImpNoiseProtEntry 10}
+
+sr1646v2XLPDsImpNoiseProtValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.dsImpulseNoiseProtection
+
+       unit name = symbols
+       formula =  10 / ; 10 * "
+   ::= {sr1646v2XLPDsImpNoiseProtEntry 2147483648}
+
+
+sr1646v2XLPDsCodeSz OBJECT IDENTIFIER ::= {sr1646v2XLP 25}
+
+sr1646v2XLPDsCodeSzTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPDsCodeSzEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Actual Read-Solomon codeword size in bytes"
+   ::= {sr1646v2XLPDsCodeSz 1}
+
+sr1646v2XLPDsCodeSzEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPDsCodeSzEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPDsCodeSzGlobalIx }
+   ::= {sr1646v2XLPDsCodeSzTable 1}
+
+Sr1646v2XLPDsCodeSzEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPDsCodeSzGlobalIx
+         GlobalIndex,
+      sr1646v2XLPDsCodeSzValue
+         Integer32
+      }
+
+sr1646v2XLPDsCodeSzGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPDsCodeSzEntry 10}
+
+sr1646v2XLPDsCodeSzValue OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "bytes"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.dsRSCodewordSize
+
+       unit name = bytes"
+   ::= {sr1646v2XLPDsCodeSzEntry 2147483648}
+
+
+sr1646v2XLPUsCodeRedSz OBJECT IDENTIFIER ::= {sr1646v2XLP 26}
+
+sr1646v2XLPUsCodeRedSzTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPUsCodeRedSzEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Actual number of Read-Solomon redundancy bytes"
+   ::= {sr1646v2XLPUsCodeRedSz 1}
+
+sr1646v2XLPUsCodeRedSzEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPUsCodeRedSzEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPUsCodeRedSzGlobalIx }
+   ::= {sr1646v2XLPUsCodeRedSzTable 1}
+
+Sr1646v2XLPUsCodeRedSzEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPUsCodeRedSzGlobalIx
+         GlobalIndex,
+      sr1646v2XLPUsCodeRedSzValue
+         INTEGER
+      }
+
+sr1646v2XLPUsCodeRedSzGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPUsCodeRedSzEntry 10}
+
+sr1646v2XLPUsCodeRedSzValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noRSCoding (0)
+               }
+   UNITS       "bytes"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.dsRSCodewordRedundancySize
+
+       unit name = bytes
+
+       Possibilities:
+               noRSCoding   (0)"
+   ::= {sr1646v2XLPUsCodeRedSzEntry 2147483648}
+
+
+sr1646v2XLPDsSymbolSize OBJECT IDENTIFIER ::= {sr1646v2XLP 27}
+
+sr1646v2XLPDsSymbolSizeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPDsSymbolSizeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Actual number of bits per symbol; maximum value 3825 for ADSL2 and 7665 for ADSL2+"
+   ::= {sr1646v2XLPDsSymbolSize 1}
+
+sr1646v2XLPDsSymbolSizeEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPDsSymbolSizeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPDsSymbolSizeGlobalIx }
+   ::= {sr1646v2XLPDsSymbolSizeTable 1}
+
+Sr1646v2XLPDsSymbolSizeEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPDsSymbolSizeGlobalIx
+         GlobalIndex,
+      sr1646v2XLPDsSymbolSizeValue
+         Integer32
+      }
+
+sr1646v2XLPDsSymbolSizeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPDsSymbolSizeEntry 10}
+
+sr1646v2XLPDsSymbolSizeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "bits"
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.dsSymbolSize
+
+       unit name = bits"
+   ::= {sr1646v2XLPDsSymbolSizeEntry 2147483648}
+
+
+sr1646v2XLPDsIntDepth OBJECT IDENTIFIER ::= {sr1646v2XLP 12}
+
+sr1646v2XLPDsIntDepthTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPDsIntDepthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Actual interleaving depth"
+   ::= {sr1646v2XLPDsIntDepth 1}
+
+sr1646v2XLPDsIntDepthEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPDsIntDepthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPDsIntDepthGlobalIx }
+   ::= {sr1646v2XLPDsIntDepthTable 1}
+
+Sr1646v2XLPDsIntDepthEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPDsIntDepthGlobalIx
+         GlobalIndex,
+      sr1646v2XLPDsIntDepthValue
+         INTEGER
+      }
+
+sr1646v2XLPDsIntDepthGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPDsIntDepthEntry 10}
+
+sr1646v2XLPDsIntDepthValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notAvailable (0),
+               noInterleaving (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.dsInterleaveDepth
+
+       Possibilities:
+               notAvailable   (0)
+               noInterleaving   (1)"
+   ::= {sr1646v2XLPDsIntDepthEntry 2147483648}
+
+
+sr1646v2XLPDsIntBlockL OBJECT IDENTIFIER ::= {sr1646v2XLP 28}
+
+sr1646v2XLPDsIntBlockLTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPDsIntBlockLEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Actal interleaving block length"
+   ::= {sr1646v2XLPDsIntBlockL 1}
+
+sr1646v2XLPDsIntBlockLEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPDsIntBlockLEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPDsIntBlockLGlobalIx }
+   ::= {sr1646v2XLPDsIntBlockLTable 1}
+
+Sr1646v2XLPDsIntBlockLEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPDsIntBlockLGlobalIx
+         GlobalIndex,
+      sr1646v2XLPDsIntBlockLValue
+         INTEGER
+      }
+
+sr1646v2XLPDsIntBlockLGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPDsIntBlockLEntry 10}
+
+sr1646v2XLPDsIntBlockLValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noInterleaving (0)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.dsInterleaveBlockLength
+
+       Possibilities:
+               noInterleaving   (0)"
+   ::= {sr1646v2XLPDsIntBlockLEntry 2147483648}
+
+
+sr1646v2XLPDsLatPath OBJECT IDENTIFIER ::= {sr1646v2XLP 29}
+
+sr1646v2XLPDsLatPathTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPDsLatPathEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Actual latency path"
+   ::= {sr1646v2XLPDsLatPath 1}
+
+sr1646v2XLPDsLatPathEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPDsLatPathEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPDsLatPathGlobalIx }
+   ::= {sr1646v2XLPDsLatPathTable 1}
+
+Sr1646v2XLPDsLatPathEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPDsLatPathGlobalIx
+         GlobalIndex,
+      sr1646v2XLPDsLatPathValue
+         Integer32
+      }
+
+sr1646v2XLPDsLatPathGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPDsLatPathEntry 10}
+
+sr1646v2XLPDsLatPathValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.dsLatencyPath"
+   ::= {sr1646v2XLPDsLatPathEntry 2147483648}
+
+
+sr1646v2XLPSubC OBJECT IDENTIFIER ::= {sr1646v2XLP 311}
+
+sr1646v2XLPSubCSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPSubCEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Status values per subcarrier"
+   ::= {sr1646v2XLPSubC 1}
+
+sr1646v2XLPSubCEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPSubCEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPSubCGlobalIx,
+                sr1646v2XLPSubCTableIx }
+   ::= {sr1646v2XLPSubCSSCTable 1}
+
+Sr1646v2XLPSubCEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPSubCGlobalIx
+         GlobalIndex,
+      sr1646v2XLPSubCTableIx
+         TableIndex,
+      sr1646v2XLPSubCFreq
+         Integer32,
+      sr1646v2XLPSubCBitsUp
+         Integer32,
+      sr1646v2XLPSubCBitsDn
+         Integer32
+      }
+
+sr1646v2XLPSubCGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPSubCEntry 10}
+
+sr1646v2XLPSubCTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2XLPSubCEntry 11}
+
+sr1646v2XLPSubCFreq OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.subCarriers.frequency
+
+       formula = 43125 * 10000 /; 10000 * 43125 /"
+   ::= {sr1646v2XLPSubCEntry 16777216}
+
+sr1646v2XLPSubCBitsUp OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.subCarriers.bitsUp"
+   ::= {sr1646v2XLPSubCEntry 33554432}
+
+sr1646v2XLPSubCBitsDn OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.subCarriers.bitsDn"
+   ::= {sr1646v2XLPSubCEntry 67108864}
+
+
+sr1646v2XLPSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2XLP 269}
+
+sr1646v2XLPSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2XLPSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2XLPSnmpIndex 1}
+
+sr1646v2XLPSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2XLPSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2XLPSnmpIndexGlobalIx }
+   ::= {sr1646v2XLPSnmpIndexTable 1}
+
+Sr1646v2XLPSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2XLPSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2XLPSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2XLPSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2XLPSnmpIndexEntry 10}
+
+sr1646v2XLPSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.status.snmpIndex"
+   ::= {sr1646v2XLPSnmpIndexEntry 2147483648}
+
+
+
+pr1646v2XLP OBJECT IDENTIFIER ::= {r1646v2XLP 12}
+
+
+pr1646v2XLPH2Params OBJECT IDENTIFIER ::= {pr1646v2XLP 40}
+
+pr1646v2XLPH2ParamsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2XLPH2ParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h2LineParameters"
+   ::= {pr1646v2XLPH2Params 1}
+
+pr1646v2XLPH2ParamsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2XLPH2ParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2XLPH2ParamsGlobalIx,
+                pr1646v2XLPH2ParamsTableIx }
+   ::= {pr1646v2XLPH2ParamsSSCTable 1}
+
+Pr1646v2XLPH2ParamsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2XLPH2ParamsGlobalIx
+         GlobalIndex,
+      pr1646v2XLPH2ParamsTableIx
+         TableIndex,
+      pr1646v2XLPH2ParamsSysUpTime
+         TimeTicks,
+      pr1646v2XLPH2ParamsLineAttMin
+         Integer32,
+      pr1646v2XLPH2ParamsLineAttAvrg
+         Integer32,
+      pr1646v2XLPH2ParamsLineAttMax
+         Integer32,
+      pr1646v2XLPH2ParamsSnrMin
+         Integer32,
+      pr1646v2XLPH2ParamsSnrAvrg
+         Integer32,
+      pr1646v2XLPH2ParamsSnrMax
+         Integer32
+      }
+
+pr1646v2XLPH2ParamsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2XLPH2ParamsEntry 10}
+
+pr1646v2XLPH2ParamsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2XLPH2ParamsEntry 11}
+
+pr1646v2XLPH2ParamsSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH2ParamsEntry 16777216}
+
+pr1646v2XLPH2ParamsLineAttMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.lineAttenuationMin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPH2ParamsEntry 33554432}
+
+pr1646v2XLPH2ParamsLineAttAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.lineAttenuationAvrg
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPH2ParamsEntry 50331648}
+
+pr1646v2XLPH2ParamsLineAttMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.lineAttenuationMax
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPH2ParamsEntry 67108864}
+
+pr1646v2XLPH2ParamsSnrMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.noiseMarginMin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPH2ParamsEntry 83886080}
+
+pr1646v2XLPH2ParamsSnrAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.noiseMarginAvrg
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPH2ParamsEntry 100663296}
+
+pr1646v2XLPH2ParamsSnrMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2LineParameters.noiseMarginMax
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPH2ParamsEntry 117440512}
+
+
+pr1646v2XLPH2Perf OBJECT IDENTIFIER ::= {pr1646v2XLP 41}
+
+pr1646v2XLPH2PerfSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2XLPH2PerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h2Performance"
+   ::= {pr1646v2XLPH2Perf 1}
+
+pr1646v2XLPH2PerfEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2XLPH2PerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2XLPH2PerfGlobalIx,
+                pr1646v2XLPH2PerfTableIx }
+   ::= {pr1646v2XLPH2PerfSSCTable 1}
+
+Pr1646v2XLPH2PerfEntry ::=
+   SEQUENCE
+      {
+      pr1646v2XLPH2PerfGlobalIx
+         GlobalIndex,
+      pr1646v2XLPH2PerfTableIx
+         TableIndex,
+      pr1646v2XLPH2PerfSysUpTime
+         TimeTicks,
+      pr1646v2XLPH2PerfCViol
+         Counter32,
+      pr1646v2XLPH2PerfErrSec
+         TimeTicks,
+      pr1646v2XLPH2PerfSevErrSec
+         TimeTicks,
+      pr1646v2XLPH2PerfUnavSec
+         TimeTicks,
+      pr1646v2XLPH2PerfLoswSec
+         TimeTicks,
+      pr1646v2XLPH2PerfMSec
+         TimeTicks
+      }
+
+pr1646v2XLPH2PerfGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2XLPH2PerfEntry 10}
+
+pr1646v2XLPH2PerfTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2XLPH2PerfEntry 11}
+
+pr1646v2XLPH2PerfSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH2PerfEntry 16777216}
+
+pr1646v2XLPH2PerfCViol OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.codeViolations
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2XLPH2PerfEntry 33554432}
+
+pr1646v2XLPH2PerfErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.errSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH2PerfEntry 50331648}
+
+pr1646v2XLPH2PerfSevErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.sevErrSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH2PerfEntry 67108864}
+
+pr1646v2XLPH2PerfUnavSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.unavailSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH2PerfEntry 83886080}
+
+pr1646v2XLPH2PerfLoswSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.loswSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH2PerfEntry 100663296}
+
+pr1646v2XLPH2PerfMSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h2Performance.moniSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH2PerfEntry 134217728}
+
+
+pr1646v2XLPH24Params OBJECT IDENTIFIER ::= {pr1646v2XLP 42}
+
+pr1646v2XLPH24ParamsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2XLPH24ParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h24LineParameters"
+   ::= {pr1646v2XLPH24Params 1}
+
+pr1646v2XLPH24ParamsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2XLPH24ParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2XLPH24ParamsGlobalIx,
+                pr1646v2XLPH24ParamsTableIx }
+   ::= {pr1646v2XLPH24ParamsSSCTable 1}
+
+Pr1646v2XLPH24ParamsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2XLPH24ParamsGlobalIx
+         GlobalIndex,
+      pr1646v2XLPH24ParamsTableIx
+         TableIndex,
+      pr1646v2XLPH24ParamsSysUpTime
+         TimeTicks,
+      pr1646v2XLPH24ParamsLineAttMin
+         Integer32,
+      pr1646v2XLPH24ParamsLineAttAvrg
+         Integer32,
+      pr1646v2XLPH24ParamsLineAttMax
+         Integer32,
+      pr1646v2XLPH24ParamsSnrMin
+         Integer32,
+      pr1646v2XLPH24ParamsSnrAvrg
+         Integer32,
+      pr1646v2XLPH24ParamsSnrMax
+         Integer32
+      }
+
+pr1646v2XLPH24ParamsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2XLPH24ParamsEntry 10}
+
+pr1646v2XLPH24ParamsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2XLPH24ParamsEntry 11}
+
+pr1646v2XLPH24ParamsSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH24ParamsEntry 16777216}
+
+pr1646v2XLPH24ParamsLineAttMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.lineAttenuationMin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPH24ParamsEntry 33554432}
+
+pr1646v2XLPH24ParamsLineAttAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.lineAttenuationAvrg
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPH24ParamsEntry 50331648}
+
+pr1646v2XLPH24ParamsLineAttMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.lineAttenuationMax
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPH24ParamsEntry 67108864}
+
+pr1646v2XLPH24ParamsSnrMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.noiseMarginMin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPH24ParamsEntry 83886080}
+
+pr1646v2XLPH24ParamsSnrAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.noiseMarginAvrg
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPH24ParamsEntry 100663296}
+
+pr1646v2XLPH24ParamsSnrMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24LineParameters.noiseMarginMax
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPH24ParamsEntry 117440512}
+
+
+pr1646v2XLPH24Perf OBJECT IDENTIFIER ::= {pr1646v2XLP 43}
+
+pr1646v2XLPH24PerfSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2XLPH24PerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h24Performance"
+   ::= {pr1646v2XLPH24Perf 1}
+
+pr1646v2XLPH24PerfEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2XLPH24PerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2XLPH24PerfGlobalIx,
+                pr1646v2XLPH24PerfTableIx }
+   ::= {pr1646v2XLPH24PerfSSCTable 1}
+
+Pr1646v2XLPH24PerfEntry ::=
+   SEQUENCE
+      {
+      pr1646v2XLPH24PerfGlobalIx
+         GlobalIndex,
+      pr1646v2XLPH24PerfTableIx
+         TableIndex,
+      pr1646v2XLPH24PerfSysUpTime
+         TimeTicks,
+      pr1646v2XLPH24PerfCViol
+         Counter32,
+      pr1646v2XLPH24PerfErrSec
+         TimeTicks,
+      pr1646v2XLPH24PerfSevErrSec
+         TimeTicks,
+      pr1646v2XLPH24PerfUnavSec
+         TimeTicks,
+      pr1646v2XLPH24PerfLoswSec
+         TimeTicks,
+      pr1646v2XLPH24PerfMSec
+         TimeTicks
+      }
+
+pr1646v2XLPH24PerfGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2XLPH24PerfEntry 10}
+
+pr1646v2XLPH24PerfTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2XLPH24PerfEntry 11}
+
+pr1646v2XLPH24PerfSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH24PerfEntry 16777216}
+
+pr1646v2XLPH24PerfCViol OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.codeViolations
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2XLPH24PerfEntry 33554432}
+
+pr1646v2XLPH24PerfErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.errSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH24PerfEntry 50331648}
+
+pr1646v2XLPH24PerfSevErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.sevErrSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH24PerfEntry 67108864}
+
+pr1646v2XLPH24PerfUnavSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.unavailSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH24PerfEntry 83886080}
+
+pr1646v2XLPH24PerfLoswSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.loswSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH24PerfEntry 100663296}
+
+pr1646v2XLPH24PerfMSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.h24Performance.moniSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPH24PerfEntry 134217728}
+
+
+pr1646v2XLPD7Params OBJECT IDENTIFIER ::= {pr1646v2XLP 44}
+
+pr1646v2XLPD7ParamsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2XLPD7ParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "d7LineParameters"
+   ::= {pr1646v2XLPD7Params 1}
+
+pr1646v2XLPD7ParamsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2XLPD7ParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2XLPD7ParamsGlobalIx,
+                pr1646v2XLPD7ParamsTableIx }
+   ::= {pr1646v2XLPD7ParamsSSCTable 1}
+
+Pr1646v2XLPD7ParamsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2XLPD7ParamsGlobalIx
+         GlobalIndex,
+      pr1646v2XLPD7ParamsTableIx
+         TableIndex,
+      pr1646v2XLPD7ParamsSysUpTime
+         TimeTicks,
+      pr1646v2XLPD7ParamsLineAttMin
+         Integer32,
+      pr1646v2XLPD7ParamsLineAttAvrg
+         Integer32,
+      pr1646v2XLPD7ParamsLineAttMax
+         Integer32,
+      pr1646v2XLPD7ParamsSnrMin
+         Integer32,
+      pr1646v2XLPD7ParamsSnrAvrg
+         Integer32,
+      pr1646v2XLPD7ParamsSnrMax
+         Integer32
+      }
+
+pr1646v2XLPD7ParamsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2XLPD7ParamsEntry 10}
+
+pr1646v2XLPD7ParamsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2XLPD7ParamsEntry 11}
+
+pr1646v2XLPD7ParamsSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2XLPD7ParamsEntry 16777216}
+
+pr1646v2XLPD7ParamsLineAttMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.lineAttenuationMin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPD7ParamsEntry 33554432}
+
+pr1646v2XLPD7ParamsLineAttAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.lineAttenuationAvrg
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPD7ParamsEntry 50331648}
+
+pr1646v2XLPD7ParamsLineAttMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.lineAttenuationMax
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPD7ParamsEntry 67108864}
+
+pr1646v2XLPD7ParamsSnrMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.noiseMarginMin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPD7ParamsEntry 83886080}
+
+pr1646v2XLPD7ParamsSnrAvrg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.noiseMarginAvrg
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPD7ParamsEntry 100663296}
+
+pr1646v2XLPD7ParamsSnrMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7LineParameters.noiseMarginMax
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPD7ParamsEntry 117440512}
+
+
+pr1646v2XLPD7Perf OBJECT IDENTIFIER ::= {pr1646v2XLP 45}
+
+pr1646v2XLPD7PerfSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2XLPD7PerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "d7Performance"
+   ::= {pr1646v2XLPD7Perf 1}
+
+pr1646v2XLPD7PerfEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2XLPD7PerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2XLPD7PerfGlobalIx,
+                pr1646v2XLPD7PerfTableIx }
+   ::= {pr1646v2XLPD7PerfSSCTable 1}
+
+Pr1646v2XLPD7PerfEntry ::=
+   SEQUENCE
+      {
+      pr1646v2XLPD7PerfGlobalIx
+         GlobalIndex,
+      pr1646v2XLPD7PerfTableIx
+         TableIndex,
+      pr1646v2XLPD7PerfSysUpTime
+         TimeTicks,
+      pr1646v2XLPD7PerfCViol
+         Counter32,
+      pr1646v2XLPD7PerfErrSec
+         TimeTicks,
+      pr1646v2XLPD7PerfSevErrSec
+         TimeTicks,
+      pr1646v2XLPD7PerfUnavSec
+         TimeTicks,
+      pr1646v2XLPD7PerfLoswSec
+         TimeTicks,
+      pr1646v2XLPD7PerfMSec
+         TimeTicks
+      }
+
+pr1646v2XLPD7PerfGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2XLPD7PerfEntry 10}
+
+pr1646v2XLPD7PerfTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2XLPD7PerfEntry 11}
+
+pr1646v2XLPD7PerfSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2XLPD7PerfEntry 16777216}
+
+pr1646v2XLPD7PerfCViol OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.codeViolations
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2XLPD7PerfEntry 33554432}
+
+pr1646v2XLPD7PerfErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.errSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPD7PerfEntry 50331648}
+
+pr1646v2XLPD7PerfSevErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.sevErrSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPD7PerfEntry 67108864}
+
+pr1646v2XLPD7PerfUnavSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.unavailSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPD7PerfEntry 83886080}
+
+pr1646v2XLPD7PerfLoswSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.loswSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPD7PerfEntry 100663296}
+
+pr1646v2XLPD7PerfMSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.d7Performance.moniSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPD7PerfEntry 134217728}
+
+
+pr1646v2XLPParams OBJECT IDENTIFIER ::= {pr1646v2XLP 46}
+
+pr1646v2XLPParamsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2XLPParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "lineParameters"
+   ::= {pr1646v2XLPParams 1}
+
+pr1646v2XLPParamsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2XLPParamsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2XLPParamsGlobalIx }
+   ::= {pr1646v2XLPParamsSSCTable 1}
+
+Pr1646v2XLPParamsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2XLPParamsGlobalIx
+         GlobalIndex,
+      pr1646v2XLPParamsLineAtt
+         Integer32,
+      pr1646v2XLPParamsSnr
+         Integer32
+      }
+
+pr1646v2XLPParamsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2XLPParamsEntry 10}
+
+pr1646v2XLPParamsLineAtt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.lineParameters.lineAttenuation
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPParamsEntry 16777216}
+
+pr1646v2XLPParamsSnr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.lineParameters.noiseMargin
+
+       unit name = dB
+       formula = 10 / ; 10 *"
+   ::= {pr1646v2XLPParamsEntry 33554432}
+
+
+pr1646v2XLPPerf OBJECT IDENTIFIER ::= {pr1646v2XLP 47}
+
+pr1646v2XLPPerfSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2XLPPerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "linePerformance"
+   ::= {pr1646v2XLPPerf 1}
+
+pr1646v2XLPPerfEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2XLPPerfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2XLPPerfGlobalIx }
+   ::= {pr1646v2XLPPerfSSCTable 1}
+
+Pr1646v2XLPPerfEntry ::=
+   SEQUENCE
+      {
+      pr1646v2XLPPerfGlobalIx
+         GlobalIndex,
+      pr1646v2XLPPerfCViol
+         Counter32,
+      pr1646v2XLPPerfErrSec
+         TimeTicks,
+      pr1646v2XLPPerfSevErrSec
+         TimeTicks,
+      pr1646v2XLPPerfUnavSec
+         TimeTicks,
+      pr1646v2XLPPerfLoswSec
+         TimeTicks
+      }
+
+pr1646v2XLPPerfGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2XLPPerfEntry 10}
+
+pr1646v2XLPPerfCViol OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.performance.codeViolations
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2XLPPerfEntry 16777216}
+
+pr1646v2XLPPerfErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.performance.errSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPPerfEntry 33554432}
+
+pr1646v2XLPPerfSevErrSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.performance.sevErrSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPPerfEntry 50331648}
+
+pr1646v2XLPPerfUnavSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.performance.unavailSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPPerfEntry 67108864}
+
+pr1646v2XLPPerfLoswSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.performance.performance.loswSec
+
+       Time in centi-second."
+   ::= {pr1646v2XLPPerfEntry 83886080}
+
+
+
+ar1646v2XLP OBJECT IDENTIFIER ::= {r1646v2XLP 16}
+
+
+ar1646v2XLPClearCounters OBJECT IDENTIFIER ::= {ar1646v2XLP 263}
+
+ar1646v2XLPClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2XLPClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1646v2XLPClearCounters 1}
+
+ar1646v2XLPClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2XLPClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2XLPClearCountersGlobalIx }
+   ::= {ar1646v2XLPClearCountersTable 1}
+
+Ar1646v2XLPClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1646v2XLPClearCountersGlobalIx
+         GlobalIndex,
+      ar1646v2XLPClearCountersValue
+         Integer32
+      }
+
+ar1646v2XLPClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2XLPClearCountersEntry 10}
+
+ar1646v2XLPClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.actions.clearCounters"
+   ::= {ar1646v2XLPClearCountersEntry 2147483648}
+
+
+
+er1646v2XLP OBJECT IDENTIFIER ::= {r1646v2XLP 11}
+
+
+er1646v2XLPPairAlmMsk OBJECT IDENTIFIER ::= {er1646v2XLP 70}
+
+er1646v2XLPPairAlmMskTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2XLPPairAlmMskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "adslAlarmMask"
+   ::= {er1646v2XLPPairAlmMsk 1}
+
+er1646v2XLPPairAlmMskEntry OBJECT-TYPE
+   SYNTAX      Er1646v2XLPPairAlmMskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2XLPPairAlmMskGlobalIx }
+   ::= {er1646v2XLPPairAlmMskTable 1}
+
+Er1646v2XLPPairAlmMskEntry ::=
+   SEQUENCE
+      {
+      er1646v2XLPPairAlmMskGlobalIx
+         GlobalIndex,
+      er1646v2XLPPairAlmMskValue
+         Integer32
+      }
+
+er1646v2XLPPairAlmMskGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2XLPPairAlmMskEntry 10}
+
+er1646v2XLPPairAlmMskValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.editConf.alarmMask
+
+       Bit meanings:
+               bit 0 = linkDown,
+               bit 1 = lineAttenuation,
+               bit 2 = noiseMargin,
+               bit 3 = errSecExceeded,
+               bit 4 = sevErrSecExceeded,
+               bit 5 = ifDsSpeed,
+               bit 6 = ifUsSpeed"
+   ::= {er1646v2XLPPairAlmMskEntry 2147483648}
+
+
+er1646v2XLPPairAlmLev OBJECT IDENTIFIER ::= {er1646v2XLP 71}
+
+er1646v2XLPPairAlmLevSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2XLPPairAlmLevEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "XdslAlarmLevel"
+   ::= {er1646v2XLPPairAlmLev 1}
+
+er1646v2XLPPairAlmLevEntry OBJECT-TYPE
+   SYNTAX      Er1646v2XLPPairAlmLevEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2XLPPairAlmLevGlobalIx }
+   ::= {er1646v2XLPPairAlmLevSSCTable 1}
+
+Er1646v2XLPPairAlmLevEntry ::=
+   SEQUENCE
+      {
+      er1646v2XLPPairAlmLevGlobalIx
+         GlobalIndex,
+      er1646v2XLPPairAlmLevLnkDwn
+         Integer32,
+      er1646v2XLPPairAlmLevLpAtt
+         Integer32,
+      er1646v2XLPPairAlmLevSnr
+         Integer32,
+      er1646v2XLPPairAlmLevESExc
+         Integer32,
+      er1646v2XLPPairAlmLevSESExc
+         Integer32,
+      er1646v2XLPPairAlmLevIfDsSpd
+         Integer32,
+      er1646v2XLPPairAlmLevIfUsSpd
+         Integer32
+      }
+
+er1646v2XLPPairAlmLevGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2XLPPairAlmLevEntry 10}
+
+er1646v2XLPPairAlmLevLnkDwn OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.editConf.alarmLevel.linkDown"
+   ::= {er1646v2XLPPairAlmLevEntry 16777216}
+
+er1646v2XLPPairAlmLevLpAtt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.editConf.alarmLevel.lineAttenuation"
+   ::= {er1646v2XLPPairAlmLevEntry 33554432}
+
+er1646v2XLPPairAlmLevSnr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.editConf.alarmLevel.noiseMargin"
+   ::= {er1646v2XLPPairAlmLevEntry 50331648}
+
+er1646v2XLPPairAlmLevESExc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.editConf.alarmLevel.errSecExceeded"
+   ::= {er1646v2XLPPairAlmLevEntry 67108864}
+
+er1646v2XLPPairAlmLevSESExc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.editConf.alarmLevel.sevErrSecExceeded"
+   ::= {er1646v2XLPPairAlmLevEntry 83886080}
+
+er1646v2XLPPairAlmLevIfDsSpd OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.editConf.alarmLevel.ifDsSpeed"
+   ::= {er1646v2XLPPairAlmLevEntry 100663296}
+
+er1646v2XLPPairAlmLevIfUsSpd OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.editConf.alarmLevel.ifUsSpeed"
+   ::= {er1646v2XLPPairAlmLevEntry 117440512}
+
+
+
+fr1646v2XLP OBJECT IDENTIFIER ::= {r1646v2XLP 13}
+
+
+fr1646v2XLPAlInfo OBJECT IDENTIFIER ::= {fr1646v2XLP 202}
+
+fr1646v2XLPAlInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Fr1646v2XLPAlInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "xdslAlarmInfo"
+   ::= {fr1646v2XLPAlInfo 1}
+
+fr1646v2XLPAlInfoEntry OBJECT-TYPE
+   SYNTAX      Fr1646v2XLPAlInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { fr1646v2XLPAlInfoGlobalIx }
+   ::= {fr1646v2XLPAlInfoSSCTable 1}
+
+Fr1646v2XLPAlInfoEntry ::=
+   SEQUENCE
+      {
+      fr1646v2XLPAlInfoGlobalIx
+         GlobalIndex,
+      fr1646v2XLPAlInfoDiscr
+         Integer32,
+      fr1646v2XLPAlInfoCurrAlms
+         Integer32,
+      fr1646v2XLPAlInfoPrevAlms
+         Integer32,
+      fr1646v2XLPAlInfoAlMask
+         Integer32,
+      fr1646v2XLPAlInfoAlLvlLnkDwn
+         Integer32,
+      fr1646v2XLPAlInfoAlLvlLpAtt
+         Integer32,
+      fr1646v2XLPAlInfoAlLvlSnr
+         Integer32,
+      fr1646v2XLPAlInfoAlLvlESExc
+         Integer32,
+      fr1646v2XLPAlInfoAlLvlSESExc
+         Integer32,
+      fr1646v2XLPAlInfoAlLvlIfDsSpd
+         Integer32,
+      fr1646v2XLPAlInfoAlLvlIfUsSpd
+         Integer32
+      }
+
+fr1646v2XLPAlInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {fr1646v2XLPAlInfoEntry 10}
+
+fr1646v2XLPAlInfoDiscr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.alarms.alarmInfo.discriminator"
+   ::= {fr1646v2XLPAlInfoEntry 16777216}
+
+fr1646v2XLPAlInfoCurrAlms OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.alarms.alarmInfo.currentAlarms
+
+       Bit meanings:
+               bit 0 = linkDown,
+               bit 1 = lineAttenuation,
+               bit 2 = noiseMargin,
+               bit 3 = errSecExceeded,
+               bit 4 = sevErrSecExceeded,
+               bit 5 = ifDsSpeed,
+               bit 6 = ifUsSpeed"
+   ::= {fr1646v2XLPAlInfoEntry 33554432}
+
+fr1646v2XLPAlInfoPrevAlms OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.alarms.alarmInfo.previousAlarms
+
+       Bit meanings:
+               bit 0 = linkDown,
+               bit 1 = lineAttenuation,
+               bit 2 = noiseMargin,
+               bit 3 = errSecExceeded,
+               bit 4 = sevErrSecExceeded,
+               bit 5 = ifDsSpeed,
+               bit 6 = ifUsSpeed"
+   ::= {fr1646v2XLPAlInfoEntry 50331648}
+
+fr1646v2XLPAlInfoAlMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.alarms.alarmInfo.alarmMask
+
+       Bit meanings:
+               bit 0 = linkDown,
+               bit 1 = lineAttenuation,
+               bit 2 = noiseMargin,
+               bit 3 = errSecExceeded,
+               bit 4 = sevErrSecExceeded,
+               bit 5 = ifDsSpeed,
+               bit 6 = ifUsSpeed"
+   ::= {fr1646v2XLPAlInfoEntry 67108864}
+
+fr1646v2XLPAlInfoAlLvlLnkDwn OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.alarms.alarmInfo.alarmLevel.linkDown"
+   ::= {fr1646v2XLPAlInfoEntry 83951616}
+
+fr1646v2XLPAlInfoAlLvlLpAtt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.alarms.alarmInfo.alarmLevel.lineAttenuation"
+   ::= {fr1646v2XLPAlInfoEntry 84017152}
+
+fr1646v2XLPAlInfoAlLvlSnr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.alarms.alarmInfo.alarmLevel.noiseMargin"
+   ::= {fr1646v2XLPAlInfoEntry 84082688}
+
+fr1646v2XLPAlInfoAlLvlESExc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.alarms.alarmInfo.alarmLevel.errSecExceeded"
+   ::= {fr1646v2XLPAlInfoEntry 84148224}
+
+fr1646v2XLPAlInfoAlLvlSESExc OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.alarms.alarmInfo.alarmLevel.sevErrSecExceeded"
+   ::= {fr1646v2XLPAlInfoEntry 84213760}
+
+fr1646v2XLPAlInfoAlLvlIfDsSpd OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.alarms.alarmInfo.alarmLevel.ifDsSpeed"
+   ::= {fr1646v2XLPAlInfoEntry 84279296}
+
+fr1646v2XLPAlInfoAlLvlIfUsSpd OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: linePair.alarms.alarmInfo.alarmLevel.ifUsSpeed"
+   ::= {fr1646v2XLPAlInfoEntry 84344832}
+
+
+fr1646v2XLPAlInfoE2 OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfo 2}
+
+fr1646v2XLPAlInfoE2Entry OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2 1}
+
+fr1646v2XLPAlInfoE2LnkDwn OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2Entry 10}
+
+fr1646v2XLPAlInfoE2LnkDwnPfx OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2LnkDwn 0}
+
+fr1646v2XLPAlInfoE2LnkDwnOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the ON to the OFF state."
+   ::= {fr1646v2XLPAlInfoE2LnkDwnPfx 1}
+
+fr1646v2XLPAlInfoE2LnkDwnOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'linkDown'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the OFF to the ON state."
+   ::= {fr1646v2XLPAlInfoE2LnkDwnPfx 2}
+
+fr1646v2XLPAlInfoE2LpAtt OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2Entry 11}
+
+fr1646v2XLPAlInfoE2LpAttPfx OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2LpAtt 0}
+
+fr1646v2XLPAlInfoE2LpAttOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'lineAttenuation'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the ON to the OFF state."
+   ::= {fr1646v2XLPAlInfoE2LpAttPfx 1}
+
+fr1646v2XLPAlInfoE2LpAttOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'lineAttenuation'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the OFF to the ON state."
+   ::= {fr1646v2XLPAlInfoE2LpAttPfx 2}
+
+fr1646v2XLPAlInfoE2Snr OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2Entry 12}
+
+fr1646v2XLPAlInfoE2SnrPfx OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2Snr 0}
+
+fr1646v2XLPAlInfoE2SnrOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'noiseMargin'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the ON to the OFF state."
+   ::= {fr1646v2XLPAlInfoE2SnrPfx 1}
+
+fr1646v2XLPAlInfoE2SnrOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'noiseMargin'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the OFF to the ON state."
+   ::= {fr1646v2XLPAlInfoE2SnrPfx 2}
+
+fr1646v2XLPAlInfoE2ESExc OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2Entry 13}
+
+fr1646v2XLPAlInfoE2ESExcPfx OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2ESExc 0}
+
+fr1646v2XLPAlInfoE2ESExcOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'errSecExceeded'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the ON to the OFF state."
+   ::= {fr1646v2XLPAlInfoE2ESExcPfx 1}
+
+fr1646v2XLPAlInfoE2ESExcOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'errSecExceeded'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the OFF to the ON state."
+   ::= {fr1646v2XLPAlInfoE2ESExcPfx 2}
+
+fr1646v2XLPAlInfoE2SESExc OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2Entry 14}
+
+fr1646v2XLPAlInfoE2SESExcPfx OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2SESExc 0}
+
+fr1646v2XLPAlInfoE2SESExcOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'sevErrSecExceeded'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the ON to the OFF state."
+   ::= {fr1646v2XLPAlInfoE2SESExcPfx 1}
+
+fr1646v2XLPAlInfoE2SESExcOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'sevErrSecExceeded'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the OFF to the ON state."
+   ::= {fr1646v2XLPAlInfoE2SESExcPfx 2}
+
+fr1646v2XLPAlInfoE2IfDsSpd OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2Entry 15}
+
+fr1646v2XLPAlInfoE2IfDsSpdPfx OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2IfDsSpd 0}
+
+fr1646v2XLPAlInfoE2IfDsSpdOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'ifDsSpeed'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the ON to the OFF state."
+   ::= {fr1646v2XLPAlInfoE2IfDsSpdPfx 1}
+
+fr1646v2XLPAlInfoE2IfDsSpdOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'ifDsSpeed'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the OFF to the ON state."
+   ::= {fr1646v2XLPAlInfoE2IfDsSpdPfx 2}
+
+fr1646v2XLPAlInfoE2IfUsSpd OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2Entry 16}
+
+fr1646v2XLPAlInfoE2IfUsSpdPfx OBJECT IDENTIFIER ::= {fr1646v2XLPAlInfoE2IfUsSpd 0}
+
+fr1646v2XLPAlInfoE2IfUsSpdOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'ifUsSpeed'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the ON to the OFF state."
+   ::= {fr1646v2XLPAlInfoE2IfUsSpdPfx 1}
+
+fr1646v2XLPAlInfoE2IfUsSpdOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'ifUsSpeed'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'xdslLinePair'
+                (root='router1646') has changed from the OFF to the ON state."
+   ::= {fr1646v2XLPAlInfoE2IfUsSpdPfx 2}
+
+
+
+END

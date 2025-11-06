@@ -1,0 +1,2634 @@
+OneAccess-R1646v2-4040-TP6 DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2TP6 OBJECT IDENTIFIER ::= {r1646Rootv2 4040}
+
+r1646v2TP6MOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2TP6MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2TP6 1}
+
+r1646v2TP6MOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2TP6MOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2TP6MOPropGlobalIx }
+   ::= {r1646v2TP6MOProp 1}
+
+R1646v2TP6MOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2TP6MOPropPath
+         ContainmentPath,
+      r1646v2TP6MOPropRev
+         ObjectRevision,
+      r1646v2TP6MOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2TP6MOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2TP6MOPropEntry 3}
+
+r1646v2TP6MOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2TP6MOPropEntry 4}
+
+r1646v2TP6MOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2TP6MOPropEntry 10}
+
+
+
+er1646v2TP6 OBJECT IDENTIFIER ::= {r1646v2TP6 11}
+
+
+er1646v2TP6SnmpIndexOffset OBJECT IDENTIFIER ::= {er1646v2TP6 268}
+
+er1646v2TP6SnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2TP6SnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1646v2TP6SnmpIndexOffset 1}
+
+er1646v2TP6SnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1646v2TP6SnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2TP6SnmpIndexOffsetGlobalIx }
+   ::= {er1646v2TP6SnmpIndexOffsetTable 1}
+
+Er1646v2TP6SnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1646v2TP6SnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1646v2TP6SnmpIndexOffsetValue
+         Integer32
+      }
+
+er1646v2TP6SnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2TP6SnmpIndexOffsetEntry 10}
+
+er1646v2TP6SnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.snmpIndexOffset"
+   ::= {er1646v2TP6SnmpIndexOffsetEntry 2147483648}
+
+
+er1646v2TP6Remark OBJECT IDENTIFIER ::= {er1646v2TP6 69}
+
+er1646v2TP6RemarkTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2TP6RemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2TP6Remark 1}
+
+er1646v2TP6RemarkEntry OBJECT-TYPE
+   SYNTAX      Er1646v2TP6RemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2TP6RemarkGlobalIx }
+   ::= {er1646v2TP6RemarkTable 1}
+
+Er1646v2TP6RemarkEntry ::=
+   SEQUENCE
+      {
+      er1646v2TP6RemarkGlobalIx
+         GlobalIndex,
+      er1646v2TP6RemarkValue
+         DisplayString
+      }
+
+er1646v2TP6RemarkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2TP6RemarkEntry 10}
+
+er1646v2TP6RemarkValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.remark"
+   ::= {er1646v2TP6RemarkEntry 2147483648}
+
+
+er1646v2TP6VrfRouter OBJECT IDENTIFIER ::= {er1646v2TP6 3}
+
+er1646v2TP6VrfRouterTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2TP6VrfRouterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "vrf router name used to reference to a vrf router on other objects"
+   ::= {er1646v2TP6VrfRouter 1}
+
+er1646v2TP6VrfRouterEntry OBJECT-TYPE
+   SYNTAX      Er1646v2TP6VrfRouterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2TP6VrfRouterGlobalIx }
+   ::= {er1646v2TP6VrfRouterTable 1}
+
+Er1646v2TP6VrfRouterEntry ::=
+   SEQUENCE
+      {
+      er1646v2TP6VrfRouterGlobalIx
+         GlobalIndex,
+      er1646v2TP6VrfRouterValue
+         DisplayString
+      }
+
+er1646v2TP6VrfRouterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2TP6VrfRouterEntry 10}
+
+er1646v2TP6VrfRouterValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.vrfRouter"
+   ::= {er1646v2TP6VrfRouterEntry 2147483648}
+
+
+er1646v2TP6TrfcShpng6 OBJECT IDENTIFIER ::= {er1646v2TP6 4}
+
+er1646v2TP6TrfcShpng6SSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2TP6TrfcShpng6Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "extended access list for IPv6"
+   ::= {er1646v2TP6TrfcShpng6 1}
+
+er1646v2TP6TrfcShpng6Entry OBJECT-TYPE
+   SYNTAX      Er1646v2TP6TrfcShpng6Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2TP6TrfcShpng6GlobalIx,
+                er1646v2TP6TrfcShpng6TableIx }
+   ::= {er1646v2TP6TrfcShpng6SSCTable 1}
+
+Er1646v2TP6TrfcShpng6Entry ::=
+   SEQUENCE
+      {
+      er1646v2TP6TrfcShpng6Actions
+         VariableLengthTableActions,
+      er1646v2TP6TrfcShpng6GlobalIx
+         GlobalIndex,
+      er1646v2TP6TrfcShpng6TableIx
+         TableIndex,
+      er1646v2TP6TrfcShpng6Name
+         DisplayString,
+      er1646v2TP6TrfcShpng6SrcIntf
+         DisplayString,
+      er1646v2TP6TrfcShpng6SrcAddrStart
+         Ipv6Address,
+      er1646v2TP6TrfcShpng6SrcAddrEnd
+         Ipv6Address,
+      er1646v2TP6TrfcShpng6DestAddrStart
+         Ipv6Address,
+      er1646v2TP6TrfcShpng6DestAddrEnd
+         Ipv6Address,
+      er1646v2TP6TrfcShpng6TrafClasStart
+         INTEGER,
+      er1646v2TP6TrfcShpng6TrafClasEnd
+         INTEGER,
+      er1646v2TP6TrfcShpng6Prtcl
+         INTEGER,
+      er1646v2TP6TrfcShpng6SrcPortStart
+         INTEGER,
+      er1646v2TP6TrfcShpng6SrcPortEnd
+         INTEGER,
+      er1646v2TP6TrfcShpng6DstPortStart
+         INTEGER,
+      er1646v2TP6TrfcShpng6DstPortEnd
+         INTEGER,
+      er1646v2TP6TrfcShpng6Priority
+         INTEGER,
+      er1646v2TP6TrfcShpng6TimeWindow
+         DisplayString,
+      er1646v2TP6TrfcShpng6Action
+         INTEGER,
+      er1646v2TP6TrfcShpng6MarkQueue
+         INTEGER,
+      er1646v2TP6TrfcShpng6MarkTrafficClass
+         INTEGER,
+      er1646v2TP6TrfcShpng6MarkDropLevel
+         INTEGER,
+      er1646v2TP6TrfcShpng6PolicyInterface
+         DisplayString,
+      er1646v2TP6TrfcShpng6PolicyNextHop
+         Ipv6Address,
+      er1646v2TP6TrfcShpng6PolicyTrackingMode
+         INTEGER,
+      er1646v2TP6TrfcShpng6JumpTo
+         DisplayString,
+      er1646v2TP6TrfcShpng6Capture
+         INTEGER
+      }
+
+er1646v2TP6TrfcShpng6Actions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2TP6TrfcShpng6Entry 2}
+
+er1646v2TP6TrfcShpng6GlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2TP6TrfcShpng6Entry 10}
+
+er1646v2TP6TrfcShpng6TableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2TP6TrfcShpng6Entry 11}
+
+er1646v2TP6TrfcShpng6Name OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.name"
+   ::= {er1646v2TP6TrfcShpng6Entry 16777216}
+
+er1646v2TP6TrfcShpng6SrcIntf OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.sourceInterface"
+   ::= {er1646v2TP6TrfcShpng6Entry 318767104}
+
+er1646v2TP6TrfcShpng6SrcAddrStart OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.sourceIpStartAddress
+
+       ipv6 address"
+   ::= {er1646v2TP6TrfcShpng6Entry 33554432}
+
+er1646v2TP6TrfcShpng6SrcAddrEnd OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.sourceIpEndAddress
+
+       ipv6 address"
+   ::= {er1646v2TP6TrfcShpng6Entry 50331648}
+
+er1646v2TP6TrfcShpng6DestAddrStart OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.destinationIpStartAddress
+
+       ipv6 address"
+   ::= {er1646v2TP6TrfcShpng6Entry 67108864}
+
+er1646v2TP6TrfcShpng6DestAddrEnd OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.destinationIpEndAddress
+
+       ipv6 address"
+   ::= {er1646v2TP6TrfcShpng6Entry 83886080}
+
+er1646v2TP6TrfcShpng6TrafClasStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               any (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.trafficClassStart
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               any   (256)"
+   ::= {er1646v2TP6TrfcShpng6Entry 100663296}
+
+er1646v2TP6TrfcShpng6TrafClasEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               optional (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.trafficClassEnd
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               optional   (256)"
+   ::= {er1646v2TP6TrfcShpng6Entry 117440512}
+
+er1646v2TP6TrfcShpng6Prtcl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               aH (51),
+               eGP (8),
+               eSP (50),
+               gRE (47),
+               iCMPv6 (58),
+               iGP (9),
+               iGMP (2),
+               iGRP (88),
+               iPinIP (4),
+               oSPF (89),
+               uDP (17),
+               rSVP (46),
+               tCP (6),
+               tCPestablished (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.protocol
+
+       Possibilities:
+               any   (0)
+               AH   (51)
+               EGP   (8)
+               ESP   (50)
+               GRE   (47)
+               ICMPv6   (58)
+               IGP   (9)
+               IGMP   (2)
+               IGRP   (88)
+               IPinIP   (4)
+               OSPF   (89)
+               UDP   (17)
+               RSVP   (46)
+               TCP   (6)
+               TCPestablished   (255)"
+   ::= {er1646v2TP6TrfcShpng6Entry 134217728}
+
+er1646v2TP6TrfcShpng6SrcPortStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.sourcePortStart
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1646v2TP6TrfcShpng6Entry 150994944}
+
+er1646v2TP6TrfcShpng6SrcPortEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               optional (0),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.sourcePortEnd
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               optional   (0)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1646v2TP6TrfcShpng6Entry 167772160}
+
+er1646v2TP6TrfcShpng6DstPortStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.destinationPortStart
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1646v2TP6TrfcShpng6Entry 184549376}
+
+er1646v2TP6TrfcShpng6DstPortEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               optional (0),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.destinationPortEnd
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               optional   (0)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1646v2TP6TrfcShpng6Entry 201326592}
+
+er1646v2TP6TrfcShpng6Priority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               any (255)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.priority
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               any   (255)"
+   ::= {er1646v2TP6TrfcShpng6Entry 218103808}
+
+er1646v2TP6TrfcShpng6TimeWindow OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.timeWindow"
+   ::= {er1646v2TP6TrfcShpng6Entry 352321536}
+
+er1646v2TP6TrfcShpng6Action OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               deny (0),
+               permit (1),
+               continue (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.action
+
+       Possibilities:
+               deny   (0)
+               permit   (1)
+               continue   (2)"
+   ::= {er1646v2TP6TrfcShpng6Entry 234881024}
+
+er1646v2TP6TrfcShpng6MarkQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               diffServ (-2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.mark.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               diffServ   (-2)"
+   ::= {er1646v2TP6TrfcShpng6Entry 369164288}
+
+er1646v2TP6TrfcShpng6MarkTrafficClass OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.mark.trafficClass
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1646v2TP6TrfcShpng6Entry 369229824}
+
+er1646v2TP6TrfcShpng6MarkDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               dropOnQueue (0),
+               diffServ (-2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.mark.dropLevel
+
+       Possibilities:
+               unchanged   (-1)
+               dropOnQueue   (0)
+               diffServ   (-2)"
+   ::= {er1646v2TP6TrfcShpng6Entry 369295360}
+
+er1646v2TP6TrfcShpng6PolicyInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.policy.interface"
+   ::= {er1646v2TP6TrfcShpng6Entry 385941504}
+
+er1646v2TP6TrfcShpng6PolicyNextHop OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.policy.nextHop
+
+       ipv6 address"
+   ::= {er1646v2TP6TrfcShpng6Entry 386138112}
+
+er1646v2TP6TrfcShpng6PolicyTrackingMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               interface (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.policy.tracking.mode
+
+       Possibilities:
+               disabled   (0)
+               interface   (1)"
+   ::= {er1646v2TP6TrfcShpng6Entry 386072832}
+
+er1646v2TP6TrfcShpng6JumpTo OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.jumpTo"
+   ::= {er1646v2TP6TrfcShpng6Entry 402653184}
+
+er1646v2TP6TrfcShpng6Capture OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.advancedFilter.capture
+
+       Possibilities:
+               disabled   (8)"
+   ::= {er1646v2TP6TrfcShpng6Entry 419430400}
+
+
+er1646v2TP6DiffServDropLevels OBJECT IDENTIFIER ::= {er1646v2TP6 7}
+
+er1646v2TP6DiffServDropLevelsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2TP6DiffServDropLevelsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "matrix containing info about the queue lengths - drop precedence"
+   ::= {er1646v2TP6DiffServDropLevels 1}
+
+er1646v2TP6DiffServDropLevelsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2TP6DiffServDropLevelsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2TP6DiffServDropLevelsGlobalIx,
+                er1646v2TP6DiffServDropLevelsTableIx }
+   ::= {er1646v2TP6DiffServDropLevelsSSCTable 1}
+
+Er1646v2TP6DiffServDropLevelsEntry ::=
+   SEQUENCE
+      {
+      er1646v2TP6DiffServDropLevelsActions
+         FixedLengthTableActions,
+      er1646v2TP6DiffServDropLevelsGlobalIx
+         GlobalIndex,
+      er1646v2TP6DiffServDropLevelsTableIx
+         TableIndex,
+      er1646v2TP6DiffServDropLevelsDropLevel1
+         Integer32,
+      er1646v2TP6DiffServDropLevelsDropLevel2
+         Integer32,
+      er1646v2TP6DiffServDropLevelsDropLevel3
+         Integer32
+      }
+
+er1646v2TP6DiffServDropLevelsActions OBJECT-TYPE
+   SYNTAX      FixedLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2TP6DiffServDropLevelsEntry 2}
+
+er1646v2TP6DiffServDropLevelsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2TP6DiffServDropLevelsEntry 10}
+
+er1646v2TP6DiffServDropLevelsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2TP6DiffServDropLevelsEntry 11}
+
+er1646v2TP6DiffServDropLevelsDropLevel1 OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.diffServDropLevels.dropLevel1"
+   ::= {er1646v2TP6DiffServDropLevelsEntry 16777216}
+
+er1646v2TP6DiffServDropLevelsDropLevel2 OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.diffServDropLevels.dropLevel2"
+   ::= {er1646v2TP6DiffServDropLevelsEntry 33554432}
+
+er1646v2TP6DiffServDropLevelsDropLevel3 OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.editConf.diffServDropLevels.dropLevel3"
+   ::= {er1646v2TP6DiffServDropLevelsEntry 50331648}
+
+
+
+sr1646v2TP6 OBJECT IDENTIFIER ::= {r1646v2TP6 14}
+
+
+sr1646v2TP6SnmpIndex OBJECT IDENTIFIER ::= {sr1646v2TP6 269}
+
+sr1646v2TP6SnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2TP6SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2TP6SnmpIndex 1}
+
+sr1646v2TP6SnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2TP6SnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2TP6SnmpIndexGlobalIx }
+   ::= {sr1646v2TP6SnmpIndexTable 1}
+
+Sr1646v2TP6SnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2TP6SnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2TP6SnmpIndexValue
+         Integer32
+      }
+
+sr1646v2TP6SnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2TP6SnmpIndexEntry 10}
+
+sr1646v2TP6SnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.status.snmpIndex"
+   ::= {sr1646v2TP6SnmpIndexEntry 2147483648}
+
+
+
+pr1646v2TP6 OBJECT IDENTIFIER ::= {r1646v2TP6 12}
+
+
+pr1646v2TP6TraffUse OBJECT IDENTIFIER ::= {pr1646v2TP6 33}
+
+pr1646v2TP6TraffUseSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2TP6TraffUseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "traffic shaping performance table for IPv6"
+   ::= {pr1646v2TP6TraffUse 1}
+
+pr1646v2TP6TraffUseEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2TP6TraffUseEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2TP6TraffUseGlobalIx,
+                pr1646v2TP6TraffUseTableIx }
+   ::= {pr1646v2TP6TraffUseSSCTable 1}
+
+Pr1646v2TP6TraffUseEntry ::=
+   SEQUENCE
+      {
+      pr1646v2TP6TraffUseGlobalIx
+         GlobalIndex,
+      pr1646v2TP6TraffUseTableIx
+         TableIndex,
+      pr1646v2TP6TraffUseName
+         DisplayString,
+      pr1646v2TP6TraffUseOctets
+         Gauge32,
+      pr1646v2TP6TraffUseMatched
+         Gauge32,
+      pr1646v2TP6TraffUseChecked
+         Gauge32,
+      pr1646v2TP6TraffUseDestination
+         DisplayString,
+      pr1646v2TP6TraffUseSourceInterface
+         DisplayString,
+      pr1646v2TP6TraffUseSrcAddrStart
+         Ipv6Address,
+      pr1646v2TP6TraffUseSrcAddrEnd
+         Ipv6Address,
+      pr1646v2TP6TraffUseDestAddrStart
+         Ipv6Address,
+      pr1646v2TP6TraffUseDestAddrEnd
+         Ipv6Address,
+      pr1646v2TP6TraffUseTrafClasStart
+         INTEGER,
+      pr1646v2TP6TraffUseTrafClasEnd
+         INTEGER,
+      pr1646v2TP6TraffUsePtcl
+         INTEGER,
+      pr1646v2TP6TraffUseSrcPortStart
+         INTEGER,
+      pr1646v2TP6TraffUseSrcPortEnd
+         INTEGER,
+      pr1646v2TP6TraffUseDstPortStart
+         INTEGER,
+      pr1646v2TP6TraffUseDstPortEnd
+         INTEGER,
+      pr1646v2TP6TraffUsePrio
+         INTEGER,
+      pr1646v2TP6TraffUseTimeWindow
+         DisplayString,
+      pr1646v2TP6TraffUseTimeWindowStatus
+         INTEGER,
+      pr1646v2TP6TraffUseAction
+         INTEGER,
+      pr1646v2TP6TraffUseMarkQueue
+         INTEGER,
+      pr1646v2TP6TraffUseMarkTrafficClass
+         INTEGER,
+      pr1646v2TP6TraffUseMarkDropLevel
+         INTEGER,
+      pr1646v2TP6TraffUseJumpTo
+         DisplayString,
+      pr1646v2TP6TraffUseCapture
+         INTEGER
+      }
+
+pr1646v2TP6TraffUseGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2TP6TraffUseEntry 10}
+
+pr1646v2TP6TraffUseTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2TP6TraffUseEntry 11}
+
+pr1646v2TP6TraffUseName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.name"
+   ::= {pr1646v2TP6TraffUseEntry 301989888}
+
+pr1646v2TP6TraffUseOctets OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.octets
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2TP6TraffUseEntry 318767104}
+
+pr1646v2TP6TraffUseMatched OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.matched
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2TP6TraffUseEntry 419430400}
+
+pr1646v2TP6TraffUseChecked OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.checked
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2TP6TraffUseEntry 436207616}
+
+pr1646v2TP6TraffUseDestination OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.destination"
+   ::= {pr1646v2TP6TraffUseEntry 234881024}
+
+pr1646v2TP6TraffUseSourceInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.sourceInterface"
+   ::= {pr1646v2TP6TraffUseEntry 369098752}
+
+pr1646v2TP6TraffUseSrcAddrStart OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.sourceIpStartAddress
+
+       ipv6 address"
+   ::= {pr1646v2TP6TraffUseEntry 16777216}
+
+pr1646v2TP6TraffUseSrcAddrEnd OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.sourceIpEndAddress
+
+       ipv6 address"
+   ::= {pr1646v2TP6TraffUseEntry 33554432}
+
+pr1646v2TP6TraffUseDestAddrStart OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.destinationIpStartAddress
+
+       ipv6 address"
+   ::= {pr1646v2TP6TraffUseEntry 50331648}
+
+pr1646v2TP6TraffUseDestAddrEnd OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.destinationIpEndAddress
+
+       ipv6 address"
+   ::= {pr1646v2TP6TraffUseEntry 67108864}
+
+pr1646v2TP6TraffUseTrafClasStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               any (256)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.trafficClassStart
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               any   (256)"
+   ::= {pr1646v2TP6TraffUseEntry 201326592}
+
+pr1646v2TP6TraffUseTrafClasEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               optional (256)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.trafficClassEnd
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               optional   (256)"
+   ::= {pr1646v2TP6TraffUseEntry 218103808}
+
+pr1646v2TP6TraffUsePtcl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               aH (51),
+               eGP (8),
+               eSP (50),
+               gRE (47),
+               iCMPv6 (58),
+               iGP (9),
+               iGMP (2),
+               iGRP (88),
+               iPinIP (4),
+               oSPF (89),
+               uDP (17),
+               rSVP (46),
+               tCP (6),
+               tCPestablished (255)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.protocol
+
+       Possibilities:
+               any   (0)
+               AH   (51)
+               EGP   (8)
+               ESP   (50)
+               GRE   (47)
+               ICMPv6   (58)
+               IGP   (9)
+               IGMP   (2)
+               IGRP   (88)
+               IPinIP   (4)
+               OSPF   (89)
+               UDP   (17)
+               RSVP   (46)
+               TCP   (6)
+               TCPestablished   (255)"
+   ::= {pr1646v2TP6TraffUseEntry 83886080}
+
+pr1646v2TP6TraffUseSrcPortStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.sourcePortStart
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1646v2TP6TraffUseEntry 100663296}
+
+pr1646v2TP6TraffUseSrcPortEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.sourcePortEnd
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1646v2TP6TraffUseEntry 117440512}
+
+pr1646v2TP6TraffUseDstPortStart OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.destinationPortStart
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1646v2TP6TraffUseEntry 134217728}
+
+pr1646v2TP6TraffUseDstPortEnd OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.destinationPortEnd
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1646v2TP6TraffUseEntry 150994944}
+
+pr1646v2TP6TraffUsePrio OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               any (255)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.priority
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               any   (255)"
+   ::= {pr1646v2TP6TraffUseEntry 352321536}
+
+pr1646v2TP6TraffUseTimeWindow OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.timeWindow"
+   ::= {pr1646v2TP6TraffUseEntry 503316480}
+
+pr1646v2TP6TraffUseTimeWindowStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               notApplicable (0),
+               active (1),
+               inactive (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.timeWindowStatus
+
+       Possibilities:
+               notApplicable   (0)
+               active   (1)
+               inactive   (2)"
+   ::= {pr1646v2TP6TraffUseEntry 520093696}
+
+pr1646v2TP6TraffUseAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               deny (0),
+               permit (1),
+               continue (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.action
+
+       Possibilities:
+               deny   (0)
+               permit   (1)
+               continue   (2)"
+   ::= {pr1646v2TP6TraffUseEntry 385875968}
+
+pr1646v2TP6TraffUseMarkQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               diffServ (-2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.mark.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               diffServ   (-2)"
+   ::= {pr1646v2TP6TraffUseEntry 453050368}
+
+pr1646v2TP6TraffUseMarkTrafficClass OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.mark.trafficClass
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {pr1646v2TP6TraffUseEntry 453115904}
+
+pr1646v2TP6TraffUseMarkDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               dropOnQueue (0),
+               diffServ (-2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.mark.dropLevel
+
+       Possibilities:
+               unchanged   (-1)
+               dropOnQueue   (0)
+               diffServ   (-2)"
+   ::= {pr1646v2TP6TraffUseEntry 453181440}
+
+pr1646v2TP6TraffUseJumpTo OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.jumpTo"
+   ::= {pr1646v2TP6TraffUseEntry 469762048}
+
+pr1646v2TP6TraffUseCapture OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (8)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.advancedFilter.capture
+
+       Possibilities:
+               disabled   (8)"
+   ::= {pr1646v2TP6TraffUseEntry 486539264}
+
+
+pr1646v2TP6Discards OBJECT IDENTIFIER ::= {pr1646v2TP6 31}
+
+pr1646v2TP6DiscardsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2TP6DiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "traffic policy packet discards"
+   ::= {pr1646v2TP6Discards 1}
+
+pr1646v2TP6DiscardsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2TP6DiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2TP6DiscardsGlobalIx }
+   ::= {pr1646v2TP6DiscardsTable 1}
+
+Pr1646v2TP6DiscardsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2TP6DiscardsGlobalIx
+         GlobalIndex,
+      pr1646v2TP6DiscardsValue
+         Integer32
+      }
+
+pr1646v2TP6DiscardsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2TP6DiscardsEntry 10}
+
+pr1646v2TP6DiscardsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.discards"
+   ::= {pr1646v2TP6DiscardsEntry 2147483648}
+
+
+pr1646v2TP6FragmentsProcessed OBJECT IDENTIFIER ::= {pr1646v2TP6 57}
+
+pr1646v2TP6FragmentsProcessedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2TP6FragmentsProcessedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "will this access list process fragments"
+   ::= {pr1646v2TP6FragmentsProcessed 1}
+
+pr1646v2TP6FragmentsProcessedEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2TP6FragmentsProcessedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2TP6FragmentsProcessedGlobalIx }
+   ::= {pr1646v2TP6FragmentsProcessedTable 1}
+
+Pr1646v2TP6FragmentsProcessedEntry ::=
+   SEQUENCE
+      {
+      pr1646v2TP6FragmentsProcessedGlobalIx
+         GlobalIndex,
+      pr1646v2TP6FragmentsProcessedValue
+         INTEGER
+      }
+
+pr1646v2TP6FragmentsProcessedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2TP6FragmentsProcessedEntry 10}
+
+pr1646v2TP6FragmentsProcessedValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (1),
+               yes (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.fragmentsProcessed
+
+       Possibilities:
+               no   (1)
+               yes   (2)"
+   ::= {pr1646v2TP6FragmentsProcessedEntry 2147483648}
+
+
+pr1646v2TP6FragmentedPackets OBJECT IDENTIFIER ::= {pr1646v2TP6 54}
+
+pr1646v2TP6FragmentedPacketsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2TP6FragmentedPacketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "counter for ip fragment caching"
+   ::= {pr1646v2TP6FragmentedPackets 1}
+
+pr1646v2TP6FragmentedPacketsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2TP6FragmentedPacketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2TP6FragmentedPacketsGlobalIx }
+   ::= {pr1646v2TP6FragmentedPacketsTable 1}
+
+Pr1646v2TP6FragmentedPacketsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2TP6FragmentedPacketsGlobalIx
+         GlobalIndex,
+      pr1646v2TP6FragmentedPacketsValue
+         Integer32
+      }
+
+pr1646v2TP6FragmentedPacketsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2TP6FragmentedPacketsEntry 10}
+
+pr1646v2TP6FragmentedPacketsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.fragmentedPackets"
+   ::= {pr1646v2TP6FragmentedPacketsEntry 2147483648}
+
+
+pr1646v2TP6Fragments OBJECT IDENTIFIER ::= {pr1646v2TP6 55}
+
+pr1646v2TP6FragmentsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2TP6FragmentsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "counter for ip fragment caching"
+   ::= {pr1646v2TP6Fragments 1}
+
+pr1646v2TP6FragmentsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2TP6FragmentsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2TP6FragmentsGlobalIx }
+   ::= {pr1646v2TP6FragmentsTable 1}
+
+Pr1646v2TP6FragmentsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2TP6FragmentsGlobalIx
+         GlobalIndex,
+      pr1646v2TP6FragmentsValue
+         Integer32
+      }
+
+pr1646v2TP6FragmentsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2TP6FragmentsEntry 10}
+
+pr1646v2TP6FragmentsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.fragments"
+   ::= {pr1646v2TP6FragmentsEntry 2147483648}
+
+
+pr1646v2TP6DroppedFragments OBJECT IDENTIFIER ::= {pr1646v2TP6 32}
+
+pr1646v2TP6DroppedFragmentsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2TP6DroppedFragmentsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "counter for ip fragment caching"
+   ::= {pr1646v2TP6DroppedFragments 1}
+
+pr1646v2TP6DroppedFragmentsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2TP6DroppedFragmentsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2TP6DroppedFragmentsGlobalIx }
+   ::= {pr1646v2TP6DroppedFragmentsTable 1}
+
+Pr1646v2TP6DroppedFragmentsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2TP6DroppedFragmentsGlobalIx
+         GlobalIndex,
+      pr1646v2TP6DroppedFragmentsValue
+         Integer32
+      }
+
+pr1646v2TP6DroppedFragmentsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2TP6DroppedFragmentsEntry 10}
+
+pr1646v2TP6DroppedFragmentsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.performance.droppedFragments"
+   ::= {pr1646v2TP6DroppedFragmentsEntry 2147483648}
+
+
+
+ar1646v2TP6 OBJECT IDENTIFIER ::= {r1646v2TP6 16}
+
+
+ar1646v2TP6ClearCounters OBJECT IDENTIFIER ::= {ar1646v2TP6 263}
+
+ar1646v2TP6ClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2TP6ClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1646v2TP6ClearCounters 1}
+
+ar1646v2TP6ClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2TP6ClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2TP6ClearCountersGlobalIx }
+   ::= {ar1646v2TP6ClearCountersTable 1}
+
+Ar1646v2TP6ClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1646v2TP6ClearCountersGlobalIx
+         GlobalIndex,
+      ar1646v2TP6ClearCountersValue
+         Integer32
+      }
+
+ar1646v2TP6ClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2TP6ClearCountersEntry 10}
+
+ar1646v2TP6ClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ipV6TrafficPolicy.actions.clearCounters"
+   ::= {ar1646v2TP6ClearCountersEntry 2147483648}
+
+
+
+END

@@ -1,0 +1,6885 @@
+OneAccess-R1645v2-1441-Nati DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Nati OBJECT IDENTIFIER ::= {r1645Rootv2 1441}
+
+r1645v2NatiMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2NatiMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2Nati 1}
+
+r1645v2NatiMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2NatiMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2NatiMOPropGlobalIx }
+   ::= {r1645v2NatiMOProp 1}
+
+R1645v2NatiMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2NatiMOPropPath
+         ContainmentPath,
+      r1645v2NatiMOPropRev
+         ObjectRevision,
+      r1645v2NatiMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2NatiMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2NatiMOPropEntry 3}
+
+r1645v2NatiMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2NatiMOPropEntry 4}
+
+r1645v2NatiMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2NatiMOPropEntry 10}
+
+
+
+er1645v2Nati OBJECT IDENTIFIER ::= {r1645v2Nati 11}
+
+
+er1645v2NatiPatAddress OBJECT IDENTIFIER ::= {er1645v2Nati 2}
+
+er1645v2NatiPatAddressTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiPatAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipAdEntAddr"
+   ::= {er1645v2NatiPatAddress 1}
+
+er1645v2NatiPatAddressEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiPatAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiPatAddressGlobalIx }
+   ::= {er1645v2NatiPatAddressTable 1}
+
+Er1645v2NatiPatAddressEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiPatAddressGlobalIx
+         GlobalIndex,
+      er1645v2NatiPatAddressValue
+         IpAddress
+      }
+
+er1645v2NatiPatAddressGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiPatAddressEntry 10}
+
+er1645v2NatiPatAddressValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.patAddress"
+   ::= {er1645v2NatiPatAddressEntry 2147483648}
+
+
+er1645v2NatiPatPool OBJECT IDENTIFIER ::= {er1645v2Nati 8}
+
+er1645v2NatiPatPoolSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiPatPoolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "table containing portnumbers requiring no PAT translation"
+   ::= {er1645v2NatiPatPool 1}
+
+er1645v2NatiPatPoolEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiPatPoolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiPatPoolGlobalIx,
+                er1645v2NatiPatPoolTableIx }
+   ::= {er1645v2NatiPatPoolSSCTable 1}
+
+Er1645v2NatiPatPoolEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiPatPoolActions
+         VariableLengthTableActions,
+      er1645v2NatiPatPoolGlobalIx
+         GlobalIndex,
+      er1645v2NatiPatPoolTableIx
+         TableIndex,
+      er1645v2NatiPatPoolFilter
+         DisplayString,
+      er1645v2NatiPatPoolAddress
+         IpAddress
+      }
+
+er1645v2NatiPatPoolActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2NatiPatPoolEntry 2}
+
+er1645v2NatiPatPoolGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiPatPoolEntry 10}
+
+er1645v2NatiPatPoolTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2NatiPatPoolEntry 11}
+
+er1645v2NatiPatPoolFilter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.patPool.filter"
+   ::= {er1645v2NatiPatPoolEntry 16777216}
+
+er1645v2NatiPatPoolAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.patPool.address"
+   ::= {er1645v2NatiPatPoolEntry 33554432}
+
+
+er1645v2NatiPortTranslations OBJECT IDENTIFIER ::= {er1645v2Nati 3}
+
+er1645v2NatiPortTranslationsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiPortTranslationsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "table containing portnumbers requiring no PAT translation"
+   ::= {er1645v2NatiPortTranslations 1}
+
+er1645v2NatiPortTranslationsEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiPortTranslationsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiPortTranslationsGlobalIx,
+                er1645v2NatiPortTranslationsTableIx }
+   ::= {er1645v2NatiPortTranslationsSSCTable 1}
+
+Er1645v2NatiPortTranslationsEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiPortTranslationsActions
+         VariableLengthTableActions,
+      er1645v2NatiPortTranslationsGlobalIx
+         GlobalIndex,
+      er1645v2NatiPortTranslationsTableIx
+         TableIndex,
+      er1645v2NatiPortTranslationsProtocol
+         INTEGER,
+      er1645v2NatiPortTranslationsStart
+         Integer32,
+      er1645v2NatiPortTranslationsEnd
+         Integer32,
+      er1645v2NatiPortTranslationsAction
+         INTEGER
+      }
+
+er1645v2NatiPortTranslationsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2NatiPortTranslationsEntry 2}
+
+er1645v2NatiPortTranslationsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiPortTranslationsEntry 10}
+
+er1645v2NatiPortTranslationsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2NatiPortTranslationsEntry 11}
+
+er1645v2NatiPortTranslationsProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               tcp (0),
+               udp (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.portTranslations.protocol
+
+       Possibilities:
+               tcp   (0)
+               udp   (1)"
+   ::= {er1645v2NatiPortTranslationsEntry 16777216}
+
+er1645v2NatiPortTranslationsStart OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.portTranslations.startPort"
+   ::= {er1645v2NatiPortTranslationsEntry 33554432}
+
+er1645v2NatiPortTranslationsEnd OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.portTranslations.endPort"
+   ::= {er1645v2NatiPortTranslationsEntry 50331648}
+
+er1645v2NatiPortTranslationsAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noTranslation (0),
+               deny (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.portTranslations.action
+
+       Possibilities:
+               noTranslation   (0)
+               deny   (1)"
+   ::= {er1645v2NatiPortTranslationsEntry 67108864}
+
+
+er1645v2NatiServices OBJECT IDENTIFIER ::= {er1645v2Nati 4}
+
+er1645v2NatiServicesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiServicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "table containing mappings for internal servers available to the outside via the PAT address"
+   ::= {er1645v2NatiServices 1}
+
+er1645v2NatiServicesEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiServicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiServicesGlobalIx,
+                er1645v2NatiServicesTableIx }
+   ::= {er1645v2NatiServicesSSCTable 1}
+
+Er1645v2NatiServicesEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiServicesActions
+         VariableLengthTableActions,
+      er1645v2NatiServicesGlobalIx
+         GlobalIndex,
+      er1645v2NatiServicesTableIx
+         TableIndex,
+      er1645v2NatiServicesPatAddress
+         IpAddress,
+      er1645v2NatiServicesProtocol
+         INTEGER,
+      er1645v2NatiServicesStart
+         Integer32,
+      er1645v2NatiServicesEnd
+         Integer32,
+      er1645v2NatiServicesServer
+         IpAddress,
+      er1645v2NatiServicesPort
+         Integer32
+      }
+
+er1645v2NatiServicesActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2NatiServicesEntry 2}
+
+er1645v2NatiServicesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiServicesEntry 10}
+
+er1645v2NatiServicesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2NatiServicesEntry 11}
+
+er1645v2NatiServicesPatAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.servicesAvailable.patAddress"
+   ::= {er1645v2NatiServicesEntry 100663296}
+
+er1645v2NatiServicesProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               tcp (0),
+               udp (1),
+               esp (2),
+               gre (3),
+               icmp (4),
+               ipV6 (5)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.servicesAvailable.protocol
+
+       Possibilities:
+               tcp   (0)
+               udp   (1)
+               esp   (2)
+               gre   (3)
+               icmp   (4)
+               ipV6   (5)"
+   ::= {er1645v2NatiServicesEntry 16777216}
+
+er1645v2NatiServicesStart OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.servicesAvailable.startPort"
+   ::= {er1645v2NatiServicesEntry 33554432}
+
+er1645v2NatiServicesEnd OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.servicesAvailable.endPort"
+   ::= {er1645v2NatiServicesEntry 50331648}
+
+er1645v2NatiServicesServer OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.servicesAvailable.serverAddress"
+   ::= {er1645v2NatiServicesEntry 67108864}
+
+er1645v2NatiServicesPort OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.servicesAvailable.serverPort"
+   ::= {er1645v2NatiServicesEntry 83886080}
+
+
+er1645v2NatiAddresses OBJECT IDENTIFIER ::= {er1645v2Nati 5}
+
+er1645v2NatiAddressesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiAddressesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "table containing addresses to be used for pure NAT"
+   ::= {er1645v2NatiAddresses 1}
+
+er1645v2NatiAddressesEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiAddressesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiAddressesGlobalIx,
+                er1645v2NatiAddressesTableIx }
+   ::= {er1645v2NatiAddressesSSCTable 1}
+
+Er1645v2NatiAddressesEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiAddressesActions
+         VariableLengthTableActions,
+      er1645v2NatiAddressesGlobalIx
+         GlobalIndex,
+      er1645v2NatiAddressesTableIx
+         TableIndex,
+      er1645v2NatiAddressesOfficial
+         IpAddress,
+      er1645v2NatiAddressesPrivate
+         IpAddress
+      }
+
+er1645v2NatiAddressesActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2NatiAddressesEntry 2}
+
+er1645v2NatiAddressesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiAddressesEntry 10}
+
+er1645v2NatiAddressesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2NatiAddressesEntry 11}
+
+er1645v2NatiAddressesOfficial OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.addresses.officialAddress"
+   ::= {er1645v2NatiAddressesEntry 16777216}
+
+er1645v2NatiAddressesPrivate OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.addresses.privateAddress"
+   ::= {er1645v2NatiAddressesEntry 33554432}
+
+
+er1645v2NatiGateway OBJECT IDENTIFIER ::= {er1645v2Nati 6}
+
+er1645v2NatiGatewayTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiGatewayEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipAdEntAddr"
+   ::= {er1645v2NatiGateway 1}
+
+er1645v2NatiGatewayEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiGatewayEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiGatewayGlobalIx }
+   ::= {er1645v2NatiGatewayTable 1}
+
+Er1645v2NatiGatewayEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiGatewayGlobalIx
+         GlobalIndex,
+      er1645v2NatiGatewayValue
+         IpAddress
+      }
+
+er1645v2NatiGatewayGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiGatewayEntry 10}
+
+er1645v2NatiGatewayValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.gateway"
+   ::= {er1645v2NatiGatewayEntry 2147483648}
+
+
+er1645v2NatiTcpSocTO OBJECT IDENTIFIER ::= {er1645v2Nati 7}
+
+er1645v2NatiTcpSocTOTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiTcpSocTOEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "NAT socket time-out"
+   ::= {er1645v2NatiTcpSocTO 1}
+
+er1645v2NatiTcpSocTOEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiTcpSocTOEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiTcpSocTOGlobalIx }
+   ::= {er1645v2NatiTcpSocTOTable 1}
+
+Er1645v2NatiTcpSocTOEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiTcpSocTOGlobalIx
+         GlobalIndex,
+      er1645v2NatiTcpSocTOValue
+         TimeTicks
+      }
+
+er1645v2NatiTcpSocTOGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiTcpSocTOEntry 10}
+
+er1645v2NatiTcpSocTOValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.tcpSocketTimeOut
+
+       Time in centi-second."
+   ::= {er1645v2NatiTcpSocTOEntry 2147483648}
+
+
+er1645v2NatiTcpMsl OBJECT IDENTIFIER ::= {er1645v2Nati 83}
+
+er1645v2NatiTcpMslTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiTcpMslEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "adapt msl=maximum segment lifetime"
+   ::= {er1645v2NatiTcpMsl 1}
+
+er1645v2NatiTcpMslEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiTcpMslEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiTcpMslGlobalIx }
+   ::= {er1645v2NatiTcpMslTable 1}
+
+Er1645v2NatiTcpMslEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiTcpMslGlobalIx
+         GlobalIndex,
+      er1645v2NatiTcpMslValue
+         Integer32
+      }
+
+er1645v2NatiTcpMslGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiTcpMslEntry 10}
+
+er1645v2NatiTcpMslValue OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "sec"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.tcpMsl
+
+       unit name = sec"
+   ::= {er1645v2NatiTcpMslEntry 2147483648}
+
+
+er1645v2NatiUdpSocTO OBJECT IDENTIFIER ::= {er1645v2Nati 63}
+
+er1645v2NatiUdpSocTOTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiUdpSocTOEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "NAT socket time-out"
+   ::= {er1645v2NatiUdpSocTO 1}
+
+er1645v2NatiUdpSocTOEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiUdpSocTOEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiUdpSocTOGlobalIx }
+   ::= {er1645v2NatiUdpSocTOTable 1}
+
+Er1645v2NatiUdpSocTOEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiUdpSocTOGlobalIx
+         GlobalIndex,
+      er1645v2NatiUdpSocTOValue
+         TimeTicks
+      }
+
+er1645v2NatiUdpSocTOGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiUdpSocTOEntry 10}
+
+er1645v2NatiUdpSocTOValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.udpSocketTimeOut
+
+       Time in centi-second."
+   ::= {er1645v2NatiUdpSocTOEntry 2147483648}
+
+
+er1645v2NatiTcpSoc OBJECT IDENTIFIER ::= {er1645v2Nati 61}
+
+er1645v2NatiTcpSocTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiTcpSocEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nr of nat sockets for udp/icmp or tcp"
+   ::= {er1645v2NatiTcpSoc 1}
+
+er1645v2NatiTcpSocEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiTcpSocEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiTcpSocGlobalIx }
+   ::= {er1645v2NatiTcpSocTable 1}
+
+Er1645v2NatiTcpSocEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiTcpSocGlobalIx
+         GlobalIndex,
+      er1645v2NatiTcpSocValue
+         Integer32
+      }
+
+er1645v2NatiTcpSocGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiTcpSocEntry 10}
+
+er1645v2NatiTcpSocValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.tcpSockets"
+   ::= {er1645v2NatiTcpSocEntry 2147483648}
+
+
+er1645v2NatiUdpSoc OBJECT IDENTIFIER ::= {er1645v2Nati 62}
+
+er1645v2NatiUdpSocTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiUdpSocEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nr of nat sockets for udp/icmp or tcp"
+   ::= {er1645v2NatiUdpSoc 1}
+
+er1645v2NatiUdpSocEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiUdpSocEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiUdpSocGlobalIx }
+   ::= {er1645v2NatiUdpSocTable 1}
+
+Er1645v2NatiUdpSocEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiUdpSocGlobalIx
+         GlobalIndex,
+      er1645v2NatiUdpSocValue
+         Integer32
+      }
+
+er1645v2NatiUdpSocGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiUdpSocEntry 10}
+
+er1645v2NatiUdpSocValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.udpSockets"
+   ::= {er1645v2NatiUdpSocEntry 2147483648}
+
+
+er1645v2NatiDmz OBJECT IDENTIFIER ::= {er1645v2Nati 70}
+
+er1645v2NatiDmzTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiDmzEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipAdEntAddr"
+   ::= {er1645v2NatiDmz 1}
+
+er1645v2NatiDmzEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiDmzEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiDmzGlobalIx }
+   ::= {er1645v2NatiDmzTable 1}
+
+Er1645v2NatiDmzEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiDmzGlobalIx
+         GlobalIndex,
+      er1645v2NatiDmzValue
+         IpAddress
+      }
+
+er1645v2NatiDmzGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiDmzEntry 10}
+
+er1645v2NatiDmzValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.dmzHost"
+   ::= {er1645v2NatiDmzEntry 2147483648}
+
+
+er1645v2NatiAlg OBJECT IDENTIFIER ::= {er1645v2Nati 77}
+
+er1645v2NatiAlgSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiAlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Application Level Gateway configuration"
+   ::= {er1645v2NatiAlg 1}
+
+er1645v2NatiAlgEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiAlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiAlgGlobalIx }
+   ::= {er1645v2NatiAlgSSCTable 1}
+
+Er1645v2NatiAlgEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiAlgGlobalIx
+         GlobalIndex,
+      er1645v2NatiAlgSipMode
+         INTEGER,
+      er1645v2NatiAlgSipDatPubTosValue
+         INTEGER,
+      er1645v2NatiAlgSipDatPubPriority
+         INTEGER,
+      er1645v2NatiAlgSipDatPubDropLevel
+         INTEGER,
+      er1645v2NatiAlgSipDatPubCapture
+         INTEGER,
+      er1645v2NatiAlgSipDatPubLimiterNone
+         INTEGER,
+      er1645v2NatiAlgSipDatPubLimiterName
+         DisplayString,
+      er1645v2NatiAlgSipDatPubLimiterQueueQueue1
+         DisplayString,
+      er1645v2NatiAlgSipDatPubLimiterQueueQueue2
+         DisplayString,
+      er1645v2NatiAlgSipDatPubLimiterQueueQueue3
+         DisplayString,
+      er1645v2NatiAlgSipDatPubLimiterQueueQueue4
+         DisplayString,
+      er1645v2NatiAlgSipDatPubLimiterQueueQueue5
+         DisplayString,
+      er1645v2NatiAlgSipDatPubLimiterQueueLowDelayQueue
+         DisplayString,
+      er1645v2NatiAlgSipDatPubLimiterQueueLowDelay2Queue
+         DisplayString,
+      er1645v2NatiAlgSipDatPubLimiterQueueSystemQueue
+         DisplayString,
+      er1645v2NatiAlgFtpMode
+         INTEGER,
+      er1645v2NatiAlgFtpDatPubTosValue
+         INTEGER,
+      er1645v2NatiAlgFtpDatPubPriority
+         INTEGER,
+      er1645v2NatiAlgFtpDatPubDropLevel
+         INTEGER,
+      er1645v2NatiAlgFtpDatPubCapture
+         INTEGER,
+      er1645v2NatiAlgFtpDatPubLimiterNone
+         INTEGER,
+      er1645v2NatiAlgFtpDatPubLimiterName
+         DisplayString,
+      er1645v2NatiAlgFtpDatPubLimiterQueueQueue1
+         DisplayString,
+      er1645v2NatiAlgFtpDatPubLimiterQueueQueue2
+         DisplayString,
+      er1645v2NatiAlgFtpDatPubLimiterQueueQueue3
+         DisplayString,
+      er1645v2NatiAlgFtpDatPubLimiterQueueQueue4
+         DisplayString,
+      er1645v2NatiAlgFtpDatPubLimiterQueueQueue5
+         DisplayString,
+      er1645v2NatiAlgFtpDatPubLimiterQueueLowDelayQueue
+         DisplayString,
+      er1645v2NatiAlgFtpDatPubLimiterQueueLowDelay2Queue
+         DisplayString,
+      er1645v2NatiAlgFtpDatPubLimiterQueueSystemQueue
+         DisplayString,
+      er1645v2NatiAlgTftpMode
+         INTEGER,
+      er1645v2NatiAlgTftpDatPubTosValue
+         INTEGER,
+      er1645v2NatiAlgTftpDatPubPriority
+         INTEGER,
+      er1645v2NatiAlgTftpDatPubDropLevel
+         INTEGER,
+      er1645v2NatiAlgTftpDatPubCapture
+         INTEGER,
+      er1645v2NatiAlgTftpDatPubLimiterNone
+         INTEGER,
+      er1645v2NatiAlgTftpDatPubLimiterName
+         DisplayString,
+      er1645v2NatiAlgTftpDatPubLimiterQueueQueue1
+         DisplayString,
+      er1645v2NatiAlgTftpDatPubLimiterQueueQueue2
+         DisplayString,
+      er1645v2NatiAlgTftpDatPubLimiterQueueQueue3
+         DisplayString,
+      er1645v2NatiAlgTftpDatPubLimiterQueueQueue4
+         DisplayString,
+      er1645v2NatiAlgTftpDatPubLimiterQueueQueue5
+         DisplayString,
+      er1645v2NatiAlgTftpDatPubLimiterQueueLowDelayQueue
+         DisplayString,
+      er1645v2NatiAlgTftpDatPubLimiterQueueLowDelay2Queue
+         DisplayString,
+      er1645v2NatiAlgTftpDatPubLimiterQueueSystemQueue
+         DisplayString,
+      er1645v2NatiAlgHttpMode
+         INTEGER,
+      er1645v2NatiAlgDnsMode
+         INTEGER,
+      er1645v2NatiAlgSockets
+         Integer32
+      }
+
+er1645v2NatiAlgGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiAlgEntry 10}
+
+er1645v2NatiAlgSipMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.mode
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2NatiAlgEntry 17825792}
+
+er1645v2NatiAlgSipDatPubTosValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.tosValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1645v2NatiAlgEntry 18939904}
+
+er1645v2NatiAlgSipDatPubPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.priority
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2NatiAlgEntry 19005440}
+
+er1645v2NatiAlgSipDatPubDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1645v2NatiAlgEntry 19202048}
+
+er1645v2NatiAlgSipDatPubCapture OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.capture
+
+       Possibilities:
+               disabled   (8)"
+   ::= {er1645v2NatiAlgEntry 19070976}
+
+er1645v2NatiAlgSipDatPubLimiterNone OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.limiter.none
+
+       Possibilities:
+               none   (0)"
+   ::= {er1645v2NatiAlgEntry 19136768}
+
+er1645v2NatiAlgSipDatPubLimiterName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.limiter.name"
+   ::= {er1645v2NatiAlgEntry 19137024}
+
+er1645v2NatiAlgSipDatPubLimiterQueueQueue1 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.limiter.queue.queue1"
+   ::= {er1645v2NatiAlgEntry 19137281}
+
+er1645v2NatiAlgSipDatPubLimiterQueueQueue2 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.limiter.queue.queue2"
+   ::= {er1645v2NatiAlgEntry 19137282}
+
+er1645v2NatiAlgSipDatPubLimiterQueueQueue3 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.limiter.queue.queue3"
+   ::= {er1645v2NatiAlgEntry 19137283}
+
+er1645v2NatiAlgSipDatPubLimiterQueueQueue4 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.limiter.queue.queue4"
+   ::= {er1645v2NatiAlgEntry 19137284}
+
+er1645v2NatiAlgSipDatPubLimiterQueueQueue5 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.limiter.queue.queue5"
+   ::= {er1645v2NatiAlgEntry 19137285}
+
+er1645v2NatiAlgSipDatPubLimiterQueueLowDelayQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.limiter.queue.lowDelayQueue"
+   ::= {er1645v2NatiAlgEntry 19137286}
+
+er1645v2NatiAlgSipDatPubLimiterQueueLowDelay2Queue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.limiter.queue.lowDelay2Queue"
+   ::= {er1645v2NatiAlgEntry 19137287}
+
+er1645v2NatiAlgSipDatPubLimiterQueueSystemQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sip.dataToPublic.limiter.queue.systemQueue"
+   ::= {er1645v2NatiAlgEntry 19137288}
+
+er1645v2NatiAlgFtpMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.mode
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2NatiAlgEntry 51380224}
+
+er1645v2NatiAlgFtpDatPubTosValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.tosValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1645v2NatiAlgEntry 52494336}
+
+er1645v2NatiAlgFtpDatPubPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.priority
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2NatiAlgEntry 52559872}
+
+er1645v2NatiAlgFtpDatPubDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1645v2NatiAlgEntry 52756480}
+
+er1645v2NatiAlgFtpDatPubCapture OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.capture
+
+       Possibilities:
+               disabled   (8)"
+   ::= {er1645v2NatiAlgEntry 52625408}
+
+er1645v2NatiAlgFtpDatPubLimiterNone OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.limiter.none
+
+       Possibilities:
+               none   (0)"
+   ::= {er1645v2NatiAlgEntry 52691200}
+
+er1645v2NatiAlgFtpDatPubLimiterName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.limiter.name"
+   ::= {er1645v2NatiAlgEntry 52691456}
+
+er1645v2NatiAlgFtpDatPubLimiterQueueQueue1 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.limiter.queue.queue1"
+   ::= {er1645v2NatiAlgEntry 52691713}
+
+er1645v2NatiAlgFtpDatPubLimiterQueueQueue2 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.limiter.queue.queue2"
+   ::= {er1645v2NatiAlgEntry 52691714}
+
+er1645v2NatiAlgFtpDatPubLimiterQueueQueue3 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.limiter.queue.queue3"
+   ::= {er1645v2NatiAlgEntry 52691715}
+
+er1645v2NatiAlgFtpDatPubLimiterQueueQueue4 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.limiter.queue.queue4"
+   ::= {er1645v2NatiAlgEntry 52691716}
+
+er1645v2NatiAlgFtpDatPubLimiterQueueQueue5 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.limiter.queue.queue5"
+   ::= {er1645v2NatiAlgEntry 52691717}
+
+er1645v2NatiAlgFtpDatPubLimiterQueueLowDelayQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.limiter.queue.lowDelayQueue"
+   ::= {er1645v2NatiAlgEntry 52691718}
+
+er1645v2NatiAlgFtpDatPubLimiterQueueLowDelay2Queue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.limiter.queue.lowDelay2Queue"
+   ::= {er1645v2NatiAlgEntry 52691719}
+
+er1645v2NatiAlgFtpDatPubLimiterQueueSystemQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.ftp.dataToPublic.limiter.queue.systemQueue"
+   ::= {er1645v2NatiAlgEntry 52691720}
+
+er1645v2NatiAlgTftpMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.mode
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2NatiAlgEntry 68157440}
+
+er1645v2NatiAlgTftpDatPubTosValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.tosValue
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1645v2NatiAlgEntry 69271552}
+
+er1645v2NatiAlgTftpDatPubPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.priority
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2NatiAlgEntry 69337088}
+
+er1645v2NatiAlgTftpDatPubDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1645v2NatiAlgEntry 69533696}
+
+er1645v2NatiAlgTftpDatPubCapture OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.capture
+
+       Possibilities:
+               disabled   (8)"
+   ::= {er1645v2NatiAlgEntry 69402624}
+
+er1645v2NatiAlgTftpDatPubLimiterNone OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.limiter.none
+
+       Possibilities:
+               none   (0)"
+   ::= {er1645v2NatiAlgEntry 69468416}
+
+er1645v2NatiAlgTftpDatPubLimiterName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.limiter.name"
+   ::= {er1645v2NatiAlgEntry 69468672}
+
+er1645v2NatiAlgTftpDatPubLimiterQueueQueue1 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.limiter.queue.queue1"
+   ::= {er1645v2NatiAlgEntry 69468929}
+
+er1645v2NatiAlgTftpDatPubLimiterQueueQueue2 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.limiter.queue.queue2"
+   ::= {er1645v2NatiAlgEntry 69468930}
+
+er1645v2NatiAlgTftpDatPubLimiterQueueQueue3 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.limiter.queue.queue3"
+   ::= {er1645v2NatiAlgEntry 69468931}
+
+er1645v2NatiAlgTftpDatPubLimiterQueueQueue4 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.limiter.queue.queue4"
+   ::= {er1645v2NatiAlgEntry 69468932}
+
+er1645v2NatiAlgTftpDatPubLimiterQueueQueue5 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.limiter.queue.queue5"
+   ::= {er1645v2NatiAlgEntry 69468933}
+
+er1645v2NatiAlgTftpDatPubLimiterQueueLowDelayQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.limiter.queue.lowDelayQueue"
+   ::= {er1645v2NatiAlgEntry 69468934}
+
+er1645v2NatiAlgTftpDatPubLimiterQueueLowDelay2Queue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.limiter.queue.lowDelay2Queue"
+   ::= {er1645v2NatiAlgEntry 69468935}
+
+er1645v2NatiAlgTftpDatPubLimiterQueueSystemQueue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.tftp.dataToPublic.limiter.queue.systemQueue"
+   ::= {er1645v2NatiAlgEntry 69468936}
+
+er1645v2NatiAlgHttpMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.http.mode
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2NatiAlgEntry 33619968}
+
+er1645v2NatiAlgDnsMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.dns.mode
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2NatiAlgEntry 83951616}
+
+er1645v2NatiAlgSockets OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.alg.sockets
+
+       unit name = %"
+   ::= {er1645v2NatiAlgEntry 100663296}
+
+
+er1645v2NatiTcpMss OBJECT IDENTIFIER ::= {er1645v2Nati 64}
+
+er1645v2NatiTcpMssTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiTcpMssEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "new maximum segment size for TCP"
+   ::= {er1645v2NatiTcpMss 1}
+
+er1645v2NatiTcpMssEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiTcpMssEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiTcpMssGlobalIx }
+   ::= {er1645v2NatiTcpMssTable 1}
+
+Er1645v2NatiTcpMssEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiTcpMssGlobalIx
+         GlobalIndex,
+      er1645v2NatiTcpMssValue
+         INTEGER
+      }
+
+er1645v2NatiTcpMssGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiTcpMssEntry 10}
+
+er1645v2NatiTcpMssValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.tcpAdjustMss
+
+       Possibilities:
+               disabled   (0)"
+   ::= {er1645v2NatiTcpMssEntry 2147483648}
+
+
+er1645v2NatiHairPin OBJECT IDENTIFIER ::= {er1645v2Nati 120}
+
+er1645v2NatiHairPinTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiHairPinEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "allow hairpinning in nat"
+   ::= {er1645v2NatiHairPin 1}
+
+er1645v2NatiHairPinEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiHairPinEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiHairPinGlobalIx }
+   ::= {er1645v2NatiHairPinTable 1}
+
+Er1645v2NatiHairPinEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiHairPinGlobalIx
+         GlobalIndex,
+      er1645v2NatiHairPinValue
+         INTEGER
+      }
+
+er1645v2NatiHairPinGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiHairPinEntry 10}
+
+er1645v2NatiHairPinValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.hairPinning
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2NatiHairPinEntry 2147483648}
+
+
+er1645v2NatiAccPol OBJECT IDENTIFIER ::= {er1645v2Nati 73}
+
+er1645v2NatiAccPolTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiAccPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "trafficPolicy to be applied in the inbound direction for NAT"
+   ::= {er1645v2NatiAccPol 1}
+
+er1645v2NatiAccPolEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiAccPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiAccPolGlobalIx }
+   ::= {er1645v2NatiAccPolTable 1}
+
+Er1645v2NatiAccPolEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiAccPolGlobalIx
+         GlobalIndex,
+      er1645v2NatiAccPolValue
+         DisplayString
+      }
+
+er1645v2NatiAccPolGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiAccPolEntry 10}
+
+er1645v2NatiAccPolValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.accessPolicy"
+   ::= {er1645v2NatiAccPolEntry 2147483648}
+
+
+er1645v2NatiBypass OBJECT IDENTIFIER ::= {er1645v2Nati 76}
+
+er1645v2NatiBypassTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiBypassEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "trafficPolicy to be applied in the inbound direction for NAT"
+   ::= {er1645v2NatiBypass 1}
+
+er1645v2NatiBypassEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiBypassEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiBypassGlobalIx }
+   ::= {er1645v2NatiBypassTable 1}
+
+Er1645v2NatiBypassEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiBypassGlobalIx
+         GlobalIndex,
+      er1645v2NatiBypassValue
+         DisplayString
+      }
+
+er1645v2NatiBypassGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiBypassEntry 10}
+
+er1645v2NatiBypassValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.bypassPolicy"
+   ::= {er1645v2NatiBypassEntry 2147483648}
+
+
+er1645v2NatiTrafPol OBJECT IDENTIFIER ::= {er1645v2Nati 80}
+
+er1645v2NatiTrafPolTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiTrafPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "trafficPolicy to be applied in the inbound direction for NAT"
+   ::= {er1645v2NatiTrafPol 1}
+
+er1645v2NatiTrafPolEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiTrafPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiTrafPolGlobalIx }
+   ::= {er1645v2NatiTrafPolTable 1}
+
+Er1645v2NatiTrafPolEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiTrafPolGlobalIx
+         GlobalIndex,
+      er1645v2NatiTrafPolValue
+         DisplayString
+      }
+
+er1645v2NatiTrafPolGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiTrafPolEntry 10}
+
+er1645v2NatiTrafPolValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.trafficPolicy"
+   ::= {er1645v2NatiTrafPolEntry 2147483648}
+
+
+er1645v2NatiLog OBJECT IDENTIFIER ::= {er1645v2Nati 78}
+
+er1645v2NatiLogSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat logging"
+   ::= {er1645v2NatiLog 1}
+
+er1645v2NatiLogEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiLogGlobalIx }
+   ::= {er1645v2NatiLogSSCTable 1}
+
+Er1645v2NatiLogEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiLogGlobalIx
+         GlobalIndex,
+      er1645v2NatiLogMode
+         INTEGER,
+      er1645v2NatiLogSyslogMask
+         Integer32,
+      er1645v2NatiLogFile
+         DisplayString
+      }
+
+er1645v2NatiLogGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiLogEntry 10}
+
+er1645v2NatiLogMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.log.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2NatiLogEntry 16777216}
+
+er1645v2NatiLogSyslogMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.log.syslogMask
+
+       Bit meanings:
+               bit 0 = socketClose,
+               bit 1 = perUserLimit"
+   ::= {er1645v2NatiLogEntry 33554432}
+
+er1645v2NatiLogFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.log.file"
+   ::= {er1645v2NatiLogEntry 50331648}
+
+
+er1645v2NatiSph OBJECT IDENTIFIER ::= {er1645v2Nati 79}
+
+er1645v2NatiSphTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiSphEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "limit of number of sessions per src IP"
+   ::= {er1645v2NatiSph 1}
+
+er1645v2NatiSphEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiSphEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiSphGlobalIx }
+   ::= {er1645v2NatiSphTable 1}
+
+Er1645v2NatiSphEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiSphGlobalIx
+         GlobalIndex,
+      er1645v2NatiSphValue
+         INTEGER
+      }
+
+er1645v2NatiSphGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiSphEntry 10}
+
+er1645v2NatiSphValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unlimited (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.maxSocketsPerHost
+
+       Possibilities:
+               unlimited   (0)"
+   ::= {er1645v2NatiSphEntry 2147483648}
+
+
+er1645v2NatiCapNoSes OBJECT IDENTIFIER ::= {er1645v2Nati 121}
+
+er1645v2NatiCapNoSesTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiCapNoSesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "cdapture the no session"
+   ::= {er1645v2NatiCapNoSes 1}
+
+er1645v2NatiCapNoSesEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiCapNoSesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiCapNoSesGlobalIx }
+   ::= {er1645v2NatiCapNoSesTable 1}
+
+Er1645v2NatiCapNoSesEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiCapNoSesGlobalIx
+         GlobalIndex,
+      er1645v2NatiCapNoSesValue
+         INTEGER
+      }
+
+er1645v2NatiCapNoSesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiCapNoSesEntry 10}
+
+er1645v2NatiCapNoSesValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (8)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.captureNoSession
+
+       Possibilities:
+               disabled   (8)"
+   ::= {er1645v2NatiCapNoSesEntry 2147483648}
+
+
+er1645v2NatiSnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2Nati 268}
+
+er1645v2NatiSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2NatiSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2NatiSnmpIndexOffset 1}
+
+er1645v2NatiSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2NatiSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2NatiSnmpIndexOffsetGlobalIx }
+   ::= {er1645v2NatiSnmpIndexOffsetTable 1}
+
+Er1645v2NatiSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2NatiSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2NatiSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2NatiSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2NatiSnmpIndexOffsetEntry 10}
+
+er1645v2NatiSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.editConf.snmpIndexOffset"
+   ::= {er1645v2NatiSnmpIndexOffsetEntry 2147483648}
+
+
+
+sr1645v2Nati OBJECT IDENTIFIER ::= {r1645v2Nati 14}
+
+
+sr1645v2NatiPatAddress OBJECT IDENTIFIER ::= {sr1645v2Nati 6038}
+
+sr1645v2NatiPatAddressTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2NatiPatAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "routingTable"
+   ::= {sr1645v2NatiPatAddress 1}
+
+sr1645v2NatiPatAddressEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2NatiPatAddressEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2NatiPatAddressGlobalIx }
+   ::= {sr1645v2NatiPatAddressTable 1}
+
+Sr1645v2NatiPatAddressEntry ::=
+   SEQUENCE
+      {
+      sr1645v2NatiPatAddressGlobalIx
+         GlobalIndex,
+      sr1645v2NatiPatAddressValue
+         IpAddress
+      }
+
+sr1645v2NatiPatAddressGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2NatiPatAddressEntry 10}
+
+sr1645v2NatiPatAddressValue OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.patAddress"
+   ::= {sr1645v2NatiPatAddressEntry 2147483648}
+
+
+sr1645v2NatiAddresses OBJECT IDENTIFIER ::= {sr1645v2Nati 38}
+
+sr1645v2NatiAddressesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2NatiAddressesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "table containing addresses to be used for pure NAT"
+   ::= {sr1645v2NatiAddresses 1}
+
+sr1645v2NatiAddressesEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2NatiAddressesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2NatiAddressesGlobalIx,
+                sr1645v2NatiAddressesTableIx }
+   ::= {sr1645v2NatiAddressesSSCTable 1}
+
+Sr1645v2NatiAddressesEntry ::=
+   SEQUENCE
+      {
+      sr1645v2NatiAddressesGlobalIx
+         GlobalIndex,
+      sr1645v2NatiAddressesTableIx
+         TableIndex,
+      sr1645v2NatiAddressesOfficial
+         IpAddress,
+      sr1645v2NatiAddressesPrivate
+         IpAddress,
+      sr1645v2NatiAddressesStatus
+         INTEGER,
+      sr1645v2NatiAddressesUses
+         Integer32
+      }
+
+sr1645v2NatiAddressesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2NatiAddressesEntry 10}
+
+sr1645v2NatiAddressesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2NatiAddressesEntry 11}
+
+sr1645v2NatiAddressesOfficial OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.addresses.officialAddress"
+   ::= {sr1645v2NatiAddressesEntry 16777216}
+
+sr1645v2NatiAddressesPrivate OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.addresses.privateAddress"
+   ::= {sr1645v2NatiAddressesEntry 33554432}
+
+sr1645v2NatiAddressesStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               free (0),
+               fixed (1),
+               allocated (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.addresses.status
+
+       Possibilities:
+               free   (0)
+               fixed   (1)
+               allocated   (2)"
+   ::= {sr1645v2NatiAddressesEntry 50331648}
+
+sr1645v2NatiAddressesUses OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.addresses.uses"
+   ::= {sr1645v2NatiAddressesEntry 67108864}
+
+
+sr1645v2NatiNatSockets OBJECT IDENTIFIER ::= {sr1645v2Nati 72}
+
+sr1645v2NatiNatSocketsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2NatiNatSocketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "routingTable"
+   ::= {sr1645v2NatiNatSockets 1}
+
+sr1645v2NatiNatSocketsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2NatiNatSocketsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2NatiNatSocketsGlobalIx,
+                sr1645v2NatiNatSocketsTableIx }
+   ::= {sr1645v2NatiNatSocketsSSCTable 1}
+
+Sr1645v2NatiNatSocketsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2NatiNatSocketsGlobalIx
+         GlobalIndex,
+      sr1645v2NatiNatSocketsTableIx
+         TableIndex,
+      sr1645v2NatiNatSocketsDirection
+         INTEGER,
+      sr1645v2NatiNatSocketsIntPrivate
+         IpAddress,
+      sr1645v2NatiNatSocketsIntOfficial
+         IpAddress,
+      sr1645v2NatiNatSocketsExtDestination
+         IpAddress,
+      sr1645v2NatiNatSocketsProtocol
+         INTEGER,
+      sr1645v2NatiNatSocketsIntPortPrivateIpAddress
+         IpAddress,
+      sr1645v2NatiNatSocketsIntPortPrivatePort
+         INTEGER,
+      sr1645v2NatiNatSocketsIntPortPrivateCallId
+         Gauge32,
+      sr1645v2NatiNatSocketsIntPortPrivateSpi
+         Gauge32,
+      sr1645v2NatiNatSocketsIntPortPrivateIdent
+         Gauge32,
+      sr1645v2NatiNatSocketsIntPortOfficialIpAddress
+         IpAddress,
+      sr1645v2NatiNatSocketsIntPortOfficialPort
+         INTEGER,
+      sr1645v2NatiNatSocketsIntPortOfficialCallId
+         Gauge32,
+      sr1645v2NatiNatSocketsIntPortOfficialSpi
+         Gauge32,
+      sr1645v2NatiNatSocketsIntPortOfficialIdent
+         Gauge32,
+      sr1645v2NatiNatSocketsExtPortIpAddress
+         IpAddress,
+      sr1645v2NatiNatSocketsExtPortPort
+         INTEGER,
+      sr1645v2NatiNatSocketsExtPortCallId
+         Gauge32,
+      sr1645v2NatiNatSocketsExtPortSpi
+         Gauge32,
+      sr1645v2NatiNatSocketsExtPortIdent
+         Gauge32,
+      sr1645v2NatiNatSocketsPacketsToPublic
+         Counter32,
+      sr1645v2NatiNatSocketsOctetsToPublic
+         Counter32,
+      sr1645v2NatiNatSocketsPacketsToPrivate
+         Counter32,
+      sr1645v2NatiNatSocketsOctetsToPrivate
+         Counter32,
+      sr1645v2NatiNatSocketsTtl
+         TimeTicks,
+      sr1645v2NatiNatSocketsAge
+         TimeTicks
+      }
+
+sr1645v2NatiNatSocketsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2NatiNatSocketsEntry 10}
+
+sr1645v2NatiNatSocketsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2NatiNatSocketsEntry 11}
+
+sr1645v2NatiNatSocketsDirection OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               inbound (0),
+               outbound (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.direction
+
+       Possibilities:
+               inbound   (0)
+               outbound   (1)"
+   ::= {sr1645v2NatiNatSocketsEntry 218103808}
+
+sr1645v2NatiNatSocketsIntPrivate OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.intPrivate"
+   ::= {sr1645v2NatiNatSocketsEntry 16777216}
+
+sr1645v2NatiNatSocketsIntOfficial OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.intOfficial"
+   ::= {sr1645v2NatiNatSocketsEntry 33554432}
+
+sr1645v2NatiNatSocketsExtDestination OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.extDestination"
+   ::= {sr1645v2NatiNatSocketsEntry 50331648}
+
+sr1645v2NatiNatSocketsProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iCMP (1),
+               iGMP (2),
+               iPinIP (4),
+               tCP (6),
+               eGP (8),
+               iGP (9),
+               uDP (17),
+               rSVP (46),
+               iGRP (88),
+               oSPF (89),
+               eSP (50),
+               aH (51),
+               gRE (47),
+               iPV6 (41),
+               rTPd (250),
+               rTPc (251),
+               unknown (255)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.protocol
+
+       Possibilities:
+               ICMP   (1)
+               IGMP   (2)
+               IPinIP   (4)
+               TCP   (6)
+               EGP   (8)
+               IGP   (9)
+               UDP   (17)
+               RSVP   (46)
+               IGRP   (88)
+               OSPF   (89)
+               ESP   (50)
+               AH   (51)
+               GRE   (47)
+               IPV6   (41)
+               RTPd   (250)
+               RTPc   (251)
+               Unknown   (255)"
+   ::= {sr1645v2NatiNatSocketsEntry 67108864}
+
+sr1645v2NatiNatSocketsIntPortPrivateIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.intPortPrivate.ipAddress"
+   ::= {sr1645v2NatiNatSocketsEntry 83951616}
+
+sr1645v2NatiNatSocketsIntPortPrivatePort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.intPortPrivate.port
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1645v2NatiNatSocketsEntry 84017152}
+
+sr1645v2NatiNatSocketsIntPortPrivateCallId OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.intPortPrivate.callId
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2NatiNatSocketsEntry 84082688}
+
+sr1645v2NatiNatSocketsIntPortPrivateSpi OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.intPortPrivate.spi
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2NatiNatSocketsEntry 84148224}
+
+sr1645v2NatiNatSocketsIntPortPrivateIdent OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.intPortPrivate.ident
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2NatiNatSocketsEntry 84213760}
+
+sr1645v2NatiNatSocketsIntPortOfficialIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.intPortOfficial.ipAddress"
+   ::= {sr1645v2NatiNatSocketsEntry 100728832}
+
+sr1645v2NatiNatSocketsIntPortOfficialPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.intPortOfficial.port
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1645v2NatiNatSocketsEntry 100794368}
+
+sr1645v2NatiNatSocketsIntPortOfficialCallId OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.intPortOfficial.callId
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2NatiNatSocketsEntry 100859904}
+
+sr1645v2NatiNatSocketsIntPortOfficialSpi OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.intPortOfficial.spi
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2NatiNatSocketsEntry 100925440}
+
+sr1645v2NatiNatSocketsIntPortOfficialIdent OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.intPortOfficial.ident
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2NatiNatSocketsEntry 100990976}
+
+sr1645v2NatiNatSocketsExtPortIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.extPort.ipAddress"
+   ::= {sr1645v2NatiNatSocketsEntry 117506048}
+
+sr1645v2NatiNatSocketsExtPortPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.extPort.port
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1645v2NatiNatSocketsEntry 117571584}
+
+sr1645v2NatiNatSocketsExtPortCallId OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.extPort.callId
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2NatiNatSocketsEntry 117637120}
+
+sr1645v2NatiNatSocketsExtPortSpi OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.extPort.spi
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2NatiNatSocketsEntry 117702656}
+
+sr1645v2NatiNatSocketsExtPortIdent OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.extPort.ident
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2NatiNatSocketsEntry 117768192}
+
+sr1645v2NatiNatSocketsPacketsToPublic OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.packetsToPublic
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2NatiNatSocketsEntry 134217728}
+
+sr1645v2NatiNatSocketsOctetsToPublic OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.octetsToPublic
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2NatiNatSocketsEntry 150994944}
+
+sr1645v2NatiNatSocketsPacketsToPrivate OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.packetsToPrivate
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2NatiNatSocketsEntry 167772160}
+
+sr1645v2NatiNatSocketsOctetsToPrivate OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.octetsToPrivate
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2NatiNatSocketsEntry 184549376}
+
+sr1645v2NatiNatSocketsTtl OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.ttl
+
+       Time in centi-second."
+   ::= {sr1645v2NatiNatSocketsEntry 201326592}
+
+sr1645v2NatiNatSocketsAge OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.natSockets.age
+
+       Time in centi-second."
+   ::= {sr1645v2NatiNatSocketsEntry 251658240}
+
+
+sr1645v2NatiDiscards OBJECT IDENTIFIER ::= {sr1645v2Nati 82}
+
+sr1645v2NatiDiscardsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2NatiDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat discard table"
+   ::= {sr1645v2NatiDiscards 1}
+
+sr1645v2NatiDiscardsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2NatiDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2NatiDiscardsGlobalIx,
+                sr1645v2NatiDiscardsTableIx }
+   ::= {sr1645v2NatiDiscardsSSCTable 1}
+
+Sr1645v2NatiDiscardsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2NatiDiscardsGlobalIx
+         GlobalIndex,
+      sr1645v2NatiDiscardsTableIx
+         TableIndex,
+      sr1645v2NatiDiscardsDirection
+         INTEGER,
+      sr1645v2NatiDiscardsExtDestination
+         IpAddress,
+      sr1645v2NatiDiscardsIntPrivate
+         IpAddress,
+      sr1645v2NatiDiscardsProtocol
+         INTEGER,
+      sr1645v2NatiDiscardsExtPort
+         INTEGER,
+      sr1645v2NatiDiscardsIntPortPrivate
+         INTEGER,
+      sr1645v2NatiDiscardsDate
+         DisplayString
+      }
+
+sr1645v2NatiDiscardsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2NatiDiscardsEntry 10}
+
+sr1645v2NatiDiscardsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2NatiDiscardsEntry 11}
+
+sr1645v2NatiDiscardsDirection OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               inbound (0),
+               outbound (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.discards.direction
+
+       Possibilities:
+               inbound   (0)
+               outbound   (1)"
+   ::= {sr1645v2NatiDiscardsEntry 218103808}
+
+sr1645v2NatiDiscardsExtDestination OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.discards.extDestination"
+   ::= {sr1645v2NatiDiscardsEntry 50331648}
+
+sr1645v2NatiDiscardsIntPrivate OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.discards.intPrivate"
+   ::= {sr1645v2NatiDiscardsEntry 16777216}
+
+sr1645v2NatiDiscardsProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               iCMP (1),
+               iGMP (2),
+               iPinIP (4),
+               tCP (6),
+               eGP (8),
+               iGP (9),
+               uDP (17),
+               rSVP (46),
+               iGRP (88),
+               oSPF (89),
+               eSP (50),
+               aH (51),
+               gRE (47),
+               iPV6 (41),
+               rTPd (250),
+               rTPc (251),
+               unknown (255)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.discards.protocol
+
+       Possibilities:
+               ICMP   (1)
+               IGMP   (2)
+               IPinIP   (4)
+               TCP   (6)
+               EGP   (8)
+               IGP   (9)
+               UDP   (17)
+               RSVP   (46)
+               IGRP   (88)
+               OSPF   (89)
+               ESP   (50)
+               AH   (51)
+               GRE   (47)
+               IPV6   (41)
+               RTPd   (250)
+               RTPc   (251)
+               Unknown   (255)"
+   ::= {sr1645v2NatiDiscardsEntry 67108864}
+
+sr1645v2NatiDiscardsExtPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.discards.extPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1645v2NatiDiscardsEntry 117440512}
+
+sr1645v2NatiDiscardsIntPortPrivate OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.discards.intPortPrivate
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1645v2NatiDiscardsEntry 83886080}
+
+sr1645v2NatiDiscardsDate OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.discards.date"
+   ::= {sr1645v2NatiDiscardsEntry 520093696}
+
+
+sr1645v2NatiSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2Nati 269}
+
+sr1645v2NatiSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2NatiSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2NatiSnmpIndex 1}
+
+sr1645v2NatiSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2NatiSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2NatiSnmpIndexGlobalIx }
+   ::= {sr1645v2NatiSnmpIndexTable 1}
+
+Sr1645v2NatiSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2NatiSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2NatiSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2NatiSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2NatiSnmpIndexEntry 10}
+
+sr1645v2NatiSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.status.snmpIndex"
+   ::= {sr1645v2NatiSnmpIndexEntry 2147483648}
+
+
+
+pr1645v2Nati OBJECT IDENTIFIER ::= {r1645v2Nati 12}
+
+
+pr1645v2NatiTcpSocketsUsed OBJECT IDENTIFIER ::= {pr1645v2Nati 21}
+
+pr1645v2NatiTcpSocketsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiTcpSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiTcpSocketsUsed 1}
+
+pr1645v2NatiTcpSocketsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiTcpSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiTcpSocketsUsedGlobalIx }
+   ::= {pr1645v2NatiTcpSocketsUsedTable 1}
+
+Pr1645v2NatiTcpSocketsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiTcpSocketsUsedGlobalIx
+         GlobalIndex,
+      pr1645v2NatiTcpSocketsUsedValue
+         Integer32
+      }
+
+pr1645v2NatiTcpSocketsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiTcpSocketsUsedEntry 10}
+
+pr1645v2NatiTcpSocketsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.tcpSocketsUsed"
+   ::= {pr1645v2NatiTcpSocketsUsedEntry 2147483648}
+
+
+pr1645v2NatiUdpSocketsUsed OBJECT IDENTIFIER ::= {pr1645v2Nati 22}
+
+pr1645v2NatiUdpSocketsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiUdpSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiUdpSocketsUsed 1}
+
+pr1645v2NatiUdpSocketsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiUdpSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiUdpSocketsUsedGlobalIx }
+   ::= {pr1645v2NatiUdpSocketsUsedTable 1}
+
+Pr1645v2NatiUdpSocketsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiUdpSocketsUsedGlobalIx
+         GlobalIndex,
+      pr1645v2NatiUdpSocketsUsedValue
+         Integer32
+      }
+
+pr1645v2NatiUdpSocketsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiUdpSocketsUsedEntry 10}
+
+pr1645v2NatiUdpSocketsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.udpSocketsUsed"
+   ::= {pr1645v2NatiUdpSocketsUsedEntry 2147483648}
+
+
+pr1645v2NatiIcmpSocketsUsed OBJECT IDENTIFIER ::= {pr1645v2Nati 23}
+
+pr1645v2NatiIcmpSocketsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiIcmpSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiIcmpSocketsUsed 1}
+
+pr1645v2NatiIcmpSocketsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiIcmpSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiIcmpSocketsUsedGlobalIx }
+   ::= {pr1645v2NatiIcmpSocketsUsedTable 1}
+
+Pr1645v2NatiIcmpSocketsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiIcmpSocketsUsedGlobalIx
+         GlobalIndex,
+      pr1645v2NatiIcmpSocketsUsedValue
+         Integer32
+      }
+
+pr1645v2NatiIcmpSocketsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiIcmpSocketsUsedEntry 10}
+
+pr1645v2NatiIcmpSocketsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.icmpSocketsUsed"
+   ::= {pr1645v2NatiIcmpSocketsUsedEntry 2147483648}
+
+
+pr1645v2NatiEspSocketsUsed OBJECT IDENTIFIER ::= {pr1645v2Nati 30}
+
+pr1645v2NatiEspSocketsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiEspSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiEspSocketsUsed 1}
+
+pr1645v2NatiEspSocketsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiEspSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiEspSocketsUsedGlobalIx }
+   ::= {pr1645v2NatiEspSocketsUsedTable 1}
+
+Pr1645v2NatiEspSocketsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiEspSocketsUsedGlobalIx
+         GlobalIndex,
+      pr1645v2NatiEspSocketsUsedValue
+         Integer32
+      }
+
+pr1645v2NatiEspSocketsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiEspSocketsUsedEntry 10}
+
+pr1645v2NatiEspSocketsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.espSocketsUsed"
+   ::= {pr1645v2NatiEspSocketsUsedEntry 2147483648}
+
+
+pr1645v2NatiGreSocketsUsed OBJECT IDENTIFIER ::= {pr1645v2Nati 31}
+
+pr1645v2NatiGreSocketsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiGreSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiGreSocketsUsed 1}
+
+pr1645v2NatiGreSocketsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiGreSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiGreSocketsUsedGlobalIx }
+   ::= {pr1645v2NatiGreSocketsUsedTable 1}
+
+Pr1645v2NatiGreSocketsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiGreSocketsUsedGlobalIx
+         GlobalIndex,
+      pr1645v2NatiGreSocketsUsedValue
+         Integer32
+      }
+
+pr1645v2NatiGreSocketsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiGreSocketsUsedEntry 10}
+
+pr1645v2NatiGreSocketsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.greSocketsUsed"
+   ::= {pr1645v2NatiGreSocketsUsedEntry 2147483648}
+
+
+pr1645v2NatiIpV6SocketsUsed OBJECT IDENTIFIER ::= {pr1645v2Nati 35}
+
+pr1645v2NatiIpV6SocketsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiIpV6SocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiIpV6SocketsUsed 1}
+
+pr1645v2NatiIpV6SocketsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiIpV6SocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiIpV6SocketsUsedGlobalIx }
+   ::= {pr1645v2NatiIpV6SocketsUsedTable 1}
+
+Pr1645v2NatiIpV6SocketsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiIpV6SocketsUsedGlobalIx
+         GlobalIndex,
+      pr1645v2NatiIpV6SocketsUsedValue
+         Integer32
+      }
+
+pr1645v2NatiIpV6SocketsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiIpV6SocketsUsedEntry 10}
+
+pr1645v2NatiIpV6SocketsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.ipV6SocketsUsed"
+   ::= {pr1645v2NatiIpV6SocketsUsedEntry 2147483648}
+
+
+pr1645v2NatiUnknownSocketsUsed OBJECT IDENTIFIER ::= {pr1645v2Nati 39}
+
+pr1645v2NatiUnknownSocketsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiUnknownSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiUnknownSocketsUsed 1}
+
+pr1645v2NatiUnknownSocketsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiUnknownSocketsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiUnknownSocketsUsedGlobalIx }
+   ::= {pr1645v2NatiUnknownSocketsUsedTable 1}
+
+Pr1645v2NatiUnknownSocketsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiUnknownSocketsUsedGlobalIx
+         GlobalIndex,
+      pr1645v2NatiUnknownSocketsUsedValue
+         Integer32
+      }
+
+pr1645v2NatiUnknownSocketsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiUnknownSocketsUsedEntry 10}
+
+pr1645v2NatiUnknownSocketsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.unknownSocketsUsed"
+   ::= {pr1645v2NatiUnknownSocketsUsedEntry 2147483648}
+
+
+pr1645v2NatiAlgStructsUsed OBJECT IDENTIFIER ::= {pr1645v2Nati 136}
+
+pr1645v2NatiAlgStructsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiAlgStructsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiAlgStructsUsed 1}
+
+pr1645v2NatiAlgStructsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiAlgStructsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiAlgStructsUsedGlobalIx }
+   ::= {pr1645v2NatiAlgStructsUsedTable 1}
+
+Pr1645v2NatiAlgStructsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiAlgStructsUsedGlobalIx
+         GlobalIndex,
+      pr1645v2NatiAlgStructsUsedValue
+         Integer32
+      }
+
+pr1645v2NatiAlgStructsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiAlgStructsUsedEntry 10}
+
+pr1645v2NatiAlgStructsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.algStructsUsed"
+   ::= {pr1645v2NatiAlgStructsUsedEntry 2147483648}
+
+
+pr1645v2NatiHttpStructsUsed OBJECT IDENTIFIER ::= {pr1645v2Nati 137}
+
+pr1645v2NatiHttpStructsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiHttpStructsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiHttpStructsUsed 1}
+
+pr1645v2NatiHttpStructsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiHttpStructsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiHttpStructsUsedGlobalIx }
+   ::= {pr1645v2NatiHttpStructsUsedTable 1}
+
+Pr1645v2NatiHttpStructsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiHttpStructsUsedGlobalIx
+         GlobalIndex,
+      pr1645v2NatiHttpStructsUsedValue
+         Integer32
+      }
+
+pr1645v2NatiHttpStructsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiHttpStructsUsedEntry 10}
+
+pr1645v2NatiHttpStructsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.httpStructsUsed"
+   ::= {pr1645v2NatiHttpStructsUsedEntry 2147483648}
+
+
+pr1645v2NatiRtpStructsUsed OBJECT IDENTIFIER ::= {pr1645v2Nati 135}
+
+pr1645v2NatiRtpStructsUsedTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiRtpStructsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiRtpStructsUsed 1}
+
+pr1645v2NatiRtpStructsUsedEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiRtpStructsUsedEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiRtpStructsUsedGlobalIx }
+   ::= {pr1645v2NatiRtpStructsUsedTable 1}
+
+Pr1645v2NatiRtpStructsUsedEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiRtpStructsUsedGlobalIx
+         GlobalIndex,
+      pr1645v2NatiRtpStructsUsedValue
+         Integer32
+      }
+
+pr1645v2NatiRtpStructsUsedGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiRtpStructsUsedEntry 10}
+
+pr1645v2NatiRtpStructsUsedValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.rtpStructsUsed"
+   ::= {pr1645v2NatiRtpStructsUsedEntry 2147483648}
+
+
+pr1645v2NatiSocketsFree OBJECT IDENTIFIER ::= {pr1645v2Nati 24}
+
+pr1645v2NatiSocketsFreeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiSocketsFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiSocketsFree 1}
+
+pr1645v2NatiSocketsFreeEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiSocketsFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiSocketsFreeGlobalIx }
+   ::= {pr1645v2NatiSocketsFreeTable 1}
+
+Pr1645v2NatiSocketsFreeEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiSocketsFreeGlobalIx
+         GlobalIndex,
+      pr1645v2NatiSocketsFreeValue
+         Integer32
+      }
+
+pr1645v2NatiSocketsFreeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiSocketsFreeEntry 10}
+
+pr1645v2NatiSocketsFreeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.socketsFree"
+   ::= {pr1645v2NatiSocketsFreeEntry 2147483648}
+
+
+pr1645v2NatiAlgFree OBJECT IDENTIFIER ::= {pr1645v2Nati 138}
+
+pr1645v2NatiAlgFreeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiAlgFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiAlgFree 1}
+
+pr1645v2NatiAlgFreeEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiAlgFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiAlgFreeGlobalIx }
+   ::= {pr1645v2NatiAlgFreeTable 1}
+
+Pr1645v2NatiAlgFreeEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiAlgFreeGlobalIx
+         GlobalIndex,
+      pr1645v2NatiAlgFreeValue
+         Integer32
+      }
+
+pr1645v2NatiAlgFreeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiAlgFreeEntry 10}
+
+pr1645v2NatiAlgFreeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.algFree"
+   ::= {pr1645v2NatiAlgFreeEntry 2147483648}
+
+
+pr1645v2NatiHttpFree OBJECT IDENTIFIER ::= {pr1645v2Nati 139}
+
+pr1645v2NatiHttpFreeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiHttpFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiHttpFree 1}
+
+pr1645v2NatiHttpFreeEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiHttpFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiHttpFreeGlobalIx }
+   ::= {pr1645v2NatiHttpFreeTable 1}
+
+Pr1645v2NatiHttpFreeEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiHttpFreeGlobalIx
+         GlobalIndex,
+      pr1645v2NatiHttpFreeValue
+         Integer32
+      }
+
+pr1645v2NatiHttpFreeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiHttpFreeEntry 10}
+
+pr1645v2NatiHttpFreeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.httpFree"
+   ::= {pr1645v2NatiHttpFreeEntry 2147483648}
+
+
+pr1645v2NatiRtpFree OBJECT IDENTIFIER ::= {pr1645v2Nati 140}
+
+pr1645v2NatiRtpFreeTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiRtpFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "word counter attribute for NAT"
+   ::= {pr1645v2NatiRtpFree 1}
+
+pr1645v2NatiRtpFreeEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiRtpFreeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiRtpFreeGlobalIx }
+   ::= {pr1645v2NatiRtpFreeTable 1}
+
+Pr1645v2NatiRtpFreeEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiRtpFreeGlobalIx
+         GlobalIndex,
+      pr1645v2NatiRtpFreeValue
+         Integer32
+      }
+
+pr1645v2NatiRtpFreeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiRtpFreeEntry 10}
+
+pr1645v2NatiRtpFreeValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.rtpFree"
+   ::= {pr1645v2NatiRtpFreeEntry 2147483648}
+
+
+pr1645v2NatiAllocFails OBJECT IDENTIFIER ::= {pr1645v2Nati 25}
+
+pr1645v2NatiAllocFailsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiAllocFailsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiAllocFails 1}
+
+pr1645v2NatiAllocFailsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiAllocFailsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiAllocFailsGlobalIx }
+   ::= {pr1645v2NatiAllocFailsTable 1}
+
+Pr1645v2NatiAllocFailsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiAllocFailsGlobalIx
+         GlobalIndex,
+      pr1645v2NatiAllocFailsValue
+         Counter32
+      }
+
+pr1645v2NatiAllocFailsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiAllocFailsEntry 10}
+
+pr1645v2NatiAllocFailsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.allocFails
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiAllocFailsEntry 2147483648}
+
+
+pr1645v2NatiTcpAllocs OBJECT IDENTIFIER ::= {pr1645v2Nati 26}
+
+pr1645v2NatiTcpAllocsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiTcpAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiTcpAllocs 1}
+
+pr1645v2NatiTcpAllocsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiTcpAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiTcpAllocsGlobalIx }
+   ::= {pr1645v2NatiTcpAllocsTable 1}
+
+Pr1645v2NatiTcpAllocsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiTcpAllocsGlobalIx
+         GlobalIndex,
+      pr1645v2NatiTcpAllocsValue
+         Counter32
+      }
+
+pr1645v2NatiTcpAllocsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiTcpAllocsEntry 10}
+
+pr1645v2NatiTcpAllocsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.tcpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiTcpAllocsEntry 2147483648}
+
+
+pr1645v2NatiUdpAllocs OBJECT IDENTIFIER ::= {pr1645v2Nati 27}
+
+pr1645v2NatiUdpAllocsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiUdpAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiUdpAllocs 1}
+
+pr1645v2NatiUdpAllocsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiUdpAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiUdpAllocsGlobalIx }
+   ::= {pr1645v2NatiUdpAllocsTable 1}
+
+Pr1645v2NatiUdpAllocsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiUdpAllocsGlobalIx
+         GlobalIndex,
+      pr1645v2NatiUdpAllocsValue
+         Counter32
+      }
+
+pr1645v2NatiUdpAllocsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiUdpAllocsEntry 10}
+
+pr1645v2NatiUdpAllocsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.udpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiUdpAllocsEntry 2147483648}
+
+
+pr1645v2NatiIcmpAllocs OBJECT IDENTIFIER ::= {pr1645v2Nati 28}
+
+pr1645v2NatiIcmpAllocsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiIcmpAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiIcmpAllocs 1}
+
+pr1645v2NatiIcmpAllocsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiIcmpAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiIcmpAllocsGlobalIx }
+   ::= {pr1645v2NatiIcmpAllocsTable 1}
+
+Pr1645v2NatiIcmpAllocsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiIcmpAllocsGlobalIx
+         GlobalIndex,
+      pr1645v2NatiIcmpAllocsValue
+         Counter32
+      }
+
+pr1645v2NatiIcmpAllocsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiIcmpAllocsEntry 10}
+
+pr1645v2NatiIcmpAllocsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.icmpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiIcmpAllocsEntry 2147483648}
+
+
+pr1645v2NatiEspAllocs OBJECT IDENTIFIER ::= {pr1645v2Nati 32}
+
+pr1645v2NatiEspAllocsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiEspAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiEspAllocs 1}
+
+pr1645v2NatiEspAllocsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiEspAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiEspAllocsGlobalIx }
+   ::= {pr1645v2NatiEspAllocsTable 1}
+
+Pr1645v2NatiEspAllocsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiEspAllocsGlobalIx
+         GlobalIndex,
+      pr1645v2NatiEspAllocsValue
+         Counter32
+      }
+
+pr1645v2NatiEspAllocsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiEspAllocsEntry 10}
+
+pr1645v2NatiEspAllocsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.espAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiEspAllocsEntry 2147483648}
+
+
+pr1645v2NatiGreAllocs OBJECT IDENTIFIER ::= {pr1645v2Nati 33}
+
+pr1645v2NatiGreAllocsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiGreAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiGreAllocs 1}
+
+pr1645v2NatiGreAllocsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiGreAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiGreAllocsGlobalIx }
+   ::= {pr1645v2NatiGreAllocsTable 1}
+
+Pr1645v2NatiGreAllocsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiGreAllocsGlobalIx
+         GlobalIndex,
+      pr1645v2NatiGreAllocsValue
+         Counter32
+      }
+
+pr1645v2NatiGreAllocsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiGreAllocsEntry 10}
+
+pr1645v2NatiGreAllocsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.greAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiGreAllocsEntry 2147483648}
+
+
+pr1645v2NatiIpV6Allocs OBJECT IDENTIFIER ::= {pr1645v2Nati 34}
+
+pr1645v2NatiIpV6AllocsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiIpV6AllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiIpV6Allocs 1}
+
+pr1645v2NatiIpV6AllocsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiIpV6AllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiIpV6AllocsGlobalIx }
+   ::= {pr1645v2NatiIpV6AllocsTable 1}
+
+Pr1645v2NatiIpV6AllocsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiIpV6AllocsGlobalIx
+         GlobalIndex,
+      pr1645v2NatiIpV6AllocsValue
+         Counter32
+      }
+
+pr1645v2NatiIpV6AllocsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiIpV6AllocsEntry 10}
+
+pr1645v2NatiIpV6AllocsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.ipV6Allocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiIpV6AllocsEntry 2147483648}
+
+
+pr1645v2NatiUnknownAllocs OBJECT IDENTIFIER ::= {pr1645v2Nati 53}
+
+pr1645v2NatiUnknownAllocsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiUnknownAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiUnknownAllocs 1}
+
+pr1645v2NatiUnknownAllocsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiUnknownAllocsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiUnknownAllocsGlobalIx }
+   ::= {pr1645v2NatiUnknownAllocsTable 1}
+
+Pr1645v2NatiUnknownAllocsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiUnknownAllocsGlobalIx
+         GlobalIndex,
+      pr1645v2NatiUnknownAllocsValue
+         Counter32
+      }
+
+pr1645v2NatiUnknownAllocsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiUnknownAllocsEntry 10}
+
+pr1645v2NatiUnknownAllocsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.unknownAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiUnknownAllocsEntry 2147483648}
+
+
+pr1645v2NatiBypasses OBJECT IDENTIFIER ::= {pr1645v2Nati 36}
+
+pr1645v2NatiBypassesTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiBypassesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiBypasses 1}
+
+pr1645v2NatiBypassesEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiBypassesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiBypassesGlobalIx }
+   ::= {pr1645v2NatiBypassesTable 1}
+
+Pr1645v2NatiBypassesEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiBypassesGlobalIx
+         GlobalIndex,
+      pr1645v2NatiBypassesValue
+         Counter32
+      }
+
+pr1645v2NatiBypassesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiBypassesEntry 10}
+
+pr1645v2NatiBypassesValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.bypasses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiBypassesEntry 2147483648}
+
+
+pr1645v2NatiDiscards OBJECT IDENTIFIER ::= {pr1645v2Nati 29}
+
+pr1645v2NatiDiscardsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiDiscards 1}
+
+pr1645v2NatiDiscardsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiDiscardsGlobalIx }
+   ::= {pr1645v2NatiDiscardsTable 1}
+
+Pr1645v2NatiDiscardsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiDiscardsGlobalIx
+         GlobalIndex,
+      pr1645v2NatiDiscardsValue
+         Counter32
+      }
+
+pr1645v2NatiDiscardsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiDiscardsEntry 10}
+
+pr1645v2NatiDiscardsValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.discards
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiDiscardsEntry 2147483648}
+
+
+pr1645v2NatiNatAddrAv OBJECT IDENTIFIER ::= {pr1645v2Nati 37}
+
+pr1645v2NatiNatAddrAvTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiNatAddrAvEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiNatAddrAv 1}
+
+pr1645v2NatiNatAddrAvEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiNatAddrAvEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiNatAddrAvGlobalIx }
+   ::= {pr1645v2NatiNatAddrAvTable 1}
+
+Pr1645v2NatiNatAddrAvEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiNatAddrAvGlobalIx
+         GlobalIndex,
+      pr1645v2NatiNatAddrAvValue
+         Counter32
+      }
+
+pr1645v2NatiNatAddrAvGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiNatAddrAvEntry 10}
+
+pr1645v2NatiNatAddrAvValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.addressesAvailable
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiNatAddrAvEntry 2147483648}
+
+
+pr1645v2NatiPatPool OBJECT IDENTIFIER ::= {pr1645v2Nati 44}
+
+pr1645v2NatiPatPoolSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiPatPoolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "table containing portnumbers requiring no PAT translation"
+   ::= {pr1645v2NatiPatPool 1}
+
+pr1645v2NatiPatPoolEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiPatPoolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiPatPoolGlobalIx,
+                pr1645v2NatiPatPoolTableIx }
+   ::= {pr1645v2NatiPatPoolSSCTable 1}
+
+Pr1645v2NatiPatPoolEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiPatPoolGlobalIx
+         GlobalIndex,
+      pr1645v2NatiPatPoolTableIx
+         TableIndex,
+      pr1645v2NatiPatPoolFilter
+         DisplayString,
+      pr1645v2NatiPatPoolAddress
+         IpAddress,
+      pr1645v2NatiPatPoolUses
+         Counter32
+      }
+
+pr1645v2NatiPatPoolGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiPatPoolEntry 10}
+
+pr1645v2NatiPatPoolTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2NatiPatPoolEntry 11}
+
+pr1645v2NatiPatPoolFilter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.patPool.filter"
+   ::= {pr1645v2NatiPatPoolEntry 16777216}
+
+pr1645v2NatiPatPoolAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.patPool.address"
+   ::= {pr1645v2NatiPatPoolEntry 33554432}
+
+pr1645v2NatiPatPoolUses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.patPool.uses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiPatPoolEntry 50331648}
+
+
+pr1645v2NatiHostSocketsExceeded OBJECT IDENTIFIER ::= {pr1645v2Nati 51}
+
+pr1645v2NatiHostSocketsExceededTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiHostSocketsExceededEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiHostSocketsExceeded 1}
+
+pr1645v2NatiHostSocketsExceededEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiHostSocketsExceededEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiHostSocketsExceededGlobalIx }
+   ::= {pr1645v2NatiHostSocketsExceededTable 1}
+
+Pr1645v2NatiHostSocketsExceededEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiHostSocketsExceededGlobalIx
+         GlobalIndex,
+      pr1645v2NatiHostSocketsExceededValue
+         Counter32
+      }
+
+pr1645v2NatiHostSocketsExceededGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiHostSocketsExceededEntry 10}
+
+pr1645v2NatiHostSocketsExceededValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.hostSocketsExceeded
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiHostSocketsExceededEntry 2147483648}
+
+
+pr1645v2NatiHostSocketsMax OBJECT IDENTIFIER ::= {pr1645v2Nati 52}
+
+pr1645v2NatiHostSocketsMaxTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiHostSocketsMaxEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiHostSocketsMax 1}
+
+pr1645v2NatiHostSocketsMaxEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiHostSocketsMaxEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiHostSocketsMaxGlobalIx }
+   ::= {pr1645v2NatiHostSocketsMaxTable 1}
+
+Pr1645v2NatiHostSocketsMaxEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiHostSocketsMaxGlobalIx
+         GlobalIndex,
+      pr1645v2NatiHostSocketsMaxValue
+         Counter32
+      }
+
+pr1645v2NatiHostSocketsMaxGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiHostSocketsMaxEntry 10}
+
+pr1645v2NatiHostSocketsMaxValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.hostSocketsMax
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiHostSocketsMaxEntry 2147483648}
+
+
+pr1645v2NatiSynFloodsInbound OBJECT IDENTIFIER ::= {pr1645v2Nati 54}
+
+pr1645v2NatiSynFloodsInboundTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiSynFloodsInboundEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiSynFloodsInbound 1}
+
+pr1645v2NatiSynFloodsInboundEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiSynFloodsInboundEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiSynFloodsInboundGlobalIx }
+   ::= {pr1645v2NatiSynFloodsInboundTable 1}
+
+Pr1645v2NatiSynFloodsInboundEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiSynFloodsInboundGlobalIx
+         GlobalIndex,
+      pr1645v2NatiSynFloodsInboundValue
+         Counter32
+      }
+
+pr1645v2NatiSynFloodsInboundGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiSynFloodsInboundEntry 10}
+
+pr1645v2NatiSynFloodsInboundValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.synFloodsInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiSynFloodsInboundEntry 2147483648}
+
+
+pr1645v2NatiSynFloodsOutbound OBJECT IDENTIFIER ::= {pr1645v2Nati 55}
+
+pr1645v2NatiSynFloodsOutboundTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiSynFloodsOutboundEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiSynFloodsOutbound 1}
+
+pr1645v2NatiSynFloodsOutboundEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiSynFloodsOutboundEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiSynFloodsOutboundGlobalIx }
+   ::= {pr1645v2NatiSynFloodsOutboundTable 1}
+
+Pr1645v2NatiSynFloodsOutboundEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiSynFloodsOutboundGlobalIx
+         GlobalIndex,
+      pr1645v2NatiSynFloodsOutboundValue
+         Counter32
+      }
+
+pr1645v2NatiSynFloodsOutboundGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiSynFloodsOutboundEntry 10}
+
+pr1645v2NatiSynFloodsOutboundValue OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.synFloodsOutbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiSynFloodsOutboundEntry 2147483648}
+
+
+pr1645v2NatiPacketsToPublic OBJECT IDENTIFIER ::= {pr1645v2Nati 40}
+
+pr1645v2NatiPacketsToPublicTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiPacketsToPublicEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiPacketsToPublic 1}
+
+pr1645v2NatiPacketsToPublicEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiPacketsToPublicEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiPacketsToPublicGlobalIx }
+   ::= {pr1645v2NatiPacketsToPublicTable 1}
+
+Pr1645v2NatiPacketsToPublicEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiPacketsToPublicGlobalIx
+         GlobalIndex,
+      pr1645v2NatiPacketsToPublicValue
+         Counter64
+      }
+
+pr1645v2NatiPacketsToPublicGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiPacketsToPublicEntry 10}
+
+pr1645v2NatiPacketsToPublicValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.packetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiPacketsToPublicEntry 2147483648}
+
+
+pr1645v2NatiOctetsToPublic OBJECT IDENTIFIER ::= {pr1645v2Nati 41}
+
+pr1645v2NatiOctetsToPublicTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiOctetsToPublicEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiOctetsToPublic 1}
+
+pr1645v2NatiOctetsToPublicEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiOctetsToPublicEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiOctetsToPublicGlobalIx }
+   ::= {pr1645v2NatiOctetsToPublicTable 1}
+
+Pr1645v2NatiOctetsToPublicEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiOctetsToPublicGlobalIx
+         GlobalIndex,
+      pr1645v2NatiOctetsToPublicValue
+         Counter64
+      }
+
+pr1645v2NatiOctetsToPublicGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiOctetsToPublicEntry 10}
+
+pr1645v2NatiOctetsToPublicValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.octetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiOctetsToPublicEntry 2147483648}
+
+
+pr1645v2NatiPacketsToPrivate OBJECT IDENTIFIER ::= {pr1645v2Nati 42}
+
+pr1645v2NatiPacketsToPrivateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiPacketsToPrivateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiPacketsToPrivate 1}
+
+pr1645v2NatiPacketsToPrivateEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiPacketsToPrivateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiPacketsToPrivateGlobalIx }
+   ::= {pr1645v2NatiPacketsToPrivateTable 1}
+
+Pr1645v2NatiPacketsToPrivateEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiPacketsToPrivateGlobalIx
+         GlobalIndex,
+      pr1645v2NatiPacketsToPrivateValue
+         Counter64
+      }
+
+pr1645v2NatiPacketsToPrivateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiPacketsToPrivateEntry 10}
+
+pr1645v2NatiPacketsToPrivateValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.packetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiPacketsToPrivateEntry 2147483648}
+
+
+pr1645v2NatiOctetsToPrivate OBJECT IDENTIFIER ::= {pr1645v2Nati 43}
+
+pr1645v2NatiOctetsToPrivateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiOctetsToPrivateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "nat Counter attribute"
+   ::= {pr1645v2NatiOctetsToPrivate 1}
+
+pr1645v2NatiOctetsToPrivateEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiOctetsToPrivateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiOctetsToPrivateGlobalIx }
+   ::= {pr1645v2NatiOctetsToPrivateTable 1}
+
+Pr1645v2NatiOctetsToPrivateEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiOctetsToPrivateGlobalIx
+         GlobalIndex,
+      pr1645v2NatiOctetsToPrivateValue
+         Counter64
+      }
+
+pr1645v2NatiOctetsToPrivateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiOctetsToPrivateEntry 10}
+
+pr1645v2NatiOctetsToPrivateValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.octetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiOctetsToPrivateEntry 2147483648}
+
+
+pr1645v2NatiInboundServices OBJECT IDENTIFIER ::= {pr1645v2Nati 74}
+
+pr1645v2NatiInboundServicesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiInboundServicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "stats on inbound services or dmzHost stuff"
+   ::= {pr1645v2NatiInboundServices 1}
+
+pr1645v2NatiInboundServicesEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiInboundServicesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiInboundServicesGlobalIx }
+   ::= {pr1645v2NatiInboundServicesSSCTable 1}
+
+Pr1645v2NatiInboundServicesEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiInboundServicesGlobalIx
+         GlobalIndex,
+      pr1645v2NatiInboundServicesTcp
+         Counter32,
+      pr1645v2NatiInboundServicesUdp
+         Counter32,
+      pr1645v2NatiInboundServicesEsp
+         Counter32,
+      pr1645v2NatiInboundServicesGre
+         Counter32,
+      pr1645v2NatiInboundServicesIcmp
+         Counter32,
+      pr1645v2NatiInboundServicesIpV6
+         Counter32,
+      pr1645v2NatiInboundServicesDmz
+         Counter32
+      }
+
+pr1645v2NatiInboundServicesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiInboundServicesEntry 10}
+
+pr1645v2NatiInboundServicesTcp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.inboundServices.tcp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiInboundServicesEntry 738197504}
+
+pr1645v2NatiInboundServicesUdp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.inboundServices.udp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiInboundServicesEntry 754974720}
+
+pr1645v2NatiInboundServicesEsp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.inboundServices.esp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiInboundServicesEntry 771751936}
+
+pr1645v2NatiInboundServicesGre OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.inboundServices.gre
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiInboundServicesEntry 788529152}
+
+pr1645v2NatiInboundServicesIcmp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.inboundServices.icmp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiInboundServicesEntry 805306368}
+
+pr1645v2NatiInboundServicesIpV6 OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.inboundServices.ipV6
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiInboundServicesEntry 838860800}
+
+pr1645v2NatiInboundServicesDmz OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.inboundServices.dmz
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiInboundServicesEntry 822083584}
+
+
+pr1645v2NatiAlg OBJECT IDENTIFIER ::= {pr1645v2Nati 81}
+
+pr1645v2NatiAlgSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiAlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Application Level Gateway configuration"
+   ::= {pr1645v2NatiAlg 1}
+
+pr1645v2NatiAlgEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiAlgEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiAlgGlobalIx }
+   ::= {pr1645v2NatiAlgSSCTable 1}
+
+Pr1645v2NatiAlgEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiAlgGlobalIx
+         GlobalIndex,
+      pr1645v2NatiAlgSipCtrlAllocs
+         Counter32,
+      pr1645v2NatiAlgSipDataAllocs
+         Counter32,
+      pr1645v2NatiAlgFtpCtrlAllocs
+         Counter32,
+      pr1645v2NatiAlgFtpCtrlErrors
+         Counter32,
+      pr1645v2NatiAlgFtpDataAllocs
+         Counter32,
+      pr1645v2NatiAlgTftpCtrlAllocs
+         Counter32,
+      pr1645v2NatiAlgTftpDataAllocs
+         Counter32,
+      pr1645v2NatiAlgAllocFails
+         Gauge32
+      }
+
+pr1645v2NatiAlgGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiAlgEntry 10}
+
+pr1645v2NatiAlgSipCtrlAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.alg.sip.ctrlAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiAlgEntry 17825792}
+
+pr1645v2NatiAlgSipDataAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.alg.sip.dataAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiAlgEntry 18874368}
+
+pr1645v2NatiAlgFtpCtrlAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.alg.ftp.ctrlAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiAlgEntry 51380224}
+
+pr1645v2NatiAlgFtpCtrlErrors OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.alg.ftp.ctrlErrors
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiAlgEntry 53477376}
+
+pr1645v2NatiAlgFtpDataAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.alg.ftp.dataAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiAlgEntry 52428800}
+
+pr1645v2NatiAlgTftpCtrlAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.alg.tftp.ctrlAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiAlgEntry 68157440}
+
+pr1645v2NatiAlgTftpDataAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.alg.tftp.dataAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiAlgEntry 69206016}
+
+pr1645v2NatiAlgAllocFails OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.alg.allocFails
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2NatiAlgEntry 83886080}
+
+
+pr1645v2NatiHttpInfo OBJECT IDENTIFIER ::= {pr1645v2Nati 75}
+
+pr1645v2NatiHttpInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiHttpInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "which sites are our users interested in"
+   ::= {pr1645v2NatiHttpInfo 1}
+
+pr1645v2NatiHttpInfoEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiHttpInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiHttpInfoGlobalIx,
+                pr1645v2NatiHttpInfoTableIx }
+   ::= {pr1645v2NatiHttpInfoSSCTable 1}
+
+Pr1645v2NatiHttpInfoEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiHttpInfoGlobalIx
+         GlobalIndex,
+      pr1645v2NatiHttpInfoTableIx
+         TableIndex,
+      pr1645v2NatiHttpInfoHost
+         DisplayString,
+      pr1645v2NatiHttpInfoIp
+         IpAddress,
+      pr1645v2NatiHttpInfoPort
+         INTEGER,
+      pr1645v2NatiHttpInfoConnections
+         Counter32,
+      pr1645v2NatiHttpInfoPacketsToPublic
+         Counter64,
+      pr1645v2NatiHttpInfoPacketsToPrivate
+         Counter64,
+      pr1645v2NatiHttpInfoOctetsToPublic
+         Counter64,
+      pr1645v2NatiHttpInfoOctetsToPrivate
+         Counter64
+      }
+
+pr1645v2NatiHttpInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiHttpInfoEntry 10}
+
+pr1645v2NatiHttpInfoTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2NatiHttpInfoEntry 11}
+
+pr1645v2NatiHttpInfoHost OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.httpInfo.host"
+   ::= {pr1645v2NatiHttpInfoEntry 16777216}
+
+pr1645v2NatiHttpInfoIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.httpInfo.ip"
+   ::= {pr1645v2NatiHttpInfoEntry 117440512}
+
+pr1645v2NatiHttpInfoPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.httpInfo.port
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {pr1645v2NatiHttpInfoEntry 134217728}
+
+pr1645v2NatiHttpInfoConnections OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.httpInfo.connections
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiHttpInfoEntry 33554432}
+
+pr1645v2NatiHttpInfoPacketsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.httpInfo.packetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiHttpInfoEntry 50331648}
+
+pr1645v2NatiHttpInfoPacketsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.httpInfo.packetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiHttpInfoEntry 67108864}
+
+pr1645v2NatiHttpInfoOctetsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.httpInfo.octetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiHttpInfoEntry 83886080}
+
+pr1645v2NatiHttpInfoOctetsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.httpInfo.octetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiHttpInfoEntry 100663296}
+
+
+pr1645v2NatiH2Nat OBJECT IDENTIFIER ::= {pr1645v2Nati 180}
+
+pr1645v2NatiH2NatSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiH2NatEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "timedNatStats"
+   ::= {pr1645v2NatiH2Nat 1}
+
+pr1645v2NatiH2NatEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiH2NatEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiH2NatGlobalIx,
+                pr1645v2NatiH2NatTableIx }
+   ::= {pr1645v2NatiH2NatSSCTable 1}
+
+Pr1645v2NatiH2NatEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiH2NatGlobalIx
+         GlobalIndex,
+      pr1645v2NatiH2NatTableIx
+         TableIndex,
+      pr1645v2NatiH2NatSysUpTime
+         TimeTicks,
+      pr1645v2NatiH2NatAllocFails
+         Counter32,
+      pr1645v2NatiH2NatTcpAllocs
+         Counter32,
+      pr1645v2NatiH2NatTcpSockMin
+         Integer32,
+      pr1645v2NatiH2NatTcpSockAvg
+         Integer32,
+      pr1645v2NatiH2NatTcpSockMax
+         Integer32,
+      pr1645v2NatiH2NatNonTcpSockMin
+         Integer32,
+      pr1645v2NatiH2NatNonTcpSockAvg
+         Integer32,
+      pr1645v2NatiH2NatNonTcpSockMax
+         Integer32,
+      pr1645v2NatiH2NatUdpAllocs
+         Counter32,
+      pr1645v2NatiH2NatIcmpAllocs
+         Counter32,
+      pr1645v2NatiH2NatEspAllocs
+         Counter32,
+      pr1645v2NatiH2NatGreAllocs
+         Counter32,
+      pr1645v2NatiH2NatIpV6Allocs
+         Counter32,
+      pr1645v2NatiH2NatUnknownAllocs
+         Counter32,
+      pr1645v2NatiH2NatPacketsToPublic
+         Counter64,
+      pr1645v2NatiH2NatOctetsToPublic
+         Counter64,
+      pr1645v2NatiH2NatPacketsToPrivate
+         Counter64,
+      pr1645v2NatiH2NatOctetsToPrivate
+         Counter64,
+      pr1645v2NatiH2NatTcpInbound
+         Counter32,
+      pr1645v2NatiH2NatUdpInbound
+         Counter32,
+      pr1645v2NatiH2NatEspInbound
+         Counter32,
+      pr1645v2NatiH2NatGreInbound
+         Counter32,
+      pr1645v2NatiH2NatIcmpInbound
+         Counter32,
+      pr1645v2NatiH2NatIpV6Inbound
+         Counter32,
+      pr1645v2NatiH2NatDmzInbound
+         Counter32,
+      pr1645v2NatiH2NatBypasses
+         Counter32,
+      pr1645v2NatiH2NatHostSocketsExceeded
+         Counter32,
+      pr1645v2NatiH2NatSynFloodsInbound
+         Counter32,
+      pr1645v2NatiH2NatSynFloodsOutbound
+         Counter32,
+      pr1645v2NatiH2NatDiscards
+         Counter32
+      }
+
+pr1645v2NatiH2NatGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiH2NatEntry 10}
+
+pr1645v2NatiH2NatTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2NatiH2NatEntry 11}
+
+pr1645v2NatiH2NatSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2NatiH2NatEntry 16777216}
+
+pr1645v2NatiH2NatAllocFails OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.allocFails
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 33554432}
+
+pr1645v2NatiH2NatTcpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.tcpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 50331648}
+
+pr1645v2NatiH2NatTcpSockMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.tcpSockMin"
+   ::= {pr1645v2NatiH2NatEntry 452984832}
+
+pr1645v2NatiH2NatTcpSockAvg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.tcpSockAvg"
+   ::= {pr1645v2NatiH2NatEntry 469762048}
+
+pr1645v2NatiH2NatTcpSockMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.tcpSockMax"
+   ::= {pr1645v2NatiH2NatEntry 486539264}
+
+pr1645v2NatiH2NatNonTcpSockMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.nonTcpSockMin"
+   ::= {pr1645v2NatiH2NatEntry 503316480}
+
+pr1645v2NatiH2NatNonTcpSockAvg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.nonTcpSockAvg"
+   ::= {pr1645v2NatiH2NatEntry 520093696}
+
+pr1645v2NatiH2NatNonTcpSockMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.nonTcpSockMax"
+   ::= {pr1645v2NatiH2NatEntry 536870912}
+
+pr1645v2NatiH2NatUdpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.udpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 67108864}
+
+pr1645v2NatiH2NatIcmpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.icmpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 83886080}
+
+pr1645v2NatiH2NatEspAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.espAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 100663296}
+
+pr1645v2NatiH2NatGreAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.greAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 117440512}
+
+pr1645v2NatiH2NatIpV6Allocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.ipV6Allocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 134217728}
+
+pr1645v2NatiH2NatUnknownAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.unknownAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 385875968}
+
+pr1645v2NatiH2NatPacketsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.packetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 150994944}
+
+pr1645v2NatiH2NatOctetsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.octetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 167772160}
+
+pr1645v2NatiH2NatPacketsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.packetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 184549376}
+
+pr1645v2NatiH2NatOctetsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.octetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 201326592}
+
+pr1645v2NatiH2NatTcpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.tcpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 218103808}
+
+pr1645v2NatiH2NatUdpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.udpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 234881024}
+
+pr1645v2NatiH2NatEspInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.espInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 251658240}
+
+pr1645v2NatiH2NatGreInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.greInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 268435456}
+
+pr1645v2NatiH2NatIcmpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.icmpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 285212672}
+
+pr1645v2NatiH2NatIpV6Inbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.ipV6Inbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 318767104}
+
+pr1645v2NatiH2NatDmzInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.dmzInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 301989888}
+
+pr1645v2NatiH2NatBypasses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.bypasses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 335544320}
+
+pr1645v2NatiH2NatHostSocketsExceeded OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.hostSocketsExceeded
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 352321536}
+
+pr1645v2NatiH2NatSynFloodsInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.synFloodsInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 402653184}
+
+pr1645v2NatiH2NatSynFloodsOutbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.synFloodsOutbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 419430400}
+
+pr1645v2NatiH2NatDiscards OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h2Nat.discards
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH2NatEntry 369098752}
+
+
+pr1645v2NatiH24Nat OBJECT IDENTIFIER ::= {pr1645v2Nati 181}
+
+pr1645v2NatiH24NatSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiH24NatEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "timedNatStats"
+   ::= {pr1645v2NatiH24Nat 1}
+
+pr1645v2NatiH24NatEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiH24NatEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiH24NatGlobalIx,
+                pr1645v2NatiH24NatTableIx }
+   ::= {pr1645v2NatiH24NatSSCTable 1}
+
+Pr1645v2NatiH24NatEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiH24NatGlobalIx
+         GlobalIndex,
+      pr1645v2NatiH24NatTableIx
+         TableIndex,
+      pr1645v2NatiH24NatSysUpTime
+         TimeTicks,
+      pr1645v2NatiH24NatAllocFails
+         Counter32,
+      pr1645v2NatiH24NatTcpAllocs
+         Counter32,
+      pr1645v2NatiH24NatTcpSockMin
+         Integer32,
+      pr1645v2NatiH24NatTcpSockAvg
+         Integer32,
+      pr1645v2NatiH24NatTcpSockMax
+         Integer32,
+      pr1645v2NatiH24NatNonTcpSockMin
+         Integer32,
+      pr1645v2NatiH24NatNonTcpSockAvg
+         Integer32,
+      pr1645v2NatiH24NatNonTcpSockMax
+         Integer32,
+      pr1645v2NatiH24NatUdpAllocs
+         Counter32,
+      pr1645v2NatiH24NatIcmpAllocs
+         Counter32,
+      pr1645v2NatiH24NatEspAllocs
+         Counter32,
+      pr1645v2NatiH24NatGreAllocs
+         Counter32,
+      pr1645v2NatiH24NatIpV6Allocs
+         Counter32,
+      pr1645v2NatiH24NatUnknownAllocs
+         Counter32,
+      pr1645v2NatiH24NatPacketsToPublic
+         Counter64,
+      pr1645v2NatiH24NatOctetsToPublic
+         Counter64,
+      pr1645v2NatiH24NatPacketsToPrivate
+         Counter64,
+      pr1645v2NatiH24NatOctetsToPrivate
+         Counter64,
+      pr1645v2NatiH24NatTcpInbound
+         Counter32,
+      pr1645v2NatiH24NatUdpInbound
+         Counter32,
+      pr1645v2NatiH24NatEspInbound
+         Counter32,
+      pr1645v2NatiH24NatGreInbound
+         Counter32,
+      pr1645v2NatiH24NatIcmpInbound
+         Counter32,
+      pr1645v2NatiH24NatIpV6Inbound
+         Counter32,
+      pr1645v2NatiH24NatDmzInbound
+         Counter32,
+      pr1645v2NatiH24NatBypasses
+         Counter32,
+      pr1645v2NatiH24NatHostSocketsExceeded
+         Counter32,
+      pr1645v2NatiH24NatSynFloodsInbound
+         Counter32,
+      pr1645v2NatiH24NatSynFloodsOutbound
+         Counter32,
+      pr1645v2NatiH24NatDiscards
+         Counter32
+      }
+
+pr1645v2NatiH24NatGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiH24NatEntry 10}
+
+pr1645v2NatiH24NatTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2NatiH24NatEntry 11}
+
+pr1645v2NatiH24NatSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2NatiH24NatEntry 16777216}
+
+pr1645v2NatiH24NatAllocFails OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.allocFails
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 33554432}
+
+pr1645v2NatiH24NatTcpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.tcpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 50331648}
+
+pr1645v2NatiH24NatTcpSockMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.tcpSockMin"
+   ::= {pr1645v2NatiH24NatEntry 452984832}
+
+pr1645v2NatiH24NatTcpSockAvg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.tcpSockAvg"
+   ::= {pr1645v2NatiH24NatEntry 469762048}
+
+pr1645v2NatiH24NatTcpSockMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.tcpSockMax"
+   ::= {pr1645v2NatiH24NatEntry 486539264}
+
+pr1645v2NatiH24NatNonTcpSockMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.nonTcpSockMin"
+   ::= {pr1645v2NatiH24NatEntry 503316480}
+
+pr1645v2NatiH24NatNonTcpSockAvg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.nonTcpSockAvg"
+   ::= {pr1645v2NatiH24NatEntry 520093696}
+
+pr1645v2NatiH24NatNonTcpSockMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.nonTcpSockMax"
+   ::= {pr1645v2NatiH24NatEntry 536870912}
+
+pr1645v2NatiH24NatUdpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.udpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 67108864}
+
+pr1645v2NatiH24NatIcmpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.icmpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 83886080}
+
+pr1645v2NatiH24NatEspAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.espAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 100663296}
+
+pr1645v2NatiH24NatGreAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.greAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 117440512}
+
+pr1645v2NatiH24NatIpV6Allocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.ipV6Allocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 134217728}
+
+pr1645v2NatiH24NatUnknownAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.unknownAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 385875968}
+
+pr1645v2NatiH24NatPacketsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.packetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 150994944}
+
+pr1645v2NatiH24NatOctetsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.octetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 167772160}
+
+pr1645v2NatiH24NatPacketsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.packetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 184549376}
+
+pr1645v2NatiH24NatOctetsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.octetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 201326592}
+
+pr1645v2NatiH24NatTcpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.tcpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 218103808}
+
+pr1645v2NatiH24NatUdpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.udpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 234881024}
+
+pr1645v2NatiH24NatEspInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.espInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 251658240}
+
+pr1645v2NatiH24NatGreInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.greInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 268435456}
+
+pr1645v2NatiH24NatIcmpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.icmpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 285212672}
+
+pr1645v2NatiH24NatIpV6Inbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.ipV6Inbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 318767104}
+
+pr1645v2NatiH24NatDmzInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.dmzInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 301989888}
+
+pr1645v2NatiH24NatBypasses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.bypasses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 335544320}
+
+pr1645v2NatiH24NatHostSocketsExceeded OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.hostSocketsExceeded
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 352321536}
+
+pr1645v2NatiH24NatSynFloodsInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.synFloodsInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 402653184}
+
+pr1645v2NatiH24NatSynFloodsOutbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.synFloodsOutbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 419430400}
+
+pr1645v2NatiH24NatDiscards OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.h24Nat.discards
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiH24NatEntry 369098752}
+
+
+pr1645v2NatiD7Nat OBJECT IDENTIFIER ::= {pr1645v2Nati 182}
+
+pr1645v2NatiD7NatSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2NatiD7NatEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "timedNatStats"
+   ::= {pr1645v2NatiD7Nat 1}
+
+pr1645v2NatiD7NatEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2NatiD7NatEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2NatiD7NatGlobalIx,
+                pr1645v2NatiD7NatTableIx }
+   ::= {pr1645v2NatiD7NatSSCTable 1}
+
+Pr1645v2NatiD7NatEntry ::=
+   SEQUENCE
+      {
+      pr1645v2NatiD7NatGlobalIx
+         GlobalIndex,
+      pr1645v2NatiD7NatTableIx
+         TableIndex,
+      pr1645v2NatiD7NatSysUpTime
+         TimeTicks,
+      pr1645v2NatiD7NatAllocFails
+         Counter32,
+      pr1645v2NatiD7NatTcpAllocs
+         Counter32,
+      pr1645v2NatiD7NatTcpSockMin
+         Integer32,
+      pr1645v2NatiD7NatTcpSockAvg
+         Integer32,
+      pr1645v2NatiD7NatTcpSockMax
+         Integer32,
+      pr1645v2NatiD7NatNonTcpSockMin
+         Integer32,
+      pr1645v2NatiD7NatNonTcpSockAvg
+         Integer32,
+      pr1645v2NatiD7NatNonTcpSockMax
+         Integer32,
+      pr1645v2NatiD7NatUdpAllocs
+         Counter32,
+      pr1645v2NatiD7NatIcmpAllocs
+         Counter32,
+      pr1645v2NatiD7NatEspAllocs
+         Counter32,
+      pr1645v2NatiD7NatGreAllocs
+         Counter32,
+      pr1645v2NatiD7NatIpV6Allocs
+         Counter32,
+      pr1645v2NatiD7NatUnknownAllocs
+         Counter32,
+      pr1645v2NatiD7NatPacketsToPublic
+         Counter64,
+      pr1645v2NatiD7NatOctetsToPublic
+         Counter64,
+      pr1645v2NatiD7NatPacketsToPrivate
+         Counter64,
+      pr1645v2NatiD7NatOctetsToPrivate
+         Counter64,
+      pr1645v2NatiD7NatTcpInbound
+         Counter32,
+      pr1645v2NatiD7NatUdpInbound
+         Counter32,
+      pr1645v2NatiD7NatEspInbound
+         Counter32,
+      pr1645v2NatiD7NatGreInbound
+         Counter32,
+      pr1645v2NatiD7NatIcmpInbound
+         Counter32,
+      pr1645v2NatiD7NatIpV6Inbound
+         Counter32,
+      pr1645v2NatiD7NatDmzInbound
+         Counter32,
+      pr1645v2NatiD7NatBypasses
+         Counter32,
+      pr1645v2NatiD7NatHostSocketsExceeded
+         Counter32,
+      pr1645v2NatiD7NatSynFloodsInbound
+         Counter32,
+      pr1645v2NatiD7NatSynFloodsOutbound
+         Counter32,
+      pr1645v2NatiD7NatDiscards
+         Counter32
+      }
+
+pr1645v2NatiD7NatGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2NatiD7NatEntry 10}
+
+pr1645v2NatiD7NatTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2NatiD7NatEntry 11}
+
+pr1645v2NatiD7NatSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2NatiD7NatEntry 16777216}
+
+pr1645v2NatiD7NatAllocFails OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.allocFails
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 33554432}
+
+pr1645v2NatiD7NatTcpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.tcpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 50331648}
+
+pr1645v2NatiD7NatTcpSockMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.tcpSockMin"
+   ::= {pr1645v2NatiD7NatEntry 452984832}
+
+pr1645v2NatiD7NatTcpSockAvg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.tcpSockAvg"
+   ::= {pr1645v2NatiD7NatEntry 469762048}
+
+pr1645v2NatiD7NatTcpSockMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.tcpSockMax"
+   ::= {pr1645v2NatiD7NatEntry 486539264}
+
+pr1645v2NatiD7NatNonTcpSockMin OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.nonTcpSockMin"
+   ::= {pr1645v2NatiD7NatEntry 503316480}
+
+pr1645v2NatiD7NatNonTcpSockAvg OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.nonTcpSockAvg"
+   ::= {pr1645v2NatiD7NatEntry 520093696}
+
+pr1645v2NatiD7NatNonTcpSockMax OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.nonTcpSockMax"
+   ::= {pr1645v2NatiD7NatEntry 536870912}
+
+pr1645v2NatiD7NatUdpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.udpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 67108864}
+
+pr1645v2NatiD7NatIcmpAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.icmpAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 83886080}
+
+pr1645v2NatiD7NatEspAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.espAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 100663296}
+
+pr1645v2NatiD7NatGreAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.greAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 117440512}
+
+pr1645v2NatiD7NatIpV6Allocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.ipV6Allocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 134217728}
+
+pr1645v2NatiD7NatUnknownAllocs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.unknownAllocs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 385875968}
+
+pr1645v2NatiD7NatPacketsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.packetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 150994944}
+
+pr1645v2NatiD7NatOctetsToPublic OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.octetsToPublic
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 167772160}
+
+pr1645v2NatiD7NatPacketsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.packetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 184549376}
+
+pr1645v2NatiD7NatOctetsToPrivate OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.octetsToPrivate
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 201326592}
+
+pr1645v2NatiD7NatTcpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.tcpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 218103808}
+
+pr1645v2NatiD7NatUdpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.udpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 234881024}
+
+pr1645v2NatiD7NatEspInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.espInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 251658240}
+
+pr1645v2NatiD7NatGreInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.greInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 268435456}
+
+pr1645v2NatiD7NatIcmpInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.icmpInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 285212672}
+
+pr1645v2NatiD7NatIpV6Inbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.ipV6Inbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 318767104}
+
+pr1645v2NatiD7NatDmzInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.dmzInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 301989888}
+
+pr1645v2NatiD7NatBypasses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.bypasses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 335544320}
+
+pr1645v2NatiD7NatHostSocketsExceeded OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.hostSocketsExceeded
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 352321536}
+
+pr1645v2NatiD7NatSynFloodsInbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.synFloodsInbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 402653184}
+
+pr1645v2NatiD7NatSynFloodsOutbound OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.synFloodsOutbound
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 419430400}
+
+pr1645v2NatiD7NatDiscards OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.performance.d7Nat.discards
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2NatiD7NatEntry 369098752}
+
+
+
+ar1645v2Nati OBJECT IDENTIFIER ::= {r1645v2Nati 16}
+
+
+ar1645v2NatiClearCounters OBJECT IDENTIFIER ::= {ar1645v2Nati 263}
+
+ar1645v2NatiClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2NatiClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1645v2NatiClearCounters 1}
+
+ar1645v2NatiClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2NatiClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2NatiClearCountersGlobalIx }
+   ::= {ar1645v2NatiClearCountersTable 1}
+
+Ar1645v2NatiClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1645v2NatiClearCountersGlobalIx
+         GlobalIndex,
+      ar1645v2NatiClearCountersValue
+         Integer32
+      }
+
+ar1645v2NatiClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2NatiClearCountersEntry 10}
+
+ar1645v2NatiClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.actions.clearCounters"
+   ::= {ar1645v2NatiClearCountersEntry 2147483648}
+
+
+ar1645v2NatiResetNAT OBJECT IDENTIFIER ::= {ar1645v2Nati 50}
+
+ar1645v2NatiResetNATTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2NatiResetNATEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "clears all NAT info"
+   ::= {ar1645v2NatiResetNAT 1}
+
+ar1645v2NatiResetNATEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2NatiResetNATEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2NatiResetNATGlobalIx }
+   ::= {ar1645v2NatiResetNATTable 1}
+
+Ar1645v2NatiResetNATEntry ::=
+   SEQUENCE
+      {
+      ar1645v2NatiResetNATGlobalIx
+         GlobalIndex,
+      ar1645v2NatiResetNATValue
+         Integer32
+      }
+
+ar1645v2NatiResetNATGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2NatiResetNATEntry 10}
+
+ar1645v2NatiResetNATValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: nat.actions.resetNAT"
+   ::= {ar1645v2NatiResetNATEntry 2147483648}
+
+
+
+END

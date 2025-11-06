@@ -1,0 +1,2000 @@
+OneAccess-R1645v2-2030-IkeSA DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2IkeSA OBJECT IDENTIFIER ::= {r1645Rootv2 2030}
+
+r1645v2IkeSAMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2IkeSAMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2IkeSA 1}
+
+r1645v2IkeSAMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2IkeSAMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2IkeSAMOPropGlobalIx }
+   ::= {r1645v2IkeSAMOProp 1}
+
+R1645v2IkeSAMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2IkeSAMOPropPath
+         ContainmentPath,
+      r1645v2IkeSAMOPropRev
+         ObjectRevision,
+      r1645v2IkeSAMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2IkeSAMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2IkeSAMOPropEntry 3}
+
+r1645v2IkeSAMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2IkeSAMOPropEntry 4}
+
+r1645v2IkeSAMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2IkeSAMOPropEntry 10}
+
+
+
+er1645v2IkeSA OBJECT IDENTIFIER ::= {r1645v2IkeSA 11}
+
+
+er1645v2IkeSASnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2IkeSA 268}
+
+er1645v2IkeSASnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IkeSASnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2IkeSASnmpIndexOffset 1}
+
+er1645v2IkeSASnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IkeSASnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IkeSASnmpIndexOffsetGlobalIx }
+   ::= {er1645v2IkeSASnmpIndexOffsetTable 1}
+
+Er1645v2IkeSASnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2IkeSASnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2IkeSASnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2IkeSASnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IkeSASnmpIndexOffsetEntry 10}
+
+er1645v2IkeSASnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.snmpIndexOffset"
+   ::= {er1645v2IkeSASnmpIndexOffsetEntry 2147483648}
+
+
+er1645v2IkeSAPh1 OBJECT IDENTIFIER ::= {er1645v2IkeSA 2}
+
+er1645v2IkeSAPh1SSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IkeSAPh1Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "IKE phase 1 configuration attributes"
+   ::= {er1645v2IkeSAPh1 1}
+
+er1645v2IkeSAPh1Entry OBJECT-TYPE
+   SYNTAX      Er1645v2IkeSAPh1Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IkeSAPh1GlobalIx }
+   ::= {er1645v2IkeSAPh1SSCTable 1}
+
+Er1645v2IkeSAPh1Entry ::=
+   SEQUENCE
+      {
+      er1645v2IkeSAPh1GlobalIx
+         GlobalIndex,
+      er1645v2IkeSAPh1Type
+         INTEGER,
+      er1645v2IkeSAPh1Mode
+         INTEGER,
+      er1645v2IkeSAPh1EncrAl
+         INTEGER,
+      er1645v2IkeSAPh1AuthAl
+         INTEGER,
+      er1645v2IkeSAPh1Dhgr
+         INTEGER,
+      er1645v2IkeSAPh1Lt
+         TimeTicks,
+      er1645v2IkeSAPh1KaMode
+         INTEGER,
+      er1645v2IkeSAPh1KaDelay
+         TimeTicks,
+      er1645v2IkeSAPh1KaFailsPermitted
+         Counter32,
+      er1645v2IkeSAPh1KaInterval
+         TimeTicks
+      }
+
+er1645v2IkeSAPh1GlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IkeSAPh1Entry 10}
+
+er1645v2IkeSAPh1Type OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               client (1),
+               server (2),
+               peerToPeer (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase1.type
+
+       Possibilities:
+               client   (1)
+               server   (2)
+               peerToPeer   (3)"
+   ::= {er1645v2IkeSAPh1Entry 16777216}
+
+er1645v2IkeSAPh1Mode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               aggressive (1),
+               main (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase1.mode
+
+       Possibilities:
+               aggressive   (1)
+               main   (2)"
+   ::= {er1645v2IkeSAPh1Entry 33554432}
+
+er1645v2IkeSAPh1EncrAl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               des (1),
+               s3des (2),
+               aes128 (3),
+               aes192 (4),
+               aes256 (5)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase1.encryptionAlgorithm
+
+       Possibilities:
+               des   (1)
+               3des   (2)
+               aes128   (3)
+               aes192   (4)
+               aes256   (5)"
+   ::= {er1645v2IkeSAPh1Entry 50331648}
+
+er1645v2IkeSAPh1AuthAl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               hmacumd5 (16),
+               hmacusham1 (32)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase1.authenticationAlgorithm
+
+       Possibilities:
+               hmac_md5   (16)
+               hmac_sha-1   (32)"
+   ::= {er1645v2IkeSAPh1Entry 67108864}
+
+er1645v2IkeSAPh1Dhgr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s1umodp768 (1),
+               s2umodp1024 (2),
+               s5umodp1536 (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase1.diffieHelmanGroup
+
+       Possibilities:
+               1_modp768   (1)
+               2_modp1024   (2)
+               5_modp1536   (3)"
+   ::= {er1645v2IkeSAPh1Entry 83886080}
+
+er1645v2IkeSAPh1Lt OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase1.lifeTime
+
+       Time in centi-second."
+   ::= {er1645v2IkeSAPh1Entry 100663296}
+
+er1645v2IkeSAPh1KaMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               onDemand (1),
+               periodic (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase1.keepAlive.mode
+
+       Possibilities:
+               disabled   (0)
+               onDemand   (1)
+               periodic   (2)"
+   ::= {er1645v2IkeSAPh1Entry 117506048}
+
+er1645v2IkeSAPh1KaDelay OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase1.keepAlive.delay
+
+       Time in centi-second."
+   ::= {er1645v2IkeSAPh1Entry 117571584}
+
+er1645v2IkeSAPh1KaFailsPermitted OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase1.keepAlive.failsPermitted
+
+       32 bit unsigned wrappable counter."
+   ::= {er1645v2IkeSAPh1Entry 117637120}
+
+er1645v2IkeSAPh1KaInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase1.keepAlive.interval
+
+       Time in centi-second."
+   ::= {er1645v2IkeSAPh1Entry 117702656}
+
+
+er1645v2IkeSAPh2 OBJECT IDENTIFIER ::= {er1645v2IkeSA 3}
+
+er1645v2IkeSAPh2SSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IkeSAPh2Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "IKE phase 2 configuration attributes"
+   ::= {er1645v2IkeSAPh2 1}
+
+er1645v2IkeSAPh2Entry OBJECT-TYPE
+   SYNTAX      Er1645v2IkeSAPh2Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IkeSAPh2GlobalIx }
+   ::= {er1645v2IkeSAPh2SSCTable 1}
+
+Er1645v2IkeSAPh2Entry ::=
+   SEQUENCE
+      {
+      er1645v2IkeSAPh2GlobalIx
+         GlobalIndex,
+      er1645v2IkeSAPh2PfsGroup
+         INTEGER,
+      er1645v2IkeSAPh2NatT
+         INTEGER,
+      er1645v2IkeSAPh2NatV
+         INTEGER,
+      er1645v2IkeSAPh2ReplayW
+         INTEGER,
+      er1645v2IkeSAPh2ProposalEEncrAl
+         INTEGER,
+      er1645v2IkeSAPh2ProposalEAuthAl
+         INTEGER,
+      er1645v2IkeSAPh2ProposalAAuthAl
+         INTEGER,
+      er1645v2IkeSAPh2ProposalLtTime
+         TimeTicks,
+      er1645v2IkeSAPh2ProposalLtSize
+         Integer32
+      }
+
+er1645v2IkeSAPh2GlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IkeSAPh2Entry 10}
+
+er1645v2IkeSAPh2PfsGroup OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               none (1),
+               s1umodp768 (2),
+               s2umodp1024 (3),
+               s5umodp1536 (4)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.pfsGroup
+
+       Possibilities:
+               none   (1)
+               1_modp768   (2)
+               2_modp1024   (3)
+               5_modp1536   (4)"
+   ::= {er1645v2IkeSAPh2Entry 16777216}
+
+er1645v2IkeSAPh2NatT OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1),
+               forced (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.natTraversal
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)
+               forced   (2)"
+   ::= {er1645v2IkeSAPh2Entry 33554432}
+
+er1645v2IkeSAPh2NatV OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               rfc3947 (0),
+               draft (1),
+               draft02 (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.natVendorId
+
+       Possibilities:
+               rfc3947   (0)
+               draft   (1)
+               draft02   (2)"
+   ::= {er1645v2IkeSAPh2Entry 83886080}
+
+er1645v2IkeSAPh2ReplayW OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.replayWindow
+
+       Possibilities:
+               disabled   (0)"
+   ::= {er1645v2IkeSAPh2Entry 100663296}
+
+er1645v2IkeSAPh2ProposalEEncrAl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               null (0),
+               des (1),
+               s3des (2),
+               aes128 (3),
+               aes192 (4),
+               aes256 (5),
+               disabled (10)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.proposal.espEncryptionAlgorithm
+
+       Possibilities:
+               null   (0)
+               des   (1)
+               3des   (2)
+               aes128   (3)
+               aes192   (4)
+               aes256   (5)
+               disabled   (10)"
+   ::= {er1645v2IkeSAPh2Entry 50462720}
+
+er1645v2IkeSAPh2ProposalEAuthAl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               hmacumd5 (16),
+               hmacusham1 (32)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.proposal.espAuthenticationAlgorithm
+
+       Possibilities:
+               disabled   (0)
+               hmac_md5   (16)
+               hmac_sha-1   (32)"
+   ::= {er1645v2IkeSAPh2Entry 50528256}
+
+er1645v2IkeSAPh2ProposalAAuthAl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               hmacumd5 (16),
+               hmacusham1 (32)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.proposal.ahAuthenticationAlgorithm
+
+       Possibilities:
+               disabled   (0)
+               hmac_md5   (16)
+               hmac_sha-1   (32)"
+   ::= {er1645v2IkeSAPh2Entry 50659328}
+
+er1645v2IkeSAPh2ProposalLtTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.proposal.lifeTime.time
+
+       Time in centi-second."
+   ::= {er1645v2IkeSAPh2Entry 50594048}
+
+er1645v2IkeSAPh2ProposalLtSize OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "KB"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.proposal.lifeTime.size
+
+       unit name = KB"
+   ::= {er1645v2IkeSAPh2Entry 50594304}
+
+er1645v2IkeSAPh2Aprp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2IkeSAPh2AprpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2IkeSAPh2 67108864}
+
+er1645v2IkeSAPh2AprpEntry OBJECT-TYPE
+   SYNTAX      Er1645v2IkeSAPh2AprpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2IkeSAPh2AprpGlobalIx,
+                er1645v2IkeSAPh2AprpTableIx }
+   ::= {er1645v2IkeSAPh2Aprp 1}
+
+Er1645v2IkeSAPh2AprpEntry ::=
+   SEQUENCE
+      {
+      er1645v2IkeSAPh2AprpActions
+         VariableLengthTableActions,
+      er1645v2IkeSAPh2AprpGlobalIx
+         GlobalIndex,
+      er1645v2IkeSAPh2AprpTableIx
+         TableIndex,
+      er1645v2IkeSAPh2AprpEEncrAl
+         INTEGER,
+      er1645v2IkeSAPh2AprpEAuthAl
+         INTEGER,
+      er1645v2IkeSAPh2AprpAAuthAl
+         INTEGER,
+      er1645v2IkeSAPh2AprpLtTime
+         TimeTicks,
+      er1645v2IkeSAPh2AprpLtSize
+         Integer32
+      }
+
+er1645v2IkeSAPh2AprpActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2IkeSAPh2AprpEntry 2}
+
+er1645v2IkeSAPh2AprpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2IkeSAPh2AprpEntry 10}
+
+er1645v2IkeSAPh2AprpTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2IkeSAPh2AprpEntry 11}
+
+er1645v2IkeSAPh2AprpEEncrAl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               null (0),
+               des (1),
+               s3des (2),
+               aes128 (3),
+               aes192 (4),
+               aes256 (5),
+               disabled (10)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.altProposals.espEncryptionAlgorithm
+
+       Possibilities:
+               null   (0)
+               des   (1)
+               3des   (2)
+               aes128   (3)
+               aes192   (4)
+               aes256   (5)
+               disabled   (10)"
+   ::= {er1645v2IkeSAPh2AprpEntry 33554432}
+
+er1645v2IkeSAPh2AprpEAuthAl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               hmacumd5 (16),
+               hmacusham1 (32)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.altProposals.espAuthenticationAlgorithm
+
+       Possibilities:
+               disabled   (0)
+               hmac_md5   (16)
+               hmac_sha-1   (32)"
+   ::= {er1645v2IkeSAPh2AprpEntry 50331648}
+
+er1645v2IkeSAPh2AprpAAuthAl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               hmacumd5 (16),
+               hmacusham1 (32)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.altProposals.ahAuthenticationAlgorithm
+
+       Possibilities:
+               disabled   (0)
+               hmac_md5   (16)
+               hmac_sha-1   (32)"
+   ::= {er1645v2IkeSAPh2AprpEntry 83886080}
+
+er1645v2IkeSAPh2AprpLtTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.altProposals.lifeTime.time
+
+       Time in centi-second."
+   ::= {er1645v2IkeSAPh2AprpEntry 67174400}
+
+er1645v2IkeSAPh2AprpLtSize OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "KB"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.editConf.phase2.altProposals.lifeTime.size
+
+       unit name = KB"
+   ::= {er1645v2IkeSAPh2AprpEntry 67239936}
+
+
+
+sr1645v2IkeSA OBJECT IDENTIFIER ::= {r1645v2IkeSA 14}
+
+
+sr1645v2IkeSASnmpIndex OBJECT IDENTIFIER ::= {sr1645v2IkeSA 269}
+
+sr1645v2IkeSASnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2IkeSASnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2IkeSASnmpIndex 1}
+
+sr1645v2IkeSASnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2IkeSASnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2IkeSASnmpIndexGlobalIx }
+   ::= {sr1645v2IkeSASnmpIndexTable 1}
+
+Sr1645v2IkeSASnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2IkeSASnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2IkeSASnmpIndexValue
+         Integer32
+      }
+
+sr1645v2IkeSASnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2IkeSASnmpIndexEntry 10}
+
+sr1645v2IkeSASnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.snmpIndex"
+   ::= {sr1645v2IkeSASnmpIndexEntry 2147483648}
+
+
+sr1645v2IkeSAPh1 OBJECT IDENTIFIER ::= {sr1645v2IkeSA 14}
+
+sr1645v2IkeSAPh1SSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2IkeSAPh1Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "IKE template users"
+   ::= {sr1645v2IkeSAPh1 1}
+
+sr1645v2IkeSAPh1Entry OBJECT-TYPE
+   SYNTAX      Sr1645v2IkeSAPh1Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2IkeSAPh1GlobalIx,
+                sr1645v2IkeSAPh1TableIx }
+   ::= {sr1645v2IkeSAPh1SSCTable 1}
+
+Sr1645v2IkeSAPh1Entry ::=
+   SEQUENCE
+      {
+      sr1645v2IkeSAPh1GlobalIx
+         GlobalIndex,
+      sr1645v2IkeSAPh1TableIx
+         TableIndex,
+      sr1645v2IkeSAPh1LIp
+         IpAddress,
+      sr1645v2IkeSAPh1RSec
+         TimeTicks,
+      sr1645v2IkeSAPh1RSoftSec
+         TimeTicks,
+      sr1645v2IkeSAPh1Policy
+         DisplayString,
+      sr1645v2IkeSAPh1State
+         INTEGER
+      }
+
+sr1645v2IkeSAPh1GlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2IkeSAPh1Entry 10}
+
+sr1645v2IkeSAPh1TableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2IkeSAPh1Entry 11}
+
+sr1645v2IkeSAPh1LIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase1.remoteIp"
+   ::= {sr1645v2IkeSAPh1Entry 16777216}
+
+sr1645v2IkeSAPh1RSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase1.remainingSeconds
+
+       Time in centi-second."
+   ::= {sr1645v2IkeSAPh1Entry 50331648}
+
+sr1645v2IkeSAPh1RSoftSec OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase1.remainingSoftSeconds
+
+       Time in centi-second."
+   ::= {sr1645v2IkeSAPh1Entry 83886080}
+
+sr1645v2IkeSAPh1Policy OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase1.policy"
+   ::= {sr1645v2IkeSAPh1Entry 100663296}
+
+sr1645v2IkeSAPh1State OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s (0),
+               inituidle (1),
+               respuidle (2),
+               mmusauwait (3),
+               amusauwait (4),
+               respukeuwait (5),
+               initukeuwait (6),
+               respuiduwait (7),
+               inituiduwait (8),
+               hashuwait (9),
+               saumature (10),
+               qmurespuidle (11),
+               qmuinituidle (12),
+               qmusauwait (13),
+               qmuhashuwait (14),
+               connectuwait (15),
+               initusguidle (16),
+               deluinituidle (17)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase1.state
+
+       Possibilities:
+                  (0)
+               init_idle   (1)
+               resp_idle   (2)
+               mm_sa_wait   (3)
+               am_sa_wait   (4)
+               resp_ke_wait   (5)
+               init_ke_wait   (6)
+               resp_id_wait   (7)
+               init_id_wait   (8)
+               hash_wait   (9)
+               sa_mature   (10)
+               qm_resp_idle   (11)
+               qm_init_idle   (12)
+               qm_sa_wait   (13)
+               qm_hash_wait   (14)
+               connect_wait   (15)
+               init_sg_idle   (16)
+               del_init_idle   (17)"
+   ::= {sr1645v2IkeSAPh1Entry 117440512}
+
+
+sr1645v2IkeSAPh2 OBJECT IDENTIFIER ::= {sr1645v2IkeSA 15}
+
+sr1645v2IkeSAPh2SSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2IkeSAPh2Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "IKE template users"
+   ::= {sr1645v2IkeSAPh2 1}
+
+sr1645v2IkeSAPh2Entry OBJECT-TYPE
+   SYNTAX      Sr1645v2IkeSAPh2Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2IkeSAPh2GlobalIx,
+                sr1645v2IkeSAPh2TableIx }
+   ::= {sr1645v2IkeSAPh2SSCTable 1}
+
+Sr1645v2IkeSAPh2Entry ::=
+   SEQUENCE
+      {
+      sr1645v2IkeSAPh2GlobalIx
+         GlobalIndex,
+      sr1645v2IkeSAPh2TableIx
+         TableIndex,
+      sr1645v2IkeSAPh2Tun
+         DisplayString,
+      sr1645v2IkeSAPh2Dir
+         INTEGER,
+      sr1645v2IkeSAPh2Spi
+         Gauge32,
+      sr1645v2IkeSAPh2Pro
+         INTEGER,
+      sr1645v2IkeSAPh2Enc
+         INTEGER,
+      sr1645v2IkeSAPh2LIp
+         IpAddress,
+      sr1645v2IkeSAPh2RIp
+         IpAddress,
+      sr1645v2IkeSAPh2NatT
+         INTEGER,
+      sr1645v2IkeSAPh2EncrAl
+         INTEGER,
+      sr1645v2IkeSAPh2AuthAlg
+         INTEGER,
+      sr1645v2IkeSAPh2Age
+         TimeTicks,
+      sr1645v2IkeSAPh2Slt
+         TimeTicks,
+      sr1645v2IkeSAPh2Hlt
+         TimeTicks
+      }
+
+sr1645v2IkeSAPh2GlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2IkeSAPh2Entry 10}
+
+sr1645v2IkeSAPh2TableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2IkeSAPh2Entry 11}
+
+sr1645v2IkeSAPh2Tun OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase2.tunnel"
+   ::= {sr1645v2IkeSAPh2Entry 16777216}
+
+sr1645v2IkeSAPh2Dir OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               inbound (1),
+               outbound (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase2.direction
+
+       Possibilities:
+               inbound   (1)
+               outbound   (2)"
+   ::= {sr1645v2IkeSAPh2Entry 33554432}
+
+sr1645v2IkeSAPh2Spi OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase2.spi
+
+       32 bit unsigned gauge value."
+   ::= {sr1645v2IkeSAPh2Entry 184549376}
+
+sr1645v2IkeSAPh2Pro OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               esp (1),
+               ah (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase2.protocol
+
+       Possibilities:
+               esp   (1)
+               ah   (2)"
+   ::= {sr1645v2IkeSAPh2Entry 167772160}
+
+sr1645v2IkeSAPh2Enc OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               transportsl2tp (1),
+               transportsgre (3),
+               tunnel (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase2.encapsulation
+
+       Possibilities:
+               transport l2tp   (1)
+               transport gre   (3)
+               tunnel   (2)"
+   ::= {sr1645v2IkeSAPh2Entry 251658240}
+
+sr1645v2IkeSAPh2LIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase2.localIp"
+   ::= {sr1645v2IkeSAPh2Entry 50331648}
+
+sr1645v2IkeSAPh2RIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase2.remoteIp"
+   ::= {sr1645v2IkeSAPh2Entry 67108864}
+
+sr1645v2IkeSAPh2NatT OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               inactive (0),
+               active (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase2.natTraversal
+
+       Possibilities:
+               inactive   (0)
+               active   (1)"
+   ::= {sr1645v2IkeSAPh2Entry 268435456}
+
+sr1645v2IkeSAPh2EncrAl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               null (0),
+               des (1),
+               s3des (2),
+               aes128 (3),
+               aes192 (4),
+               aes256 (5),
+               disabled (10)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase2.encryptionAlgorithm
+
+       Possibilities:
+               null   (0)
+               des   (1)
+               3des   (2)
+               aes128   (3)
+               aes192   (4)
+               aes256   (5)
+               disabled   (10)"
+   ::= {sr1645v2IkeSAPh2Entry 201326592}
+
+sr1645v2IkeSAPh2AuthAlg OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               hmacumd5 (16),
+               hmacusham1 (32)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase2.authenticationAlgorithm
+
+       Possibilities:
+               disabled   (0)
+               hmac_md5   (16)
+               hmac_sha-1   (32)"
+   ::= {sr1645v2IkeSAPh2Entry 218103808}
+
+sr1645v2IkeSAPh2Age OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase2.age
+
+       Time in centi-second."
+   ::= {sr1645v2IkeSAPh2Entry 234881024}
+
+sr1645v2IkeSAPh2Slt OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase2.softLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2IkeSAPh2Entry 100663296}
+
+sr1645v2IkeSAPh2Hlt OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.status.phase2.hardLifeTime
+
+       Time in centi-second."
+   ::= {sr1645v2IkeSAPh2Entry 117440512}
+
+
+
+pr1645v2IkeSA OBJECT IDENTIFIER ::= {r1645v2IkeSA 12}
+
+
+pr1645v2IkeSAPh2Neg OBJECT IDENTIFIER ::= {pr1645v2IkeSA 21}
+
+pr1645v2IkeSAPh2NegSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2IkeSAPh2NegEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2IkeSAPh2Neg 1}
+
+pr1645v2IkeSAPh2NegEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2IkeSAPh2NegEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2IkeSAPh2NegGlobalIx,
+                pr1645v2IkeSAPh2NegTableIx }
+   ::= {pr1645v2IkeSAPh2NegSSCTable 1}
+
+Pr1645v2IkeSAPh2NegEntry ::=
+   SEQUENCE
+      {
+      pr1645v2IkeSAPh2NegGlobalIx
+         GlobalIndex,
+      pr1645v2IkeSAPh2NegTableIx
+         TableIndex,
+      pr1645v2IkeSAPh2NegTunnel
+         DisplayString,
+      pr1645v2IkeSAPh2NegInitStarted
+         Integer32,
+      pr1645v2IkeSAPh2NegResponseStarted
+         Integer32,
+      pr1645v2IkeSAPh2NegSucceeded
+         Integer32,
+      pr1645v2IkeSAPh2NegFailed
+         Integer32,
+      pr1645v2IkeSAPh2NegExpiredSA
+         Integer32,
+      pr1645v2IkeSAPh2NegKeepAliveRequestsSent
+         Integer32,
+      pr1645v2IkeSAPh2NegKeepAliveRepliesRcvd
+         Integer32,
+      pr1645v2IkeSAPh2NegKeepAliveRequestsRcvd
+         Integer32,
+      pr1645v2IkeSAPh2NegKeepAliveRepliesSent
+         Integer32
+      }
+
+pr1645v2IkeSAPh2NegGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2IkeSAPh2NegEntry 10}
+
+pr1645v2IkeSAPh2NegTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2IkeSAPh2NegEntry 11}
+
+pr1645v2IkeSAPh2NegTunnel OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.negotiations.tunnel"
+   ::= {pr1645v2IkeSAPh2NegEntry 16777216}
+
+pr1645v2IkeSAPh2NegInitStarted OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.negotiations.initStarted"
+   ::= {pr1645v2IkeSAPh2NegEntry 33554432}
+
+pr1645v2IkeSAPh2NegResponseStarted OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.negotiations.responseStarted"
+   ::= {pr1645v2IkeSAPh2NegEntry 50331648}
+
+pr1645v2IkeSAPh2NegSucceeded OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.negotiations.succeeded"
+   ::= {pr1645v2IkeSAPh2NegEntry 67108864}
+
+pr1645v2IkeSAPh2NegFailed OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.negotiations.failed"
+   ::= {pr1645v2IkeSAPh2NegEntry 83886080}
+
+pr1645v2IkeSAPh2NegExpiredSA OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.negotiations.expiredSA"
+   ::= {pr1645v2IkeSAPh2NegEntry 100663296}
+
+pr1645v2IkeSAPh2NegKeepAliveRequestsSent OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.negotiations.keepAlive.requestsSent"
+   ::= {pr1645v2IkeSAPh2NegEntry 117506048}
+
+pr1645v2IkeSAPh2NegKeepAliveRepliesRcvd OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.negotiations.keepAlive.repliesRcvd"
+   ::= {pr1645v2IkeSAPh2NegEntry 117571584}
+
+pr1645v2IkeSAPh2NegKeepAliveRequestsRcvd OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.negotiations.keepAlive.requestsRcvd"
+   ::= {pr1645v2IkeSAPh2NegEntry 117637120}
+
+pr1645v2IkeSAPh2NegKeepAliveRepliesSent OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.negotiations.keepAlive.repliesSent"
+   ::= {pr1645v2IkeSAPh2NegEntry 117702656}
+
+
+pr1645v2IkeSAPh2Cnt OBJECT IDENTIFIER ::= {pr1645v2IkeSA 23}
+
+pr1645v2IkeSAPh2CntSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2IkeSAPh2CntEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2IkeSAPh2Cnt 1}
+
+pr1645v2IkeSAPh2CntEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2IkeSAPh2CntEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2IkeSAPh2CntGlobalIx,
+                pr1645v2IkeSAPh2CntTableIx }
+   ::= {pr1645v2IkeSAPh2CntSSCTable 1}
+
+Pr1645v2IkeSAPh2CntEntry ::=
+   SEQUENCE
+      {
+      pr1645v2IkeSAPh2CntGlobalIx
+         GlobalIndex,
+      pr1645v2IkeSAPh2CntTableIx
+         TableIndex,
+      pr1645v2IkeSAPh2CntTunnel
+         DisplayString,
+      pr1645v2IkeSAPh2CntInvalidCookie
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidMajorVer
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidMinorVer
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidExchangeType
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidFlags
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidMessageId
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidProtoId
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidSPI
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidTransformId
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidPayloadType
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidPayloadFmt
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidKeyInfo
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidIdInfo
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidCertEncode
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidCertificate
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidCA
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidHashInfo
+         Counter32,
+      pr1645v2IkeSAPh2CntInvalidSignature
+         Counter32,
+      pr1645v2IkeSAPh2CntAuthFailure
+         Counter32,
+      pr1645v2IkeSAPh2CntNoPropChosen
+         Counter32,
+      pr1645v2IkeSAPh2CntBadPropSyntax
+         Counter32,
+      pr1645v2IkeSAPh2CntBadCertReqSyntax
+         Counter32,
+      pr1645v2IkeSAPh2CntUnEqualPayloadLens
+         Counter32,
+      pr1645v2IkeSAPh2CntCertUnavailable
+         Counter32,
+      pr1645v2IkeSAPh2CntDOINotSupported
+         Counter32,
+      pr1645v2IkeSAPh2CntSituationNotSupported
+         Counter32,
+      pr1645v2IkeSAPh2CntAttribNotSupported
+         Counter32,
+      pr1645v2IkeSAPh2CntCertTypeNotSupported
+         Counter32,
+      pr1645v2IkeSAPh2CntXchgTypeNotSupported
+         Counter32
+      }
+
+pr1645v2IkeSAPh2CntGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2IkeSAPh2CntEntry 10}
+
+pr1645v2IkeSAPh2CntTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2IkeSAPh2CntEntry 11}
+
+pr1645v2IkeSAPh2CntTunnel OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.tunnel"
+   ::= {pr1645v2IkeSAPh2CntEntry 1006632960}
+
+pr1645v2IkeSAPh2CntInvalidCookie OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidCookie
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 117440512}
+
+pr1645v2IkeSAPh2CntInvalidMajorVer OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidMajorVer
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 134217728}
+
+pr1645v2IkeSAPh2CntInvalidMinorVer OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidMinorVer
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 150994944}
+
+pr1645v2IkeSAPh2CntInvalidExchangeType OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidExchangeType
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 167772160}
+
+pr1645v2IkeSAPh2CntInvalidFlags OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidFlags
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 184549376}
+
+pr1645v2IkeSAPh2CntInvalidMessageId OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidMessageId
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 201326592}
+
+pr1645v2IkeSAPh2CntInvalidProtoId OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidProtoId
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 218103808}
+
+pr1645v2IkeSAPh2CntInvalidSPI OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidSPI
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 234881024}
+
+pr1645v2IkeSAPh2CntInvalidTransformId OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidTransformId
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 251658240}
+
+pr1645v2IkeSAPh2CntInvalidPayloadType OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidPayloadType
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 268435456}
+
+pr1645v2IkeSAPh2CntInvalidPayloadFmt OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidPayloadFmt
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 285212672}
+
+pr1645v2IkeSAPh2CntInvalidKeyInfo OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidKeyInfo
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 301989888}
+
+pr1645v2IkeSAPh2CntInvalidIdInfo OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidIdInfo
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 318767104}
+
+pr1645v2IkeSAPh2CntInvalidCertEncode OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidCertEncode
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 335544320}
+
+pr1645v2IkeSAPh2CntInvalidCertificate OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidCertificate
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 352321536}
+
+pr1645v2IkeSAPh2CntInvalidCA OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidCA
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 369098752}
+
+pr1645v2IkeSAPh2CntInvalidHashInfo OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidHashInfo
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 385875968}
+
+pr1645v2IkeSAPh2CntInvalidSignature OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.invalidSignature
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 402653184}
+
+pr1645v2IkeSAPh2CntAuthFailure OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.authFailure
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 419430400}
+
+pr1645v2IkeSAPh2CntNoPropChosen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.noPropChosen
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 436207616}
+
+pr1645v2IkeSAPh2CntBadPropSyntax OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.badPropSyntax
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 452984832}
+
+pr1645v2IkeSAPh2CntBadCertReqSyntax OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.badCertReqSyntax
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 469762048}
+
+pr1645v2IkeSAPh2CntUnEqualPayloadLens OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.unEqualPayloadLens
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 486539264}
+
+pr1645v2IkeSAPh2CntCertUnavailable OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.certUnavailable
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 503316480}
+
+pr1645v2IkeSAPh2CntDOINotSupported OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.dOINotSupported
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 520093696}
+
+pr1645v2IkeSAPh2CntSituationNotSupported OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.situationNotSupported
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 536870912}
+
+pr1645v2IkeSAPh2CntAttribNotSupported OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.attribNotSupported
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 553648128}
+
+pr1645v2IkeSAPh2CntCertTypeNotSupported OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.certTypeNotSupported
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 570425344}
+
+pr1645v2IkeSAPh2CntXchgTypeNotSupported OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase1Errors.xchgTypeNotSupported
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2CntEntry 587202560}
+
+
+pr1645v2IkeSAPh2Sess OBJECT IDENTIFIER ::= {pr1645v2IkeSA 22}
+
+pr1645v2IkeSAPh2SessSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2IkeSAPh2SessEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2IkeSAPh2Sess 1}
+
+pr1645v2IkeSAPh2SessEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2IkeSAPh2SessEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2IkeSAPh2SessGlobalIx,
+                pr1645v2IkeSAPh2SessTableIx }
+   ::= {pr1645v2IkeSAPh2SessSSCTable 1}
+
+Pr1645v2IkeSAPh2SessEntry ::=
+   SEQUENCE
+      {
+      pr1645v2IkeSAPh2SessGlobalIx
+         GlobalIndex,
+      pr1645v2IkeSAPh2SessTableIx
+         TableIndex,
+      pr1645v2IkeSAPh2SessTunnel
+         DisplayString,
+      pr1645v2IkeSAPh2SessDirection
+         INTEGER,
+      pr1645v2IkeSAPh2SessSpi
+         Gauge32,
+      pr1645v2IkeSAPh2SessProtocol
+         INTEGER,
+      pr1645v2IkeSAPh2SessEncapsulation
+         INTEGER,
+      pr1645v2IkeSAPh2SessOutPackets
+         Counter32,
+      pr1645v2IkeSAPh2SessOutOctets
+         Counter32,
+      pr1645v2IkeSAPh2SessInPackets
+         Counter32,
+      pr1645v2IkeSAPh2SessInOctets
+         Counter32,
+      pr1645v2IkeSAPh2SessAuthFailure
+         Counter32,
+      pr1645v2IkeSAPh2SessDecryptionFailure
+         Counter32,
+      pr1645v2IkeSAPh2SessSequenceNrReplay
+         Counter32,
+      pr1645v2IkeSAPh2SessDroppedFrames
+         Counter32
+      }
+
+pr1645v2IkeSAPh2SessGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2IkeSAPh2SessEntry 10}
+
+pr1645v2IkeSAPh2SessTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2IkeSAPh2SessEntry 11}
+
+pr1645v2IkeSAPh2SessTunnel OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase2Sessions.tunnel"
+   ::= {pr1645v2IkeSAPh2SessEntry 16777216}
+
+pr1645v2IkeSAPh2SessDirection OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               inbound (1),
+               outbound (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase2Sessions.direction
+
+       Possibilities:
+               inbound   (1)
+               outbound   (2)"
+   ::= {pr1645v2IkeSAPh2SessEntry 33554432}
+
+pr1645v2IkeSAPh2SessSpi OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase2Sessions.spi
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2IkeSAPh2SessEntry 50331648}
+
+pr1645v2IkeSAPh2SessProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               esp (1),
+               ah (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase2Sessions.protocol
+
+       Possibilities:
+               esp   (1)
+               ah   (2)"
+   ::= {pr1645v2IkeSAPh2SessEntry 67108864}
+
+pr1645v2IkeSAPh2SessEncapsulation OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               transportsl2tp (1),
+               transportsgre (3),
+               tunnel (2)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase2Sessions.encapsulation
+
+       Possibilities:
+               transport l2tp   (1)
+               transport gre   (3)
+               tunnel   (2)"
+   ::= {pr1645v2IkeSAPh2SessEntry 251658240}
+
+pr1645v2IkeSAPh2SessOutPackets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase2Sessions.outPackets
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2SessEntry 83886080}
+
+pr1645v2IkeSAPh2SessOutOctets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase2Sessions.outOctets
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2SessEntry 100663296}
+
+pr1645v2IkeSAPh2SessInPackets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase2Sessions.inPackets
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2SessEntry 117440512}
+
+pr1645v2IkeSAPh2SessInOctets OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase2Sessions.inOctets
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2SessEntry 134217728}
+
+pr1645v2IkeSAPh2SessAuthFailure OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase2Sessions.authenticationFailure
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2SessEntry 150994944}
+
+pr1645v2IkeSAPh2SessDecryptionFailure OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase2Sessions.decryptionFailure
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2SessEntry 167772160}
+
+pr1645v2IkeSAPh2SessSequenceNrReplay OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase2Sessions.sequenceNrReplay
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2SessEntry 184549376}
+
+pr1645v2IkeSAPh2SessDroppedFrames OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.performance.phase2Sessions.droppedFrames
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2IkeSAPh2SessEntry 201326592}
+
+
+
+ar1645v2IkeSA OBJECT IDENTIFIER ::= {r1645v2IkeSA 16}
+
+
+ar1645v2IkeSAClearCounters OBJECT IDENTIFIER ::= {ar1645v2IkeSA 263}
+
+ar1645v2IkeSAClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2IkeSAClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1645v2IkeSAClearCounters 1}
+
+ar1645v2IkeSAClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2IkeSAClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2IkeSAClearCountersGlobalIx }
+   ::= {ar1645v2IkeSAClearCountersTable 1}
+
+Ar1645v2IkeSAClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1645v2IkeSAClearCountersGlobalIx
+         GlobalIndex,
+      ar1645v2IkeSAClearCountersValue
+         Integer32
+      }
+
+ar1645v2IkeSAClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2IkeSAClearCountersEntry 10}
+
+ar1645v2IkeSAClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.actions.clearCounters"
+   ::= {ar1645v2IkeSAClearCountersEntry 2147483648}
+
+
+ar1645v2IkeSAClearSA OBJECT IDENTIFIER ::= {ar1645v2IkeSA 45}
+
+ar1645v2IkeSAClearSATable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2IkeSAClearSAEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "clear all SAs"
+   ::= {ar1645v2IkeSAClearSA 1}
+
+ar1645v2IkeSAClearSAEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2IkeSAClearSAEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2IkeSAClearSAGlobalIx }
+   ::= {ar1645v2IkeSAClearSATable 1}
+
+Ar1645v2IkeSAClearSAEntry ::=
+   SEQUENCE
+      {
+      ar1645v2IkeSAClearSAGlobalIx
+         GlobalIndex,
+      ar1645v2IkeSAClearSAValue
+         Integer32
+      }
+
+ar1645v2IkeSAClearSAGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2IkeSAClearSAEntry 10}
+
+ar1645v2IkeSAClearSAValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: ikeSA.actions.clearSA"
+   ::= {ar1645v2IkeSAClearSAEntry 2147483648}
+
+
+
+END

@@ -1,0 +1,3119 @@
+OneAccess-R1645v2-1430-Pp DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Pp OBJECT IDENTIFIER ::= {r1645Rootv2 1430}
+
+r1645v2PpMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2PpMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2Pp 1}
+
+r1645v2PpMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2PpMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2PpMOPropGlobalIx }
+   ::= {r1645v2PpMOProp 1}
+
+R1645v2PpMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2PpMOPropPath
+         ContainmentPath,
+      r1645v2PpMOPropRev
+         ObjectRevision,
+      r1645v2PpMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2PpMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2PpMOPropEntry 3}
+
+r1645v2PpMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2PpMOPropEntry 4}
+
+r1645v2PpMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2PpMOPropEntry 10}
+
+
+
+er1645v2Pp OBJECT IDENTIFIER ::= {r1645v2Pp 11}
+
+
+er1645v2PpSnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2Pp 268}
+
+er1645v2PpSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PpSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2PpSnmpIndexOffset 1}
+
+er1645v2PpSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PpSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PpSnmpIndexOffsetGlobalIx }
+   ::= {er1645v2PpSnmpIndexOffsetTable 1}
+
+Er1645v2PpSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2PpSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2PpSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2PpSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PpSnmpIndexOffsetEntry 10}
+
+er1645v2PpSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.snmpIndexOffset"
+   ::= {er1645v2PpSnmpIndexOffsetEntry 2147483648}
+
+
+er1645v2PpAlgorithm OBJECT IDENTIFIER ::= {er1645v2Pp 2}
+
+er1645v2PpAlgorithmTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PpAlgorithmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "type of queueing policy"
+   ::= {er1645v2PpAlgorithm 1}
+
+er1645v2PpAlgorithmEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PpAlgorithmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PpAlgorithmGlobalIx }
+   ::= {er1645v2PpAlgorithmTable 1}
+
+Er1645v2PpAlgorithmEntry ::=
+   SEQUENCE
+      {
+      er1645v2PpAlgorithmGlobalIx
+         GlobalIndex,
+      er1645v2PpAlgorithmValue
+         INTEGER
+      }
+
+er1645v2PpAlgorithmGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PpAlgorithmEntry 10}
+
+er1645v2PpAlgorithmValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               roundRobin (1),
+               absolutePriority (2),
+               weightedFairQueueing (3),
+               lowDelayWeightedFairQueueing (5),
+               lowDelay2WeightedFairQueueing (7),
+               fifo (4),
+               fifoWred (6)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.algorithm
+
+       Possibilities:
+               roundRobin   (1)
+               absolutePriority   (2)
+               weightedFairQueueing   (3)
+               lowDelayWeightedFairQueueing   (5)
+               lowDelay2WeightedFairQueueing   (7)
+               fifo   (4)
+               fifoWred   (6)"
+   ::= {er1645v2PpAlgorithmEntry 2147483648}
+
+
+er1645v2PpCountingPolicy OBJECT IDENTIFIER ::= {er1645v2Pp 7}
+
+er1645v2PpCountingPolicyTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PpCountingPolicyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "type of queueing policy"
+   ::= {er1645v2PpCountingPolicy 1}
+
+er1645v2PpCountingPolicyEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PpCountingPolicyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PpCountingPolicyGlobalIx }
+   ::= {er1645v2PpCountingPolicyTable 1}
+
+Er1645v2PpCountingPolicyEntry ::=
+   SEQUENCE
+      {
+      er1645v2PpCountingPolicyGlobalIx
+         GlobalIndex,
+      er1645v2PpCountingPolicyValue
+         INTEGER
+      }
+
+er1645v2PpCountingPolicyGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PpCountingPolicyEntry 10}
+
+er1645v2PpCountingPolicyValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               bytes (0),
+               packets (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.countingPolicy
+
+       Possibilities:
+               bytes   (0)
+               packets   (1)"
+   ::= {er1645v2PpCountingPolicyEntry 2147483648}
+
+
+er1645v2PpQConf OBJECT IDENTIFIER ::= {er1645v2Pp 8}
+
+er1645v2PpQConfSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PpQConfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "matrix containing info about the queues"
+   ::= {er1645v2PpQConf 1}
+
+er1645v2PpQConfEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PpQConfEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PpQConfGlobalIx,
+                er1645v2PpQConfTableIx }
+   ::= {er1645v2PpQConfSSCTable 1}
+
+Er1645v2PpQConfEntry ::=
+   SEQUENCE
+      {
+      er1645v2PpQConfActions
+         FixedLengthTableActions,
+      er1645v2PpQConfGlobalIx
+         GlobalIndex,
+      er1645v2PpQConfTableIx
+         TableIndex,
+      er1645v2PpQConfQuotum
+         Integer32,
+      er1645v2PpQConfWeight
+         Integer32
+      }
+
+er1645v2PpQConfActions OBJECT-TYPE
+   SYNTAX      FixedLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2PpQConfEntry 2}
+
+er1645v2PpQConfGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PpQConfEntry 10}
+
+er1645v2PpQConfTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2PpQConfEntry 11}
+
+er1645v2PpQConfQuotum OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.queueConfigurations.quotum"
+   ::= {er1645v2PpQConfEntry 16777216}
+
+er1645v2PpQConfWeight OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.queueConfigurations.weight"
+   ::= {er1645v2PpQConfEntry 33554432}
+
+
+er1645v2PpLowdelquot OBJECT IDENTIFIER ::= {er1645v2Pp 9}
+
+er1645v2PpLowdelquotTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PpLowdelquotEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Quotum for the low delay queue"
+   ::= {er1645v2PpLowdelquot 1}
+
+er1645v2PpLowdelquotEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PpLowdelquotEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PpLowdelquotGlobalIx }
+   ::= {er1645v2PpLowdelquotTable 1}
+
+Er1645v2PpLowdelquotEntry ::=
+   SEQUENCE
+      {
+      er1645v2PpLowdelquotGlobalIx
+         GlobalIndex,
+      er1645v2PpLowdelquotValue
+         INTEGER
+      }
+
+er1645v2PpLowdelquotGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PpLowdelquotEntry 10}
+
+er1645v2PpLowdelquotValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               useQueueTable (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.lowDelayQuotum
+
+       Possibilities:
+               useQueueTable   (0)"
+   ::= {er1645v2PpLowdelquotEntry 2147483648}
+
+
+er1645v2PpBandwidth OBJECT IDENTIFIER ::= {er1645v2Pp 21}
+
+er1645v2PpBandwidthSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PpBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bandwidth available per queue"
+   ::= {er1645v2PpBandwidth 1}
+
+er1645v2PpBandwidthEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PpBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PpBandwidthGlobalIx,
+                er1645v2PpBandwidthTableIx }
+   ::= {er1645v2PpBandwidthSSCTable 1}
+
+Er1645v2PpBandwidthEntry ::=
+   SEQUENCE
+      {
+      er1645v2PpBandwidthActions
+         FixedLengthTableActions,
+      er1645v2PpBandwidthGlobalIx
+         GlobalIndex,
+      er1645v2PpBandwidthTableIx
+         TableIndex,
+      er1645v2PpBandwidthName
+         DisplayString,
+      er1645v2PpBandwidthMode
+         INTEGER,
+      er1645v2PpBandwidthCir
+         Integer32,
+      er1645v2PpBandwidthEir
+         Integer32,
+      er1645v2PpBandwidthUnit
+         INTEGER,
+      er1645v2PpBandwidthDeFlagCir
+         INTEGER,
+      er1645v2PpBandwidthDeFlagEir
+         INTEGER,
+      er1645v2PpBandwidthDeFlagViolate
+         INTEGER,
+      er1645v2PpBandwidthCirTcFactor
+         Integer32,
+      er1645v2PpBandwidthEirTcFactor
+         Integer32,
+      er1645v2PpBandwidthCirActionNone
+         OCTET STRING,
+      er1645v2PpBandwidthCirActionEthCos1
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthDei1
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthCos2
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthDei2
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthCos3
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthDei3
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthCos4
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthDei4
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthCos5
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthDei5
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthCos6
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthDei6
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthCos7
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthDei7
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthCos8
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthDei8
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthTos
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthQueue
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthDrpLev
+         INTEGER,
+      er1645v2PpBandwidthCirActionEthDeFlag
+         INTEGER,
+      er1645v2PpBandwidthCirActionIpTos
+         INTEGER,
+      er1645v2PpBandwidthCirActionIpQueue
+         INTEGER,
+      er1645v2PpBandwidthCirActionIpDrpLev
+         INTEGER,
+      er1645v2PpBandwidthCirActionIpDeFlag
+         INTEGER,
+      er1645v2PpBandwidthEirActionNone
+         OCTET STRING,
+      er1645v2PpBandwidthEirActionEthCos1
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthDei1
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthCos2
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthDei2
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthCos3
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthDei3
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthCos4
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthDei4
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthCos5
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthDei5
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthCos6
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthDei6
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthCos7
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthDei7
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthCos8
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthDei8
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthTos
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthQueue
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthDrpLev
+         INTEGER,
+      er1645v2PpBandwidthEirActionEthDeFlag
+         INTEGER,
+      er1645v2PpBandwidthEirActionIpTos
+         INTEGER,
+      er1645v2PpBandwidthEirActionIpQueue
+         INTEGER,
+      er1645v2PpBandwidthEirActionIpDrpLev
+         INTEGER,
+      er1645v2PpBandwidthEirActionIpDeFlag
+         INTEGER,
+      er1645v2PpBandwidthEirActionAlarmAlarmOffTime
+         TimeTicks,
+      er1645v2PpBandwidthEirActionAlarmQueueDrop
+         Integer32,
+      er1645v2PpBandwidthEirActionAlarmQueue
+         INTEGER,
+      er1645v2PpBandwidthEirActionAlarmDropLevel
+         INTEGER,
+      er1645v2PpBandwidthEirActionAlarmDeFlag
+         INTEGER,
+      er1645v2PpBandwidthViolateActionNone
+         OCTET STRING,
+      er1645v2PpBandwidthViolateActionDrop
+         OCTET STRING,
+      er1645v2PpBandwidthViolateActionEthCos1
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthDei1
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthCos2
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthDei2
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthCos3
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthDei3
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthCos4
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthDei4
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthCos5
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthDei5
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthCos6
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthDei6
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthCos7
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthDei7
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthCos8
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthDei8
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthTos
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthQueue
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthDrpLev
+         INTEGER,
+      er1645v2PpBandwidthViolateActionEthDeFlag
+         INTEGER,
+      er1645v2PpBandwidthViolateActionIpTos
+         INTEGER,
+      er1645v2PpBandwidthViolateActionIpQueue
+         INTEGER,
+      er1645v2PpBandwidthViolateActionIpDrpLev
+         INTEGER,
+      er1645v2PpBandwidthViolateActionIpDeFlag
+         INTEGER,
+      er1645v2PpBandwidthViolateActionAlarmAlarmOffTime
+         TimeTicks,
+      er1645v2PpBandwidthViolateActionAlarmQueueDrop
+         Integer32,
+      er1645v2PpBandwidthViolateActionAlarmQueue
+         INTEGER,
+      er1645v2PpBandwidthViolateActionAlarmDropLevel
+         INTEGER,
+      er1645v2PpBandwidthViolateActionAlarmDeFlag
+         INTEGER
+      }
+
+er1645v2PpBandwidthActions OBJECT-TYPE
+   SYNTAX      FixedLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2PpBandwidthEntry 2}
+
+er1645v2PpBandwidthGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PpBandwidthEntry 10}
+
+er1645v2PpBandwidthTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2PpBandwidthEntry 11}
+
+er1645v2PpBandwidthName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.name"
+   ::= {er1645v2PpBandwidthEntry 167772160}
+
+er1645v2PpBandwidthMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               reshaping (1),
+               policing (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.mode
+
+       Possibilities:
+               reshaping   (1)
+               policing   (2)"
+   ::= {er1645v2PpBandwidthEntry 100663296}
+
+er1645v2PpBandwidthCir OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cir"
+   ::= {er1645v2PpBandwidthEntry 16777216}
+
+er1645v2PpBandwidthEir OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eir"
+   ::= {er1645v2PpBandwidthEntry 33554432}
+
+er1645v2PpBandwidthUnit OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               bitssec (0),
+               percent (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.unit
+
+       Possibilities:
+               bits/sec   (0)
+               percent   (1)"
+   ::= {er1645v2PpBandwidthEntry 50331648}
+
+er1645v2PpBandwidthDeFlagCir OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               allowed (1),
+               notAllowed (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.deFlag.cir
+
+       Possibilities:
+               allowed   (1)
+               notAllowed   (2)"
+   ::= {er1645v2PpBandwidthEntry 184614912}
+
+er1645v2PpBandwidthDeFlagEir OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               allowed (1),
+               notAllowed (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.deFlag.eir
+
+       Possibilities:
+               allowed   (1)
+               notAllowed   (2)"
+   ::= {er1645v2PpBandwidthEntry 184680448}
+
+er1645v2PpBandwidthDeFlagViolate OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               allowed (1),
+               notAllowed (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.deFlag.violate
+
+       Possibilities:
+               allowed   (1)
+               notAllowed   (2)"
+   ::= {er1645v2PpBandwidthEntry 184745984}
+
+er1645v2PpBandwidthCirTcFactor OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirTcFactor"
+   ::= {er1645v2PpBandwidthEntry 67108864}
+
+er1645v2PpBandwidthEirTcFactor OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirTcFactor"
+   ::= {er1645v2PpBandwidthEntry 83886080}
+
+er1645v2PpBandwidthCirActionNone OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.none"
+   ::= {er1645v2PpBandwidthEntry 118489088}
+
+er1645v2PpBandwidthCirActionEthCos1 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.cosDepth1
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 119570432}
+
+er1645v2PpBandwidthCirActionEthDei1 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.deiDepth1
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 120225792}
+
+er1645v2PpBandwidthCirActionEthCos2 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.cosDepth2
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 119603200}
+
+er1645v2PpBandwidthCirActionEthDei2 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.deiDepth2
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 120258560}
+
+er1645v2PpBandwidthCirActionEthCos3 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.cosDepth3
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 119635968}
+
+er1645v2PpBandwidthCirActionEthDei3 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.deiDepth3
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 120291328}
+
+er1645v2PpBandwidthCirActionEthCos4 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.cosDepth4
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 119668736}
+
+er1645v2PpBandwidthCirActionEthDei4 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.deiDepth4
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 120324096}
+
+er1645v2PpBandwidthCirActionEthCos5 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.cosDepth5
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 119701504}
+
+er1645v2PpBandwidthCirActionEthDei5 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.deiDepth5
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 120356864}
+
+er1645v2PpBandwidthCirActionEthCos6 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.cosDepth6
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 119734272}
+
+er1645v2PpBandwidthCirActionEthDei6 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.deiDepth6
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 120389632}
+
+er1645v2PpBandwidthCirActionEthCos7 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.cosDepth7
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 119767040}
+
+er1645v2PpBandwidthCirActionEthDei7 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.deiDepth7
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 120422400}
+
+er1645v2PpBandwidthCirActionEthCos8 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.cosDepth8
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 119799808}
+
+er1645v2PpBandwidthCirActionEthDei8 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.deiDepth8
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 120455168}
+
+er1645v2PpBandwidthCirActionEthTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 119832576}
+
+er1645v2PpBandwidthCirActionEthQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2PpBandwidthEntry 119865344}
+
+er1645v2PpBandwidthCirActionEthDrpLev OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1645v2PpBandwidthEntry 119898112}
+
+er1645v2PpBandwidthCirActionEthDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ethernet.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 119996416}
+
+er1645v2PpBandwidthCirActionIpTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ip.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 122978304}
+
+er1645v2PpBandwidthCirActionIpQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ip.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2PpBandwidthEntry 123011072}
+
+er1645v2PpBandwidthCirActionIpDrpLev OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ip.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1645v2PpBandwidthEntry 123043840}
+
+er1645v2PpBandwidthCirActionIpDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.cirAction.ip.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 123142144}
+
+er1645v2PpBandwidthEirActionNone OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.none"
+   ::= {er1645v2PpBandwidthEntry 135266304}
+
+er1645v2PpBandwidthEirActionEthCos1 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.cosDepth1
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 136347648}
+
+er1645v2PpBandwidthEirActionEthDei1 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.deiDepth1
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 137003008}
+
+er1645v2PpBandwidthEirActionEthCos2 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.cosDepth2
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 136380416}
+
+er1645v2PpBandwidthEirActionEthDei2 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.deiDepth2
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 137035776}
+
+er1645v2PpBandwidthEirActionEthCos3 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.cosDepth3
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 136413184}
+
+er1645v2PpBandwidthEirActionEthDei3 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.deiDepth3
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 137068544}
+
+er1645v2PpBandwidthEirActionEthCos4 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.cosDepth4
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 136445952}
+
+er1645v2PpBandwidthEirActionEthDei4 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.deiDepth4
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 137101312}
+
+er1645v2PpBandwidthEirActionEthCos5 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.cosDepth5
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 136478720}
+
+er1645v2PpBandwidthEirActionEthDei5 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.deiDepth5
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 137134080}
+
+er1645v2PpBandwidthEirActionEthCos6 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.cosDepth6
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 136511488}
+
+er1645v2PpBandwidthEirActionEthDei6 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.deiDepth6
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 137166848}
+
+er1645v2PpBandwidthEirActionEthCos7 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.cosDepth7
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 136544256}
+
+er1645v2PpBandwidthEirActionEthDei7 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.deiDepth7
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 137199616}
+
+er1645v2PpBandwidthEirActionEthCos8 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.cosDepth8
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 136577024}
+
+er1645v2PpBandwidthEirActionEthDei8 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.deiDepth8
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 137232384}
+
+er1645v2PpBandwidthEirActionEthTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 136609792}
+
+er1645v2PpBandwidthEirActionEthQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2PpBandwidthEntry 136642560}
+
+er1645v2PpBandwidthEirActionEthDrpLev OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1645v2PpBandwidthEntry 136675328}
+
+er1645v2PpBandwidthEirActionEthDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ethernet.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 136773632}
+
+er1645v2PpBandwidthEirActionIpTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ip.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 139755520}
+
+er1645v2PpBandwidthEirActionIpQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ip.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2PpBandwidthEntry 139788288}
+
+er1645v2PpBandwidthEirActionIpDrpLev OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ip.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1645v2PpBandwidthEntry 139821056}
+
+er1645v2PpBandwidthEirActionIpDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.ip.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 139919360}
+
+er1645v2PpBandwidthEirActionAlarmAlarmOffTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.alarm.alarmOffTime
+
+       Time in centi-second."
+   ::= {er1645v2PpBandwidthEntry 138838016}
+
+er1645v2PpBandwidthEirActionAlarmQueueDrop OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.alarm.queueDrop
+
+       Bit meanings:
+               bit 0 = queue1,
+               bit 1 = queue2,
+               bit 2 = queue3,
+               bit 3 = queue4,
+               bit 4 = queue5,
+               bit 5 = lowDelayQueue,
+               bit 6 = lowDelay2Queue,
+               bit 7 = systemQueue"
+   ::= {er1645v2PpBandwidthEntry 138805248}
+
+er1645v2PpBandwidthEirActionAlarmQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.alarm.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2PpBandwidthEntry 138739712}
+
+er1645v2PpBandwidthEirActionAlarmDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.alarm.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1645v2PpBandwidthEntry 138772480}
+
+er1645v2PpBandwidthEirActionAlarmDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.eirAction.alarm.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 138870784}
+
+er1645v2PpBandwidthViolateActionNone OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.none"
+   ::= {er1645v2PpBandwidthEntry 152043520}
+
+er1645v2PpBandwidthViolateActionDrop OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.drop"
+   ::= {er1645v2PpBandwidthEntry 154140672}
+
+er1645v2PpBandwidthViolateActionEthCos1 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.cosDepth1
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 153124864}
+
+er1645v2PpBandwidthViolateActionEthDei1 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.deiDepth1
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 153780224}
+
+er1645v2PpBandwidthViolateActionEthCos2 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.cosDepth2
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 153157632}
+
+er1645v2PpBandwidthViolateActionEthDei2 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.deiDepth2
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 153812992}
+
+er1645v2PpBandwidthViolateActionEthCos3 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.cosDepth3
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 153190400}
+
+er1645v2PpBandwidthViolateActionEthDei3 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.deiDepth3
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 153845760}
+
+er1645v2PpBandwidthViolateActionEthCos4 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.cosDepth4
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 153223168}
+
+er1645v2PpBandwidthViolateActionEthDei4 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.deiDepth4
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 153878528}
+
+er1645v2PpBandwidthViolateActionEthCos5 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.cosDepth5
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 153255936}
+
+er1645v2PpBandwidthViolateActionEthDei5 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.deiDepth5
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 153911296}
+
+er1645v2PpBandwidthViolateActionEthCos6 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.cosDepth6
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 153288704}
+
+er1645v2PpBandwidthViolateActionEthDei6 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.deiDepth6
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 153944064}
+
+er1645v2PpBandwidthViolateActionEthCos7 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.cosDepth7
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 153321472}
+
+er1645v2PpBandwidthViolateActionEthDei7 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.deiDepth7
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 153976832}
+
+er1645v2PpBandwidthViolateActionEthCos8 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.cosDepth8
+
+       Possibilities:
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 153354240}
+
+er1645v2PpBandwidthViolateActionEthDei8 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.deiDepth8
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 154009600}
+
+er1645v2PpBandwidthViolateActionEthTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 153387008}
+
+er1645v2PpBandwidthViolateActionEthQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2PpBandwidthEntry 153419776}
+
+er1645v2PpBandwidthViolateActionEthDrpLev OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1645v2PpBandwidthEntry 153452544}
+
+er1645v2PpBandwidthViolateActionEthDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ethernet.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 153550848}
+
+er1645v2PpBandwidthViolateActionIpTos OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               cs1 (32),
+               cs2 (64),
+               cs3 (96),
+               cs4 (128),
+               cs5 (160),
+               cs6 (192),
+               cs7 (224),
+               af11 (40),
+               af12 (48),
+               af13 (56),
+               af21 (72),
+               af22 (80),
+               af23 (88),
+               af31 (104),
+               af32 (112),
+               af33 (120),
+               af41 (136),
+               af42 (144),
+               af43 (152),
+               ef (184),
+               unchanged (256)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ip.tos
+
+       Possibilities:
+               cs1   (32)
+               cs2   (64)
+               cs3   (96)
+               cs4   (128)
+               cs5   (160)
+               cs6   (192)
+               cs7   (224)
+               af11   (40)
+               af12   (48)
+               af13   (56)
+               af21   (72)
+               af22   (80)
+               af23   (88)
+               af31   (104)
+               af32   (112)
+               af33   (120)
+               af41   (136)
+               af42   (144)
+               af43   (152)
+               ef   (184)
+               unchanged   (256)"
+   ::= {er1645v2PpBandwidthEntry 156532736}
+
+er1645v2PpBandwidthViolateActionIpQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ip.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2PpBandwidthEntry 156565504}
+
+er1645v2PpBandwidthViolateActionIpDrpLev OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ip.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1645v2PpBandwidthEntry 156598272}
+
+er1645v2PpBandwidthViolateActionIpDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.ip.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 156696576}
+
+er1645v2PpBandwidthViolateActionAlarmAlarmOffTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.alarm.alarmOffTime
+
+       Time in centi-second."
+   ::= {er1645v2PpBandwidthEntry 155615232}
+
+er1645v2PpBandwidthViolateActionAlarmQueueDrop OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.alarm.queueDrop
+
+       Bit meanings:
+               bit 0 = queue1,
+               bit 1 = queue2,
+               bit 2 = queue3,
+               bit 3 = queue4,
+               bit 4 = queue5,
+               bit 5 = lowDelayQueue,
+               bit 6 = lowDelay2Queue,
+               bit 7 = systemQueue"
+   ::= {er1645v2PpBandwidthEntry 155582464}
+
+er1645v2PpBandwidthViolateActionAlarmQueue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (-1),
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.alarm.queue
+
+       Possibilities:
+               unchanged   (-1)
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2PpBandwidthEntry 155516928}
+
+er1645v2PpBandwidthViolateActionAlarmDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.alarm.dropLevel
+
+       Possibilities:
+               unchanged   (0)"
+   ::= {er1645v2PpBandwidthEntry 155549696}
+
+er1645v2PpBandwidthViolateActionAlarmDeFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unchanged (255),
+               clear (0),
+               set (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidth.violateAction.alarm.deFlag
+
+       Possibilities:
+               unchanged   (255)
+               clear   (0)
+               set   (1)"
+   ::= {er1645v2PpBandwidthEntry 155648000}
+
+
+er1645v2PpBandwidthCorrection OBJECT IDENTIFIER ::= {er1645v2Pp 27}
+
+er1645v2PpBandwidthCorrectionSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PpBandwidthCorrectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bandwidth correction"
+   ::= {er1645v2PpBandwidthCorrection 1}
+
+er1645v2PpBandwidthCorrectionEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PpBandwidthCorrectionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PpBandwidthCorrectionGlobalIx }
+   ::= {er1645v2PpBandwidthCorrectionSSCTable 1}
+
+Er1645v2PpBandwidthCorrectionEntry ::=
+   SEQUENCE
+      {
+      er1645v2PpBandwidthCorrectionGlobalIx
+         GlobalIndex,
+      er1645v2PpBandwidthCorrectionOverhead
+         Integer32
+      }
+
+er1645v2PpBandwidthCorrectionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PpBandwidthCorrectionEntry 10}
+
+er1645v2PpBandwidthCorrectionOverhead OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.bandwidthCorrection.overhead"
+   ::= {er1645v2PpBandwidthCorrectionEntry 16777216}
+
+
+er1645v2PpWred OBJECT IDENTIFIER ::= {er1645v2Pp 24}
+
+er1645v2PpWredSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PpWredEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "how to queue"
+   ::= {er1645v2PpWred 1}
+
+er1645v2PpWredEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PpWredEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PpWredGlobalIx,
+                er1645v2PpWredTableIx }
+   ::= {er1645v2PpWredSSCTable 1}
+
+Er1645v2PpWredEntry ::=
+   SEQUENCE
+      {
+      er1645v2PpWredActions
+         FixedLengthTableActions,
+      er1645v2PpWredGlobalIx
+         GlobalIndex,
+      er1645v2PpWredTableIx
+         TableIndex,
+      er1645v2PpWredType
+         INTEGER,
+      er1645v2PpWredWeight
+         Integer32,
+      er1645v2PpWredMinThreshold
+         Integer32,
+      er1645v2PpWredMaxThreshold
+         Integer32,
+      er1645v2PpWredMaxDropQuotum
+         Integer32,
+      er1645v2PpWredOctetDropLevel
+         INTEGER,
+      er1645v2PpWredPercentUsedDropLevel
+         Integer32,
+      er1645v2PpWredFlowQueues
+         Integer32
+      }
+
+er1645v2PpWredActions OBJECT-TYPE
+   SYNTAX      FixedLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2PpWredEntry 2}
+
+er1645v2PpWredGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PpWredEntry 10}
+
+er1645v2PpWredTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2PpWredEntry 11}
+
+er1645v2PpWredType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               dropOnMax (1),
+               dropOnDropLevel (4),
+               dropOnPercent (5),
+               red (2),
+               wred (3),
+               flowbased (6)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.wred.type
+
+       Possibilities:
+               dropOnMax   (1)
+               dropOnDropLevel   (4)
+               dropOnPercent   (5)
+               red   (2)
+               wred   (3)
+               flowbased   (6)"
+   ::= {er1645v2PpWredEntry 16777216}
+
+er1645v2PpWredWeight OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.wred.weight"
+   ::= {er1645v2PpWredEntry 33554432}
+
+er1645v2PpWredMinThreshold OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.wred.minThreshold"
+   ::= {er1645v2PpWredEntry 50331648}
+
+er1645v2PpWredMaxThreshold OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.wred.maxThreshold"
+   ::= {er1645v2PpWredEntry 67108864}
+
+er1645v2PpWredMaxDropQuotum OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.wred.maxDropQuotum"
+   ::= {er1645v2PpWredEntry 83886080}
+
+er1645v2PpWredOctetDropLevel OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               slOPTg (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.wred.octetDropLevel
+
+       Possibilities:
+               <OPT>   (0)"
+   ::= {er1645v2PpWredEntry 100663296}
+
+er1645v2PpWredPercentUsedDropLevel OBJECT-TYPE
+   SYNTAX      Integer32
+   UNITS       "%"
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.wred.percentUsedDropLevel
+
+       unit name = %"
+   ::= {er1645v2PpWredEntry 117440512}
+
+er1645v2PpWredFlowQueues OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.wred.flowQueues"
+   ::= {er1645v2PpWredEntry 134217728}
+
+
+er1645v2PpEirQuotum OBJECT IDENTIFIER ::= {er1645v2Pp 25}
+
+er1645v2PpEirQuotumTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PpEirQuotumEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "eir quotum for complete queue pool"
+   ::= {er1645v2PpEirQuotum 1}
+
+er1645v2PpEirQuotumEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PpEirQuotumEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PpEirQuotumGlobalIx }
+   ::= {er1645v2PpEirQuotumTable 1}
+
+Er1645v2PpEirQuotumEntry ::=
+   SEQUENCE
+      {
+      er1645v2PpEirQuotumGlobalIx
+         GlobalIndex,
+      er1645v2PpEirQuotumValue
+         Integer32
+      }
+
+er1645v2PpEirQuotumGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PpEirQuotumEntry 10}
+
+er1645v2PpEirQuotumValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.eirQuotum"
+   ::= {er1645v2PpEirQuotumEntry 2147483648}
+
+
+er1645v2PpTc OBJECT IDENTIFIER ::= {er1645v2Pp 22}
+
+er1645v2PpTcTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PpTcEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bandwidth available per queue"
+   ::= {er1645v2PpTc 1}
+
+er1645v2PpTcEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PpTcEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PpTcGlobalIx }
+   ::= {er1645v2PpTcTable 1}
+
+Er1645v2PpTcEntry ::=
+   SEQUENCE
+      {
+      er1645v2PpTcGlobalIx
+         GlobalIndex,
+      er1645v2PpTcValue
+         Integer32
+      }
+
+er1645v2PpTcGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PpTcEntry 10}
+
+er1645v2PpTcValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.tc"
+   ::= {er1645v2PpTcEntry 2147483648}
+
+
+er1645v2PpTcAccuracy OBJECT IDENTIFIER ::= {er1645v2Pp 26}
+
+er1645v2PpTcAccuracyTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PpTcAccuracyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2PpTcAccuracy 1}
+
+er1645v2PpTcAccuracyEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PpTcAccuracyEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PpTcAccuracyGlobalIx }
+   ::= {er1645v2PpTcAccuracyTable 1}
+
+Er1645v2PpTcAccuracyEntry ::=
+   SEQUENCE
+      {
+      er1645v2PpTcAccuracyGlobalIx
+         GlobalIndex,
+      er1645v2PpTcAccuracyValue
+         INTEGER
+      }
+
+er1645v2PpTcAccuracyGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PpTcAccuracyEntry 10}
+
+er1645v2PpTcAccuracyValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               s50ms (50),
+               s5ms (5),
+               s1ms (3),
+               s0d5ms (1),
+               s0d1ms (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.tcAccuracy
+
+       Possibilities:
+               50ms   (50)
+               5ms   (5)
+               1ms   (3)
+               0.5ms   (1)
+               0.1ms   (2)"
+   ::= {er1645v2PpTcAccuracyEntry 2147483648}
+
+
+er1645v2PpAlmMsk OBJECT IDENTIFIER ::= {er1645v2Pp 30}
+
+er1645v2PpAlmMskTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PpAlmMskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "adslAlarmMask"
+   ::= {er1645v2PpAlmMsk 1}
+
+er1645v2PpAlmMskEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PpAlmMskEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PpAlmMskGlobalIx }
+   ::= {er1645v2PpAlmMskTable 1}
+
+Er1645v2PpAlmMskEntry ::=
+   SEQUENCE
+      {
+      er1645v2PpAlmMskGlobalIx
+         GlobalIndex,
+      er1645v2PpAlmMskValue
+         Integer32
+      }
+
+er1645v2PpAlmMskGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PpAlmMskEntry 10}
+
+er1645v2PpAlmMskValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.alarmMask
+
+       Bit meanings:
+               bit 0 = eirBandwidth,
+               bit 1 = violateBandwidth"
+   ::= {er1645v2PpAlmMskEntry 2147483648}
+
+
+er1645v2PpAlmLev OBJECT IDENTIFIER ::= {er1645v2Pp 31}
+
+er1645v2PpAlmLevSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PpAlmLevEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "PriorityAlarmLevel"
+   ::= {er1645v2PpAlmLev 1}
+
+er1645v2PpAlmLevEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PpAlmLevEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PpAlmLevGlobalIx }
+   ::= {er1645v2PpAlmLevSSCTable 1}
+
+Er1645v2PpAlmLevEntry ::=
+   SEQUENCE
+      {
+      er1645v2PpAlmLevGlobalIx
+         GlobalIndex,
+      er1645v2PpAlmLevEbandw
+         Integer32,
+      er1645v2PpAlmLevVbandw
+         Integer32
+      }
+
+er1645v2PpAlmLevGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PpAlmLevEntry 10}
+
+er1645v2PpAlmLevEbandw OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.alarmLevel.eirBandwidth"
+   ::= {er1645v2PpAlmLevEntry 16777216}
+
+er1645v2PpAlmLevVbandw OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.editConf.alarmLevel.violateBandwidth"
+   ::= {er1645v2PpAlmLevEntry 33554432}
+
+
+
+sr1645v2Pp OBJECT IDENTIFIER ::= {r1645v2Pp 14}
+
+
+sr1645v2PpSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2Pp 269}
+
+sr1645v2PpSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PpSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2PpSnmpIndex 1}
+
+sr1645v2PpSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PpSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PpSnmpIndexGlobalIx }
+   ::= {sr1645v2PpSnmpIndexTable 1}
+
+Sr1645v2PpSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PpSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2PpSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2PpSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PpSnmpIndexEntry 10}
+
+sr1645v2PpSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.status.snmpIndex"
+   ::= {sr1645v2PpSnmpIndexEntry 2147483648}
+
+
+
+fr1645v2Pp OBJECT IDENTIFIER ::= {r1645v2Pp 13}
+
+
+fr1645v2PpAlInfo OBJECT IDENTIFIER ::= {fr1645v2Pp 202}
+
+fr1645v2PpAlInfoSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Fr1645v2PpAlInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "PriorityAlarmInfo"
+   ::= {fr1645v2PpAlInfo 1}
+
+fr1645v2PpAlInfoEntry OBJECT-TYPE
+   SYNTAX      Fr1645v2PpAlInfoEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { fr1645v2PpAlInfoGlobalIx }
+   ::= {fr1645v2PpAlInfoSSCTable 1}
+
+Fr1645v2PpAlInfoEntry ::=
+   SEQUENCE
+      {
+      fr1645v2PpAlInfoGlobalIx
+         GlobalIndex,
+      fr1645v2PpAlInfoDiscr
+         Integer32,
+      fr1645v2PpAlInfoCurrAlms
+         Integer32,
+      fr1645v2PpAlInfoPrevAlms
+         Integer32,
+      fr1645v2PpAlInfoAlMask
+         Integer32,
+      fr1645v2PpAlInfoAlLvlEbandw
+         Integer32,
+      fr1645v2PpAlInfoAlLvlVbandw
+         Integer32
+      }
+
+fr1645v2PpAlInfoGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {fr1645v2PpAlInfoEntry 10}
+
+fr1645v2PpAlInfoDiscr OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.alarms.alarmInfo.discriminator"
+   ::= {fr1645v2PpAlInfoEntry 16777216}
+
+fr1645v2PpAlInfoCurrAlms OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.alarms.alarmInfo.currentAlarms
+
+       Bit meanings:
+               bit 0 = eirBandwidth,
+               bit 1 = violateBandwidth"
+   ::= {fr1645v2PpAlInfoEntry 33554432}
+
+fr1645v2PpAlInfoPrevAlms OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.alarms.alarmInfo.previousAlarms
+
+       Bit meanings:
+               bit 0 = eirBandwidth,
+               bit 1 = violateBandwidth"
+   ::= {fr1645v2PpAlInfoEntry 50331648}
+
+fr1645v2PpAlInfoAlMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.alarms.alarmInfo.alarmMask
+
+       Bit meanings:
+               bit 0 = eirBandwidth,
+               bit 1 = violateBandwidth"
+   ::= {fr1645v2PpAlInfoEntry 67108864}
+
+fr1645v2PpAlInfoAlLvlEbandw OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.alarms.alarmInfo.alarmLevel.eirBandwidth"
+   ::= {fr1645v2PpAlInfoEntry 83951616}
+
+fr1645v2PpAlInfoAlLvlVbandw OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: priorityPolicy.alarms.alarmInfo.alarmLevel.violateBandwidth"
+   ::= {fr1645v2PpAlInfoEntry 84017152}
+
+
+fr1645v2PpAlInfoE2 OBJECT IDENTIFIER ::= {fr1645v2PpAlInfo 2}
+
+fr1645v2PpAlInfoE2Entry OBJECT IDENTIFIER ::= {fr1645v2PpAlInfoE2 1}
+
+fr1645v2PpAlInfoE2Ebandw OBJECT IDENTIFIER ::= {fr1645v2PpAlInfoE2Entry 10}
+
+fr1645v2PpAlInfoE2EbandwPfx OBJECT IDENTIFIER ::= {fr1645v2PpAlInfoE2Ebandw 0}
+
+fr1645v2PpAlInfoE2EbandwOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'eirBandwidth'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'priorityPolicy'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2PpAlInfoE2EbandwPfx 1}
+
+fr1645v2PpAlInfoE2EbandwOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'eirBandwidth'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'priorityPolicy'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2PpAlInfoE2EbandwPfx 2}
+
+fr1645v2PpAlInfoE2Vbandw OBJECT IDENTIFIER ::= {fr1645v2PpAlInfoE2Entry 11}
+
+fr1645v2PpAlInfoE2VbandwPfx OBJECT IDENTIFIER ::= {fr1645v2PpAlInfoE2Vbandw 0}
+
+fr1645v2PpAlInfoE2VbandwOff NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'violateBandwidth'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'priorityPolicy'
+                (root='router1645') has changed from the ON to the OFF state."
+   ::= {fr1645v2PpAlInfoE2VbandwPfx 1}
+
+fr1645v2PpAlInfoE2VbandwOn NOTIFICATION-TYPE 
+   OBJECTS     { ifIndex,
+                 tlsCntTreeGlobalIndex,
+                 tlsTrapDescription,
+                 tlsSeverityLevel,
+                 tlsTrapSeverityLevel
+               }
+   STATUS      current
+   DESCRIPTION "This trap signifies that bit 'violateBandwidth'
+                representing an alarm condition in the alarm word
+                of attribute 'alarmInfo' of managed object 'priorityPolicy'
+                (root='router1645') has changed from the OFF to the ON state."
+   ::= {fr1645v2PpAlInfoE2VbandwPfx 2}
+
+
+
+END

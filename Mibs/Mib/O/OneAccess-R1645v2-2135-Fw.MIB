@@ -1,0 +1,5362 @@
+OneAccess-R1645v2-2135-Fw DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Fw OBJECT IDENTIFIER ::= {r1645Rootv2 2135}
+
+r1645v2FwMOProp OBJECT IDENTIFIER ::= {r1645v2Fw 1}
+
+r1645v2FwMOPropEntry OBJECT IDENTIFIER ::= {r1645v2FwMOProp 1}
+
+r1645v2FwMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2FwMOPropEntry 3}
+
+r1645v2FwMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2FwMOPropEntry 4}
+
+
+
+er1645v2Fw OBJECT IDENTIFIER ::= {r1645v2Fw 11}
+
+
+er1645v2FwInspection OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inspection
+       Info: traffic monitor
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2Fw 67}
+
+
+er1645v2FwOutPol OBJECT IDENTIFIER ::= {er1645v2Fw 52}
+
+er1645v2FwOutPolSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2FwOutPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "outboundPolicies (filters)"
+   ::= {er1645v2FwOutPol 1}
+
+er1645v2FwOutPolEntry OBJECT-TYPE
+   SYNTAX      Er1645v2FwOutPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2FwOutPolTableIx }
+   ::= {er1645v2FwOutPolSSCTable 1}
+
+Er1645v2FwOutPolEntry ::=
+   SEQUENCE
+      {
+      er1645v2FwOutPolActions
+         VariableLengthTableActions,
+      er1645v2FwOutPolTableIx
+         TableIndex,
+      er1645v2FwOutPolSNetName
+         INTEGER,
+      er1645v2FwOutPolSNetCust
+         DisplayString,
+      er1645v2FwOutPolSrcIpNwAddress
+         IpAddress,
+      er1645v2FwOutPolSrcIpNwNetMask
+         IpAddress,
+      er1645v2FwOutPolSrcIpCustStart
+         IpAddress,
+      er1645v2FwOutPolSrcIpCustEnd
+         IpAddress,
+      er1645v2FwOutPolDstIpNwAddress
+         IpAddress,
+      er1645v2FwOutPolDstIpNwNetMask
+         IpAddress,
+      er1645v2FwOutPolDstIpCustStart
+         IpAddress,
+      er1645v2FwOutPolDstIpCustEnd
+         IpAddress,
+      er1645v2FwOutPolApplCustProtocol
+         INTEGER,
+      er1645v2FwOutPolApplCustStartPort
+         INTEGER,
+      er1645v2FwOutPolApplCustEndPort
+         INTEGER,
+      er1645v2FwOutPolAction
+         INTEGER,
+      er1645v2FwOutPolNatIpAddress
+         IpAddress,
+      er1645v2FwOutPolNatInterface
+         DisplayString,
+      er1645v2FwOutPolLog
+         INTEGER,
+      er1645v2FwOutPolName
+         DisplayString
+      }
+
+er1645v2FwOutPolActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2FwOutPolEntry 2}
+
+er1645v2FwOutPolTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2FwOutPolEntry 11}
+
+er1645v2FwOutPolSNetName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               corp (2),
+               dmz (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.sNet.name
+
+       Possibilities:
+               corp   (2)
+               dmz   (3)"
+   ::= {er1645v2FwOutPolEntry 167837696}
+
+er1645v2FwOutPolSNetCust OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.sNet.custom"
+   ::= {er1645v2FwOutPolEntry 167903232}
+
+er1645v2FwOutPolSrcIpNwAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.sourceIp.network.address"
+   ::= {er1645v2FwOutPolEntry 16974080}
+
+er1645v2FwOutPolSrcIpNwNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.sourceIp.network.netMask"
+   ::= {er1645v2FwOutPolEntry 16974336}
+
+er1645v2FwOutPolSrcIpCustStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.sourceIp.custom.startAddress"
+   ::= {er1645v2FwOutPolEntry 16843008}
+
+er1645v2FwOutPolSrcIpCustEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.sourceIp.custom.endAddress"
+   ::= {er1645v2FwOutPolEntry 16843264}
+
+er1645v2FwOutPolDstIpNwAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.destIp.network.address"
+   ::= {er1645v2FwOutPolEntry 33751296}
+
+er1645v2FwOutPolDstIpNwNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.destIp.network.netMask"
+   ::= {er1645v2FwOutPolEntry 33751552}
+
+er1645v2FwOutPolDstIpCustStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.destIp.custom.startAddress"
+   ::= {er1645v2FwOutPolEntry 33620224}
+
+er1645v2FwOutPolDstIpCustEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.destIp.custom.endAddress"
+   ::= {er1645v2FwOutPolEntry 33620480}
+
+er1645v2FwOutPolApplCustProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               icmp (1),
+               tcp (6),
+               udp (17),
+               ah (51),
+               esp (50),
+               gre (47)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.application.custom.protocol
+
+       Possibilities:
+               any   (0)
+               icmp   (1)
+               tcp   (6)
+               udp   (17)
+               ah   (51)
+               esp   (50)
+               gre   (47)"
+   ::= {er1645v2FwOutPolEntry 50462976}
+
+er1645v2FwOutPolApplCustStartPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.application.custom.startPort
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2FwOutPolEntry 50463232}
+
+er1645v2FwOutPolApplCustEndPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               optional (0),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.application.custom.endPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               optional   (0)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2FwOutPolEntry 50463488}
+
+er1645v2FwOutPolAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               allow (1),
+               deny (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.action
+
+       Possibilities:
+               allow   (1)
+               deny   (2)"
+   ::= {er1645v2FwOutPolEntry 67108864}
+
+er1645v2FwOutPolNatIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.nat.ipAddress"
+   ::= {er1645v2FwOutPolEntry 84017152}
+
+er1645v2FwOutPolNatInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.nat.interface"
+   ::= {er1645v2FwOutPolEntry 84082688}
+
+er1645v2FwOutPolLog OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.log
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwOutPolEntry 117440512}
+
+er1645v2FwOutPolName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundPolicies.name"
+   ::= {er1645v2FwOutPolEntry 335544320}
+
+
+er1645v2FwInPol OBJECT IDENTIFIER ::= {er1645v2Fw 56}
+
+er1645v2FwInPolSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2FwInPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "inboundPolicies (port forwarding)"
+   ::= {er1645v2FwInPol 1}
+
+er1645v2FwInPolEntry OBJECT-TYPE
+   SYNTAX      Er1645v2FwInPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2FwInPolTableIx }
+   ::= {er1645v2FwInPolSSCTable 1}
+
+Er1645v2FwInPolEntry ::=
+   SEQUENCE
+      {
+      er1645v2FwInPolActions
+         VariableLengthTableActions,
+      er1645v2FwInPolTableIx
+         TableIndex,
+      er1645v2FwInPolSNetName
+         INTEGER,
+      er1645v2FwInPolSNetCust
+         DisplayString,
+      er1645v2FwInPolSrcIpNwAddress
+         IpAddress,
+      er1645v2FwInPolSrcIpNwNetMask
+         IpAddress,
+      er1645v2FwInPolSrcIpCustStart
+         IpAddress,
+      er1645v2FwInPolSrcIpCustEnd
+         IpAddress,
+      er1645v2FwInPolDstIpNwAddress
+         IpAddress,
+      er1645v2FwInPolDstIpNwNetMask
+         IpAddress,
+      er1645v2FwInPolDstIpCustStart
+         IpAddress,
+      er1645v2FwInPolDstIpCustEnd
+         IpAddress,
+      er1645v2FwInPolApplicationCustProtocol
+         INTEGER,
+      er1645v2FwInPolApplicationCustStartPort
+         INTEGER,
+      er1645v2FwInPolApplicationCustEndPort
+         INTEGER,
+      er1645v2FwInPolAction
+         INTEGER,
+      er1645v2FwInPolNatCustomIpAddress
+         IpAddress,
+      er1645v2FwInPolNatCustomPort
+         INTEGER,
+      er1645v2FwInPolLog
+         INTEGER,
+      er1645v2FwInPolName
+         DisplayString
+      }
+
+er1645v2FwInPolActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2FwInPolEntry 2}
+
+er1645v2FwInPolTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2FwInPolEntry 11}
+
+er1645v2FwInPolSNetName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               corp (2),
+               dmz (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.sNet.name
+
+       Possibilities:
+               corp   (2)
+               dmz   (3)"
+   ::= {er1645v2FwInPolEntry 167837696}
+
+er1645v2FwInPolSNetCust OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.sNet.custom"
+   ::= {er1645v2FwInPolEntry 167903232}
+
+er1645v2FwInPolSrcIpNwAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.sourceIp.network.address"
+   ::= {er1645v2FwInPolEntry 16974080}
+
+er1645v2FwInPolSrcIpNwNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.sourceIp.network.netMask"
+   ::= {er1645v2FwInPolEntry 16974336}
+
+er1645v2FwInPolSrcIpCustStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.sourceIp.custom.startAddress"
+   ::= {er1645v2FwInPolEntry 16843008}
+
+er1645v2FwInPolSrcIpCustEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.sourceIp.custom.endAddress"
+   ::= {er1645v2FwInPolEntry 16843264}
+
+er1645v2FwInPolDstIpNwAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.destIp.network.address"
+   ::= {er1645v2FwInPolEntry 33751296}
+
+er1645v2FwInPolDstIpNwNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.destIp.network.netMask"
+   ::= {er1645v2FwInPolEntry 33751552}
+
+er1645v2FwInPolDstIpCustStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.destIp.custom.startAddress"
+   ::= {er1645v2FwInPolEntry 33620224}
+
+er1645v2FwInPolDstIpCustEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.destIp.custom.endAddress"
+   ::= {er1645v2FwInPolEntry 33620480}
+
+er1645v2FwInPolApplicationCustProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               icmp (1),
+               tcp (6),
+               udp (17),
+               ah (51),
+               esp (50),
+               gre (47)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.application.custom.protocol
+
+       Possibilities:
+               any   (0)
+               icmp   (1)
+               tcp   (6)
+               udp   (17)
+               ah   (51)
+               esp   (50)
+               gre   (47)"
+   ::= {er1645v2FwInPolEntry 50462976}
+
+er1645v2FwInPolApplicationCustStartPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.application.custom.startPort
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2FwInPolEntry 50463232}
+
+er1645v2FwInPolApplicationCustEndPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               optional (0),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.application.custom.endPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               optional   (0)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2FwInPolEntry 50463488}
+
+er1645v2FwInPolAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               allow (1),
+               deny (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.action
+
+       Possibilities:
+               allow   (1)
+               deny   (2)"
+   ::= {er1645v2FwInPolEntry 67108864}
+
+er1645v2FwInPolNatCustomIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.nat.custom.ipAddress"
+   ::= {er1645v2FwInPolEntry 84148480}
+
+er1645v2FwInPolNatCustomPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               optional (0),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.nat.custom.port
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               optional   (0)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2FwInPolEntry 84148736}
+
+er1645v2FwInPolLog OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.log
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwInPolEntry 117440512}
+
+er1645v2FwInPolName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundPolicies.name"
+   ::= {er1645v2FwInPolEntry 335544320}
+
+
+er1645v2FwLog OBJECT IDENTIFIER ::= {er1645v2Fw 57}
+
+er1645v2FwLogSSC OBJECT IDENTIFIER ::= {er1645v2FwLog 1}
+
+er1645v2FwLogEntry OBJECT IDENTIFIER ::= {er1645v2FwLogSSC 1}
+
+er1645v2FwLogMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.mode
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 16777216}
+
+er1645v2FwLogAttacksSynFlooding OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.attacks.synFlooding
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 33619968}
+
+er1645v2FwLogAttacksPingOfDeath OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.attacks.pingOfDeath
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 33685504}
+
+er1645v2FwLogAttacksIpSpoofing OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.attacks.ipSpoofing
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 33751040}
+
+er1645v2FwLogAttacksWinNuke OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.attacks.winNuke
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 33882112}
+
+er1645v2FwLogAttacksIpOptionAttack OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.attacks.ipOptionAttack
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 33947648}
+
+er1645v2FwLogGenSystemErrorMessages OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.general.systemErrorMessages
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 50397184}
+
+er1645v2FwLogGenDenyPolicies OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.general.denyPolicies
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 50462720}
+
+er1645v2FwLogGenAllowPolicies OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.general.allowPolicies
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 50528256}
+
+er1645v2FwLogGenDataInspection OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.general.dataInspection
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 50659328}
+
+er1645v2FwLogGenGeneralAttacks OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.general.generalAttacks
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 50724864}
+
+er1645v2FwLogGenUnavailablePolicies OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.general.unavailablePolicies
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 50790400}
+
+er1645v2FwLogGenAccessStatistics OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.general.accessStatistics
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 50987008}
+
+er1645v2FwLogGenVerbose OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.general.verbose
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwLogEntry 51052544}
+
+er1645v2FwLogThresholdsAttack OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.thresholds.attack"
+   ::= {er1645v2FwLogEntry 67174400}
+
+er1645v2FwLogThresholdsGeneral OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.thresholds.general"
+   ::= {er1645v2FwLogEntry 67239936}
+
+er1645v2FwLogTableLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.tableLength"
+   ::= {er1645v2FwLogEntry 83886080}
+
+er1645v2FwLogSyslogMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.log.syslogMask
+
+       Bit meanings:
+               bit 0 = sessionClose"
+   ::= {er1645v2FwLogEntry 100663296}
+
+
+er1645v2FwAttacks OBJECT IDENTIFIER ::= {er1645v2Fw 58}
+
+er1645v2FwAttacksSSC OBJECT IDENTIFIER ::= {er1645v2FwAttacks 1}
+
+er1645v2FwAttacksEntry OBJECT IDENTIFIER ::= {er1645v2FwAttacksSSC 1}
+
+er1645v2FwAttacksSynFlooding OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.attacks.synFlooding
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwAttacksEntry 16777216}
+
+er1645v2FwAttacksSourceRouting OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.attacks.sourceRouting
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwAttacksEntry 33554432}
+
+er1645v2FwAttacksWinNuke OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.attacks.winNuke
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwAttacksEntry 50331648}
+
+er1645v2FwAttacksFtpBounce OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.attacks.ftpBounce
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwAttacksEntry 67108864}
+
+er1645v2FwAttacksIpUnalignedTimeStamp OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.attacks.ipUnalignedTimeStamp
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwAttacksEntry 83886080}
+
+er1645v2FwAttacksMimeFlood OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.attacks.mime.flood
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwAttacksEntry 100728832}
+
+er1645v2FwAttacksMimeMaxHeaderLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.attacks.mime.maxHeaderLength"
+   ::= {er1645v2FwAttacksEntry 100794368}
+
+er1645v2FwAttacksMimeMaxHeaders OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.attacks.mime.maxHeaders"
+   ::= {er1645v2FwAttacksEntry 100859904}
+
+er1645v2FwAttacksSeqNumPrediction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.attacks.seqNumPrediction
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwAttacksEntry 117440512}
+
+er1645v2FwAttacksSeqNumOutOfRange OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.attacks.seqNumOutOfRange
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwAttacksEntry 134217728}
+
+er1645v2FwAttacksIcmpErrorMessages OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.attacks.icmpErrorMessages
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwAttacksEntry 167772160}
+
+
+er1645v2FwOutSelfPol OBJECT IDENTIFIER ::= {er1645v2Fw 59}
+
+er1645v2FwOutSelfPolSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2FwOutSelfPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "outboundSelfPolicies (filters)"
+   ::= {er1645v2FwOutSelfPol 1}
+
+er1645v2FwOutSelfPolEntry OBJECT-TYPE
+   SYNTAX      Er1645v2FwOutSelfPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2FwOutSelfPolTableIx }
+   ::= {er1645v2FwOutSelfPolSSCTable 1}
+
+Er1645v2FwOutSelfPolEntry ::=
+   SEQUENCE
+      {
+      er1645v2FwOutSelfPolActions
+         VariableLengthTableActions,
+      er1645v2FwOutSelfPolTableIx
+         TableIndex,
+      er1645v2FwOutSelfPolSNetName
+         INTEGER,
+      er1645v2FwOutSelfPolSNetCust
+         DisplayString,
+      er1645v2FwOutSelfPolSrcIpNwAddress
+         IpAddress,
+      er1645v2FwOutSelfPolSrcIpNwNetMask
+         IpAddress,
+      er1645v2FwOutSelfPolSrcIpCustStart
+         IpAddress,
+      er1645v2FwOutSelfPolSrcIpCustEnd
+         IpAddress,
+      er1645v2FwOutSelfPolDstIpNwAddress
+         IpAddress,
+      er1645v2FwOutSelfPolDstIpNwNetMask
+         IpAddress,
+      er1645v2FwOutSelfPolDstIpCustStart
+         IpAddress,
+      er1645v2FwOutSelfPolDstIpCustEnd
+         IpAddress,
+      er1645v2FwOutSelfPolApplCustProtocol
+         INTEGER,
+      er1645v2FwOutSelfPolApplCustStartPort
+         INTEGER,
+      er1645v2FwOutSelfPolApplCustEndPort
+         INTEGER,
+      er1645v2FwOutSelfPolAction
+         INTEGER,
+      er1645v2FwOutSelfPolLog
+         INTEGER,
+      er1645v2FwOutSelfPolName
+         DisplayString
+      }
+
+er1645v2FwOutSelfPolActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2FwOutSelfPolEntry 2}
+
+er1645v2FwOutSelfPolTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2FwOutSelfPolEntry 11}
+
+er1645v2FwOutSelfPolSNetName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               corp (2),
+               dmz (3),
+               internet (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.sNet.name
+
+       Possibilities:
+               corp   (2)
+               dmz   (3)
+               internet   (1)"
+   ::= {er1645v2FwOutSelfPolEntry 167837696}
+
+er1645v2FwOutSelfPolSNetCust OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.sNet.custom"
+   ::= {er1645v2FwOutSelfPolEntry 167903232}
+
+er1645v2FwOutSelfPolSrcIpNwAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.sourceIp.network.address"
+   ::= {er1645v2FwOutSelfPolEntry 16974080}
+
+er1645v2FwOutSelfPolSrcIpNwNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.sourceIp.network.netMask"
+   ::= {er1645v2FwOutSelfPolEntry 16974336}
+
+er1645v2FwOutSelfPolSrcIpCustStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.sourceIp.custom.startAddress"
+   ::= {er1645v2FwOutSelfPolEntry 16843008}
+
+er1645v2FwOutSelfPolSrcIpCustEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.sourceIp.custom.endAddress"
+   ::= {er1645v2FwOutSelfPolEntry 16843264}
+
+er1645v2FwOutSelfPolDstIpNwAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.destIp.network.address"
+   ::= {er1645v2FwOutSelfPolEntry 33751296}
+
+er1645v2FwOutSelfPolDstIpNwNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.destIp.network.netMask"
+   ::= {er1645v2FwOutSelfPolEntry 33751552}
+
+er1645v2FwOutSelfPolDstIpCustStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.destIp.custom.startAddress"
+   ::= {er1645v2FwOutSelfPolEntry 33620224}
+
+er1645v2FwOutSelfPolDstIpCustEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.destIp.custom.endAddress"
+   ::= {er1645v2FwOutSelfPolEntry 33620480}
+
+er1645v2FwOutSelfPolApplCustProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               icmp (1),
+               tcp (6),
+               udp (17),
+               ah (51),
+               esp (50),
+               gre (47)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.application.custom.protocol
+
+       Possibilities:
+               any   (0)
+               icmp   (1)
+               tcp   (6)
+               udp   (17)
+               ah   (51)
+               esp   (50)
+               gre   (47)"
+   ::= {er1645v2FwOutSelfPolEntry 50462976}
+
+er1645v2FwOutSelfPolApplCustStartPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.application.custom.startPort
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2FwOutSelfPolEntry 50463232}
+
+er1645v2FwOutSelfPolApplCustEndPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               optional (0),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.application.custom.endPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               optional   (0)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2FwOutSelfPolEntry 50463488}
+
+er1645v2FwOutSelfPolAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               allow (1),
+               deny (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.action
+
+       Possibilities:
+               allow   (1)
+               deny   (2)"
+   ::= {er1645v2FwOutSelfPolEntry 67108864}
+
+er1645v2FwOutSelfPolLog OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.log
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwOutSelfPolEntry 117440512}
+
+er1645v2FwOutSelfPolName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.outboundSelfPolicies.name"
+   ::= {er1645v2FwOutSelfPolEntry 335544320}
+
+
+er1645v2FwInSelfPol OBJECT IDENTIFIER ::= {er1645v2Fw 70}
+
+er1645v2FwInSelfPolSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2FwInSelfPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "inboundSelfPolicies (port forwarding)"
+   ::= {er1645v2FwInSelfPol 1}
+
+er1645v2FwInSelfPolEntry OBJECT-TYPE
+   SYNTAX      Er1645v2FwInSelfPolEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2FwInSelfPolTableIx }
+   ::= {er1645v2FwInSelfPolSSCTable 1}
+
+Er1645v2FwInSelfPolEntry ::=
+   SEQUENCE
+      {
+      er1645v2FwInSelfPolActions
+         VariableLengthTableActions,
+      er1645v2FwInSelfPolTableIx
+         TableIndex,
+      er1645v2FwInSelfPolSNetName
+         INTEGER,
+      er1645v2FwInSelfPolSNetCust
+         DisplayString,
+      er1645v2FwInSelfPolSrcIpNwAddress
+         IpAddress,
+      er1645v2FwInSelfPolSrcIpNwNetMask
+         IpAddress,
+      er1645v2FwInSelfPolSrcIpCustStart
+         IpAddress,
+      er1645v2FwInSelfPolSrcIpCustEnd
+         IpAddress,
+      er1645v2FwInSelfPolDstIpNwAddress
+         IpAddress,
+      er1645v2FwInSelfPolDstIpNwNetMask
+         IpAddress,
+      er1645v2FwInSelfPolDstIpCustStart
+         IpAddress,
+      er1645v2FwInSelfPolDstIpCustEnd
+         IpAddress,
+      er1645v2FwInSelfPolApplCustProtocol
+         INTEGER,
+      er1645v2FwInSelfPolApplCustStartPort
+         INTEGER,
+      er1645v2FwInSelfPolApplCustEndPort
+         INTEGER,
+      er1645v2FwInSelfPolAction
+         INTEGER,
+      er1645v2FwInSelfPolLog
+         INTEGER,
+      er1645v2FwInSelfPolName
+         DisplayString
+      }
+
+er1645v2FwInSelfPolActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2FwInSelfPolEntry 2}
+
+er1645v2FwInSelfPolTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2FwInSelfPolEntry 11}
+
+er1645v2FwInSelfPolSNetName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               corp (2),
+               dmz (3),
+               internet (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.sNet.name
+
+       Possibilities:
+               corp   (2)
+               dmz   (3)
+               internet   (1)"
+   ::= {er1645v2FwInSelfPolEntry 167837696}
+
+er1645v2FwInSelfPolSNetCust OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.sNet.custom"
+   ::= {er1645v2FwInSelfPolEntry 167903232}
+
+er1645v2FwInSelfPolSrcIpNwAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.sourceIp.network.address"
+   ::= {er1645v2FwInSelfPolEntry 16974080}
+
+er1645v2FwInSelfPolSrcIpNwNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.sourceIp.network.netMask"
+   ::= {er1645v2FwInSelfPolEntry 16974336}
+
+er1645v2FwInSelfPolSrcIpCustStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.sourceIp.custom.startAddress"
+   ::= {er1645v2FwInSelfPolEntry 16843008}
+
+er1645v2FwInSelfPolSrcIpCustEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.sourceIp.custom.endAddress"
+   ::= {er1645v2FwInSelfPolEntry 16843264}
+
+er1645v2FwInSelfPolDstIpNwAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.destIp.network.address"
+   ::= {er1645v2FwInSelfPolEntry 33751296}
+
+er1645v2FwInSelfPolDstIpNwNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.destIp.network.netMask"
+   ::= {er1645v2FwInSelfPolEntry 33751552}
+
+er1645v2FwInSelfPolDstIpCustStart OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.destIp.custom.startAddress"
+   ::= {er1645v2FwInSelfPolEntry 33620224}
+
+er1645v2FwInSelfPolDstIpCustEnd OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.destIp.custom.endAddress"
+   ::= {er1645v2FwInSelfPolEntry 33620480}
+
+er1645v2FwInSelfPolApplCustProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               icmp (1),
+               tcp (6),
+               udp (17),
+               ah (51),
+               esp (50),
+               gre (47)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.application.custom.protocol
+
+       Possibilities:
+               any   (0)
+               icmp   (1)
+               tcp   (6)
+               udp   (17)
+               ah   (51)
+               esp   (50)
+               gre   (47)"
+   ::= {er1645v2FwInSelfPolEntry 50462976}
+
+er1645v2FwInSelfPolApplCustStartPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               discard (9),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.application.custom.startPort
+
+       Possibilities:
+               any   (0)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               discard   (9)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2FwInSelfPolEntry 50463232}
+
+er1645v2FwInSelfPolApplCustEndPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               imap (134),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               optional (0),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               router (520),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               telindus (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.application.custom.endPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               imap   (134)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               optional   (0)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               router   (520)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               telindus   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {er1645v2FwInSelfPolEntry 50463488}
+
+er1645v2FwInSelfPolAction OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               allow (1),
+               deny (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.action
+
+       Possibilities:
+               allow   (1)
+               deny   (2)"
+   ::= {er1645v2FwInSelfPolEntry 67108864}
+
+er1645v2FwInSelfPolLog OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.log
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwInSelfPolEntry 117440512}
+
+er1645v2FwInSelfPolName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.inboundSelfPolicies.name"
+   ::= {er1645v2FwInSelfPolEntry 335544320}
+
+
+er1645v2FwAlg OBJECT IDENTIFIER ::= {er1645v2Fw 69}
+
+er1645v2FwAlgSSC OBJECT IDENTIFIER ::= {er1645v2FwAlg 1}
+
+er1645v2FwAlgEntry OBJECT IDENTIFIER ::= {er1645v2FwAlgSSC 1}
+
+er1645v2FwAlgSipMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.alg.sip.mode
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwAlgEntry 16842752}
+
+er1645v2FwAlgIkeMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               enabled (1),
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.alg.ike.mode
+
+       Possibilities:
+               enabled   (1)
+               disabled   (0)"
+   ::= {er1645v2FwAlgEntry 33619968}
+
+
+er1645v2FwTcpMss OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.editConf.tcpAdjustMss
+       Info: new maximum segment size for TCP
+
+       Possibilities:
+               disabled   (0)"
+   ::= {er1645v2Fw 71}
+
+
+
+sr1645v2Fw OBJECT IDENTIFIER ::= {r1645v2Fw 14}
+
+
+sr1645v2FwSessions OBJECT IDENTIFIER ::= {sr1645v2Fw 80}
+
+sr1645v2FwSessionsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2FwSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "sessions"
+   ::= {sr1645v2FwSessions 1}
+
+sr1645v2FwSessionsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2FwSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2FwSessionsTableIx }
+   ::= {sr1645v2FwSessionsSSCTable 1}
+
+Sr1645v2FwSessionsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2FwSessionsTableIx
+         TableIndex,
+      sr1645v2FwSessionsSNet
+         DisplayString,
+      sr1645v2FwSessionsPolDir
+         INTEGER,
+      sr1645v2FwSessionsSourceIp
+         IpAddress,
+      sr1645v2FwSessionsDestIp
+         IpAddress,
+      sr1645v2FwSessionsProtocol
+         INTEGER,
+      sr1645v2FwSessionsSourcePort
+         INTEGER,
+      sr1645v2FwSessionsDestPort
+         INTEGER,
+      sr1645v2FwSessionsBytesTransfer
+         Counter32,
+      sr1645v2FwSessionsNatIp
+         IpAddress,
+      sr1645v2FwSessionsNatPort
+         INTEGER,
+      sr1645v2FwSessionsTtl
+         TimeTicks,
+      sr1645v2FwSessionsName
+         DisplayString
+      }
+
+sr1645v2FwSessionsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2FwSessionsEntry 11}
+
+sr1645v2FwSessionsSNet OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.sessions.sNet"
+   ::= {sr1645v2FwSessionsEntry 167772160}
+
+sr1645v2FwSessionsPolDir OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               inbound (0),
+               outbound (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.sessions.policyDirection
+
+       Possibilities:
+               inbound   (0)
+               outbound   (1)"
+   ::= {sr1645v2FwSessionsEntry 117440512}
+
+sr1645v2FwSessionsSourceIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.sessions.sourceIp"
+   ::= {sr1645v2FwSessionsEntry 16777216}
+
+sr1645v2FwSessionsDestIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.sessions.destIp"
+   ::= {sr1645v2FwSessionsEntry 33554432}
+
+sr1645v2FwSessionsProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               other (0),
+               icmp (1),
+               tcp (6),
+               udp (17),
+               ah (51),
+               esp (50),
+               gre (47)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.sessions.protocol
+
+       Possibilities:
+               other   (0)
+               icmp   (1)
+               tcp   (6)
+               udp   (17)
+               ah   (51)
+               esp   (50)
+               gre   (47)"
+   ::= {sr1645v2FwSessionsEntry 50331648}
+
+sr1645v2FwSessionsSourcePort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.sessions.sourcePort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1645v2FwSessionsEntry 184549376}
+
+sr1645v2FwSessionsDestPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.sessions.destPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1645v2FwSessionsEntry 67108864}
+
+sr1645v2FwSessionsBytesTransfer OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.sessions.bytesTransferred
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2FwSessionsEntry 83886080}
+
+sr1645v2FwSessionsNatIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.sessions.natIp"
+   ::= {sr1645v2FwSessionsEntry 100663296}
+
+sr1645v2FwSessionsNatPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.sessions.natPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1645v2FwSessionsEntry 134217728}
+
+sr1645v2FwSessionsTtl OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.sessions.ttl
+
+       Time in centi-second."
+   ::= {sr1645v2FwSessionsEntry 150994944}
+
+sr1645v2FwSessionsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.sessions.name"
+   ::= {sr1645v2FwSessionsEntry 335544320}
+
+
+sr1645v2FwRevSessions OBJECT IDENTIFIER ::= {sr1645v2Fw 83}
+
+sr1645v2FwRevSessionsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2FwRevSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "sessions"
+   ::= {sr1645v2FwRevSessions 1}
+
+sr1645v2FwRevSessionsEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2FwRevSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2FwRevSessionsTableIx }
+   ::= {sr1645v2FwRevSessionsSSCTable 1}
+
+Sr1645v2FwRevSessionsEntry ::=
+   SEQUENCE
+      {
+      sr1645v2FwRevSessionsTableIx
+         TableIndex,
+      sr1645v2FwRevSessionsSNet
+         DisplayString,
+      sr1645v2FwRevSessionsPolDir
+         INTEGER,
+      sr1645v2FwRevSessionsSourceIp
+         IpAddress,
+      sr1645v2FwRevSessionsDestIp
+         IpAddress,
+      sr1645v2FwRevSessionsProtocol
+         INTEGER,
+      sr1645v2FwRevSessionsSourcePort
+         INTEGER,
+      sr1645v2FwRevSessionsDestPort
+         INTEGER,
+      sr1645v2FwRevSessionsBytesTransfer
+         Counter32,
+      sr1645v2FwRevSessionsNatIp
+         IpAddress,
+      sr1645v2FwRevSessionsNatPort
+         INTEGER,
+      sr1645v2FwRevSessionsTtl
+         TimeTicks,
+      sr1645v2FwRevSessionsName
+         DisplayString
+      }
+
+sr1645v2FwRevSessionsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2FwRevSessionsEntry 11}
+
+sr1645v2FwRevSessionsSNet OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.reverseSessions.sNet"
+   ::= {sr1645v2FwRevSessionsEntry 167772160}
+
+sr1645v2FwRevSessionsPolDir OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               inbound (0),
+               outbound (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.reverseSessions.policyDirection
+
+       Possibilities:
+               inbound   (0)
+               outbound   (1)"
+   ::= {sr1645v2FwRevSessionsEntry 117440512}
+
+sr1645v2FwRevSessionsSourceIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.reverseSessions.sourceIp"
+   ::= {sr1645v2FwRevSessionsEntry 16777216}
+
+sr1645v2FwRevSessionsDestIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.reverseSessions.destIp"
+   ::= {sr1645v2FwRevSessionsEntry 33554432}
+
+sr1645v2FwRevSessionsProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               other (0),
+               icmp (1),
+               tcp (6),
+               udp (17),
+               ah (51),
+               esp (50),
+               gre (47)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.reverseSessions.protocol
+
+       Possibilities:
+               other   (0)
+               icmp   (1)
+               tcp   (6)
+               udp   (17)
+               ah   (51)
+               esp   (50)
+               gre   (47)"
+   ::= {sr1645v2FwRevSessionsEntry 50331648}
+
+sr1645v2FwRevSessionsSourcePort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.reverseSessions.sourcePort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1645v2FwRevSessionsEntry 184549376}
+
+sr1645v2FwRevSessionsDestPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.reverseSessions.destPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1645v2FwRevSessionsEntry 67108864}
+
+sr1645v2FwRevSessionsBytesTransfer OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.reverseSessions.bytesTransferred
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1645v2FwRevSessionsEntry 83886080}
+
+sr1645v2FwRevSessionsNatIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.reverseSessions.natIp"
+   ::= {sr1645v2FwRevSessionsEntry 100663296}
+
+sr1645v2FwRevSessionsNatPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.reverseSessions.natPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1645v2FwRevSessionsEntry 134217728}
+
+sr1645v2FwRevSessionsTtl OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.reverseSessions.ttl
+
+       Time in centi-second."
+   ::= {sr1645v2FwRevSessionsEntry 150994944}
+
+sr1645v2FwRevSessionsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.reverseSessions.name"
+   ::= {sr1645v2FwRevSessionsEntry 335544320}
+
+
+sr1645v2FwLog OBJECT IDENTIFIER ::= {sr1645v2Fw 81}
+
+sr1645v2FwLogSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2FwLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2FwLog 1}
+
+sr1645v2FwLogEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2FwLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2FwLogTableIx }
+   ::= {sr1645v2FwLogSSCTable 1}
+
+Sr1645v2FwLogEntry ::=
+   SEQUENCE
+      {
+      sr1645v2FwLogTableIx
+         TableIndex,
+      sr1645v2FwLogDate
+         DisplayString,
+      sr1645v2FwLogSysUpTime
+         TimeTicks,
+      sr1645v2FwLogPriority
+         INTEGER,
+      sr1645v2FwLogEvent
+         DisplayString,
+      sr1645v2FwLogSourceIp
+         IpAddress,
+      sr1645v2FwLogDestIp
+         IpAddress,
+      sr1645v2FwLogSourcePort
+         INTEGER,
+      sr1645v2FwLogDestPort
+         INTEGER,
+      sr1645v2FwLogProtocol
+         INTEGER
+      }
+
+sr1645v2FwLogTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2FwLogEntry 11}
+
+sr1645v2FwLogDate OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.log.date"
+   ::= {sr1645v2FwLogEntry 16777216}
+
+sr1645v2FwLogSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.log.sysUpTime
+
+       Time in centi-second."
+   ::= {sr1645v2FwLogEntry 33554432}
+
+sr1645v2FwLogPriority OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               emergency (0),
+               alert (1),
+               critical (2),
+               error (3),
+               warning (4),
+               notice (5),
+               info (6),
+               debug (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.log.priority
+
+       Possibilities:
+               emergency   (0)
+               alert   (1)
+               critical   (2)
+               error   (3)
+               warning   (4)
+               notice   (5)
+               info   (6)
+               debug   (7)"
+   ::= {sr1645v2FwLogEntry 67108864}
+
+sr1645v2FwLogEvent OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.log.event"
+   ::= {sr1645v2FwLogEntry 150994944}
+
+sr1645v2FwLogSourceIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.log.sourceIp"
+   ::= {sr1645v2FwLogEntry 117440512}
+
+sr1645v2FwLogDestIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.log.destIp"
+   ::= {sr1645v2FwLogEntry 134217728}
+
+sr1645v2FwLogSourcePort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.log.sourcePort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1645v2FwLogEntry 167772160}
+
+sr1645v2FwLogDestPort OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               discard (9),
+               bgp (179),
+               bootpmdhcpmc (68),
+               bootpmdhcpms (67),
+               cpudpencap (2746),
+               domain (53),
+               echo (7),
+               emailmsub (587),
+               empty (0),
+               ftp (21),
+               ftpmdata (20),
+               ftps (990),
+               ftpsmdata (989),
+               httpmalt (8080),
+               https (443),
+               h225ras (1719),
+               h323 (1720),
+               imap (143),
+               imap3 (220),
+               imaps (993),
+               ipsecmnatmt (4500),
+               isakmp (500),
+               l2tp (1701),
+               ldap (389),
+               microsoftmds (445),
+               msmstreaming (1755),
+               msmwbtmserver (3389),
+               msnp (1863),
+               nameserver (42),
+               netbiosmdgm (138),
+               netbiosmns (137),
+               netbiosmssn (139),
+               nntp (119),
+               ntp (123),
+               pop3 (110),
+               pop3s (995),
+               pptp (1723),
+               radius (1812),
+               router (520),
+               rsync (873),
+               rtsp (554),
+               sip (5060),
+               smtp (25),
+               smtps (465),
+               snmp (161),
+               snmptrap (162),
+               socks (1080),
+               ssdpmuPnP (1900),
+               ssh (22),
+               syslog (514),
+               tacacs (49),
+               tma (1728),
+               telnet (23),
+               telnets (992),
+               tftp (69),
+               whip (8700),
+               wwwmhttp (80),
+               z39d50 (210)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.log.destPort
+
+       Possibilities:
+               discard   (9)
+               bgp   (179)
+               bootp-dhcp-c   (68)
+               bootp-dhcp-s   (67)
+               cpudpencap   (2746)
+               domain   (53)
+               echo   (7)
+               email-sub   (587)
+               empty   (0)
+               ftp   (21)
+               ftp-data   (20)
+               ftps   (990)
+               ftps-data   (989)
+               http-alt   (8080)
+               https   (443)
+               h225ras   (1719)
+               h323   (1720)
+               imap   (143)
+               imap3   (220)
+               imaps   (993)
+               ipsec-nat-t   (4500)
+               isakmp   (500)
+               l2tp   (1701)
+               ldap   (389)
+               microsoft-ds   (445)
+               ms-streaming   (1755)
+               ms-wbt-server   (3389)
+               msnp   (1863)
+               nameserver   (42)
+               netbios-dgm   (138)
+               netbios-ns   (137)
+               netbios-ssn   (139)
+               nntp   (119)
+               ntp   (123)
+               pop3   (110)
+               pop3s   (995)
+               pptp   (1723)
+               radius   (1812)
+               router   (520)
+               rsync   (873)
+               rtsp   (554)
+               sip   (5060)
+               smtp   (25)
+               smtps   (465)
+               snmp   (161)
+               snmptrap   (162)
+               socks   (1080)
+               ssdp-uPnP   (1900)
+               ssh   (22)
+               syslog   (514)
+               tacacs   (49)
+               tma   (1728)
+               telnet   (23)
+               telnets   (992)
+               tftp   (69)
+               whip   (8700)
+               www-http   (80)
+               z39.50   (210)"
+   ::= {sr1645v2FwLogEntry 83886080}
+
+sr1645v2FwLogProtocol OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               any (0),
+               icmp (1),
+               tcp (6),
+               udp (17),
+               ah (51),
+               esp (50),
+               gre (47)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.log.protocol
+
+       Possibilities:
+               any   (0)
+               icmp   (1)
+               tcp   (6)
+               udp   (17)
+               ah   (51)
+               esp   (50)
+               gre   (47)"
+   ::= {sr1645v2FwLogEntry 100663296}
+
+
+sr1645v2FwSNet OBJECT IDENTIFIER ::= {sr1645v2Fw 82}
+
+sr1645v2FwSNetSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2FwSNetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "snet status table"
+   ::= {sr1645v2FwSNet 1}
+
+sr1645v2FwSNetEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2FwSNetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2FwSNetTableIx }
+   ::= {sr1645v2FwSNetSSCTable 1}
+
+Sr1645v2FwSNetEntry ::=
+   SEQUENCE
+      {
+      sr1645v2FwSNetTableIx
+         TableIndex,
+      sr1645v2FwSNetSNet
+         DisplayString
+      }
+
+sr1645v2FwSNetTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2FwSNetEntry 11}
+
+sr1645v2FwSNetSNet OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.status.sNet.sNet"
+   ::= {sr1645v2FwSNetEntry 16777216}
+
+
+
+pr1645v2Fw OBJECT IDENTIFIER ::= {r1645v2Fw 12}
+
+
+pr1645v2FwH24Attack OBJECT IDENTIFIER ::= {pr1645v2Fw 180}
+
+pr1645v2FwH24AttackSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2FwH24AttackEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "H24AttackPerformance"
+   ::= {pr1645v2FwH24Attack 1}
+
+pr1645v2FwH24AttackEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2FwH24AttackEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2FwH24AttackTableIx }
+   ::= {pr1645v2FwH24AttackSSCTable 1}
+
+Pr1645v2FwH24AttackEntry ::=
+   SEQUENCE
+      {
+      pr1645v2FwH24AttackTableIx
+         TableIndex,
+      pr1645v2FwH24AttackSysUpTime
+         TimeTicks,
+      pr1645v2FwH24AttackLandAttack
+         Counter32,
+      pr1645v2FwH24AttackSpoofedPacket
+         Counter32,
+      pr1645v2FwH24AttackBadTcpConnReq
+         Counter32,
+      pr1645v2FwH24AttackBadTcpAck
+         Counter32,
+      pr1645v2FwH24AttackUnexpUdpEchoResp
+         Counter32,
+      pr1645v2FwH24AttackUnexpIcmpEchoResp
+         Counter32,
+      pr1645v2FwH24AttackGenAttack
+         Counter32,
+      pr1645v2FwH24AttackMinIpHdrLen
+         Counter32,
+      pr1645v2FwH24AttackEmptyPacket
+         Counter32,
+      pr1645v2FwH24AttackBadTcpLen
+         Counter32,
+      pr1645v2FwH24AttackShortTcpHdr
+         Counter32,
+      pr1645v2FwH24AttackTcpNullScan
+         Counter32,
+      pr1645v2FwH24AttackBadUdpLen
+         Counter32,
+      pr1645v2FwH24AttackShortUdpHdr
+         Counter32,
+      pr1645v2FwH24AttackShortIcmpLen
+         Counter32,
+      pr1645v2FwH24AttackSynAttack
+         Counter32,
+      pr1645v2FwH24AttackPostTcpRst
+         Counter32,
+      pr1645v2FwH24AttackBlindSpoofing
+         Counter32,
+      pr1645v2FwH24AttackZeroBytes
+         Counter32,
+      pr1645v2FwH24AttackSeqNumOutOfRange
+         Counter32,
+      pr1645v2FwH24AttackWinNuke
+         Counter32,
+      pr1645v2FwH24AttackBadTcpSeqNumRst
+         Counter32,
+      pr1645v2FwH24AttackZeroLenIpOpt
+         Counter32,
+      pr1645v2FwH24AttackBadIpTimeStamp
+         Counter32,
+      pr1645v2FwH24AttackUnexpData
+         Counter32,
+      pr1645v2FwH24AttackUnexpIcmpErr
+         Counter32,
+      pr1645v2FwH24AttackBadSrcIf
+         Counter32
+      }
+
+pr1645v2FwH24AttackTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2FwH24AttackEntry 11}
+
+pr1645v2FwH24AttackSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2FwH24AttackEntry 16777216}
+
+pr1645v2FwH24AttackLandAttack OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.landAttack
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 33554432}
+
+pr1645v2FwH24AttackSpoofedPacket OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.spoofedPacket
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 50331648}
+
+pr1645v2FwH24AttackBadTcpConnReq OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.badTcpConnReq
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 67108864}
+
+pr1645v2FwH24AttackBadTcpAck OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.badTcpAck
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 83886080}
+
+pr1645v2FwH24AttackUnexpUdpEchoResp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.unexpUdpEchoResp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 100663296}
+
+pr1645v2FwH24AttackUnexpIcmpEchoResp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.unexpIcmpEchoResp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 117440512}
+
+pr1645v2FwH24AttackGenAttack OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.genAttack
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 134217728}
+
+pr1645v2FwH24AttackMinIpHdrLen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.minIpHdrLen
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 150994944}
+
+pr1645v2FwH24AttackEmptyPacket OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.emptyPacket
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 167772160}
+
+pr1645v2FwH24AttackBadTcpLen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.badTcpLen
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 184549376}
+
+pr1645v2FwH24AttackShortTcpHdr OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.shortTcpHdr
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 201326592}
+
+pr1645v2FwH24AttackTcpNullScan OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.tcpNullScan
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 218103808}
+
+pr1645v2FwH24AttackBadUdpLen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.badUdpLen
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 234881024}
+
+pr1645v2FwH24AttackShortUdpHdr OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.shortUdpHdr
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 251658240}
+
+pr1645v2FwH24AttackShortIcmpLen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.shortIcmpLen
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 268435456}
+
+pr1645v2FwH24AttackSynAttack OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.synAttack
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 285212672}
+
+pr1645v2FwH24AttackPostTcpRst OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.postTcpRst
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 301989888}
+
+pr1645v2FwH24AttackBlindSpoofing OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.blindSpoofing
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 318767104}
+
+pr1645v2FwH24AttackZeroBytes OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.zeroBytes
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 335544320}
+
+pr1645v2FwH24AttackSeqNumOutOfRange OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.seqNumOutOfRange
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 352321536}
+
+pr1645v2FwH24AttackWinNuke OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.winNuke
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 369098752}
+
+pr1645v2FwH24AttackBadTcpSeqNumRst OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.badTcpSeqNumRst
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 385875968}
+
+pr1645v2FwH24AttackZeroLenIpOpt OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.zeroLenIpOpt
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 402653184}
+
+pr1645v2FwH24AttackBadIpTimeStamp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.badIpTimeStamp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 419430400}
+
+pr1645v2FwH24AttackUnexpData OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.unexpData
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 436207616}
+
+pr1645v2FwH24AttackUnexpIcmpErr OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.unexpIcmpErr
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 452984832}
+
+pr1645v2FwH24AttackBadSrcIf OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24Attack.badSrcIf
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24AttackEntry 469762048}
+
+
+pr1645v2FwD7Attack OBJECT IDENTIFIER ::= {pr1645v2Fw 181}
+
+pr1645v2FwD7AttackSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2FwD7AttackEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "d7AttackPerformance"
+   ::= {pr1645v2FwD7Attack 1}
+
+pr1645v2FwD7AttackEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2FwD7AttackEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2FwD7AttackTableIx }
+   ::= {pr1645v2FwD7AttackSSCTable 1}
+
+Pr1645v2FwD7AttackEntry ::=
+   SEQUENCE
+      {
+      pr1645v2FwD7AttackTableIx
+         TableIndex,
+      pr1645v2FwD7AttackSysUpTime
+         TimeTicks,
+      pr1645v2FwD7AttackLandAttack
+         Counter32,
+      pr1645v2FwD7AttackSpoofedPacket
+         Counter32,
+      pr1645v2FwD7AttackBadTcpConnReq
+         Counter32,
+      pr1645v2FwD7AttackBadTcpAck
+         Counter32,
+      pr1645v2FwD7AttackUnexpUdpEchoResp
+         Counter32,
+      pr1645v2FwD7AttackUnexpIcmpEchoResp
+         Counter32,
+      pr1645v2FwD7AttackGenAttack
+         Counter32,
+      pr1645v2FwD7AttackMinIpHdrLen
+         Counter32,
+      pr1645v2FwD7AttackEmptyPacket
+         Counter32,
+      pr1645v2FwD7AttackBadTcpLen
+         Counter32,
+      pr1645v2FwD7AttackShortTcpHdr
+         Counter32,
+      pr1645v2FwD7AttackTcpNullScan
+         Counter32,
+      pr1645v2FwD7AttackBadUdpLen
+         Counter32,
+      pr1645v2FwD7AttackShortUdpHdr
+         Counter32,
+      pr1645v2FwD7AttackShortIcmpLen
+         Counter32,
+      pr1645v2FwD7AttackSynAttack
+         Counter32,
+      pr1645v2FwD7AttackPostTcpRst
+         Counter32,
+      pr1645v2FwD7AttackBlindSpoofing
+         Counter32,
+      pr1645v2FwD7AttackZeroBytes
+         Counter32,
+      pr1645v2FwD7AttackSeqNumOutOfRange
+         Counter32,
+      pr1645v2FwD7AttackWinNuke
+         Counter32,
+      pr1645v2FwD7AttackBadTcpSeqNumRst
+         Counter32,
+      pr1645v2FwD7AttackZeroLenIpOpt
+         Counter32,
+      pr1645v2FwD7AttackBadIpTimeStamp
+         Counter32,
+      pr1645v2FwD7AttackUnexpData
+         Counter32,
+      pr1645v2FwD7AttackUnexpIcmpErr
+         Counter32,
+      pr1645v2FwD7AttackBadSrcIf
+         Counter32
+      }
+
+pr1645v2FwD7AttackTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2FwD7AttackEntry 11}
+
+pr1645v2FwD7AttackSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2FwD7AttackEntry 16777216}
+
+pr1645v2FwD7AttackLandAttack OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.landAttack
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 33554432}
+
+pr1645v2FwD7AttackSpoofedPacket OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.spoofedPacket
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 50331648}
+
+pr1645v2FwD7AttackBadTcpConnReq OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.badTcpConnReq
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 67108864}
+
+pr1645v2FwD7AttackBadTcpAck OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.badTcpAck
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 83886080}
+
+pr1645v2FwD7AttackUnexpUdpEchoResp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.unexpUdpEchoResp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 100663296}
+
+pr1645v2FwD7AttackUnexpIcmpEchoResp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.unexpIcmpEchoResp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 117440512}
+
+pr1645v2FwD7AttackGenAttack OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.genAttack
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 134217728}
+
+pr1645v2FwD7AttackMinIpHdrLen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.minIpHdrLen
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 150994944}
+
+pr1645v2FwD7AttackEmptyPacket OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.emptyPacket
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 167772160}
+
+pr1645v2FwD7AttackBadTcpLen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.badTcpLen
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 184549376}
+
+pr1645v2FwD7AttackShortTcpHdr OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.shortTcpHdr
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 201326592}
+
+pr1645v2FwD7AttackTcpNullScan OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.tcpNullScan
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 218103808}
+
+pr1645v2FwD7AttackBadUdpLen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.badUdpLen
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 234881024}
+
+pr1645v2FwD7AttackShortUdpHdr OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.shortUdpHdr
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 251658240}
+
+pr1645v2FwD7AttackShortIcmpLen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.shortIcmpLen
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 268435456}
+
+pr1645v2FwD7AttackSynAttack OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.synAttack
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 285212672}
+
+pr1645v2FwD7AttackPostTcpRst OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.postTcpRst
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 301989888}
+
+pr1645v2FwD7AttackBlindSpoofing OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.blindSpoofing
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 318767104}
+
+pr1645v2FwD7AttackZeroBytes OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.zeroBytes
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 335544320}
+
+pr1645v2FwD7AttackSeqNumOutOfRange OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.seqNumOutOfRange
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 352321536}
+
+pr1645v2FwD7AttackWinNuke OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.winNuke
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 369098752}
+
+pr1645v2FwD7AttackBadTcpSeqNumRst OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.badTcpSeqNumRst
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 385875968}
+
+pr1645v2FwD7AttackZeroLenIpOpt OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.zeroLenIpOpt
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 402653184}
+
+pr1645v2FwD7AttackBadIpTimeStamp OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.badIpTimeStamp
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 419430400}
+
+pr1645v2FwD7AttackUnexpData OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.unexpData
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 436207616}
+
+pr1645v2FwD7AttackUnexpIcmpErr OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.unexpIcmpErr
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 452984832}
+
+pr1645v2FwD7AttackBadSrcIf OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7Attack.badSrcIf
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7AttackEntry 469762048}
+
+
+pr1645v2FwH24General OBJECT IDENTIFIER ::= {pr1645v2Fw 182}
+
+pr1645v2FwH24GeneralSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2FwH24GeneralEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "H24SystemPerformance"
+   ::= {pr1645v2FwH24General 1}
+
+pr1645v2FwH24GeneralEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2FwH24GeneralEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2FwH24GeneralTableIx }
+   ::= {pr1645v2FwH24GeneralSSCTable 1}
+
+Pr1645v2FwH24GeneralEntry ::=
+   SEQUENCE
+      {
+      pr1645v2FwH24GeneralTableIx
+         TableIndex,
+      pr1645v2FwH24GeneralSysUpTime
+         TimeTicks,
+      pr1645v2FwH24GeneralMaxConn
+         Counter32,
+      pr1645v2FwH24GeneralMaxResource
+         Counter32,
+      pr1645v2FwH24GeneralServiceAcc
+         Counter32,
+      pr1645v2FwH24GeneralNoSrcRoute
+         Counter32,
+      pr1645v2FwH24GeneralSrcBcast
+         Counter32,
+      pr1645v2FwH24GeneralSynUnable
+         Counter32,
+      pr1645v2FwH24GeneralFinalAckFail
+         Counter32,
+      pr1645v2FwH24GeneralDenyPolicy
+         Counter32,
+      pr1645v2FwH24GeneralConnLimit
+         Counter32,
+      pr1645v2FwH24GeneralSrcRouteOpt
+         Counter32,
+      pr1645v2FwH24GeneralPolicyDeleted
+         Counter32,
+      pr1645v2FwH24GeneralNoDestRoute
+         Counter32,
+      pr1645v2FwH24GeneralRejToSelf
+         Counter32,
+      pr1645v2FwH24GeneralDestBcast
+         Counter32,
+      pr1645v2FwH24GeneralNoInPol
+         Counter32,
+      pr1645v2FwH24GeneralNoOutPol
+         Counter32
+      }
+
+pr1645v2FwH24GeneralTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2FwH24GeneralEntry 11}
+
+pr1645v2FwH24GeneralSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2FwH24GeneralEntry 16777216}
+
+pr1645v2FwH24GeneralMaxConn OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.maxConn
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 452984832}
+
+pr1645v2FwH24GeneralMaxResource OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.maxResource
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 469762048}
+
+pr1645v2FwH24GeneralServiceAcc OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.serviceAcc
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 503316480}
+
+pr1645v2FwH24GeneralNoSrcRoute OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.noSrcRoute
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 520093696}
+
+pr1645v2FwH24GeneralSrcBcast OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.srcBcast
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 536870912}
+
+pr1645v2FwH24GeneralSynUnable OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.synUnable
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 553648128}
+
+pr1645v2FwH24GeneralFinalAckFail OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.finalAckFail
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 570425344}
+
+pr1645v2FwH24GeneralDenyPolicy OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.denyPolicy
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 587202560}
+
+pr1645v2FwH24GeneralConnLimit OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.connLimit
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 603979776}
+
+pr1645v2FwH24GeneralSrcRouteOpt OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.srcRouteOpt
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 855638016}
+
+pr1645v2FwH24GeneralPolicyDeleted OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.policyDeleted
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 922746880}
+
+pr1645v2FwH24GeneralNoDestRoute OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.noDestRoute
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 939524096}
+
+pr1645v2FwH24GeneralRejToSelf OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.rejToSelf
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 956301312}
+
+pr1645v2FwH24GeneralDestBcast OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.destBcast
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 1006632960}
+
+pr1645v2FwH24GeneralNoInPol OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.noInPol
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 1023410176}
+
+pr1645v2FwH24GeneralNoOutPol OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.h24General.noOutPol
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwH24GeneralEntry 1040187392}
+
+
+pr1645v2FwD7General OBJECT IDENTIFIER ::= {pr1645v2Fw 183}
+
+pr1645v2FwD7GeneralSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2FwD7GeneralEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "d7SystemPerformance"
+   ::= {pr1645v2FwD7General 1}
+
+pr1645v2FwD7GeneralEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2FwD7GeneralEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2FwD7GeneralTableIx }
+   ::= {pr1645v2FwD7GeneralSSCTable 1}
+
+Pr1645v2FwD7GeneralEntry ::=
+   SEQUENCE
+      {
+      pr1645v2FwD7GeneralTableIx
+         TableIndex,
+      pr1645v2FwD7GeneralSysUpTime
+         TimeTicks,
+      pr1645v2FwD7GeneralMaxConn
+         Counter32,
+      pr1645v2FwD7GeneralMaxResource
+         Counter32,
+      pr1645v2FwD7GeneralServiceAcc
+         Counter32,
+      pr1645v2FwD7GeneralNoSrcRoute
+         Counter32,
+      pr1645v2FwD7GeneralSrcBcast
+         Counter32,
+      pr1645v2FwD7GeneralSynUnable
+         Counter32,
+      pr1645v2FwD7GeneralFinalAckFail
+         Counter32,
+      pr1645v2FwD7GeneralDenyPolicy
+         Counter32,
+      pr1645v2FwD7GeneralConnLimit
+         Counter32,
+      pr1645v2FwD7GeneralSrcRouteOpt
+         Counter32,
+      pr1645v2FwD7GeneralPolicyDeleted
+         Counter32,
+      pr1645v2FwD7GeneralNoDestRoute
+         Counter32,
+      pr1645v2FwD7GeneralRejToSelf
+         Counter32,
+      pr1645v2FwD7GeneralDestBcast
+         Counter32,
+      pr1645v2FwD7GeneralNoInPol
+         Counter32,
+      pr1645v2FwD7GeneralNoOutPol
+         Counter32
+      }
+
+pr1645v2FwD7GeneralTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2FwD7GeneralEntry 11}
+
+pr1645v2FwD7GeneralSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2FwD7GeneralEntry 16777216}
+
+pr1645v2FwD7GeneralMaxConn OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.maxConn
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 452984832}
+
+pr1645v2FwD7GeneralMaxResource OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.maxResource
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 469762048}
+
+pr1645v2FwD7GeneralServiceAcc OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.serviceAcc
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 503316480}
+
+pr1645v2FwD7GeneralNoSrcRoute OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.noSrcRoute
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 520093696}
+
+pr1645v2FwD7GeneralSrcBcast OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.srcBcast
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 536870912}
+
+pr1645v2FwD7GeneralSynUnable OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.synUnable
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 553648128}
+
+pr1645v2FwD7GeneralFinalAckFail OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.finalAckFail
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 570425344}
+
+pr1645v2FwD7GeneralDenyPolicy OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.denyPolicy
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 587202560}
+
+pr1645v2FwD7GeneralConnLimit OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.connLimit
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 603979776}
+
+pr1645v2FwD7GeneralSrcRouteOpt OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.srcRouteOpt
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 855638016}
+
+pr1645v2FwD7GeneralPolicyDeleted OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.policyDeleted
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 922746880}
+
+pr1645v2FwD7GeneralNoDestRoute OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.noDestRoute
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 939524096}
+
+pr1645v2FwD7GeneralRejToSelf OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.rejToSelf
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 956301312}
+
+pr1645v2FwD7GeneralDestBcast OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.destBcast
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 1006632960}
+
+pr1645v2FwD7GeneralNoInPol OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.noInPol
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 1023410176}
+
+pr1645v2FwD7GeneralNoOutPol OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.performance.d7General.noOutPol
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2FwD7GeneralEntry 1040187392}
+
+
+
+ar1645v2Fw OBJECT IDENTIFIER ::= {r1645v2Fw 16}
+
+
+ar1645v2FwClearLogTable OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.actions.clearLogTable
+       Info: action in the debug group"
+   ::= {ar1645v2Fw 902}
+
+
+ar1645v2FwListSelfPolicy OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.actions.listSelfPolicy
+       Info: action in the debug group"
+   ::= {ar1645v2Fw 901}
+
+
+ar1645v2FwListPolicy OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: firewall.actions.listPolicy
+       Info: action in the debug group"
+   ::= {ar1645v2Fw 900}
+
+
+
+END

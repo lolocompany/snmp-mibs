@@ -1,0 +1,257 @@
+OneAccess-R1645v2-3135-Zbac DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Zbac OBJECT IDENTIFIER ::= {r1645Rootv2 3135}
+
+r1645v2ZbacMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2ZbacMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2Zbac 1}
+
+r1645v2ZbacMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2ZbacMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2ZbacMOPropGlobalIx }
+   ::= {r1645v2ZbacMOProp 1}
+
+R1645v2ZbacMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2ZbacMOPropPath
+         ContainmentPath,
+      r1645v2ZbacMOPropRev
+         ObjectRevision,
+      r1645v2ZbacMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2ZbacMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2ZbacMOPropEntry 3}
+
+r1645v2ZbacMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2ZbacMOPropEntry 4}
+
+r1645v2ZbacMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2ZbacMOPropEntry 10}
+
+
+
+er1645v2Zbac OBJECT IDENTIFIER ::= {r1645v2Zbac 11}
+
+
+er1645v2ZbacSnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2Zbac 268}
+
+er1645v2ZbacSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2ZbacSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2ZbacSnmpIndexOffset 1}
+
+er1645v2ZbacSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2ZbacSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2ZbacSnmpIndexOffsetGlobalIx }
+   ::= {er1645v2ZbacSnmpIndexOffsetTable 1}
+
+Er1645v2ZbacSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2ZbacSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2ZbacSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2ZbacSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2ZbacSnmpIndexOffsetEntry 10}
+
+er1645v2ZbacSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: addressCollection.editConf.snmpIndexOffset"
+   ::= {er1645v2ZbacSnmpIndexOffsetEntry 2147483648}
+
+
+er1645v2ZbacAddressRanges OBJECT IDENTIFIER ::= {er1645v2Zbac 2}
+
+er1645v2ZbacAddressRangesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2ZbacAddressRangesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ipAddresses"
+   ::= {er1645v2ZbacAddressRanges 1}
+
+er1645v2ZbacAddressRangesEntry OBJECT-TYPE
+   SYNTAX      Er1645v2ZbacAddressRangesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2ZbacAddressRangesGlobalIx,
+                er1645v2ZbacAddressRangesTableIx }
+   ::= {er1645v2ZbacAddressRangesSSCTable 1}
+
+Er1645v2ZbacAddressRangesEntry ::=
+   SEQUENCE
+      {
+      er1645v2ZbacAddressRangesActions
+         VariableLengthTableActions,
+      er1645v2ZbacAddressRangesGlobalIx
+         GlobalIndex,
+      er1645v2ZbacAddressRangesTableIx
+         TableIndex,
+      er1645v2ZbacAddressRangesRange
+         DisplayString
+      }
+
+er1645v2ZbacAddressRangesActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2ZbacAddressRangesEntry 2}
+
+er1645v2ZbacAddressRangesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2ZbacAddressRangesEntry 10}
+
+er1645v2ZbacAddressRangesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2ZbacAddressRangesEntry 11}
+
+er1645v2ZbacAddressRangesRange OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: addressCollection.editConf.addressRanges.range"
+   ::= {er1645v2ZbacAddressRangesEntry 16777216}
+
+
+
+sr1645v2Zbac OBJECT IDENTIFIER ::= {r1645v2Zbac 14}
+
+
+sr1645v2ZbacSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2Zbac 269}
+
+sr1645v2ZbacSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2ZbacSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2ZbacSnmpIndex 1}
+
+sr1645v2ZbacSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2ZbacSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2ZbacSnmpIndexGlobalIx }
+   ::= {sr1645v2ZbacSnmpIndexTable 1}
+
+Sr1645v2ZbacSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2ZbacSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2ZbacSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2ZbacSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2ZbacSnmpIndexEntry 10}
+
+sr1645v2ZbacSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: addressCollection.status.snmpIndex"
+   ::= {sr1645v2ZbacSnmpIndexEntry 2147483648}
+
+
+
+END

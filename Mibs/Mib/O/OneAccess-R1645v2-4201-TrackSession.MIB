@@ -1,0 +1,967 @@
+OneAccess-R1645v2-4201-TrackSession DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2TrackSession OBJECT IDENTIFIER ::= {r1645Rootv2 4201}
+
+r1645v2TrackSessionMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2TrackSessionMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2TrackSession 1}
+
+r1645v2TrackSessionMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2TrackSessionMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2TrackSessionMOPropGlobalIx }
+   ::= {r1645v2TrackSessionMOProp 1}
+
+R1645v2TrackSessionMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2TrackSessionMOPropPath
+         ContainmentPath,
+      r1645v2TrackSessionMOPropRev
+         ObjectRevision,
+      r1645v2TrackSessionMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2TrackSessionMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2TrackSessionMOPropEntry 3}
+
+r1645v2TrackSessionMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2TrackSessionMOPropEntry 4}
+
+r1645v2TrackSessionMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2TrackSessionMOPropEntry 10}
+
+
+
+er1645v2TrackSession OBJECT IDENTIFIER ::= {r1645v2TrackSession 11}
+
+
+er1645v2TrackSessionRemark OBJECT IDENTIFIER ::= {er1645v2TrackSession 321}
+
+er1645v2TrackSessionRemarkTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2TrackSessionRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "intfRemark"
+   ::= {er1645v2TrackSessionRemark 1}
+
+er1645v2TrackSessionRemarkEntry OBJECT-TYPE
+   SYNTAX      Er1645v2TrackSessionRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2TrackSessionRemarkGlobalIx }
+   ::= {er1645v2TrackSessionRemarkTable 1}
+
+Er1645v2TrackSessionRemarkEntry ::=
+   SEQUENCE
+      {
+      er1645v2TrackSessionRemarkGlobalIx
+         GlobalIndex,
+      er1645v2TrackSessionRemarkValue
+         DisplayString
+      }
+
+er1645v2TrackSessionRemarkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2TrackSessionRemarkEntry 10}
+
+er1645v2TrackSessionRemarkValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.remark"
+   ::= {er1645v2TrackSessionRemarkEntry 2147483648}
+
+
+er1645v2TrackSessionActivation OBJECT IDENTIFIER ::= {er1645v2TrackSession 1}
+
+er1645v2TrackSessionActivationTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2TrackSessionActivationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "is this object actively tracking or not "
+   ::= {er1645v2TrackSessionActivation 1}
+
+er1645v2TrackSessionActivationEntry OBJECT-TYPE
+   SYNTAX      Er1645v2TrackSessionActivationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2TrackSessionActivationGlobalIx }
+   ::= {er1645v2TrackSessionActivationTable 1}
+
+Er1645v2TrackSessionActivationEntry ::=
+   SEQUENCE
+      {
+      er1645v2TrackSessionActivationGlobalIx
+         GlobalIndex,
+      er1645v2TrackSessionActivationValue
+         INTEGER
+      }
+
+er1645v2TrackSessionActivationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2TrackSessionActivationEntry 10}
+
+er1645v2TrackSessionActivationValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.activation
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1645v2TrackSessionActivationEntry 2147483648}
+
+
+er1645v2TrackSessionCombination OBJECT IDENTIFIER ::= {er1645v2TrackSession 3}
+
+er1645v2TrackSessionCombinationTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2TrackSessionCombinationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "how are multiple events combined"
+   ::= {er1645v2TrackSessionCombination 1}
+
+er1645v2TrackSessionCombinationEntry OBJECT-TYPE
+   SYNTAX      Er1645v2TrackSessionCombinationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2TrackSessionCombinationGlobalIx }
+   ::= {er1645v2TrackSessionCombinationTable 1}
+
+Er1645v2TrackSessionCombinationEntry ::=
+   SEQUENCE
+      {
+      er1645v2TrackSessionCombinationGlobalIx
+         GlobalIndex,
+      er1645v2TrackSessionCombinationValue
+         INTEGER
+      }
+
+er1645v2TrackSessionCombinationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2TrackSessionCombinationEntry 10}
+
+er1645v2TrackSessionCombinationValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               logicalOr (0),
+               logicalAnd (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.combination
+
+       Possibilities:
+               logicalOr   (0)
+               logicalAnd   (1)"
+   ::= {er1645v2TrackSessionCombinationEntry 2147483648}
+
+
+er1645v2TrackSessionStartup OBJECT IDENTIFIER ::= {er1645v2TrackSession 6}
+
+er1645v2TrackSessionStartupSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2TrackSessionStartupEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "startup"
+   ::= {er1645v2TrackSessionStartup 1}
+
+er1645v2TrackSessionStartupEntry OBJECT-TYPE
+   SYNTAX      Er1645v2TrackSessionStartupEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2TrackSessionStartupGlobalIx }
+   ::= {er1645v2TrackSessionStartupSSCTable 1}
+
+Er1645v2TrackSessionStartupEntry ::=
+   SEQUENCE
+      {
+      er1645v2TrackSessionStartupGlobalIx
+         GlobalIndex,
+      er1645v2TrackSessionStartupStartDelay
+         TimeTicks,
+      er1645v2TrackSessionStartupStatus
+         INTEGER
+      }
+
+er1645v2TrackSessionStartupGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2TrackSessionStartupEntry 10}
+
+er1645v2TrackSessionStartupStartDelay OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.startup.startDelay
+
+       Time in centi-second."
+   ::= {er1645v2TrackSessionStartupEntry 16777216}
+
+er1645v2TrackSessionStartupStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               down (0),
+               up (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.startup.status
+
+       Possibilities:
+               down   (0)
+               up   (1)"
+   ::= {er1645v2TrackSessionStartupEntry 33554432}
+
+
+er1645v2TrackSessionSources OBJECT IDENTIFIER ::= {er1645v2TrackSession 2}
+
+er1645v2TrackSessionSourcesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2TrackSessionSourcesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "which are the sources of events"
+   ::= {er1645v2TrackSessionSources 1}
+
+er1645v2TrackSessionSourcesEntry OBJECT-TYPE
+   SYNTAX      Er1645v2TrackSessionSourcesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2TrackSessionSourcesGlobalIx,
+                er1645v2TrackSessionSourcesTableIx }
+   ::= {er1645v2TrackSessionSourcesSSCTable 1}
+
+Er1645v2TrackSessionSourcesEntry ::=
+   SEQUENCE
+      {
+      er1645v2TrackSessionSourcesActions
+         VariableLengthTableActions,
+      er1645v2TrackSessionSourcesGlobalIx
+         GlobalIndex,
+      er1645v2TrackSessionSourcesTableIx
+         TableIndex,
+      er1645v2TrackSessionSourcesStatusLogic
+         INTEGER,
+      er1645v2TrackSessionSourcesSourceIfStatusInterface
+         DisplayString,
+      er1645v2TrackSessionSourcesSourceIfStatusMask
+         Integer32,
+      er1645v2TrackSessionSourcesSourceQualityMonitorDestination
+         DisplayString,
+      er1645v2TrackSessionSourcesSourceQualityMonitorMask
+         Integer32,
+      er1645v2TrackSessionSourcesSourceIpV4RouteCheckRemark
+         DisplayString,
+      er1645v2TrackSessionSourcesSourceIpV4RouteCheckNetwork
+         IpAddress,
+      er1645v2TrackSessionSourcesSourceIpV4RouteCheckMask
+         IpAddress,
+      er1645v2TrackSessionSourcesSourceIpV4RouteCheckVrfRouter
+         DisplayString
+      }
+
+er1645v2TrackSessionSourcesActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2TrackSessionSourcesEntry 2}
+
+er1645v2TrackSessionSourcesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2TrackSessionSourcesEntry 10}
+
+er1645v2TrackSessionSourcesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2TrackSessionSourcesEntry 11}
+
+er1645v2TrackSessionSourcesStatusLogic OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               normal (0),
+               reverse (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.sources.statusLogic
+
+       Possibilities:
+               normal   (0)
+               reverse   (1)"
+   ::= {er1645v2TrackSessionSourcesEntry 16777216}
+
+er1645v2TrackSessionSourcesSourceIfStatusInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.sources.source.ifStatus.interface"
+   ::= {er1645v2TrackSessionSourcesEntry 33620224}
+
+er1645v2TrackSessionSourcesSourceIfStatusMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.sources.source.ifStatus.mask
+
+       Bit meanings:
+               bit 0 = routing,
+               bit 1 = ipV6"
+   ::= {er1645v2TrackSessionSourcesEntry 33620480}
+
+er1645v2TrackSessionSourcesSourceQualityMonitorDestination OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.sources.source.qualityMonitor.destination"
+   ::= {er1645v2TrackSessionSourcesEntry 33685760}
+
+er1645v2TrackSessionSourcesSourceQualityMonitorMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.sources.source.qualityMonitor.mask
+
+       Bit meanings:
+               bit 0 = loss,
+               bit 1 = delayAvrg,
+               bit 2 = delayMax,
+               bit 3 = delayMinMax,
+               bit 4 = jitterAvrg,
+               bit 5 = jitterPosMax,
+               bit 6 = jitterNegMax,
+               bit 7 = lossUp,
+               bit 8 = jitterUpAvrg,
+               bit 9 = jitterUpPosMax,
+               bit 10 = jitterUpNegMax,
+               bit 11 = lossDown,
+               bit 12 = jitterDownAvrg,
+               bit 13 = jitterDownPosMax,
+               bit 14 = jitterDownNegMax,
+               bit 15 = delayUpAvrg,
+               bit 16 = delayUpMax,
+               bit 17 = delayDownAvrg,
+               bit 18 = delayDownMax,
+               bit 19 = bfdCtrl"
+   ::= {er1645v2TrackSessionSourcesEntry 33686016}
+
+er1645v2TrackSessionSourcesSourceIpV4RouteCheckRemark OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.sources.source.ipV4RouteCheck.remark"
+   ::= {er1645v2TrackSessionSourcesEntry 33751296}
+
+er1645v2TrackSessionSourcesSourceIpV4RouteCheckNetwork OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.sources.source.ipV4RouteCheck.network"
+   ::= {er1645v2TrackSessionSourcesEntry 33751808}
+
+er1645v2TrackSessionSourcesSourceIpV4RouteCheckMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.sources.source.ipV4RouteCheck.mask"
+   ::= {er1645v2TrackSessionSourcesEntry 33752064}
+
+er1645v2TrackSessionSourcesSourceIpV4RouteCheckVrfRouter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.sources.source.ipV4RouteCheck.vrfRouter"
+   ::= {er1645v2TrackSessionSourcesEntry 33751552}
+
+
+er1645v2TrackSessionUpAction OBJECT IDENTIFIER ::= {er1645v2TrackSession 4}
+
+er1645v2TrackSessionUpActionSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2TrackSessionUpActionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "which cli is executed"
+   ::= {er1645v2TrackSessionUpAction 1}
+
+er1645v2TrackSessionUpActionEntry OBJECT-TYPE
+   SYNTAX      Er1645v2TrackSessionUpActionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2TrackSessionUpActionGlobalIx }
+   ::= {er1645v2TrackSessionUpActionSSCTable 1}
+
+Er1645v2TrackSessionUpActionEntry ::=
+   SEQUENCE
+      {
+      er1645v2TrackSessionUpActionGlobalIx
+         GlobalIndex,
+      er1645v2TrackSessionUpActionCliCommand
+         DisplayString,
+      er1645v2TrackSessionUpActionFile
+         DisplayString
+      }
+
+er1645v2TrackSessionUpActionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2TrackSessionUpActionEntry 10}
+
+er1645v2TrackSessionUpActionCliCommand OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.upAction.cliCommand"
+   ::= {er1645v2TrackSessionUpActionEntry 16777216}
+
+er1645v2TrackSessionUpActionFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.upAction.file"
+   ::= {er1645v2TrackSessionUpActionEntry 33554432}
+
+
+er1645v2TrackSessionDownAction OBJECT IDENTIFIER ::= {er1645v2TrackSession 5}
+
+er1645v2TrackSessionDownActionSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2TrackSessionDownActionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "which cli is executed"
+   ::= {er1645v2TrackSessionDownAction 1}
+
+er1645v2TrackSessionDownActionEntry OBJECT-TYPE
+   SYNTAX      Er1645v2TrackSessionDownActionEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2TrackSessionDownActionGlobalIx }
+   ::= {er1645v2TrackSessionDownActionSSCTable 1}
+
+Er1645v2TrackSessionDownActionEntry ::=
+   SEQUENCE
+      {
+      er1645v2TrackSessionDownActionGlobalIx
+         GlobalIndex,
+      er1645v2TrackSessionDownActionCliCommand
+         DisplayString,
+      er1645v2TrackSessionDownActionFile
+         DisplayString
+      }
+
+er1645v2TrackSessionDownActionGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2TrackSessionDownActionEntry 10}
+
+er1645v2TrackSessionDownActionCliCommand OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.downAction.cliCommand"
+   ::= {er1645v2TrackSessionDownActionEntry 16777216}
+
+er1645v2TrackSessionDownActionFile OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: session.editConf.downAction.file"
+   ::= {er1645v2TrackSessionDownActionEntry 33554432}
+
+
+
+sr1645v2TrackSession OBJECT IDENTIFIER ::= {r1645v2TrackSession 14}
+
+
+sr1645v2TrackSessionStatus OBJECT IDENTIFIER ::= {sr1645v2TrackSession 101}
+
+sr1645v2TrackSessionStatusTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2TrackSessionStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "current track status "
+   ::= {sr1645v2TrackSessionStatus 1}
+
+sr1645v2TrackSessionStatusEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2TrackSessionStatusEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2TrackSessionStatusGlobalIx }
+   ::= {sr1645v2TrackSessionStatusTable 1}
+
+Sr1645v2TrackSessionStatusEntry ::=
+   SEQUENCE
+      {
+      sr1645v2TrackSessionStatusGlobalIx
+         GlobalIndex,
+      sr1645v2TrackSessionStatusValue
+         INTEGER
+      }
+
+sr1645v2TrackSessionStatusGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2TrackSessionStatusEntry 10}
+
+sr1645v2TrackSessionStatusValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               down (0),
+               up (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: session.status.status
+
+       Possibilities:
+               down   (0)
+               up   (1)"
+   ::= {sr1645v2TrackSessionStatusEntry 2147483648}
+
+
+sr1645v2TrackSessionListeners OBJECT IDENTIFIER ::= {sr1645v2TrackSession 4001}
+
+sr1645v2TrackSessionListenersSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2TrackSessionListenersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "current track status "
+   ::= {sr1645v2TrackSessionListeners 1}
+
+sr1645v2TrackSessionListenersEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2TrackSessionListenersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2TrackSessionListenersGlobalIx,
+                sr1645v2TrackSessionListenersTableIx }
+   ::= {sr1645v2TrackSessionListenersSSCTable 1}
+
+Sr1645v2TrackSessionListenersEntry ::=
+   SEQUENCE
+      {
+      sr1645v2TrackSessionListenersGlobalIx
+         GlobalIndex,
+      sr1645v2TrackSessionListenersTableIx
+         TableIndex,
+      sr1645v2TrackSessionListenersApplication
+         DisplayString
+      }
+
+sr1645v2TrackSessionListenersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2TrackSessionListenersEntry 10}
+
+sr1645v2TrackSessionListenersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2TrackSessionListenersEntry 11}
+
+sr1645v2TrackSessionListenersApplication OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: session.status.listeners.application"
+   ::= {sr1645v2TrackSessionListenersEntry 16777216}
+
+
+sr1645v2TrackSessionSources OBJECT IDENTIFIER ::= {sr1645v2TrackSession 4002}
+
+sr1645v2TrackSessionSourcesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2TrackSessionSourcesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "which are the sources of events"
+   ::= {sr1645v2TrackSessionSources 1}
+
+sr1645v2TrackSessionSourcesEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2TrackSessionSourcesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2TrackSessionSourcesGlobalIx,
+                sr1645v2TrackSessionSourcesTableIx }
+   ::= {sr1645v2TrackSessionSourcesSSCTable 1}
+
+Sr1645v2TrackSessionSourcesEntry ::=
+   SEQUENCE
+      {
+      sr1645v2TrackSessionSourcesGlobalIx
+         GlobalIndex,
+      sr1645v2TrackSessionSourcesTableIx
+         TableIndex,
+      sr1645v2TrackSessionSourcesDescrIfStatusInterface
+         DisplayString,
+      sr1645v2TrackSessionSourcesDescrIfStatusMode
+         Integer32,
+      sr1645v2TrackSessionSourcesDescrIfStatusMask
+         Integer32,
+      sr1645v2TrackSessionSourcesDescrQualityMonitorDestination
+         DisplayString,
+      sr1645v2TrackSessionSourcesDescrQualityMonitorAlarms
+         Integer32,
+      sr1645v2TrackSessionSourcesDescrQualityMonitorMask
+         Integer32,
+      sr1645v2TrackSessionSourcesLastChange
+         TimeTicks,
+      sr1645v2TrackSessionSourcesStatusLogic
+         INTEGER,
+      sr1645v2TrackSessionSourcesStatus
+         INTEGER
+      }
+
+sr1645v2TrackSessionSourcesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2TrackSessionSourcesEntry 10}
+
+sr1645v2TrackSessionSourcesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1645v2TrackSessionSourcesEntry 11}
+
+sr1645v2TrackSessionSourcesDescrIfStatusInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: session.status.sources.description.ifStatus.interface"
+   ::= {sr1645v2TrackSessionSourcesEntry 16843008}
+
+sr1645v2TrackSessionSourcesDescrIfStatusMode OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: session.status.sources.description.ifStatus.mode
+
+       Bit meanings:
+               bit 0 = routing,
+               bit 1 = ipV6"
+   ::= {sr1645v2TrackSessionSourcesEntry 16843264}
+
+sr1645v2TrackSessionSourcesDescrIfStatusMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: session.status.sources.description.ifStatus.mask
+
+       Bit meanings:
+               bit 0 = routing,
+               bit 1 = ipV6"
+   ::= {sr1645v2TrackSessionSourcesEntry 16843520}
+
+sr1645v2TrackSessionSourcesDescrQualityMonitorDestination OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: session.status.sources.description.qualityMonitor.destination"
+   ::= {sr1645v2TrackSessionSourcesEntry 16908544}
+
+sr1645v2TrackSessionSourcesDescrQualityMonitorAlarms OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: session.status.sources.description.qualityMonitor.alarms
+
+       Bit meanings:
+               bit 0 = loss,
+               bit 1 = delayAvrg,
+               bit 2 = delayMax,
+               bit 3 = delayMinMax,
+               bit 4 = jitterAvrg,
+               bit 5 = jitterPosMax,
+               bit 6 = jitterNegMax,
+               bit 7 = lossUp,
+               bit 8 = jitterUpAvrg,
+               bit 9 = jitterUpPosMax,
+               bit 10 = jitterUpNegMax,
+               bit 11 = lossDown,
+               bit 12 = jitterDownAvrg,
+               bit 13 = jitterDownPosMax,
+               bit 14 = jitterDownNegMax,
+               bit 15 = delayUpAvrg,
+               bit 16 = delayUpMax,
+               bit 17 = delayDownAvrg,
+               bit 18 = delayDownMax,
+               bit 19 = bfdCtrl"
+   ::= {sr1645v2TrackSessionSourcesEntry 16908800}
+
+sr1645v2TrackSessionSourcesDescrQualityMonitorMask OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: session.status.sources.description.qualityMonitor.mask
+
+       Bit meanings:
+               bit 0 = loss,
+               bit 1 = delayAvrg,
+               bit 2 = delayMax,
+               bit 3 = delayMinMax,
+               bit 4 = jitterAvrg,
+               bit 5 = jitterPosMax,
+               bit 6 = jitterNegMax,
+               bit 7 = lossUp,
+               bit 8 = jitterUpAvrg,
+               bit 9 = jitterUpPosMax,
+               bit 10 = jitterUpNegMax,
+               bit 11 = lossDown,
+               bit 12 = jitterDownAvrg,
+               bit 13 = jitterDownPosMax,
+               bit 14 = jitterDownNegMax,
+               bit 15 = delayUpAvrg,
+               bit 16 = delayUpMax,
+               bit 17 = delayDownAvrg,
+               bit 18 = delayDownMax,
+               bit 19 = bfdCtrl"
+   ::= {sr1645v2TrackSessionSourcesEntry 16909056}
+
+sr1645v2TrackSessionSourcesLastChange OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: session.status.sources.lastChange
+
+       Time in centi-second."
+   ::= {sr1645v2TrackSessionSourcesEntry 50331648}
+
+sr1645v2TrackSessionSourcesStatusLogic OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               normal (0),
+               reverse (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: session.status.sources.statusLogic
+
+       Possibilities:
+               normal   (0)
+               reverse   (1)"
+   ::= {sr1645v2TrackSessionSourcesEntry 33554432}
+
+sr1645v2TrackSessionSourcesStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               down (0),
+               up (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: session.status.sources.status
+
+       Possibilities:
+               down   (0)
+               up   (1)"
+   ::= {sr1645v2TrackSessionSourcesEntry 67108864}
+
+
+sr1645v2TrackSessionSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2TrackSession 269}
+
+sr1645v2TrackSessionSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2TrackSessionSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2TrackSessionSnmpIndex 1}
+
+sr1645v2TrackSessionSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2TrackSessionSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2TrackSessionSnmpIndexGlobalIx }
+   ::= {sr1645v2TrackSessionSnmpIndexTable 1}
+
+Sr1645v2TrackSessionSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2TrackSessionSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2TrackSessionSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2TrackSessionSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2TrackSessionSnmpIndexEntry 10}
+
+sr1645v2TrackSessionSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: session.status.snmpIndex"
+   ::= {sr1645v2TrackSessionSnmpIndexEntry 2147483648}
+
+
+
+END

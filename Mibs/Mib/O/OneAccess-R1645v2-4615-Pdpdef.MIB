@@ -1,0 +1,5185 @@
+OneAccess-R1645v2-4615-Pdpdef DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2Pdpdef OBJECT IDENTIFIER ::= {r1645Rootv2 4615}
+
+r1645v2PdpdefMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2PdpdefMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2Pdpdef 1}
+
+r1645v2PdpdefMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2PdpdefMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2PdpdefMOPropGlobalIx }
+   ::= {r1645v2PdpdefMOProp 1}
+
+R1645v2PdpdefMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2PdpdefMOPropPath
+         ContainmentPath,
+      r1645v2PdpdefMOPropRev
+         ObjectRevision,
+      r1645v2PdpdefMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2PdpdefMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2PdpdefMOPropEntry 3}
+
+r1645v2PdpdefMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2PdpdefMOPropEntry 4}
+
+r1645v2PdpdefMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2PdpdefMOPropEntry 10}
+
+
+
+er1645v2Pdpdef OBJECT IDENTIFIER ::= {r1645v2Pdpdef 11}
+
+
+er1645v2PdpdefName OBJECT IDENTIFIER ::= {er1645v2Pdpdef 2}
+
+er1645v2PdpdefNameTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PdpdefNameEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "config interface name"
+   ::= {er1645v2PdpdefName 1}
+
+er1645v2PdpdefNameEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PdpdefNameEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PdpdefNameGlobalIx }
+   ::= {er1645v2PdpdefNameTable 1}
+
+Er1645v2PdpdefNameEntry ::=
+   SEQUENCE
+      {
+      er1645v2PdpdefNameGlobalIx
+         GlobalIndex,
+      er1645v2PdpdefNameValue
+         DisplayString
+      }
+
+er1645v2PdpdefNameGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PdpdefNameEntry 10}
+
+er1645v2PdpdefNameValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.name"
+   ::= {er1645v2PdpdefNameEntry 2147483648}
+
+
+er1645v2PdpdefRemark OBJECT IDENTIFIER ::= {er1645v2Pdpdef 321}
+
+er1645v2PdpdefRemarkTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PdpdefRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "intfRemark"
+   ::= {er1645v2PdpdefRemark 1}
+
+er1645v2PdpdefRemarkEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PdpdefRemarkEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PdpdefRemarkGlobalIx }
+   ::= {er1645v2PdpdefRemarkTable 1}
+
+Er1645v2PdpdefRemarkEntry ::=
+   SEQUENCE
+      {
+      er1645v2PdpdefRemarkGlobalIx
+         GlobalIndex,
+      er1645v2PdpdefRemarkValue
+         DisplayString
+      }
+
+er1645v2PdpdefRemarkGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PdpdefRemarkEntry 10}
+
+er1645v2PdpdefRemarkValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.remark"
+   ::= {er1645v2PdpdefRemarkEntry 2147483648}
+
+
+er1645v2PdpdefApn OBJECT IDENTIFIER ::= {er1645v2Pdpdef 3}
+
+er1645v2PdpdefApnTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PdpdefApnEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Access Point Name"
+   ::= {er1645v2PdpdefApn 1}
+
+er1645v2PdpdefApnEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PdpdefApnEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PdpdefApnGlobalIx }
+   ::= {er1645v2PdpdefApnTable 1}
+
+Er1645v2PdpdefApnEntry ::=
+   SEQUENCE
+      {
+      er1645v2PdpdefApnGlobalIx
+         GlobalIndex,
+      er1645v2PdpdefApnValue
+         DisplayString
+      }
+
+er1645v2PdpdefApnGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PdpdefApnEntry 10}
+
+er1645v2PdpdefApnValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.apn"
+   ::= {er1645v2PdpdefApnEntry 2147483648}
+
+
+er1645v2PdpdefDataProfile OBJECT IDENTIFIER ::= {er1645v2Pdpdef 8}
+
+er1645v2PdpdefDataProfileTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2PdpdefDataProfileEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "cellular profile"
+   ::= {er1645v2PdpdefDataProfile 1}
+
+er1645v2PdpdefDataProfileEntry OBJECT-TYPE
+   SYNTAX      Er1645v2PdpdefDataProfileEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2PdpdefDataProfileGlobalIx }
+   ::= {er1645v2PdpdefDataProfileTable 1}
+
+Er1645v2PdpdefDataProfileEntry ::=
+   SEQUENCE
+      {
+      er1645v2PdpdefDataProfileGlobalIx
+         GlobalIndex,
+      er1645v2PdpdefDataProfileValue
+         DisplayString
+      }
+
+er1645v2PdpdefDataProfileGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2PdpdefDataProfileEntry 10}
+
+er1645v2PdpdefDataProfileValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.editConf.dataProfile"
+   ::= {er1645v2PdpdefDataProfileEntry 2147483648}
+
+
+
+sr1645v2Pdpdef OBJECT IDENTIFIER ::= {r1645v2Pdpdef 14}
+
+
+sr1645v2PdpdefSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2Pdpdef 269}
+
+sr1645v2PdpdefSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PdpdefSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2PdpdefSnmpIndex 1}
+
+sr1645v2PdpdefSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PdpdefSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PdpdefSnmpIndexGlobalIx }
+   ::= {sr1645v2PdpdefSnmpIndexTable 1}
+
+Sr1645v2PdpdefSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PdpdefSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2PdpdefSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2PdpdefSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PdpdefSnmpIndexEntry 10}
+
+sr1645v2PdpdefSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.status.snmpIndex"
+   ::= {sr1645v2PdpdefSnmpIndexEntry 2147483648}
+
+
+sr1645v2PdpdefDescr OBJECT IDENTIFIER ::= {sr1645v2Pdpdef 101}
+
+sr1645v2PdpdefDescrTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PdpdefDescrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifDescr"
+   ::= {sr1645v2PdpdefDescr 1}
+
+sr1645v2PdpdefDescrEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PdpdefDescrEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PdpdefDescrGlobalIx }
+   ::= {sr1645v2PdpdefDescrTable 1}
+
+Sr1645v2PdpdefDescrEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PdpdefDescrGlobalIx
+         GlobalIndex,
+      sr1645v2PdpdefDescrValue
+         DisplayString
+      }
+
+sr1645v2PdpdefDescrGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PdpdefDescrEntry 10}
+
+sr1645v2PdpdefDescrValue OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.status.ifDescr"
+   ::= {sr1645v2PdpdefDescrEntry 2147483648}
+
+
+sr1645v2PdpdefState OBJECT IDENTIFIER ::= {sr1645v2Pdpdef 47}
+
+sr1645v2PdpdefStateTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PdpdefStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "call state"
+   ::= {sr1645v2PdpdefState 1}
+
+sr1645v2PdpdefStateEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PdpdefStateEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PdpdefStateGlobalIx }
+   ::= {sr1645v2PdpdefStateTable 1}
+
+Sr1645v2PdpdefStateEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PdpdefStateGlobalIx
+         GlobalIndex,
+      sr1645v2PdpdefStateValue
+         INTEGER
+      }
+
+sr1645v2PdpdefStateGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PdpdefStateEntry 10}
+
+sr1645v2PdpdefStateValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               init (0),
+               l1Down (1),
+               ready (2),
+               dialing (3),
+               up (4),
+               releasing (5)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.status.state
+
+       Possibilities:
+               init   (0)
+               l1Down   (1)
+               ready   (2)
+               dialing   (3)
+               up   (4)
+               releasing   (5)"
+   ::= {sr1645v2PdpdefStateEntry 2147483648}
+
+
+sr1645v2PdpdefIfMtu OBJECT IDENTIFIER ::= {sr1645v2Pdpdef 103}
+
+sr1645v2PdpdefIfMtuTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2PdpdefIfMtuEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifMtu"
+   ::= {sr1645v2PdpdefIfMtu 1}
+
+sr1645v2PdpdefIfMtuEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2PdpdefIfMtuEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2PdpdefIfMtuGlobalIx }
+   ::= {sr1645v2PdpdefIfMtuTable 1}
+
+Sr1645v2PdpdefIfMtuEntry ::=
+   SEQUENCE
+      {
+      sr1645v2PdpdefIfMtuGlobalIx
+         GlobalIndex,
+      sr1645v2PdpdefIfMtuValue
+         Integer32
+      }
+
+sr1645v2PdpdefIfMtuGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2PdpdefIfMtuEntry 10}
+
+sr1645v2PdpdefIfMtuValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.status.ifMtu"
+   ::= {sr1645v2PdpdefIfMtuEntry 2147483648}
+
+
+
+pr1645v2Pdpdef OBJECT IDENTIFIER ::= {r1645v2Pdpdef 12}
+
+
+pr1645v2PdpdefInOctets OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 109}
+
+pr1645v2PdpdefInOctetsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInOctetsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInOctets"
+   ::= {pr1645v2PdpdefInOctets 1}
+
+pr1645v2PdpdefInOctetsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInOctetsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInOctetsGlobalIx }
+   ::= {pr1645v2PdpdefInOctetsTable 1}
+
+Pr1645v2PdpdefInOctetsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInOctetsGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInOctetsValue
+         Counter64
+      }
+
+pr1645v2PdpdefInOctetsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInOctetsEntry 10}
+
+pr1645v2PdpdefInOctetsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInOctetsEntry 2147483648}
+
+
+pr1645v2PdpdefInUcast OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 110}
+
+pr1645v2PdpdefInUcastTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInUcastEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInUcastPkts"
+   ::= {pr1645v2PdpdefInUcast 1}
+
+pr1645v2PdpdefInUcastEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInUcastEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInUcastGlobalIx }
+   ::= {pr1645v2PdpdefInUcastTable 1}
+
+Pr1645v2PdpdefInUcastEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInUcastGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInUcastValue
+         Counter64
+      }
+
+pr1645v2PdpdefInUcastGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInUcastEntry 10}
+
+pr1645v2PdpdefInUcastValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInUcastEntry 2147483648}
+
+
+pr1645v2PdpdefInNUcastPkts OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 111}
+
+pr1645v2PdpdefInNUcastPktsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInNUcastPktsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInNUcastPkts"
+   ::= {pr1645v2PdpdefInNUcastPkts 1}
+
+pr1645v2PdpdefInNUcastPktsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInNUcastPktsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInNUcastPktsGlobalIx }
+   ::= {pr1645v2PdpdefInNUcastPktsTable 1}
+
+Pr1645v2PdpdefInNUcastPktsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInNUcastPktsGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInNUcastPktsValue
+         Counter64
+      }
+
+pr1645v2PdpdefInNUcastPktsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInNUcastPktsEntry 10}
+
+pr1645v2PdpdefInNUcastPktsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInNUcastPktsEntry 2147483648}
+
+
+pr1645v2PdpdefInDiscards OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 112}
+
+pr1645v2PdpdefInDiscardsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInDiscards"
+   ::= {pr1645v2PdpdefInDiscards 1}
+
+pr1645v2PdpdefInDiscardsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInDiscardsGlobalIx }
+   ::= {pr1645v2PdpdefInDiscardsTable 1}
+
+Pr1645v2PdpdefInDiscardsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInDiscardsGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInDiscardsValue
+         Counter64
+      }
+
+pr1645v2PdpdefInDiscardsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInDiscardsEntry 10}
+
+pr1645v2PdpdefInDiscardsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInDiscardsEntry 2147483648}
+
+
+pr1645v2PdpdefInErrors OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 113}
+
+pr1645v2PdpdefInErrorsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInErrorsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInErrors"
+   ::= {pr1645v2PdpdefInErrors 1}
+
+pr1645v2PdpdefInErrorsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInErrorsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInErrorsGlobalIx }
+   ::= {pr1645v2PdpdefInErrorsTable 1}
+
+Pr1645v2PdpdefInErrorsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInErrorsGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInErrorsValue
+         Counter64
+      }
+
+pr1645v2PdpdefInErrorsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInErrorsEntry 10}
+
+pr1645v2PdpdefInErrorsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInErrorsEntry 2147483648}
+
+
+pr1645v2PdpdefInUnknownProtos OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 114}
+
+pr1645v2PdpdefInUnknownProtosTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInUnknownProtosEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInUnknownprotos"
+   ::= {pr1645v2PdpdefInUnknownProtos 1}
+
+pr1645v2PdpdefInUnknownProtosEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInUnknownProtosEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInUnknownProtosGlobalIx }
+   ::= {pr1645v2PdpdefInUnknownProtosTable 1}
+
+Pr1645v2PdpdefInUnknownProtosEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInUnknownProtosGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInUnknownProtosValue
+         Counter64
+      }
+
+pr1645v2PdpdefInUnknownProtosGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInUnknownProtosEntry 10}
+
+pr1645v2PdpdefInUnknownProtosValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInUnknownProtosEntry 2147483648}
+
+
+pr1645v2PdpdefInQLen OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 128}
+
+pr1645v2PdpdefInQLenTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInQLenEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInQLen"
+   ::= {pr1645v2PdpdefInQLen 1}
+
+pr1645v2PdpdefInQLenEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInQLenEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInQLenGlobalIx }
+   ::= {pr1645v2PdpdefInQLenTable 1}
+
+Pr1645v2PdpdefInQLenEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInQLenGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInQLenValue
+         Gauge32
+      }
+
+pr1645v2PdpdefInQLenGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInQLenEntry 10}
+
+pr1645v2PdpdefInQLenValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInQLen
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2PdpdefInQLenEntry 2147483648}
+
+
+pr1645v2PdpdefInDropEx OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 130}
+
+pr1645v2PdpdefInDropExTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInDropExEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInDiscards"
+   ::= {pr1645v2PdpdefInDropEx 1}
+
+pr1645v2PdpdefInDropExEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInDropExEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInDropExGlobalIx }
+   ::= {pr1645v2PdpdefInDropExTable 1}
+
+Pr1645v2PdpdefInDropExEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInDropExGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInDropExValue
+         Counter64
+      }
+
+pr1645v2PdpdefInDropExGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInDropExEntry 10}
+
+pr1645v2PdpdefInDropExValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInDropExEntry 2147483648}
+
+
+pr1645v2PdpdefInDropNoMac OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 133}
+
+pr1645v2PdpdefInDropNoMacTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInDropNoMacEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInDiscards"
+   ::= {pr1645v2PdpdefInDropNoMac 1}
+
+pr1645v2PdpdefInDropNoMacEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInDropNoMacEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInDropNoMacGlobalIx }
+   ::= {pr1645v2PdpdefInDropNoMacTable 1}
+
+Pr1645v2PdpdefInDropNoMacEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInDropNoMacGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInDropNoMacValue
+         Counter64
+      }
+
+pr1645v2PdpdefInDropNoMacGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInDropNoMacEntry 10}
+
+pr1645v2PdpdefInDropNoMacValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInDropNoMacEntry 2147483648}
+
+
+pr1645v2PdpdefInDropNUCast OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 136}
+
+pr1645v2PdpdefInDropNUCastTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInDropNUCastEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInDiscards"
+   ::= {pr1645v2PdpdefInDropNUCast 1}
+
+pr1645v2PdpdefInDropNUCastEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInDropNUCastEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInDropNUCastGlobalIx }
+   ::= {pr1645v2PdpdefInDropNUCastTable 1}
+
+Pr1645v2PdpdefInDropNUCastEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInDropNUCastGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInDropNUCastValue
+         Counter64
+      }
+
+pr1645v2PdpdefInDropNUCastGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInDropNUCastEntry 10}
+
+pr1645v2PdpdefInDropNUCastValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInDropNUCastEntry 2147483648}
+
+
+pr1645v2PdpdefInDropFilter OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 137}
+
+pr1645v2PdpdefInDropFilterTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInDropFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifInDiscards"
+   ::= {pr1645v2PdpdefInDropFilter 1}
+
+pr1645v2PdpdefInDropFilterEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInDropFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInDropFilterGlobalIx }
+   ::= {pr1645v2PdpdefInDropFilterTable 1}
+
+Pr1645v2PdpdefInDropFilterEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInDropFilterGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInDropFilterValue
+         Counter64
+      }
+
+pr1645v2PdpdefInDropFilterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInDropFilterEntry 10}
+
+pr1645v2PdpdefInDropFilterValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInDropFilterEntry 2147483648}
+
+
+pr1645v2PdpdefInQueues OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 131}
+
+pr1645v2PdpdefInQueuesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Queue Lengths"
+   ::= {pr1645v2PdpdefInQueues 1}
+
+pr1645v2PdpdefInQueuesEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInQueuesGlobalIx,
+                pr1645v2PdpdefInQueuesTableIx }
+   ::= {pr1645v2PdpdefInQueuesSSCTable 1}
+
+Pr1645v2PdpdefInQueuesEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInQueuesGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInQueuesTableIx
+         TableIndex,
+      pr1645v2PdpdefInQueuesName
+         INTEGER,
+      pr1645v2PdpdefInQueuesLength
+         Integer32,
+      pr1645v2PdpdefInQueuesOctetLength
+         Integer32,
+      pr1645v2PdpdefInQueuesRedLength
+         Integer32,
+      pr1645v2PdpdefInQueuesPacketsTotal
+         Counter64,
+      pr1645v2PdpdefInQueuesPacketsDirectTx
+         Counter64,
+      pr1645v2PdpdefInQueuesPacketsQueued
+         Counter64,
+      pr1645v2PdpdefInQueuesPacketsDropped
+         Counter64,
+      pr1645v2PdpdefInQueuesPacketsRedDropped
+         Counter64,
+      pr1645v2PdpdefInQueuesPacketsCirTx
+         Counter64,
+      pr1645v2PdpdefInQueuesPacketsEirTx
+         Counter64,
+      pr1645v2PdpdefInQueuesPacketsViolateTx
+         Counter64,
+      pr1645v2PdpdefInQueuesOctetsTotal
+         Counter64,
+      pr1645v2PdpdefInQueuesOctetsDirectTx
+         Counter64,
+      pr1645v2PdpdefInQueuesOctetsQueued
+         Counter64,
+      pr1645v2PdpdefInQueuesOctetsDropped
+         Counter64,
+      pr1645v2PdpdefInQueuesOctetsRedDropped
+         Counter64,
+      pr1645v2PdpdefInQueuesOctetsCirTx
+         Counter64,
+      pr1645v2PdpdefInQueuesOctetsEirTx
+         Counter64,
+      pr1645v2PdpdefInQueuesOctetsViolateTx
+         Counter64,
+      pr1645v2PdpdefInQueuesOctetsBandwidth15sec
+         Integer32,
+      pr1645v2PdpdefInQueuesOctetsBandwidth30sec
+         Integer32,
+      pr1645v2PdpdefInQueuesOctetsBandwidth1min
+         Integer32,
+      pr1645v2PdpdefInQueuesOctetsBandwidth2min
+         Integer32,
+      pr1645v2PdpdefInQueuesOctetsBandwidth5min
+         Integer32
+      }
+
+pr1645v2PdpdefInQueuesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInQueuesEntry 10}
+
+pr1645v2PdpdefInQueuesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefInQueuesEntry 11}
+
+pr1645v2PdpdefInQueuesName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               queue (8),
+               queue1Sum (9),
+               queue2Sum (10),
+               queue3Sum (11),
+               queue4Sum (12),
+               queue5Sum (13),
+               lowDelayQueueSum (14),
+               lowDelay2QueueSum (15),
+               systemQueueSum (16),
+               queueSum (17),
+               queue1Driver (18),
+               queue2Driver (19),
+               queue3Driver (20),
+               queue4Driver (21),
+               queue5Driver (22),
+               lowDelayQueueDriver (23),
+               lowDelay2QueueDriver (24),
+               systemQueueDriver (25)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.name
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               queue   (8)
+               queue1Sum   (9)
+               queue2Sum   (10)
+               queue3Sum   (11)
+               queue4Sum   (12)
+               queue5Sum   (13)
+               lowDelayQueueSum   (14)
+               lowDelay2QueueSum   (15)
+               systemQueueSum   (16)
+               queueSum   (17)
+               queue1Driver   (18)
+               queue2Driver   (19)
+               queue3Driver   (20)
+               queue4Driver   (21)
+               queue5Driver   (22)
+               lowDelayQueueDriver   (23)
+               lowDelay2QueueDriver   (24)
+               systemQueueDriver   (25)"
+   ::= {pr1645v2PdpdefInQueuesEntry 16777216}
+
+pr1645v2PdpdefInQueuesLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.length"
+   ::= {pr1645v2PdpdefInQueuesEntry 33554432}
+
+pr1645v2PdpdefInQueuesOctetLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octetLength"
+   ::= {pr1645v2PdpdefInQueuesEntry 150994944}
+
+pr1645v2PdpdefInQueuesRedLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.redLength"
+   ::= {pr1645v2PdpdefInQueuesEntry 134217728}
+
+pr1645v2PdpdefInQueuesPacketsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.packets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 50790400}
+
+pr1645v2PdpdefInQueuesPacketsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.packets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 50397184}
+
+pr1645v2PdpdefInQueuesPacketsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.packets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 50462720}
+
+pr1645v2PdpdefInQueuesPacketsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.packets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 50528256}
+
+pr1645v2PdpdefInQueuesPacketsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.packets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 50724864}
+
+pr1645v2PdpdefInQueuesPacketsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.packets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 50593792}
+
+pr1645v2PdpdefInQueuesPacketsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.packets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 50659328}
+
+pr1645v2PdpdefInQueuesPacketsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.packets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 50855936}
+
+pr1645v2PdpdefInQueuesOctetsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 67567616}
+
+pr1645v2PdpdefInQueuesOctetsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 67174400}
+
+pr1645v2PdpdefInQueuesOctetsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 67239936}
+
+pr1645v2PdpdefInQueuesOctetsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 67305472}
+
+pr1645v2PdpdefInQueuesOctetsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 67502080}
+
+pr1645v2PdpdefInQueuesOctetsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 67371008}
+
+pr1645v2PdpdefInQueuesOctetsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 67436544}
+
+pr1645v2PdpdefInQueuesOctetsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesEntry 67633152}
+
+pr1645v2PdpdefInQueuesOctetsBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octets.bandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInQueuesEntry 70386944}
+
+pr1645v2PdpdefInQueuesOctetsBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octets.bandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInQueuesEntry 70388224}
+
+pr1645v2PdpdefInQueuesOctetsBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octets.bandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInQueuesEntry 70390784}
+
+pr1645v2PdpdefInQueuesOctetsBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octets.bandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInQueuesEntry 70395904}
+
+pr1645v2PdpdefInQueuesOctetsBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.octets.bandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInQueuesEntry 70411264}
+
+pr1645v2PdpdefInQueuesH2Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefInQueues 83886080}
+
+pr1645v2PdpdefInQueuesH2PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInQueuesH2PerformanceGlobalIx,
+                pr1645v2PdpdefInQueuesTableIx,
+                pr1645v2PdpdefInQueuesH2PerformanceTableIx }
+   ::= {pr1645v2PdpdefInQueuesH2Performance 1}
+
+Pr1645v2PdpdefInQueuesH2PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInQueuesH2PerformanceGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInQueuesH2PerformanceTableIx
+         TableIndex,
+      pr1645v2PdpdefInQueuesH2PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2PdpdefInQueuesH2PerformanceTotPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceDirTxPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceQdPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceDropPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceRDropPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceCirTxPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceEirTxPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceViolTxPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceTotOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceDirTxOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceQdOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceDropOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceRDropOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceCirTxOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceEirTxOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceViolTxOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH2PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2PdpdefInQueuesH2PerformanceGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 10}
+
+pr1645v2PdpdefInQueuesH2PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 11}
+
+pr1645v2PdpdefInQueuesH2PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 16777216}
+
+pr1645v2PdpdefInQueuesH2PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 234881024}
+
+pr1645v2PdpdefInQueuesH2PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 33554432}
+
+pr1645v2PdpdefInQueuesH2PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 50331648}
+
+pr1645v2PdpdefInQueuesH2PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 67108864}
+
+pr1645v2PdpdefInQueuesH2PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 201326592}
+
+pr1645v2PdpdefInQueuesH2PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 83886080}
+
+pr1645v2PdpdefInQueuesH2PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 100663296}
+
+pr1645v2PdpdefInQueuesH2PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 301989888}
+
+pr1645v2PdpdefInQueuesH2PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 251658240}
+
+pr1645v2PdpdefInQueuesH2PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 117440512}
+
+pr1645v2PdpdefInQueuesH2PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 134217728}
+
+pr1645v2PdpdefInQueuesH2PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 150994944}
+
+pr1645v2PdpdefInQueuesH2PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 218103808}
+
+pr1645v2PdpdefInQueuesH2PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 167772160}
+
+pr1645v2PdpdefInQueuesH2PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 184549376}
+
+pr1645v2PdpdefInQueuesH2PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 318767104}
+
+pr1645v2PdpdefInQueuesH2PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h2Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInQueuesH2PerformanceEntry 268435456}
+
+pr1645v2PdpdefInQueuesH24Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefInQueues 100663296}
+
+pr1645v2PdpdefInQueuesH24PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInQueuesH24PerformanceGlobalIx,
+                pr1645v2PdpdefInQueuesTableIx,
+                pr1645v2PdpdefInQueuesH24PerformanceTableIx }
+   ::= {pr1645v2PdpdefInQueuesH24Performance 1}
+
+Pr1645v2PdpdefInQueuesH24PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInQueuesH24PerformanceGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInQueuesH24PerformanceTableIx
+         TableIndex,
+      pr1645v2PdpdefInQueuesH24PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2PdpdefInQueuesH24PerformanceTotPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceDirTxPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceQdPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceDropPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceRDropPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceCirTxPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceEirTxPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceViolTxPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceTotOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceDirTxOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceQdOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceDropOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceRDropOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceCirTxOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceEirTxOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceViolTxOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesH24PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2PdpdefInQueuesH24PerformanceGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 10}
+
+pr1645v2PdpdefInQueuesH24PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 11}
+
+pr1645v2PdpdefInQueuesH24PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 16777216}
+
+pr1645v2PdpdefInQueuesH24PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 234881024}
+
+pr1645v2PdpdefInQueuesH24PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 33554432}
+
+pr1645v2PdpdefInQueuesH24PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 50331648}
+
+pr1645v2PdpdefInQueuesH24PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 67108864}
+
+pr1645v2PdpdefInQueuesH24PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 201326592}
+
+pr1645v2PdpdefInQueuesH24PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 83886080}
+
+pr1645v2PdpdefInQueuesH24PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 100663296}
+
+pr1645v2PdpdefInQueuesH24PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 301989888}
+
+pr1645v2PdpdefInQueuesH24PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 251658240}
+
+pr1645v2PdpdefInQueuesH24PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 117440512}
+
+pr1645v2PdpdefInQueuesH24PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 134217728}
+
+pr1645v2PdpdefInQueuesH24PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 150994944}
+
+pr1645v2PdpdefInQueuesH24PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 218103808}
+
+pr1645v2PdpdefInQueuesH24PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 167772160}
+
+pr1645v2PdpdefInQueuesH24PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 184549376}
+
+pr1645v2PdpdefInQueuesH24PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 318767104}
+
+pr1645v2PdpdefInQueuesH24PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.h24Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInQueuesH24PerformanceEntry 268435456}
+
+pr1645v2PdpdefInQueuesD7Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefInQueues 117440512}
+
+pr1645v2PdpdefInQueuesD7PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInQueuesD7PerformanceGlobalIx,
+                pr1645v2PdpdefInQueuesTableIx,
+                pr1645v2PdpdefInQueuesD7PerformanceTableIx }
+   ::= {pr1645v2PdpdefInQueuesD7Performance 1}
+
+Pr1645v2PdpdefInQueuesD7PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInQueuesD7PerformanceGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInQueuesD7PerformanceTableIx
+         TableIndex,
+      pr1645v2PdpdefInQueuesD7PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2PdpdefInQueuesD7PerformanceTotPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceDirTxPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceQdPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceDropPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceRDropPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceCirTxPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceEirTxPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceViolTxPkts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceTotOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceDirTxOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceQdOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceDropOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceRDropOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceCirTxOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceEirTxOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceViolTxOcts
+         Counter64,
+      pr1645v2PdpdefInQueuesD7PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2PdpdefInQueuesD7PerformanceGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 10}
+
+pr1645v2PdpdefInQueuesD7PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 11}
+
+pr1645v2PdpdefInQueuesD7PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 16777216}
+
+pr1645v2PdpdefInQueuesD7PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 234881024}
+
+pr1645v2PdpdefInQueuesD7PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 33554432}
+
+pr1645v2PdpdefInQueuesD7PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 50331648}
+
+pr1645v2PdpdefInQueuesD7PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 67108864}
+
+pr1645v2PdpdefInQueuesD7PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 201326592}
+
+pr1645v2PdpdefInQueuesD7PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 83886080}
+
+pr1645v2PdpdefInQueuesD7PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 100663296}
+
+pr1645v2PdpdefInQueuesD7PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 301989888}
+
+pr1645v2PdpdefInQueuesD7PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 251658240}
+
+pr1645v2PdpdefInQueuesD7PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 117440512}
+
+pr1645v2PdpdefInQueuesD7PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 134217728}
+
+pr1645v2PdpdefInQueuesD7PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 150994944}
+
+pr1645v2PdpdefInQueuesD7PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 218103808}
+
+pr1645v2PdpdefInQueuesD7PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 167772160}
+
+pr1645v2PdpdefInQueuesD7PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 184549376}
+
+pr1645v2PdpdefInQueuesD7PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 318767104}
+
+pr1645v2PdpdefInQueuesD7PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInPriorityQueues.d7Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInQueuesD7PerformanceEntry 268435456}
+
+
+pr1645v2PdpdefInBandwidth OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 181}
+
+pr1645v2PdpdefInBandwidthSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bandwidth"
+   ::= {pr1645v2PdpdefInBandwidth 1}
+
+pr1645v2PdpdefInBandwidthEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInBandwidthGlobalIx }
+   ::= {pr1645v2PdpdefInBandwidthSSCTable 1}
+
+Pr1645v2PdpdefInBandwidthEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInBandwidthGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInBandwidth15sec
+         Integer32,
+      pr1645v2PdpdefInBandwidth30sec
+         Integer32,
+      pr1645v2PdpdefInBandwidth1min
+         Integer32,
+      pr1645v2PdpdefInBandwidth2min
+         Integer32,
+      pr1645v2PdpdefInBandwidth5min
+         Integer32
+      }
+
+pr1645v2PdpdefInBandwidthGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInBandwidthEntry 10}
+
+pr1645v2PdpdefInBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInBandwidthEntry 83886080}
+
+pr1645v2PdpdefInBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInBandwidthEntry 167772160}
+
+pr1645v2PdpdefInBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInBandwidthEntry 335544320}
+
+pr1645v2PdpdefInBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInBandwidthEntry 671088640}
+
+pr1645v2PdpdefInBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifInBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInBandwidthEntry 1677721600}
+
+
+pr1645v2PdpdefOutOctets OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 115}
+
+pr1645v2PdpdefOutOctetsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutOctetsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutOctets"
+   ::= {pr1645v2PdpdefOutOctets 1}
+
+pr1645v2PdpdefOutOctetsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutOctetsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutOctetsGlobalIx }
+   ::= {pr1645v2PdpdefOutOctetsTable 1}
+
+Pr1645v2PdpdefOutOctetsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutOctetsGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutOctetsValue
+         Counter64
+      }
+
+pr1645v2PdpdefOutOctetsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutOctetsEntry 10}
+
+pr1645v2PdpdefOutOctetsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutOctetsEntry 2147483648}
+
+
+pr1645v2PdpdefOutUcastPkts OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 116}
+
+pr1645v2PdpdefOutUcastPktsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutUcastPktsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutUcastPkts"
+   ::= {pr1645v2PdpdefOutUcastPkts 1}
+
+pr1645v2PdpdefOutUcastPktsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutUcastPktsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutUcastPktsGlobalIx }
+   ::= {pr1645v2PdpdefOutUcastPktsTable 1}
+
+Pr1645v2PdpdefOutUcastPktsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutUcastPktsGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutUcastPktsValue
+         Counter64
+      }
+
+pr1645v2PdpdefOutUcastPktsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutUcastPktsEntry 10}
+
+pr1645v2PdpdefOutUcastPktsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutUcastPktsEntry 2147483648}
+
+
+pr1645v2PdpdefOutNUcastPkts OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 117}
+
+pr1645v2PdpdefOutNUcastPktsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutNUcastPktsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutNUcastPkts"
+   ::= {pr1645v2PdpdefOutNUcastPkts 1}
+
+pr1645v2PdpdefOutNUcastPktsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutNUcastPktsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutNUcastPktsGlobalIx }
+   ::= {pr1645v2PdpdefOutNUcastPktsTable 1}
+
+Pr1645v2PdpdefOutNUcastPktsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutNUcastPktsGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutNUcastPktsValue
+         Counter64
+      }
+
+pr1645v2PdpdefOutNUcastPktsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutNUcastPktsEntry 10}
+
+pr1645v2PdpdefOutNUcastPktsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutNUcastPktsEntry 2147483648}
+
+
+pr1645v2PdpdefOutDiscards OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 118}
+
+pr1645v2PdpdefOutDiscardsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutDiscards"
+   ::= {pr1645v2PdpdefOutDiscards 1}
+
+pr1645v2PdpdefOutDiscardsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutDiscardsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutDiscardsGlobalIx }
+   ::= {pr1645v2PdpdefOutDiscardsTable 1}
+
+Pr1645v2PdpdefOutDiscardsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutDiscardsGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutDiscardsValue
+         Counter64
+      }
+
+pr1645v2PdpdefOutDiscardsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutDiscardsEntry 10}
+
+pr1645v2PdpdefOutDiscardsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutDiscardsEntry 2147483648}
+
+
+pr1645v2PdpdefOutErrors OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 119}
+
+pr1645v2PdpdefOutErrorsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutErrorsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutErrors"
+   ::= {pr1645v2PdpdefOutErrors 1}
+
+pr1645v2PdpdefOutErrorsEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutErrorsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutErrorsGlobalIx }
+   ::= {pr1645v2PdpdefOutErrorsTable 1}
+
+Pr1645v2PdpdefOutErrorsEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutErrorsGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutErrorsValue
+         Counter64
+      }
+
+pr1645v2PdpdefOutErrorsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutErrorsEntry 10}
+
+pr1645v2PdpdefOutErrorsValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutErrorsEntry 2147483648}
+
+
+pr1645v2PdpdefOutQLen OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 120}
+
+pr1645v2PdpdefOutQLenTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutQLenEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutQLen"
+   ::= {pr1645v2PdpdefOutQLen 1}
+
+pr1645v2PdpdefOutQLenEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutQLenEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutQLenGlobalIx }
+   ::= {pr1645v2PdpdefOutQLenTable 1}
+
+Pr1645v2PdpdefOutQLenEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutQLenGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutQLenValue
+         Gauge32
+      }
+
+pr1645v2PdpdefOutQLenGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutQLenEntry 10}
+
+pr1645v2PdpdefOutQLenValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutQLen
+
+       32 bit unsigned gauge value."
+   ::= {pr1645v2PdpdefOutQLenEntry 2147483648}
+
+
+pr1645v2PdpdefOutDropEx OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 127}
+
+pr1645v2PdpdefOutDropExTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutDropExEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutDiscards"
+   ::= {pr1645v2PdpdefOutDropEx 1}
+
+pr1645v2PdpdefOutDropExEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutDropExEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutDropExGlobalIx }
+   ::= {pr1645v2PdpdefOutDropExTable 1}
+
+Pr1645v2PdpdefOutDropExEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutDropExGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutDropExValue
+         Counter64
+      }
+
+pr1645v2PdpdefOutDropExGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutDropExEntry 10}
+
+pr1645v2PdpdefOutDropExValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutDropExEntry 2147483648}
+
+
+pr1645v2PdpdefOutDropNoArp OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 134}
+
+pr1645v2PdpdefOutDropNoArpTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutDropNoArpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutDiscards"
+   ::= {pr1645v2PdpdefOutDropNoArp 1}
+
+pr1645v2PdpdefOutDropNoArpEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutDropNoArpEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutDropNoArpGlobalIx }
+   ::= {pr1645v2PdpdefOutDropNoArpTable 1}
+
+Pr1645v2PdpdefOutDropNoArpEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutDropNoArpGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutDropNoArpValue
+         Counter64
+      }
+
+pr1645v2PdpdefOutDropNoArpGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutDropNoArpEntry 10}
+
+pr1645v2PdpdefOutDropNoArpValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutDropNoArpEntry 2147483648}
+
+
+pr1645v2PdpdefOutDropFilter OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 138}
+
+pr1645v2PdpdefOutDropFilterTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutDropFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ifOutDiscards"
+   ::= {pr1645v2PdpdefOutDropFilter 1}
+
+pr1645v2PdpdefOutDropFilterEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutDropFilterEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutDropFilterGlobalIx }
+   ::= {pr1645v2PdpdefOutDropFilterTable 1}
+
+Pr1645v2PdpdefOutDropFilterEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutDropFilterGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutDropFilterValue
+         Counter64
+      }
+
+pr1645v2PdpdefOutDropFilterGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutDropFilterEntry 10}
+
+pr1645v2PdpdefOutDropFilterValue OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutDropFilterEntry 2147483648}
+
+
+pr1645v2PdpdefOutQueues OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 129}
+
+pr1645v2PdpdefOutQueuesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Queue Lengths"
+   ::= {pr1645v2PdpdefOutQueues 1}
+
+pr1645v2PdpdefOutQueuesEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutQueuesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutQueuesGlobalIx,
+                pr1645v2PdpdefOutQueuesTableIx }
+   ::= {pr1645v2PdpdefOutQueuesSSCTable 1}
+
+Pr1645v2PdpdefOutQueuesEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutQueuesGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutQueuesTableIx
+         TableIndex,
+      pr1645v2PdpdefOutQueuesName
+         INTEGER,
+      pr1645v2PdpdefOutQueuesLength
+         Integer32,
+      pr1645v2PdpdefOutQueuesOctetLength
+         Integer32,
+      pr1645v2PdpdefOutQueuesRedLength
+         Integer32,
+      pr1645v2PdpdefOutQueuesPacketsTotal
+         Counter64,
+      pr1645v2PdpdefOutQueuesPacketsDirectTx
+         Counter64,
+      pr1645v2PdpdefOutQueuesPacketsQueued
+         Counter64,
+      pr1645v2PdpdefOutQueuesPacketsDropped
+         Counter64,
+      pr1645v2PdpdefOutQueuesPacketsRedDropped
+         Counter64,
+      pr1645v2PdpdefOutQueuesPacketsCirTx
+         Counter64,
+      pr1645v2PdpdefOutQueuesPacketsEirTx
+         Counter64,
+      pr1645v2PdpdefOutQueuesPacketsViolateTx
+         Counter64,
+      pr1645v2PdpdefOutQueuesOctetsTotal
+         Counter64,
+      pr1645v2PdpdefOutQueuesOctetsDirectTx
+         Counter64,
+      pr1645v2PdpdefOutQueuesOctetsQueued
+         Counter64,
+      pr1645v2PdpdefOutQueuesOctetsDropped
+         Counter64,
+      pr1645v2PdpdefOutQueuesOctetsRedDropped
+         Counter64,
+      pr1645v2PdpdefOutQueuesOctetsCirTx
+         Counter64,
+      pr1645v2PdpdefOutQueuesOctetsEirTx
+         Counter64,
+      pr1645v2PdpdefOutQueuesOctetsViolateTx
+         Counter64,
+      pr1645v2PdpdefOutQueuesOctetsBandwidth15sec
+         Integer32,
+      pr1645v2PdpdefOutQueuesOctetsBandwidth30sec
+         Integer32,
+      pr1645v2PdpdefOutQueuesOctetsBandwidth1min
+         Integer32,
+      pr1645v2PdpdefOutQueuesOctetsBandwidth2min
+         Integer32,
+      pr1645v2PdpdefOutQueuesOctetsBandwidth5min
+         Integer32
+      }
+
+pr1645v2PdpdefOutQueuesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutQueuesEntry 10}
+
+pr1645v2PdpdefOutQueuesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefOutQueuesEntry 11}
+
+pr1645v2PdpdefOutQueuesName OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7),
+               queue (8),
+               queue1Sum (9),
+               queue2Sum (10),
+               queue3Sum (11),
+               queue4Sum (12),
+               queue5Sum (13),
+               lowDelayQueueSum (14),
+               lowDelay2QueueSum (15),
+               systemQueueSum (16),
+               queueSum (17),
+               queue1Driver (18),
+               queue2Driver (19),
+               queue3Driver (20),
+               queue4Driver (21),
+               queue5Driver (22),
+               lowDelayQueueDriver (23),
+               lowDelay2QueueDriver (24),
+               systemQueueDriver (25)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.name
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)
+               queue   (8)
+               queue1Sum   (9)
+               queue2Sum   (10)
+               queue3Sum   (11)
+               queue4Sum   (12)
+               queue5Sum   (13)
+               lowDelayQueueSum   (14)
+               lowDelay2QueueSum   (15)
+               systemQueueSum   (16)
+               queueSum   (17)
+               queue1Driver   (18)
+               queue2Driver   (19)
+               queue3Driver   (20)
+               queue4Driver   (21)
+               queue5Driver   (22)
+               lowDelayQueueDriver   (23)
+               lowDelay2QueueDriver   (24)
+               systemQueueDriver   (25)"
+   ::= {pr1645v2PdpdefOutQueuesEntry 16777216}
+
+pr1645v2PdpdefOutQueuesLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.length"
+   ::= {pr1645v2PdpdefOutQueuesEntry 33554432}
+
+pr1645v2PdpdefOutQueuesOctetLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octetLength"
+   ::= {pr1645v2PdpdefOutQueuesEntry 150994944}
+
+pr1645v2PdpdefOutQueuesRedLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.redLength"
+   ::= {pr1645v2PdpdefOutQueuesEntry 134217728}
+
+pr1645v2PdpdefOutQueuesPacketsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.packets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 50790400}
+
+pr1645v2PdpdefOutQueuesPacketsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.packets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 50397184}
+
+pr1645v2PdpdefOutQueuesPacketsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.packets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 50462720}
+
+pr1645v2PdpdefOutQueuesPacketsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.packets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 50528256}
+
+pr1645v2PdpdefOutQueuesPacketsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.packets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 50724864}
+
+pr1645v2PdpdefOutQueuesPacketsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.packets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 50593792}
+
+pr1645v2PdpdefOutQueuesPacketsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.packets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 50659328}
+
+pr1645v2PdpdefOutQueuesPacketsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.packets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 50855936}
+
+pr1645v2PdpdefOutQueuesOctetsTotal OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octets.total
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 67567616}
+
+pr1645v2PdpdefOutQueuesOctetsDirectTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octets.directTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 67174400}
+
+pr1645v2PdpdefOutQueuesOctetsQueued OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octets.queued
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 67239936}
+
+pr1645v2PdpdefOutQueuesOctetsDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octets.dropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 67305472}
+
+pr1645v2PdpdefOutQueuesOctetsRedDropped OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octets.redDropped
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 67502080}
+
+pr1645v2PdpdefOutQueuesOctetsCirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octets.cirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 67371008}
+
+pr1645v2PdpdefOutQueuesOctetsEirTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octets.eirTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 67436544}
+
+pr1645v2PdpdefOutQueuesOctetsViolateTx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octets.violateTx
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesEntry 67633152}
+
+pr1645v2PdpdefOutQueuesOctetsBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octets.bandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefOutQueuesEntry 70386944}
+
+pr1645v2PdpdefOutQueuesOctetsBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octets.bandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefOutQueuesEntry 70388224}
+
+pr1645v2PdpdefOutQueuesOctetsBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octets.bandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefOutQueuesEntry 70390784}
+
+pr1645v2PdpdefOutQueuesOctetsBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octets.bandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefOutQueuesEntry 70395904}
+
+pr1645v2PdpdefOutQueuesOctetsBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.octets.bandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefOutQueuesEntry 70411264}
+
+pr1645v2PdpdefOutQueuesH2Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefOutQueues 83886080}
+
+pr1645v2PdpdefOutQueuesH2PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutQueuesH2PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutQueuesH2PerformanceGlobalIx,
+                pr1645v2PdpdefOutQueuesTableIx,
+                pr1645v2PdpdefOutQueuesH2PerformanceTableIx }
+   ::= {pr1645v2PdpdefOutQueuesH2Performance 1}
+
+Pr1645v2PdpdefOutQueuesH2PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutQueuesH2PerformanceGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutQueuesH2PerformanceTableIx
+         TableIndex,
+      pr1645v2PdpdefOutQueuesH2PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2PdpdefOutQueuesH2PerformanceTotPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceDirTxPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceQdPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceDropPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceRDropPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceCirTxPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceEirTxPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceViolTxPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceTotOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceDirTxOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceQdOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceDropOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceRDropOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceCirTxOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceEirTxOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceViolTxOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH2PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2PdpdefOutQueuesH2PerformanceGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 10}
+
+pr1645v2PdpdefOutQueuesH2PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 11}
+
+pr1645v2PdpdefOutQueuesH2PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 16777216}
+
+pr1645v2PdpdefOutQueuesH2PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 234881024}
+
+pr1645v2PdpdefOutQueuesH2PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 33554432}
+
+pr1645v2PdpdefOutQueuesH2PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 50331648}
+
+pr1645v2PdpdefOutQueuesH2PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 67108864}
+
+pr1645v2PdpdefOutQueuesH2PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 201326592}
+
+pr1645v2PdpdefOutQueuesH2PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 83886080}
+
+pr1645v2PdpdefOutQueuesH2PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 100663296}
+
+pr1645v2PdpdefOutQueuesH2PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 301989888}
+
+pr1645v2PdpdefOutQueuesH2PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 251658240}
+
+pr1645v2PdpdefOutQueuesH2PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 117440512}
+
+pr1645v2PdpdefOutQueuesH2PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 134217728}
+
+pr1645v2PdpdefOutQueuesH2PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 150994944}
+
+pr1645v2PdpdefOutQueuesH2PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 218103808}
+
+pr1645v2PdpdefOutQueuesH2PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 167772160}
+
+pr1645v2PdpdefOutQueuesH2PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 184549376}
+
+pr1645v2PdpdefOutQueuesH2PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 318767104}
+
+pr1645v2PdpdefOutQueuesH2PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h2Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefOutQueuesH2PerformanceEntry 268435456}
+
+pr1645v2PdpdefOutQueuesH24Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefOutQueues 100663296}
+
+pr1645v2PdpdefOutQueuesH24PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutQueuesH24PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutQueuesH24PerformanceGlobalIx,
+                pr1645v2PdpdefOutQueuesTableIx,
+                pr1645v2PdpdefOutQueuesH24PerformanceTableIx }
+   ::= {pr1645v2PdpdefOutQueuesH24Performance 1}
+
+Pr1645v2PdpdefOutQueuesH24PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutQueuesH24PerformanceGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutQueuesH24PerformanceTableIx
+         TableIndex,
+      pr1645v2PdpdefOutQueuesH24PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2PdpdefOutQueuesH24PerformanceTotPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceDirTxPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceQdPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceDropPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceRDropPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceCirTxPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceEirTxPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceViolTxPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceTotOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceDirTxOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceQdOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceDropOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceRDropOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceCirTxOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceEirTxOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceViolTxOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesH24PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2PdpdefOutQueuesH24PerformanceGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 10}
+
+pr1645v2PdpdefOutQueuesH24PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 11}
+
+pr1645v2PdpdefOutQueuesH24PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 16777216}
+
+pr1645v2PdpdefOutQueuesH24PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 234881024}
+
+pr1645v2PdpdefOutQueuesH24PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 33554432}
+
+pr1645v2PdpdefOutQueuesH24PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 50331648}
+
+pr1645v2PdpdefOutQueuesH24PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 67108864}
+
+pr1645v2PdpdefOutQueuesH24PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 201326592}
+
+pr1645v2PdpdefOutQueuesH24PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 83886080}
+
+pr1645v2PdpdefOutQueuesH24PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 100663296}
+
+pr1645v2PdpdefOutQueuesH24PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 301989888}
+
+pr1645v2PdpdefOutQueuesH24PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 251658240}
+
+pr1645v2PdpdefOutQueuesH24PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 117440512}
+
+pr1645v2PdpdefOutQueuesH24PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 134217728}
+
+pr1645v2PdpdefOutQueuesH24PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 150994944}
+
+pr1645v2PdpdefOutQueuesH24PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 218103808}
+
+pr1645v2PdpdefOutQueuesH24PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 167772160}
+
+pr1645v2PdpdefOutQueuesH24PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 184549376}
+
+pr1645v2PdpdefOutQueuesH24PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 318767104}
+
+pr1645v2PdpdefOutQueuesH24PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.h24Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefOutQueuesH24PerformanceEntry 268435456}
+
+pr1645v2PdpdefOutQueuesD7Performance OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefOutQueues 117440512}
+
+pr1645v2PdpdefOutQueuesD7PerformanceEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutQueuesD7PerformanceEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutQueuesD7PerformanceGlobalIx,
+                pr1645v2PdpdefOutQueuesTableIx,
+                pr1645v2PdpdefOutQueuesD7PerformanceTableIx }
+   ::= {pr1645v2PdpdefOutQueuesD7Performance 1}
+
+Pr1645v2PdpdefOutQueuesD7PerformanceEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutQueuesD7PerformanceGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutQueuesD7PerformanceTableIx
+         TableIndex,
+      pr1645v2PdpdefOutQueuesD7PerformanceSysUpTime
+         TimeTicks,
+      pr1645v2PdpdefOutQueuesD7PerformanceTotPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceDirTxPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceQdPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceDropPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceRDropPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceCirTxPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceEirTxPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceViolTxPkts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceTotOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceDirTxOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceQdOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceDropOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceRDropOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceCirTxOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceEirTxOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceViolTxOcts
+         Counter64,
+      pr1645v2PdpdefOutQueuesD7PerformanceBandwidth
+         Integer32
+      }
+
+pr1645v2PdpdefOutQueuesD7PerformanceGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 10}
+
+pr1645v2PdpdefOutQueuesD7PerformanceTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 11}
+
+pr1645v2PdpdefOutQueuesD7PerformanceSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 16777216}
+
+pr1645v2PdpdefOutQueuesD7PerformanceTotPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.totalPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 234881024}
+
+pr1645v2PdpdefOutQueuesD7PerformanceDirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.directTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 33554432}
+
+pr1645v2PdpdefOutQueuesD7PerformanceQdPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.queuedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 50331648}
+
+pr1645v2PdpdefOutQueuesD7PerformanceDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.droppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 67108864}
+
+pr1645v2PdpdefOutQueuesD7PerformanceRDropPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.redDroppedPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 201326592}
+
+pr1645v2PdpdefOutQueuesD7PerformanceCirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.cirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 83886080}
+
+pr1645v2PdpdefOutQueuesD7PerformanceEirTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.eirTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 100663296}
+
+pr1645v2PdpdefOutQueuesD7PerformanceViolTxPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.violateTxPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 301989888}
+
+pr1645v2PdpdefOutQueuesD7PerformanceTotOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.totalOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 251658240}
+
+pr1645v2PdpdefOutQueuesD7PerformanceDirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.directTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 117440512}
+
+pr1645v2PdpdefOutQueuesD7PerformanceQdOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.queuedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 134217728}
+
+pr1645v2PdpdefOutQueuesD7PerformanceDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.droppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 150994944}
+
+pr1645v2PdpdefOutQueuesD7PerformanceRDropOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.redDroppedOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 218103808}
+
+pr1645v2PdpdefOutQueuesD7PerformanceCirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.cirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 167772160}
+
+pr1645v2PdpdefOutQueuesD7PerformanceEirTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.eirTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 184549376}
+
+pr1645v2PdpdefOutQueuesD7PerformanceViolTxOcts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.violateTxOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 318767104}
+
+pr1645v2PdpdefOutQueuesD7PerformanceBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutPriorityQueues.d7Performance.bandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefOutQueuesD7PerformanceEntry 268435456}
+
+
+pr1645v2PdpdefOutBandwidth OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 182}
+
+pr1645v2PdpdefOutBandwidthSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefOutBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "bandwidth"
+   ::= {pr1645v2PdpdefOutBandwidth 1}
+
+pr1645v2PdpdefOutBandwidthEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefOutBandwidthEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefOutBandwidthGlobalIx }
+   ::= {pr1645v2PdpdefOutBandwidthSSCTable 1}
+
+Pr1645v2PdpdefOutBandwidthEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefOutBandwidthGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefOutBandwidth15sec
+         Integer32,
+      pr1645v2PdpdefOutBandwidth30sec
+         Integer32,
+      pr1645v2PdpdefOutBandwidth1min
+         Integer32,
+      pr1645v2PdpdefOutBandwidth2min
+         Integer32,
+      pr1645v2PdpdefOutBandwidth5min
+         Integer32
+      }
+
+pr1645v2PdpdefOutBandwidthGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefOutBandwidthEntry 10}
+
+pr1645v2PdpdefOutBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefOutBandwidthEntry 83886080}
+
+pr1645v2PdpdefOutBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefOutBandwidthEntry 167772160}
+
+pr1645v2PdpdefOutBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefOutBandwidthEntry 335544320}
+
+pr1645v2PdpdefOutBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefOutBandwidthEntry 671088640}
+
+pr1645v2PdpdefOutBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.ifOutBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefOutBandwidthEntry 1677721600}
+
+
+pr1645v2PdpdefInP OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 307}
+
+pr1645v2PdpdefInPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefInPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h2IfInPerformance"
+   ::= {pr1645v2PdpdefInP 1}
+
+pr1645v2PdpdefInPEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefInPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefInPGlobalIx,
+                pr1645v2PdpdefInPTableIx }
+   ::= {pr1645v2PdpdefInPSSCTable 1}
+
+Pr1645v2PdpdefInPEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefInPGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefInPTableIx
+         TableIndex,
+      pr1645v2PdpdefInPSysUpTime
+         TimeTicks,
+      pr1645v2PdpdefInPIfUpTime
+         TimeTicks,
+      pr1645v2PdpdefInPIfStatChanges
+         Counter32,
+      pr1645v2PdpdefInPIfInOctets
+         Counter64,
+      pr1645v2PdpdefInPIfInUCPkts
+         Counter64,
+      pr1645v2PdpdefInPIfInNUCPkts
+         Counter64,
+      pr1645v2PdpdefInPIfInBCPkts
+         Counter64,
+      pr1645v2PdpdefInPIfInMCPkts
+         Counter64,
+      pr1645v2PdpdefInPIfInDiscards
+         Counter64,
+      pr1645v2PdpdefInPIfInErrors
+         Counter64,
+      pr1645v2PdpdefInPIfInUnkwn
+         Counter64,
+      pr1645v2PdpdefInPInDropEx
+         Counter64,
+      pr1645v2PdpdefInPInDropNoMac
+         Counter64,
+      pr1645v2PdpdefInPInDropNUCast
+         Counter64,
+      pr1645v2PdpdefInPInDropFilter
+         Counter64,
+      pr1645v2PdpdefInPIfInBandwidth
+         Integer32,
+      pr1645v2PdpdefInPIfOutOctets
+         Counter64,
+      pr1645v2PdpdefInPIfOutUCPkts
+         Counter64,
+      pr1645v2PdpdefInPIfOutNUCPkts
+         Counter64,
+      pr1645v2PdpdefInPIfOutBCPkts
+         Counter64,
+      pr1645v2PdpdefInPIfOutMCPkts
+         Counter64,
+      pr1645v2PdpdefInPIfOutDiscards
+         Counter64,
+      pr1645v2PdpdefInPIfOutErrors
+         Counter64,
+      pr1645v2PdpdefInPOutDropEx
+         Counter64,
+      pr1645v2PdpdefInPOutDropNoArp
+         Counter64,
+      pr1645v2PdpdefInPOutDropFilter
+         Counter64,
+      pr1645v2PdpdefInPIfOutBandwidth
+         Integer32,
+      pr1645v2PdpdefInPIfErrSec
+         Counter32
+      }
+
+pr1645v2PdpdefInPGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefInPEntry 10}
+
+pr1645v2PdpdefInPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefInPEntry 11}
+
+pr1645v2PdpdefInPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PdpdefInPEntry 16777216}
+
+pr1645v2PdpdefInPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PdpdefInPEntry 33554432}
+
+pr1645v2PdpdefInPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 50331648}
+
+pr1645v2PdpdefInPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 67108864}
+
+pr1645v2PdpdefInPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 83886080}
+
+pr1645v2PdpdefInPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 100663296}
+
+pr1645v2PdpdefInPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 419430400}
+
+pr1645v2PdpdefInPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 436207616}
+
+pr1645v2PdpdefInPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 117440512}
+
+pr1645v2PdpdefInPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 134217728}
+
+pr1645v2PdpdefInPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 150994944}
+
+pr1645v2PdpdefInPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 335544320}
+
+pr1645v2PdpdefInPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 301989888}
+
+pr1645v2PdpdefInPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 318767104}
+
+pr1645v2PdpdefInPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 385875968}
+
+pr1645v2PdpdefInPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInPEntry 268435456}
+
+pr1645v2PdpdefInPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 167772160}
+
+pr1645v2PdpdefInPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 184549376}
+
+pr1645v2PdpdefInPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 201326592}
+
+pr1645v2PdpdefInPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 452984832}
+
+pr1645v2PdpdefInPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 469762048}
+
+pr1645v2PdpdefInPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 218103808}
+
+pr1645v2PdpdefInPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 234881024}
+
+pr1645v2PdpdefInPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 352321536}
+
+pr1645v2PdpdefInPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 369098752}
+
+pr1645v2PdpdefInPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 402653184}
+
+pr1645v2PdpdefInPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefInPEntry 285212672}
+
+pr1645v2PdpdefInPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h2Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefInPEntry 251658240}
+
+
+pr1645v2PdpdefH24InP OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 308}
+
+pr1645v2PdpdefH24InPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefH24InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "h24IfInPerformance"
+   ::= {pr1645v2PdpdefH24InP 1}
+
+pr1645v2PdpdefH24InPEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefH24InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefH24InPGlobalIx,
+                pr1645v2PdpdefH24InPTableIx }
+   ::= {pr1645v2PdpdefH24InPSSCTable 1}
+
+Pr1645v2PdpdefH24InPEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefH24InPGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefH24InPTableIx
+         TableIndex,
+      pr1645v2PdpdefH24InPSysUpTime
+         TimeTicks,
+      pr1645v2PdpdefH24InPIfUpTime
+         TimeTicks,
+      pr1645v2PdpdefH24InPIfStatChanges
+         Counter32,
+      pr1645v2PdpdefH24InPIfInOctets
+         Counter64,
+      pr1645v2PdpdefH24InPIfInUCPkts
+         Counter64,
+      pr1645v2PdpdefH24InPIfInNUCPkts
+         Counter64,
+      pr1645v2PdpdefH24InPIfInBCPkts
+         Counter64,
+      pr1645v2PdpdefH24InPIfInMCPkts
+         Counter64,
+      pr1645v2PdpdefH24InPIfInDiscards
+         Counter64,
+      pr1645v2PdpdefH24InPIfInErrors
+         Counter64,
+      pr1645v2PdpdefH24InPIfInUnkwn
+         Counter64,
+      pr1645v2PdpdefH24InPInDropEx
+         Counter64,
+      pr1645v2PdpdefH24InPInDropNoMac
+         Counter64,
+      pr1645v2PdpdefH24InPInDropNUCast
+         Counter64,
+      pr1645v2PdpdefH24InPInDropFilter
+         Counter64,
+      pr1645v2PdpdefH24InPIfInBandwidth
+         Integer32,
+      pr1645v2PdpdefH24InPIfOutOctets
+         Counter64,
+      pr1645v2PdpdefH24InPIfOutUCPkts
+         Counter64,
+      pr1645v2PdpdefH24InPIfOutNUCPkts
+         Counter64,
+      pr1645v2PdpdefH24InPIfOutBCPkts
+         Counter64,
+      pr1645v2PdpdefH24InPIfOutMCPkts
+         Counter64,
+      pr1645v2PdpdefH24InPIfOutDiscards
+         Counter64,
+      pr1645v2PdpdefH24InPIfOutErrors
+         Counter64,
+      pr1645v2PdpdefH24InPOutDropEx
+         Counter64,
+      pr1645v2PdpdefH24InPOutDropNoArp
+         Counter64,
+      pr1645v2PdpdefH24InPOutDropFilter
+         Counter64,
+      pr1645v2PdpdefH24InPIfOutBandwidth
+         Integer32,
+      pr1645v2PdpdefH24InPIfErrSec
+         Counter32
+      }
+
+pr1645v2PdpdefH24InPGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefH24InPEntry 10}
+
+pr1645v2PdpdefH24InPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefH24InPEntry 11}
+
+pr1645v2PdpdefH24InPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PdpdefH24InPEntry 16777216}
+
+pr1645v2PdpdefH24InPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PdpdefH24InPEntry 33554432}
+
+pr1645v2PdpdefH24InPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 50331648}
+
+pr1645v2PdpdefH24InPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 67108864}
+
+pr1645v2PdpdefH24InPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 83886080}
+
+pr1645v2PdpdefH24InPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 100663296}
+
+pr1645v2PdpdefH24InPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 419430400}
+
+pr1645v2PdpdefH24InPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 436207616}
+
+pr1645v2PdpdefH24InPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 117440512}
+
+pr1645v2PdpdefH24InPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 134217728}
+
+pr1645v2PdpdefH24InPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 150994944}
+
+pr1645v2PdpdefH24InPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 335544320}
+
+pr1645v2PdpdefH24InPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 301989888}
+
+pr1645v2PdpdefH24InPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 318767104}
+
+pr1645v2PdpdefH24InPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 385875968}
+
+pr1645v2PdpdefH24InPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefH24InPEntry 268435456}
+
+pr1645v2PdpdefH24InPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 167772160}
+
+pr1645v2PdpdefH24InPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 184549376}
+
+pr1645v2PdpdefH24InPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 201326592}
+
+pr1645v2PdpdefH24InPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 452984832}
+
+pr1645v2PdpdefH24InPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 469762048}
+
+pr1645v2PdpdefH24InPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 218103808}
+
+pr1645v2PdpdefH24InPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 234881024}
+
+pr1645v2PdpdefH24InPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 352321536}
+
+pr1645v2PdpdefH24InPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 369098752}
+
+pr1645v2PdpdefH24InPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 402653184}
+
+pr1645v2PdpdefH24InPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefH24InPEntry 285212672}
+
+pr1645v2PdpdefH24InPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.h24Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefH24InPEntry 251658240}
+
+
+pr1645v2PdpdefD7InP OBJECT IDENTIFIER ::= {pr1645v2Pdpdef 309}
+
+pr1645v2PdpdefD7InPSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1645v2PdpdefD7InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "d7IfInPerformance"
+   ::= {pr1645v2PdpdefD7InP 1}
+
+pr1645v2PdpdefD7InPEntry OBJECT-TYPE
+   SYNTAX      Pr1645v2PdpdefD7InPEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1645v2PdpdefD7InPGlobalIx,
+                pr1645v2PdpdefD7InPTableIx }
+   ::= {pr1645v2PdpdefD7InPSSCTable 1}
+
+Pr1645v2PdpdefD7InPEntry ::=
+   SEQUENCE
+      {
+      pr1645v2PdpdefD7InPGlobalIx
+         GlobalIndex,
+      pr1645v2PdpdefD7InPTableIx
+         TableIndex,
+      pr1645v2PdpdefD7InPSysUpTime
+         TimeTicks,
+      pr1645v2PdpdefD7InPIfUpTime
+         TimeTicks,
+      pr1645v2PdpdefD7InPIfStatChanges
+         Counter32,
+      pr1645v2PdpdefD7InPIfInOctets
+         Counter64,
+      pr1645v2PdpdefD7InPIfInUCPkts
+         Counter64,
+      pr1645v2PdpdefD7InPIfInNUCPkts
+         Counter64,
+      pr1645v2PdpdefD7InPIfInBCPkts
+         Counter64,
+      pr1645v2PdpdefD7InPIfInMCPkts
+         Counter64,
+      pr1645v2PdpdefD7InPIfInDiscards
+         Counter64,
+      pr1645v2PdpdefD7InPIfInErrors
+         Counter64,
+      pr1645v2PdpdefD7InPIfInUnkwn
+         Counter64,
+      pr1645v2PdpdefD7InPInDropEx
+         Counter64,
+      pr1645v2PdpdefD7InPInDropNoMac
+         Counter64,
+      pr1645v2PdpdefD7InPInDropNUCast
+         Counter64,
+      pr1645v2PdpdefD7InPInDropFilter
+         Counter64,
+      pr1645v2PdpdefD7InPIfInBandwidth
+         Integer32,
+      pr1645v2PdpdefD7InPIfOutOctets
+         Counter64,
+      pr1645v2PdpdefD7InPIfOutUCPkts
+         Counter64,
+      pr1645v2PdpdefD7InPIfOutNUCPkts
+         Counter64,
+      pr1645v2PdpdefD7InPIfOutBCPkts
+         Counter64,
+      pr1645v2PdpdefD7InPIfOutMCPkts
+         Counter64,
+      pr1645v2PdpdefD7InPIfOutDiscards
+         Counter64,
+      pr1645v2PdpdefD7InPIfOutErrors
+         Counter64,
+      pr1645v2PdpdefD7InPOutDropEx
+         Counter64,
+      pr1645v2PdpdefD7InPOutDropNoArp
+         Counter64,
+      pr1645v2PdpdefD7InPOutDropFilter
+         Counter64,
+      pr1645v2PdpdefD7InPIfOutBandwidth
+         Integer32,
+      pr1645v2PdpdefD7InPIfErrSec
+         Counter32
+      }
+
+pr1645v2PdpdefD7InPGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1645v2PdpdefD7InPEntry 10}
+
+pr1645v2PdpdefD7InPTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1645v2PdpdefD7InPEntry 11}
+
+pr1645v2PdpdefD7InPSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PdpdefD7InPEntry 16777216}
+
+pr1645v2PdpdefD7InPIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1645v2PdpdefD7InPEntry 33554432}
+
+pr1645v2PdpdefD7InPIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 50331648}
+
+pr1645v2PdpdefD7InPIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 67108864}
+
+pr1645v2PdpdefD7InPIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 83886080}
+
+pr1645v2PdpdefD7InPIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 100663296}
+
+pr1645v2PdpdefD7InPIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 419430400}
+
+pr1645v2PdpdefD7InPIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 436207616}
+
+pr1645v2PdpdefD7InPIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 117440512}
+
+pr1645v2PdpdefD7InPIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 134217728}
+
+pr1645v2PdpdefD7InPIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 150994944}
+
+pr1645v2PdpdefD7InPInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 335544320}
+
+pr1645v2PdpdefD7InPInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 301989888}
+
+pr1645v2PdpdefD7InPInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 318767104}
+
+pr1645v2PdpdefD7InPInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 385875968}
+
+pr1645v2PdpdefD7InPIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefD7InPEntry 268435456}
+
+pr1645v2PdpdefD7InPIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 167772160}
+
+pr1645v2PdpdefD7InPIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 184549376}
+
+pr1645v2PdpdefD7InPIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 201326592}
+
+pr1645v2PdpdefD7InPIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 452984832}
+
+pr1645v2PdpdefD7InPIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 469762048}
+
+pr1645v2PdpdefD7InPIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 218103808}
+
+pr1645v2PdpdefD7InPIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 234881024}
+
+pr1645v2PdpdefD7InPOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 352321536}
+
+pr1645v2PdpdefD7InPOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 369098752}
+
+pr1645v2PdpdefD7InPOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 402653184}
+
+pr1645v2PdpdefD7InPIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1645v2PdpdefD7InPEntry 285212672}
+
+pr1645v2PdpdefD7InPIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.performance.d7Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1645v2PdpdefD7InPEntry 251658240}
+
+
+
+ar1645v2Pdpdef OBJECT IDENTIFIER ::= {r1645v2Pdpdef 16}
+
+
+ar1645v2PdpdefClearCounters OBJECT IDENTIFIER ::= {ar1645v2Pdpdef 263}
+
+ar1645v2PdpdefClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1645v2PdpdefClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1645v2PdpdefClearCounters 1}
+
+ar1645v2PdpdefClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1645v2PdpdefClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1645v2PdpdefClearCountersGlobalIx }
+   ::= {ar1645v2PdpdefClearCountersTable 1}
+
+Ar1645v2PdpdefClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1645v2PdpdefClearCountersGlobalIx
+         GlobalIndex,
+      ar1645v2PdpdefClearCountersValue
+         Integer32
+      }
+
+ar1645v2PdpdefClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1645v2PdpdefClearCountersEntry 10}
+
+ar1645v2PdpdefClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: defaultPdp.actions.clearCounters"
+   ::= {ar1645v2PdpdefClearCountersEntry 2147483648}
+
+
+
+END

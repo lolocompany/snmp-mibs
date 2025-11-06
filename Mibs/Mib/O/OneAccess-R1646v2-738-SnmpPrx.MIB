@@ -1,0 +1,742 @@
+OneAccess-R1646v2-738-SnmpPrx DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2SnmpPrx OBJECT IDENTIFIER ::= {r1646Rootv2 738}
+
+r1646v2SnmpPrxMOProp OBJECT IDENTIFIER ::= {r1646v2SnmpPrx 1}
+
+r1646v2SnmpPrxMOPropEntry OBJECT IDENTIFIER ::= {r1646v2SnmpPrxMOProp 1}
+
+r1646v2SnmpPrxMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2SnmpPrxMOPropEntry 3}
+
+r1646v2SnmpPrxMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2SnmpPrxMOPropEntry 4}
+
+
+
+er1646v2SnmpPrx OBJECT IDENTIFIER ::= {r1646v2SnmpPrx 11}
+
+
+er1646v2SnmpPrxTrapDest OBJECT IDENTIFIER ::= {er1646v2SnmpPrx 1}
+
+er1646v2SnmpPrxTrapDestSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2SnmpPrxTrapDestEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "List of station specifications to which SNMP traps must
+                    be sent. The specifications contain an IP address and a
+                    community string. If the list is empty, no traps are sent."
+   ::= {er1646v2SnmpPrxTrapDest 1}
+
+er1646v2SnmpPrxTrapDestEntry OBJECT-TYPE
+   SYNTAX      Er1646v2SnmpPrxTrapDestEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2SnmpPrxTrapDestTableIx }
+   ::= {er1646v2SnmpPrxTrapDestSSCTable 1}
+
+Er1646v2SnmpPrxTrapDestEntry ::=
+   SEQUENCE
+      {
+      er1646v2SnmpPrxTrapDestActions
+         VariableLengthTableActions,
+      er1646v2SnmpPrxTrapDestTableIx
+         TableIndex,
+      er1646v2SnmpPrxTrapDestSourceIp
+         IpAddress,
+      er1646v2SnmpPrxTrapDestSource
+         DisplayString,
+      er1646v2SnmpPrxTrapDestAddress
+         IpAddress,
+      er1646v2SnmpPrxTrapDestVrfRouter
+         DisplayString,
+      er1646v2SnmpPrxTrapDestCommunity
+         DisplayString,
+      er1646v2SnmpPrxTrapDestType
+         INTEGER,
+      er1646v2SnmpPrxTrapDestTimeOut
+         TimeTicks,
+      er1646v2SnmpPrxTrapDestRetryCount
+         Integer32,
+      er1646v2SnmpPrxTrapDestSendEventsInAlarm
+         INTEGER,
+      er1646v2SnmpPrxTrapDestUser
+         DisplayString
+      }
+
+er1646v2SnmpPrxTrapDestActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2SnmpPrxTrapDestEntry 2}
+
+er1646v2SnmpPrxTrapDestTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2SnmpPrxTrapDestEntry 11}
+
+er1646v2SnmpPrxTrapDestSourceIp OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.editConf.trapDestinations.sourceIp"
+   ::= {er1646v2SnmpPrxTrapDestEntry 117440512}
+
+er1646v2SnmpPrxTrapDestSource OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.editConf.trapDestinations.source"
+   ::= {er1646v2SnmpPrxTrapDestEntry 167772160}
+
+er1646v2SnmpPrxTrapDestAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.editConf.trapDestinations.address"
+   ::= {er1646v2SnmpPrxTrapDestEntry 16777216}
+
+er1646v2SnmpPrxTrapDestVrfRouter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.editConf.trapDestinations.vrfRouter"
+   ::= {er1646v2SnmpPrxTrapDestEntry 134217728}
+
+er1646v2SnmpPrxTrapDestCommunity OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.editConf.trapDestinations.community"
+   ::= {er1646v2SnmpPrxTrapDestEntry 33554432}
+
+er1646v2SnmpPrxTrapDestType OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               v1Trap (1),
+               v2Trap (2),
+               v2Inform (3),
+               v3Trap (4),
+               v3Inform (5)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.editConf.trapDestinations.type
+
+       Possibilities:
+               v1Trap   (1)
+               v2Trap   (2)
+               v2Inform   (3)
+               v3Trap   (4)
+               v3Inform   (5)"
+   ::= {er1646v2SnmpPrxTrapDestEntry 50331648}
+
+er1646v2SnmpPrxTrapDestTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.editConf.trapDestinations.timeOut
+
+       Time in centi-second."
+   ::= {er1646v2SnmpPrxTrapDestEntry 67108864}
+
+er1646v2SnmpPrxTrapDestRetryCount OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.editConf.trapDestinations.retryCount"
+   ::= {er1646v2SnmpPrxTrapDestEntry 83886080}
+
+er1646v2SnmpPrxTrapDestSendEventsInAlarm OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (1),
+               enabled (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.editConf.trapDestinations.sendEventsInAlarm
+
+       Possibilities:
+               disabled   (1)
+               enabled   (2)"
+   ::= {er1646v2SnmpPrxTrapDestEntry 150994944}
+
+er1646v2SnmpPrxTrapDestUser OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.editConf.trapDestinations.user"
+   ::= {er1646v2SnmpPrxTrapDestEntry 100663296}
+
+
+er1646v2SnmpPrxMib2Traps OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               off (0),
+               on (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.editConf.mib2Traps
+       Info: Controls trap generation. When set to off, all changes of
+                    bits in alarminfowords are translated into traps of type
+                    enterprise-specific. When set to on, changes of bits in
+                    an alarmword that map onto a generic-trap type, will be
+                    send as a generic-trap type. Default value is off.
+
+       Possibilities:
+               off   (0)
+               on   (1)"
+   ::= {er1646v2SnmpPrx 2}
+
+
+er1646v2SnmpPrxMinVersion OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               v1 (0),
+               v2c (1),
+               v3 (3)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.editConf.minVersion
+       Info: Minimum SNMP protocol version that is accepted.
+
+       Possibilities:
+               v1   (0)
+               v2c   (1)
+               v3   (3)"
+   ::= {er1646v2SnmpPrx 3}
+
+
+er1646v2SnmpPrxMaxMessageSize OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.editConf.maxMessageSize
+       Info: Maximum message size that is accepted."
+   ::= {er1646v2SnmpPrx 4}
+
+
+
+sr1646v2SnmpPrx OBJECT IDENTIFIER ::= {r1646v2SnmpPrx 14}
+
+
+sr1646v2SnmpPrxTrapDest OBJECT IDENTIFIER ::= {sr1646v2SnmpPrx 20}
+
+sr1646v2SnmpPrxTrapDestSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2SnmpPrxTrapDestEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2SnmpPrxTrapDest 1}
+
+sr1646v2SnmpPrxTrapDestEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2SnmpPrxTrapDestEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2SnmpPrxTrapDestTableIx }
+   ::= {sr1646v2SnmpPrxTrapDestSSCTable 1}
+
+Sr1646v2SnmpPrxTrapDestEntry ::=
+   SEQUENCE
+      {
+      sr1646v2SnmpPrxTrapDestTableIx
+         TableIndex,
+      sr1646v2SnmpPrxTrapDestAddress
+         IpAddress,
+      sr1646v2SnmpPrxTrapDestState
+         INTEGER,
+      sr1646v2SnmpPrxTrapDestLastFail
+         INTEGER
+      }
+
+sr1646v2SnmpPrxTrapDestTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2SnmpPrxTrapDestEntry 11}
+
+sr1646v2SnmpPrxTrapDestAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.status.trapDestinations.address"
+   ::= {sr1646v2SnmpPrxTrapDestEntry 16777216}
+
+sr1646v2SnmpPrxTrapDestState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ok (1),
+               duplicateIpAddress (2),
+               missingUser (3),
+               unknownUser (4),
+               missingAuthPassword (5),
+               missingPrivPassword (6),
+               retrievingEngineId (7),
+               awaitingEngineId (8),
+               retrievingUptime (9),
+               awaitingUptime (10),
+               badSource (11),
+               badVrfName (12),
+               badIntfName (13)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.status.trapDestinations.state
+
+       Possibilities:
+               ok   (1)
+               duplicateIpAddress   (2)
+               missingUser   (3)
+               unknownUser   (4)
+               missingAuthPassword   (5)
+               missingPrivPassword   (6)
+               retrievingEngineId   (7)
+               awaitingEngineId   (8)
+               retrievingUptime   (9)
+               awaitingUptime   (10)
+               badSource   (11)
+               badVrfName   (12)
+               badIntfName   (13)"
+   ::= {sr1646v2SnmpPrxTrapDestEntry 33554432}
+
+sr1646v2SnmpPrxTrapDestLastFail OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               invalidSecurityModel (1),
+               invalidMessage (2),
+               unknownPduHandler (3),
+               unsupportedSecurityLevel (4),
+               notInTimeWindow (5),
+               unknownUserName (6),
+               unknownEngineId (7),
+               wrongDigest (8),
+               decryptionError (9),
+               s (10),
+               noResponse (11)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.status.trapDestinations.lastFail
+
+       Possibilities:
+               InvalidSecurityModel   (1)
+               InvalidMessage   (2)
+               UnknownPduHandler   (3)
+               UnsupportedSecurityLevel   (4)
+               NotInTimeWindow   (5)
+               UnknownUserName   (6)
+               UnknownEngineId   (7)
+               WrongDigest   (8)
+               DecryptionError   (9)
+                  (10)
+               NoResponse   (11)"
+   ::= {sr1646v2SnmpPrxTrapDestEntry 50331648}
+
+
+sr1646v2SnmpPrxEngineId OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.status.engineId
+       Info: engineId"
+   ::= {sr1646v2SnmpPrx 100}
+
+
+
+pr1646v2SnmpPrx OBJECT IDENTIFIER ::= {r1646v2SnmpPrx 12}
+
+
+pr1646v2SnmpPrxMib2Counters OBJECT IDENTIFIER ::= {pr1646v2SnmpPrx 101}
+
+pr1646v2SnmpPrxMib2CountersSSC OBJECT IDENTIFIER ::= {pr1646v2SnmpPrxMib2Counters 1}
+
+pr1646v2SnmpPrxMib2CountersEntry OBJECT IDENTIFIER ::= {pr1646v2SnmpPrxMib2CountersSSC 1}
+
+pr1646v2SnmpPrxMib2CountersInPkts OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.inPkts
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 16777216}
+
+pr1646v2SnmpPrxMib2CountersOutPkts OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.outPkts
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 33554432}
+
+pr1646v2SnmpPrxMib2CountersInBadVersions OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.inBadVersions
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 50331648}
+
+pr1646v2SnmpPrxMib2CountersInBadCommunityNames OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.inBadCommunityNames
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 67108864}
+
+pr1646v2SnmpPrxMib2CountersInAsnParseErrs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.inAsnParseErrs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 100663296}
+
+pr1646v2SnmpPrxMib2CountersInTotalReqVars OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.inTotalReqVars
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 218103808}
+
+pr1646v2SnmpPrxMib2CountersInTotalSetVars OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.inTotalSetVars
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 234881024}
+
+pr1646v2SnmpPrxMib2CountersInGetRequests OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.inGetRequests
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 251658240}
+
+pr1646v2SnmpPrxMib2CountersInGetNexts OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.inGetNexts
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 268435456}
+
+pr1646v2SnmpPrxMib2CountersInSetRequests OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.inSetRequests
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 285212672}
+
+pr1646v2SnmpPrxMib2CountersInGetResponses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.inGetResponses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 301989888}
+
+pr1646v2SnmpPrxMib2CountersInTraps OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.inTraps
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 318767104}
+
+pr1646v2SnmpPrxMib2CountersOutTooBigs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.outTooBigs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 335544320}
+
+pr1646v2SnmpPrxMib2CountersOutNoSuchNames OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.outNoSuchNames
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 352321536}
+
+pr1646v2SnmpPrxMib2CountersOutBadValues OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.outBadValues
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 369098752}
+
+pr1646v2SnmpPrxMib2CountersOutGenErrs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.outGenErrs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 402653184}
+
+pr1646v2SnmpPrxMib2CountersOutGetResponses OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.outGetResponses
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 469762048}
+
+pr1646v2SnmpPrxMib2CountersOutTraps OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mib2Counters.outTraps
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMib2CountersEntry 486539264}
+
+
+pr1646v2SnmpPrxMpdStats OBJECT IDENTIFIER ::= {pr1646v2SnmpPrx 102}
+
+pr1646v2SnmpPrxMpdStatsSSC OBJECT IDENTIFIER ::= {pr1646v2SnmpPrxMpdStats 1}
+
+pr1646v2SnmpPrxMpdStatsEntry OBJECT IDENTIFIER ::= {pr1646v2SnmpPrxMpdStatsSSC 1}
+
+pr1646v2SnmpPrxMpdStatsUnknownSecurityModels OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mpdStats.unknownSecurityModels
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMpdStatsEntry 16777216}
+
+pr1646v2SnmpPrxMpdStatsInvalidMsgs OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mpdStats.invalidMsgs
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMpdStatsEntry 33554432}
+
+pr1646v2SnmpPrxMpdStatsUnknownPduHandlers OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.mpdStats.unknownPduHandlers
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxMpdStatsEntry 50331648}
+
+
+pr1646v2SnmpPrxUsmStats OBJECT IDENTIFIER ::= {pr1646v2SnmpPrx 103}
+
+pr1646v2SnmpPrxUsmStatsSSC OBJECT IDENTIFIER ::= {pr1646v2SnmpPrxUsmStats 1}
+
+pr1646v2SnmpPrxUsmStatsEntry OBJECT IDENTIFIER ::= {pr1646v2SnmpPrxUsmStatsSSC 1}
+
+pr1646v2SnmpPrxUsmStatsUnsupportedSecLevels OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.usmStats.unsupportedSecLevels
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxUsmStatsEntry 16777216}
+
+pr1646v2SnmpPrxUsmStatsNotInTimeWindows OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.usmStats.notInTimeWindows
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxUsmStatsEntry 33554432}
+
+pr1646v2SnmpPrxUsmStatsUnknownUserNames OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.usmStats.unknownUserNames
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxUsmStatsEntry 50331648}
+
+pr1646v2SnmpPrxUsmStatsUnknownEngineIds OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.usmStats.unknownEngineIds
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxUsmStatsEntry 67108864}
+
+pr1646v2SnmpPrxUsmStatsWrongDigests OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.usmStats.wrongDigests
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxUsmStatsEntry 83886080}
+
+pr1646v2SnmpPrxUsmStatsDecryptionErrors OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.performance.usmStats.decryptionErrors
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2SnmpPrxUsmStatsEntry 100663296}
+
+
+
+ar1646v2SnmpPrx OBJECT IDENTIFIER ::= {r1646v2SnmpPrx 16}
+
+
+ar1646v2SnmpPrxClearCounters OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.actions.clearCounters
+       Info: reset counters"
+   ::= {ar1646v2SnmpPrx 263}
+
+
+ar1646v2SnmpPrxResetCounters OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: snmp.actions.resetCounters
+       Info: Resets all counters"
+   ::= {ar1646v2SnmpPrx 300}
+
+
+
+END

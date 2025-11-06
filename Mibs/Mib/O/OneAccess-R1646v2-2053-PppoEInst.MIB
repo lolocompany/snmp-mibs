@@ -1,0 +1,4764 @@
+OneAccess-R1646v2-2053-PppoEInst DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1646Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1132}
+
+
+
+
+r1646v2PppoEInst OBJECT IDENTIFIER ::= {r1646Rootv2 2053}
+
+r1646v2PppoEInstMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1646v2PppoEInstMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1646v2PppoEInst 1}
+
+r1646v2PppoEInstMOPropEntry OBJECT-TYPE
+   SYNTAX      R1646v2PppoEInstMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1646v2PppoEInstMOPropGlobalIx }
+   ::= {r1646v2PppoEInstMOProp 1}
+
+R1646v2PppoEInstMOPropEntry ::=
+   SEQUENCE
+      {
+      r1646v2PppoEInstMOPropPath
+         ContainmentPath,
+      r1646v2PppoEInstMOPropRev
+         ObjectRevision,
+      r1646v2PppoEInstMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1646v2PppoEInstMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1646v2PppoEInstMOPropEntry 3}
+
+r1646v2PppoEInstMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1646v2PppoEInstMOPropEntry 4}
+
+r1646v2PppoEInstMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1646v2PppoEInstMOPropEntry 10}
+
+
+
+er1646v2PppoEInst OBJECT IDENTIFIER ::= {r1646v2PppoEInst 11}
+
+
+er1646v2PppoEInstMode OBJECT IDENTIFIER ::= {er1646v2PppoEInst 2}
+
+er1646v2PppoEInstModeSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstModeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "ppp over ethernet application config"
+   ::= {er1646v2PppoEInstMode 1}
+
+er1646v2PppoEInstModeEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstModeEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstModeGlobalIx }
+   ::= {er1646v2PppoEInstModeSSCTable 1}
+
+Er1646v2PppoEInstModeEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstModeGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstModeRouting
+         DisplayString,
+      er1646v2PppoEInstModeMultiLink
+         DisplayString,
+      er1646v2PppoEInstModeIpV6
+         DisplayString,
+      er1646v2PppoEInstModeIpV6ipV4
+         DisplayString
+      }
+
+er1646v2PppoEInstModeGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstModeEntry 10}
+
+er1646v2PppoEInstModeRouting OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.mode.routing"
+   ::= {er1646v2PppoEInstModeEntry 33554432}
+
+er1646v2PppoEInstModeMultiLink OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.mode.multiLink"
+   ::= {er1646v2PppoEInstModeEntry 100663296}
+
+er1646v2PppoEInstModeIpV6 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.mode.ipV6"
+   ::= {er1646v2PppoEInstModeEntry 150994944}
+
+er1646v2PppoEInstModeIpV6ipV4 OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.mode.ipV6/ipV4"
+   ::= {er1646v2PppoEInstModeEntry 167772160}
+
+
+er1646v2PppoEInstIpV6 OBJECT IDENTIFIER ::= {er1646v2PppoEInst 10}
+
+er1646v2PppoEInstIpV6SSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstIpV6Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "IPv6 interface config parameters for server only"
+   ::= {er1646v2PppoEInstIpV6 1}
+
+er1646v2PppoEInstIpV6Entry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstIpV6Entry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstIpV6GlobalIx }
+   ::= {er1646v2PppoEInstIpV6SSCTable 1}
+
+Er1646v2PppoEInstIpV6Entry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstIpV6GlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstIpV6VrfRouter
+         DisplayString,
+      er1646v2PppoEInstIpV6AddrAutoConfigNrDupAddrDetects
+         Integer32,
+      er1646v2PppoEInstIpV6AddrAutoConfigAcceptRa
+         INTEGER,
+      er1646v2PppoEInstIpV6AddrAutoConfigAcceptRaRdnss
+         INTEGER,
+      er1646v2PppoEInstIpV6AddrAutoConfigAcceptRaDnssl
+         INTEGER,
+      er1646v2PppoEInstIpV6DefaultRoute
+         INTEGER,
+      er1646v2PppoEInstIpV6RaSend
+         INTEGER,
+      er1646v2PppoEInstIpV6RaMinInterval
+         TimeTicks,
+      er1646v2PppoEInstIpV6RaMaxInterval
+         TimeTicks,
+      er1646v2PppoEInstIpV6RaManagedFlag
+         INTEGER,
+      er1646v2PppoEInstIpV6RaOtherConfFlag
+         INTEGER,
+      er1646v2PppoEInstIpV6RaLinkMtu
+         Integer32,
+      er1646v2PppoEInstIpV6RaReachableTime
+         TimeTicks,
+      er1646v2PppoEInstIpV6RaRetransmitTime
+         TimeTicks,
+      er1646v2PppoEInstIpV6RaHopLimit
+         Integer32,
+      er1646v2PppoEInstIpV6RaDefaultLifeTime
+         TimeTicks,
+      er1646v2PppoEInstIpV6RaDnsOptionsRdnssLifeTime
+         TimeTicks,
+      er1646v2PppoEInstIpV6RaDnsOptionsRdnssImportServers
+         INTEGER,
+      er1646v2PppoEInstIpV6RaDnsOptionsDnsslLifeTime
+         TimeTicks,
+      er1646v2PppoEInstIpV6RaDnsOptionsDnsslImportDomains
+         INTEGER,
+      er1646v2PppoEInstIpV6RsSend
+         INTEGER,
+      er1646v2PppoEInstIpV6RsMaxRandomDelay
+         TimeTicks,
+      er1646v2PppoEInstIpV6RsInterval
+         TimeTicks,
+      er1646v2PppoEInstIpV6RsMaxSolicitations
+         Integer32,
+      er1646v2PppoEInstIpV6TrafficPolicyInbound
+         DisplayString,
+      er1646v2PppoEInstIpV6TrafficPolicyOutbound
+         DisplayString,
+      er1646v2PppoEInstIpV6FirewallZone
+         DisplayString,
+      er1646v2PppoEInstIpV6DhcpClientAddrAC
+         INTEGER,
+      er1646v2PppoEInstIpV6DhcpClientPrDelMode
+         INTEGER,
+      er1646v2PppoEInstIpV6DhcpClientPrDelPool
+         DisplayString,
+      er1646v2PppoEInstIpV6DhcpClientPrDelPdExclOpt
+         INTEGER,
+      er1646v2PppoEInstIpV6DhcpClientDnsServerPref
+         Integer32,
+      er1646v2PppoEInstIpV6DhcpClientRapidCommit
+         INTEGER,
+      er1646v2PppoEInstIpV6DhcpClientTimersSolTimeOut
+         TimeTicks,
+      er1646v2PppoEInstIpV6DhcpClientTimersSolMaxRt
+         TimeTicks,
+      er1646v2PppoEInstIpV6DhcpClientTimersInfoRefresh
+         TimeTicks,
+      er1646v2PppoEInstIpV6DhcpServerMode
+         INTEGER,
+      er1646v2PppoEInstIpV6DhcpServerPreference
+         Integer32,
+      er1646v2PppoEInstIpV6DhcpServerPool
+         DisplayString,
+      er1646v2PppoEInstIpV6DhcpServerRapidCommit
+         INTEGER,
+      er1646v2PppoEInstIpV6DhcpServerTimersInfoRefresh
+         TimeTicks,
+      er1646v2PppoEInstIpV6DhcpRelayMode
+         INTEGER,
+      er1646v2PppoEInstIpV6SendRedirect
+         INTEGER,
+      er1646v2PppoEInstIpV6LinkMtu
+         Integer32,
+      er1646v2PppoEInstIpV6InterfaceId
+         OCTET STRING,
+      er1646v2PppoEInstIpV6IcmpMessagesNoRoute
+         INTEGER,
+      er1646v2PppoEInstIpV6IcmpMessagesBeyondScope
+         INTEGER,
+      er1646v2PppoEInstIpV6IcmpMessagesAddressUnreachable
+         INTEGER,
+      er1646v2PppoEInstIpV6IcmpMessagesPortUnreachable
+         INTEGER,
+      er1646v2PppoEInstIpV6IcmpMessagesPacketTooBig
+         INTEGER,
+      er1646v2PppoEInstIpV6IcmpMessagesHopLimitExceeded
+         INTEGER,
+      er1646v2PppoEInstIpV6IcmpMessagesFragTimeExceeded
+         INTEGER,
+      er1646v2PppoEInstIpV6IcmpMessagesHeaderFieldErr
+         INTEGER,
+      er1646v2PppoEInstIpV6IcmpMessagesOptionUnrecognized
+         INTEGER,
+      er1646v2PppoEInstIpV6IcmpMessagesRedirect
+         INTEGER
+      }
+
+er1646v2PppoEInstIpV6GlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstIpV6Entry 10}
+
+er1646v2PppoEInstIpV6VrfRouter OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.vrfRouter"
+   ::= {er1646v2PppoEInstIpV6Entry 16777216}
+
+er1646v2PppoEInstIpV6AddrAutoConfigNrDupAddrDetects OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addrAutoConfig.nrDupAddrDetects"
+   ::= {er1646v2PppoEInstIpV6Entry 67174400}
+
+er1646v2PppoEInstIpV6AddrAutoConfigAcceptRa OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addrAutoConfig.acceptRa
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 67239936}
+
+er1646v2PppoEInstIpV6AddrAutoConfigAcceptRaRdnss OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addrAutoConfig.acceptRaRdnss
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 67305472}
+
+er1646v2PppoEInstIpV6AddrAutoConfigAcceptRaDnssl OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addrAutoConfig.acceptRaDnssl
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 67371008}
+
+er1646v2PppoEInstIpV6DefaultRoute OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.defaultRoute
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 83886080}
+
+er1646v2PppoEInstIpV6RaSend OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.send
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 100728832}
+
+er1646v2PppoEInstIpV6RaMinInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.minInterval
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6Entry 100794368}
+
+er1646v2PppoEInstIpV6RaMaxInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.maxInterval
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6Entry 100859904}
+
+er1646v2PppoEInstIpV6RaManagedFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.managedFlag
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 100925440}
+
+er1646v2PppoEInstIpV6RaOtherConfFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.otherConfFlag
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 100990976}
+
+er1646v2PppoEInstIpV6RaLinkMtu OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.linkMtu"
+   ::= {er1646v2PppoEInstIpV6Entry 101056512}
+
+er1646v2PppoEInstIpV6RaReachableTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.reachableTime
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6Entry 101122048}
+
+er1646v2PppoEInstIpV6RaRetransmitTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.retransmitTime
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6Entry 101187584}
+
+er1646v2PppoEInstIpV6RaHopLimit OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.hopLimit"
+   ::= {er1646v2PppoEInstIpV6Entry 101253120}
+
+er1646v2PppoEInstIpV6RaDefaultLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.defaultLifeTime
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6Entry 101318656}
+
+er1646v2PppoEInstIpV6RaDnsOptionsRdnssLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.dnsOptions.rdnss.lifeTime
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6Entry 101393408}
+
+er1646v2PppoEInstIpV6RaDnsOptionsRdnssImportServers OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.dnsOptions.rdnss.importServers
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 101395456}
+
+er1646v2PppoEInstIpV6RaDnsOptionsDnsslLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.dnsOptions.dnssl.lifeTime
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6Entry 101401600}
+
+er1646v2PppoEInstIpV6RaDnsOptionsDnsslImportDomains OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.dnsOptions.dnssl.importDomains
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 101403648}
+
+er1646v2PppoEInstIpV6RsSend OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.rs.send
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 335609856}
+
+er1646v2PppoEInstIpV6RsMaxRandomDelay OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.rs.maxRandomDelay
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6Entry 335675392}
+
+er1646v2PppoEInstIpV6RsInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.rs.interval
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6Entry 335740928}
+
+er1646v2PppoEInstIpV6RsMaxSolicitations OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.rs.maxSolicitations"
+   ::= {er1646v2PppoEInstIpV6Entry 335806464}
+
+er1646v2PppoEInstIpV6TrafficPolicyInbound OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.trafficPolicy.inbound"
+   ::= {er1646v2PppoEInstIpV6Entry 184614912}
+
+er1646v2PppoEInstIpV6TrafficPolicyOutbound OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.trafficPolicy.outbound"
+   ::= {er1646v2PppoEInstIpV6Entry 184680448}
+
+er1646v2PppoEInstIpV6FirewallZone OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.firewall.zone"
+   ::= {er1646v2PppoEInstIpV6Entry 201392128}
+
+er1646v2PppoEInstIpV6DhcpClientAddrAC OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.addrAutoConfig
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 170131456}
+
+er1646v2PppoEInstIpV6DhcpClientPrDelMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.pd.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 170394624}
+
+er1646v2PppoEInstIpV6DhcpClientPrDelPool OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.pd.pool"
+   ::= {er1646v2PppoEInstIpV6Entry 170395648}
+
+er1646v2PppoEInstIpV6DhcpClientPrDelPdExclOpt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.pd.pdExclOpt
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 170396672}
+
+er1646v2PppoEInstIpV6DhcpClientDnsServerPref OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.dns.serverPref"
+   ::= {er1646v2PppoEInstIpV6Entry 170918912}
+
+er1646v2PppoEInstIpV6DhcpClientRapidCommit OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.rapidCommit
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 170655744}
+
+er1646v2PppoEInstIpV6DhcpClientTimersSolTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.timers.solTimeOut
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6Entry 171181056}
+
+er1646v2PppoEInstIpV6DhcpClientTimersSolMaxRt OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.timers.solMaxRt
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6Entry 171182080}
+
+er1646v2PppoEInstIpV6DhcpClientTimersInfoRefresh OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.timers.infoRefresh
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6Entry 171183104}
+
+er1646v2PppoEInstIpV6DhcpServerMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.server.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 172228608}
+
+er1646v2PppoEInstIpV6DhcpServerPreference OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.server.preference"
+   ::= {er1646v2PppoEInstIpV6Entry 172490752}
+
+er1646v2PppoEInstIpV6DhcpServerPool OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.server.pool"
+   ::= {er1646v2PppoEInstIpV6Entry 172752896}
+
+er1646v2PppoEInstIpV6DhcpServerRapidCommit OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.server.rapidCommit
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 173015040}
+
+er1646v2PppoEInstIpV6DhcpServerTimersInfoRefresh OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.server.timers.infoRefresh
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6Entry 173278208}
+
+er1646v2PppoEInstIpV6DhcpRelayMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.relay.mode
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 174071808}
+
+er1646v2PppoEInstIpV6SendRedirect OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.sendRedirect
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 117440512}
+
+er1646v2PppoEInstIpV6LinkMtu OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.linkMtu"
+   ::= {er1646v2PppoEInstIpV6Entry 134217728}
+
+er1646v2PppoEInstIpV6InterfaceId OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.interfaceId"
+   ::= {er1646v2PppoEInstIpV6Entry 150994944}
+
+er1646v2PppoEInstIpV6IcmpMessagesNoRoute OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.icmpMessages.noRoute
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 302055424}
+
+er1646v2PppoEInstIpV6IcmpMessagesBeyondScope OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.icmpMessages.beyondScope
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 302186496}
+
+er1646v2PppoEInstIpV6IcmpMessagesAddressUnreachable OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.icmpMessages.addressUnreachable
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 302252032}
+
+er1646v2PppoEInstIpV6IcmpMessagesPortUnreachable OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.icmpMessages.portUnreachable
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 302317568}
+
+er1646v2PppoEInstIpV6IcmpMessagesPacketTooBig OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.icmpMessages.packetTooBig
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 302645248}
+
+er1646v2PppoEInstIpV6IcmpMessagesHopLimitExceeded OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.icmpMessages.hopLimitExceeded
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 303300608}
+
+er1646v2PppoEInstIpV6IcmpMessagesFragTimeExceeded OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.icmpMessages.fragTimeExceeded
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 303366144}
+
+er1646v2PppoEInstIpV6IcmpMessagesHeaderFieldErr OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.icmpMessages.headerFieldErr
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 303955968}
+
+er1646v2PppoEInstIpV6IcmpMessagesOptionUnrecognized OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.icmpMessages.optionUnrecognized
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 304087040}
+
+er1646v2PppoEInstIpV6IcmpMessagesRedirect OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.icmpMessages.redirect
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6Entry 304611328}
+
+er1646v2PppoEInstIpV6Addresses OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstIpV6AddressesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2PppoEInstIpV6 50331648}
+
+er1646v2PppoEInstIpV6AddressesEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstIpV6AddressesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstIpV6AddressesGlobalIx,
+                er1646v2PppoEInstIpV6AddressesTableIx }
+   ::= {er1646v2PppoEInstIpV6Addresses 1}
+
+Er1646v2PppoEInstIpV6AddressesEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstIpV6AddressesActions
+         VariableLengthTableActions,
+      er1646v2PppoEInstIpV6AddressesGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstIpV6AddressesTableIx
+         TableIndex,
+      er1646v2PppoEInstIpV6AddressesAddress
+         Ipv6Address,
+      er1646v2PppoEInstIpV6AddressesPrefixLength
+         Integer32,
+      er1646v2PppoEInstIpV6AddressesGeneralPrefix
+         DisplayString,
+      er1646v2PppoEInstIpV6AddressesRaSend
+         INTEGER,
+      er1646v2PppoEInstIpV6AddressesRaOnLinkFlag
+         INTEGER,
+      er1646v2PppoEInstIpV6AddressesRaAutoFlag
+         INTEGER,
+      er1646v2PppoEInstIpV6AddressesRaValidLifeTime
+         TimeTicks,
+      er1646v2PppoEInstIpV6AddressesRaValidLTMode
+         INTEGER,
+      er1646v2PppoEInstIpV6AddressesRaPrefLifeTime
+         TimeTicks,
+      er1646v2PppoEInstIpV6AddressesRaPrefLTMode
+         INTEGER
+      }
+
+er1646v2PppoEInstIpV6AddressesActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2PppoEInstIpV6AddressesEntry 2}
+
+er1646v2PppoEInstIpV6AddressesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstIpV6AddressesEntry 10}
+
+er1646v2PppoEInstIpV6AddressesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2PppoEInstIpV6AddressesEntry 11}
+
+er1646v2PppoEInstIpV6AddressesAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addresses.address
+
+       ipv6 address"
+   ::= {er1646v2PppoEInstIpV6AddressesEntry 16777216}
+
+er1646v2PppoEInstIpV6AddressesPrefixLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addresses.prefixLength"
+   ::= {er1646v2PppoEInstIpV6AddressesEntry 33554432}
+
+er1646v2PppoEInstIpV6AddressesGeneralPrefix OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addresses.generalPrefix"
+   ::= {er1646v2PppoEInstIpV6AddressesEntry 83886080}
+
+er1646v2PppoEInstIpV6AddressesRaSend OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addresses.ra.send
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6AddressesEntry 67174400}
+
+er1646v2PppoEInstIpV6AddressesRaOnLinkFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addresses.ra.onLinkFlag
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6AddressesEntry 67371008}
+
+er1646v2PppoEInstIpV6AddressesRaAutoFlag OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addresses.ra.autonomousFlag
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstIpV6AddressesEntry 67567616}
+
+er1646v2PppoEInstIpV6AddressesRaValidLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addresses.ra.validLifeTime
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6AddressesEntry 67239936}
+
+er1646v2PppoEInstIpV6AddressesRaValidLTMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               fixed (0),
+               infinite (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addresses.ra.validLifeTimeMode
+
+       Possibilities:
+               fixed   (0)
+               infinite   (2)"
+   ::= {er1646v2PppoEInstIpV6AddressesEntry 67305472}
+
+er1646v2PppoEInstIpV6AddressesRaPrefLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addresses.ra.prefLifeTime
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstIpV6AddressesEntry 67436544}
+
+er1646v2PppoEInstIpV6AddressesRaPrefLTMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               fixed (0),
+               infinite (2)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.addresses.ra.prefLifeTimeMode
+
+       Possibilities:
+               fixed   (0)
+               infinite   (2)"
+   ::= {er1646v2PppoEInstIpV6AddressesEntry 67502080}
+
+er1646v2PppoEInstIpV6RaDnsOptionsRdnssServers OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2PppoEInstIpV6 101394432}
+
+er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersGlobalIx,
+                er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersTableIx }
+   ::= {er1646v2PppoEInstIpV6RaDnsOptionsRdnssServers 1}
+
+Er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersActions
+         VariableLengthTableActions,
+      er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersTableIx
+         TableIndex,
+      er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersAddress
+         Ipv6Address
+      }
+
+er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersEntry 2}
+
+er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersEntry 10}
+
+er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersEntry 11}
+
+er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.dnsOptions.rdnss.servers.address
+
+       ipv6 address"
+   ::= {er1646v2PppoEInstIpV6RaDnsOptionsRdnssServersEntry 16777216}
+
+er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomains OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2PppoEInstIpV6 101402624}
+
+er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsGlobalIx,
+                er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsTableIx }
+   ::= {er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomains 1}
+
+Er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsActions
+         VariableLengthTableActions,
+      er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsTableIx
+         TableIndex,
+      er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsName
+         DisplayString
+      }
+
+er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsEntry 2}
+
+er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsEntry 10}
+
+er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsEntry 11}
+
+er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.ra.dnsOptions.dnssl.domains.name"
+   ::= {er1646v2PppoEInstIpV6RaDnsOptionsDnsslDomainsEntry 16777216}
+
+er1646v2PppoEInstIpV6DhcpClientUserClassOpt OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstIpV6DhcpClientUserClassOptEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2PppoEInstIpV6 171442176}
+
+er1646v2PppoEInstIpV6DhcpClientUserClassOptEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstIpV6DhcpClientUserClassOptEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstIpV6DhcpClientUserClassOptGlobalIx,
+                er1646v2PppoEInstIpV6DhcpClientUserClassOptTableIx }
+   ::= {er1646v2PppoEInstIpV6DhcpClientUserClassOpt 1}
+
+Er1646v2PppoEInstIpV6DhcpClientUserClassOptEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstIpV6DhcpClientUserClassOptActions
+         VariableLengthTableActions,
+      er1646v2PppoEInstIpV6DhcpClientUserClassOptGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstIpV6DhcpClientUserClassOptTableIx
+         TableIndex,
+      er1646v2PppoEInstIpV6DhcpClientUserClassOptValueAscii
+         DisplayString,
+      er1646v2PppoEInstIpV6DhcpClientUserClassOptValueDecimal
+         Integer32,
+      er1646v2PppoEInstIpV6DhcpClientUserClassOptValueHexData
+         OCTET STRING
+      }
+
+er1646v2PppoEInstIpV6DhcpClientUserClassOptActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2PppoEInstIpV6DhcpClientUserClassOptEntry 2}
+
+er1646v2PppoEInstIpV6DhcpClientUserClassOptGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstIpV6DhcpClientUserClassOptEntry 10}
+
+er1646v2PppoEInstIpV6DhcpClientUserClassOptTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2PppoEInstIpV6DhcpClientUserClassOptEntry 11}
+
+er1646v2PppoEInstIpV6DhcpClientUserClassOptValueAscii OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.userClassOpt.value.ascii"
+   ::= {er1646v2PppoEInstIpV6DhcpClientUserClassOptEntry 16842752}
+
+er1646v2PppoEInstIpV6DhcpClientUserClassOptValueDecimal OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.userClassOpt.value.decimal"
+   ::= {er1646v2PppoEInstIpV6DhcpClientUserClassOptEntry 16908288}
+
+er1646v2PppoEInstIpV6DhcpClientUserClassOptValueHexData OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.userClassOpt.value.hexData"
+   ::= {er1646v2PppoEInstIpV6DhcpClientUserClassOptEntry 16973824}
+
+er1646v2PppoEInstIpV6DhcpClientVendorCl OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstIpV6DhcpClientVendorClEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2PppoEInstIpV6 171704320}
+
+er1646v2PppoEInstIpV6DhcpClientVendorClEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstIpV6DhcpClientVendorClEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstIpV6DhcpClientVendorClGlobalIx,
+                er1646v2PppoEInstIpV6DhcpClientVendorClTableIx }
+   ::= {er1646v2PppoEInstIpV6DhcpClientVendorCl 1}
+
+Er1646v2PppoEInstIpV6DhcpClientVendorClEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstIpV6DhcpClientVendorClActions
+         VariableLengthTableActions,
+      er1646v2PppoEInstIpV6DhcpClientVendorClGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstIpV6DhcpClientVendorClTableIx
+         TableIndex,
+      er1646v2PppoEInstIpV6DhcpClientVendorClValueAscii
+         DisplayString,
+      er1646v2PppoEInstIpV6DhcpClientVendorClValueDecimal
+         Integer32,
+      er1646v2PppoEInstIpV6DhcpClientVendorClValueHexData
+         OCTET STRING
+      }
+
+er1646v2PppoEInstIpV6DhcpClientVendorClActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2PppoEInstIpV6DhcpClientVendorClEntry 2}
+
+er1646v2PppoEInstIpV6DhcpClientVendorClGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstIpV6DhcpClientVendorClEntry 10}
+
+er1646v2PppoEInstIpV6DhcpClientVendorClTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2PppoEInstIpV6DhcpClientVendorClEntry 11}
+
+er1646v2PppoEInstIpV6DhcpClientVendorClValueAscii OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.vendorClassOpt.value.ascii"
+   ::= {er1646v2PppoEInstIpV6DhcpClientVendorClEntry 16842752}
+
+er1646v2PppoEInstIpV6DhcpClientVendorClValueDecimal OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.vendorClassOpt.value.decimal"
+   ::= {er1646v2PppoEInstIpV6DhcpClientVendorClEntry 16908288}
+
+er1646v2PppoEInstIpV6DhcpClientVendorClValueHexData OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.client.vendorClassOpt.value.hexData"
+   ::= {er1646v2PppoEInstIpV6DhcpClientVendorClEntry 16973824}
+
+er1646v2PppoEInstIpV6DhcpRelayDestinations OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstIpV6DhcpRelayDestinationsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2PppoEInstIpV6 174080000}
+
+er1646v2PppoEInstIpV6DhcpRelayDestinationsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstIpV6DhcpRelayDestinationsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstIpV6DhcpRelayDestinationsGlobalIx,
+                er1646v2PppoEInstIpV6DhcpRelayDestinationsTableIx }
+   ::= {er1646v2PppoEInstIpV6DhcpRelayDestinations 1}
+
+Er1646v2PppoEInstIpV6DhcpRelayDestinationsEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstIpV6DhcpRelayDestinationsActions
+         VariableLengthTableActions,
+      er1646v2PppoEInstIpV6DhcpRelayDestinationsGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstIpV6DhcpRelayDestinationsTableIx
+         TableIndex,
+      er1646v2PppoEInstIpV6DhcpRelayDestinationsAddress
+         Ipv6Address,
+      er1646v2PppoEInstIpV6DhcpRelayDestinationsInterface
+         DisplayString
+      }
+
+er1646v2PppoEInstIpV6DhcpRelayDestinationsActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2PppoEInstIpV6DhcpRelayDestinationsEntry 2}
+
+er1646v2PppoEInstIpV6DhcpRelayDestinationsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstIpV6DhcpRelayDestinationsEntry 10}
+
+er1646v2PppoEInstIpV6DhcpRelayDestinationsTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2PppoEInstIpV6DhcpRelayDestinationsEntry 11}
+
+er1646v2PppoEInstIpV6DhcpRelayDestinationsAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.relay.destinations.address
+
+       ipv6 address"
+   ::= {er1646v2PppoEInstIpV6DhcpRelayDestinationsEntry 16777216}
+
+er1646v2PppoEInstIpV6DhcpRelayDestinationsInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.ipV6.dhcp.relay.destinations.interface"
+   ::= {er1646v2PppoEInstIpV6DhcpRelayDestinationsEntry 33554432}
+
+
+er1646v2PppoEInstLinkMon OBJECT IDENTIFIER ::= {er1646v2PppoEInst 3}
+
+er1646v2PppoEInstLinkMonSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstLinkMonEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppLinkMonitoring"
+   ::= {er1646v2PppoEInstLinkMon 1}
+
+er1646v2PppoEInstLinkMonEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstLinkMonEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstLinkMonGlobalIx }
+   ::= {er1646v2PppoEInstLinkMonSSCTable 1}
+
+Er1646v2PppoEInstLinkMonEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstLinkMonGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstLinkMonOperation
+         INTEGER,
+      er1646v2PppoEInstLinkMonInterval
+         TimeTicks,
+      er1646v2PppoEInstLinkMonRepTimeOut
+         TimeTicks,
+      er1646v2PppoEInstLinkMonFailsPrmt
+         Integer32
+      }
+
+er1646v2PppoEInstLinkMonGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstLinkMonEntry 10}
+
+er1646v2PppoEInstLinkMonOperation OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.linkMonitoring.operation
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {er1646v2PppoEInstLinkMonEntry 16777216}
+
+er1646v2PppoEInstLinkMonInterval OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.linkMonitoring.interval
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstLinkMonEntry 33554432}
+
+er1646v2PppoEInstLinkMonRepTimeOut OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.linkMonitoring.replyTimeOut
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstLinkMonEntry 50331648}
+
+er1646v2PppoEInstLinkMonFailsPrmt OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.linkMonitoring.failsPermitted"
+   ::= {er1646v2PppoEInstLinkMonEntry 67108864}
+
+
+er1646v2PppoEInstAuthentication OBJECT IDENTIFIER ::= {er1646v2PppoEInst 4}
+
+er1646v2PppoEInstAuthenticationTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstAuthenticationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppAuthentication"
+   ::= {er1646v2PppoEInstAuthentication 1}
+
+er1646v2PppoEInstAuthenticationEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstAuthenticationEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstAuthenticationGlobalIx }
+   ::= {er1646v2PppoEInstAuthenticationTable 1}
+
+Er1646v2PppoEInstAuthenticationEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstAuthenticationGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstAuthenticationValue
+         INTEGER
+      }
+
+er1646v2PppoEInstAuthenticationGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstAuthenticationEntry 10}
+
+er1646v2PppoEInstAuthenticationValue OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               chap (1),
+               pap (2),
+               chapOrPap (3),
+               msChap (4),
+               msChapV2 (5)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.authentication
+
+       Possibilities:
+               disabled   (0)
+               chap   (1)
+               pap   (2)
+               chapOrPap   (3)
+               msChap   (4)
+               msChapV2   (5)"
+   ::= {er1646v2PppoEInstAuthenticationEntry 2147483648}
+
+
+er1646v2PppoEInstAuthenPeriod OBJECT IDENTIFIER ::= {er1646v2PppoEInst 5}
+
+er1646v2PppoEInstAuthenPeriodTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstAuthenPeriodEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppAuthenPeriod"
+   ::= {er1646v2PppoEInstAuthenPeriod 1}
+
+er1646v2PppoEInstAuthenPeriodEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstAuthenPeriodEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstAuthenPeriodGlobalIx }
+   ::= {er1646v2PppoEInstAuthenPeriodTable 1}
+
+Er1646v2PppoEInstAuthenPeriodEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstAuthenPeriodGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstAuthenPeriodValue
+         TimeTicks
+      }
+
+er1646v2PppoEInstAuthenPeriodGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstAuthenPeriodEntry 10}
+
+er1646v2PppoEInstAuthenPeriodValue OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.authenPeriod
+
+       Time in centi-second."
+   ::= {er1646v2PppoEInstAuthenPeriodEntry 2147483648}
+
+
+er1646v2PppoEInstSessionsPerMac OBJECT IDENTIFIER ::= {er1646v2PppoEInst 7}
+
+er1646v2PppoEInstSessionsPerMacTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstSessionsPerMacEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppoe session limit configuration"
+   ::= {er1646v2PppoEInstSessionsPerMac 1}
+
+er1646v2PppoEInstSessionsPerMacEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstSessionsPerMacEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstSessionsPerMacGlobalIx }
+   ::= {er1646v2PppoEInstSessionsPerMacTable 1}
+
+Er1646v2PppoEInstSessionsPerMacEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstSessionsPerMacGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstSessionsPerMacValue
+         Integer32
+      }
+
+er1646v2PppoEInstSessionsPerMacGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstSessionsPerMacEntry 10}
+
+er1646v2PppoEInstSessionsPerMacValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.sessionsPerMac"
+   ::= {er1646v2PppoEInstSessionsPerMacEntry 2147483648}
+
+
+er1646v2PppoEInstMaxSessions OBJECT IDENTIFIER ::= {er1646v2PppoEInst 8}
+
+er1646v2PppoEInstMaxSessionsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstMaxSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppoe session limit configuration"
+   ::= {er1646v2PppoEInstMaxSessions 1}
+
+er1646v2PppoEInstMaxSessionsEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstMaxSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstMaxSessionsGlobalIx }
+   ::= {er1646v2PppoEInstMaxSessionsTable 1}
+
+Er1646v2PppoEInstMaxSessionsEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstMaxSessionsGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstMaxSessionsValue
+         Integer32
+      }
+
+er1646v2PppoEInstMaxSessionsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstMaxSessionsEntry 10}
+
+er1646v2PppoEInstMaxSessionsValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.maxSessions"
+   ::= {er1646v2PppoEInstMaxSessionsEntry 2147483648}
+
+
+er1646v2PppoEInstServiceNames OBJECT IDENTIFIER ::= {er1646v2PppoEInst 9}
+
+er1646v2PppoEInstServiceNamesSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstServiceNamesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Service name"
+   ::= {er1646v2PppoEInstServiceNames 1}
+
+er1646v2PppoEInstServiceNamesEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstServiceNamesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstServiceNamesGlobalIx,
+                er1646v2PppoEInstServiceNamesTableIx }
+   ::= {er1646v2PppoEInstServiceNamesSSCTable 1}
+
+Er1646v2PppoEInstServiceNamesEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstServiceNamesActions
+         VariableLengthTableActions,
+      er1646v2PppoEInstServiceNamesGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstServiceNamesTableIx
+         TableIndex,
+      er1646v2PppoEInstServiceNamesServiceName
+         DisplayString
+      }
+
+er1646v2PppoEInstServiceNamesActions OBJECT-TYPE
+   SYNTAX      VariableLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1646v2PppoEInstServiceNamesEntry 2}
+
+er1646v2PppoEInstServiceNamesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstServiceNamesEntry 10}
+
+er1646v2PppoEInstServiceNamesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1646v2PppoEInstServiceNamesEntry 11}
+
+er1646v2PppoEInstServiceNamesServiceName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.serviceNames.serviceName"
+   ::= {er1646v2PppoEInstServiceNamesEntry 16777216}
+
+
+er1646v2PppoEInstSnmpIndexOffset OBJECT IDENTIFIER ::= {er1646v2PppoEInst 268}
+
+er1646v2PppoEInstSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1646v2PppoEInstSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1646v2PppoEInstSnmpIndexOffset 1}
+
+er1646v2PppoEInstSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1646v2PppoEInstSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1646v2PppoEInstSnmpIndexOffsetGlobalIx }
+   ::= {er1646v2PppoEInstSnmpIndexOffsetTable 1}
+
+Er1646v2PppoEInstSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1646v2PppoEInstSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1646v2PppoEInstSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1646v2PppoEInstSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1646v2PppoEInstSnmpIndexOffsetEntry 10}
+
+er1646v2PppoEInstSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.editConf.snmpIndexOffset"
+   ::= {er1646v2PppoEInstSnmpIndexOffsetEntry 2147483648}
+
+
+
+sr1646v2PppoEInst OBJECT IDENTIFIER ::= {r1646v2PppoEInst 14}
+
+
+sr1646v2PppoEInstPPPoE OBJECT IDENTIFIER ::= {sr1646v2PppoEInst 40}
+
+sr1646v2PppoEInstPPPoESSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2PppoEInstPPPoEEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2PppoEInstPPPoE 1}
+
+sr1646v2PppoEInstPPPoEEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2PppoEInstPPPoEEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2PppoEInstPPPoEGlobalIx,
+                sr1646v2PppoEInstPPPoETableIx }
+   ::= {sr1646v2PppoEInstPPPoESSCTable 1}
+
+Sr1646v2PppoEInstPPPoEEntry ::=
+   SEQUENCE
+      {
+      sr1646v2PppoEInstPPPoEGlobalIx
+         GlobalIndex,
+      sr1646v2PppoEInstPPPoETableIx
+         TableIndex,
+      sr1646v2PppoEInstPPPoEName
+         DisplayString,
+      sr1646v2PppoEInstPPPoEMode
+         INTEGER,
+      sr1646v2PppoEInstPPPoEIfOperStatus
+         INTEGER,
+      sr1646v2PppoEInstPPPoEIfLastChange
+         TimeTicks,
+      sr1646v2PppoEInstPPPoEIfLastChangeDate
+         DisplayString,
+      sr1646v2PppoEInstPPPoEIpAddress
+         IpAddress,
+      sr1646v2PppoEInstPPPoEIpNetMask
+         IpAddress,
+      sr1646v2PppoEInstPPPoEIpRemote
+         IpAddress,
+      sr1646v2PppoEInstPPPoEPppOEthDiscState
+         INTEGER,
+      sr1646v2PppoEInstPPPoEPppOEthPeerMac
+         OCTET STRING,
+      sr1646v2PppoEInstPPPoEPppOEthServiceName
+         DisplayString,
+      sr1646v2PppoEInstPPPoEPppLcpState
+         INTEGER,
+      sr1646v2PppoEInstPPPoEPppIpcpState
+         INTEGER,
+      sr1646v2PppoEInstPPPoEPppIp6cpState
+         INTEGER,
+      sr1646v2PppoEInstPPPoEPppMyAutSt
+         INTEGER,
+      sr1646v2PppoEInstPPPoEPppHisAutSt
+         INTEGER,
+      sr1646v2PppoEInstPPPoEPppMru
+         Integer32,
+      sr1646v2PppoEInstPPPoEIpV6State
+         INTEGER,
+      sr1646v2PppoEInstPPPoEIpV6InterfaceId
+         OCTET STRING,
+      sr1646v2PppoEInstPPPoEIpV6LinkMtu
+         Integer32,
+      sr1646v2PppoEInstPPPoEIpV6HopLimit
+         Integer32,
+      sr1646v2PppoEInstPPPoEIpV6DhcpIaid
+         Counter32,
+      sr1646v2PppoEInstPPPoEIpV6RaRcvOption
+         Integer32
+      }
+
+sr1646v2PppoEInstPPPoEGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2PppoEInstPPPoEEntry 10}
+
+sr1646v2PppoEInstPPPoETableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2PppoEInstPPPoEEntry 11}
+
+sr1646v2PppoEInstPPPoEName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.name"
+   ::= {sr1646v2PppoEInstPPPoEEntry 16777216}
+
+sr1646v2PppoEInstPPPoEMode OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               ces (0),
+               routing (1),
+               bridging (2),
+               routingAndBridging (3),
+               switching (4),
+               frf5 (5),
+               frf8 (6),
+               multilink (8),
+               ipV6 (16),
+               ipV6ipV4 (17),
+               virtEthernet (32)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.mode
+
+       Possibilities:
+               ces   (0)
+               routing   (1)
+               bridging   (2)
+               routingAndBridging   (3)
+               switching   (4)
+               frf5   (5)
+               frf8   (6)
+               multilink   (8)
+               ipV6   (16)
+               ipV6/ipV4   (17)
+               virtEthernet   (32)"
+   ::= {sr1646v2PppoEInstPPPoEEntry 335544320}
+
+sr1646v2PppoEInstPPPoEIfOperStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               up (1),
+               down (2),
+               testing (3),
+               unknown (4),
+               dormant (5),
+               notPresent (6),
+               lowerLayerDown (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ifOperStatus
+
+       Possibilities:
+               up   (1)
+               down   (2)
+               testing   (3)
+               unknown   (4)
+               dormant   (5)
+               notPresent   (6)
+               lowerLayerDown   (7)"
+   ::= {sr1646v2PppoEInstPPPoEEntry 1795162112}
+
+sr1646v2PppoEInstPPPoEIfLastChange OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ifLastChange
+
+       Time in centi-second."
+   ::= {sr1646v2PppoEInstPPPoEEntry 1811939328}
+
+sr1646v2PppoEInstPPPoEIfLastChangeDate OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ifLastChangeDate"
+   ::= {sr1646v2PppoEInstPPPoEEntry 3070230528}
+
+sr1646v2PppoEInstPPPoEIpAddress OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ip.address"
+   ::= {sr1646v2PppoEInstPPPoEEntry 51380224}
+
+sr1646v2PppoEInstPPPoEIpNetMask OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ip.netMask"
+   ::= {sr1646v2PppoEInstPPPoEEntry 51445760}
+
+sr1646v2PppoEInstPPPoEIpRemote OBJECT-TYPE
+   SYNTAX      IpAddress
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ip.remote"
+   ::= {sr1646v2PppoEInstPPPoEEntry 51511296}
+
+sr1646v2PppoEInstPPPoEPppOEthDiscState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               idle (0),
+               waitForPADO (1),
+               waitForPADS (2),
+               established (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.pppOverEth.discState
+
+       Possibilities:
+               idle   (0)
+               waitForPADO   (1)
+               waitForPADS   (2)
+               established   (3)"
+   ::= {sr1646v2PppoEInstPPPoEEntry 67174400}
+
+sr1646v2PppoEInstPPPoEPppOEthPeerMac OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.pppOverEth.remoteMacAddress
+
+       MAC address."
+   ::= {sr1646v2PppoEInstPPPoEEntry 67239936}
+
+sr1646v2PppoEInstPPPoEPppOEthServiceName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.pppOverEth.serviceName"
+   ::= {sr1646v2PppoEInstPPPoEEntry 67305472}
+
+sr1646v2PppoEInstPPPoEPppLcpState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               initial (0),
+               starting (1),
+               closed (2),
+               stopped (3),
+               closing (4),
+               stopping (5),
+               reqmSent (6),
+               ackmRcvd (7),
+               ackmSent (8),
+               opened (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ppp.lcpState
+
+       Possibilities:
+               Initial   (0)
+               Starting   (1)
+               Closed   (2)
+               Stopped   (3)
+               Closing   (4)
+               Stopping   (5)
+               Req-Sent   (6)
+               Ack-Rcvd   (7)
+               Ack-Sent   (8)
+               Opened   (9)"
+   ::= {sr1646v2PppoEInstPPPoEEntry 83951616}
+
+sr1646v2PppoEInstPPPoEPppIpcpState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               initial (0),
+               starting (1),
+               closed (2),
+               stopped (3),
+               closing (4),
+               stopping (5),
+               reqmSent (6),
+               ackmRcvd (7),
+               ackmSent (8),
+               opened (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ppp.ipcpState
+
+       Possibilities:
+               Initial   (0)
+               Starting   (1)
+               Closed   (2)
+               Stopped   (3)
+               Closing   (4)
+               Stopping   (5)
+               Req-Sent   (6)
+               Ack-Rcvd   (7)
+               Ack-Sent   (8)
+               Opened   (9)"
+   ::= {sr1646v2PppoEInstPPPoEEntry 84017152}
+
+sr1646v2PppoEInstPPPoEPppIp6cpState OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               initial (0),
+               starting (1),
+               closed (2),
+               stopped (3),
+               closing (4),
+               stopping (5),
+               reqmSent (6),
+               ackmRcvd (7),
+               ackmSent (8),
+               opened (9)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ppp.ip6cpState
+
+       Possibilities:
+               Initial   (0)
+               Starting   (1)
+               Closed   (2)
+               Stopped   (3)
+               Closing   (4)
+               Stopping   (5)
+               Req-Sent   (6)
+               Ack-Rcvd   (7)
+               Ack-Sent   (8)
+               Opened   (9)"
+   ::= {sr1646v2PppoEInstPPPoEEntry 84869120}
+
+sr1646v2PppoEInstPPPoEPppMyAutSt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               nomAuthentication (0),
+               waitmOnmResponse (1),
+               authenmPapmSuccessful (2),
+               authenmChapmSuccessful (3),
+               authenmFailure (4),
+               waitmOnmResponsemRadius (5),
+               authenmNotmAllowed (6),
+               waitmOnmRequest (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ppp.myAuthenState
+
+       Possibilities:
+               No-Authentication   (0)
+               Wait-On-Response   (1)
+               Authen-Pap-Successful   (2)
+               Authen-Chap-Successful   (3)
+               Authen-Failure   (4)
+               Wait-On-Response-Radius   (5)
+               Authen-Not-Allowed   (6)
+               Wait-On-Request   (7)"
+   ::= {sr1646v2PppoEInstPPPoEEntry 84541440}
+
+sr1646v2PppoEInstPPPoEPppHisAutSt OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               nomAuthentication (0),
+               waitmOnmChallenge (1),
+               waitmOnmSuccess (2),
+               authenmPapmSuccessful (3),
+               authenmChapmSuccessful (4),
+               authenmFailure (5),
+               authenmNotmAllowed (6),
+               waitmOnmRequest (7)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ppp.hisAuthenState
+
+       Possibilities:
+               No-Authentication   (0)
+               Wait-On-Challenge   (1)
+               Wait-On-Success   (2)
+               Authen-Pap-Successful   (3)
+               Authen-Chap-Successful   (4)
+               Authen-Failure   (5)
+               Authen-Not-Allowed   (6)
+               Wait-On-Request   (7)"
+   ::= {sr1646v2PppoEInstPPPoEEntry 84606976}
+
+sr1646v2PppoEInstPPPoEPppMru OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ppp.mru"
+   ::= {sr1646v2PppoEInstPPPoEEntry 84934656}
+
+sr1646v2PppoEInstPPPoEIpV6State OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               disabled (0),
+               enabled (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.state
+
+       Possibilities:
+               disabled   (0)
+               enabled   (1)"
+   ::= {sr1646v2PppoEInstPPPoEEntry 100728832}
+
+sr1646v2PppoEInstPPPoEIpV6InterfaceId OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.interfaceId"
+   ::= {sr1646v2PppoEInstPPPoEEntry 100794368}
+
+sr1646v2PppoEInstPPPoEIpV6LinkMtu OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.linkMtu"
+   ::= {sr1646v2PppoEInstPPPoEEntry 100925440}
+
+sr1646v2PppoEInstPPPoEIpV6HopLimit OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.hopLimit"
+   ::= {sr1646v2PppoEInstPPPoEEntry 100990976}
+
+sr1646v2PppoEInstPPPoEIpV6DhcpIaid OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.dhcp.iaid
+
+       32 bit unsigned wrappable counter."
+   ::= {sr1646v2PppoEInstPPPoEEntry 101056768}
+
+sr1646v2PppoEInstPPPoEIpV6RaRcvOption OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.raRcvOption
+
+       Bit meanings:
+               bit 0 = linkMtu,
+               bit 1 = srcLinkLayer,
+               bit 2 = prefixInfo,
+               bit 3 = rdnss,
+               bit 4 = dnssl"
+   ::= {sr1646v2PppoEInstPPPoEEntry 101122048}
+
+sr1646v2PppoEInstPPPoEIpV6Addresses OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2PppoEInstPPPoEIpV6AddressesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2PppoEInstPPPoE 100859904}
+
+sr1646v2PppoEInstPPPoEIpV6AddressesEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2PppoEInstPPPoEIpV6AddressesEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2PppoEInstPPPoEIpV6AddressesGlobalIx,
+                sr1646v2PppoEInstPPPoETableIx,
+                sr1646v2PppoEInstPPPoEIpV6AddressesTableIx }
+   ::= {sr1646v2PppoEInstPPPoEIpV6Addresses 1}
+
+Sr1646v2PppoEInstPPPoEIpV6AddressesEntry ::=
+   SEQUENCE
+      {
+      sr1646v2PppoEInstPPPoEIpV6AddressesGlobalIx
+         GlobalIndex,
+      sr1646v2PppoEInstPPPoEIpV6AddressesTableIx
+         TableIndex,
+      sr1646v2PppoEInstPPPoEIpV6AddressesAddress
+         Ipv6Address,
+      sr1646v2PppoEInstPPPoEIpV6AddressesPrefixLength
+         Integer32,
+      sr1646v2PppoEInstPPPoEIpV6AddressesStatus
+         INTEGER,
+      sr1646v2PppoEInstPPPoEIpV6AddressesOrigin
+         INTEGER,
+      sr1646v2PppoEInstPPPoEIpV6AddressesFlagsInterfaceId
+         INTEGER,
+      sr1646v2PppoEInstPPPoEIpV6AddressesFlagsAnycast
+         INTEGER,
+      sr1646v2PppoEInstPPPoEIpV6AddressesTimersValidLifeTime
+         TimeTicks,
+      sr1646v2PppoEInstPPPoEIpV6AddressesTimersPrefLifeTime
+         TimeTicks
+      }
+
+sr1646v2PppoEInstPPPoEIpV6AddressesGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2PppoEInstPPPoEIpV6AddressesEntry 10}
+
+sr1646v2PppoEInstPPPoEIpV6AddressesTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2PppoEInstPPPoEIpV6AddressesEntry 11}
+
+sr1646v2PppoEInstPPPoEIpV6AddressesAddress OBJECT-TYPE
+   SYNTAX      Ipv6Address
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.addresses.address
+
+       ipv6 address"
+   ::= {sr1646v2PppoEInstPPPoEIpV6AddressesEntry 16777216}
+
+sr1646v2PppoEInstPPPoEIpV6AddressesPrefixLength OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.addresses.prefixLength"
+   ::= {sr1646v2PppoEInstPPPoEIpV6AddressesEntry 33554432}
+
+sr1646v2PppoEInstPPPoEIpV6AddressesStatus OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               invalid (0),
+               tentative (1),
+               deprecated (2),
+               preferred (3)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.addresses.status
+
+       Possibilities:
+               invalid   (0)
+               tentative   (1)
+               deprecated   (2)
+               preferred   (3)"
+   ::= {sr1646v2PppoEInstPPPoEIpV6AddressesEntry 50331648}
+
+sr1646v2PppoEInstPPPoEIpV6AddressesOrigin OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               unknown (0),
+               manual (1),
+               generalPrefix (2),
+               statelessAuto (3),
+               statefullAuto (4)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.addresses.origin
+
+       Possibilities:
+               unknown   (0)
+               manual   (1)
+               generalPrefix   (2)
+               statelessAuto   (3)
+               statefullAuto   (4)"
+   ::= {sr1646v2PppoEInstPPPoEIpV6AddressesEntry 67108864}
+
+sr1646v2PppoEInstPPPoEIpV6AddressesFlagsInterfaceId OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.addresses.flags.interfaceId
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2PppoEInstPPPoEIpV6AddressesEntry 83951616}
+
+sr1646v2PppoEInstPPPoEIpV6AddressesFlagsAnycast OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               no (0),
+               yes (1)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.addresses.flags.anycast
+
+       Possibilities:
+               no   (0)
+               yes   (1)"
+   ::= {sr1646v2PppoEInstPPPoEIpV6AddressesEntry 84017152}
+
+sr1646v2PppoEInstPPPoEIpV6AddressesTimersValidLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.addresses.timers.validLifeTime
+
+       Time in centi-second."
+   ::= {sr1646v2PppoEInstPPPoEIpV6AddressesEntry 100794368}
+
+sr1646v2PppoEInstPPPoEIpV6AddressesTimersPrefLifeTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.pppSessions.ipV6.addresses.timers.prefLifeTime
+
+       Time in centi-second."
+   ::= {sr1646v2PppoEInstPPPoEIpV6AddressesEntry 100728832}
+
+
+sr1646v2PppoEInstLog OBJECT IDENTIFIER ::= {sr1646v2PppoEInst 28}
+
+sr1646v2PppoEInstLogSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2PppoEInstLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "PPPoE server log table of events"
+   ::= {sr1646v2PppoEInstLog 1}
+
+sr1646v2PppoEInstLogEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2PppoEInstLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2PppoEInstLogGlobalIx,
+                sr1646v2PppoEInstLogTableIx }
+   ::= {sr1646v2PppoEInstLogSSCTable 1}
+
+Sr1646v2PppoEInstLogEntry ::=
+   SEQUENCE
+      {
+      sr1646v2PppoEInstLogGlobalIx
+         GlobalIndex,
+      sr1646v2PppoEInstLogTableIx
+         TableIndex,
+      sr1646v2PppoEInstLogDate
+         DisplayString,
+      sr1646v2PppoEInstLogSysUptime
+         TimeTicks,
+      sr1646v2PppoEInstLogInterface
+         DisplayString,
+      sr1646v2PppoEInstLogMacAddress
+         OCTET STRING,
+      sr1646v2PppoEInstLogSessionId
+         Gauge32,
+      sr1646v2PppoEInstLogEvent
+         INTEGER
+      }
+
+sr1646v2PppoEInstLogGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2PppoEInstLogEntry 10}
+
+sr1646v2PppoEInstLogTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {sr1646v2PppoEInstLogEntry 11}
+
+sr1646v2PppoEInstLogDate OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.log.date"
+   ::= {sr1646v2PppoEInstLogEntry 16777216}
+
+sr1646v2PppoEInstLogSysUptime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.log.sysUptime
+
+       Time in centi-second."
+   ::= {sr1646v2PppoEInstLogEntry 33554432}
+
+sr1646v2PppoEInstLogInterface OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.log.interface"
+   ::= {sr1646v2PppoEInstLogEntry 50331648}
+
+sr1646v2PppoEInstLogMacAddress OBJECT-TYPE
+   SYNTAX      OCTET STRING
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.log.macAddress
+
+       MAC address."
+   ::= {sr1646v2PppoEInstLogEntry 67108864}
+
+sr1646v2PppoEInstLogSessionId OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.log.sessionId
+
+       32 bit unsigned gauge value."
+   ::= {sr1646v2PppoEInstLogEntry 83886080}
+
+sr1646v2PppoEInstLogEvent OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               noseventsrecordedsyet (0),
+               pADIsreceivedsbutsallssessionssinsuse (1),
+               pADIsreceivedsbutsallssessionssforsthissMACsinsuse (2),
+               pADIsreceivedsPADOssent (3),
+               pADIsreceivedsbutsnosserviceNamestagsfound (4),
+               pADRsreceivedsPADSssentscreatingssesssion (5),
+               pADRsreceivedsnosmatchsfound (6),
+               pADTsreceivedsremovingssession (7),
+               pADTsreceivedsnosmatchsfound (8),
+               unknownscodesreceived (9),
+               removingssessionsunablestoscompletesdiscoverysphase (10),
+               removingssessionspppssessionsabortedsorstimedsout (11),
+               removingssessionsauthenticationsfailure (12),
+               removingssessionscarrierslost (13),
+               discardingsdataspacketsillegalssessionsIDsvalues0 (14),
+               removingssessionslinksmonitoringsfailed (15),
+               removingssessionsipcpsfailuresnosipsaddress (16),
+               discardingsPADIPADRspacketsinvalidsserversconfig (17),
+               pADIsreceivedsbutsserviceNamesnotssupported (18),
+               removingssessionsPADTsreceived (19),
+               removingssessionsLCPsDownsevent (20)
+               }
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.log.event
+
+       Possibilities:
+               No event recorded yet   (0)
+               PADI received but all sessions in use   (1)
+               PADI received but all sessions for this MAC in use   (2)
+               PADI received, PADO sent   (3)
+               PADI received but no serviceName tag found   (4)
+               PADR received, PADS sent, creating sesssion   (5)
+               PADR received, no match found   (6)
+               PADT received, removing session   (7)
+               PADT received, no match found   (8)
+               Unknown code received   (9)
+               Removing session, unable to complete discovery phase   (10)
+               Removing session, ppp session aborted or timed out   (11)
+               Removing session, authentication failure   (12)
+               Removing session, carrier lost   (13)
+               Discarding data packet, illegal session ID value 0   (14)
+               Removing session, link monitoring failed   (15)
+               Removing session, ipcp failure, no ip address   (16)
+               Discarding PADI/PADR packet, invalid server config   (17)
+               PADI received but serviceName not supported   (18)
+               Removing session, PADT received   (19)
+               Removing session, LCP Down event   (20)"
+   ::= {sr1646v2PppoEInstLogEntry 100663296}
+
+
+sr1646v2PppoEInstSnmpIndex OBJECT IDENTIFIER ::= {sr1646v2PppoEInst 269}
+
+sr1646v2PppoEInstSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1646v2PppoEInstSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1646v2PppoEInstSnmpIndex 1}
+
+sr1646v2PppoEInstSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1646v2PppoEInstSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1646v2PppoEInstSnmpIndexGlobalIx }
+   ::= {sr1646v2PppoEInstSnmpIndexTable 1}
+
+Sr1646v2PppoEInstSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1646v2PppoEInstSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1646v2PppoEInstSnmpIndexValue
+         Integer32
+      }
+
+sr1646v2PppoEInstSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1646v2PppoEInstSnmpIndexEntry 10}
+
+sr1646v2PppoEInstSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.status.snmpIndex"
+   ::= {sr1646v2PppoEInstSnmpIndexEntry 2147483648}
+
+
+
+pr1646v2PppoEInst OBJECT IDENTIFIER ::= {r1646v2PppoEInst 12}
+
+
+pr1646v2PppoEInstPPPoE OBJECT IDENTIFIER ::= {pr1646v2PppoEInst 27}
+
+pr1646v2PppoEInstPPPoESSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2PppoEInstPPPoEEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2PppoEInstPPPoE 1}
+
+pr1646v2PppoEInstPPPoEEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2PppoEInstPPPoEEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2PppoEInstPPPoEGlobalIx,
+                pr1646v2PppoEInstPPPoETableIx }
+   ::= {pr1646v2PppoEInstPPPoESSCTable 1}
+
+Pr1646v2PppoEInstPPPoEEntry ::=
+   SEQUENCE
+      {
+      pr1646v2PppoEInstPPPoEGlobalIx
+         GlobalIndex,
+      pr1646v2PppoEInstPPPoETableIx
+         TableIndex,
+      pr1646v2PppoEInstPPPoEName
+         DisplayString,
+      pr1646v2PppoEInstPPPoEMCInOctets
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCInUcast
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCInNUcastPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCInBcastPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCInMcastPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCInDiscards
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCInErrors
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCInUnknownProtos
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCInDropEx
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCInDropNoMac
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCInDropNUCast
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCInDropFilter
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCInBandwidth15sec
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCInBandwidth30sec
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCInBandwidth1min
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCInBandwidth2min
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCInBandwidth5min
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCOutOctets
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCOutUcastPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCOutNUcastPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCOutBcastPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCOutMcastPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCOutDiscards
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCOutErrors
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCOutQLen
+         Counter32,
+      pr1646v2PppoEInstPPPoEMCOutDropEx
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCOutDropNoArp
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCOutDropFilter
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCOutBandwidth15sec
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCOutBandwidth30sec
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCOutBandwidth1min
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCOutBandwidth2min
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCOutBandwidth5min
+         Integer32,
+      pr1646v2PppoEInstPPPoELinkMonitoringRequestsSent
+         Gauge32,
+      pr1646v2PppoEInstPPPoELinkMonitoringRepliesRcvd
+         Gauge32,
+      pr1646v2PppoEInstPPPoELinkMonitoringRequestsRcvd
+         Gauge32,
+      pr1646v2PppoEInstPPPoELinkMonitoringRepliesSent
+         Gauge32
+      }
+
+pr1646v2PppoEInstPPPoEGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2PppoEInstPPPoEEntry 10}
+
+pr1646v2PppoEInstPPPoETableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2PppoEInstPPPoEEntry 11}
+
+pr1646v2PppoEInstPPPoEName OBJECT-TYPE
+   SYNTAX      DisplayString
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.name"
+   ::= {pr1646v2PppoEInstPPPoEEntry 16777216}
+
+pr1646v2PppoEInstPPPoEMCInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 40697856}
+
+pr1646v2PppoEInstPPPoEMCInUcast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 40763392}
+
+pr1646v2PppoEInstPPPoEMCInNUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 40828928}
+
+pr1646v2PppoEInstPPPoEMCInBcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 47382528}
+
+pr1646v2PppoEInstPPPoEMCInMcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 48037888}
+
+pr1646v2PppoEInstPPPoEMCInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 40894464}
+
+pr1646v2PppoEInstPPPoEMCInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 40960000}
+
+pr1646v2PppoEInstPPPoEMCInUnknownProtos OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 41025536}
+
+pr1646v2PppoEInstPPPoEMCInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 42074112}
+
+pr1646v2PppoEInstPPPoEMCInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 42270720}
+
+pr1646v2PppoEInstPPPoEMCInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 42467328}
+
+pr1646v2PppoEInstPPPoEMCInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 42532864}
+
+pr1646v2PppoEInstPPPoEMCInBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEEntry 45417728}
+
+pr1646v2PppoEInstPPPoEMCInBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEEntry 45419008}
+
+pr1646v2PppoEInstPPPoEMCInBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEEntry 45421568}
+
+pr1646v2PppoEInstPPPoEMCInBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEEntry 45426688}
+
+pr1646v2PppoEInstPPPoEMCInBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifInBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEEntry 45442048}
+
+pr1646v2PppoEInstPPPoEMCOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 41091072}
+
+pr1646v2PppoEInstPPPoEMCOutUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 41156608}
+
+pr1646v2PppoEInstPPPoEMCOutNUcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 41222144}
+
+pr1646v2PppoEInstPPPoEMCOutBcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 47775744}
+
+pr1646v2PppoEInstPPPoEMCOutMcastPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 48431104}
+
+pr1646v2PppoEInstPPPoEMCOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 41287680}
+
+pr1646v2PppoEInstPPPoEMCOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 41353216}
+
+pr1646v2PppoEInstPPPoEMCOutQLen OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutQLen
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 41418752}
+
+pr1646v2PppoEInstPPPoEMCOutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 41484288}
+
+pr1646v2PppoEInstPPPoEMCOutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 42336256}
+
+pr1646v2PppoEInstPPPoEMCOutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEEntry 42598400}
+
+pr1646v2PppoEInstPPPoEMCOutBandwidth15sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutBandwidth.15sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEEntry 45483264}
+
+pr1646v2PppoEInstPPPoEMCOutBandwidth30sec OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutBandwidth.30sec
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEEntry 45484544}
+
+pr1646v2PppoEInstPPPoEMCOutBandwidth1min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutBandwidth.1min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEEntry 45487104}
+
+pr1646v2PppoEInstPPPoEMCOutBandwidth2min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutBandwidth.2min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEEntry 45492224}
+
+pr1646v2PppoEInstPPPoEMCOutBandwidth5min OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.ifOutBandwidth.5min
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEEntry 45507584}
+
+pr1646v2PppoEInstPPPoELinkMonitoringRequestsSent OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.linkMonitoring.requestsSent
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2PppoEInstPPPoEEntry 50397184}
+
+pr1646v2PppoEInstPPPoELinkMonitoringRepliesRcvd OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.linkMonitoring.repliesRcvd
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2PppoEInstPPPoEEntry 50462720}
+
+pr1646v2PppoEInstPPPoELinkMonitoringRequestsRcvd OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.linkMonitoring.requestsRcvd
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2PppoEInstPPPoEEntry 50528256}
+
+pr1646v2PppoEInstPPPoELinkMonitoringRepliesSent OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.linkMonitoring.repliesSent
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2PppoEInstPPPoEEntry 50593792}
+
+pr1646v2PppoEInstPPPoEMCH2P OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2PppoEInstPPPoEMCH2PEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2PppoEInstPPPoE 41549824}
+
+pr1646v2PppoEInstPPPoEMCH2PEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2PppoEInstPPPoEMCH2PEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2PppoEInstPPPoEMCH2PGlobalIx,
+                pr1646v2PppoEInstPPPoETableIx,
+                pr1646v2PppoEInstPPPoEMCH2PTableIx }
+   ::= {pr1646v2PppoEInstPPPoEMCH2P 1}
+
+Pr1646v2PppoEInstPPPoEMCH2PEntry ::=
+   SEQUENCE
+      {
+      pr1646v2PppoEInstPPPoEMCH2PGlobalIx
+         GlobalIndex,
+      pr1646v2PppoEInstPPPoEMCH2PTableIx
+         TableIndex,
+      pr1646v2PppoEInstPPPoEMCH2PSysUpTime
+         TimeTicks,
+      pr1646v2PppoEInstPPPoEMCH2PIfUpTime
+         TimeTicks,
+      pr1646v2PppoEInstPPPoEMCH2PIfStatChanges
+         Counter32,
+      pr1646v2PppoEInstPPPoEMCH2PIfInOctets
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfInUCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfInNUCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfInBCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfInMCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfInDiscards
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfInErrors
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfInUnkwn
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PInDropEx
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PInDropNoMac
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PInDropNUCast
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PInDropFilter
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfInBandwidth
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCH2PIfOutOctets
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfOutUCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfOutNUCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfOutBCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfOutMCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfOutDiscards
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfOutErrors
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2POutDropEx
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2POutDropNoArp
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2POutDropFilter
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH2PIfOutBandwidth
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCH2PIfErrSec
+         Counter32
+      }
+
+pr1646v2PppoEInstPPPoEMCH2PGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 10}
+
+pr1646v2PppoEInstPPPoEMCH2PTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 11}
+
+pr1646v2PppoEInstPPPoEMCH2PSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 16777216}
+
+pr1646v2PppoEInstPPPoEMCH2PIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 33554432}
+
+pr1646v2PppoEInstPPPoEMCH2PIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 50331648}
+
+pr1646v2PppoEInstPPPoEMCH2PIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 67108864}
+
+pr1646v2PppoEInstPPPoEMCH2PIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 83886080}
+
+pr1646v2PppoEInstPPPoEMCH2PIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 100663296}
+
+pr1646v2PppoEInstPPPoEMCH2PIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 419430400}
+
+pr1646v2PppoEInstPPPoEMCH2PIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 436207616}
+
+pr1646v2PppoEInstPPPoEMCH2PIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 117440512}
+
+pr1646v2PppoEInstPPPoEMCH2PIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 134217728}
+
+pr1646v2PppoEInstPPPoEMCH2PIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 150994944}
+
+pr1646v2PppoEInstPPPoEMCH2PInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 335544320}
+
+pr1646v2PppoEInstPPPoEMCH2PInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 301989888}
+
+pr1646v2PppoEInstPPPoEMCH2PInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 318767104}
+
+pr1646v2PppoEInstPPPoEMCH2PInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 385875968}
+
+pr1646v2PppoEInstPPPoEMCH2PIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 268435456}
+
+pr1646v2PppoEInstPPPoEMCH2PIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 167772160}
+
+pr1646v2PppoEInstPPPoEMCH2PIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 184549376}
+
+pr1646v2PppoEInstPPPoEMCH2PIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 201326592}
+
+pr1646v2PppoEInstPPPoEMCH2PIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 452984832}
+
+pr1646v2PppoEInstPPPoEMCH2PIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 469762048}
+
+pr1646v2PppoEInstPPPoEMCH2PIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 218103808}
+
+pr1646v2PppoEInstPPPoEMCH2PIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 234881024}
+
+pr1646v2PppoEInstPPPoEMCH2POutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 352321536}
+
+pr1646v2PppoEInstPPPoEMCH2POutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 369098752}
+
+pr1646v2PppoEInstPPPoEMCH2POutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 402653184}
+
+pr1646v2PppoEInstPPPoEMCH2PIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 285212672}
+
+pr1646v2PppoEInstPPPoEMCH2PIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h2Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH2PEntry 251658240}
+
+pr1646v2PppoEInstPPPoEMCH24P OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2PppoEInstPPPoEMCH24PEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2PppoEInstPPPoE 41615360}
+
+pr1646v2PppoEInstPPPoEMCH24PEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2PppoEInstPPPoEMCH24PEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2PppoEInstPPPoEMCH24PGlobalIx,
+                pr1646v2PppoEInstPPPoETableIx,
+                pr1646v2PppoEInstPPPoEMCH24PTableIx }
+   ::= {pr1646v2PppoEInstPPPoEMCH24P 1}
+
+Pr1646v2PppoEInstPPPoEMCH24PEntry ::=
+   SEQUENCE
+      {
+      pr1646v2PppoEInstPPPoEMCH24PGlobalIx
+         GlobalIndex,
+      pr1646v2PppoEInstPPPoEMCH24PTableIx
+         TableIndex,
+      pr1646v2PppoEInstPPPoEMCH24PSysUpTime
+         TimeTicks,
+      pr1646v2PppoEInstPPPoEMCH24PIfUpTime
+         TimeTicks,
+      pr1646v2PppoEInstPPPoEMCH24PIfStatChanges
+         Counter32,
+      pr1646v2PppoEInstPPPoEMCH24PIfInOctets
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfInUCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfInNUCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfInBCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfInMCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfInDiscards
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfInErrors
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfInUnkwn
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PInDropEx
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PInDropNoMac
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PInDropNUCast
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PInDropFilter
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfInBandwidth
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCH24PIfOutOctets
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfOutUCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfOutNUCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfOutBCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfOutMCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfOutDiscards
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfOutErrors
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24POutDropEx
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24POutDropNoArp
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24POutDropFilter
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCH24PIfOutBandwidth
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCH24PIfErrSec
+         Counter32
+      }
+
+pr1646v2PppoEInstPPPoEMCH24PGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 10}
+
+pr1646v2PppoEInstPPPoEMCH24PTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 11}
+
+pr1646v2PppoEInstPPPoEMCH24PSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 16777216}
+
+pr1646v2PppoEInstPPPoEMCH24PIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 33554432}
+
+pr1646v2PppoEInstPPPoEMCH24PIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 50331648}
+
+pr1646v2PppoEInstPPPoEMCH24PIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 67108864}
+
+pr1646v2PppoEInstPPPoEMCH24PIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 83886080}
+
+pr1646v2PppoEInstPPPoEMCH24PIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 100663296}
+
+pr1646v2PppoEInstPPPoEMCH24PIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 419430400}
+
+pr1646v2PppoEInstPPPoEMCH24PIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 436207616}
+
+pr1646v2PppoEInstPPPoEMCH24PIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 117440512}
+
+pr1646v2PppoEInstPPPoEMCH24PIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 134217728}
+
+pr1646v2PppoEInstPPPoEMCH24PIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 150994944}
+
+pr1646v2PppoEInstPPPoEMCH24PInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 335544320}
+
+pr1646v2PppoEInstPPPoEMCH24PInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 301989888}
+
+pr1646v2PppoEInstPPPoEMCH24PInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 318767104}
+
+pr1646v2PppoEInstPPPoEMCH24PInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 385875968}
+
+pr1646v2PppoEInstPPPoEMCH24PIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 268435456}
+
+pr1646v2PppoEInstPPPoEMCH24PIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 167772160}
+
+pr1646v2PppoEInstPPPoEMCH24PIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 184549376}
+
+pr1646v2PppoEInstPPPoEMCH24PIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 201326592}
+
+pr1646v2PppoEInstPPPoEMCH24PIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 452984832}
+
+pr1646v2PppoEInstPPPoEMCH24PIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 469762048}
+
+pr1646v2PppoEInstPPPoEMCH24PIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 218103808}
+
+pr1646v2PppoEInstPPPoEMCH24PIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 234881024}
+
+pr1646v2PppoEInstPPPoEMCH24POutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 352321536}
+
+pr1646v2PppoEInstPPPoEMCH24POutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 369098752}
+
+pr1646v2PppoEInstPPPoEMCH24POutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 402653184}
+
+pr1646v2PppoEInstPPPoEMCH24PIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 285212672}
+
+pr1646v2PppoEInstPPPoEMCH24PIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.h24Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCH24PEntry 251658240}
+
+pr1646v2PppoEInstPPPoEMCD7P OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2PppoEInstPPPoEMCD7PEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2PppoEInstPPPoE 41680896}
+
+pr1646v2PppoEInstPPPoEMCD7PEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2PppoEInstPPPoEMCD7PEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2PppoEInstPPPoEMCD7PGlobalIx,
+                pr1646v2PppoEInstPPPoETableIx,
+                pr1646v2PppoEInstPPPoEMCD7PTableIx }
+   ::= {pr1646v2PppoEInstPPPoEMCD7P 1}
+
+Pr1646v2PppoEInstPPPoEMCD7PEntry ::=
+   SEQUENCE
+      {
+      pr1646v2PppoEInstPPPoEMCD7PGlobalIx
+         GlobalIndex,
+      pr1646v2PppoEInstPPPoEMCD7PTableIx
+         TableIndex,
+      pr1646v2PppoEInstPPPoEMCD7PSysUpTime
+         TimeTicks,
+      pr1646v2PppoEInstPPPoEMCD7PIfUpTime
+         TimeTicks,
+      pr1646v2PppoEInstPPPoEMCD7PIfStatChanges
+         Counter32,
+      pr1646v2PppoEInstPPPoEMCD7PIfInOctets
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfInUCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfInNUCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfInBCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfInMCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfInDiscards
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfInErrors
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfInUnkwn
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PInDropEx
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PInDropNoMac
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PInDropNUCast
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PInDropFilter
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfInBandwidth
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCD7PIfOutOctets
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfOutUCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfOutNUCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfOutBCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfOutMCPkts
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfOutDiscards
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfOutErrors
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7POutDropEx
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7POutDropNoArp
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7POutDropFilter
+         Counter64,
+      pr1646v2PppoEInstPPPoEMCD7PIfOutBandwidth
+         Integer32,
+      pr1646v2PppoEInstPPPoEMCD7PIfErrSec
+         Counter32
+      }
+
+pr1646v2PppoEInstPPPoEMCD7PGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 10}
+
+pr1646v2PppoEInstPPPoEMCD7PTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 11}
+
+pr1646v2PppoEInstPPPoEMCD7PSysUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.sysUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 16777216}
+
+pr1646v2PppoEInstPPPoEMCD7PIfUpTime OBJECT-TYPE
+   SYNTAX      TimeTicks
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifUpTime
+
+       Time in centi-second."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 33554432}
+
+pr1646v2PppoEInstPPPoEMCD7PIfStatChanges OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifStatusChanges
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 50331648}
+
+pr1646v2PppoEInstPPPoEMCD7PIfInOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifInOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 67108864}
+
+pr1646v2PppoEInstPPPoEMCD7PIfInUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifInUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 83886080}
+
+pr1646v2PppoEInstPPPoEMCD7PIfInNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifInNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 100663296}
+
+pr1646v2PppoEInstPPPoEMCD7PIfInBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifInBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 419430400}
+
+pr1646v2PppoEInstPPPoEMCD7PIfInMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifInMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 436207616}
+
+pr1646v2PppoEInstPPPoEMCD7PIfInDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifInDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 117440512}
+
+pr1646v2PppoEInstPPPoEMCD7PIfInErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifInErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 134217728}
+
+pr1646v2PppoEInstPPPoEMCD7PIfInUnkwn OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifInUnknownProtos
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 150994944}
+
+pr1646v2PppoEInstPPPoEMCD7PInDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifInDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 335544320}
+
+pr1646v2PppoEInstPPPoEMCD7PInDropNoMac OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.fInDiscardsNoMacFit
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 301989888}
+
+pr1646v2PppoEInstPPPoEMCD7PInDropNUCast OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.fInDiscardsNUCast
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 318767104}
+
+pr1646v2PppoEInstPPPoEMCD7PInDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.fInDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 385875968}
+
+pr1646v2PppoEInstPPPoEMCD7PIfInBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifInBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 268435456}
+
+pr1646v2PppoEInstPPPoEMCD7PIfOutOctets OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifOutOctets
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 167772160}
+
+pr1646v2PppoEInstPPPoEMCD7PIfOutUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifOutUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 184549376}
+
+pr1646v2PppoEInstPPPoEMCD7PIfOutNUCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifOutNUcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 201326592}
+
+pr1646v2PppoEInstPPPoEMCD7PIfOutBCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifOutBcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 452984832}
+
+pr1646v2PppoEInstPPPoEMCD7PIfOutMCPkts OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifOutMcastPkts
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 469762048}
+
+pr1646v2PppoEInstPPPoEMCD7PIfOutDiscards OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifOutDiscards
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 218103808}
+
+pr1646v2PppoEInstPPPoEMCD7PIfOutErrors OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifOutErrors
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 234881024}
+
+pr1646v2PppoEInstPPPoEMCD7POutDropEx OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifOutDropLevelExceeded
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 352321536}
+
+pr1646v2PppoEInstPPPoEMCD7POutDropNoArp OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifOutDiscardsNoArp
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 369098752}
+
+pr1646v2PppoEInstPPPoEMCD7POutDropFilter OBJECT-TYPE
+   SYNTAX      Counter64
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifOutDiscardsFilter
+
+       64 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 402653184}
+
+pr1646v2PppoEInstPPPoEMCD7PIfOutBandwidth OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifOutBandwidth
+
+       unit name = bps
+       formula = 8 * ; 8 /"
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 285212672}
+
+pr1646v2PppoEInstPPPoEMCD7PIfErrSec OBJECT-TYPE
+   SYNTAX      Counter32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.pppSessions.mibCounters.d7Performance.ifErrSec
+
+       32 bit unsigned wrappable counter."
+   ::= {pr1646v2PppoEInstPPPoEMCD7PEntry 251658240}
+
+
+pr1646v2PppoEInstTotalSessionsSetup OBJECT IDENTIFIER ::= {pr1646v2PppoEInst 20}
+
+pr1646v2PppoEInstTotalSessionsSetupTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2PppoEInstTotalSessionsSetupEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "mode"
+   ::= {pr1646v2PppoEInstTotalSessionsSetup 1}
+
+pr1646v2PppoEInstTotalSessionsSetupEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2PppoEInstTotalSessionsSetupEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2PppoEInstTotalSessionsSetupGlobalIx }
+   ::= {pr1646v2PppoEInstTotalSessionsSetupTable 1}
+
+Pr1646v2PppoEInstTotalSessionsSetupEntry ::=
+   SEQUENCE
+      {
+      pr1646v2PppoEInstTotalSessionsSetupGlobalIx
+         GlobalIndex,
+      pr1646v2PppoEInstTotalSessionsSetupValue
+         Gauge32
+      }
+
+pr1646v2PppoEInstTotalSessionsSetupGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2PppoEInstTotalSessionsSetupEntry 10}
+
+pr1646v2PppoEInstTotalSessionsSetupValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.totalSessionsSetup
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2PppoEInstTotalSessionsSetupEntry 2147483648}
+
+
+pr1646v2PppoEInstActiveSessions OBJECT IDENTIFIER ::= {pr1646v2PppoEInst 21}
+
+pr1646v2PppoEInstActiveSessionsTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2PppoEInstActiveSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "mode"
+   ::= {pr1646v2PppoEInstActiveSessions 1}
+
+pr1646v2PppoEInstActiveSessionsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2PppoEInstActiveSessionsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2PppoEInstActiveSessionsGlobalIx }
+   ::= {pr1646v2PppoEInstActiveSessionsTable 1}
+
+Pr1646v2PppoEInstActiveSessionsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2PppoEInstActiveSessionsGlobalIx
+         GlobalIndex,
+      pr1646v2PppoEInstActiveSessionsValue
+         Gauge32
+      }
+
+pr1646v2PppoEInstActiveSessionsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2PppoEInstActiveSessionsEntry 10}
+
+pr1646v2PppoEInstActiveSessionsValue OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.activeSessions
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2PppoEInstActiveSessionsEntry 2147483648}
+
+
+pr1646v2PppoEInstErrors OBJECT IDENTIFIER ::= {pr1646v2PppoEInst 22}
+
+pr1646v2PppoEInstErrorsSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Pr1646v2PppoEInstErrorsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "pppoe session limit configuration"
+   ::= {pr1646v2PppoEInstErrors 1}
+
+pr1646v2PppoEInstErrorsEntry OBJECT-TYPE
+   SYNTAX      Pr1646v2PppoEInstErrorsEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { pr1646v2PppoEInstErrorsGlobalIx }
+   ::= {pr1646v2PppoEInstErrorsSSCTable 1}
+
+Pr1646v2PppoEInstErrorsEntry ::=
+   SEQUENCE
+      {
+      pr1646v2PppoEInstErrorsGlobalIx
+         GlobalIndex,
+      pr1646v2PppoEInstErrorsMse
+         Gauge32,
+      pr1646v2PppoEInstErrorsSme
+         Gauge32,
+      pr1646v2PppoEInstErrorsDf
+         Gauge32,
+      pr1646v2PppoEInstErrorsPsf
+         Gauge32,
+      pr1646v2PppoEInstErrorsUc
+         Gauge32
+      }
+
+pr1646v2PppoEInstErrorsGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {pr1646v2PppoEInstErrorsEntry 10}
+
+pr1646v2PppoEInstErrorsMse OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.errors.maxSessionsExceeded
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2PppoEInstErrorsEntry 16777216}
+
+pr1646v2PppoEInstErrorsSme OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.errors.sessionsPerMacExceeded
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2PppoEInstErrorsEntry 33554432}
+
+pr1646v2PppoEInstErrorsDf OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.errors.discoveryFailed
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2PppoEInstErrorsEntry 50331648}
+
+pr1646v2PppoEInstErrorsPsf OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.errors.pppSetupFailed
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2PppoEInstErrorsEntry 67108864}
+
+pr1646v2PppoEInstErrorsUc OBJECT-TYPE
+   SYNTAX      Gauge32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: server.performance.errors.unknownCode
+
+       32 bit unsigned gauge value."
+   ::= {pr1646v2PppoEInstErrorsEntry 83886080}
+
+
+
+ar1646v2PppoEInst OBJECT IDENTIFIER ::= {r1646v2PppoEInst 16}
+
+
+ar1646v2PppoEInstClearCounters OBJECT IDENTIFIER ::= {ar1646v2PppoEInst 263}
+
+ar1646v2PppoEInstClearCountersTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2PppoEInstClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "reset counters"
+   ::= {ar1646v2PppoEInstClearCounters 1}
+
+ar1646v2PppoEInstClearCountersEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2PppoEInstClearCountersEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2PppoEInstClearCountersGlobalIx }
+   ::= {ar1646v2PppoEInstClearCountersTable 1}
+
+Ar1646v2PppoEInstClearCountersEntry ::=
+   SEQUENCE
+      {
+      ar1646v2PppoEInstClearCountersGlobalIx
+         GlobalIndex,
+      ar1646v2PppoEInstClearCountersValue
+         Integer32
+      }
+
+ar1646v2PppoEInstClearCountersGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2PppoEInstClearCountersEntry 10}
+
+ar1646v2PppoEInstClearCountersValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.actions.clearCounters"
+   ::= {ar1646v2PppoEInstClearCountersEntry 2147483648}
+
+
+ar1646v2PppoEInstClearLog OBJECT IDENTIFIER ::= {ar1646v2PppoEInst 29}
+
+ar1646v2PppoEInstClearLogTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Ar1646v2PppoEInstClearLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "clear PPPoE server log table of events"
+   ::= {ar1646v2PppoEInstClearLog 1}
+
+ar1646v2PppoEInstClearLogEntry OBJECT-TYPE
+   SYNTAX      Ar1646v2PppoEInstClearLogEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { ar1646v2PppoEInstClearLogGlobalIx }
+   ::= {ar1646v2PppoEInstClearLogTable 1}
+
+Ar1646v2PppoEInstClearLogEntry ::=
+   SEQUENCE
+      {
+      ar1646v2PppoEInstClearLogGlobalIx
+         GlobalIndex,
+      ar1646v2PppoEInstClearLogValue
+         Integer32
+      }
+
+ar1646v2PppoEInstClearLogGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {ar1646v2PppoEInstClearLogEntry 10}
+
+ar1646v2PppoEInstClearLogValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: server.actions.clearLog"
+   ::= {ar1646v2PppoEInstClearLogEntry 2147483648}
+
+
+
+END

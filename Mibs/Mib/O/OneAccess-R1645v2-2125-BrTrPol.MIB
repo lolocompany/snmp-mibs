@@ -1,0 +1,532 @@
+OneAccess-R1645v2-2125-BrTrPol DEFINITIONS ::= BEGIN
+
+
+
+IMPORTS                                                                     
+        MODULE-IDENTITY, OBJECT-IDENTITY, NOTIFICATION-TYPE, Integer32,     
+        Unsigned32, IpAddress, Counter32, Counter64, Gauge32, TimeTicks,    
+        OBJECT-TYPE                                                         
+            FROM SNMPv2-SMI                                                 
+        DisplayString                                                       
+            FROM SNMPv2-TC                                                  
+        ifIndex                                                             
+            FROM IF-MIB                                                     
+        Ipv6Address, Ipv6AddressPrefix                                      
+            FROM IPV6-TC                                                    
+        telindus, GlobalIndex, LocalIndex, ContainmentPath, ObjectRevision, 
+        TableIndex, FixedLengthTableActions, VariableLengthTableActions,    
+        tlsCntTreeGlobalIndex, tlsTrapDescription, tlsSeverityLevel,        
+        tlsTrapSeverityLevel                                                
+            FROM TELINDUS-SMI;                                              
+
+
+
+r1645Rootv2 MODULE-IDENTITY
+   LAST-UPDATED "202107151728Z"
+   ORGANIZATION "OneAccess"
+   CONTACT-INFO "http://www.oneaccess-net.com/telindus/"
+   DESCRIPTION
+      "..."
+   ::= {telindus 1126}
+
+
+
+
+r1645v2BrTrPol OBJECT IDENTIFIER ::= {r1645Rootv2 2125}
+
+r1645v2BrTrPolMOProp OBJECT-TYPE
+   SYNTAX      SEQUENCE OF R1645v2BrTrPolMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {r1645v2BrTrPol 1}
+
+r1645v2BrTrPolMOPropEntry OBJECT-TYPE
+   SYNTAX      R1645v2BrTrPolMOPropEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { r1645v2BrTrPolMOPropGlobalIx }
+   ::= {r1645v2BrTrPolMOProp 1}
+
+R1645v2BrTrPolMOPropEntry ::=
+   SEQUENCE
+      {
+      r1645v2BrTrPolMOPropPath
+         ContainmentPath,
+      r1645v2BrTrPolMOPropRev
+         ObjectRevision,
+      r1645v2BrTrPolMOPropGlobalIx
+         GlobalIndex
+      }
+
+r1645v2BrTrPolMOPropPath OBJECT-TYPE
+   SYNTAX      ContainmentPath
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Textual description of the containment tree from the instance of
+       the root object down to the instance of the current object."
+   ::= {r1645v2BrTrPolMOPropEntry 3}
+
+r1645v2BrTrPolMOPropRev OBJECT-TYPE
+   SYNTAX      ObjectRevision
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "This value corresponds with the revision of the MANAGED OBJECT."
+   ::= {r1645v2BrTrPolMOPropEntry 4}
+
+r1645v2BrTrPolMOPropGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {r1645v2BrTrPolMOPropEntry 10}
+
+
+
+er1645v2BrTrPol OBJECT IDENTIFIER ::= {r1645v2BrTrPol 11}
+
+
+er1645v2BrTrPolSnmpIndexOffset OBJECT IDENTIFIER ::= {er1645v2BrTrPol 268}
+
+er1645v2BrTrPolSnmpIndexOffsetTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2BrTrPolSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Preferred offset in the range of SNMP indices for this SWinst, 0 means automatic"
+   ::= {er1645v2BrTrPolSnmpIndexOffset 1}
+
+er1645v2BrTrPolSnmpIndexOffsetEntry OBJECT-TYPE
+   SYNTAX      Er1645v2BrTrPolSnmpIndexOffsetEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2BrTrPolSnmpIndexOffsetGlobalIx }
+   ::= {er1645v2BrTrPolSnmpIndexOffsetTable 1}
+
+Er1645v2BrTrPolSnmpIndexOffsetEntry ::=
+   SEQUENCE
+      {
+      er1645v2BrTrPolSnmpIndexOffsetGlobalIx
+         GlobalIndex,
+      er1645v2BrTrPolSnmpIndexOffsetValue
+         Integer32
+      }
+
+er1645v2BrTrPolSnmpIndexOffsetGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2BrTrPolSnmpIndexOffsetEntry 10}
+
+er1645v2BrTrPolSnmpIndexOffsetValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bridgingTrafficPolicy.editConf.snmpIndexOffset"
+   ::= {er1645v2BrTrPolSnmpIndexOffsetEntry 2147483648}
+
+
+er1645v2BrTrPolUpm OBJECT IDENTIFIER ::= {er1645v2BrTrPol 2}
+
+er1645v2BrTrPolUpmSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2BrTrPolUpmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "Priority map to queue tagged outgoing bridge packets"
+   ::= {er1645v2BrTrPolUpm 1}
+
+er1645v2BrTrPolUpmEntry OBJECT-TYPE
+   SYNTAX      Er1645v2BrTrPolUpmEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2BrTrPolUpmGlobalIx }
+   ::= {er1645v2BrTrPolUpmSSCTable 1}
+
+Er1645v2BrTrPolUpmEntry ::=
+   SEQUENCE
+      {
+      er1645v2BrTrPolUpmGlobalIx
+         GlobalIndex,
+      er1645v2BrTrPolUpmPriority0
+         INTEGER,
+      er1645v2BrTrPolUpmPriority1
+         INTEGER,
+      er1645v2BrTrPolUpmPriority2
+         INTEGER,
+      er1645v2BrTrPolUpmPriority3
+         INTEGER,
+      er1645v2BrTrPolUpmPriority4
+         INTEGER,
+      er1645v2BrTrPolUpmPriority5
+         INTEGER,
+      er1645v2BrTrPolUpmPriority6
+         INTEGER,
+      er1645v2BrTrPolUpmPriority7
+         INTEGER
+      }
+
+er1645v2BrTrPolUpmGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2BrTrPolUpmEntry 10}
+
+er1645v2BrTrPolUpmPriority0 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bridgingTrafficPolicy.editConf.vlanPriorityMap.priority0
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2BrTrPolUpmEntry 16777216}
+
+er1645v2BrTrPolUpmPriority1 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bridgingTrafficPolicy.editConf.vlanPriorityMap.priority1
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2BrTrPolUpmEntry 33554432}
+
+er1645v2BrTrPolUpmPriority2 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bridgingTrafficPolicy.editConf.vlanPriorityMap.priority2
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2BrTrPolUpmEntry 50331648}
+
+er1645v2BrTrPolUpmPriority3 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bridgingTrafficPolicy.editConf.vlanPriorityMap.priority3
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2BrTrPolUpmEntry 67108864}
+
+er1645v2BrTrPolUpmPriority4 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bridgingTrafficPolicy.editConf.vlanPriorityMap.priority4
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2BrTrPolUpmEntry 83886080}
+
+er1645v2BrTrPolUpmPriority5 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bridgingTrafficPolicy.editConf.vlanPriorityMap.priority5
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2BrTrPolUpmEntry 100663296}
+
+er1645v2BrTrPolUpmPriority6 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bridgingTrafficPolicy.editConf.vlanPriorityMap.priority6
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2BrTrPolUpmEntry 117440512}
+
+er1645v2BrTrPolUpmPriority7 OBJECT-TYPE
+   SYNTAX      INTEGER
+               {
+               queue1 (0),
+               queue2 (1),
+               queue3 (2),
+               queue4 (3),
+               queue5 (4),
+               lowDelayQueue (5),
+               lowDelay2Queue (6),
+               systemQueue (7)
+               }
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bridgingTrafficPolicy.editConf.vlanPriorityMap.priority7
+
+       Possibilities:
+               queue1   (0)
+               queue2   (1)
+               queue3   (2)
+               queue4   (3)
+               queue5   (4)
+               lowDelayQueue   (5)
+               lowDelay2Queue   (6)
+               systemQueue   (7)"
+   ::= {er1645v2BrTrPolUpmEntry 134217728}
+
+
+er1645v2BrTrPolDropL OBJECT IDENTIFIER ::= {er1645v2BrTrPol 5}
+
+er1645v2BrTrPolDropLSSCTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Er1645v2BrTrPolDropLEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "matrix containing info about the queue lengths - drop precedence"
+   ::= {er1645v2BrTrPolDropL 1}
+
+er1645v2BrTrPolDropLEntry OBJECT-TYPE
+   SYNTAX      Er1645v2BrTrPolDropLEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { er1645v2BrTrPolDropLGlobalIx,
+                er1645v2BrTrPolDropLTableIx }
+   ::= {er1645v2BrTrPolDropLSSCTable 1}
+
+Er1645v2BrTrPolDropLEntry ::=
+   SEQUENCE
+      {
+      er1645v2BrTrPolDropLActions
+         FixedLengthTableActions,
+      er1645v2BrTrPolDropLGlobalIx
+         GlobalIndex,
+      er1645v2BrTrPolDropLTableIx
+         TableIndex,
+      er1645v2BrTrPolDropLDropLevel1
+         Integer32
+      }
+
+er1645v2BrTrPolDropLActions OBJECT-TYPE
+   SYNTAX      FixedLengthTableActions
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "By way of this field, some manipulations
+       on this table may be performed."
+   ::= {er1645v2BrTrPolDropLEntry 2}
+
+er1645v2BrTrPolDropLGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {er1645v2BrTrPolDropLEntry 10}
+
+er1645v2BrTrPolDropLTableIx OBJECT-TYPE
+   SYNTAX      TableIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   ::= {er1645v2BrTrPolDropLEntry 11}
+
+er1645v2BrTrPolDropLDropLevel1 OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-write
+   STATUS      current
+   DESCRIPTION
+      "Path: bridgingTrafficPolicy.editConf.dropLevels.dropLevel1"
+   ::= {er1645v2BrTrPolDropLEntry 16777216}
+
+
+
+sr1645v2BrTrPol OBJECT IDENTIFIER ::= {r1645v2BrTrPol 14}
+
+
+sr1645v2BrTrPolSnmpIndex OBJECT IDENTIFIER ::= {sr1645v2BrTrPol 269}
+
+sr1645v2BrTrPolSnmpIndexTable OBJECT-TYPE
+   SYNTAX      SEQUENCE OF Sr1645v2BrTrPolSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "SNMP index assigned to this object"
+   ::= {sr1645v2BrTrPolSnmpIndex 1}
+
+sr1645v2BrTrPolSnmpIndexEntry OBJECT-TYPE
+   SYNTAX      Sr1645v2BrTrPolSnmpIndexEntry
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      ""
+   INDEX      { sr1645v2BrTrPolSnmpIndexGlobalIx }
+   ::= {sr1645v2BrTrPolSnmpIndexTable 1}
+
+Sr1645v2BrTrPolSnmpIndexEntry ::=
+   SEQUENCE
+      {
+      sr1645v2BrTrPolSnmpIndexGlobalIx
+         GlobalIndex,
+      sr1645v2BrTrPolSnmpIndexValue
+         Integer32
+      }
+
+sr1645v2BrTrPolSnmpIndexGlobalIx OBJECT-TYPE
+   SYNTAX      GlobalIndex
+   MAX-ACCESS  not-accessible
+   STATUS      current
+   DESCRIPTION
+      "The value of the tlsCntTreeGlobalIndex of the MANAGED OBJECT."
+   ::= {sr1645v2BrTrPolSnmpIndexEntry 10}
+
+sr1645v2BrTrPolSnmpIndexValue OBJECT-TYPE
+   SYNTAX      Integer32
+   MAX-ACCESS  read-only
+   STATUS      current
+   DESCRIPTION
+      "Path: bridgingTrafficPolicy.status.snmpIndex"
+   ::= {sr1645v2BrTrPolSnmpIndexEntry 2147483648}
+
+
+
+END
